@@ -1,3 +1,5 @@
+mod logging;
+
 #[cfg(test)]
 mod tests {
     #[test]
