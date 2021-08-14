@@ -8,7 +8,8 @@ lazy_static! {
 
 pub(crate) fn initialize_logging(level: LevelFilter) -> Result<&'static Logger, ()> {
     log::set_logger(&*LOGGER as &dyn Log)
-        .map(|()| log::set_max_level(level));
+        .map(|()| log::set_max_level(level))
+        .expect("Failed to set the logger");
     Ok(&LOGGER)
 }
 
@@ -30,7 +31,7 @@ impl Logger {
 }
 
 impl Log for Logger {
-    fn enabled(&self, metadata: &Metadata) -> bool {
+    fn enabled(&self, _metadata: &Metadata) -> bool {
         true
     }
 
