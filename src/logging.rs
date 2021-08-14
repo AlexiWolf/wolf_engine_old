@@ -1,10 +1,24 @@
-use log::LevelFilter;
+use log::{LevelFilter, Log, Metadata, Record};
 
-pub(crate) fn initialize_logging(level: LevelFilter) -> Result<Logger, ()> {
-    Err(())
+pub(crate) static LOGGER: Logger = Logger;
+
+pub(crate) fn initialize_logging(level: LevelFilter) -> Result<&'static Logger, ()> {
+    log::set_logger(&LOGGER)
+        .map(|()| log::set_max_level(level));
+    Ok(&LOGGER)
 }
 
 pub struct Logger;
+
+impl Log for Logger {
+    fn enabled(&self, metadata: &Metadata) -> bool {
+        true
+    }
+
+    fn log(&self, record: &Record) {}
+
+    fn flush(&self) {}
+}
 
 impl Logger {
     pub fn add_log_target(&self, log_target: &dyn LogTarget) {}
