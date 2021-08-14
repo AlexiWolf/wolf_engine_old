@@ -2,11 +2,13 @@ use lazy_static::lazy_static;
 use log::{LevelFilter, Log, Metadata, Record};
 use std::sync::{Arc, Mutex};
 
+/// Get a reference to the global Logger instance.
 pub fn logger() -> &'static Logger {
     &*LOGGER
 }
 
 lazy_static! {
+    /// A static reference to the global Logger.  This automatically sets up the logging framework.
     pub(crate) static ref LOGGER: &'static Logger = initialize_logging();
 }
 
