@@ -1,6 +1,6 @@
 use log::{LevelFilter, Log, Metadata, Record};
 
-pub(crate) static LOGGER: Logger = Logger;
+pub(crate) static LOGGER: Logger = Logger::new();
 
 pub(crate) fn initialize_logging(level: LevelFilter) -> Result<&'static Logger, ()> {
     log::set_logger(&LOGGER)
@@ -9,6 +9,14 @@ pub(crate) fn initialize_logging(level: LevelFilter) -> Result<&'static Logger, 
 }
 
 pub struct Logger;
+
+impl Logger {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn add_log_target(&self, log_target: &dyn LogTarget) {}
+}
 
 impl Log for Logger {
     fn enabled(&self, metadata: &Metadata) -> bool {
@@ -20,9 +28,14 @@ impl Log for Logger {
     fn flush(&self) {}
 }
 
-impl Logger {
-    pub fn add_log_target(&self, log_target: &dyn LogTarget) {}
+impl Default for Logger {
+    fn default() -> Self {
+        Self {
+
+        }
+    }
 }
+
 
 pub trait LogTarget: 'static + Send + Sync {}
 
