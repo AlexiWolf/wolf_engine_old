@@ -1,9 +1,12 @@
 use log::{LevelFilter, Log, Metadata, Record};
+use lazy_static::lazy_static;
 
-pub(crate) static LOGGER: Logger = Logger::new();
+lazy_static! {
+    pub(crate) static ref LOGGER: Logger = Logger::new();
+}
 
 pub(crate) fn initialize_logging(level: LevelFilter) -> Result<&'static Logger, ()> {
-    log::set_logger(&LOGGER)
+    log::set_logger(&*LOGGER as &dyn Log)
         .map(|()| log::set_max_level(level));
     Ok(&LOGGER)
 }
