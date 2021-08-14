@@ -2,15 +2,22 @@ use lazy_static::lazy_static;
 use log::{LevelFilter, Log, Metadata, Record};
 use std::sync::{Arc, Mutex};
 
-lazy_static! {
-    pub(crate) static ref LOGGER: Logger = Logger::new();
+pub fn logger() -> &'static Logger {
+    &*LOGGER
 }
 
-pub(crate) fn initialize_logging(level: LevelFilter) -> &'static Logger {
-    let logger = &*LOGGER;
+lazy_static! {
+    pub(crate) static ref LOGGER: &'static Logger = initialize_logging();
+}
+
+fn initialize_logging() -> &'static Logger {
+    lazy_static!{
+        static ref TEMPORARY_LOGGER: Logger = Logger::new();
+    }
+    let logger = &*TEMPORARY_LOGGER;
     log::set_logger(logger as &dyn Log)
-        .map(|()| log::set_max_level(level))
         .expect("Failed to set the logger");
+    log::set_max_level(LevelFilter::Info);
     logger
 }
 
@@ -66,7 +73,7 @@ mod log_tests {
             static ref LOG_TARGET_A: TestLogTarget = TestLogTarget::new();
             static ref LOG_TARGET_B: TestLogTarget = TestLogTarget::new();
         }
-        let logger = initialize_logging(LevelFilter::Trace);
+        let logger = logger();
         logger.add_log_target(&*LOG_TARGET_A as &dyn LogTarget);
         logger.add_log_target(&*LOG_TARGET_B as &dyn LogTarget);
 
