@@ -34,7 +34,15 @@ impl Log for Logger {
         true
     }
 
-    fn log(&self, record: &Record) {}
+    fn log(&self, record: &Record) {
+        self.log_targets
+            .lock()
+            .unwrap()
+            .iter()
+            .for_each(|target| {
+                target.log(record);
+            });
+    }
 
     fn flush(&self) {}
 }
