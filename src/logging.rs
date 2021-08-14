@@ -21,7 +21,7 @@ impl Logger {
         Self::default()
     }
 
-    pub fn add_log_target(&self, log_target: &dyn LogTarget) {
+    pub fn add_log_target(&self, log_target: &'static dyn LogTarget) {
         self.log_targets
             .lock()
             .unwrap()
@@ -48,7 +48,9 @@ impl Default for Logger {
 }
 
 
-pub trait LogTarget: 'static + Send + Sync {}
+pub trait LogTarget: Send + Sync {
+    fn log(&self, record: &Record);
+}
 
 #[cfg(test)]
 mod log_tests {
@@ -58,29 +60,23 @@ mod log_tests {
 
     #[test]
     fn should_log_to_connected_log_targets() {
+        lazy_static! {
+            static ref LOG_TARGET_A: TestLogTarget = TestLogTarget::new();
+            static ref LOG_TARGET_B: TestLogTarget = TestLogTarget::new();
+        }
         let logger =
             initialize_logging(LevelFilter::Trace).expect("Failed to initialize the logger");
-        let log_target_a = TestLogTarget::new();
-        let log_target_b = TestLogTarget::new();
-        logger.add_log_target(&log_target_a);
-        logger.add_log_target(&log_target_b);
+        logger.add_log_target(&*LOG_TARGET_A as &dyn LogTarget);
+        logger.add_log_target(&*LOG_TARGET_B as &dyn LogTarget);
 
         info!("Hello, World!");
 
         assert_eq!(
-            log_target_a
-                .latest_record()
-                .expect("No message was sent")
-                .args()
-                .to_string(),
+            LOG_TARGET_B.last_message(),
             "Hello, World!".to_string()
         );
         assert_eq!(
-            log_target_b
-                .latest_record()
-                .expect("No message was sent")
-                .args()
-                .to_string(),
+            LOG_TARGET_B.last_message(),
             "Hello, World!".to_string()
         );
     }
@@ -91,17 +87,36 @@ pub mod log_test_fixtures {
     use super::*;
     use log::Record;
 
-    pub struct TestLogTarget;
+    pub struct TestLogTarget {
+        pub records: Arc<Mutex<Vec<String>>>
+    }
 
     impl TestLogTarget {
         pub fn new() -> Self {
-            Self
+            Self {
+                records: Arc::new(Mutex::new(vec![]))
+            }
         }
 
-        pub fn latest_record(&self) -> Option<Record> {
-            None
+        pub fn last_message(&self) -> String {
+            self.records
+                .lock()
+                .unwrap()
+                .last()
+                .expect("No messages have been sent")
+                .clone()
         }
     }
 
-    impl LogTarget for TestLogTarget {}
+    impl LogTarget for TestLogTarget {
+        fn log(&self, record: &Record) {
+            let message = record.args().to_string();
+            self.records
+                .lock()
+                .unwrap()
+                .push(message);
+        }
+    }
+    unsafe impl Send for TestLogTarget {}
+    unsafe impl Sync for TestLogTarget {}
 }
