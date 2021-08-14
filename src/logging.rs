@@ -1,5 +1,6 @@
 use log::{LevelFilter, Log, Metadata, Record};
 use lazy_static::lazy_static;
+use std::sync::{Arc, Mutex};
 
 lazy_static! {
     pub(crate) static ref LOGGER: Logger = Logger::new();
@@ -11,7 +12,9 @@ pub(crate) fn initialize_logging(level: LevelFilter) -> Result<&'static Logger, 
     Ok(&LOGGER)
 }
 
-pub struct Logger;
+pub struct Logger {
+    log_targets: Arc<Mutex<Vec<&'static dyn LogTarget>>>
+}
 
 impl Logger {
     pub fn new() -> Self {
@@ -34,7 +37,7 @@ impl Log for Logger {
 impl Default for Logger {
     fn default() -> Self {
         Self {
-
+            log_targets: Arc::new(Mutex::new(vec![]))
         }
     }
 }
