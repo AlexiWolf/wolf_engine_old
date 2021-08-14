@@ -16,6 +16,7 @@ mod log_tests {
         let logger = initialize_logging(LevelFilter::Trace)
             .expect("Failed to initialize the logger");
         let test_log_target = TestLogTarget::new();
+        logger.add_log_target(test_log_target);
     }
 }
 
