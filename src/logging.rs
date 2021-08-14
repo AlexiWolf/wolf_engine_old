@@ -21,7 +21,12 @@ impl Logger {
         Self::default()
     }
 
-    pub fn add_log_target(&self, log_target: &dyn LogTarget) {}
+    pub fn add_log_target(&self, log_target: &dyn LogTarget) {
+        self.log_targets
+            .lock()
+            .unwrap()
+            .push(log_target);
+    }
 }
 
 impl Log for Logger {
