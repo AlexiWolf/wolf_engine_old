@@ -2,8 +2,8 @@
 //!
 //! # Usage
 //!
-//! Initialization is handled automatically, but some additional options are exposed by the
-//! [Logger].  Logging messages is done using the [log] crate macros.
+//! Initialization is handled automatically when the logger is requested, but some additional
+//! options are exposed by the [Logger].  Logging messages is done using the [log] crate macros.
 
 mod log_target;
 mod logger;
