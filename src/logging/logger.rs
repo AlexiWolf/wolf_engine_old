@@ -8,7 +8,7 @@ use std::sync::{Arc, Mutex};
 /// [LogTarget]s.  If there are no targets, then log messages will be ignored.
 ///
 /// A Logger cannot be created from the outside.  A global instance is created
-/// automatically by the [logger] function.  You may get the Logger by calling [logger].
+/// automatically by the [logger](crate::logging::logger) function.
 ///
 /// # Examples
 ///
@@ -21,7 +21,7 @@ use std::sync::{Arc, Mutex};
 /// error!("A problem has occurred!");
 /// ```
 ///
-/// To get a reference to the global Logger, just use the [logger] function.
+/// To get a reference to the global Logger, just use the [logger](crate::logging::logger) function.
 ///
 /// ```
 /// # use wolf_engine::logging;
