@@ -4,7 +4,6 @@ use std::sync::{Arc, Mutex};
 
 /// Provides a [Log] that passes messages to all attached [LogTarget]s.
 ///
-///
 /// Logger doesn't do anything by itself.  Instead, it passes all messages to attached
 /// [LogTarget]s.  If there are no targets, then log messages will be ignored.
 ///
