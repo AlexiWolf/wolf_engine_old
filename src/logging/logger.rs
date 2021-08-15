@@ -1,5 +1,5 @@
 use crate::logging::LogTarget;
-use log::{Log, Metadata, Record, LevelFilter};
+use log::{LevelFilter, Log, Metadata, Record};
 use std::sync::{Arc, Mutex};
 
 /// Provides a [Log] that passes messages to all attached [LogTarget]s.
@@ -98,7 +98,6 @@ mod log_tests {
         assert_eq!(LOG_TARGET_B.last_message(), "Hello, World!".to_string());
         assert_eq!(LOG_TARGET_B.last_message(), "Hello, World!".to_string());
     }
-
 
     #[test]
     fn should_have_editable_log_level() {

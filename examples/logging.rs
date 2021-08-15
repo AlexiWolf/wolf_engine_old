@@ -1,4 +1,4 @@
-use log::{trace, debug, info, warn, error, LevelFilter};
+use log::{debug, error, info, trace, warn, LevelFilter};
 use wolf_engine::logging::*;
 
 fn main() {

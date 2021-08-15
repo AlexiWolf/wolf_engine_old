@@ -1,7 +1,7 @@
 use crate::logging::LogTarget;
-use log::{Record, Level};
 use chrono::Local;
 use colored::*;
+use log::{Level, Record};
 
 /// The global [TerminalLogTarget] instance.
 pub(crate) static TERMINAL_LOG_TARGET: TerminalLogTarget = TerminalLogTarget;
@@ -16,13 +16,12 @@ impl LogTarget for TerminalLogTarget {
     }
 }
 
-
 impl TerminalLogTarget {
     fn colored_level_message(record: &Record) -> ColoredString {
         match record.level() {
             Level::Error => format!("{}", record.level()).red().bold(),
-            Level::Warn =>  format!("{}", record.level()).yellow().bold(),
-            Level::Info =>  format!("{}", record.level()).green().bold(),
+            Level::Warn => format!("{}", record.level()).yellow().bold(),
+            Level::Info => format!("{}", record.level()).green().bold(),
             Level::Debug => format!("{}", record.level()).blue().bold(),
             Level::Trace => format!("{}", record.level()).white().bold(),
         }
