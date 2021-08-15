@@ -8,7 +8,8 @@ use std::sync::{Arc, Mutex};
 /// [LogTarget]s.  If there are no targets, then log messages will be ignored.
 ///
 /// A Logger cannot be created from the outside.  A global instance is created
-/// automatically by the [logger](crate::logging::logger) function.
+/// automatically by the [logger](crate::logging::logger) function.  A
+/// [TerminalLogTarget](crate::logging::TerminalLogTarget) is added automatically.
 ///
 /// # Examples
 ///
