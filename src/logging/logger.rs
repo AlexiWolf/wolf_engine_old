@@ -100,7 +100,6 @@ mod log_tests {
 pub mod log_test_fixtures {
     use log::Record;
 
-    use crate::logging::log_target::LogTarget;
     use crate::logging::*;
 
     pub struct TestLogTarget {
