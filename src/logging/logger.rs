@@ -1,6 +1,6 @@
-use std::sync::{Arc, Mutex};
-use log::{Log, Metadata, Record};
 use crate::logging::LogTarget;
+use log::{Log, Metadata, Record};
+use std::sync::{Arc, Mutex};
 
 /// Provides a [Log] that passes messages to all attached [LogTarget]s.
 ///
@@ -40,13 +40,12 @@ use crate::logging::LogTarget;
 /// # let log_target = &*LOG_TARGET;
 /// logger.add_log_target(log_target as &'static dyn LogTarget);
 /// ```
-#[allow(clippy::new_without_default)]
 pub struct Logger {
     log_targets: Arc<Mutex<Vec<&'static dyn LogTarget>>>,
 }
 
 impl Logger {
-    pub(crate) fn new() -> Self {
+    pub(crate) fn initialize() -> Self {
         Self {
             log_targets: Arc::new(Mutex::new(vec![])),
         }
@@ -129,6 +128,12 @@ pub mod log_test_fixtures {
         fn log(&self, record: &Record) {
             let message = record.args().to_string();
             self.records.lock().unwrap().push(message);
+        }
+    }
+
+    impl Default for TestLogTarget {
+        fn default() -> Self {
+            Self::new()
         }
     }
 

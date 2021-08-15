@@ -36,7 +36,7 @@ fn initialize_logging() -> &'static Logger {
 
 fn create_logger() -> &'static Logger {
     lazy_static! {
-        static ref TEMPORARY_LOGGER: Logger = Logger::new();
+        static ref TEMPORARY_LOGGER: Logger = Logger::initialize();
     }
     let logger: &Logger = &*TEMPORARY_LOGGER;
     logger
