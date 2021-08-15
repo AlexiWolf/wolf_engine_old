@@ -1,8 +1,6 @@
 use std::sync::{Arc, Mutex};
-
 use log::{Log, Metadata, Record};
-
-use crate::logging::log_target::LogTarget;
+use crate::logging::LogTarget;
 
 /// Provides a [Log] that passes messages to all attached [LogTarget]s.
 ///
