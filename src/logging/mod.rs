@@ -9,6 +9,7 @@ use lazy_static::lazy_static;
 use log::{LevelFilter, Log, Metadata, Record};
 use std::sync::{Arc, Mutex};
 
+
 /// Get a reference to the global Logger instance.
 pub fn logger() -> &'static Logger {
     &*LOGGER
