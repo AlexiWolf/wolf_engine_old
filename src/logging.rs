@@ -1,3 +1,10 @@
+//! A small logging framework providing a [Logger], and easy integration.
+//!
+//! # Usage
+//!
+//! Initialization is handled automatically, but some additional options are exposed by the
+//! [Logger].  Logging messages is done using the [log] crate macros.
+
 use lazy_static::lazy_static;
 use log::{LevelFilter, Log, Metadata, Record};
 use std::sync::{Arc, Mutex};
@@ -23,6 +30,44 @@ fn initialize_logging() -> &'static Logger {
     logger
 }
 
+/// Provides a [Log] that passes messages to all attached [LogTarget]s.
+///
+///
+/// Logger doesn't do anything by itself.  Instead, it passes all messages to attached
+/// [LogTarget]s.  If there are no targets, then log messages will be ignored.
+///
+/// A Logger cannot be created from the outside.  A global instance is created
+/// automatically by the [logger] function.  You may get the Logger by calling [logger].
+///
+/// # Examples
+///
+/// Logging messages is done using the [log] crate macros.
+///
+/// ```
+/// # use log::*;
+/// info!("Hello, world!");
+/// debug!("Have some debug information.");
+/// error!("A problem has occurred!");
+/// ```
+///
+/// To get a reference to the global Logger, just use the [logger] function.
+///
+/// ```
+/// # use wolf_engine::logging;
+/// let logger = logging::logger();
+/// ```
+///
+/// Optionally, you can add your own [LogTarget]s.
+///
+/// ```
+/// # use wolf_engine::logging::*;
+/// # use wolf_engine::logging::log_test_fixtures::TestLogTarget;
+/// # use lazy_static::lazy_static;
+/// # let logger = logger();
+/// # lazy_static! { static ref LOG_TARGET: TestLogTarget = TestLogTarget::new(); }
+/// # let log_target = &*LOG_TARGET;
+/// logger.add_log_target(log_target as &'static dyn LogTarget);
+/// ```
 pub struct Logger {
     log_targets: Arc<Mutex<Vec<&'static dyn LogTarget>>>,
 }
@@ -59,7 +104,10 @@ impl Default for Logger {
     }
 }
 
+/// Allows easy integration with the [Logger].
 pub trait LogTarget: Send + Sync {
+
+    /// Process / display the log message.
     fn log(&self, record: &Record);
 }
 
@@ -86,7 +134,7 @@ mod log_tests {
     }
 }
 
-#[cfg(test)]
+#[doc(hidden)]
 pub mod log_test_fixtures {
     use super::*;
     use log::Record;
@@ -118,6 +166,7 @@ pub mod log_test_fixtures {
             self.records.lock().unwrap().push(message);
         }
     }
+
     unsafe impl Send for TestLogTarget {}
     unsafe impl Sync for TestLogTarget {}
 }
