@@ -42,6 +42,7 @@ use crate::logging::log_target::LogTarget;
 /// # let log_target = &*LOG_TARGET;
 /// logger.add_log_target(log_target as &'static dyn LogTarget);
 /// ```
+#[allow(clippy::new_without_default)]
 pub struct Logger {
     log_targets: Arc<Mutex<Vec<&'static dyn LogTarget>>>,
 }
