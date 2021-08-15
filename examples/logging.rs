@@ -3,7 +3,7 @@ use wolf_engine::logging::*;
 
 fn main() {
     let logger = logger();
-    logger.set_log_level(LevelFilter::Debug);
+    logger.set_log_level(LevelFilter::Trace);
 
     trace!("Trace information.");
     debug!("Debug information.");
