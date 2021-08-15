@@ -3,9 +3,10 @@ use log::{Record, Level};
 use chrono::Local;
 use colored::*;
 
+/// The global [TerminalLogTarget] instance.
+pub(crate) static TERMINAL_LOG_TARGET: TerminalLogTarget = TerminalLogTarget;
 
-pub static TERMINAL_LOG_TARGET: TerminalLogTarget = TerminalLogTarget;
-
+/// Logs messages to the terminal.
 pub struct TerminalLogTarget;
 
 impl LogTarget for TerminalLogTarget {
