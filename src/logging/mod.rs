@@ -23,7 +23,8 @@ pub fn logger() -> &'static Logger {
 }
 
 lazy_static! {
-    /// A static reference to the global Logger.  This automatically sets up the logging framework.
+    /// A static reference to the global Logger.  This automatically sets up the logging framework
+    /// when the logger is first accessed.
     pub(crate) static ref LOGGER: &'static Logger = initialize_logging();
 }
 
