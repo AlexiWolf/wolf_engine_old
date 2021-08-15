@@ -37,8 +37,8 @@ use std::sync::{Arc, Mutex};
 /// # use lazy_static::lazy_static;
 /// # let logger = logger();
 /// # lazy_static! { static ref LOG_TARGET: TestLogTarget = TestLogTarget::new(); }
-/// # let log_target = &*LOG_TARGET;
-/// logger.add_log_target(log_target as &'static dyn LogTarget);
+/// # let log_target: &TestLogTarget = &*LOG_TARGET;
+/// logger.add_log_target(log_target);
 /// ```
 pub struct Logger {
     log_targets: Arc<Mutex<Vec<&'static dyn LogTarget>>>,
