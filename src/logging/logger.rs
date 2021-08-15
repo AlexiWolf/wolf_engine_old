@@ -1,5 +1,5 @@
 use crate::logging::LogTarget;
-use log::{Log, Metadata, Record};
+use log::{Log, Metadata, Record, LevelFilter};
 use std::sync::{Arc, Mutex};
 
 /// Provides a [Log] that passes messages to all attached [LogTarget]s.
@@ -53,6 +53,10 @@ impl Logger {
     pub fn add_log_target(&self, log_target: &'static dyn LogTarget) {
         self.log_targets.lock().unwrap().push(log_target);
     }
+
+    pub fn set_log_level(&self, log_level: LevelFilter) {
+        log::set_max_level(log_level);
+    }
 }
 
 impl Log for Logger {
@@ -71,7 +75,7 @@ impl Log for Logger {
 
 #[cfg(test)]
 mod log_tests {
-    use log::info;
+    use log::{info, trace};
 
     use crate::logging::log_target::LogTarget;
     use crate::logging::*;
@@ -92,6 +96,27 @@ mod log_tests {
 
         assert_eq!(LOG_TARGET_B.last_message(), "Hello, World!".to_string());
         assert_eq!(LOG_TARGET_B.last_message(), "Hello, World!".to_string());
+    }
+
+
+    #[test]
+    fn should_have_editable_log_level() {
+        lazy_static! {
+            static ref LOG_TARGET: TestLogTarget = TestLogTarget::new();
+        }
+        let log_target: &TestLogTarget = &*LOG_TARGET;
+        let logger = logger();
+        logger.add_log_target(log_target);
+
+        info!("info");
+        trace!("trace");
+
+        assert_eq!(log_target.last_message(), "info".to_string());
+
+        logger.set_log_level(LevelFilter::Trace);
+        trace!("trace");
+
+        assert_eq!(log_target.last_message(), "trace".to_string());
     }
 }
 
