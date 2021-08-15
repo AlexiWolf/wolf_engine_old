@@ -76,8 +76,8 @@ impl Log for Logger {
 mod log_tests {
     use log::info;
 
-    use crate::logging::*;
     use crate::logging::log_target::LogTarget;
+    use crate::logging::*;
 
     use super::log_test_fixtures::*;
 
@@ -102,8 +102,8 @@ mod log_tests {
 pub mod log_test_fixtures {
     use log::Record;
 
-    use crate::logging::*;
     use crate::logging::log_target::LogTarget;
+    use crate::logging::*;
 
     pub struct TestLogTarget {
         pub records: Arc<Mutex<Vec<String>>>,

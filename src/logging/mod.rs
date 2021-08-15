@@ -5,15 +5,15 @@
 //! Initialization is handled automatically, but some additional options are exposed by the
 //! [Logger].  Logging messages is done using the [log] crate macros.
 
-mod logger;
 mod log_target;
+mod logger;
 
-use std::sync::{Arc, Mutex};
 use lazy_static::lazy_static;
 use log::{LevelFilter, Log};
+use std::sync::{Arc, Mutex};
 
-pub use logger::*;
 pub use log_target::*;
+pub use logger::*;
 
 /// Get a reference to the global Logger instance.
 pub fn logger() -> &'static Logger {
@@ -26,12 +26,11 @@ lazy_static! {
 }
 
 fn initialize_logging() -> &'static Logger {
-    lazy_static!{
+    lazy_static! {
         static ref TEMPORARY_LOGGER: Logger = Logger::new();
     }
     let logger = &*TEMPORARY_LOGGER;
-    log::set_logger(logger as &dyn Log)
-        .expect("Failed to set the logger");
+    log::set_logger(logger as &dyn Log).expect("Failed to set the logger");
     log::set_max_level(LevelFilter::Info);
     logger
 }
