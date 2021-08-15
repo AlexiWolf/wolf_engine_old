@@ -73,8 +73,10 @@ pub struct Logger {
 }
 
 impl Logger {
-    pub fn new() -> Self {
-        Self::default()
+    fn new() -> Self {
+        Self {
+            log_targets: Arc::new(Mutex::new(vec![])),
+        }
     }
 
     pub fn add_log_target(&self, log_target: &'static dyn LogTarget) {
@@ -94,14 +96,6 @@ impl Log for Logger {
     }
 
     fn flush(&self) {}
-}
-
-impl Default for Logger {
-    fn default() -> Self {
-        Self {
-            log_targets: Arc::new(Mutex::new(vec![])),
-        }
-    }
 }
 
 /// Allows easy integration with the [Logger].
