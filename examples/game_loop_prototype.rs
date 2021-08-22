@@ -18,11 +18,11 @@ fn process_input() {
 }
 
 fn update(time_context: &mut TimeContext) {
-    time_context.tick(&mut |_time_context, time_step| {
+    time_context.tick(|_time_context, time_step| {
         debug!("Update! Timestep: {}ms", time_step.as_millis());
     });
 }
-
+ 
 fn render(fps: u64, time_context: &TimeContext) {
     info!("render : {} updates", time_context.updates());
     thread::sleep(Duration::from_millis(1000 / fps));
@@ -61,7 +61,7 @@ impl TimeContext {
         }
     }
 
-    fn tick(&mut self, update_function: &mut dyn FnMut(&Self, &Duration)) {
+    fn tick(&mut self, update_function: fn(&Self, &Duration)) {
         self.current_instant = Instant::now();
         self.elapsed_time = self.current_instant - self.previous_instant;
         self.previous_instant = self.current_instant;
