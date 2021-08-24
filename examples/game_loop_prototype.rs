@@ -19,7 +19,11 @@ fn custom_update_function(game_loop: &GameLoop) {
 
 fn custom_render_function(game_loop: &GameLoop) {
     info!(" Render : {}", game_loop);
-    thread::sleep(Duration::from_secs_f64(1.0 / 60.0));
+    limit_fps(30.0);
+}
+
+fn limit_fps(fps: f64) {
+    thread::sleep(Duration::from_secs_f64(1.0 / fps));
 }
 
 fn initialize_logging() {
