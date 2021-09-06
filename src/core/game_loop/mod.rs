@@ -1,4 +1,8 @@
+mod default_game_loop;
+
 use crate::core::Context;
+
+pub use default_game_loop::*;
 
 type LoopResult = ();
 
