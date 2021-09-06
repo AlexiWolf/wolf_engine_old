@@ -49,4 +49,13 @@ mod game_loop_builder_tests {
         assert_eq!(context.tps(), 120.0);
         assert_eq!(context.max_update_time(), Duration::from_millis(100));
     }
+
+    #[test]
+    fn should_allow_custom_tps() {
+        let context = GameLoopContextBuilder::new()
+            .with_tps(60.0)
+            .build();
+
+        assert_eq!(context.tps(), 60.0);
+    }
 }
