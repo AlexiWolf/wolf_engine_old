@@ -51,7 +51,7 @@ impl DefaultGameLoopBuilder {
 }
 
 #[cfg(test)]
-mod default_game_loop_tests {
+mod default_game_loop_builder_tests {
     use super::*;
 
     #[test]
