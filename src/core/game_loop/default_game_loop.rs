@@ -26,11 +26,13 @@ impl DefaultGameLoop {
 }
 
 impl GameLoop for DefaultGameLoop {
-    fn update(&mut self, context: &mut Context, update_function: fn(&mut Context)) -> LoopResult {
-    }
+    fn update<F>(&mut self, context: &mut Context, update_function: F) -> LoopResult
+        where F: FnMut(&mut Context)
+    {}
 
-    fn render(&mut self, context: &mut Context, render_function: fn(&mut Context)) -> LoopResult {
-    }
+    fn render<F>(&mut self, context: &mut Context, render_function: F) -> LoopResult
+        where F: FnMut(&mut Context)
+    {}
 }
 
 pub struct DefaultGameLoopBuilder {
@@ -75,7 +77,7 @@ mod default_game_loop_test {
             .build();
 
         thread::sleep(Duration::from_millis(1000 / 30));
-        game_loop.update(&mut context, |context| {
+        game_loop.update(&mut context, move |context| {
             if let Some(last_update) = last_update {
                 assert_eq!(last_update.elapsed().as_millis(), 8);
             } else {
