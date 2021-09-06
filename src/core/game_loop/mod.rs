@@ -4,7 +4,7 @@ use crate::core::Context;
 
 pub use default_game_loop::*;
 
-type LoopResult = ();
+pub type LoopResult = ();
 
 pub trait GameLoop {
     fn update(

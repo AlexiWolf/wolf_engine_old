@@ -1,5 +1,5 @@
 use std::time::Duration;
-use crate::core::{GameLoop, Context};
+use crate::core::{GameLoop, Context, LoopResult};
 
 pub type TicksPerSecond = f64;
 
