@@ -35,7 +35,8 @@ impl DefaultGameLoopBuilder {
         }
     }
 
-    pub fn with_tps(self, tps: TicksPerSecond) -> Self {
+    pub fn with_tps(mut self, tps: TicksPerSecond) -> Self {
+        self.game_loop.tps = tps;
         self
     }
 
