@@ -50,6 +50,6 @@ mod default_game_loop_tests {
             .build();
 
         assert_eq!(game_loop.tps(), 120.0);
-        assert_eq!(game_loop.max_update_time(), Duration::from_millis(100))
+        assert_eq!(game_loop.max_update_time(), Duration::from_millis(100));
     }
 }
