@@ -69,12 +69,12 @@ mod default_game_loop_test {
     fn should_have_consistent_tick_rate() {
         let mut last_update: Option<Instant> = None;
         let mut ticks_made = 0;
-        let context = Context;
-        let game_loop = DefaultGameLoopBuilder::new()
+        let mut context = Context;
+        let mut game_loop = DefaultGameLoopBuilder::new()
             .build();
 
         thead.sleep(Duration::from_millis(1000 / 30));
-        game_loop.update(context, |context| {
+        game_loop.update(&mut context, |context| {
             if let Some(last_update) = last_update {
                 assert_eq!(last_update.elapsed().as_millis(), 8);
             } else {
