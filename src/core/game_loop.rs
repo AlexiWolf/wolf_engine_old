@@ -40,6 +40,10 @@ impl GameLoopContextBuilder {
         self.context.tps = tps;
         self
     }
+
+    pub fn with_max_update_time(mut self, max_update_time: Duration) -> Self {
+        self
+    }
 }
 
 #[cfg(test)]
@@ -62,5 +66,14 @@ mod game_loop_builder_tests {
             .build();
 
         assert_eq!(context.tps(), 60.0);
+    }
+
+    #[test]
+    fn should_allow_custom_max_update_time() {
+        let context = GameLoopContextBuilder::new()
+            .with_max_update_time(Duration::from_secs(1))
+            .build();
+
+        assert_eq!(context.max_update_time(), Duration::from_secs(1));
     }
 }
