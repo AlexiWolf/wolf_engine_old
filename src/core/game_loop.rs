@@ -42,6 +42,7 @@ impl GameLoopContextBuilder {
     }
 
     pub fn with_max_update_time(mut self, max_update_time: Duration) -> Self {
+        self.context.max_update_time = max_update_time;
         self
     }
 }
