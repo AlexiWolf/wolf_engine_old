@@ -64,6 +64,7 @@ mod default_game_loop_test {
     use super::*;
     use crate::core::Context;
     use std::time::Instant;
+    use std::thread;
 
     #[test]
     fn should_have_consistent_tick_rate() {
@@ -73,7 +74,7 @@ mod default_game_loop_test {
         let mut game_loop = DefaultGameLoopBuilder::new()
             .build();
 
-        thead.sleep(Duration::from_millis(1000 / 30));
+        thread::sleep(Duration::from_millis(1000 / 30));
         game_loop.update(&mut context, |context| {
             if let Some(last_update) = last_update {
                 assert_eq!(last_update.elapsed().as_millis(), 8);
