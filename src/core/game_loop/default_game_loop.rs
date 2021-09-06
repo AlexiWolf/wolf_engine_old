@@ -1,4 +1,5 @@
 use std::time::Duration;
+use crate::core::{GameLoop, Context};
 
 pub type TicksPerSecond = f64;
 
@@ -21,6 +22,14 @@ impl DefaultGameLoop {
 
     pub fn max_update_time(&self) -> Duration {
         self.max_update_time
+    }
+}
+
+impl GameLoop for DefaultGameLoop {
+    fn update(&mut self, context: &mut Context, update_function: fn(&mut Context)) -> LoopResult {
+    }
+
+    fn render(&mut self, context: &mut Context, render_function: fn(&mut Context)) -> LoopResult {
     }
 }
 
