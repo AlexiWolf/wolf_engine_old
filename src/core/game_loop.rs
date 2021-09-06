@@ -35,6 +35,11 @@ impl GameLoopContextBuilder {
     pub fn build(self) -> GameLoopContext {
         self.context
     }
+
+    pub fn with_tps(mut self, tps: f64) -> Self {
+        self.context.tps = tps;
+        self
+    }
 }
 
 #[cfg(test)]
