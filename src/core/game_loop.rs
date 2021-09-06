@@ -38,7 +38,7 @@ impl GameLoopContextBuilder {
 }
 
 #[cfg(test)]
-mod game_loop_tests {
+mod game_loop_builder_tests {
     use super::*;
 
     #[test]
