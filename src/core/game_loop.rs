@@ -5,6 +5,16 @@ pub struct GameLoopContext {
     max_update_time: Duration
 }
 
+impl GameLoopContext {
+    pub fn tps(&self) -> f64 {
+        self.tps
+    }
+
+    pub fn max_update_time(&self) -> Duration {
+        self.max_update_time
+    }
+}
+
 impl Default for GameLoopContext {
     fn default() -> Self {
         Self { tps: 120.0, max_update_time: Duration::from_millis(100) }
@@ -23,7 +33,7 @@ impl GameLoopContextBuilder {
     }
 
     pub fn build(self) -> GameLoopContext {
-        GameLoopContext
+        self.context
     }
 }
 
