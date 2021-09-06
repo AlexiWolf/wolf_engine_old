@@ -2,27 +2,41 @@ use std::time::Duration;
 
 pub type TicksPerSecond = f64;
 
-pub struct DefaultGameLoop;
+pub struct DefaultGameLoop {
+    tps: TicksPerSecond,
+    max_update_time: Duration
+}
 
 impl DefaultGameLoop {
+    pub fn new() -> Self {
+        Self {
+            tps: 120.0,
+            max_update_time: Duration::from_millis(100)
+        }
+    }
+
     pub fn tps(&self) -> TicksPerSecond {
-        0.0
+        self.tps
     }
 
     pub fn max_update_time(&self) -> Duration {
-        Duration::default()
+        self.max_update_time
     }
 }
 
-pub struct DefaultGameLoopBuilder;
+pub struct DefaultGameLoopBuilder {
+    game_loop: DefaultGameLoop
+}
 
 impl DefaultGameLoopBuilder {
     pub fn new() -> Self {
-        Self
+        Self {
+            game_loop: DefaultGameLoop::new()
+        }
     }
 
     pub fn build(self) -> DefaultGameLoop {
-        DefaultGameLoop
+        self.game_loop
     }
 }
 
