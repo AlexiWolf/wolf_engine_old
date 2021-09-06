@@ -1,12 +1,14 @@
 use std::time::Duration;
 
+pub type TicksPerSecond = f64;
+
 pub struct GameLoopContext {
-    tps: f64,
+    tps: TicksPerSecond,
     max_update_time: Duration
 }
 
 impl GameLoopContext {
-    pub fn tps(&self) -> f64 {
+    pub fn tps(&self) -> TicksPerSecond {
         self.tps
     }
 
@@ -36,7 +38,7 @@ impl GameLoopContextBuilder {
         self.context
     }
 
-    pub fn with_tps(mut self, tps: f64) -> Self {
+    pub fn with_tps(mut self, tps: TicksPerSecond) -> Self {
         self.context.tps = tps;
         self
     }
@@ -78,3 +80,5 @@ mod game_loop_builder_tests {
         assert_eq!(context.max_update_time(), Duration::from_secs(1));
     }
 }
+
+
