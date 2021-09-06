@@ -40,6 +40,10 @@ impl DefaultGameLoopBuilder {
         self
     }
 
+    pub fn with_max_update_time(mut self, max_update_time: Duration) -> Self {
+        self
+    }
+
     pub fn build(self) -> DefaultGameLoop {
         self.game_loop
     }
@@ -65,5 +69,14 @@ mod default_game_loop_tests {
             .build();
 
         assert_eq!(game_loop.tps(), 60.0);
+    }
+
+    #[test]
+    fn should_have_max_update_time_setter() {
+        let game_loop = DefaultGameLoopBuilder::new()
+            .with_max_update_time(Duration::from_secs(1))
+            .build();
+
+        assert_eq!(game_loop.max_update_time(), Duration::from_secs(1));
     }
 }
