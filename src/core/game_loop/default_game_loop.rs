@@ -1,18 +1,23 @@
-use std::time::Duration;
+use std::time::{Duration, Instant};
 use crate::core::{GameLoop, Context, LoopResult};
 
 pub type TicksPerSecond = f64;
 
 pub struct DefaultGameLoop {
     tps: TicksPerSecond,
-    max_update_time: Duration
+    max_update_time: Duration,
+    last_update_instant: Instant,
+    current_update_instant: Instant
 }
 
 impl DefaultGameLoop {
     pub fn new() -> Self {
+        let now = Instant::now();
         Self {
             tps: 120.0,
-            max_update_time: Duration::from_millis(100)
+            max_update_time: Duration::from_millis(100),
+            last_update_instant: now,
+            current_update_instant: now
         }
     }
 
@@ -28,7 +33,9 @@ impl DefaultGameLoop {
 impl GameLoop for DefaultGameLoop {
     fn update<F>(&mut self, context: &mut Context, update_function: F) -> LoopResult
         where F: FnMut(&mut Context)
-    {}
+    {
+
+    }
 
     fn render<F>(&mut self, context: &mut Context, render_function: F) -> LoopResult
         where F: FnMut(&mut Context)
