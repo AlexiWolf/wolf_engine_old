@@ -6,8 +6,8 @@ pub type TicksPerSecond = f64;
 pub struct DefaultGameLoop {
     tps: TicksPerSecond,
     max_update_time: Duration,
-    last_update_instant: Instant,
-    current_update_instant: Instant,
+    previous_update: Instant,
+    current_update: Instant,
     lag: Duration,
 }
 
@@ -18,8 +18,8 @@ impl DefaultGameLoop {
         Self {
             tps: 120.0,
             max_update_time: Duration::from_millis(100),
-            last_update_instant: now,
-            current_update_instant: now,
+            previous_update: now,
+            current_update: now,
             lag: zero,
         }
     }
@@ -42,11 +42,14 @@ impl DefaultGameLoop {
 }
 
 impl GameLoop for DefaultGameLoop {
-    fn update<F>(&mut self, context: &mut Context, update_function: F) -> LoopResult
+    fn update<F>(&mut self, context: &mut Context, mut update_function: F) -> LoopResult
     where
         F: FnMut(&mut Context),
     {
-
+        while self.can_update() {
+            update_function(context);
+            self.lag -= self.time_step();
+        }
     }
 
     fn render<F>(&mut self, context: &mut Context, render_function: F) -> LoopResult
@@ -121,13 +124,10 @@ mod default_game_loop_test {
             .with_tps(tick_rate)
             .build();
 
-        let mut ticks = 0;
         game_loop.lag = Duration::from_millis(1000 / fps);
-        game_loop.update(&mut context, move |_| {
-            ticks += 1;
-        });
+        game_loop.update(&mut context, |_|{});
 
-        ticks
+        game_loop.ticks()
     }
 
     fn lag_test_game_loop(lag: u64) -> DefaultGameLoop {
