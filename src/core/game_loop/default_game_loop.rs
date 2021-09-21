@@ -9,6 +9,7 @@ pub struct DefaultGameLoop {
     previous_update: Instant,
     current_update: Instant,
     lag: Duration,
+    ticks: u64,
 }
 
 impl DefaultGameLoop {
@@ -21,6 +22,7 @@ impl DefaultGameLoop {
             previous_update: now,
             current_update: now,
             lag: zero,
+            ticks: 0,
         }
     }
 
@@ -49,6 +51,7 @@ impl GameLoop for DefaultGameLoop {
         while self.can_update() {
             update_function(context);
             self.lag -= self.time_step();
+            self.ticks += 1;
         }
     }
 
