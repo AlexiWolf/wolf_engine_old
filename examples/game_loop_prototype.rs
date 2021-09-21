@@ -31,7 +31,7 @@ fn initialize_logging() {
     logger.set_log_level(LevelFilter::Debug);
 }
 
-// #[derive(Debug)]  
+// #[derive(Debug)]
 pub struct GameLoop {
     lag: Duration,
     previous_update: Instant,

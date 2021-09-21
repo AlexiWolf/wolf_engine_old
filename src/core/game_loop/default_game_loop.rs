@@ -1,5 +1,5 @@
+use crate::core::{Context, GameLoop, LoopResult};
 use std::time::{Duration, Instant};
-use crate::core::{GameLoop, Context, LoopResult};
 
 pub type TicksPerSecond = f64;
 
@@ -20,7 +20,7 @@ impl DefaultGameLoop {
             max_update_time: Duration::from_millis(100),
             last_update_instant: now,
             current_update_instant: now,
-            lag: zero
+            lag: zero,
         }
     }
 
@@ -43,24 +43,26 @@ impl DefaultGameLoop {
 
 impl GameLoop for DefaultGameLoop {
     fn update<F>(&mut self, context: &mut Context, update_function: F) -> LoopResult
-        where F: FnMut(&mut Context)
+    where
+        F: FnMut(&mut Context),
     {
-
     }
 
     fn render<F>(&mut self, context: &mut Context, render_function: F) -> LoopResult
-        where F: FnMut(&mut Context)
-    {}
+    where
+        F: FnMut(&mut Context),
+    {
+    }
 }
 
 pub struct DefaultGameLoopBuilder {
-    game_loop: DefaultGameLoop
+    game_loop: DefaultGameLoop,
 }
 
 impl DefaultGameLoopBuilder {
     pub fn new() -> Self {
         Self {
-            game_loop: DefaultGameLoop::new()
+            game_loop: DefaultGameLoop::new(),
         }
     }
 
@@ -84,11 +86,9 @@ mod default_game_loop_test {
     use super::*;
     use crate::core::Context;
 
-
     #[test]
     fn should_be_able_to_update_with_lag() {
-        let mut game_loop = DefaultGameLoopBuilder::new()
-            .build();
+        let mut game_loop = DefaultGameLoopBuilder::new().build();
 
         game_loop.lag = Duration::from_millis(800);
         assert_can_update(&game_loop);
@@ -110,8 +110,7 @@ mod default_game_loop_test {
 
     #[test]
     fn should_not_be_update_with_lag() {
-        let mut game_loop = DefaultGameLoopBuilder::new()
-            .build();
+        let mut game_loop = DefaultGameLoopBuilder::new().build();
 
         game_loop.lag = Duration::from_millis(7);
         assert_can_not_update(&game_loop);
@@ -123,7 +122,6 @@ mod default_game_loop_test {
         assert_can_not_update(&game_loop)
     }
 
-
     fn assert_can_not_update(game_loop: &DefaultGameLoop) {
         assert!(
             !game_loop.can_update(),
@@ -131,9 +129,7 @@ mod default_game_loop_test {
             game_loop.lag.as_millis()
         );
     }
-
 }
-
 
 #[cfg(test)]
 mod default_game_loop_builder_tests {
@@ -141,8 +137,7 @@ mod default_game_loop_builder_tests {
 
     #[test]
     fn should_have_default_values_in_builder() {
-        let game_loop = DefaultGameLoopBuilder::new()
-            .build();
+        let game_loop = DefaultGameLoopBuilder::new().build();
 
         assert_eq!(game_loop.tps(), 120.0);
         assert_eq!(game_loop.max_update_time(), Duration::from_millis(100));
@@ -150,9 +145,7 @@ mod default_game_loop_builder_tests {
 
     #[test]
     fn should_have_tps_setter() {
-        let game_loop = DefaultGameLoopBuilder::new()
-            .with_tps(60.0)
-            .build();
+        let game_loop = DefaultGameLoopBuilder::new().with_tps(60.0).build();
 
         assert_eq!(game_loop.tps(), 60.0);
     }
