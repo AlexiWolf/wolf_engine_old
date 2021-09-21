@@ -7,17 +7,20 @@ pub struct DefaultGameLoop {
     tps: TicksPerSecond,
     max_update_time: Duration,
     last_update_instant: Instant,
-    current_update_instant: Instant
+    current_update_instant: Instant,
+    lag: Duration,
 }
 
 impl DefaultGameLoop {
     pub fn new() -> Self {
         let now = Instant::now();
+        let zero = Duration::from_secs(0);
         Self {
             tps: 120.0,
             max_update_time: Duration::from_millis(100),
             last_update_instant: now,
-            current_update_instant: now
+            current_update_instant: now,
+            lag: zero
         }
     }
 
