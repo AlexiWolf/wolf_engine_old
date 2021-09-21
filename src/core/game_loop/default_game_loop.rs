@@ -83,7 +83,7 @@ mod default_game_loop_test {
 
     #[test]
     fn should_be_able_to_update_with_lag() {
-        let game_loop = DefaultGameLoopBuilder::new()
+        let mut game_loop = DefaultGameLoopBuilder::new()
             .build();
 
         game_loop.lag = Duration::from_millis(800);
@@ -106,7 +106,7 @@ mod default_game_loop_test {
 
     #[test]
     fn should_not_be_update_with_lag() {
-        let game_loop = DefaultGameLoopBuilder::new()
+        let mut game_loop = DefaultGameLoopBuilder::new()
             .build();
 
         game_loop.lag = Duration::from_millis(7);
