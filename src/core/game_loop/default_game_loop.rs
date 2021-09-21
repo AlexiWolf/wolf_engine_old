@@ -7,7 +7,6 @@ pub struct DefaultGameLoop {
     tps: TicksPerSecond,
     max_update_time: Duration,
     previous_update: Instant,
-    current_update: Instant,
     lag: Duration,
     ticks: u64,
 }
@@ -20,7 +19,6 @@ impl DefaultGameLoop {
             tps: 120.0,
             max_update_time: Duration::from_millis(100),
             previous_update: now,
-            current_update: now,
             lag: zero,
             ticks: 0,
         }
@@ -42,9 +40,6 @@ impl DefaultGameLoop {
         self.lag >= self.time_step()
     }
 
-    fn time_step(&self) -> Duration {
-        Duration::from_millis((1000.0 / self.tps).round() as u64)
-    }
 }
 
 impl GameLoop for DefaultGameLoop {
@@ -52,10 +47,7 @@ impl GameLoop for DefaultGameLoop {
     where
         F: FnMut(&mut Context),
     {
-        self.current_update = Instant::now();
-        let elapsed_time = self.current_update - self.previous_update;
-        self.previous_update = self.current_update;
-        self.lag += elapsed_time;
+        self.accumulate_lag();
         while self.can_update() {
             update_function(context);
             self.lag -= self.time_step();
@@ -67,6 +59,24 @@ impl GameLoop for DefaultGameLoop {
     where
         F: FnMut(&mut Context),
     {
+    }
+}
+
+impl DefaultGameLoop {
+    fn time_step(&self) -> Duration {
+        Duration::from_millis((1000.0 / self.tps).round() as u64)
+    }
+
+    fn time_since_last_update(&mut self) -> (Instant, Duration) {
+        let current_instant = Instant::now();
+        let elapsed_time = current_instant - self.previous_update;
+        (current_instant, elapsed_time)
+    }
+
+    fn accumulate_lag(&mut self) {
+        let (current_instant, elapsed_time) = self.time_since_last_update();
+        self.previous_update = current_instant;
+        self.lag += elapsed_time;
     }
 }
 
