@@ -31,6 +31,10 @@ impl DefaultGameLoop {
     pub fn max_update_time(&self) -> Duration {
         self.max_update_time
     }
+
+    pub fn can_update(&self) -> bool {
+        false
+    }
 }
 
 impl GameLoop for DefaultGameLoop {
