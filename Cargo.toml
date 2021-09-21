@@ -12,3 +12,7 @@ lazy_static = "1.4"
 colored = "2"
 chrono = "0.4"
 winit = "0.25"
+
+
+[dev-dependencies]
+test-case = "1.2"

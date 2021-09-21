@@ -46,6 +46,7 @@ impl GameLoop for DefaultGameLoop {
     where
         F: FnMut(&mut Context),
     {
+
     }
 
     fn render<F>(&mut self, context: &mut Context, render_function: F) -> LoopResult
@@ -85,22 +86,13 @@ impl DefaultGameLoopBuilder {
 mod default_game_loop_test {
     use super::*;
     use crate::core::Context;
+    use test_case::test_case;
 
-    #[test]
-    fn should_be_able_to_update_with_lag() {
-        let mut game_loop = DefaultGameLoopBuilder::new().build();
-
-        game_loop.lag = Duration::from_millis(800);
-        assert_can_update(&game_loop);
-
-        game_loop.lag = Duration::from_millis(80);
-        assert_can_update(&game_loop);
-
-        game_loop.lag = Duration::from_millis(8);
-        assert_can_update(&game_loop);
-    }
-
-    fn assert_can_update(game_loop: &DefaultGameLoop) {
+    #[test_case(800; "with 800 ms of lag")]
+    #[test_case(80; "with 80 ms of lag")]
+    #[test_case(8; "with 8 ms of lag")]
+    fn should_update(lag: u64) {
+        let game_loop = lag_test_game_loop(lag);
         assert!(
             game_loop.can_update(),
             "The game loop should be able to update with {}ms of lag.",
@@ -108,30 +100,26 @@ mod default_game_loop_test {
         );
     }
 
-    #[test]
-    fn should_not_be_update_with_lag() {
-        let mut game_loop = DefaultGameLoopBuilder::new().build();
-
-        game_loop.lag = Duration::from_millis(7);
-        assert_can_not_update(&game_loop);
-
-        game_loop.lag = Duration::from_millis(5);
-        assert_can_not_update(&game_loop);
-
-        game_loop.lag = Duration::from_millis(0);
-        assert_can_not_update(&game_loop)
-    }
-
-    fn assert_can_not_update(game_loop: &DefaultGameLoop) {
+    #[test_case(7; "with 7 ms of lag")]
+    #[test_case(5; "with 5 ms of lag")]
+    #[test_case(0; "with 0 ms of lag")]
+    fn should_not_update(lag: u64) {
+        let game_loop = lag_test_game_loop(lag);
         assert!(
             !game_loop.can_update(),
             "The game loop should not be able to update with {}ms of lag.",
             game_loop.lag.as_millis()
         );
     }
+
+    fn lag_test_game_loop(lag: u64) -> DefaultGameLoop {
+        let mut game_loop = DefaultGameLoopBuilder::new().build();
+        game_loop.lag = Duration::from_millis(lag);
+        game_loop
+    }
 }
 
-#[cfg(test)]
+    #[cfg(test)]
 mod default_game_loop_builder_tests {
     use super::*;
 
