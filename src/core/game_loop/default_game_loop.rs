@@ -34,6 +34,10 @@ impl DefaultGameLoop {
         self.max_update_time
     }
 
+    pub fn ticks(&self) -> u64 {
+        self.ticks
+    }
+
     pub fn can_update(&self) -> bool {
         self.lag >= self.time_step()
     }
@@ -93,6 +97,7 @@ mod default_game_loop_test {
     use super::*;
     use crate::core::Context;
     use test_case::test_case;
+    use std::thread;
 
     #[test_case(800; "with 800 ms of lag")]
     #[test_case(80; "with 80 ms of lag")]
@@ -127,7 +132,7 @@ mod default_game_loop_test {
             .with_tps(tick_rate)
             .build();
 
-        game_loop.lag = Duration::from_millis(1000 / fps);
+        thread::sleep(Duration::from_millis(1000 / fps));
         game_loop.update(&mut context, |_|{});
 
         game_loop.ticks()
