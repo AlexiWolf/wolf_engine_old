@@ -37,7 +37,7 @@ impl DefaultGameLoop {
     }
 
     fn time_step(&self) -> Duration {
-        Duration::from_millis((1000.0 / self.tps) as u64)
+        Duration::from_millis((1000.0 / self.tps).round() as u64)
     }
 }
 
