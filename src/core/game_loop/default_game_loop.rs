@@ -39,7 +39,6 @@ impl DefaultGameLoop {
     pub fn can_update(&self) -> bool {
         self.lag >= self.time_step()
     }
-
 }
 
 impl GameLoop for DefaultGameLoop {
@@ -110,8 +109,8 @@ impl DefaultGameLoopBuilder {
 mod default_game_loop_test {
     use super::*;
     use crate::core::Context;
-    use test_case::test_case;
     use std::thread;
+    use test_case::test_case;
 
     #[test_case(800; "with 800 ms of lag")]
     #[test_case(80; "with 80 ms of lag")]
@@ -142,12 +141,10 @@ mod default_game_loop_test {
     #[test_case(120.0, 120 => 1 ; "1 time at 120 tps and 120 fps")]
     fn should_tick(tick_rate: f64, fps: u64) -> u64 {
         let mut context = Context;
-        let mut game_loop = DefaultGameLoopBuilder::new()
-            .with_tps(tick_rate)
-            .build();
+        let mut game_loop = DefaultGameLoopBuilder::new().with_tps(tick_rate).build();
 
         thread::sleep(Duration::from_millis(1000 / fps));
-        game_loop.update(&mut context, |_|{});
+        game_loop.update(&mut context, |_| {});
 
         game_loop.ticks()
     }
@@ -159,7 +156,7 @@ mod default_game_loop_test {
     }
 }
 
-    #[cfg(test)]
+#[cfg(test)]
 mod default_game_loop_builder_tests {
     use super::*;
 
