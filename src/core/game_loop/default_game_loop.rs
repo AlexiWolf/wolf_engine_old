@@ -72,9 +72,30 @@ impl DefaultGameLoopBuilder {
 mod default_game_loop_test {
     use super::*;
     use crate::core::Context;
-    use std::time::Instant;
-    use std::thread;
 
+
+    #[test]
+    fn should_be_able_to_update_with_lag() {
+        let game_loop = DefaultGameLoopBuilder::new()
+            .build();
+
+        game_loop.lag = Duration::from_millis(800);
+        assert_can_update(&game_loop);
+
+        game_loop.lag = Duration::from_millis(80);
+        assert_can_update(&game_loop);
+
+        game_loop.lag = Duration::from_millis(8);
+        assert_can_update(&game_loop);
+    }
+
+    fn assert_can_update(game_loop: &DefaultGameLoop) {
+        assert!(
+            game_loop.can_update(),
+            "The game loop should be able to update with {}ms of lag.",
+            game_loop.lag
+        );
+    }
 }
 
 
