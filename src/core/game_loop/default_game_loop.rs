@@ -100,7 +100,7 @@ mod default_game_loop_test {
         assert!(
             game_loop.can_update(),
             "The game loop should be able to update with {}ms of lag.",
-            game_loop.lag
+            game_loop.lag.as_millis()
         );
     }
 
@@ -124,7 +124,7 @@ mod default_game_loop_test {
         assert!(
             !game_loop.can_update(),
             "The game loop should not be able to update with {}ms of lag.",
-            game_loop.lag
+            game_loop.lag.as_millis()
         );
     }
 
