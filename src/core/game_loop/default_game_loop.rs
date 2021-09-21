@@ -112,6 +112,24 @@ mod default_game_loop_test {
         );
     }
 
+    #[test_case(120.0, 30 => 4  ; "4 times at 120 tps and 30 fps")]
+    #[test_case(120.0, 60 => 2  ; "2 times at 120 tps and 60 fps")]
+    #[test_case(120.0, 120 => 1 ; "1 time at 120 tps and 120 fps")]
+    fn should_tick(tick_rate: f64, fps: u64) -> u64 {
+        let mut context = Context;
+        let mut game_loop = DefaultGameLoopBuilder::new()
+            .with_tps(tick_rate)
+            .build();
+
+        let mut ticks = 0;
+        game_loop.lag = Duration::from_millis(1000 / fps);
+        game_loop.update(&mut context, move |_| {
+            ticks += 1;
+        });
+
+        ticks
+    }
+
     fn lag_test_game_loop(lag: u64) -> DefaultGameLoop {
         let mut game_loop = DefaultGameLoopBuilder::new().build();
         game_loop.lag = Duration::from_millis(lag);
