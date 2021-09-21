@@ -155,6 +155,24 @@ mod fixed_update_game_loop_tests {
         );
     }
 
+    #[test]
+    fn should_call_the_render_function() {
+        let has_called_render_function = Arc::from(Mutex::from(false));
+        let mut context = Context;
+        let mut game_loop = lag_test_game_loop(8);
+
+        game_loop.render(&mut context, |_| {
+            let mut has_called_render_function = has_called_render_function.lock().unwrap();
+            *has_called_render_function = true;
+        });
+
+        let has_called_render_function = has_called_render_function.lock().unwrap();
+        assert!(
+            *has_called_render_function,
+            "The render function was not called."
+        );
+    }
+
     fn lag_test_game_loop(lag: u64) -> FixedUpdateGameLoop {
         let mut game_loop = FixedUpdateGameLoopBuilder::new().build();
         game_loop.lag = Duration::from_millis(lag);
