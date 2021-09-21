@@ -96,6 +96,31 @@ mod default_game_loop_test {
             game_loop.lag
         );
     }
+
+    #[test]
+    fn should_not_be_update_with_lag() {
+        let game_loop = DefaultGameLoopBuilder::new()
+            .build();
+
+        game_loop.lag = Duration::from_millis(7);
+        assert_can_not_update(&game_loop);
+
+        game_loop.lag = Duration::from_millis(5);
+        assert_can_not_update(&game_loop);
+
+        game_loop.lag = Duration::from_millis(0);
+        assert_can_not_update(&game_loop)
+    }
+
+
+    fn assert_can_not_update(game_loop: &DefaultGameLoop) {
+        assert!(
+            !game_loop.can_update(),
+            "The game loop should not be able to update with {}ms of lag.",
+            game_loop.lag
+        );
+    }
+
 }
 
 
