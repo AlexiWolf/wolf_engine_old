@@ -52,6 +52,10 @@ impl GameLoop for DefaultGameLoop {
     where
         F: FnMut(&mut Context),
     {
+        self.current_update = Instant::now();
+        let elapsed_time = self.current_update - self.previous_update;
+        self.previous_update = self.current_update;
+        self.lag += elapsed_time;
         while self.can_update() {
             update_function(context);
             self.lag -= self.time_step();
