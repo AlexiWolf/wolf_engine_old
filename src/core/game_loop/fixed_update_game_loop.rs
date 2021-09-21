@@ -109,6 +109,7 @@ impl FixedUpdateGameLoopBuilder {
 mod fixed_update_game_loop_tests {
     use super::*;
     use crate::core::Context;
+    use std::sync::{Arc, Mutex};
     use std::thread;
     use test_case::test_case;
 
@@ -136,6 +137,24 @@ mod fixed_update_game_loop_tests {
         );
     }
 
+    #[test]
+    fn should_call_the_update_function() {
+        let has_called_update_function = Arc::from(Mutex::from(false));
+        let mut context = Context;
+        let mut game_loop = lag_test_game_loop(8);
+
+        game_loop.update(&mut context, |_| {
+            let mut has_called_update_function = has_called_update_function.lock().unwrap();
+            *has_called_update_function = true;
+        });
+
+        let has_called_update_function = has_called_update_function.lock().unwrap();
+        assert!(
+            *has_called_update_function,
+            "The update function was not called."
+        );
+    }
+
     fn lag_test_game_loop(lag: u64) -> FixedUpdateGameLoop {
         let mut game_loop = FixedUpdateGameLoopBuilder::new().build();
         game_loop.lag = Duration::from_millis(lag);
@@ -147,7 +166,9 @@ mod fixed_update_game_loop_tests {
     #[test_case(120.0, 120 => 1 ; "1 time at 120 tps and 120 fps")]
     fn should_tick(tick_rate: f64, fps: u64) -> u64 {
         let mut context = Context;
-        let mut game_loop = FixedUpdateGameLoopBuilder::new().with_tps(tick_rate).build();
+        let mut game_loop = FixedUpdateGameLoopBuilder::new()
+            .with_tps(tick_rate)
+            .build();
 
         thread::sleep(Duration::from_millis(1000 / fps));
         game_loop.update(&mut context, |_| {});
