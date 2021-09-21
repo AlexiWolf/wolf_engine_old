@@ -33,7 +33,11 @@ impl DefaultGameLoop {
     }
 
     pub fn can_update(&self) -> bool {
-        false
+        self.lag >= self.time_step()
+    }
+
+    fn time_step(&self) -> Duration {
+        Duration::from_millis((1000.0 / self.tps) as u64)
     }
 }
 
