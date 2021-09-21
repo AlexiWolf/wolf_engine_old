@@ -1,8 +1,8 @@
-mod default_game_loop;
+mod fixed_update_game_loop;
 
 use crate::core::Context;
 
-pub use default_game_loop::*;
+pub use fixed_update_game_loop::*;
 
 pub type LoopResult = ();
 

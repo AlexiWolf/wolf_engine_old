@@ -3,7 +3,7 @@ use std::time::{Duration, Instant};
 
 pub type TicksPerSecond = f64;
 
-pub struct DefaultGameLoop {
+pub struct FixedUpdateGameLoop {
     tps: TicksPerSecond,
     max_update_time: Duration,
     previous_update: Instant,
@@ -11,7 +11,7 @@ pub struct DefaultGameLoop {
     ticks: u64,
 }
 
-impl DefaultGameLoop {
+impl FixedUpdateGameLoop {
     pub fn new() -> Self {
         let now = Instant::now();
         let zero = Duration::from_secs(0);
@@ -41,7 +41,7 @@ impl DefaultGameLoop {
     }
 }
 
-impl GameLoop for DefaultGameLoop {
+impl GameLoop for FixedUpdateGameLoop {
     fn update<F>(&mut self, context: &mut Context, mut update_function: F) -> LoopResult
     where
         F: FnMut(&mut Context),
@@ -61,7 +61,7 @@ impl GameLoop for DefaultGameLoop {
     }
 }
 
-impl DefaultGameLoop {
+impl FixedUpdateGameLoop {
     fn time_step(&self) -> Duration {
         Duration::from_millis((1000.0 / self.tps).round() as u64)
     }
@@ -79,14 +79,14 @@ impl DefaultGameLoop {
     }
 }
 
-pub struct DefaultGameLoopBuilder {
-    game_loop: DefaultGameLoop,
+pub struct FixedUpdateGameLoopBuilder {
+    game_loop: FixedUpdateGameLoop,
 }
 
-impl DefaultGameLoopBuilder {
+impl FixedUpdateGameLoopBuilder {
     pub fn new() -> Self {
         Self {
-            game_loop: DefaultGameLoop::new(),
+            game_loop: FixedUpdateGameLoop::new(),
         }
     }
 
@@ -100,13 +100,13 @@ impl DefaultGameLoopBuilder {
         self
     }
 
-    pub fn build(self) -> DefaultGameLoop {
+    pub fn build(self) -> FixedUpdateGameLoop {
         self.game_loop
     }
 }
 
 #[cfg(test)]
-mod default_game_loop_test {
+mod fixed_update_game_loop_tests {
     use super::*;
     use crate::core::Context;
     use std::thread;
@@ -141,7 +141,7 @@ mod default_game_loop_test {
     #[test_case(120.0, 120 => 1 ; "1 time at 120 tps and 120 fps")]
     fn should_tick(tick_rate: f64, fps: u64) -> u64 {
         let mut context = Context;
-        let mut game_loop = DefaultGameLoopBuilder::new().with_tps(tick_rate).build();
+        let mut game_loop = FixedUpdateGameLoopBuilder::new().with_tps(tick_rate).build();
 
         thread::sleep(Duration::from_millis(1000 / fps));
         game_loop.update(&mut context, |_| {});
@@ -149,20 +149,20 @@ mod default_game_loop_test {
         game_loop.ticks()
     }
 
-    fn lag_test_game_loop(lag: u64) -> DefaultGameLoop {
-        let mut game_loop = DefaultGameLoopBuilder::new().build();
+    fn lag_test_game_loop(lag: u64) -> FixedUpdateGameLoop {
+        let mut game_loop = FixedUpdateGameLoopBuilder::new().build();
         game_loop.lag = Duration::from_millis(lag);
         game_loop
     }
 }
 
 #[cfg(test)]
-mod default_game_loop_builder_tests {
+mod fixed_update_game_loop_builder_tests {
     use super::*;
 
     #[test]
     fn should_have_default_values_in_builder() {
-        let game_loop = DefaultGameLoopBuilder::new().build();
+        let game_loop = FixedUpdateGameLoopBuilder::new().build();
 
         assert_eq!(game_loop.tps(), 120.0);
         assert_eq!(game_loop.max_update_time(), Duration::from_millis(100));
@@ -170,14 +170,14 @@ mod default_game_loop_builder_tests {
 
     #[test]
     fn should_have_tps_setter() {
-        let game_loop = DefaultGameLoopBuilder::new().with_tps(60.0).build();
+        let game_loop = FixedUpdateGameLoopBuilder::new().with_tps(60.0).build();
 
         assert_eq!(game_loop.tps(), 60.0);
     }
 
     #[test]
     fn should_have_max_update_time_setter() {
-        let game_loop = DefaultGameLoopBuilder::new()
+        let game_loop = FixedUpdateGameLoopBuilder::new()
             .with_max_update_time(Duration::from_secs(1))
             .build();
 
