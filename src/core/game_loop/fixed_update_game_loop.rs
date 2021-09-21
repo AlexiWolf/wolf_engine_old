@@ -136,6 +136,12 @@ mod fixed_update_game_loop_tests {
         );
     }
 
+    fn lag_test_game_loop(lag: u64) -> FixedUpdateGameLoop {
+        let mut game_loop = FixedUpdateGameLoopBuilder::new().build();
+        game_loop.lag = Duration::from_millis(lag);
+        game_loop
+    }
+
     #[test_case(120.0, 30 => 4  ; "4 times at 120 tps and 30 fps")]
     #[test_case(120.0, 60 => 2  ; "2 times at 120 tps and 60 fps")]
     #[test_case(120.0, 120 => 1 ; "1 time at 120 tps and 120 fps")]
@@ -147,12 +153,6 @@ mod fixed_update_game_loop_tests {
         game_loop.update(&mut context, |_| {});
 
         game_loop.ticks()
-    }
-
-    fn lag_test_game_loop(lag: u64) -> FixedUpdateGameLoop {
-        let mut game_loop = FixedUpdateGameLoopBuilder::new().build();
-        game_loop.lag = Duration::from_millis(lag);
-        game_loop
     }
 }
 
