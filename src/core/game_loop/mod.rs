@@ -56,7 +56,7 @@ pub type LoopResult = ();
 /// number of *ticks* for a single *update*.  An *update* may trigger 0, 1, or any other number of
 /// *ticks* depending on the implementation.
 ///
-/// ### Rendering
+/// ## Rendering
 ///
 /// The most basic `render` implementation simply calls the game's render function and returns the
 /// result from it.  Additional timing controls (Vsync, frame-limiting, ext.), or frame
