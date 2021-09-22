@@ -67,6 +67,7 @@ impl GameLoop for FixedUpdateGameLoop {
         F: FnMut(&mut Context),
     {
         render_function(context);
+        self.frames += 1;
     }
 }
 
