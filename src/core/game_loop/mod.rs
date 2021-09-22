@@ -35,7 +35,8 @@ pub type Frames = u64;
 /// Wolf Engine also fully supports using a custom `GameLoop`.  Simply implement this trait.
 ///
 /// ```
-/// use wolf_engine::core::{GameLoop, Context, LoopResult, Ticks, Frames};
+/// use wolf_engine::core::{GameLoop, Context, LoopResult};
+/// # use wolf_engine::core::{Frames, Ticks};
 ///
 /// pub struct MyGameLoop;
 ///
