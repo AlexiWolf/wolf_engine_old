@@ -54,10 +54,11 @@ impl GameLoop for FixedUpdateGameLoop {
         }
     }
 
-    fn render<F>(&mut self, _context: &mut Context, _render_function: F) -> LoopResult
+    fn render<F>(&mut self, context: &mut Context, mut render_function: F) -> LoopResult
     where
         F: FnMut(&mut Context),
     {
+        render_function(context);
     }
 }
 
