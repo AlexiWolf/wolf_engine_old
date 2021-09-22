@@ -15,7 +15,7 @@ pub type LoopResult = ();
 /// - Updating the game state.
 /// - Rendering the current frame.
 /// - Tracking basic information about itself, such as the number of *ticks* performed, and
-///   *frames* it's rendered.  TODO: As well as tick and frame timing information.33
+///   *frames* it's rendered.  TODO: As well as tick and frame timing information.
 ///
 /// Wolf Engine's default `GameLoop` is the
 /// [FixedUpdateGameLoop](fixed_update_game_loop::FixedUpdateGameLoop).  See its documentation for
