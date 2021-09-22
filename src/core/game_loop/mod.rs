@@ -10,14 +10,19 @@ pub type LoopResult = ();
 /// Controls how the game is run.
 ///
 /// The `GameLoop` is the core control structure Wolf Engine, as it directly controls how the game
-/// state is updated and rendered.  Different `GameLoop`s may operate differently, so you should
-/// refer to implementation documentation for specific details.  The `GameLoop` also tracks some
-/// basic information about itself, such as the number of *ticks* performed, and *frames* it's
-/// rendered.
+/// is run.  It is primarily responsible for:
+///
+/// - Updating the game state.
+/// - Rendering the current frame.
+/// - Tracking basic information about itself, such as the number of *ticks* performed, and
+///   *frames* it's rendered.  TODO: As well as tick and frame timing information.33
 ///
 /// Wolf Engine's default `GameLoop` is the
 /// [FixedUpdateGameLoop](fixed_update_game_loop::FixedUpdateGameLoop).  See its documentation for
 /// usage information.
+///
+/// Different `GameLoop`s may operate differently, so you should refer to implementation
+/// documentation for specific details,
 ///
 /// # Implementing a Game Loop
 ///
