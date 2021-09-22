@@ -210,12 +210,10 @@ mod fixed_update_game_loop_tests {
             game_loop.render(&mut context, |_|{})
         }
 
-        let frames = game_loop.frames();
         assert_eq!(
-            frames,
+            game_loop.frames(),
             10,
-            "The game loop should have counted 10 frames, but it has {}.",
-            frames
+            "The game loop should have counted 10 frames.",
         )
     }
 }
