@@ -11,6 +11,7 @@ pub struct FixedUpdateGameLoop {
     previous_update: Instant,
     lag: Duration,
     ticks: Ticks,
+    frames: Frames,
 }
 
 impl FixedUpdateGameLoop {
@@ -23,6 +24,7 @@ impl FixedUpdateGameLoop {
             previous_update: now,
             lag: zero,
             ticks: 0,
+            frames: 0,
         }
     }
 
@@ -39,7 +41,7 @@ impl FixedUpdateGameLoop {
     }
 
     pub fn frames(&self) -> Frames {
-        0
+        self.frames
     }
 
     pub fn can_update(&self) -> bool {
