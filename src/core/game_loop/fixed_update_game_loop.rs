@@ -21,7 +21,7 @@ pub type TicksPerSecond = f64;
 ///
 /// - At 120 tps and 30 fps, the loop runs 4 x 8ms ticks per frame.
 /// - At 120 tps and 60 fps, the loop runs 2 x 8ms ticks per frame.
-/// - At 120 tps and 120 fps, the loop runs 2 x 8ms ticks per frame.
+/// - At 120 tps and 120 fps, the loop runs 1 x 8ms ticks per frame.
 /// - At 120 tps and 240 fps, the loop runs 1 x 8ms tick every 2 frames.
 ///
 /// # Dealing With Excess Lag
