@@ -77,6 +77,22 @@ impl FixedUpdateGameLoop {
     pub fn can_update(&self) -> bool {
         self.lag >= self.time_step()
     }
+
+    fn time_step(&self) -> Duration {
+        Duration::from_millis((1000.0 / self.tps).round() as u64)
+    }
+
+    fn time_since_last_update(&mut self) -> (Instant, Duration) {
+        let current_instant = Instant::now();
+        let elapsed_time = current_instant - self.previous_update;
+        (current_instant, elapsed_time)
+    }
+
+    fn accumulate_lag(&mut self) {
+        let (current_instant, elapsed_time) = self.time_since_last_update();
+        self.previous_update = current_instant;
+        self.lag += elapsed_time;
+    }
 }
 
 impl GameLoop for FixedUpdateGameLoop {
@@ -118,24 +134,6 @@ impl Display for FixedUpdateGameLoop {
             self.ticks,
             self.lag.as_millis()
         )
-    }
-}
-
-impl FixedUpdateGameLoop {
-    fn time_step(&self) -> Duration {
-        Duration::from_millis((1000.0 / self.tps).round() as u64)
-    }
-
-    fn time_since_last_update(&mut self) -> (Instant, Duration) {
-        let current_instant = Instant::now();
-        let elapsed_time = current_instant - self.previous_update;
-        (current_instant, elapsed_time)
-    }
-
-    fn accumulate_lag(&mut self) {
-        let (current_instant, elapsed_time) = self.time_since_last_update();
-        self.previous_update = current_instant;
-        self.lag += elapsed_time;
     }
 }
 
