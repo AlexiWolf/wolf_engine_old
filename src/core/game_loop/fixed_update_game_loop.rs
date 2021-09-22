@@ -3,6 +3,7 @@ use std::time::{Duration, Instant};
 
 pub type TicksPerSecond = f64;
 pub type Ticks = u64;
+pub type Frames = u64;
 
 pub struct FixedUpdateGameLoop {
     tps: TicksPerSecond,
@@ -33,8 +34,12 @@ impl FixedUpdateGameLoop {
         self.max_update_time
     }
 
-    pub fn ticks(&self) -> u64 {
+    pub fn ticks(&self) -> Ticks {
         self.ticks
+    }
+
+    pub fn frames(&self) -> Frames {
+        0
     }
 
     pub fn can_update(&self) -> bool {
@@ -194,6 +199,24 @@ mod fixed_update_game_loop_tests {
         game_loop.update(&mut context, |_| {});
 
         game_loop.ticks()
+    }
+
+    #[test]
+    fn should_count_frames_rendered() {
+        let mut context = Context;
+        let mut game_loop = FixedUpdateGameLoopBuilder::new().build();
+
+        for _ in 0..10 {
+            game_loop.render(&mut context, |_|{})
+        }
+
+        let frames = game_loop.frames();
+        assert_eq!(
+            frames,
+            10,
+            "The game loop should have counted 10 frames, but it has {}.",
+            frames
+        )
     }
 }
 
