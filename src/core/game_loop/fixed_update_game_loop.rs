@@ -2,8 +2,42 @@ use crate::core::{Context, GameLoop, LoopResult, Ticks, Frames};
 use std::time::{Duration, Instant};
 use std::fmt::{Display, Formatter};
 
+/// Represents the number of ticks per second.
 pub type TicksPerSecond = f64;
 
+/// Provides a [GameLoop] with consistent fixed-time-step updates, and variable rendering.
+///
+/// # Frame-rate Independence
+///
+/// No matter what frame-rate the game is running at, the gameplay will stay consistent.  The loop
+/// will always perform the same number of ticks for a given period of game time, and the time-step
+/// for each tick will always be the same. This is achieved by adjusting the number of ticks in
+/// response to how far the game has fallen behind where it should be.
+///
+/// How far behind the game is is called `lag`.  The game is ticked forward until the `lag` is
+/// less than the time-step, or until the real update time has exceeded the update time limit.
+///
+/// This results in the following behavior.
+///
+/// - At 120 tps and 30 fps, the loop runs 4 x 8ms ticks per frame.
+/// - At 120 tps and 60 fps, the loop runs 2 x 8ms ticks per frame.
+/// - At 120 tps and 120 fps, the loop runs 2 x 8ms ticks per frame.
+/// - At 120 tps and 240 fps, the loop runs 1 x 8ms tick every 2 frames.
+///
+/// # Dealing With Excess Lag
+///
+/// Sometimes the `lag` will not be cleared all the way to 0.  In other cases, large lag-spikes may
+/// cause the game to exceed it's update time limit.  In these cases, the remaining `lag` carried
+/// over to the next update call and more ticks will be run to catch back up.
+///
+/// A side-effect of this system is that sometimes frames will be rendered in between ticks.  This
+/// can result in ugly stuttering.  To mitigate this, the render function can use the remaining lag
+/// to interpolate and smooth the rendered frame between the current one and the next one.
+///
+/// # Examples
+///
+/// TODO
+///
 pub struct FixedUpdateGameLoop {
     tps: TicksPerSecond,
     max_update_time: Duration,
