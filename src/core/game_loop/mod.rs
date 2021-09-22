@@ -7,6 +7,12 @@ pub use fixed_update_game_loop::*;
 /// Indicates the status of the GameLoop. For now, this doesn't do anything.
 pub type LoopResult = ();
 
+/// Represents the number of ticks a [GameLoop] has performed.
+pub type Ticks = u64;
+
+/// Represents the number of frames a [GameLoop] has rendered.
+pub type Frames = u64;
+
 /// Controls how the game is run.
 ///
 /// The `GameLoop` is the core control structure Wolf Engine, as it directly controls how the game
@@ -29,22 +35,28 @@ pub type LoopResult = ();
 /// Wolf Engine also fully supports using a custom `GameLoop`.  Simply implement this trait.
 ///
 /// ```
-/// use wolf_engine::core::{GameLoop, Context, LoopResult};
+/// use wolf_engine::core::{GameLoop, Context, LoopResult, Ticks, Frames};
 ///
 /// pub struct MyGameLoop;
 ///
 /// impl GameLoop for MyGameLoop {
-/// fn update<F>(&mut self, context: &mut Context, update_function: F) -> LoopResult
-/// where F: FnMut(&mut Context) -> LoopResult {
-///         // Add your own custom logic here.
+///     fn update<F>(&mut self, context: &mut Context, mut update_function: F) -> LoopResult
+///     where F: FnMut(&mut Context) -> LoopResult {
 ///         update_function(context)
 ///     }
 ///
-/// fn render<F>(&mut self, context: &mut Context, render_function: F) -> LoopResult
-/// where F: FnMut(&mut Context) -> LoopResult {
-///         // Add your own custom logic here.
-///         update_function(context)
+///     fn render<F>(&mut self, context: &mut Context, mut render_function: F) -> LoopResult
+///     where F: FnMut(&mut Context) -> LoopResult {
+///         render_function(context)
 ///     }
+///#
+///#     fn ticks(&self) -> Ticks {
+///#         0
+///#     }
+///#
+///#     fn frames(&self) -> Frames {
+///#         0
+///#     }
 /// }
 /// ```
 ///
@@ -79,4 +91,10 @@ pub trait GameLoop {
     fn render<F>(&mut self, context: &mut Context, render_function: F) -> LoopResult
     where
         F: FnMut(&mut Context) -> LoopResult;
+
+    /// Access the number of ticks that have been performed.
+    fn ticks(&self) -> Ticks;
+
+    /// Access the number of frames tha have been rendered.
+    fn frames(&self) -> Frames;
 }

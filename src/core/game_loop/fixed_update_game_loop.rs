@@ -1,9 +1,7 @@
-use crate::core::{Context, GameLoop, LoopResult};
+use crate::core::{Context, GameLoop, LoopResult, Ticks, Frames};
 use std::time::{Duration, Instant};
 
 pub type TicksPerSecond = f64;
-pub type Ticks = u64;
-pub type Frames = u64;
 
 pub struct FixedUpdateGameLoop {
     tps: TicksPerSecond,
@@ -36,14 +34,6 @@ impl FixedUpdateGameLoop {
         self.max_update_time
     }
 
-    pub fn ticks(&self) -> Ticks {
-        self.ticks
-    }
-
-    pub fn frames(&self) -> Frames {
-        self.frames
-    }
-
     pub fn can_update(&self) -> bool {
         self.lag >= self.time_step()
     }
@@ -68,6 +58,14 @@ impl GameLoop for FixedUpdateGameLoop {
     {
         render_function(context);
         self.frames += 1;
+    }
+
+    fn ticks(&self) -> Ticks {
+        self.ticks
+    }
+
+    fn frames(&self) -> Frames {
+        self.frames
     }
 }
 
