@@ -2,13 +2,14 @@ use crate::core::{Context, GameLoop, LoopResult};
 use std::time::{Duration, Instant};
 
 pub type TicksPerSecond = f64;
+pub type Ticks = u64;
 
 pub struct FixedUpdateGameLoop {
     tps: TicksPerSecond,
     max_update_time: Duration,
     previous_update: Instant,
     lag: Duration,
-    ticks: u64,
+    ticks: Ticks,
 }
 
 impl FixedUpdateGameLoop {
