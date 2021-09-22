@@ -1,8 +1,8 @@
 mod fixed_update_game_loop;
 
-use crate::core::Context;
-
 pub use fixed_update_game_loop::*;
+
+use crate::core::Context;
 use std::fmt::Display;
 
 /// Indicates the status of the GameLoop. For now, this doesn't do anything.
@@ -38,6 +38,7 @@ pub type Frames = u64;
 /// ```
 /// use wolf_engine::core::{GameLoop, Context, LoopResult};
 /// # use wolf_engine::core::{Frames, Ticks};
+/// # use std::fmt::{Display, Formatter};
 ///
 /// pub struct MyGameLoop;
 ///
@@ -60,6 +61,11 @@ pub type Frames = u64;
 ///#         0
 ///#     }
 /// }
+///# impl Display for MyGameLoop {
+///#     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+///#         write!(f, "")
+///#     }
+///# }
 /// ```
 ///
 /// ## Updating

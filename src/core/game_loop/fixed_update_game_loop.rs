@@ -1,5 +1,6 @@
 use crate::core::{Context, GameLoop, LoopResult, Ticks, Frames};
 use std::time::{Duration, Instant};
+use std::fmt::{Display, Formatter};
 
 pub type TicksPerSecond = f64;
 
@@ -66,6 +67,18 @@ impl GameLoop for FixedUpdateGameLoop {
 
     fn frames(&self) -> Frames {
         self.frames
+    }
+}
+
+impl Display for FixedUpdateGameLoop {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "Frames: {}, Ticks: {}, Lag: {}ms",
+            self.frames,
+            self.ticks,
+            self.lag.as_millis()
+        )
     }
 }
 
