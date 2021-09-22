@@ -36,7 +36,34 @@ pub type TicksPerSecond = f64;
 ///
 /// # Examples
 ///
-/// TODO
+/// The [FixedUpdateGameLoopBuilder] should be used to build new instances of the loop.
+///
+/// ```
+/// # use wolf_engine::core::FixedUpdateGameLoopBuilder;
+///
+/// let mut game_loop = FixedUpdateGameLoopBuilder::new()
+///     .build();
+/// ```
+///
+/// The game loop can then be used by calling `update` and `render` in a loop.  The game's
+/// update and render functions, along with the [Context] object are passed in.
+///
+/// ```
+/// # use wolf_engine::core::{FixedUpdateGameLoopBuilder, Context, GameLoop};
+/// # let mut game_loop = FixedUpdateGameLoopBuilder::new()
+/// #     .build();
+/// # let mut context = Context;
+/// #
+/// loop {
+///     game_loop.update(&mut context, |context| {
+///         // Update logic goes here.
+///     });
+///     game_loop.render(&mut context, |context| {
+///         // Render logic goes here.
+///     });
+/// #   break;
+/// }
+/// ```
 ///
 pub struct FixedUpdateGameLoop {
     tps: TicksPerSecond,
