@@ -68,6 +68,7 @@ pub type TicksPerSecond = f64;
 pub struct FixedUpdateGameLoop {
     tps: TicksPerSecond,
     max_update_time: Duration,
+    update_time: Duration,
     previous_update: Instant,
     lag: Duration,
     ticks: Ticks,
@@ -81,6 +82,7 @@ impl FixedUpdateGameLoop {
         Self {
             tps: 120.0,
             max_update_time: Duration::from_millis(100),
+            update_time: zero,
             previous_update: now,
             lag: zero,
             ticks: 0,
