@@ -22,7 +22,7 @@ pub type Frames = u64;
 /// - Updating the game state.
 /// - Rendering the current frame.
 /// - Tracking basic information about itself, such as the number of *ticks* performed, and
-///   *frames* it's rendered.  TODO: As well as tick and frame timing information.
+///   *frames* it's rendered.
 ///
 /// Wolf Engine's default `GameLoop` is the
 /// [FixedUpdateGameLoop](fixed_update_game_loop::FixedUpdateGameLoop).  See its documentation for
