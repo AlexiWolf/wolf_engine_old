@@ -131,7 +131,10 @@ impl GameLoop for FixedUpdateGameLoop {
     {
         self.accumulate_lag();
         while self.can_update() {
+            let tick_start = Instant::now();
             update_function(context);
+            let tick_duration = Instant::now() - tick_start;
+            self.update_time += tick_duration;
             self.lag -= self.time_step();
             self.ticks += 1;
         }
