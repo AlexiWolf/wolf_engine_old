@@ -202,7 +202,7 @@ mod fixed_update_game_loop_tests {
     #[test_case(80; "with 80 ms of lag")]
     #[test_case(8; "with 8 ms of lag")]
     fn should_update(lag: u64) {
-        let game_loop = lag_test_game_loop(lag);
+        let game_loop = lag_test_game_loop(lag, 0);
         assert!(
             game_loop.can_update(),
             "The game loop should be able to update with {}ms of lag.",
@@ -214,7 +214,7 @@ mod fixed_update_game_loop_tests {
     #[test_case(5; "with 5 ms of lag")]
     #[test_case(0; "with 0 ms of lag")]
     fn should_not_update(lag: u64) {
-        let game_loop = lag_test_game_loop(lag);
+        let game_loop = lag_test_game_loop(lag, 0);
         assert!(
             !game_loop.can_update(),
             "The game loop should not be able to update with {}ms of lag.",
@@ -226,7 +226,7 @@ mod fixed_update_game_loop_tests {
     fn should_call_the_update_function() {
         let has_called_update_function = Arc::from(Mutex::from(false));
         let mut context = Context;
-        let mut game_loop = lag_test_game_loop(8);
+        let mut game_loop = lag_test_game_loop(8, 0);
 
         game_loop.update(&mut context, |_| {
             let mut has_called_update_function = has_called_update_function.lock().unwrap();
@@ -244,7 +244,7 @@ mod fixed_update_game_loop_tests {
     fn should_call_the_render_function() {
         let has_called_render_function = Arc::from(Mutex::from(false));
         let mut context = Context;
-        let mut game_loop = lag_test_game_loop(8);
+        let mut game_loop = lag_test_game_loop(8, 0);
 
         game_loop.render(&mut context, |_| {
             let mut has_called_render_function = has_called_render_function.lock().unwrap();
@@ -258,9 +258,10 @@ mod fixed_update_game_loop_tests {
         );
     }
 
-    fn lag_test_game_loop(lag: u64) -> FixedUpdateGameLoop {
+    fn lag_test_game_loop(lag: u64, update_time: u64) -> FixedUpdateGameLoop {
         let mut game_loop = FixedUpdateGameLoopBuilder::new().build();
         game_loop.lag = Duration::from_millis(lag);
+        game_loop.update_time = Duration::from_millis(update_time);
         game_loop
     }
 
