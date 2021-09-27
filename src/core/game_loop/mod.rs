@@ -89,7 +89,6 @@ pub type Frames = u64;
 /// but this is not a hard requirement.
 ///
 pub trait GameLoop: Display {
-
     /// Update the game state.
     fn update<F>(&mut self, context: &mut Context, update_function: F) -> LoopResult
     where

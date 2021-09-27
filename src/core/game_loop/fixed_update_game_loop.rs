@@ -1,6 +1,6 @@
-use crate::core::{Context, GameLoop, LoopResult, Ticks, Frames};
-use std::time::{Duration, Instant};
+use crate::core::{Context, Frames, GameLoop, LoopResult, Ticks};
 use std::fmt::{Display, Formatter};
+use std::time::{Duration, Instant};
 
 /// Represents the number of ticks per second.
 pub type TicksPerSecond = f64;
@@ -209,7 +209,7 @@ mod fixed_update_game_loop_tests {
     #[test_case(8, 99; "with 99 ms of update time")]
     #[test_case(8, 100; "with 100 ms of update time")]
     fn should_update(lag: u64, update_time: u64) {
-        let game_loop = lag_test_game_loop(lag, update_time);
+        let (game_loop, _) = test_game_loop(lag, update_time);
         assert!(
             game_loop.can_update(),
             "The game loop should be able to update with {}ms of lag and {}ms of update time.",
@@ -223,7 +223,7 @@ mod fixed_update_game_loop_tests {
     #[test_case(0, 0; "with 0 ms of lag")]
     #[test_case(8, 101; "with 101 ms of update time")]
     fn should_not_update(lag: u64, update_time: u64) {
-        let game_loop = lag_test_game_loop(lag, update_time);
+        let (game_loop, _) = test_game_loop(lag, update_time);
         assert!(
             !game_loop.can_update(),
             "The game loop should not be able to update with {}ms of lag and {}ms of update time.",
@@ -235,12 +235,11 @@ mod fixed_update_game_loop_tests {
     #[test_case(0 => 2 ; "expecting 2 ticks because max update time is not reached")]
     #[test_case(6 => 1 ; "expecting 1 tick because max update time is reached")]
     fn should_stop_ticking_if_max_update_time_is_reached(tick_delay: u64) -> Ticks {
-        let mut context = Context;
-        let mut game_loop = lag_test_game_loop(16, 0);
+        let (mut game_loop, mut context) = test_game_loop(16, 0);
         game_loop.max_update_time = Duration::from_millis(5);
 
         game_loop.update(&mut context, |_| {
-            std::thread::sleep(Duration::from_millis(tick_delay));
+            thread::sleep(Duration::from_millis(tick_delay));
         });
 
         game_loop.ticks()
@@ -249,8 +248,7 @@ mod fixed_update_game_loop_tests {
     #[test]
     fn should_call_the_update_function() {
         let has_called_update_function = Arc::from(Mutex::from(false));
-        let mut context = Context;
-        let mut game_loop = lag_test_game_loop(8, 0);
+        let (mut game_loop, mut context) = test_game_loop(8, 0);
 
         game_loop.update(&mut context, |_| {
             let mut has_called_update_function = has_called_update_function.lock().unwrap();
@@ -267,8 +265,7 @@ mod fixed_update_game_loop_tests {
     #[test]
     fn should_call_the_render_function() {
         let has_called_render_function = Arc::from(Mutex::from(false));
-        let mut context = Context;
-        let mut game_loop = lag_test_game_loop(8, 0);
+        let (mut game_loop, mut context) = test_game_loop(8, 0);
 
         game_loop.render(&mut context, |_| {
             let mut has_called_render_function = has_called_render_function.lock().unwrap();
@@ -282,21 +279,12 @@ mod fixed_update_game_loop_tests {
         );
     }
 
-    fn lag_test_game_loop(lag: u64, update_time: u64) -> FixedUpdateGameLoop {
-        let mut game_loop = FixedUpdateGameLoopBuilder::new().build();
-        game_loop.lag = Duration::from_millis(lag);
-        game_loop.update_time = Duration::from_millis(update_time);
-        game_loop
-    }
-
     #[test_case(120.0, 30 => 4  ; "4 times at 120 tps and 30 fps")]
     #[test_case(120.0, 60 => 2  ; "2 times at 120 tps and 60 fps")]
     #[test_case(120.0, 120 => 1 ; "1 time at 120 tps and 120 fps")]
     fn should_tick(tick_rate: f64, fps: u64) -> u64 {
-        let mut context = Context;
-        let mut game_loop = FixedUpdateGameLoopBuilder::new()
-            .with_tps(tick_rate)
-            .build();
+        let (mut game_loop, mut context) = test_game_loop(0, 0);
+        game_loop.tps = tick_rate;
 
         thread::sleep(Duration::from_millis(1000 / fps));
         game_loop.update(&mut context, |_| {});
@@ -306,11 +294,10 @@ mod fixed_update_game_loop_tests {
 
     #[test]
     fn should_count_frames_rendered() {
-        let mut context = Context;
-        let mut game_loop = FixedUpdateGameLoopBuilder::new().build();
+        let (mut game_loop, mut context) = test_game_loop(0, 0);
 
         for _ in 0..10 {
-            game_loop.render(&mut context, |_|{})
+            game_loop.render(&mut context, |_| {})
         }
 
         assert_eq!(
@@ -318,6 +305,17 @@ mod fixed_update_game_loop_tests {
             10,
             "The game loop should have counted 10 frames.",
         )
+    }
+
+    fn test_game_loop(
+        artificial_lag: u64,
+        artificial_update_time: u64,
+    ) -> (FixedUpdateGameLoop, Context) {
+        let mut game_loop = FixedUpdateGameLoopBuilder::new().build();
+        game_loop.lag = Duration::from_millis(artificial_lag);
+        game_loop.update_time = Duration::from_millis(artificial_update_time);
+        let context = Context;
+        (game_loop, context)
     }
 }
 
