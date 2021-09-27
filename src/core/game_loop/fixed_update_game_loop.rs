@@ -229,6 +229,20 @@ mod fixed_update_game_loop_tests {
         );
     }
 
+    #[test_case(0 => 2 ; "expecting 2 ticks because max update time is not reached")]
+    #[test_case(6 => 1 ; "expecting 1 tick because max update time is reached")]
+    fn should_stop_ticking_if_max_update_time_is_reached(tick_delay: u64) -> Ticks {
+        let mut context = Context;
+        let mut game_loop = lag_test_game_loop(16, 0);
+        game_loop.max_update_time = Duration::from_millis(5);
+
+        game_loop.update(&mut context, |_| {
+            std::thread::sleep(Duration::from_millis(tick_delay));
+        });
+
+        game_loop.ticks()
+    }
+
     #[test]
     fn should_call_the_update_function() {
         let has_called_update_function = Arc::from(Mutex::from(false));
