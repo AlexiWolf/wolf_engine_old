@@ -209,8 +209,9 @@ mod fixed_update_game_loop_tests {
         let game_loop = lag_test_game_loop(lag, 0);
         assert!(
             game_loop.can_update(),
-            "The game loop should be able to update with {}ms of lag.",
-            game_loop.lag.as_millis()
+            "The game loop should be able to update with {}ms of lag and {}ms of update time.",
+            game_loop.lag.as_millis(),
+            game_loop.update_time.as_millis()
         );
     }
 
@@ -222,8 +223,9 @@ mod fixed_update_game_loop_tests {
         let game_loop = lag_test_game_loop(lag, update_time);
         assert!(
             !game_loop.can_update(),
-            "The game loop should not be able to update with {}ms of lag.",
-            game_loop.lag.as_millis()
+            "The game loop should not be able to update with {}ms of lag and {}ms of update time.",
+            game_loop.lag.as_millis(),
+            game_loop.update_time.as_millis()
         );
     }
 
