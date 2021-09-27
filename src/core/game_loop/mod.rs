@@ -74,12 +74,11 @@ pub type Frames = u64;
 /// the result from it.  Depending on the implementation, different update strategies may be used
 /// and / or additional timing controls may be added.
 ///
-/// ### Update != Tick
+/// Ticks vs Updates:
 ///
-/// In the context of a `GameLoop`, an *update* refers to a single call to the `update` function,
-/// while a *tick* refers to a single call to the game's `update` function.  There is no expected
-/// number of *ticks* for a single *update*.  An *update* may trigger 0, 1, or any other number of
-/// *ticks* depending on the implementation.
+/// - An *update* refers to a single call to the game loop's `update` method.
+/// - A *tick* refers to a single step of the game's state.
+/// - There may be 0, 1, or any other number of *ticks* in an *update*.
 ///
 /// ## Rendering
 ///
