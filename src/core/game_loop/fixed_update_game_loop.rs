@@ -198,10 +198,10 @@ mod fixed_update_game_loop_tests {
     use std::thread;
     use test_case::test_case;
 
-    #[test_case(800; "with 800 ms of lag")]
-    #[test_case(80; "with 80 ms of lag")]
-    #[test_case(8; "with 8 ms of lag")]
-    fn should_update(lag: u64) {
+    #[test_case(800, 0; "with 800 ms of lag")]
+    #[test_case(80, 0; "with 80 ms of lag")]
+    #[test_case(8, 0; "with 8 ms of lag")]
+    fn should_update(lag: u64, update_time: u64) {
         let game_loop = lag_test_game_loop(lag, 0);
         assert!(
             game_loop.can_update(),
@@ -210,11 +210,11 @@ mod fixed_update_game_loop_tests {
         );
     }
 
-    #[test_case(7; "with 7 ms of lag")]
-    #[test_case(5; "with 5 ms of lag")]
-    #[test_case(0; "with 0 ms of lag")]
-    fn should_not_update(lag: u64) {
-        let game_loop = lag_test_game_loop(lag, 0);
+    #[test_case(7, 0; "with 7 ms of lag")]
+    #[test_case(5, 0; "with 5 ms of lag")]
+    #[test_case(0, 0; "with 0 ms of lag")]
+    fn should_not_update(lag: u64, update_time: u64) {
+        let game_loop = lag_test_game_loop(lag, update_time);
         assert!(
             !game_loop.can_update(),
             "The game loop should not be able to update with {}ms of lag.",
