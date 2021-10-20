@@ -37,7 +37,7 @@ pub struct WolfEngine<Loop: GameLoop> {
 }
 
 impl<Loop: GameLoop> WolfEngine<Loop> {
-    pub fn run<Update, Render>(self, update_function: Update, render_function: Render)
+    pub fn run<Update, Render>(mut self, update_function: Update, render_function: Render)
     where
         Update: FnMut(&mut Context),
         Render: FnMut(&mut Context),
