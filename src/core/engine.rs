@@ -13,6 +13,25 @@ use crate::{FixedUpdateGameLoop, GameLoop};
 /// let engine: WolfEngine<FixedUpdateGameLoop> = WolfEngineBuilder::with_default_game_loop()
 ///     .build();
 /// ```
+/// 
+/// Running the engine.
+/// 
+/// ```
+/// # use wolf_engine::{WolfEngine, WolfEngineBuilder, FixedUpdateGameLoop};
+/// #
+/// # let engine: WolfEngine<FixedUpdateGameLoop> = WolfEngineBuilder::with_default_game_loop()
+/// #    .build();
+/// #
+/// engine.run(
+///     |&mut context| {
+///         // Update Function
+///         std::process::exit(0)
+///     },
+///     |&mut context| {
+///         // Render Function
+///     },
+/// );
+/// ```
 pub struct WolfEngine<Loop: GameLoop> {
     game_loop: Loop
 }
@@ -23,6 +42,7 @@ pub struct WolfEngineBuilder<Loop: GameLoop> {
 
 impl WolfEngineBuilder<FixedUpdateGameLoop> {
     pub fn with_default_game_loop() -> Self {
+        
         let game_loop = FixedUpdateGameLoop::default();
         let engine = WolfEngine {
             game_loop,
