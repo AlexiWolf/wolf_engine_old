@@ -41,6 +41,10 @@ impl<Loop: GameLoop> WolfEngine<Loop> {
         Update: FnMut(&mut Context),
         Render: FnMut(&mut Context),
     {
+        loop {
+            self.game_loop.update(&mut self.context, update_function);
+            self.game_loop.render(&mut self.context, render_function);
+        }
     }
 }
 
