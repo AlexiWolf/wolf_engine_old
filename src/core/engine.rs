@@ -33,7 +33,7 @@ use crate::{Context, FixedUpdateGameLoop, GameLoop};
 /// ```
 pub struct WolfEngine<Loop: GameLoop> {
     context: Context,
-    game_loop: Loop
+    game_loop: Loop,
 }
 
 impl<Loop: GameLoop> WolfEngine<Loop> {
@@ -43,8 +43,10 @@ impl<Loop: GameLoop> WolfEngine<Loop> {
         Render: FnMut(&mut Context),
     {
         loop {
-            self.game_loop.update(&mut self.context, |context| update_function(context));
-            self.game_loop.render(&mut self.context, |context| render_function(context));
+            self.game_loop
+                .update(&mut self.context, |context| update_function(context));
+            self.game_loop
+                .render(&mut self.context, |context| render_function(context));
         }
     }
 }
