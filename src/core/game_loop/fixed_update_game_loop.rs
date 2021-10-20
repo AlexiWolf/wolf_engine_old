@@ -175,6 +175,7 @@ impl Default for FixedUpdateGameLoop {
     }
 }
 
+/// Build an instance of [FixedUpdateGameLoop].
 pub struct FixedUpdateGameLoopBuilder {
     game_loop: FixedUpdateGameLoop,
 }
