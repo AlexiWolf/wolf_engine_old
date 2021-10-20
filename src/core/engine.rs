@@ -1,6 +1,10 @@
 use crate::{Context, FixedUpdateGameLoop, GameLoop};
 
-/// Provides access to all engine state.
+/// The main entry-point for the engine.  Start here!
+/// 
+/// This struct provides the core of the engine, it has a [GameLoop], and a [Context].  The engine
+/// runs the main loop and uses the methods provided by the [GameLoop] to control how the update
+/// and render functions are called.  
 ///
 /// # Examples
 ///
@@ -8,12 +12,14 @@ use crate::{Context, FixedUpdateGameLoop, GameLoop};
 ///
 /// ```
 /// # use wolf_engine::{WolfEngine, WolfEngineBuilder, FixedUpdateGameLoop};
-///
+/// #
 /// let engine: WolfEngine<FixedUpdateGameLoop> = WolfEngineBuilder::with_default_game_loop()
 ///     .build();
 /// ```
 ///
-/// Running the engine.
+/// To run the engine, you provide the `update` and `render` functions for your game.  The engine
+/// will use the [GameLoop] to manage how the functions are called.  The engine will take ownership
+/// over itself and run until the game quits.
 ///
 /// ```
 /// # use wolf_engine::{WolfEngine, WolfEngineBuilder, FixedUpdateGameLoop};
@@ -24,7 +30,7 @@ use crate::{Context, FixedUpdateGameLoop, GameLoop};
 /// engine.run(
 ///     |_context| {
 ///         // Update Function
-///         # std::process::exit(0)
+///         # std::process::exit(0);
 ///     },
 ///     |_context| {
 ///         // Render Function
