@@ -23,11 +23,11 @@ use crate::{Context, FixedUpdateGameLoop, GameLoop};
 /// #    .build();
 /// #
 /// engine.run(
-///     |&mut context| {
+///     |_context| {
 ///         // Update Function
 ///         std::process::exit(0)
 ///     },
-///     |&mut context| {
+///     |_context| {
 ///         // Render Function
 ///     },
 /// );
