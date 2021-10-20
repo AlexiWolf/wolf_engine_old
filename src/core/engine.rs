@@ -57,6 +57,7 @@ impl<Loop: GameLoop> WolfEngine<Loop> {
     }
 }
 
+/// Build an instance of [WolfEngine].
 pub struct WolfEngineBuilder<Loop: GameLoop> {
     engine: WolfEngine<Loop>,
 }
