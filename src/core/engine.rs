@@ -25,7 +25,9 @@ pub struct WolfEngineBuilder<Loop: GameLoop> {
 impl WolfEngineBuilder<FixedUpdateGameLoop> {
     pub fn with_default_game_loop() -> Self {
         let game_loop = FixedUpdateGameLoop::default();
-        let engine = WolfEngine::new();
+        let engine = WolfEngine {
+            game_loop,
+        };
         Self {
             engine
         }
