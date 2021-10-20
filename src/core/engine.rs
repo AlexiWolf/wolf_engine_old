@@ -32,7 +32,8 @@ use crate::{Context, FixedUpdateGameLoop, GameLoop};
 /// );
 /// ```
 pub struct WolfEngine<Loop: GameLoop> {
-    game_loop: Loop,
+    context: Context,
+    game_loop: Loop
 }
 
 impl<Loop: GameLoop> WolfEngine<Loop> {
