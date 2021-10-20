@@ -1,4 +1,4 @@
-use crate::{FixedUpdateGameLoop, GameLoop};
+use crate::{Context, FixedUpdateGameLoop, GameLoop};
 
 
 /// Provides access to all engine state.
@@ -34,6 +34,12 @@ use crate::{FixedUpdateGameLoop, GameLoop};
 /// ```
 pub struct WolfEngine<Loop: GameLoop> {
     game_loop: Loop
+}
+
+impl<Loop: GameLoop> WolfEngine<Loop> {
+    pub fn run<Update, Render>(self, update_function: Update, render_function: Render) where Update: FnMut(&mut Context), Render: FnMut(&mut Context) {
+
+    }
 }
 
 pub struct WolfEngineBuilder<Loop: GameLoop> {
