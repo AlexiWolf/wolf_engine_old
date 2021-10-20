@@ -24,8 +24,8 @@ pub fn main() {
             }
         }, 
         |_| {
-            info!("{}", message.lock().unwrap());
-            thread::sleep(Duration::from_secs_f64(1.0 / 120.0));
+            info!("{} - {} Ticks", message.lock().unwrap(), number.lock().unwrap());
+            thread::sleep(Duration::from_secs_f64(1.0));
         }
     );
 }
