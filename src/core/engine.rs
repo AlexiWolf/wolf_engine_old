@@ -24,7 +24,7 @@ use crate::{Context, FixedUpdateGameLoop, GameLoop};
 /// engine.run(
 ///     |_context| {
 ///         // Update Function
-///         std::process::exit(0)
+///         # std::process::exit(0)
 ///     },
 ///     |_context| {
 ///         // Render Function
