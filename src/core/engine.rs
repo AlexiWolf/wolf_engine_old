@@ -1,3 +1,5 @@
+use crate::{FixedUpdateGameLoop, FixedUpdateGameLoopBuilder, GameLoop};
+
 
 /// Provides access to all engine state.
 /// 
@@ -12,12 +14,20 @@
 /// let engine: WolfEngine<FixedUpdateGameLoop> = WolfEngine::with_default_game_loop()
 ///     .build();
 /// ```
-pub struct WolfEngine;
+pub struct WolfEngine<Loop: GameLoop> {
+    game_loop: Loop
+}
 
-pub struct WolfEngineBuilder;
+pub struct WolfEngineBuilder<Loop: GameLoop> {
+    engine: WolfEngine<Loop>
+}
 
-impl WolfEngineBuilder {
+impl WolfEngineBuilder<FixedUpdateGameLoop> {
     pub fn with_default_game_loop() -> Self {
-        Self
+        let game_loop = FixedUpdateGameLoop::default();
+        let engine = WolfEngine::new();
+        Self {
+            engine
+        }
     }
 }
