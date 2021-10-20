@@ -169,6 +169,12 @@ impl Display for FixedUpdateGameLoop {
     }
 }
 
+impl Default for FixedUpdateGameLoop {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 pub struct FixedUpdateGameLoopBuilder {
     game_loop: FixedUpdateGameLoop,
 }
@@ -176,7 +182,7 @@ pub struct FixedUpdateGameLoopBuilder {
 impl FixedUpdateGameLoopBuilder {
     pub fn new() -> Self {
         Self {
-            game_loop: FixedUpdateGameLoop::new(),
+            game_loop: FixedUpdateGameLoop::default()
         }
     }
 
@@ -192,6 +198,12 @@ impl FixedUpdateGameLoopBuilder {
 
     pub fn build(self) -> FixedUpdateGameLoop {
         self.game_loop
+    }
+}
+
+impl Default for FixedUpdateGameLoopBuilder {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
