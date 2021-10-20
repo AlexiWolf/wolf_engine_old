@@ -182,7 +182,7 @@ pub struct FixedUpdateGameLoopBuilder {
 impl FixedUpdateGameLoopBuilder {
     pub fn new() -> Self {
         Self {
-            game_loop: FixedUpdateGameLoop::default()
+            game_loop: FixedUpdateGameLoop::default(),
         }
     }
 

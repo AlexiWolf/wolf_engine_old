@@ -1,21 +1,20 @@
 use crate::{Context, FixedUpdateGameLoop, GameLoop};
 
-
 /// Provides access to all engine state.
-/// 
+///
 /// # Examples
-/// 
+///
 /// Using the default game loop.
-/// 
+///
 /// ```
 /// # use wolf_engine::{WolfEngine, WolfEngineBuilder, FixedUpdateGameLoop};
-/// 
+///
 /// let engine: WolfEngine<FixedUpdateGameLoop> = WolfEngineBuilder::with_default_game_loop()
 ///     .build();
 /// ```
-/// 
+///
 /// Running the engine.
-/// 
+///
 /// ```
 /// # use wolf_engine::{WolfEngine, WolfEngineBuilder, FixedUpdateGameLoop};
 /// #
@@ -33,29 +32,27 @@ use crate::{Context, FixedUpdateGameLoop, GameLoop};
 /// );
 /// ```
 pub struct WolfEngine<Loop: GameLoop> {
-    game_loop: Loop
+    game_loop: Loop,
 }
 
 impl<Loop: GameLoop> WolfEngine<Loop> {
-    pub fn run<Update, Render>(self, update_function: Update, render_function: Render) where Update: FnMut(&mut Context), Render: FnMut(&mut Context) {
-
+    pub fn run<Update, Render>(self, update_function: Update, render_function: Render)
+    where
+        Update: FnMut(&mut Context),
+        Render: FnMut(&mut Context),
+    {
     }
 }
 
 pub struct WolfEngineBuilder<Loop: GameLoop> {
-    engine: WolfEngine<Loop>
+    engine: WolfEngine<Loop>,
 }
 
 impl WolfEngineBuilder<FixedUpdateGameLoop> {
     pub fn with_default_game_loop() -> Self {
-        
         let game_loop = FixedUpdateGameLoop::default();
-        let engine = WolfEngine {
-            game_loop,
-        };
-        Self {
-            engine
-        }
+        let engine = WolfEngine { game_loop };
+        Self { engine }
     }
 }
 
