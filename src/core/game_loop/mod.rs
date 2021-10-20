@@ -2,7 +2,7 @@ mod fixed_update_game_loop;
 
 pub use fixed_update_game_loop::*;
 
-use crate::core::Context;
+use crate::Context;
 use std::fmt::Display;
 
 /// Indicates the status of the GameLoop. For now, this doesn't do anything.
@@ -36,8 +36,8 @@ pub type Frames = u64;
 /// Wolf Engine also fully supports using a custom `GameLoop`.  Simply implement this trait.
 ///
 /// ```
-/// use wolf_engine::core::{GameLoop, Context, LoopResult};
-/// # use wolf_engine::core::{Frames, Ticks};
+/// use wolf_engine::{GameLoop, Context, LoopResult};
+/// # use wolf_engine::{Frames, Ticks};
 /// # use std::fmt::{Display, Formatter};
 ///
 /// pub struct MyGameLoop;

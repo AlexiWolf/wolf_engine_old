@@ -1,4 +1,4 @@
-use crate::core::{Context, Frames, GameLoop, LoopResult, Ticks};
+use crate::{Context, Frames, GameLoop, LoopResult, Ticks};
 use std::fmt::{Display, Formatter};
 use std::time::{Duration, Instant};
 
@@ -39,7 +39,7 @@ pub type TicksPerSecond = f64;
 /// The [FixedUpdateGameLoopBuilder] should be used to build new instances of the loop.
 ///
 /// ```
-/// # use wolf_engine::core::FixedUpdateGameLoopBuilder;
+/// # use wolf_engine::FixedUpdateGameLoopBuilder;
 ///
 /// let mut game_loop = FixedUpdateGameLoopBuilder::new()
 ///     .build();
@@ -49,7 +49,7 @@ pub type TicksPerSecond = f64;
 /// update and render functions, along with the [Context] object are passed in.
 ///
 /// ```
-/// # use wolf_engine::core::{FixedUpdateGameLoopBuilder, Context, GameLoop};
+/// # use wolf_engine::{FixedUpdateGameLoopBuilder, Context, GameLoop};
 /// # let mut game_loop = FixedUpdateGameLoopBuilder::new()
 /// #     .build();
 /// # let mut context = Context;
@@ -198,7 +198,7 @@ impl FixedUpdateGameLoopBuilder {
 #[cfg(test)]
 mod fixed_update_game_loop_tests {
     use super::*;
-    use crate::core::Context;
+    use crate::Context;
     use std::sync::{Arc, Mutex};
     use std::thread;
     use test_case::test_case;
