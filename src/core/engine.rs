@@ -8,8 +8,7 @@ use crate::{FixedUpdateGameLoop, GameLoop};
 /// Using the default game loop.
 /// 
 /// ```
-/// # use wolf_engine::WolfEngine;
-/// # use wolf_engine::FixedUpdateGameLoop
+/// # use wolf_engine::{WolfEngine, WolfEngineBuilder, FixedUpdateGameLoop};
 /// 
 /// let engine: WolfEngine<FixedUpdateGameLoop> = WolfEngineBuilder::with_default_game_loop()
 ///     .build();
