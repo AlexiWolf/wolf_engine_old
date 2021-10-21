@@ -16,14 +16,13 @@ use crate::{Frames, Ticks};
 /// # use wolf_engine::GameLoopInfo;
 /// #
 /// let a = GameLoopInfo::new();
-/// let b = a.clone();
+/// let b = &a;
 /// 
 /// # assert_eq!(a.ticks(), 0);
 /// # assert_eq!(a.frames(), 0);
 /// # assert_eq!(b.ticks(), 0);
 /// # assert_eq!(b.frames(), 0);
 /// ```
-#[derive(Clone, Copy)]
 pub struct GameLoopInfo {
     ticks: Arc<Mutex<Ticks>>,
     frames: Arc<Mutex<Frames>>
