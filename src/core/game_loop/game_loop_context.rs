@@ -35,7 +35,7 @@ use crate::{Frames, Ticks};
 /// #
 /// let a = GameLoopInfo::default();
 /// // or
-/// let b = Default::default();
+/// let b: GameLoopInfo = Default::default();
 /// ```
 pub struct GameLoopInfo {
     ticks: Arc<Mutex<Ticks>>,
@@ -44,10 +44,7 @@ pub struct GameLoopInfo {
 
 impl GameLoopInfo {
     pub fn new() -> Self {
-        Self {
-            ticks: Arc::from(Mutex::from(0)),
-            frames: Arc::from(Mutex::from(0)),
-        }
+        Self::default()
     }
 
     pub fn ticks(&self) -> Ticks {
@@ -64,5 +61,14 @@ impl GameLoopInfo {
 
     pub fn add_frame(&self) {
         *self.frames.lock().expect("Failed to unlock frames") += 1
+    }
+}
+
+impl Default for GameLoopInfo {
+    fn default() -> Self {
+        Self {
+            ticks: Arc::from(Mutex::from(0)),
+            frames: Arc::from(Mutex::from(0)),
+        }
     }
 }
