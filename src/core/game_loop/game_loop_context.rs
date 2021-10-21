@@ -12,7 +12,7 @@
 /// # use wolf_engine::GameLoopInfo;
 /// #
 /// let a = GameLoopInfo::new();
-/// let b = a.copy();
+/// let b = a.clone();
 /// ```
 #[derive(Clone, Copy)]
 pub struct GameLoopInfo;
