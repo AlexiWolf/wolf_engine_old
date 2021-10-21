@@ -34,11 +34,11 @@ impl GameLoopInfo {
         }
     }
 
-    fn ticks(&self) -> Ticks {
+    pub fn ticks(&self) -> Ticks {
         *self.ticks.lock().expect("Failed to unlock ticks")
     }
 
-    fn frames(&self) -> Frames {
+    pub fn frames(&self) -> Frames {
         *self.frames.lock().expect("Failed to unlock frames")
     }
 }
