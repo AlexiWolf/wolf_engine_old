@@ -18,14 +18,14 @@ use crate::{Frames, Ticks};
 /// let a = GameLoopInfo::new();
 /// let b = &a;
 /// 
-/// # assert_eq!(a.ticks(), 0);
-/// # assert_eq!(a.frames(), 0);
+/// # assert_eq!(a.ticks(), 0, "The tick count does not start at 0");
+/// # assert_eq!(a.frames(), 0, "The frame count does not start at 0");
 /// #
 /// a.add_tick();
 /// a.add_frame();
 /// 
-/// assert_eq!(b.ticks(), 1);
-/// assert_eq!(b.frames(), 1);
+/// assert_eq!(b.ticks(), 1, "Changes in a's tick count are not reflected in b");
+/// assert_eq!(b.frames(), 1, "Changes in a's frame count are not reflected in b");
 /// ```
 pub struct GameLoopInfo {
     ticks: Arc<Mutex<Ticks>>,
