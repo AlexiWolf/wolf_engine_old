@@ -1,3 +1,7 @@
+use std::sync::{Arc, Mutex};
+
+use crate::{Frames, Ticks};
+
 /// Safely stores information about a [GameLoop](create::GameLoop).
 /// 
 /// The main idea is the GameLoopInfo acts as a bridge between the [GameLoop](create::GameLoop), and the
@@ -20,10 +24,21 @@
 /// # assert_eq!(b.frames(), 0);
 /// ```
 #[derive(Clone, Copy)]
-pub struct GameLoopInfo;
+pub struct GameLoopInfo {
+    ticks: Arc<Mutex<Ticks>>,
+    frames: Arc<Mutex<Frames>>
+}
 
 impl GameLoopInfo {
     pub fn new() -> Self {
         Self
+    }
+
+    fn ticks(&self) -> Ticks {
+        self.ticks.lock().expect("Failed to unlock ticks")
+    }
+
+    fn frames(&self) -> Frames {
+        self.frames.lock().expect("Failed to unlock frames")
     }
 }
