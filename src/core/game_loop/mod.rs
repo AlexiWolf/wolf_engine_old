@@ -107,4 +107,7 @@ pub trait GameLoop: Display {
 
     /// Access the number of frames tha have been rendered.
     fn frames(&self) -> Frames;
+
+    /// Access the [GameLoopInfo] instance.
+    fn game_loop_info(&self) -> &GameLoopInfo;
 }
