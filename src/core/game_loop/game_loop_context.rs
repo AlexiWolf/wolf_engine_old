@@ -20,8 +20,6 @@ use crate::{Frames, Ticks};
 /// 
 /// # assert_eq!(a.ticks(), 0);
 /// # assert_eq!(a.frames(), 0);
-/// # assert_eq!(b.ticks(), 0);
-/// # assert_eq!(b.frames(), 0);
 /// ```
 pub struct GameLoopInfo {
     ticks: Arc<Mutex<Ticks>>,
