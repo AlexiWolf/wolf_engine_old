@@ -2,9 +2,9 @@ use std::sync::{Arc, Mutex};
 
 use crate::{Frames, Ticks};
 
-/// Safely stores information about a [GameLoop](create::GameLoop).
+/// Safely stores information about a [GameLoop](crate::GameLoop).
 ///
-/// The main idea is the GameLoopInfo acts as a bridge between the [GameLoop](create::GameLoop), and the
+/// The main idea is the GameLoopInfo acts as a bridge between the [GameLoop](crate::GameLoop), and the
 /// [GameLoopContext] instance.  It uses interior mutability to safely allow the game loop to update the information 
 /// while while the context reads from it.
 ///
