@@ -2,7 +2,7 @@ use std::sync::{Arc, Mutex};
 
 use crate::{Frames, Ticks};
 
-/// Safely exposes mutable information about a [GameLoop](crate::GameLoop).
+/// Provides a safe interface for sharing mutable information about a [GameLoop](crate::GameLoop).
 ///
 /// The main idea is the GameLoopInfo acts as a bridge between the [GameLoop](crate::GameLoop), and the
 /// [GameLoopContext](crate::GameLoopContext) instance.  It uses interior mutability to safely allow the game loop to 
