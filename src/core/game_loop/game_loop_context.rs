@@ -28,7 +28,10 @@ pub struct GameLoopInfo {
 
 impl GameLoopInfo {
     pub fn new() -> Self {
-        Self
+        Self {
+            ticks: Arc::from(Mutex::from(0)),
+            frames: Arc::from(Mutex::from(0))
+        }
     }
 
     fn ticks(&self) -> Ticks {
