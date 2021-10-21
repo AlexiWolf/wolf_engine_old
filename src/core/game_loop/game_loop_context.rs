@@ -14,3 +14,9 @@
 /// let info = GameLoopInfo::new();
 /// ```
 pub struct GameLoopInfo;
+
+impl GameLoopInfo {
+    pub fn new() -> Self {
+        Self
+    }
+}
