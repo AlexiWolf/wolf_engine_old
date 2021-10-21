@@ -27,6 +27,16 @@ use crate::{Frames, Ticks};
 /// assert_eq!(b.ticks(), 1, "Changes in a's tick count are not reflected in b");
 /// assert_eq!(b.frames(), 1, "Changes in a's frame count are not reflected in b");
 /// ```
+/// 
+/// Alternatively, you can get the [Default] instance.
+/// 
+/// ```
+/// # use wolf_engine::GameLoopInfo;
+/// #
+/// let a = GameLoopInfo::default();
+/// // or
+/// let b = Default::default();
+/// ```
 pub struct GameLoopInfo {
     ticks: Arc<Mutex<Ticks>>,
     frames: Arc<Mutex<Frames>>,
