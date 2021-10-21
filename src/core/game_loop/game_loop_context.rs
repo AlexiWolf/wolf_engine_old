@@ -11,7 +11,8 @@
 /// ```
 /// # use wolf_engine::GameLoopInfo;
 /// #
-/// let info = GameLoopInfo::new();
+/// let a = GameLoopInfo::new();
+/// let b = a.copy();
 /// ```
 pub struct GameLoopInfo;
 
