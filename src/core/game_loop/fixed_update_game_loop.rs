@@ -155,6 +155,10 @@ impl GameLoop for FixedUpdateGameLoop {
     fn frames(&self) -> Frames {
         self.frames
     }
+
+    fn game_loop_info(&self) -> &crate::GameLoopInfo {
+        todo!()
+    }
 }
 
 impl Display for FixedUpdateGameLoop {
