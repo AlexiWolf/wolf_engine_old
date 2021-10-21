@@ -14,6 +14,7 @@
 /// let a = GameLoopInfo::new();
 /// let b = a.copy();
 /// ```
+#[derive(Clone, Copy)]
 pub struct GameLoopInfo;
 
 impl GameLoopInfo {
