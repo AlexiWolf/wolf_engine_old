@@ -40,7 +40,7 @@ pub type Frames = u64;
 /// Wolf Engine also fully supports using a custom `GameLoop`.  Simply implement this trait.
 ///
 /// ```
-/// use wolf_engine::{GameLoop, Context, LoopResult};
+/// use wolf_engine::{GameLoop, GameLoopInfo, Context, LoopResult};
 /// # use wolf_engine::{Frames, Ticks};
 /// # use std::fmt::{Display, Formatter};
 ///
@@ -64,6 +64,11 @@ pub type Frames = u64;
 ///#     fn frames(&self) -> Frames {
 ///#         0
 ///#     }
+///#
+///#     fn game_loop_info(&self) -> &GameLoopInfo {
+///#        todo!()
+///#     }
+///
 /// }
 ///# impl Display for MyGameLoop {
 ///#     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {

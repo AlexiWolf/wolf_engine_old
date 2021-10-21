@@ -1,4 +1,4 @@
-use crate::{Context, Frames, GameLoop, LoopResult, Ticks};
+use crate::{Context, Frames, GameLoop, GameLoopInfo, LoopResult, Ticks};
 use std::fmt::{Display, Formatter};
 use std::time::{Duration, Instant};
 
@@ -71,22 +71,21 @@ pub struct FixedUpdateGameLoop {
     update_time: Duration,
     previous_update: Instant,
     lag: Duration,
-    ticks: Ticks,
-    frames: Frames,
+    game_loop_info: GameLoopInfo
 }
 
 impl FixedUpdateGameLoop {
     pub fn new() -> Self {
         let now = Instant::now();
         let zero = Duration::from_secs(0);
+        let game_loop_info = GameLoopInfo::new();
         Self {
             tps: 120.0,
             max_update_time: Duration::from_millis(100),
             update_time: zero,
             previous_update: now,
             lag: zero,
-            ticks: 0,
-            frames: 0,
+            game_loop_info
         }
     }
 
@@ -136,7 +135,7 @@ impl GameLoop for FixedUpdateGameLoop {
             let tick_duration = Instant::now() - tick_start;
             self.update_time += tick_duration;
             self.lag -= self.time_step();
-            self.ticks += 1;
+            self.game_loop_info.add_tick()
         }
     }
 
@@ -145,19 +144,19 @@ impl GameLoop for FixedUpdateGameLoop {
         F: FnMut(&mut Context),
     {
         render_function(context);
-        self.frames += 1;
+        self.game_loop_info().add_frame();
     }
 
     fn ticks(&self) -> Ticks {
-        self.ticks
+        self.game_loop_info.ticks()
     }
 
     fn frames(&self) -> Frames {
-        self.frames
+        self.game_loop_info.frames()
     }
 
     fn game_loop_info(&self) -> &crate::GameLoopInfo {
-        todo!()
+        &self.game_loop_info
     }
 }
 
@@ -166,8 +165,8 @@ impl Display for FixedUpdateGameLoop {
         write!(
             f,
             "Frames: {}, Ticks: {}, Lag: {}ms",
-            self.frames,
-            self.ticks,
+            self.game_loop_info.frames(),
+            self.game_loop_info.ticks(),
             self.lag.as_millis()
         )
     }
