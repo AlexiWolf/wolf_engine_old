@@ -1,4 +1,4 @@
-use crate::GameLoopInfo;
+use crate::{Frames, GameLoopInfo, Ticks};
 
 /// Provides access to information and controls for the [GameLoop](crate::GameLoop).
 /// 
@@ -24,4 +24,14 @@ impl GameLoopContext {
     pub fn from_game_loop_info(_game_loop_info: &GameLoopInfo) -> Self {
         Self
     }
+
+    pub fn ticks(&self) -> Ticks {
+        0
+    }
+    
+
+    pub fn frames(&self) -> Frames {
+        0
+    }
+    
 }
