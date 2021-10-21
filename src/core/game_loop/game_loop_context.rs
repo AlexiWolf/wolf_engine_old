@@ -18,9 +18,6 @@
 /// # assert_eq!(a.frames(), 0);
 /// # assert_eq!(b.ticks(), 0)
 /// # assert_eq!(b.frames(), 0)
-/// #
-/// a.add_tick();
-/// a.add_frame();
 /// ```
 #[derive(Clone, Copy)]
 pub struct GameLoopInfo;
