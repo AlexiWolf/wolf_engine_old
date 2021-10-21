@@ -1,5 +1,3 @@
-use crate::GameLoop;
-
 /// Provides access to information and controls for the [GameLoop](crate::GameLoop).
 /// 
 /// # Examples
