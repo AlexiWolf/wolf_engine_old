@@ -1,7 +1,7 @@
 use crate::{Context, FixedUpdateGameLoop, GameLoop};
 
 /// The main entry-point for the engine.  Start here!
-/// 
+///
 /// This struct provides the core of the engine, it has a [GameLoop], and a [Context].  The engine
 /// runs the main loop and uses the methods provided by the [GameLoop] to control how the update
 /// and render functions are called.  
