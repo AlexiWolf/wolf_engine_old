@@ -30,12 +30,11 @@ impl<'a> GameLoopContext<'a> {
     }
 
     pub fn ticks(&self) -> Ticks {
-        0
+        self.game_loop_info.ticks()
     }
     
 
     pub fn frames(&self) -> Frames {
-        0
+        self.game_loop_info.frames()
     }
-    
 }
