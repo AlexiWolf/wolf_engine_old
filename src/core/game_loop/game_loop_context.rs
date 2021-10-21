@@ -1,5 +1,3 @@
-use std::sync::{Arc, Mutex};
-
 /// Safely stores information about a [GameLoop](create::GameLoop).
 /// 
 /// The main idea is the GameLoopInfo acts as a bridge between the [GameLoop](create::GameLoop), and the
