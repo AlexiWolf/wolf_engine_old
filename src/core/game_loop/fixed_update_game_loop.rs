@@ -2,7 +2,7 @@ use crate::{Context, Frames, GameLoop, LoopResult, Ticks};
 use std::fmt::{Display, Formatter};
 use std::time::{Duration, Instant};
 
-/// Represents the number of ticks per second.
+/// Represents the number of ticks in a second (tps.)
 pub type TickRate = f64;
 
 /// Provides a [GameLoop] with consistent fixed-time-step updates, and variable rendering.
