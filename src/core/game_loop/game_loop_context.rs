@@ -18,11 +18,15 @@ use crate::{Frames, GameLoopInfo, Ticks};
 /// assert_eq!(game_loop_context.ticks(), 1);
 /// assert_eq!(game_loop_context.frames(), 1);
 /// ```
-pub struct GameLoopContext;
+pub struct GameLoopContext<'a> {
+    game_loop_info: &'a GameLoopInfo
+}
 
-impl GameLoopContext {
-    pub fn from_game_loop_info(_game_loop_info: &GameLoopInfo) -> Self {
-        Self
+impl<'a> GameLoopContext<'a> {
+    pub fn from_game_loop_info(game_loop_info: &'a GameLoopInfo) -> Self {
+        Self {
+            game_loop_info
+        }
     }
 
     pub fn ticks(&self) -> Ticks {
