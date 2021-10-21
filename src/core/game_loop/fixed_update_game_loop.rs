@@ -3,7 +3,7 @@ use std::fmt::{Display, Formatter};
 use std::time::{Duration, Instant};
 
 /// Represents the number of ticks per second.
-pub type TicksPerSecond = f64;
+pub type TickRate = f64;
 
 /// Provides a [GameLoop] with consistent fixed-time-step updates, and variable rendering.
 ///
@@ -66,7 +66,7 @@ pub type TicksPerSecond = f64;
 /// ```
 ///
 pub struct FixedUpdateGameLoop {
-    tps: TicksPerSecond,
+    tps: TickRate,
     max_update_time: Duration,
     update_time: Duration,
     previous_update: Instant,
@@ -90,7 +90,7 @@ impl FixedUpdateGameLoop {
         }
     }
 
-    pub fn tps(&self) -> TicksPerSecond {
+    pub fn tps(&self) -> TickRate {
         self.tps
     }
 
@@ -187,7 +187,7 @@ impl FixedUpdateGameLoopBuilder {
         }
     }
 
-    pub fn with_tps(mut self, tps: TicksPerSecond) -> Self {
+    pub fn with_tps(mut self, tps: TickRate) -> Self {
         self.game_loop.tps = tps;
         self
     }
