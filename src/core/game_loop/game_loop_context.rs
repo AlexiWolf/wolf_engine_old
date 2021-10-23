@@ -11,23 +11,19 @@ use crate::{Frames, GameLoopInfo, Ticks};
 /// #
 /// let game_loop_context = GameLoopContext::new();
 /// ```
-pub struct GameLoopContext<'a> {
-    game_loop_info: &'a GameLoopInfo
-}
+pub struct GameLoopContext;
 
-impl<'a> GameLoopContext<'a> {
-    pub fn from_game_loop_info(game_loop_info: &'a GameLoopInfo) -> Self {
-        Self {
-            game_loop_info
-        }
+impl GameLoopContext {
+    pub fn new() -> Self {
+        Self
     }
 
     pub fn ticks(&self) -> Ticks {
-        self.game_loop_info.ticks()
+        0
     }
     
 
     pub fn frames(&self) -> Frames {
-        self.game_loop_info.frames()
+        0
     }
 }
