@@ -305,7 +305,7 @@ mod fixed_update_game_loop_tests {
         thread::sleep(Duration::from_millis(1000 / fps));
         game_loop.update(&mut context, |_| {});
 
-        game_loop.ticks()
+        context.game_loop.ticks()
     }
 
     #[test]
@@ -317,7 +317,7 @@ mod fixed_update_game_loop_tests {
         }
 
         assert_eq!(
-            game_loop.frames(),
+            context.game_loop.frames(),
             10,
             "The game loop should have counted 10 frames.",
         )
