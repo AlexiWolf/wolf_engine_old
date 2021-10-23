@@ -61,18 +61,18 @@ impl GameLoopContext {
     }
 
     pub fn add_tick(&self) {
-        
+        *self.ticks.lock().unwrap() += 1;
     }
 
     pub fn ticks(&self) -> Ticks {
-        0
+        *self.ticks.lock().unwrap()
     }
     
     pub fn add_frame(&self) {
-
+        *self.frames.lock().unwrap() += 1;
     }
 
     pub fn frames(&self) -> Frames {
-        0
+        *self.frames.lock().unwrap()
     }
 }
