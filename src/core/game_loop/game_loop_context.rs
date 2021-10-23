@@ -4,19 +4,12 @@ use crate::{Frames, GameLoopInfo, Ticks};
 /// 
 /// # Examples
 /// 
-/// The only way to create a game loop context is from [GameLoop](crate::GameLoop) instance.
+/// The GameLoopContext can be created directly using the new method.
 /// 
 /// ```
-/// # use wolf_engine::{GameLoopContext, FixedUpdateGameLoopBuilder, GameLoop};
+/// # use wolf_engine::GameLoopContext;
 /// #
-/// # let game_loop = FixedUpdateGameLoopBuilder::new().build();
-/// # game_loop.game_loop_info().add_tick();
-/// # game_loop.game_loop_info().add_frame();
-/// #
-/// let game_loop_context = GameLoopContext::from_game_loop_info(&game_loop.game_loop_info());
-/// 
-/// assert_eq!(game_loop_context.ticks(), 1);
-/// assert_eq!(game_loop_context.frames(), 1);
+/// let game_loop_context = GameLoopContext::new();
 /// ```
 pub struct GameLoopContext<'a> {
     game_loop_info: &'a GameLoopInfo
