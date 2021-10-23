@@ -1,3 +1,5 @@
+use std::sync::{Arc, Mutex};
+
 use crate::{Frames, Ticks};
 
 /// Provides access to information and controls for the [GameLoop](crate::GameLoop).
@@ -45,11 +47,17 @@ use crate::{Frames, Ticks};
 /// # assert_eq!(game_loop_context.ticks(), 1, "1 tick should have been added");
 /// # assert_eq!(game_loop_context.frames(), 1, "1 frame should have been added");
 /// ```
-pub struct GameLoopContext;
+pub struct GameLoopContext {
+    ticks: Arc<Mutex<Ticks>>,
+    frames: Arc<Mutex<Frames>>
+}
 
 impl GameLoopContext {
     pub fn new() -> Self {
-        Self
+        Self {
+            ticks: Arc::from(Mutex::from(0)),
+            frames: Arc::from(Mutex::from(0))
+        }
     }
 
     pub fn add_tick(&self) {
