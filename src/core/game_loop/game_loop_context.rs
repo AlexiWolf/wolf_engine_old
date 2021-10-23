@@ -1,4 +1,4 @@
-use crate::{Frames, GameLoopInfo, Ticks};
+use crate::{Frames, Ticks};
 
 /// Provides access to information and controls for the [GameLoop](crate::GameLoop).
 /// 
