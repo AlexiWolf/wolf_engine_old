@@ -25,8 +25,8 @@ use crate::{Frames, Ticks};
 /// 
 /// Tick and frame information can be added to the context.  
 /// 
-/// **Note:** These method are only intended for the [GameLoop] and other parts of the engine. If
-/// you are not providing a custom game loop, you **should not** touch these.
+/// **Note:** These method are only intended for the [GameLoop](crate::GameLoop) and other parts of 
+/// the engine. If you are not providing a custom game loop, you **should not** touch these.
 /// 
 /// ```
 /// # use wolf_engine::GameLoopContext;
@@ -61,7 +61,7 @@ impl GameLoopContext {
     }
     
     pub fn add_frame(&self) {
-        
+
     }
 
     pub fn frames(&self) -> Frames {
