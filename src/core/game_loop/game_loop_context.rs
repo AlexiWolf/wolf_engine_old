@@ -52,10 +52,17 @@ impl GameLoopContext {
         Self
     }
 
+    pub fn add_tick(&self) {
+        
+    }
+
     pub fn ticks(&self) -> Ticks {
         0
     }
     
+    pub fn add_frame(&self) {
+        
+    }
 
     pub fn frames(&self) -> Frames {
         0
