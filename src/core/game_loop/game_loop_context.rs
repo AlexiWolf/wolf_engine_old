@@ -12,7 +12,7 @@ use crate::{Frames, Ticks};
 /// let game_loop_context = GameLoopContext::new();
 /// ```
 /// 
-/// Once created, the GameLoopContext exposes information about the [GameLoop].
+/// Once created, the GameLoopContext exposes information about the [GameLoop](crate::GameLoop).
 /// 
 /// ```
 /// # use wolf_engine::GameLoopContext;
