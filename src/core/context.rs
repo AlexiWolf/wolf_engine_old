@@ -4,3 +4,17 @@ use crate::GameLoopContext;
 pub struct Context {
     pub game_loop: GameLoopContext,
 }
+
+pub struct ContextBuilder;
+
+impl ContextBuilder {
+    pub fn new() -> Self {
+        Self
+    }
+
+    pub fn build() -> Context {
+        Context {
+            game_loop: GameLoopContext::new()
+        }
+    }
+}
