@@ -1,4 +1,4 @@
-use crate::{Context, FixedUpdateGameLoop, GameLoop};
+use crate::{Context, ContextBuilder, FixedUpdateGameLoop, GameLoop};
 
 /// The main entry-point for the engine.  Start here!
 ///
