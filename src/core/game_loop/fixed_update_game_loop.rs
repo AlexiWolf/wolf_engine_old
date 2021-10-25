@@ -202,7 +202,6 @@ mod fixed_update_game_loop_tests {
     #[test_case(80, 0; "with 80 ms of lag")]
     #[test_case(8, 0; "with 8 ms of lag")]
     #[test_case(8, 99; "with 99 ms of update time")]
-    #[test_case(8, 100; "with 100 ms of update time")]
     fn should_update(lag: u64, update_time: u64) {
         let (game_loop, _) = test_game_loop(lag, update_time);
         assert!(
