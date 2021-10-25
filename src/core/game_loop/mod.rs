@@ -106,13 +106,4 @@ pub trait GameLoop: Display {
     fn render<F>(&mut self, context: &mut Context, render_function: F) -> LoopResult
     where
         F: FnMut(&mut Context) -> LoopResult;
-
-    /// Access the number of ticks that have been performed.
-    fn ticks(&self) -> Ticks;
-
-    /// Access the number of frames tha have been rendered.
-    fn frames(&self) -> Frames;
-
-    /// Access the [GameLoopInfo] instance.
-    fn game_loop_info(&self) -> &GameLoopInfo;
 }
