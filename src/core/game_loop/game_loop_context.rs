@@ -3,19 +3,19 @@ use std::sync::{Arc, Mutex};
 use crate::{Frames, Ticks};
 
 /// Provides access to information and controls for the [GameLoop](crate::GameLoop).
-/// 
+///
 /// # Examples
-/// 
+///
 /// The GameLoopContext can be created directly using the new method.
-/// 
+///
 /// ```
 /// # use wolf_engine::GameLoopContext;
 /// #
 /// let game_loop_context = GameLoopContext::new();
 /// ```
-/// 
+///
 /// Once created, the GameLoopContext exposes information about the [GameLoop](crate::GameLoop).
-/// 
+///
 /// ```
 /// # use wolf_engine::GameLoopContext;
 /// #
@@ -24,12 +24,12 @@ use crate::{Frames, Ticks};
 /// game_loop_context.ticks();
 /// game_loop_context.frames();
 /// ```
-/// 
+///
 /// Tick and frame information can be added to the context.  
-/// 
-/// **Note:** These method are only intended for the [GameLoop](crate::GameLoop) and other parts of 
+///
+/// **Note:** These method are only intended for the [GameLoop](crate::GameLoop) and other parts of
 /// the engine. If you are not providing a custom game loop, you **should not** touch these.
-/// 
+///
 /// ```
 /// # use wolf_engine::GameLoopContext;
 /// #
@@ -49,14 +49,14 @@ use crate::{Frames, Ticks};
 /// ```
 pub struct GameLoopContext {
     ticks: Arc<Mutex<Ticks>>,
-    frames: Arc<Mutex<Frames>>
+    frames: Arc<Mutex<Frames>>,
 }
 
 impl GameLoopContext {
     pub fn new() -> Self {
         Self {
             ticks: Arc::from(Mutex::from(0)),
-            frames: Arc::from(Mutex::from(0))
+            frames: Arc::from(Mutex::from(0)),
         }
     }
 
@@ -67,7 +67,7 @@ impl GameLoopContext {
     pub fn ticks(&self) -> Ticks {
         *self.ticks.lock().unwrap()
     }
-    
+
     pub fn add_frame(&self) {
         *self.frames.lock().unwrap() += 1;
     }

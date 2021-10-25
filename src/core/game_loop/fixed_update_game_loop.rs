@@ -147,11 +147,7 @@ impl GameLoop for FixedUpdateGameLoop {
 
 impl Display for FixedUpdateGameLoop {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "Lag: {}ms",
-            self.lag.as_millis()
-        )
+        write!(f, "Lag: {}ms", self.lag.as_millis())
     }
 }
 
@@ -313,8 +309,7 @@ mod fixed_update_game_loop_tests {
         let mut game_loop = FixedUpdateGameLoopBuilder::new().build();
         game_loop.lag = Duration::from_millis(artificial_lag);
         game_loop.update_time = Duration::from_millis(artificial_update_time);
-        let context = ContextBuilder::new()
-            .build();
+        let context = ContextBuilder::new().build();
         (game_loop, context)
     }
 }

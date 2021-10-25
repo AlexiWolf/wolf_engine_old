@@ -5,7 +5,7 @@ use crate::{Frames, Ticks};
 /// Provides a safe interface for sharing mutable information about a [GameLoop](crate::GameLoop).
 ///
 /// The main idea is the GameLoopInfo acts as a bridge between the [GameLoop](crate::GameLoop), and the
-/// [GameLoopContext](crate::GameLoopContext) instance.  It uses interior mutability to safely allow the game loop to 
+/// [GameLoopContext](crate::GameLoopContext) instance.  It uses interior mutability to safely allow the game loop to
 /// update the information while while the context reads from it.
 ///
 /// # Examples
@@ -27,9 +27,9 @@ use crate::{Frames, Ticks};
 /// assert_eq!(b.ticks(), 1, "Changes in a's tick count are not reflected in b");
 /// assert_eq!(b.frames(), 1, "Changes in a's frame count are not reflected in b");
 /// ```
-/// 
+///
 /// Alternatively, you can get the [Default] instance.
-/// 
+///
 /// ```
 /// # use wolf_engine::GameLoopInfo;
 /// #
