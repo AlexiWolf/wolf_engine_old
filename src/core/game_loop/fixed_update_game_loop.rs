@@ -93,15 +93,19 @@ impl FixedUpdateGameLoop {
     pub fn max_update_time(&self) -> Duration {
         self.max_update_time
     }
-
-    /// Indicates if the loop can run more ticks.
-    ///
-    /// If the accumulated lag is greater than the tick time-step, then this will return true.
-    /// If the current time spent in `update` is greater than the max allowed time, false is
-    /// returned.
+  
     pub fn can_update(&self) -> bool {
-        self.lag >= self.time_step() && self.update_time < self.max_update_time
+        self.lag_is_greater_than_time_step() && self.has_not_exceeded_max_update_time()
     }
+
+    fn lag_is_greater_than_time_step(&self) -> bool {
+        self.lag >= self.time_step()
+    }
+
+    fn has_not_exceeded_max_update_time(&self) -> bool {
+        self.update_time < self.max_update_time
+    }
+
 
     fn time_step(&self) -> Duration {
         Duration::from_millis((1000.0 / self.tps).round() as u64)
