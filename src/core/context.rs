@@ -12,7 +12,7 @@ impl ContextBuilder {
         Self
     }
 
-    pub fn build() -> Context {
+    pub fn build(self) -> Context {
         Context {
             game_loop: GameLoopContext::new()
         }
