@@ -41,7 +41,6 @@ pub type Frames = u64;
 ///
 /// ```
 /// use wolf_engine::{GameLoop, GameLoopInfo, Context, LoopResult};
-/// # use wolf_engine::{Frames, Ticks};
 /// # use std::fmt::{Display, Formatter};
 ///
 /// pub struct MyGameLoop;
@@ -56,18 +55,6 @@ pub type Frames = u64;
 ///     where F: FnMut(&mut Context) -> LoopResult {
 ///         render_function(context)
 ///     }
-///#
-///#     fn ticks(&self) -> Ticks {
-///#         0
-///#     }
-///#
-///#     fn frames(&self) -> Frames {
-///#         0
-///#     }
-///#
-///#     fn game_loop_info(&self) -> &GameLoopInfo {
-///#        todo!()
-///#     }
 ///
 /// }
 ///# impl Display for MyGameLoop {
