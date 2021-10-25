@@ -214,7 +214,7 @@ impl Default for FixedUpdateGameLoopBuilder {
 #[cfg(test)]
 mod fixed_update_game_loop_tests {
     use super::*;
-    use crate::Context;
+    use crate::{Context, ContextBuilder};
     use std::sync::{Arc, Mutex};
     use std::thread;
     use test_case::test_case;
@@ -330,7 +330,8 @@ mod fixed_update_game_loop_tests {
         let mut game_loop = FixedUpdateGameLoopBuilder::new().build();
         game_loop.lag = Duration::from_millis(artificial_lag);
         game_loop.update_time = Duration::from_millis(artificial_update_time);
-        let context = Context;
+        let context = ContextBuilder::new()
+            .build();
         (game_loop, context)
     }
 }
