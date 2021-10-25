@@ -100,7 +100,7 @@ impl FixedUpdateGameLoop {
     /// If the current time spent in `update` is greater than the max allowed time, false is
     /// returned.
     pub fn can_update(&self) -> bool {
-        self.lag >= self.time_step() && self.update_time <= self.max_update_time
+        self.lag >= self.time_step() && self.update_time < self.max_update_time
     }
 
     fn time_step(&self) -> Duration {
