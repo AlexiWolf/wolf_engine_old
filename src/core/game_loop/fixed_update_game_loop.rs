@@ -1,4 +1,4 @@
-use crate::{Context, Frames, GameLoop, GameLoopInfo, LoopResult, Ticks};
+use crate::{Context, GameLoop, LoopResult};
 use std::fmt::{Display, Formatter};
 use std::time::{Duration, Instant};
 
@@ -71,21 +71,18 @@ pub struct FixedUpdateGameLoop {
     update_time: Duration,
     previous_update: Instant,
     lag: Duration,
-    game_loop_info: GameLoopInfo
 }
 
 impl FixedUpdateGameLoop {
     pub fn new() -> Self {
         let now = Instant::now();
         let zero = Duration::from_secs(0);
-        let game_loop_info = GameLoopInfo::new();
         Self {
             tps: 120.0,
             max_update_time: Duration::from_millis(100),
             update_time: zero,
             previous_update: now,
             lag: zero,
-            game_loop_info
         }
     }
 
@@ -135,7 +132,7 @@ impl GameLoop for FixedUpdateGameLoop {
             let tick_duration = Instant::now() - tick_start;
             self.update_time += tick_duration;
             self.lag -= self.time_step();
-            self.game_loop_info.add_tick()
+            context.game_loop.add_tick();
         }
     }
 
@@ -144,19 +141,7 @@ impl GameLoop for FixedUpdateGameLoop {
         F: FnMut(&mut Context),
     {
         render_function(context);
-        self.game_loop_info().add_frame();
-    }
-
-    fn ticks(&self) -> Ticks {
-        self.game_loop_info.ticks()
-    }
-
-    fn frames(&self) -> Frames {
-        self.game_loop_info.frames()
-    }
-
-    fn game_loop_info(&self) -> &crate::GameLoopInfo {
-        &self.game_loop_info
+        context.game_loop.add_frame();
     }
 }
 
@@ -164,9 +149,7 @@ impl Display for FixedUpdateGameLoop {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
-            "Frames: {}, Ticks: {}, Lag: {}ms",
-            self.game_loop_info.frames(),
-            self.game_loop_info.ticks(),
+            "Lag: {}ms",
             self.lag.as_millis()
         )
     }
@@ -214,7 +197,7 @@ impl Default for FixedUpdateGameLoopBuilder {
 #[cfg(test)]
 mod fixed_update_game_loop_tests {
     use super::*;
-    use crate::{Context, ContextBuilder};
+    use crate::{Context, ContextBuilder, Ticks};
     use std::sync::{Arc, Mutex};
     use std::thread;
     use test_case::test_case;
@@ -258,7 +241,7 @@ mod fixed_update_game_loop_tests {
             thread::sleep(Duration::from_millis(tick_delay));
         });
 
-        game_loop.ticks()
+        context.game_loop.ticks()
     }
 
     #[test]
