@@ -1,10 +1,8 @@
 mod fixed_update_game_loop;
 mod game_loop_context;
-mod game_loop_info;
 
 pub use fixed_update_game_loop::*;
 pub use game_loop_context::*;
-pub use game_loop_info::*;
 
 use crate::Context;
 use std::fmt::Display;
@@ -40,7 +38,7 @@ pub type Frames = u64;
 /// Wolf Engine also fully supports using a custom `GameLoop`.  Simply implement this trait.
 ///
 /// ```
-/// use wolf_engine::{GameLoop, GameLoopInfo, Context, LoopResult};
+/// use wolf_engine::{GameLoop, Context, LoopResult};
 /// # use std::fmt::{Display, Formatter};
 ///
 /// pub struct MyGameLoop;
