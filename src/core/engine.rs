@@ -1,4 +1,4 @@
-use crate::{Context, FixedUpdateGameLoop, GameLoop};
+use crate::{Context, FixedUpdateGameLoop, FixedUpdateGameLoopBuilder, GameLoop};
 
 /// Provides the core functionality of the engine.
 /// 
@@ -109,7 +109,13 @@ impl WolfEngineBuilder<FixedUpdateGameLoop> {
         Self {
             game_loop: Default::default()
         }
-    }    
+    }
+
+    pub fn with_fixed_game_loop(game_loop: FixedUpdateGameLoop) -> Self{
+        Self {
+            game_loop
+        }
+    }
 }
 
 impl<Loop: GameLoop> WolfEngineBuilder<Loop> {
