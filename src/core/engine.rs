@@ -10,14 +10,29 @@ use crate::{Context, ContextBuilder, FixedUpdateGameLoop, GameLoop};
 /// else should live on the [Context] object instead.
 /// 
 /// # Examples
-///
-/// Using the default game loop.
+/// 
+/// Initializing the Engine.
+/// 
+/// First, start by initializing a [Context] using the [ContextBuilder].
 ///
 /// ```
-/// # use wolf_engine::{WolfEngine, WolfEngineBuilder, FixedUpdateGameLoop};
+/// # use wolf_engine::ContextBuilder;
 /// #
-/// let engine: WolfEngine<FixedUpdateGameLoop> = WolfEngineBuilder::with_default_game_loop()
+/// let context = ContextBuilder::new()
 ///     .build();
+///```
+/// 
+/// Then you can build and instance of the engine using the [WolfEngineBuilder].  The `build()` 
+/// method will take ownership over the [Context].
+/// 
+/// ```
+/// # use wolf_engine::{ContextBuilder, WolfEngineBuilder};
+/// #
+/// # let context = ContextBuilder::new()
+/// #    .build(); 
+/// #
+/// let engine = WolfEngineBuilder::with_fixed_game_loop()
+///     .build(context);
 /// ```
 ///
 /// To run the engine, you provide the `update` and `render` functions for your game.  The engine
@@ -27,7 +42,7 @@ use crate::{Context, ContextBuilder, FixedUpdateGameLoop, GameLoop};
 /// ```
 /// # use wolf_engine::{WolfEngine, WolfEngineBuilder, FixedUpdateGameLoop};
 /// #
-/// # let engine: WolfEngine<FixedUpdateGameLoop> = WolfEngineBuilder::with_default_game_loop()
+/// # let engine: WolfEngine<FixedUpdateGameLoop> = WolfEngineBuilder::with_fixed_game_loop()
 /// #    .build();
 /// #
 /// engine.run(
