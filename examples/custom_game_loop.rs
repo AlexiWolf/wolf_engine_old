@@ -52,8 +52,8 @@ impl GameLoop for CustomGameLoop {
 
 impl Display for CustomGameLoop {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        // Sometimes, game loops store information, and it can be helpful for debugging to display
-        // that information.  This is Optional, but encouraged.
+        // Sometimes game loops store information, and it can be helpful for debugging to display
+        // that information.  This is optional, but encouraged.
         write!(f, "Custom Game Loop - {} ticks, {} frames", self.ticks, self.frames)
     }
 }
