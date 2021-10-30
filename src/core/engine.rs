@@ -54,6 +54,23 @@ use crate::{Context, FixedUpdateGameLoop, FixedUpdateGameLoopBuilder, GameLoop};
 ///     .build(context);
 /// ```
 /// 
+/// Alternatively, you can use a custom [GameLoop] implementation by using the 
+/// `WolfEngineBuilder::with_custom_game_loop()` method.
+/// 
+/// ```
+/// # use wolf_engine::{ContextBuilder, WolfEngineBuilder, FixedUpdateGameLoopBuilder};
+/// #
+/// # let context = ContextBuilder::new()
+/// #    .build(); 
+/// #
+/// # // For demonstrational purposes, this game loop will work, but it can be any GameLoop.
+/// # let custom_game_loop = FixedUpdateGameLoopBuilder::new()
+/// #   .build();
+/// #
+/// let engine = WolfEngineBuilder::with_custom_game_loop(custom_game_loop)
+///     .build(context);
+/// ```
+/// 
 /// To run the engine, you provide the `update` and `render` functions for your game.  The engine
 /// will use the [GameLoop] to manage how the functions are called.  The engine will take ownership
 /// over itself and run until the game quits.
