@@ -23,7 +23,10 @@ use crate::{Context, FixedUpdateGameLoop, GameLoop};
 ///```
 /// 
 /// Then you can build and instance of the engine using the [WolfEngineBuilder].  The `build()` 
-/// method will take ownership over the [Context].
+/// method will take ownership over the [Context]. 
+/// 
+/// Using the `with_default_game_loop()` method will give you the default [FixedUpdateGameLoop].
+/// The default settings should be okay for most games.
 /// 
 /// ```
 /// # use wolf_engine::{ContextBuilder, WolfEngineBuilder};
@@ -34,7 +37,25 @@ use crate::{Context, FixedUpdateGameLoop, GameLoop};
 /// let engine = WolfEngineBuilder::with_fixed_game_loop()
 ///     .build(context);
 /// ```
-///
+/// 
+/// Alternatively, if you want to customize the [FixedUpdateGameLoop], you can build an instance
+/// yourself using the [FixedUpdateGameLoopBuilder](crate::FixedUpdateGameLoopBuilder), then pass
+/// it to `with_fixed_game_loop()`.
+/// 
+/// ```
+/// # use wolf_engine::{ContextBuilder, WolfEngineBuilder, FixedUpdateGameLoopBuilder};
+/// #
+/// # let context = ContextBuilder::new()
+/// #    .build(); 
+/// #
+/// let game_loop = FixedUpdateGameLoopBuilder::new()
+///     // Custom settings.
+///     .build();
+/// 
+/// let engine = WolfEngineBuilder::with_fixed_game_loop(game_loop)
+///     .build(context);
+/// ```
+/// 
 /// To run the engine, you provide the `update` and `render` functions for your game.  The engine
 /// will use the [GameLoop] to manage how the functions are called.  The engine will take ownership
 /// over itself and run until the game quits.
