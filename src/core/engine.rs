@@ -1,11 +1,14 @@
 use crate::{Context, ContextBuilder, FixedUpdateGameLoop, GameLoop};
 
-/// The main entry-point for the engine.  Start here!
-///
-/// This struct provides the core of the engine, it has a [GameLoop], and a [Context].  The engine
-/// runs the main loop and uses the methods provided by the [GameLoop] to control how the update
-/// and render functions are called.  
-///
+/// Provides the core functionality of the engine.
+/// 
+/// `WolfEngine` is, as the name suggests, the core of the game engine.  It provides some common
+/// behavior such as: Running the main loop (utilizing a [GameLoop] for timing control), cleanly
+/// shutting down, and holding ownership over the [Context] object.
+/// 
+/// The tries to only include functionality that is common to all `WolfEngine` projects.  Anything
+/// else should live on the [Context] object instead.
+/// 
 /// # Examples
 ///
 /// Using the default game loop.
@@ -57,7 +60,7 @@ impl<Loop: GameLoop> WolfEngine<Loop> {
     }
 }
 
-/// Builds an instance of [WolfEngine].
+/// Build an instance of [WolfEngine].
 pub struct WolfEngineBuilder<Loop: GameLoop> {
     engine: WolfEngine<Loop>,
 }
