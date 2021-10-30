@@ -9,7 +9,7 @@ use crate::{Context, FixedUpdateGameLoop, FixedUpdateGameLoopBuilder, GameLoop};
 /// The tries to only include functionality that is common to all `WolfEngine` projects.  Anything
 /// else should live on the [Context] object instead.
 /// 
-/// # Examples
+/// # Building an Engine Instance
 /// 
 /// To initialize the engine, start by initializing a [Context] using the 
 /// [ContextBuilder](crate::ContextBuilder).
@@ -54,6 +54,8 @@ use crate::{Context, FixedUpdateGameLoop, FixedUpdateGameLoopBuilder, GameLoop};
 ///     .build(context);
 /// ```
 /// 
+/// ## Custom Game Loops
+///  
 /// Alternatively, you can use a custom [GameLoop] implementation by using the 
 /// `WolfEngineBuilder::with_custom_game_loop()` method.
 /// 
@@ -73,6 +75,8 @@ use crate::{Context, FixedUpdateGameLoop, FixedUpdateGameLoopBuilder, GameLoop};
 ///     .build(context);
 /// ```
 /// 
+/// # Starting the Engine
+///  
 /// To run the engine, you provide the `update` and `render` functions for your game.  The engine
 /// will use the [GameLoop] to manage how the functions are called.  The engine will take ownership
 /// over itself and run until the game quits.
