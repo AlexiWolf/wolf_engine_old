@@ -12,7 +12,7 @@ use crate::GameLoopContext;
 /// [ContextBuilder].
 /// 
 /// ```
-/// # use wolf_engine:ContextBuilder;
+/// # use wolf_engine::ContextBuilder;
 /// # 
 /// let context = ContextBuilder::new()
 ///     // Insert additional settings here.    
