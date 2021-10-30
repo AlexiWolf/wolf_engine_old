@@ -16,7 +16,7 @@ use crate::GameLoopContext;
 /// # 
 /// let context = ContextBuilder::new()
 ///     // Insert additional settings here.    
-///     .build()
+///     .build();
 /// ```
 pub struct Context {
     pub game_loop: GameLoopContext,
