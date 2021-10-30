@@ -93,7 +93,7 @@ impl FixedUpdateGameLoop {
     pub fn max_update_time(&self) -> Duration {
         self.max_update_time
     }
-  
+
     pub fn can_update(&self) -> bool {
         self.lag_is_greater_than_time_step() && self.has_not_exceeded_max_update_time()
     }
@@ -105,7 +105,6 @@ impl FixedUpdateGameLoop {
     fn has_not_exceeded_max_update_time(&self) -> bool {
         self.update_time < self.max_update_time
     }
-
 
     fn time_step(&self) -> Duration {
         Duration::from_millis((1000.0 / self.tps).round() as u64)
