@@ -11,22 +11,20 @@ use crate::{Context, FixedUpdateGameLoop, FixedUpdateGameLoopBuilder, GameLoop};
 /// 
 /// # Examples
 /// 
-/// Initializing the Engine.
-/// 
-/// First, start by initializing a [Context] using the [ContextBuilder].
+/// To initialize the engine, start by initializing a [Context] using the 
+/// [ContextBuilder](crate::ContextBuilder).
 ///
 /// ```
 /// # use wolf_engine::ContextBuilder;
 /// #
 /// let context = ContextBuilder::new()
+///     // Custom settings.
 ///     .build();
 ///```
 /// 
-/// Then you can build and instance of the engine using the [WolfEngineBuilder].  The `build()` 
-/// method will take ownership over the [Context]. 
-/// 
-/// Using the `with_default_game_loop()` method will give you the default [FixedUpdateGameLoop].
-/// The default settings should be okay for most games.
+/// Then you can build and instance of the engine using the [WolfEngineBuilder]. 
+/// The `WolfEngineBuilder::with_default_game_loop()` method will give you the default 
+/// [FixedUpdateGameLoop]. The default settings should be okay for most games.
 /// 
 /// ```
 /// # use wolf_engine::{ContextBuilder, WolfEngineBuilder};
@@ -38,9 +36,9 @@ use crate::{Context, FixedUpdateGameLoop, FixedUpdateGameLoopBuilder, GameLoop};
 ///     .build(context);
 /// ```
 /// 
-/// Alternatively, if you want to customize the [FixedUpdateGameLoop], you can build an instance
-/// yourself using the [FixedUpdateGameLoopBuilder](crate::FixedUpdateGameLoopBuilder), then pass
-/// it to `with_fixed_game_loop()`.
+/// If you want to customize the [FixedUpdateGameLoop], you can build an instance yourself using the
+/// [FixedUpdateGameLoopBuilder](crate::FixedUpdateGameLoopBuilder), then pass it to 
+/// `WolfEngineBuilder::with_fixed_game_loop()`.
 /// 
 /// ```
 /// # use wolf_engine::{ContextBuilder, WolfEngineBuilder, FixedUpdateGameLoopBuilder};
