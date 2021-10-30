@@ -34,7 +34,7 @@ use crate::{Context, FixedUpdateGameLoop, GameLoop};
 /// # let context = ContextBuilder::new()
 /// #    .build(); 
 /// #
-/// let engine = WolfEngineBuilder::with_fixed_game_loop()
+/// let engine = WolfEngineBuilder::with_default_game_loop()
 ///     .build(context);
 /// ```
 /// 
