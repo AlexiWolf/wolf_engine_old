@@ -22,6 +22,7 @@ pub struct Context {
     pub game_loop: GameLoopContext,
 }
 
+/// Builds a [Context] object.
 pub struct ContextBuilder;
 
 impl ContextBuilder {
@@ -29,6 +30,7 @@ impl ContextBuilder {
         Self
     }
 
+    /// Consumes the `ContextBuilder` and returns the built [Context] object.
     pub fn build(self) -> Context {
         Context {
             game_loop: GameLoopContext::new(),
