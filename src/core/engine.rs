@@ -140,6 +140,12 @@ impl WolfEngineBuilder<FixedUpdateGameLoop> {
 }
 
 impl<Loop: GameLoop> WolfEngineBuilder<Loop> {
+    pub fn with_custom_game_loop(game_loop: Loop) -> Self {
+        Self {
+            game_loop,
+        }
+    }
+
     pub fn build(self, context: Context) -> WolfEngine<Loop> {
         WolfEngine {
             context, 
