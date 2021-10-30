@@ -57,6 +57,8 @@ use crate::{Context, FixedUpdateGameLoop, FixedUpdateGameLoopBuilder, GameLoop};
 /// Alternatively, you can use a custom [GameLoop] implementation by using the 
 /// `WolfEngineBuilder::with_custom_game_loop()` method.
 /// 
+/// Refer to the [GameLoop] documentation for more information on implementing a custom game loop.
+/// 
 /// ```
 /// # use wolf_engine::{ContextBuilder, WolfEngineBuilder, FixedUpdateGameLoopBuilder};
 /// #
