@@ -1,4 +1,4 @@
-use crate::{Context, ContextBuilder, FixedUpdateGameLoop, GameLoop};
+use crate::{Context, FixedUpdateGameLoop, GameLoop};
 
 /// Provides the core functionality of the engine.
 /// 
@@ -77,20 +77,22 @@ impl<Loop: GameLoop> WolfEngine<Loop> {
 
 /// Build an instance of [WolfEngine].
 pub struct WolfEngineBuilder<Loop: GameLoop> {
-    engine: WolfEngine<Loop>,
+    game_loop: Loop
 }
 
 impl WolfEngineBuilder<FixedUpdateGameLoop> {
-    pub fn with_default_game_loop() -> Self {
-        let game_loop = FixedUpdateGameLoop::default();
-        let context = ContextBuilder::new().build();
-        let engine = WolfEngine { game_loop, context };
-        Self { engine }
-    }
+    pub fn with_fixed_game_loop() -> Self {
+        Self {
+            game_loop: Default::default()
+        }
+    }    
 }
 
 impl<Loop: GameLoop> WolfEngineBuilder<Loop> {
-    pub fn build(self) -> WolfEngine<Loop> {
-        self.engine
+    pub fn build(self, context: Context) -> WolfEngine<Loop> {
+        WolfEngine {
+            context, 
+            game_loop: self.game_loop 
+        }
     }
 }
