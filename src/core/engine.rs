@@ -105,7 +105,7 @@ pub struct WolfEngineBuilder<Loop: GameLoop> {
 }
 
 impl WolfEngineBuilder<FixedUpdateGameLoop> {
-    pub fn with_fixed_game_loop() -> Self {
+    pub fn with_default_game_loop() -> Self {
         Self {
             game_loop: Default::default()
         }
