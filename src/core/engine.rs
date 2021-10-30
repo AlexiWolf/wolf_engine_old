@@ -61,12 +61,12 @@ use crate::{Context, FixedUpdateGameLoop, FixedUpdateGameLoopBuilder, GameLoop};
 /// over itself and run until the game quits.
 ///
 /// ```
-/// # use wolf_engine::{WolfEngine, WolfEngineBuilder, FixedUpdateGameLoop};
+/// # use wolf_engine::{WolfEngine, WolfEngineBuilder, FixedUpdateGameLoop, ContextBuilder};
 /// #
 /// # let context = ContextBuilder::new()
 /// #    .build(); 
 /// #
-/// # let engine: WolfEngine<FixedUpdateGameLoop> = WolfEngineBuilder::with_fixed_game_loop()
+/// # let engine = WolfEngineBuilder::with_default_game_loop()
 /// #    .build(context);
 /// #
 /// engine.run(
