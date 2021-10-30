@@ -1,4 +1,4 @@
-use crate::{Context, FixedUpdateGameLoop, GameLoop};
+use crate::{Context, ContextBuilder, FixedUpdateGameLoop, FixedUpdateGameLoopBuilder, GameLoop};
 
 /// Provides the core functionality of the engine.
 /// 
@@ -42,8 +42,11 @@ use crate::{Context, FixedUpdateGameLoop, GameLoop};
 /// ```
 /// # use wolf_engine::{WolfEngine, WolfEngineBuilder, FixedUpdateGameLoop};
 /// #
+/// # let context = ContextBuilder::new()
+/// #    .build(); 
+/// #
 /// # let engine: WolfEngine<FixedUpdateGameLoop> = WolfEngineBuilder::with_fixed_game_loop()
-/// #    .build();
+/// #    .build(context);
 /// #
 /// engine.run(
 ///     |_context| {
