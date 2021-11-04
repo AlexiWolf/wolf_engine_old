@@ -1,4 +1,4 @@
-use crate::{Context, FixedUpdateGameLoop, GameLoop};
+use crate::{Context, game_loop::{FixedUpdateGameLoop, GameLoop}}; 
 
 /// Provides the core functionality of the engine.
 ///
@@ -37,11 +37,11 @@ use crate::{Context, FixedUpdateGameLoop, GameLoop};
 /// ```
 ///
 /// If you want to customize the [FixedUpdateGameLoop], you can build an instance yourself using the
-/// [FixedUpdateGameLoopBuilder](crate::FixedUpdateGameLoopBuilder), then pass it to
+/// [FixedUpdateGameLoopBuilder](crate::game_loop::FixedUpdateGameLoopBuilder), then pass it to
 /// `WolfEngineBuilder::with_fixed_game_loop()`.
 ///
 /// ```
-/// # use wolf_engine::{ContextBuilder, WolfEngineBuilder, FixedUpdateGameLoopBuilder};
+/// # use wolf_engine::{ContextBuilder, WolfEngineBuilder, game_loop::FixedUpdateGameLoopBuilder};
 /// #
 /// # let context = ContextBuilder::new()
 /// #    .build();
@@ -62,7 +62,7 @@ use crate::{Context, FixedUpdateGameLoop, GameLoop};
 /// Refer to the [GameLoop] documentation for more information on implementing a custom game loop.
 ///
 /// ```
-/// # use wolf_engine::{ContextBuilder, WolfEngineBuilder, FixedUpdateGameLoopBuilder};
+/// # use wolf_engine::{ContextBuilder, WolfEngineBuilder, game_loop::{FixedUpdateGameLoopBuilder}};
 /// #
 /// # let context = ContextBuilder::new()
 /// #    .build();
@@ -82,7 +82,7 @@ use crate::{Context, FixedUpdateGameLoop, GameLoop};
 /// over itself and run until the game quits.
 ///
 /// ```
-/// # use wolf_engine::{WolfEngine, WolfEngineBuilder, FixedUpdateGameLoop, ContextBuilder};
+/// # use wolf_engine::{WolfEngine, WolfEngineBuilder, ContextBuilder, game_loop::FixedUpdateGameLoop };
 /// #
 /// # let context = ContextBuilder::new()
 /// #    .build();
