@@ -50,7 +50,7 @@
 //! # Starting the Engine
 //!  
 //! To run the engine, you provide the `update` and `render` functions for your game.  The engine
-//! will use the [GameLoop](crate::game_loop::GameLoop)(crate::) to manage how the functions are
+//! will use the [GameLoop](crate::game_loop::GameLoop) to manage how the functions are
 //! called.  The engine will take ownership over itself and run until the game quits.
 //!
 //! ```
