@@ -54,10 +54,7 @@ pub struct GameLoopContext {
 
 impl GameLoopContext {
     pub fn new() -> Self {
-        Self {
-            ticks: Arc::from(Mutex::from(0)),
-            frames: Arc::from(Mutex::from(0)),
-        }
+        Self::default()
     }
 
     pub fn add_tick(&self) {
@@ -74,5 +71,14 @@ impl GameLoopContext {
 
     pub fn frames(&self) -> Frames {
         *self.frames.lock().unwrap()
+    }
+}
+
+impl Default for GameLoopContext {
+    fn default() -> Self {
+        Self {
+            ticks: Arc::from(Mutex::from(0)),
+            frames: Arc::from(Mutex::from(0)),
+        }
     }
 }
