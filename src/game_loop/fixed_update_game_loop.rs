@@ -279,17 +279,25 @@ mod fixed_update_game_loop_tests {
         );
     }
 
-    #[test_case(120.0, 30 => 4  ; "4 times at 120 tps and 30 fps")]
-    #[test_case(120.0, 60 => 2  ; "2 times at 120 tps and 60 fps")]
-    #[test_case(120.0, 120 => 1 ; "1 time at 120 tps and 120 fps")]
-    fn should_tick(tick_rate: f64, fps: u64) -> u64 {
+    /// Testing minimum ticks because this test is not consistent cross platforms when checking 
+    /// exact values.  Windows and Mac, for example, tend to spend more time than specified sleeping
+    /// which results in the number of updates exceeding that exact value.  THIS BEHAVIOR IS 
+    /// CORRECT, so instead of checking for exact values, a target value is provided and the game
+    /// loop must tick AT LEAST that many times.
+    #[test_case(120.0, 30, 4  ; "4 times at 120 tps and 30 fps")]
+    #[test_case(120.0, 60, 2  ; "2 times at 120 tps and 60 fps")]
+    #[test_case(120.0, 120, 1 ; "1 time at 120 tps and 120 fps")]
+    fn should_tick_at_least(tick_rate: f64, fps: u64, minimum_ticks: u64) {
         let (mut game_loop, mut context) = test_game_loop(0, 0);
         game_loop.tps = tick_rate;
 
         thread::sleep(Duration::from_millis(1000 / fps));
         game_loop.update(&mut context, |_| {});
 
-        context.game_loop.ticks()
+        assert!(
+            context.game_loop.ticks() >= minimum_ticks,
+            "The game loop did not reach the expected number of ticks"
+        )
     }
 
     #[test]
