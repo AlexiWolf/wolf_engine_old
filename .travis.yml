@@ -3,7 +3,6 @@ language: rust
 os:
  - linux
  - windows
- - osx
 
 rust:
   - stable
