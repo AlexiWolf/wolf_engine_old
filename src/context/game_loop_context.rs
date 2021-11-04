@@ -1,23 +1,23 @@
 use std::sync::{Arc, Mutex};
 
-use crate::{Frames, Ticks};
+use crate::game_loop::{Frames, Ticks};
 
-/// Provides access to information and controls for the [GameLoop](crate::GameLoop).
+/// Provides access to information and controls for the [GameLoop](crate::game_loop::GameLoop).
 ///
 /// # Examples
 ///
 /// The GameLoopContext can be created directly using the new method.
 ///
 /// ```
-/// # use wolf_engine::GameLoopContext;
+/// # use wolf_engine::context::GameLoopContext;
 /// #
 /// let game_loop_context = GameLoopContext::new();
 /// ```
 ///
-/// Once created, the GameLoopContext exposes information about the [GameLoop](crate::GameLoop).
+/// Once created, the GameLoopContext exposes information about the [GameLoop](crate::game_loop::GameLoop).
 ///
 /// ```
-/// # use wolf_engine::GameLoopContext;
+/// # use wolf_engine::context::GameLoopContext;
 /// #
 /// # let game_loop_context = GameLoopContext::new();
 /// #
@@ -27,11 +27,11 @@ use crate::{Frames, Ticks};
 ///
 /// Tick and frame information can be added to the context.  
 ///
-/// **Note:** These method are only intended for the [GameLoop](crate::GameLoop) and other parts of
+/// **Note:** These method are only intended for the [GameLoop](crate::game_loop::GameLoop) and other parts of
 /// the engine. If you are not providing a custom game loop, you **should not** touch these.
 ///
 /// ```
-/// # use wolf_engine::GameLoopContext;
+/// # use wolf_engine::context::GameLoopContext;
 /// #
 /// # let game_loop_context = GameLoopContext::new();
 /// #
@@ -54,10 +54,7 @@ pub struct GameLoopContext {
 
 impl GameLoopContext {
     pub fn new() -> Self {
-        Self {
-            ticks: Arc::from(Mutex::from(0)),
-            frames: Arc::from(Mutex::from(0)),
-        }
+        Self::default()
     }
 
     pub fn add_tick(&self) {
@@ -74,5 +71,14 @@ impl GameLoopContext {
 
     pub fn frames(&self) -> Frames {
         *self.frames.lock().unwrap()
+    }
+}
+
+impl Default for GameLoopContext {
+    fn default() -> Self {
+        Self {
+            ticks: Arc::from(Mutex::from(0)),
+            frames: Arc::from(Mutex::from(0)),
+        }
     }
 }

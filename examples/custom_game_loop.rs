@@ -3,7 +3,8 @@ use std::fmt::Display;
 use log::{debug, info, LevelFilter};
 
 use wolf_engine::{
-    Context, ContextBuilder, Frames, GameLoop, LoopResult, Ticks, WolfEngineBuilder,
+    game_loop::{Frames, GameLoop, LoopResult, Ticks},
+    Context, ContextBuilder, WolfEngineBuilder,
 };
 
 /// A very basic game loop for demonstration purposes.

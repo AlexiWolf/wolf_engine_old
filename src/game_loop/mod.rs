@@ -1,8 +1,8 @@
+//! Provides flexible update and frame timing controls for [WolfEngine](crate::WolfEngine).
+
 mod fixed_update_game_loop;
-mod game_loop_context;
 
 pub use fixed_update_game_loop::*;
-pub use game_loop_context::*;
 
 use crate::Context;
 use std::fmt::Display;
@@ -38,7 +38,7 @@ pub type Frames = u64;
 /// Wolf Engine also fully supports using a custom `GameLoop`.  Simply implement this trait.
 ///
 /// ```
-/// use wolf_engine::{GameLoop, Context, LoopResult};
+/// use wolf_engine::{Context, game_loop::{GameLoop, LoopResult}};
 /// # use std::fmt::{Display, Formatter};
 ///
 /// pub struct MyGameLoop;

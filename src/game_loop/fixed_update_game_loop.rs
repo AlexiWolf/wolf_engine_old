@@ -1,4 +1,7 @@
-use crate::{Context, GameLoop, LoopResult};
+use crate::{
+    game_loop::{GameLoop, LoopResult},
+    Context,
+};
 use std::fmt::{Display, Formatter};
 use std::time::{Duration, Instant};
 
@@ -39,7 +42,7 @@ pub type TickRate = f64;
 /// The [FixedUpdateGameLoopBuilder] should be used to build new instances of the loop.
 ///
 /// ```
-/// # use wolf_engine::FixedUpdateGameLoopBuilder;
+/// # use wolf_engine::game_loop::FixedUpdateGameLoopBuilder;
 ///
 /// let mut game_loop = FixedUpdateGameLoopBuilder::new()
 ///     .build();
@@ -49,7 +52,7 @@ pub type TickRate = f64;
 /// update and render functions, along with the [Context] object are passed in.
 ///
 /// ```
-/// # use wolf_engine::{FixedUpdateGameLoopBuilder, ContextBuilder, GameLoop};
+/// # use wolf_engine::{ContextBuilder, game_loop::{GameLoop, FixedUpdateGameLoopBuilder}};
 /// # let mut game_loop = FixedUpdateGameLoopBuilder::new()
 /// #     .build();
 /// # let mut context = ContextBuilder::new().build();
@@ -195,7 +198,7 @@ impl Default for FixedUpdateGameLoopBuilder {
 #[cfg(test)]
 mod fixed_update_game_loop_tests {
     use super::*;
-    use crate::{Context, ContextBuilder, Ticks};
+    use crate::{game_loop::Ticks, Context, ContextBuilder};
     use std::sync::{Arc, Mutex};
     use std::thread;
     use test_case::test_case;
@@ -276,17 +279,25 @@ mod fixed_update_game_loop_tests {
         );
     }
 
-    #[test_case(120.0, 30 => 4  ; "4 times at 120 tps and 30 fps")]
-    #[test_case(120.0, 60 => 2  ; "2 times at 120 tps and 60 fps")]
-    #[test_case(120.0, 120 => 1 ; "1 time at 120 tps and 120 fps")]
-    fn should_tick(tick_rate: f64, fps: u64) -> u64 {
+    /// Testing minimum ticks because this test is not consistent cross platforms when checking 
+    /// exact values.  Windows and Mac, for example, tend to spend more time than specified sleeping
+    /// which results in the number of updates exceeding that exact value.  THIS BEHAVIOR IS 
+    /// CORRECT, so instead of checking for exact values, a target value is provided and the game
+    /// loop must tick AT LEAST that many times.
+    #[test_case(120.0, 30, 4  ; "4 times at 120 tps and 30 fps")]
+    #[test_case(120.0, 60, 2  ; "2 times at 120 tps and 60 fps")]
+    #[test_case(120.0, 120, 1 ; "1 time at 120 tps and 120 fps")]
+    fn should_tick_at_least(tick_rate: f64, fps: u64, minimum_ticks: u64) {
         let (mut game_loop, mut context) = test_game_loop(0, 0);
         game_loop.tps = tick_rate;
 
         thread::sleep(Duration::from_millis(1000 / fps));
         game_loop.update(&mut context, |_| {});
 
-        context.game_loop.ticks()
+        assert!(
+            context.game_loop.ticks() >= minimum_ticks,
+            "The game loop did not reach the expected number of ticks"
+        )
     }
 
     #[test]
