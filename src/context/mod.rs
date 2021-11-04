@@ -1,3 +1,5 @@
+//! Provides access to engine state and tooling.
+
 mod game_loop_context;
 
 pub use game_loop_context::*;
