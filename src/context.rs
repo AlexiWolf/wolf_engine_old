@@ -27,7 +27,7 @@ pub struct ContextBuilder;
 
 impl ContextBuilder {
     pub fn new() -> Self {
-        Self
+        Self::default()
     }
 
     /// Consumes the `ContextBuilder` and returns the built [Context] object.
@@ -35,5 +35,11 @@ impl ContextBuilder {
         Context {
             game_loop: GameLoopContext::new(),
         }
+    }
+}
+
+impl Default for ContextBuilder {
+    fn default() -> Self {
+        Self 
     }
 }
