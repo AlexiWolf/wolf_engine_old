@@ -9,8 +9,8 @@ use crate::{
 /// behavior such as: Running the main loop (utilizing a [GameLoop] for timing control), cleanly
 /// shutting down, and holding ownership over the [Context] object.
 ///
-/// The tries to only include functionality that is common to all `WolfEngine` projects.  Anything
-/// else should live on the [Context] object instead.
+/// The engine tries to only include functionality that is common to all `WolfEngine` projects.  
+/// Anything else should live on the [Context] object instead.
 ///
 /// # Building an Engine Instance
 ///
