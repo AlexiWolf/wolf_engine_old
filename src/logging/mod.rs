@@ -19,7 +19,7 @@ pub use terminal_log_target::*;
 
 /// Get a reference to the global Logger instance.
 pub fn logger() -> &'static Logger {
-    &*LOGGER
+    &LOGGER
 }
 
 lazy_static! {
