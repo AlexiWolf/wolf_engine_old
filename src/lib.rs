@@ -1,6 +1,6 @@
 //! A lightweight game framework.
-//! 
-//! # Getting Started 
+//!
+//! # Getting Started
 //!
 //! To initialize the engine, start by initializing a [Context] using the
 //! [ContextBuilder](crate::ContextBuilder).
@@ -15,7 +15,7 @@
 //!
 //! Then you can build and instance of the engine using the [WolfEngineBuilder].
 //! The `WolfEngineBuilder::with_default_game_loop()` method will give you the default
-//! [FixedUpdateGameLoop](crate::game_loop::FixedUpdateGameLoop).  The default settings should be 
+//! [FixedUpdateGameLoop](crate::game_loop::FixedUpdateGameLoop).  The default settings should be
 //! okay for most games.
 //u!
 //! ```
@@ -28,7 +28,7 @@
 //!     .build(context);
 //! ```
 //!
-//! If you want to customize the [FixedUpdateGameLoop](crate::game_loop::FixedUpdateGameLoop), you 
+//! If you want to customize the [FixedUpdateGameLoop](crate::game_loop::FixedUpdateGameLoop), you
 //! can build an instance yourself using the
 //! [FixedUpdateGameLoopBuilder](crate::game_loop::FixedUpdateGameLoopBuilder), then pass it to
 //! `WolfEngineBuilder::with_fixed_game_loop()`.
@@ -50,7 +50,7 @@
 //! # Starting the Engine
 //!  
 //! To run the engine, you provide the `update` and `render` functions for your game.  The engine
-//! will use the [GameLoop](crate::game_loop::GameLoop)(crate::) to manage how the functions are 
+//! will use the [GameLoop](crate::game_loop::GameLoop)(crate::) to manage how the functions are
 //! called.  The engine will take ownership over itself and run until the game quits.
 //!
 //! ```
@@ -72,13 +72,13 @@
 //!     },
 //! );
 //! ```
-//! 
+//!
 //! ## Custom Game Loops
 //!  
-//! Alternatively, you can use a custom [GameLoop](crate::game_loop::GameLoop) implementation by 
+//! Alternatively, you can use a custom [GameLoop](crate::game_loop::GameLoop) implementation by
 //! using the `WolfEngineBuilder::with_custom_game_loop()` method.
 //!
-//! Refer to the [GameLoop](crate::game_loop::GameLoop) documentation for more information on 
+//! Refer to the [GameLoop](crate::game_loop::GameLoop) documentation for more information on
 //! implementing a custom game loop.
 //!
 //! ```
