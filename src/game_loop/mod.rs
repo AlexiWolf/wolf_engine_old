@@ -1,3 +1,5 @@
+//! Provides flexible update and frame timing controls for [WolfEngine](crate::WolfEngine).
+
 mod fixed_update_game_loop;
 
 pub use fixed_update_game_loop::*;
