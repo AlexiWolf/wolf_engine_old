@@ -4,16 +4,17 @@ mod game_loop_context;
 
 pub use game_loop_context::*;
 
-/// Provides access to all shared engine state.
-///
-/// The main context is sort of the gateway to the whole engine, as it stores all of the data for
-/// the current running game and engine instance.  You will also access all of the engine tooling
-/// through the context object.
-///
+/// Provides a central hub through which to access all other contexts. 
+/// 
+/// This is the main context.  It may be helpful to think of it as the "gateway" to the whole engine 
+/// because it owns all of the contexts active on the engine.  In many cases you will access 
+/// specific contexts through the main context, but sometimes the main context will have helper 
+/// functions for common tasks.
+/// 
 /// # Examples
 ///
-/// You generally should not build the `Context` object yourself.  Instead, use the
-/// [ContextBuilder].
+/// Use the [ContextBuilder] to build a new `Context`.
+/// 
 ///
 /// ```
 /// # use wolf_engine::ContextBuilder;
