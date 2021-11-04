@@ -1,4 +1,6 @@
-use crate::game_loop::GameLoopContext;
+mod game_loop_context;
+
+pub use game_loop_context::*;
 
 /// Provides access to all shared engine state.
 ///

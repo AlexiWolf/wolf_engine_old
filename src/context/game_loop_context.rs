@@ -9,7 +9,7 @@ use crate::game_loop::{Frames, Ticks};
 /// The GameLoopContext can be created directly using the new method.
 ///
 /// ```
-/// # use wolf_engine::game_loop::GameLoopContext;
+/// # use wolf_engine::context::GameLoopContext;
 /// #
 /// let game_loop_context = GameLoopContext::new();
 /// ```
@@ -17,7 +17,7 @@ use crate::game_loop::{Frames, Ticks};
 /// Once created, the GameLoopContext exposes information about the [GameLoop](crate::game_loop::GameLoop).
 ///
 /// ```
-/// # use wolf_engine::game_loop::GameLoopContext;
+/// # use wolf_engine::context::GameLoopContext;
 /// #
 /// # let game_loop_context = GameLoopContext::new();
 /// #
@@ -31,7 +31,7 @@ use crate::game_loop::{Frames, Ticks};
 /// the engine. If you are not providing a custom game loop, you **should not** touch these.
 ///
 /// ```
-/// # use wolf_engine::game_loop::GameLoopContext;
+/// # use wolf_engine::context::GameLoopContext;
 /// #
 /// # let game_loop_context = GameLoopContext::new();
 /// #

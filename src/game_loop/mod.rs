@@ -1,8 +1,6 @@
 mod fixed_update_game_loop;
-mod game_loop_context;
 
 pub use fixed_update_game_loop::*;
-pub use game_loop_context::*;
 
 use crate::Context;
 use std::fmt::Display;
