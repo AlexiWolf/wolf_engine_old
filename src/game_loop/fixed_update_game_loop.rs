@@ -1,4 +1,7 @@
-use crate::{Context, game_loop::{GameLoop, LoopResult}};
+use crate::{
+    game_loop::{GameLoop, LoopResult},
+    Context,
+};
 use std::fmt::{Display, Formatter};
 use std::time::{Duration, Instant};
 
@@ -195,7 +198,7 @@ impl Default for FixedUpdateGameLoopBuilder {
 #[cfg(test)]
 mod fixed_update_game_loop_tests {
     use super::*;
-    use crate::{Context, ContextBuilder, game_loop::Ticks};
+    use crate::{game_loop::Ticks, Context, ContextBuilder};
     use std::sync::{Arc, Mutex};
     use std::thread;
     use test_case::test_case;

@@ -1,4 +1,7 @@
-use crate::{Context, game_loop::{FixedUpdateGameLoop, GameLoop}}; 
+use crate::{
+    game_loop::{FixedUpdateGameLoop, GameLoop},
+    Context,
+};
 
 /// Provides the core functionality of the engine.
 ///
