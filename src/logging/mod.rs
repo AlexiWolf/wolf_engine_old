@@ -1,4 +1,4 @@
-//! A small logging framework providing a [Logger], and easy integration.
+//! Provides a small logging framework with an easy-to-integrate-with [Logger].
 //!
 //! # Usage
 //!
