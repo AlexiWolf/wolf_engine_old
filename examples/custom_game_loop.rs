@@ -72,7 +72,7 @@ pub fn main() {
         .with_colors(true)
         .with_level(LevelFilter::Trace)
         .init()
-        .expect("Failed to initalize the logging framework.");
+        .expect("Failed to initialize the logging framework.");
 
     let custom_game_loop = CustomGameLoop::new();
     let context = ContextBuilder::new().build();
