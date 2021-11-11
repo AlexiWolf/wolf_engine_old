@@ -2,6 +2,7 @@ use std::fmt::Display;
 
 use log::{debug, info, LevelFilter};
 
+use simple_logger::SimpleLogger;
 use wolf_engine::{
     game_loop::{Frames, GameLoop, LoopResult, Ticks},
     Context, ContextBuilder, WolfEngineBuilder,
@@ -67,8 +68,12 @@ impl Display for CustomGameLoop {
 }
 
 pub fn main() {
-    // Logging will be initialized by the Context in the future.
-    wolf_engine::logging::logger().set_log_level(LevelFilter::Debug);
+    SimpleLogger::new()
+        .with_colors(true)
+        .with_level(LevelFilter::Trace)
+        .init()
+        .expect("Failed to initialize the logging framework.");
+
     let custom_game_loop = CustomGameLoop::new();
     let context = ContextBuilder::new().build();
     WolfEngineBuilder::with_custom_game_loop(custom_game_loop)
