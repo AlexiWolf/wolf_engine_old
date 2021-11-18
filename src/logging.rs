@@ -12,7 +12,7 @@ use simple_logger::SimpleLogger;
 /// 
 /// ```
 /// # use wolf_engine::logging;
-/// # use simple_logger::LevelFilter;
+/// # use log::LevelFilter;
 /// #
 /// logging::initialize_logging(LevelFilter::Debug);
 /// ```
@@ -21,7 +21,7 @@ use simple_logger::SimpleLogger;
 /// 
 /// ```
 /// # use wolf_engine::logging;
-/// # use simple_logger::{LevelFilter, info};
+/// # use log::{LevelFilter, info};
 /// # logging::initialize_logging(LevelFilter::Debug);
 /// #
 /// info!("Hello, world!");
