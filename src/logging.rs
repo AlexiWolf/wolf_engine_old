@@ -1,6 +1,32 @@
 use log::LevelFilter;
 use simple_logger::SimpleLogger;
 
+/// Initialize the default logger.
+/// 
+/// This function is provided for those who don't need a complicated logging setup.  The default
+/// logger will output messages to the terminal.
+/// 
+/// # Examples
+/// 
+/// To use the default logger, just initialize it by calling this function.
+/// 
+/// ```
+/// # use wolf_engine::logging;
+/// # use simple_logger::LevelFilter;
+/// #
+/// logging::initialize_logging(LevelFilter::Debug);
+/// ```
+/// 
+/// Messages are logged using [log] macros. 
+/// 
+/// ```
+/// # use wolf_engine::logging;
+/// # use simple_logger::{LevelFilter, info};
+/// # logging::initialize_logging(LevelFilter::Debug);
+/// #
+/// info!("Hello, world!");
+/// ```
+/// 
 pub fn initialize_logging(log_level: LevelFilter) {
     SimpleLogger::new()
         .with_colors(true)
