@@ -22,9 +22,7 @@ use simple_logger::SimpleLogger;
 /// Messages are logged using [log] macros. 
 /// 
 /// ```
-/// # use wolf_engine::logging;
-/// # use log::{LevelFilter, info};
-/// # logging::initialize_logging(LevelFilter::Debug);
+/// # use log::info;
 /// #
 /// info!("Hello, world!");
 /// ```
