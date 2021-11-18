@@ -1,3 +1,5 @@
+//! Provides a default logging implementation using the [simple_logger] crate.
+
 use log::LevelFilter;
 use simple_logger::SimpleLogger;
 
@@ -26,7 +28,6 @@ use simple_logger::SimpleLogger;
 /// #
 /// info!("Hello, world!");
 /// ```
-/// 
 pub fn initialize_logging(log_level: LevelFilter) {
     SimpleLogger::new()
         .with_colors(true)
