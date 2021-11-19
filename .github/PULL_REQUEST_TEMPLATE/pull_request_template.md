@@ -1,20 +1,18 @@
 <!-- Include a quick summary of the changes made in this PR. -->
 
-# Changes
-
-### Change Level
+# Change Types 
 
 See [Semantic Versioning](https://semver.org/) for more information.  Be aware that we will be unwilling to accept Major
 changes without careful consideration and a **VERY** good reason.
 
 Select one:
 
-- [ ] Non-Code (Config, CI, house-keeping, ext.  Changes are not to the source code.)
-- [ ] Patch (Tweaks, Bug fixes, inline-documentation ext.  Changes do not effect the public API.)  
-- [ ] Minor (New features, deprecations, ext.  Non-breaking changes to the public API.)
-- [ ] Major (Overhauls, rewrites, feature removals, ext.  Breaking changes to the public API after v1.0.)
+- [ ] Non-Code (No changes to the source code.)
+- [ ] Patch (Changes do not effect the public API.)  
+- [ ] Minor (Non-breaking changes to the public API.)
+- [ ] Major (Breaking changes to the public API after v1.0.)
 
-### Changes Made
+# Changes Made
 
 Planned changes should be done as a checklist, and changes marked off when completed.
 
