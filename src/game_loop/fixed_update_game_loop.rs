@@ -357,6 +357,15 @@ mod fixed_update_game_loop_tests {
         }
     }
 
+    #[test]
+    fn should_account_for_tick_runtime_when_updating_lag() {
+        let (mut game_loop, mut context) = test_game_loop(8, 0);
+        game_loop.update(&mut context, |_| {
+            thread::sleep(Duration::from_millis(4));
+        });
+        assert!(game_loop.lag.as_millis() > 0, "The tick runtime is not accounted for in the lag calculation");
+    }
+
     fn test_game_loop(
         artificial_lag: u64,
         artificial_update_time: u64,
