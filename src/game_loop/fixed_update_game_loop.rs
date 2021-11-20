@@ -140,7 +140,7 @@ impl FixedUpdateGameLoop {
 
     fn update_timing(&mut self, tick_run_time: Duration) {
         self.update_time += tick_run_time;
-        self.lag -= self.time_step() - tick_run_time;
+        self.lag -= self.time_step();
     }
 
     fn run_tick_loop<F>(&mut self, update_function: &mut F, context: &mut Context)
@@ -369,18 +369,6 @@ mod fixed_update_game_loop_tests {
                 thread::sleep(Duration::from_millis(4));
             });
         }
-    }
-
-    #[test]
-    fn should_account_for_tick_runtime_when_updating_lag() {
-        let (mut game_loop, mut context) = test_game_loop(8, 0);
-        game_loop.update(&mut context, |_| {
-            thread::sleep(Duration::from_millis(4));
-        });
-        assert!(
-            game_loop.lag.as_millis() > 0,
-            "The tick runtime is not accounted for in the lag calculation"
-        );
     }
 
     fn test_game_loop(
