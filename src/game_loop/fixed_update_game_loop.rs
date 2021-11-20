@@ -125,6 +125,11 @@ impl FixedUpdateGameLoop {
         self.previous_update = current_instant;
         self.lag += elapsed_time;
     }
+    
+    fn update_timing(&mut self, tick_run_time: Duration) {
+        self.update_time += tick_run_time;
+        self.lag -= self.time_step();
+    }
 }
 
 impl GameLoop for FixedUpdateGameLoop {
@@ -137,8 +142,7 @@ impl GameLoop for FixedUpdateGameLoop {
         while self.can_update() {
             trace!("Running Tick: {}", self);
             let tick_run_time = run_tick_and_track_execution_time(&mut update_function, context);
-            self.update_time += tick_run_time;
-            self.lag -= self.time_step();
+            self.update_timing(tick_run_time);
             context.game_loop.add_tick();
         }
         trace!("Finished running ticks: {}", self);
