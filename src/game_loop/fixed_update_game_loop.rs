@@ -143,6 +143,7 @@ impl GameLoop for FixedUpdateGameLoop {
             context.game_loop.add_tick();
         }
         trace!("Finished running ticks: {}", self);
+        self.update_time = Duration::from_secs(0);
     }
 
     fn render<F>(&mut self, context: &mut Context, mut render_function: F) -> LoopResult
