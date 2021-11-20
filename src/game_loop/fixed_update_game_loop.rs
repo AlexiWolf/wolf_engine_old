@@ -145,20 +145,19 @@ impl FixedUpdateGameLoop {
 
     fn run_tick_loop<F>(&mut self, update_function: &mut F, context: &mut Context)
     where
-        F: FnMut(&mut Context)
+        F: FnMut(&mut Context),
     {
         while self.can_update() {
             trace!("Running Tick: {}", self);
             self.tick(update_function, context);
         }
     }
-    
+
     fn tick<F>(&mut self, update_function: &mut F, context: &mut Context)
-    where 
+    where
         F: FnMut(&mut Context),
     {
-        let tick_run_time =
-        Self::run_tick_and_track_execution_time(update_function, context);
+        let tick_run_time = Self::run_tick_and_track_execution_time(update_function, context);
         self.update_timing(tick_run_time);
         context.game_loop.add_tick();
     }
@@ -166,7 +165,7 @@ impl FixedUpdateGameLoop {
 
 impl GameLoop for FixedUpdateGameLoop {
     fn update<F>(&mut self, context: &mut Context, mut update_function: F) -> LoopResult
-    where 
+    where
         F: FnMut(&mut Context),
     {
         self.accumulate_lag();
@@ -175,9 +174,6 @@ impl GameLoop for FixedUpdateGameLoop {
         trace!("Finished running ticks: {}", self);
         self.update_time = Duration::from_secs(0);
     }
-
-
-   
 
     fn render<F>(&mut self, context: &mut Context, mut render_function: F) -> LoopResult
     where
@@ -381,7 +377,10 @@ mod fixed_update_game_loop_tests {
         game_loop.update(&mut context, |_| {
             thread::sleep(Duration::from_millis(4));
         });
-        assert!(game_loop.lag.as_millis() > 0, "The tick runtime is not accounted for in the lag calculation");
+        assert!(
+            game_loop.lag.as_millis() > 0,
+            "The tick runtime is not accounted for in the lag calculation"
+        );
     }
 
     fn test_game_loop(
