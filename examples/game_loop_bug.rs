@@ -12,11 +12,11 @@ fn main() {
     engine.run(
         |_| {
             std::thread::sleep(Duration::from_millis(4)); // Simulate a longer update time. 
-            info!("Updating");            
+            info!("Tick");            
         }, 
         |_| {
             std::thread::sleep(Duration::from_millis(16)); // Simulate 60 fps.
-            info!("Rendering");
+            info!("Render");
         }
     );
 }
