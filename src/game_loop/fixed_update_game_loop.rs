@@ -137,29 +137,47 @@ impl FixedUpdateGameLoop {
         update_function(context);
         tick_start.elapsed()
     }
+
     fn update_timing(&mut self, tick_run_time: Duration) {
         self.update_time += tick_run_time;
         self.lag -= self.time_step() - tick_run_time;
+    }
+
+    fn run_tick_loop<F>(&mut self, update_function: &mut F, context: &mut Context)
+    where
+        F: FnMut(&mut Context)
+    {
+        while self.can_update() {
+            trace!("Running Tick: {}", self);
+            self.tick(update_function, context);
+        }
+    }
+    
+    fn tick<F>(&mut self, update_function: &mut F, context: &mut Context)
+    where 
+        F: FnMut(&mut Context),
+    {
+        let tick_run_time =
+        Self::run_tick_and_track_execution_time(update_function, context);
+        self.update_timing(tick_run_time);
+        context.game_loop.add_tick();
     }
 }
 
 impl GameLoop for FixedUpdateGameLoop {
     fn update<F>(&mut self, context: &mut Context, mut update_function: F) -> LoopResult
-    where
+    where 
         F: FnMut(&mut Context),
     {
         self.accumulate_lag();
         trace!("Starting new update cycle: {}", self);
-        while self.can_update() {
-            trace!("Running Tick: {}", self);
-            let tick_run_time =
-                Self::run_tick_and_track_execution_time(&mut update_function, context);
-            self.update_timing(tick_run_time);
-            context.game_loop.add_tick();
-        }
+        self.run_tick_loop(&mut update_function, context);
         trace!("Finished running ticks: {}", self);
         self.update_time = Duration::from_secs(0);
     }
+
+
+   
 
     fn render<F>(&mut self, context: &mut Context, mut render_function: F) -> LoopResult
     where
