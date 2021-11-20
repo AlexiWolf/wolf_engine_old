@@ -132,13 +132,12 @@ impl GameLoop for FixedUpdateGameLoop {
     where
         F: FnMut(&mut Context),
     {
-        trace!("Starting new update cycle: {}", self);
         self.accumulate_lag();
+        trace!("Starting new update cycle: {}", self);
         while self.can_update() {
             trace!("Running Tick: {}", self);
-            let tick_start = Instant::now();
-            update_function(context);
-            self.update_time += tick_start.elapsed();
+            let tick_run_time = run_tick_and_track_execution_time(&mut update_function, context);
+            self.update_time += tick_run_time;
             self.lag -= self.time_step();
             context.game_loop.add_tick();
         }
@@ -153,6 +152,15 @@ impl GameLoop for FixedUpdateGameLoop {
         render_function(context);
         context.game_loop.add_frame();
     }
+}
+
+fn run_tick_and_track_execution_time<F>(update_function: &mut F, context: &mut Context) -> Duration 
+where 
+    F: FnMut(&mut Context),
+{
+    let tick_start = Instant::now();
+    update_function(context);
+     tick_start.elapsed()
 }
 
 impl Display for FixedUpdateGameLoop {
