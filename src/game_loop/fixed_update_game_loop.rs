@@ -4,6 +4,7 @@ use crate::{
 };
 use std::fmt::{Display, Formatter};
 use std::time::{Duration, Instant};
+use log::{trace};
 
 /// Represents the number of ticks in a second (tps.)
 pub type TickRate = f64;
@@ -131,14 +132,17 @@ impl GameLoop for FixedUpdateGameLoop {
     where
         F: FnMut(&mut Context),
     {
+        trace!("Starting new update cycle: {}", self);
         self.accumulate_lag();
         while self.can_update() {
+            trace!("Running Tick: {}", self);
             let tick_start = Instant::now();
             update_function(context);
             self.update_time += tick_start.elapsed();
             self.lag -= self.time_step();
             context.game_loop.add_tick();
         }
+        trace!("Finished running ticks: {}", self);
     }
 
     fn render<F>(&mut self, context: &mut Context, mut render_function: F) -> LoopResult
@@ -152,7 +156,7 @@ impl GameLoop for FixedUpdateGameLoop {
 
 impl Display for FixedUpdateGameLoop {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "Lag: {}ms", self.lag.as_millis())
+        write!(f, "Lag: {}ms, Update Time: {}ms / {}ms", self.lag.as_millis(), self.update_time.as_millis(), self.max_update_time.as_millis())
     }
 }
 
