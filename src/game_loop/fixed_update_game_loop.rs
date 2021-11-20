@@ -319,6 +319,18 @@ mod fixed_update_game_loop_tests {
         )
     }
 
+    #[test]
+    fn should_reset_the_update_time_each_frame() {
+        let (mut game_loop, mut context) = test_game_loop(0, 0);
+        for _ in 0..5 {
+            assert_eq!(game_loop.update_time.as_millis(), 0, "The update time was not reset.");
+            game_loop.lag = Duration::from_millis(8);
+            game_loop.update(&mut context, |_| {
+                thread::sleep(Duration::from_millis(4));
+            });
+        }
+    }
+
     fn test_game_loop(
         artificial_lag: u64,
         artificial_update_time: u64,
