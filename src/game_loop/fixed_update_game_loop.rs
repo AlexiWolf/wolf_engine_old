@@ -2,6 +2,7 @@ use crate::{
     game_loop::{GameLoop, LoopResult},
     Context,
 };
+use log::trace;
 use std::fmt::{Display, Formatter};
 use std::time::{Duration, Instant};
 
@@ -124,6 +125,42 @@ impl FixedUpdateGameLoop {
         self.previous_update = current_instant;
         self.lag += elapsed_time;
     }
+
+    fn run_tick_and_track_execution_time<F>(
+        update_function: &mut F,
+        context: &mut Context,
+    ) -> Duration
+    where
+        F: FnMut(&mut Context),
+    {
+        let tick_start = Instant::now();
+        update_function(context);
+        tick_start.elapsed()
+    }
+
+    fn update_timing(&mut self, tick_run_time: Duration) {
+        self.update_time += tick_run_time;
+        self.lag -= self.time_step();
+    }
+
+    fn run_tick_loop<F>(&mut self, update_function: &mut F, context: &mut Context)
+    where
+        F: FnMut(&mut Context),
+    {
+        while self.can_update() {
+            trace!("Running Tick: {}", self);
+            self.tick(update_function, context);
+        }
+    }
+
+    fn tick<F>(&mut self, update_function: &mut F, context: &mut Context)
+    where
+        F: FnMut(&mut Context),
+    {
+        let tick_run_time = Self::run_tick_and_track_execution_time(update_function, context);
+        self.update_timing(tick_run_time);
+        context.game_loop.add_tick();
+    }
 }
 
 impl GameLoop for FixedUpdateGameLoop {
@@ -132,13 +169,10 @@ impl GameLoop for FixedUpdateGameLoop {
         F: FnMut(&mut Context),
     {
         self.accumulate_lag();
-        while self.can_update() {
-            let tick_start = Instant::now();
-            update_function(context);
-            self.update_time += tick_start.elapsed();
-            self.lag -= self.time_step();
-            context.game_loop.add_tick();
-        }
+        trace!("Starting new update cycle: {}", self);
+        self.run_tick_loop(&mut update_function, context);
+        trace!("Finished running ticks: {}", self);
+        self.update_time = Duration::from_secs(0);
     }
 
     fn render<F>(&mut self, context: &mut Context, mut render_function: F) -> LoopResult
@@ -152,7 +186,13 @@ impl GameLoop for FixedUpdateGameLoop {
 
 impl Display for FixedUpdateGameLoop {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "Lag: {}ms", self.lag.as_millis())
+        write!(
+            f,
+            "Lag: {}ms, Update Time: {}ms / {}ms",
+            self.lag.as_millis(),
+            self.update_time.as_millis(),
+            self.max_update_time.as_millis()
+        )
     }
 }
 
@@ -279,9 +319,9 @@ mod fixed_update_game_loop_tests {
         );
     }
 
-    /// Testing minimum ticks because this test is not consistent cross platforms when checking 
+    /// Testing minimum ticks because this test is not consistent cross platforms when checking
     /// exact values.  Windows and Mac, for example, tend to spend more time than specified sleeping
-    /// which results in the number of updates exceeding that exact value.  THIS BEHAVIOR IS 
+    /// which results in the number of updates exceeding that exact value.  THIS BEHAVIOR IS
     /// CORRECT, so instead of checking for exact values, a target value is provided and the game
     /// loop must tick AT LEAST that many times.
     #[test_case(120.0, 30, 4  ; "4 times at 120 tps and 30 fps")]
@@ -313,6 +353,22 @@ mod fixed_update_game_loop_tests {
             10,
             "The game loop should have counted 10 frames.",
         )
+    }
+
+    #[test]
+    fn should_reset_the_update_time_each_frame() {
+        let (mut game_loop, mut context) = test_game_loop(0, 0);
+        for _ in 0..5 {
+            assert_eq!(
+                game_loop.update_time.as_millis(),
+                0,
+                "The update time was not reset."
+            );
+            game_loop.lag = Duration::from_millis(8);
+            game_loop.update(&mut context, |_| {
+                thread::sleep(Duration::from_millis(4));
+            });
+        }
     }
 
     fn test_game_loop(

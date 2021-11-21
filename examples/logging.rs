@@ -1,4 +1,4 @@
-use log::{LevelFilter, debug, error, info, warn};
+use log::{debug, error, info, warn, LevelFilter};
 use wolf_engine::logging;
 
 pub fn main() {
