@@ -14,10 +14,9 @@ use simple_logger::SimpleLogger;
 /// the desired [LevelFilter].
 ///
 /// ```
-/// # use wolf_engine::logging;
 /// # use log::LevelFilter;
 /// #
-/// logging::initialize_logging(LevelFilter::Debug);
+/// wolf_engine::initialize_logging(LevelFilter::Debug);
 /// ```
 ///
 /// Messages are logged using [log] macros.
