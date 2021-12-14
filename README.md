@@ -10,7 +10,28 @@ do things their way.
 **Note**  Wolf Engine is still very much a W.I.P, so you should expect missing
 features, bugs, changing APIs, and other spooky stuff until release 1.0.
 
-TODO: Feature checklist.
+These are the currently planned features for Wolf Engine.  Not all of them are
+ready just yet, so this is more of a roadmap, than a feature list for now. 
+Features will be checked off as they are implemented.
+
+- [ ] Core
+  - [x] Logging
+  - [ ] Game States
+  - [ ] Events / Listeners
+  - [ ] Filesysten / Asset Loading
+  - [ ] Input
+  - [ ] ECS
+  - [ ] Scenes / Prefabs
+- [ ] Graphics
+  - [ ] Low-level graphics 
+  - [ ] Windowing
+  - [ ] High-level 2D graphics functions
+  - [ ] High-level 3D graphics functions
+  - [ ] Cameras
+- [ ] Audio
+  - [ ] Low-level graphics
+  - [ ] High-level audio functions
+- [ ] Networking
 
 ### Installation
 
