@@ -21,6 +21,12 @@ Add Wolf Engine to your dependencies in `Cargo.toml`:
 wolf_engine = "*"
 ```
 
+### Getting Started
+
+TODO: Write a "quick-start" guide.  I'm waiting to do this because the 
+instructions will be chainging very soon.  Refer to the documentation in 
+[lib.rs](src/lib.rs) for a current guide.
+
 ### License
 
 Wolf Engine is licensed under either 
