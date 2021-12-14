@@ -12,9 +12,14 @@ features, bugs, changing APIs, and other spooky stuff until release 1.0.
 
 TODO: Feature checklist.
 
-### Usage
+### Installation
 
-TODO: Installation / quickstart instructions.
+Add Wolf Engine to your dependencies in `Cargo.toml`:
+
+```TOML
+[dependencies]
+wolf_engine = "*"
+```
 
 ### License
 
