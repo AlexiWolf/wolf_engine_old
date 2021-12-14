@@ -2,7 +2,8 @@
 
 A game framework built in Rust.
 
-**Note**  This is still a W.I.P.  Wolf Engine may not be suitable for production use until version 1.0.
+**Note**  This is still a W.I.P.  Wolf Engine may not be suitable for 
+production use until version 1.0.
 
 ### License
 
