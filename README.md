@@ -23,8 +23,8 @@ Features will be checked off as they are implemented.
   - [ ] ECS
   - [ ] Scenes / Prefabs
 - [ ] Graphics
-  - [ ] Low-level graphics 
   - [ ] Windowing
+  - [ ] Low-level graphics 
   - [ ] High-level 2D graphics functions
   - [ ] High-level 3D graphics functions
   - [ ] Cameras
