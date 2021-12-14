@@ -10,9 +10,6 @@ production use until version 1.0.
 Wolf Engine is licensed under either 
 
 - [Apache License, Version 2.0](LICENSE-APACHE)
-
-or
-
 - [MIT License](LICENSE-MIT)
 
 at your option.
