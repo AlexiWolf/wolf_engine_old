@@ -1,9 +1,20 @@
 # Wolf Engine
 
-A game framework built in Rust.
+Wolf Engine is a game library written in Rust with a focus on flexability and
+ease of use.  It provides solid default options and tools for those who just
+want to make their game while also getting out of the way of those who want to
+do things their way.
 
-**Note**  This is still a W.I.P.  Wolf Engine may not be suitable for 
-production use until version 1.0.
+### Features
+
+**Note**  Wolf Engine is still very much a W.I.P, so you should expect missing
+features, bugs, changing APIs, and other spooky stuff until release 1.0.
+
+TODO: Feature checklist.
+
+### Usage
+
+TODO: Installation / quickstart instructions.
 
 ### License
 
