@@ -6,8 +6,8 @@ build a game while allowing custom options for those who don't want to be forced
 to do things *The Wolf Engine Way (TM)*.  
 
 The main motivations for building Wolf Engine was to learn about how games / 
-game engines work under the hood (no better way to learn than by doing 
-after-all), and to provide a production-ready system for future game projects.
+game engines work under the hood and to provide a production-ready system for 
+future game projects.
 
 ### Features
 
