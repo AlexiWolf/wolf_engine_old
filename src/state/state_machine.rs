@@ -43,6 +43,17 @@ mod state_machine_tests {
             "The state was not pushed to the stack"
         );
     }
+
+    #[test]
+    fn should_make_last_state_the_active_state() {
+        let mut state_machine = StateMachine::new();
+
+        state_machine.push(Box::from(fixtures::TestState::new(0)));
+        assert_eq!(state_machine.active().id(), 0, "Incorrect active state");
+
+        state_machine.push(Box::from(fixtures::TestState::new(1)));
+        assert_eq!(state_machine.active_mut().id(), 1, "Incorrect active state");
+    }
     
     mod fixtures {
         use super::*;
