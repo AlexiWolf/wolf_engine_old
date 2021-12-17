@@ -10,6 +10,10 @@ impl StateMachine {
             stack: vec![] 
         }
     }
+    
+    pub fn push(&mut self, state: Box<dyn State>) {
+    
+    }
 }
 
 #[cfg(test)]
