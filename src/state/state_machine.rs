@@ -32,7 +32,7 @@ mod state_machine_tests {
 
     #[test]
     fn should_push_function_to_stack() {
-        let state = fixtures::TestState;
+        let state = fixtures::TestState::new(0);
         let mut state_machine = StateMachine::new();
         
         state_machine.push(Box::from(state));
@@ -47,7 +47,17 @@ mod state_machine_tests {
     mod fixtures {
         use super::*;
 
-        pub struct TestState;
+        pub struct TestState {
+            pub id: u32
+        }
+
+        impl TestState {
+            pub fn new(id: u32) -> Self {
+                Self {
+                    id 
+                }
+            }
+        }
 
         impl State for TestState {}
     }
