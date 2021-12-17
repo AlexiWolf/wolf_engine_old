@@ -18,6 +18,10 @@ impl StateMachine {
     pub fn active(&self) -> Option<&Box<dyn State>> {
         None
     }
+
+    pub fn active_mut(&mut self) -> Option<&mut Box<dyn State>> {
+        None
+    }
 }
 
 #[cfg(test)]
