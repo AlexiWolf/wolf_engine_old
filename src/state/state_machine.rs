@@ -5,7 +5,7 @@ pub struct StateMachine {
 }
 
 impl StateMachine {
-    pub fn new_empty() -> Self {
+    pub fn new() -> Self {
         Self {
             stack: vec![] 
         }
@@ -17,8 +17,8 @@ mod state_machine_tests {
     use super::*;
 
     #[test]
-    pub fn should_have_an_empty_constructor() {
-        let state_machine = StateMachine::new_empty();
+    fn should_initalize_with_empty_stack() {
+        let state_machine = StateMachine::new();
         assert_eq!(
             state_machine.stack.len(),
             0,
