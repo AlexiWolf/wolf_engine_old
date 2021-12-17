@@ -57,10 +57,10 @@ mod state_machine_tests {
         let mut state_machine = StateMachine::new();
 
         state_machine.push(Box::from(fixtures::TestState::new(0)));
-        assert_eq!(state_machine.active().unwrap().id(), 0, "Incorrect active state");
+        assert_eq!(state_machine.active().unwrap().id, 0, "Incorrect active state");
 
         state_machine.push(Box::from(fixtures::TestState::new(1)));
-        assert_eq!(state_machine.active_mut().unwrap().id(), 1, "Incorrect active state");
+        assert_eq!(state_machine.active_mut().unwrap().id, 1, "Incorrect active state");
     }
     
     mod fixtures {
