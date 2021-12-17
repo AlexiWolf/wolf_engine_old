@@ -33,7 +33,7 @@ mod state_machine_tests {
     #[test]
     fn should_push_function_to_stack() {
         let state = fixtures::TestState;
-        let state_machine = StateMachine::new();
+        let mut state_machine = StateMachine::new();
         
         state_machine.push(Box::from(state));
 
