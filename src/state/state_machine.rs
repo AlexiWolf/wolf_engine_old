@@ -25,4 +25,26 @@ mod state_machine_tests {
             "The state machine was initalized with a state on the stack"
         );
     }
+
+    #[test]
+    fn should_push_function_to_stack() {
+        let state = fixtures::TestState;
+        let state_machine = StateMachine::new();
+        
+        state_machine.push(Box::from(state));
+
+        assert_eq!(
+            state_machine.stack.len(),
+            1,
+            "The state was not pushed to the stack"
+        );
+    }
+    
+    mod fixtures {
+        use super::*;
+
+        pub struct TestState;
+
+        impl State for TestState {}
+    }
 }
