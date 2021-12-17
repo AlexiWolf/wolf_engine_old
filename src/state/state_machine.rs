@@ -14,6 +14,10 @@ impl StateMachine {
     pub fn push(&mut self, state: Box<dyn State>) {
         self.stack.push(state);
     }
+
+    pub fn active(&self) -> Option<&Box<dyn State>> {
+        None
+    }
 }
 
 #[cfg(test)]
