@@ -97,6 +97,7 @@
 
 mod engine;
 mod logging;
+mod state;
 
 pub mod context;
 pub mod game_loop;
@@ -104,3 +105,4 @@ pub mod game_loop;
 pub use context::{Context, ContextBuilder};
 pub use engine::*;
 pub use logging::*;
+pub use state::*;
