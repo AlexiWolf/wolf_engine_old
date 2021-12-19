@@ -18,6 +18,10 @@ impl StateMachine {
     pub fn pop(&mut self) -> Option<Box<dyn State>> {
         self.stack.pop()
     }
+
+    pub fn is_empty() -> bool {
+        false
+    }
 }
 
 #[cfg(test)]
