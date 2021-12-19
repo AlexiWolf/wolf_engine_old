@@ -37,6 +37,7 @@ use crate::{State, UpdateResult, RenderResult, Context};
 /// loop {
 ///     state_machine.update(&mut context);
 ///     state_machine.render(&mut context);
+///     # break;
 /// }
 /// ```
 ///
