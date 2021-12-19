@@ -1,4 +1,4 @@
-use crate::State;
+use crate::{State, UpdateResult, RenderResult, Context};
 
 /// Provides a system for managing and running many [State] objects. 
 ///
@@ -62,6 +62,17 @@ impl StateMachine {
     }
 }
 
+
+impl State for StateMachine {
+    fn update(&mut self, _context: &mut Context) -> UpdateResult {
+        ()                
+    }
+
+    fn render(&mut self, _context: &mut Context) -> RenderResult {
+        () 
+    }
+}
+
 #[cfg(test)]
 mod state_machine_tests {
     use super::*;
@@ -115,7 +126,6 @@ mod state_machine_tests {
     }
 
     mod fixtures {
-        use crate::{UpdateResult, RenderResult, Context};
 
         use super::*;
 
