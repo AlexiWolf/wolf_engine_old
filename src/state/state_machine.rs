@@ -15,7 +15,7 @@ impl StateMachine {
         self.stack.push(state);
     }
 
-    pub fn pop(&mut self) -> Option<dyn State> {
+    pub fn pop(&mut self) -> Option<Box<dyn State>> {
         None
     }
 }
