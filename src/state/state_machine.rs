@@ -19,8 +19,8 @@ impl StateMachine {
         self.stack.pop()
     }
 
-    pub fn is_empty() -> bool {
-        false
+    pub fn is_empty(&self) -> bool {
+        self.stack.is_empty() 
     }
 }
 
