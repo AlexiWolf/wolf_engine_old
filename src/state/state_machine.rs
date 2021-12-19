@@ -68,6 +68,14 @@ mod state_machine_tests {
         assert!(state_machine.is_empty());
     }
 
+    #[test]
+    fn should_not_be_empty_if_there_are_states_on_the_stack() {
+        let mut state_machine = StateMachine::new();
+        state_machine.push(Box::from(fixtures::TestState));
+
+        assert!(!state_machine.is_empty());
+    }
+
     mod fixtures {
         use super::*;
 
