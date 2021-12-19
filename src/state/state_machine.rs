@@ -54,6 +54,8 @@ mod state_machine_tests {
         state_machine.push(Box::from(fixtures::TestState));
         
         let state = state_machine.pop();
+        
+        assert!(state.is_some(), "No state was returned");
     }
 
     mod fixtures {
