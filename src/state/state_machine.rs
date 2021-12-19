@@ -31,7 +31,7 @@ mod state_machine_tests {
     }
 
     #[test]
-    fn should_push_function_to_stack() {
+    fn should_push_state_to_stack() {
         let state = fixtures::TestState;
         let mut state_machine = StateMachine::new();
         
@@ -42,6 +42,14 @@ mod state_machine_tests {
             1,
             "The state was not pushed to the stack"
         );
+    }
+    
+    #[test]
+    fn should_pull_state_off_the_stack() {
+        let mut state_machine = StateMachine::new();
+        state_machine.push(Box::from(fixtures::TestState));
+        
+        let state = state_machine.pop();
     }
 
     mod fixtures {
