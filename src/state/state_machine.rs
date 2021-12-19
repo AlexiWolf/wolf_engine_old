@@ -15,7 +15,7 @@ use crate::State;
 /// - Receive calls from the functions defined by the [State] trait.
 /// - Can control the state machine by returning a [Transition] to it.
 ///
-/// Inactive States
+/// # Inactive States
 ///
 /// A state is designated as "inactive" when it's not on the top of the stack.  Inactive 
 /// states have the following properties: 
