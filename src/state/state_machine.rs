@@ -77,7 +77,7 @@ mod state_machine_tests {
     }
 
     #[test]
-    fn should_push_state_to_stack() {
+    fn hould_push_state_to_stack() {
         let state = fixtures::TestState;
         let mut state_machine = StateMachine::new();
         
@@ -115,10 +115,20 @@ mod state_machine_tests {
     }
 
     mod fixtures {
+        use crate::{UpdateResult, RenderResult, Context};
+
         use super::*;
 
         pub struct TestState; 
 
-        impl State for TestState {}
+        impl State for TestState {
+            fn update(&mut self, _context: &mut Context) -> UpdateResult {
+                ()                
+            }
+
+            fn render(&mut self, _context: &mut Context) -> RenderResult {
+                () 
+            }
+        }
     }
 }
