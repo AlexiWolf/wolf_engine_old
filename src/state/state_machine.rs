@@ -1,23 +1,29 @@
 use crate::State;
 
-//! Provides a system for managing and running many [State] objects. 
-//!
-//! The State Machine stores a set of [State] objects in a stack, and runs them by 
-//! delegating function calls down to the states on the stack.  
-//!
-//! # Active / Inactive States
-//!
-//! A state may be designated as "active" when it the top state on the stack.  Every 
-//! state below it is considered "inactive." 
-//!
-//! Active States
-//!
-//! - Receive calls from the functions defined by the [State] trait.
-//! - Can control the state machine by returning a [Transition] to it.
-//!
-//! Inactive States
-//!
-//! - Only receive calls from "background" functions.
+/// Provides a system for managing and running many [State] objects. 
+///
+/// The State Machine stores a set of [State] objects in a stack, and runs them by 
+/// delegating function calls down to the states on the stack.  
+///
+/// state below it is considered "inactive." 
+///
+/// # Active States
+///
+/// A state is designated as "active" when it's on the top of the stack.  Active states 
+/// have the following properties:
+///
+/// - Receive calls from the functions defined by the [State] trait.
+/// - Can control the state machine by returning a [Transition] to it.
+///
+/// Inactive States
+///
+/// A state is designated as "inactive" when it's not on the top of the stack.  Inactive 
+/// states have the following properties: 
+///
+/// - Only receive calls from "background" functions.
+///
+/// # Examples
+///
 pub struct StateMachine {
     stack: Vec<Box<dyn State>>
 }
@@ -47,12 +53,12 @@ mod state_machine_tests {
     use super::*;
 
     #[test]
-    fn should_initalize_with_empty_stack() {
+    fn should_initialize_with_empty_stack() {
         let state_machine = StateMachine::new();
         assert_eq!(
             state_machine.stack.len(),
             0,
-            "The state machine was initalized with a state on the stack"
+            "The state machine was initialized with a state on the stack"
         );
     }
 
