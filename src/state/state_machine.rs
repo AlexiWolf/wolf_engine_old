@@ -14,14 +14,6 @@ impl StateMachine {
     pub fn push(&mut self, state: Box<dyn State>) {
         self.stack.push(state);
     }
-
-    pub fn active(&self) -> Option<&Box<dyn State>> {
-        None
-    }
-
-    pub fn active_mut(&mut self) -> Option<&mut Box<dyn State>> {
-        None
-    }
 }
 
 #[cfg(test)]
@@ -40,7 +32,7 @@ mod state_machine_tests {
 
     #[test]
     fn should_push_function_to_stack() {
-        let state = fixtures::TestState::new(0);
+        let state = fixtures::TestState;
         let mut state_machine = StateMachine::new();
         
         state_machine.push(Box::from(state));
@@ -52,31 +44,10 @@ mod state_machine_tests {
         );
     }
 
-    #[test]
-    fn should_make_last_state_the_active_state() {
-        let mut state_machine = StateMachine::new();
-
-        state_machine.push(Box::from(fixtures::TestState::new(0)));
-        assert_eq!(state_machine.active().unwrap().id, 0, "Incorrect active state");
-
-        state_machine.push(Box::from(fixtures::TestState::new(1)));
-        assert_eq!(state_machine.active_mut().unwrap().id, 1, "Incorrect active state");
-    }
-    
     mod fixtures {
         use super::*;
 
-        pub struct TestState {
-            pub id: u32
-        }
-
-        impl TestState {
-            pub fn new(id: u32) -> Self {
-                Self {
-                    id 
-                }
-            }
-        }
+        pub struct TestState; 
 
         impl State for TestState {}
     }
