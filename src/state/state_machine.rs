@@ -57,6 +57,12 @@ mod state_machine_tests {
         
         assert!(state.is_some(), "No state was returned");
     }
+    
+    #[test]
+    fn should_be_empty_if_there_are_no_states_on_the_stack() {
+        let state_machine = StateMachine::new();
+        assert!(state_machine.is_empty());
+    }
 
     mod fixtures {
         use super::*;
