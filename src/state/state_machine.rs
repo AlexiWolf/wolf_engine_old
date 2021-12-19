@@ -24,6 +24,20 @@ use crate::State;
 ///
 /// # Examples
 ///
+/// Running the active state:
+///
+/// ```
+/// # use wolf_engine::StateMachine;
+/// # 
+/// # let context = Context::new();
+/// let mut state_machine = StateMachine::new();
+/// 
+/// loop {
+///     state_machine.update(&mut context);
+///     state_machine.render(&mut context);
+/// }
+/// ```
+///
 pub struct StateMachine {
     stack: Vec<Box<dyn State>>
 }
