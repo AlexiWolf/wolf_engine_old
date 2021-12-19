@@ -1,5 +1,23 @@
 use crate::State;
 
+//! Provides a system for managing and running many [State] objects. 
+//!
+//! The State Machine stores a set of [State] objects in a stack, and runs them by 
+//! delegating function calls down to the states on the stack.  
+//!
+//! # Active / Inactive States
+//!
+//! A state may be designated as "active" when it the top state on the stack.  Every 
+//! state below it is considered "inactive." 
+//!
+//! Active States
+//!
+//! - Receive calls from the functions defined by the [State] trait.
+//! - Can control the state machine by returning a [Transition] to it.
+//!
+//! Inactive States
+//!
+//! - Only receive calls from "background" functions.
 pub struct StateMachine {
     stack: Vec<Box<dyn State>>
 }
