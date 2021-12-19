@@ -27,9 +27,11 @@ use crate::{State, UpdateResult, RenderResult, Context};
 /// Running the active state:
 ///
 /// ```
-/// # use wolf_engine::StateMachine;
+/// # use wolf_engine::{StateMachine, State, ContextBuilder};
 /// # 
-/// # let context = Context::new();
+/// # let mut context = ContextBuilder::new()
+/// #    .build();
+/// #
 /// let mut state_machine = StateMachine::new();
 /// 
 /// loop {
