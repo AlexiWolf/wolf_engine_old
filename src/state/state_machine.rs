@@ -68,7 +68,7 @@ impl StateMachine {
 
 impl State for StateMachine {
     fn update(&mut self, _context: &mut Context) -> UpdateResult {
-        ()                
+        ()
     }
 
     fn render(&mut self, _context: &mut Context) -> RenderResult {
@@ -126,6 +126,17 @@ mod state_machine_tests {
         state_machine.push(Box::from(fixtures::TestState));
 
         assert!(!state_machine.is_empty());
+    }
+
+
+    #[test]
+    fn should_have_active_state_accessor() { 
+        let mut state_machine = StateMachine::new();
+        state_machine.push(Box::from(fixtures::TestState));
+        
+        let state = state_machine.active();
+
+        assert!(state.is_some(), "The active state was None");
     }
 
     mod fixtures {
