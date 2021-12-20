@@ -64,7 +64,7 @@ impl StateMachine {
         self.stack.is_empty() 
     }
 
-    pub fn active(&mut self) -> Option<&mut Box<dyn State>> {
+    pub fn active_mut(&mut self) -> Option<&mut Box<dyn State>> {
         self.stack.last_mut()
     }
 }
@@ -138,7 +138,7 @@ mod state_machine_tests {
         let mut state_machine = StateMachine::new();
         state_machine.push(Box::from(fixtures::TestState));
         
-        let state = state_machine.active();
+        let state = state_machine.active_mut();
 
         assert!(state.is_some(), "The active state was None");
     }
