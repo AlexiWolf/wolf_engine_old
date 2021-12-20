@@ -64,8 +64,8 @@ impl StateMachine {
         self.stack.is_empty() 
     }
 
-    pub fn active(&mut self) -> Option<Box<dyn State>> {
-        None
+    pub fn active(&mut self) -> Option<&mut Box<dyn State>> {
+        self.stack.last_mut()
     }
 }
 
