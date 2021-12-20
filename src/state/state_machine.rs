@@ -63,6 +63,10 @@ impl StateMachine {
     pub fn is_empty(&self) -> bool {
         self.stack.is_empty() 
     }
+
+    pub fn active(&mut self) -> Option<Box<dyn State>> {
+        None
+    }
 }
 
 
