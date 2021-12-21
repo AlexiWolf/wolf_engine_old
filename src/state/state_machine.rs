@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use crate::{State, UpdateResult, RenderResult, Context};
 
 /// Provides a system for managing and running many [State] objects. 
@@ -77,6 +79,12 @@ impl State for StateMachine {
 
     fn render(&mut self, _context: &mut Context) -> RenderResult {
         () 
+    }
+}
+
+impl Display for StateMachine {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "State Machine: {} states", self.stack.len())
     }
 }
 
