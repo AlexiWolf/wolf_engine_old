@@ -166,5 +166,11 @@ mod state_machine_tests {
                 () 
             }
         }
+
+        impl Display for TestState {
+            fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                write!(f, "")
+            }
+        }
     }
 }
