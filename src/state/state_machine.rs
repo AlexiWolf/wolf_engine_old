@@ -104,7 +104,7 @@ mod state_machine_tests {
 
     #[test]
     fn hould_push_state_to_stack() {
-        let state = fixtures::TestState;
+        let state = fixtures::TestState::new("default");
         let mut state_machine = StateMachine::new();
         
         state_machine.push(Box::from(state));
@@ -119,7 +119,7 @@ mod state_machine_tests {
     #[test]
     fn should_pull_state_off_the_stack() {
         let mut state_machine = StateMachine::new();
-        state_machine.push(Box::from(fixtures::TestState));
+        state_machine.push(Box::from(fixtures::TestState::new("default")));
         
         let state = state_machine.pop();
         
@@ -135,7 +135,7 @@ mod state_machine_tests {
     #[test]
     fn should_not_be_empty_if_there_are_states_on_the_stack() {
         let mut state_machine = StateMachine::new();
-        state_machine.push(Box::from(fixtures::TestState));
+        state_machine.push(Box::from(fixtures::TestState::new("default")));
 
         assert!(!state_machine.is_empty());
     }
@@ -144,7 +144,7 @@ mod state_machine_tests {
     #[test]
     fn should_have_active_state_accessor() { 
         let mut state_machine = StateMachine::new();
-        state_machine.push(Box::from(fixtures::TestState));
+        state_machine.push(Box::from(fixtures::TestState::new("default")));
         
         let state = state_machine.active_mut();
 
@@ -155,7 +155,17 @@ mod state_machine_tests {
 
         use super::*;
 
-        pub struct TestState; 
+        pub struct TestState {
+            pub message: String,
+        }
+
+        impl TestState {
+            pub fn new(message: &str) -> Self {
+                Self {
+                    message: message.to_string()
+                }
+            }
+        }
 
         impl State for TestState {
             fn update(&mut self, _context: &mut Context) -> UpdateResult {
@@ -169,7 +179,7 @@ mod state_machine_tests {
 
         impl Display for TestState {
             fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-                write!(f, "")
+                write!(f, "{}", self.message)
             }
         }
     }
