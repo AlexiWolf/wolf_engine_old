@@ -69,8 +69,10 @@ impl StateMachine {
 }
 
 impl State for StateMachine {
-    fn update(&mut self, _context: &mut Context) -> UpdateResult {
-        ()
+    fn update(&mut self, context: &mut Context) -> UpdateResult {
+        if let Some(state) = self.active_mut() {
+            state.update(context);
+        }
     }
 
     fn render(&mut self, _context: &mut Context) -> RenderResult {
