@@ -214,11 +214,11 @@ mod state_machine_tests {
         }
 
         impl State for CallTestState {
-            fn update(&mut self, context: &mut Context) -> UpdateResult {
+            fn update(&mut self, _context: &mut Context) -> UpdateResult {
                 self.updates += 1;
             }
 
-            fn render(&mut self, context: &mut Context) -> RenderResult {
+            fn render(&mut self, _context: &mut Context) -> RenderResult {
                 self.renders += 1;
             }
         }
