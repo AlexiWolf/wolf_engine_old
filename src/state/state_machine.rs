@@ -75,8 +75,10 @@ impl State for StateMachine {
         }
     }
 
-    fn render(&mut self, _context: &mut Context) -> RenderResult {
-        ()
+    fn render(&mut self, context: &mut Context) -> RenderResult {
+        if let Some(state) = self.active_mut() {
+            state.render(context);
+        }
     }
 }
 
