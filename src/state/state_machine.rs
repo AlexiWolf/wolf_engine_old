@@ -101,7 +101,7 @@ mod state_machine_tests {
     }
 
     #[test]
-    fn hould_push_state_to_stack() {
+    fn should_push_state_to_stack() {
         let state = fixtures::TestState::new("default");
         let mut state_machine = StateMachine::new();
 
