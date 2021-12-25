@@ -15,4 +15,3 @@ pub trait State: Display {
 
     fn render(&mut self, context: &mut Context) -> RenderResult;
 }
-
