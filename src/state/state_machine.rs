@@ -171,6 +171,17 @@ mod state_machine_tests {
         );
     }
 
+    #[test]
+    fn should_handle_pop_transition() {
+        let context = ContextBuilder::new().build();
+        let state_machine = StateMachine::new(); 
+        let state = TransitionTestState::new(Transition::Pop); 
+        
+        state_machine.update(&mut context);
+        
+        assert!(state_machine.is_empty(), "The state machine should be empty.");
+    }
+
     mod fixtures {
 
         use super::*;
