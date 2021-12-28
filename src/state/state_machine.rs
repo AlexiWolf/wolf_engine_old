@@ -90,7 +90,7 @@ impl Display for StateMachine {
 
 #[cfg(test)]
 mod state_machine_tests {
-    use crate::ContextBuilder;
+    use crate::{ContextBuilder, Transition};
 
     use super::*;
 
@@ -175,7 +175,7 @@ mod state_machine_tests {
     fn should_handle_pop_transition() {
         let context = ContextBuilder::new().build();
         let state_machine = StateMachine::new(); 
-        let state = TransitionTestState::new(Transition::Pop); 
+        let state = fixtures::TransitionTestState::new(Transition::Pop); 
         
         state_machine.update(&mut context);
         
