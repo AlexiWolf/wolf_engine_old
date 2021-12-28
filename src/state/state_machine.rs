@@ -173,9 +173,9 @@ mod state_machine_tests {
 
     #[test]
     fn should_handle_pop_transition() {
-        let context = ContextBuilder::new().build();
-        let state_machine = StateMachine::new(); 
-        let state = fixtures::TransitionTestState::new(Transition::Pop); 
+        let mut context = ContextBuilder::new().build();
+        let mut state_machine = StateMachine::new(); 
+        state_machine.push(Box::from(fixtures::TransitionTestState::new(Transition::Pop)));
         
         state_machine.update(&mut context);
         
