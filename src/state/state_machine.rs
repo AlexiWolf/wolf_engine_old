@@ -243,5 +243,31 @@ mod state_machine_tests {
                 write!(f, "{}, {}", self.updates, self.renders)
             }
         }
+    
+        pub struct TransitionTestState {
+            transition: Transition
+        }
+
+        impl TransitionTestState {
+            pub fn new(transition: Transition) -> Self {
+                Self {
+                    transition
+                }
+            }
+        }
+
+        impl State for TransitionTestState {
+
+            fn update(&mut self, _: &mut Context) -> UpdateResult {}
+
+            fn render(&mut self, context: &mut Context) -> RenderResult {}
+        }
+
+
+        impl Display for TransitionTestState {
+            fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                write!(f, "")
+            }
+        }
     }
 }
