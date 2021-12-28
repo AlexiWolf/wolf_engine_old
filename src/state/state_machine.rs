@@ -258,9 +258,9 @@ mod state_machine_tests {
 
         impl State for TransitionTestState {
 
-            fn update(&mut self, _: &mut Context) -> UpdateResult {}
+            fn update(&mut self, _context: &mut Context) -> UpdateResult {}
 
-            fn render(&mut self, context: &mut Context) -> RenderResult {}
+            fn render(&mut self, _context: &mut Context) -> RenderResult {}
         }
 
 
