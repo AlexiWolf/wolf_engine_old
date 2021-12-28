@@ -8,7 +8,7 @@ pub use transition::*;
 
 use crate::Context;
 
-pub type UpdateResult = ();
+pub type UpdateResult = Option<Transition>;
 
 pub type RenderResult = ();
 
