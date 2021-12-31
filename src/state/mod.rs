@@ -14,9 +14,9 @@ pub type RenderResult = ();
 
 /// Provides a common mechanism for getting game logic / data to the engine.
 ///
-/// A `State`, or "game state" is more or less the actual *game* part of your game.  
-/// Game states allow you to store game data and implement your game's logic in way that 
-/// makes it easy to pass to send off to be run by the engine.
+/// A `State`, or "game state" is more or less the actual *game* part of your game.  Game 
+/// states allow you to store game data and implement your game's logic in way that makes 
+/// it easy to pass to send off to be run by the engine.
 ///
 /// Wolf Engine games are made up of one or more States.  For simple games one state may 
 /// be fine, but more complex games may benefit from multiple states.  This allows you to 

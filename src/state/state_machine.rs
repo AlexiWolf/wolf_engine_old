@@ -52,7 +52,7 @@ impl StateMachine {
         Self { stack: vec![] }
     }
     
-    /// Apply the provided [UpdateResult] to the state machine.
+    /// Apply the provided [Transition] to the state machine.
     ///
     /// This method is primarily used by the `update` method, but it may be useful for 
     /// those who want to use the state machine directly.
