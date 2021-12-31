@@ -87,6 +87,7 @@ impl StateMachine {
         self.push(state);
     }
 
+    /// Pop all [State]s off the stack.
     pub fn clean(&mut self) {
         while !self.is_empty() {
             self.pop();
