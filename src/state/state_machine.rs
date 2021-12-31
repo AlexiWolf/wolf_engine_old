@@ -71,6 +71,7 @@ impl StateMachine {
         self.stack.push(state);
     }
 
+    /// Pop the active [State] off the stack, but do not return it.
     pub fn pop_no_return(&mut self) {
         self.pop();
     }
