@@ -94,6 +94,7 @@ impl StateMachine {
         }
     }
 
+    /// Indicates if there are any [State]s on the stack.
     pub fn is_empty(&self) -> bool {
         self.stack.is_empty()
     }
