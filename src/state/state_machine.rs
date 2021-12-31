@@ -47,10 +47,11 @@ pub struct StateMachine {
 }
 
 impl StateMachine {
+    /// Create a new state machine with an empty stack.
     pub fn new() -> Self {
         Self { stack: vec![] }
     }
-
+    
     pub fn do_transition(&mut self, update_result: UpdateResult) {
         if let Some(transition) = update_result {
             match transition {
