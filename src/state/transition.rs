@@ -16,6 +16,6 @@ pub enum TransitionType {
     /// Pop all [State]s off the stack, then push a new state.
     CleanPush(Box<dyn State>),
 
-    /// Pop all [States] off the stack, then shut down the engine.
+    /// Pop all [State]s off the stack, then shut down the engine.
     Quit,
 }
