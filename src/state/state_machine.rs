@@ -75,6 +75,7 @@ impl State for StateMachine {
                 match transition {
                     Transition::Pop => {self.pop();},
                     Transition::Push(state) => self.push(state), 
+                    Transition::CleanPush(_) => (),
                     Transition::Quit => {
                         while !self.is_empty() {
                             self.pop();
