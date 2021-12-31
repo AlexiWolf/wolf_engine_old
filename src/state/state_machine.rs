@@ -165,8 +165,7 @@ mod state_machine_tests {
 
     #[test]
     fn should_call_state_update() {
-        let mut context = ContextBuilder::new().build();
-        let mut state_machine = StateMachine::new();
+        let (mut context, mut state_machine) = new_context_and_state_machine(); 
         let mut state = MockState::new();
         state.expect_update()
             .times(3)
@@ -180,8 +179,7 @@ mod state_machine_tests {
 
     #[test]
     fn should_handle_pop_transition() {
-        let mut context = ContextBuilder::new().build();
-        let mut state_machine = StateMachine::new(); 
+        let (mut context, mut state_machine) = new_context_and_state_machine(); 
         let mut state = MockState::new();
         state.expect_update()
             .times(1)
@@ -195,7 +193,7 @@ mod state_machine_tests {
 
     #[test]
     fn should_handle_to_state_transition() {
-        let mut context = ContextBuilder::new().build();
+        let (mut context, mut state_machine) = new_context_and_state_machine(); 
         let mut state_machine = StateMachine::new();
         let mut transition_to_state = MockState::new();
         let mut no_transition = MockState::new();
@@ -214,8 +212,7 @@ mod state_machine_tests {
 
     #[test]
     fn should_handle_quit_transition() {
-        let mut context = ContextBuilder::new().build();
-        let mut state_machine = StateMachine::new();
+        let (mut context, mut state_machine) = new_context_and_state_machine(); 
         let state_a = MockState::new();
         let state_b = MockState::new();
         let mut quit_state = MockState::new();
@@ -233,4 +230,11 @@ mod state_machine_tests {
             "The stack should be empty, but it is not"
         );
     }
+
+    fn new_context_and_state_machine() -> (Context, StateMachine) {
+        let context = ContextBuilder::new().build();
+        let state_machine = StateMachine::new();
+        (context, state_machine)
+    }
+
 }
