@@ -1,6 +1,6 @@
 use std::fmt::Display;
 
-use crate::{Context, RenderResult, State, UpdateResult, Transition};
+use crate::{Context, RenderResult, State, Transition, UpdateResult};
 
 /// Provides a system for managing and running many [State] objects.
 ///
@@ -73,19 +73,21 @@ impl State for StateMachine {
         if let Some(state) = self.active_mut() {
             if let Some(transition) = state.update(context) {
                 match transition {
-                    Transition::Push(state) => self.push(state), 
-                    Transition::Pop => {self.pop();},
+                    Transition::Push(state) => self.push(state),
+                    Transition::Pop => {
+                        self.pop();
+                    }
                     Transition::CleanPush(state) => {
                         while !self.is_empty() {
                             self.pop();
                         }
                         self.push(state);
-                    },
+                    }
                     Transition::Quit => {
                         while !self.is_empty() {
                             self.pop();
                         }
-                    }, 
+                    }
                 }
             }
         }
@@ -107,7 +109,7 @@ impl Display for StateMachine {
 
 #[cfg(test)]
 mod state_machine_tests {
-    use crate::{ContextBuilder, Transition, MockState};
+    use crate::{ContextBuilder, MockState, Transition};
 
     use super::*;
 
@@ -171,11 +173,9 @@ mod state_machine_tests {
 
     #[test]
     fn should_handle_none_transition() {
-        let (mut context, mut state_machine) = new_context_and_state_machine(); 
+        let (mut context, mut state_machine) = new_context_and_state_machine();
         let mut state = MockState::new();
-        state.expect_update()
-            .times(3)
-            .returning(|_| None);
+        state.expect_update().times(3).returning(|_| None);
         state_machine.push(Box::from(state));
 
         for _ in 0..3 {
@@ -185,27 +185,30 @@ mod state_machine_tests {
 
     #[test]
     fn should_handle_pop_transition() {
-        let (mut context, mut state_machine) = new_context_and_state_machine(); 
+        let (mut context, mut state_machine) = new_context_and_state_machine();
         let mut state = MockState::new();
-        state.expect_update()
+        state
+            .expect_update()
             .times(1)
             .returning(|_| Some(Transition::Pop));
         state_machine.push(Box::from(state));
-        
+
         state_machine.update(&mut context);
-        
-        assert!(state_machine.is_empty(), "The state machine should be empty.");
+
+        assert!(
+            state_machine.is_empty(),
+            "The state machine should be empty."
+        );
     }
 
     #[test]
     fn should_handle_to_state_transition() {
-        let (mut context, mut state_machine) = new_context_and_state_machine(); 
+        let (mut context, mut state_machine) = new_context_and_state_machine();
         let mut transition_to_state = MockState::new();
         let mut no_transition = MockState::new();
-        no_transition.expect_update()
-            .times(1)
-            .returning(|_| None);
-        transition_to_state.expect_update()
+        no_transition.expect_update().times(1).returning(|_| None);
+        transition_to_state
+            .expect_update()
             .times(1)
             .return_once(move |_| Some(Transition::Push(Box::from(no_transition))));
         state_machine.push(Box::from(transition_to_state));
@@ -217,13 +220,15 @@ mod state_machine_tests {
 
     #[test]
     fn should_handle_clean_push_transition() {
-        let (mut context, mut state_machine) = new_context_and_state_machine(); 
+        let (mut context, mut state_machine) = new_context_and_state_machine();
         let mut no_transition_state = MockState::new();
-        no_transition_state.expect_update()
+        no_transition_state
+            .expect_update()
             .times(1)
             .returning(|_| None);
         let mut clean_push_state = MockState::new();
-        clean_push_state.expect_update()
+        clean_push_state
+            .expect_update()
             .times(1)
             .return_once(move |_| Some(Transition::CleanPush(Box::from(no_transition_state))));
 
@@ -233,13 +238,13 @@ mod state_machine_tests {
         }
     }
 
-
     #[test]
     fn should_handle_quit_transition() {
-        let (mut context, mut state_machine) = new_context_and_state_machine(); 
+        let (mut context, mut state_machine) = new_context_and_state_machine();
         add_placeholder_states(&mut state_machine);
         let mut quit_state = MockState::new();
-        quit_state.expect_update()
+        quit_state
+            .expect_update()
             .times(1)
             .returning(|_| Some(Transition::Quit));
         state_machine.push(Box::from(quit_state));
@@ -247,7 +252,7 @@ mod state_machine_tests {
         state_machine.update(&mut context);
 
         assert!(
-            state_machine.is_empty(), 
+            state_machine.is_empty(),
             "The stack should be empty, but it is not"
         );
     }
@@ -262,5 +267,4 @@ mod state_machine_tests {
         let state_machine = StateMachine::new();
         (context, state_machine)
     }
-
 }

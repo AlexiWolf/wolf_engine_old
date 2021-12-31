@@ -7,7 +7,7 @@ pub use transition::*;
 use crate::Context;
 
 #[cfg(test)]
-use mockall::automock; 
+use mockall::automock;
 
 pub type UpdateResult = Option<Transition>;
 
@@ -19,4 +19,3 @@ pub trait State {
 
     fn render(&mut self, context: &mut Context) -> RenderResult;
 }
-
