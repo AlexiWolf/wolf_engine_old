@@ -192,15 +192,15 @@ mod state_machine_tests {
     fn should_handle_to_state_transition() {
         let mut context = ContextBuilder::new().build();
         let mut state_machine = StateMachine::new();
-        let mut state_a = MockState::new();
-        let mut state_b = MockState::new();
-        state_b.expect_update()
+        let mut transition_to_state = MockState::new();
+        let mut no_transition = MockState::new();
+        no_transition.expect_update()
             .times(1)
             .returning(|_| None);
-        state_a.expect_update()
+        transition_to_state.expect_update()
             .times(1)
-            .return_once(move |_| Some(Transition::ToState(Box::from(state_b))));
-        state_machine.push(Box::from(state_a));
+            .return_once(move |_| Some(Transition::ToState(Box::from(no_transition))));
+        state_machine.push(Box::from(transition_to_state));
 
         for _ in 0..2 {
             state_machine.update(&mut context);
