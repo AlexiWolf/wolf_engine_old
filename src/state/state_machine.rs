@@ -73,7 +73,8 @@ impl State for StateMachine {
         if let Some(state) = self.active_mut() {
             if let Some(transition) = state.update(context) {
                 match transition {
-                    Transition::Pop => {self.pop();}
+                    Transition::Pop => {self.pop();},
+                    Transition::ToState(_transition) => (), 
                 }
             }
         }
