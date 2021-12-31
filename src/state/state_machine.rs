@@ -1,6 +1,6 @@
 use std::fmt::Display;
 
-use crate::{Context, RenderResult, State, UpdateResult};
+use crate::{Context, RenderResult, State, UpdateResult, Transition};
 
 /// Provides a system for managing and running many [State] objects.
 ///
@@ -71,7 +71,11 @@ impl StateMachine {
 impl State for StateMachine {
     fn update(&mut self, context: &mut Context) -> UpdateResult {
         if let Some(state) = self.active_mut() {
-            state.update(context);
+            if let Some(transition) = state.update(context) {
+                match transition {
+                    Transition::Pop => {self.pop();}
+                }
+            }
         }
         None
     }
