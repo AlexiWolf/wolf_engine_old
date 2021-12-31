@@ -52,6 +52,7 @@ impl StateMachine {
         Self { stack: vec![] }
     }
     
+    /// Apply the provided [Transition] to the state machine.
     pub fn do_transition(&mut self, update_result: UpdateResult) {
         if let Some(transition) = update_result {
             match transition {
