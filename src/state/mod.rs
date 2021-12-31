@@ -30,19 +30,19 @@ pub type RenderResult = ();
 /// # Examples
 ///
 /// ```
-/// use wolf_engine::{State, Transition, RenderResult};
+/// use wolf_engine::{Context, State, Transition, RenderResult};
 ///
 /// struct MyGame {
 ///     number: u32,
 /// }
 ///
 /// impl State for MyGame {
-///     fn update(&mut self, &mut Context) -> Transition {
+///     fn update(&mut self, _context: &mut Context) -> Transition {
 ///         self.number += 1;
 ///         None // Don't transition, just keep running
 ///     }
 ///
-///     fn render(&mut self, context: &mut Context) -> RenderResult {
+///     fn render(&mut self, _context: &mut Context) -> RenderResult {
 ///         // Render logic
 ///     }
 /// }
