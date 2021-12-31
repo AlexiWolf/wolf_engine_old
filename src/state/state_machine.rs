@@ -51,6 +51,17 @@ impl StateMachine {
         Self { stack: vec![] }
     }
 
+    fn do_transition(&mut self, update_result: UpdateResult) {
+        if let Some(transition) = update_result {
+            match transition {
+                Transition::Push(state) => self.push(state),
+                Transition::Pop => self.pop_no_return(),
+                Transition::CleanPush(state) => self.clean_push(state),
+                Transition::Quit => self.clean(),
+            }
+        }
+    }
+
     pub fn push(&mut self, state: Box<dyn State>) {
         self.stack.push(state);
     }
@@ -86,14 +97,8 @@ impl StateMachine {
 impl State for StateMachine {
     fn update(&mut self, context: &mut Context) -> UpdateResult {
         if let Some(state) = self.active_mut() {
-            if let Some(transition) = state.update(context) {
-                match transition {
-                    Transition::Push(state) => self.push(state),
-                    Transition::Pop => self.pop_no_return(),
-                    Transition::CleanPush(state) => self.clean_push(state),
-                    Transition::Quit => self.clean(),
-                }
-            }
+            let update_result = state.update(context);
+            self.do_transition(update_result);
         }
         None
     }
