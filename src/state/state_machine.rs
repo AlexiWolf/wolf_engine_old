@@ -55,6 +55,10 @@ impl StateMachine {
         self.stack.push(state);
     }
 
+    fn pop_no_return(&mut self) {
+        self.pop();
+    }
+
     pub fn pop(&mut self) -> Option<Box<dyn State>> {
         self.stack.pop()
     }
@@ -85,15 +89,9 @@ impl State for StateMachine {
             if let Some(transition) = state.update(context) {
                 match transition {
                     Transition::Push(state) => self.push(state),
-                    Transition::Pop => {
-                        self.pop();
-                    }
-                    Transition::CleanPush(state) => {
-                        self.clean_push(state);
-                    }
-                    Transition::Quit => {
-                        self.clean();
-                    }
+                    Transition::Pop => self.pop_no_return(),
+                    Transition::CleanPush(state) => self.clean_push(state),
+                    Transition::Quit => self.clean(),
                 }
             }
         }
