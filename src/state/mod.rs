@@ -20,7 +20,7 @@ pub type RenderResult = ();
 ///
 /// Wolf Engine games are made up of one or more States.  For simple games one state may 
 /// be fine, but more complex games may benefit from multiple states.  This allows you to 
-/// split your game into more managable chunks.  For example: You may want to have a 
+/// split your game into more manageable chunks.  For example: You may want to have a 
 /// `MainMenuState`, a `LevelState`, and a `PausedState` for your game.  Trying to shove
 /// all of that game logic into a single state will quickly make your game unworkable.
 /// 
