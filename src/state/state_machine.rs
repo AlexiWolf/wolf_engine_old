@@ -194,7 +194,6 @@ mod state_machine_tests {
     #[test]
     fn should_handle_to_state_transition() {
         let (mut context, mut state_machine) = new_context_and_state_machine(); 
-        let mut state_machine = StateMachine::new();
         let mut transition_to_state = MockState::new();
         let mut no_transition = MockState::new();
         no_transition.expect_update()
