@@ -221,7 +221,11 @@ mod state_machine_tests {
         clean_push_state.expect_update()
             .times(1)
             .return_once(move |_| Some(Transition::CleanPush(Box::from(no_transition_state))));
+
         state_machine.push(Box::from(clean_push_state));
+        for _ in 0..2 {
+            state_machine.update(&mut context);
+        }
     }
 
 
