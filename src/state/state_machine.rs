@@ -74,7 +74,7 @@ impl State for StateMachine {
             if let Some(transition) = state.update(context) {
                 match transition {
                     Transition::Pop => {self.pop();},
-                    Transition::ToState(state) => self.push(state), 
+                    Transition::Push(state) => self.push(state), 
                     Transition::Quit => {
                         while !self.is_empty() {
                             self.pop();
@@ -204,7 +204,7 @@ mod state_machine_tests {
             .returning(|_| None);
         transition_to_state.expect_update()
             .times(1)
-            .return_once(move |_| Some(Transition::ToState(Box::from(no_transition))));
+            .return_once(move |_| Some(Transition::Push(Box::from(no_transition))));
         state_machine.push(Box::from(transition_to_state));
 
         for _ in 0..2 {
