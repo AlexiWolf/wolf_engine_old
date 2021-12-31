@@ -210,6 +210,21 @@ mod state_machine_tests {
     }
 
     #[test]
+    fn should_handle_clean_push_transition() {
+        let (mut context, mut state_machine) = new_context_and_state_machine(); 
+        let mut no_transition_state = MockState::new();
+        no_transition_state.expect_update()
+            .times(1)
+            .returning(|_| None);
+        let mut clean_push_state = MockState::new();
+        clean_push_state.expect_update()
+            .times(1)
+            .return_once(move |_| Some(Transition::CleanPush(Box::from(no_transition_state))));
+        state_machine.push(Box::from(clean_push_state));
+    }
+
+
+    #[test]
     fn should_handle_quit_transition() {
         let (mut context, mut state_machine) = new_context_and_state_machine(); 
         add_placeholder_states(&mut state_machine);
