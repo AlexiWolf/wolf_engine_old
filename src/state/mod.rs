@@ -9,6 +9,7 @@ use crate::Context;
 #[cfg(test)]
 use mockall::automock;
 
+/// A currently unused return type for [State]'s render method.
 pub type RenderResult = ();
 
 #[cfg_attr(test, automock)]
