@@ -51,7 +51,7 @@ impl StateMachine {
         Self { stack: vec![] }
     }
 
-    fn do_transition(&mut self, update_result: UpdateResult) {
+    pub fn do_transition(&mut self, update_result: UpdateResult) {
         if let Some(transition) = update_result {
             match transition {
                 Transition::Push(state) => self.push(state),
@@ -66,7 +66,7 @@ impl StateMachine {
         self.stack.push(state);
     }
 
-    fn pop_no_return(&mut self) {
+    pub fn pop_no_return(&mut self) {
         self.pop();
     }
 
@@ -74,12 +74,12 @@ impl StateMachine {
         self.stack.pop()
     }
 
-    fn clean_push(&mut self, state: Box<dyn State>) {
+    pub fn clean_push(&mut self, state: Box<dyn State>) {
         self.clean();
         self.push(state);
     }
 
-    fn clean(&mut self) {
+    pub fn clean(&mut self) {
         while !self.is_empty() {
             self.pop();
         }
