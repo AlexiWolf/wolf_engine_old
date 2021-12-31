@@ -81,6 +81,7 @@ impl StateMachine {
         self.stack.pop()
     }
 
+    /// Pop all [State]s off the stack before pushing the provided state.
     pub fn clean_push(&mut self, state: Box<dyn State>) {
         self.clean();
         self.push(state);
