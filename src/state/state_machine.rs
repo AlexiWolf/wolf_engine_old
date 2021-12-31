@@ -184,7 +184,7 @@ mod state_machine_tests {
         let mut state_machine = StateMachine::new(); 
         let mut state = MockState::new();
         state.expect_update()
-            .times(..)
+            .times(1)
             .returning(|_| Some(Transition::Pop));
         state_machine.push(Box::from(state));
         
