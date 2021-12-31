@@ -75,6 +75,7 @@ impl State for StateMachine {
                 match transition {
                     Transition::Pop => {self.pop();},
                     Transition::ToState(state) => self.push(state), 
+                    Transition::Quit => (), 
                 }
             }
         }
