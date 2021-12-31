@@ -1,20 +1,30 @@
 <!-- Include a quick summary of the changes made in this PR. -->
 
-# Change Types 
+# Change Type 
 
-See [Semantic Versioning](https://semver.org/) for more information.  Be aware that we will be unwilling to accept Major
-changes without careful consideration and a **VERY** good reason.
+See [Semantic Versioning](https://semver.org/) for more information.
 
-Select one:
+<!-- Select one (Delete the rest): -->
 
-- [ ] Non-Code (No changes to the source code.)
-- [ ] Patch (Changes do not effect the public API.)  
-- [ ] Minor (Non-breaking changes to the public API.)
-- [ ] Major (Breaking changes to the public API after v1.0.)
+- Non-Code
+- Patch
+- Minor
+- Major
+
+<!--
+Guidelines: 
+
+- Non-Code: Changes are not to the code base.
+- Patch: Changes do not effect the public API.
+- Minor: Any changes to the public API before version 1.0, or backwards-compatible changes to the public API after version 1.0.
+- Major: Any non-backwards-compatible change to the public API after version 1.0.  
+ 
+Be aware that we will be unwilling to accept Major changes without careful consideration and a **VERY** good reason.
+-->
 
 # Changes Made
 
-Planned changes should be done as a checklist, and changes marked off when completed.
+<!-- Planned changes should be done as a checklist, and changes marked off when completed. -->
 
 - [ ] Add Change 1
   - [ ] Part 1
@@ -24,8 +34,7 @@ Planned changes should be done as a checklist, and changes marked off when compl
 
 # Merge Checklist
 
-This is the standard checklist of tasks that **MUST** be completed before a PR can be accepted.  Please do not make
-changes to this checklist or you PR will be rejected.
+This is the standard checklist of tasks that **MUST** be completed before a PR can be accepted.
 
 - [ ] Feature Completeness
   - [ ] All planned changes have been completed.
@@ -35,3 +44,12 @@ changes to this checklist or you PR will be rejected.
   - [ ] The codebase is formatted correctly (run `cargo fmt`.)
   - [ ] All compiler warnings have been resolved.
   - [ ] All Clippy warnings have been resolved (run `cargo clippy`.)
+- [ ] Documentation
+  - [ ] The documentation has been updated.
+  - [ ] Relavent examples have been provided in `/examples`.
+  - [ ] All doctests / examples are passing.
+  - [ ] All documentation warnings / errors have been resolved.
+- [ ] Merge
+  - [ ] The feature branch has been brought up to date with the main branch.
+  - [ ] The version number has been bumped.
+  - [ ] I understand and agree to the contribution guidelines.
