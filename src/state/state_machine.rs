@@ -7,8 +7,6 @@ use crate::{Context, RenderResult, State, Transition, TransitionType};
 /// The State Machine stores a set of [State] objects in a stack, and runs them by
 /// delegating function calls down to the states on the stack.  
 ///
-/// state below it is considered "inactive."
-///
 /// # Active States
 ///
 /// A state is designated as "active" when it's on the top of the stack.  Active states
@@ -26,7 +24,7 @@ use crate::{Context, RenderResult, State, Transition, TransitionType};
 ///
 /// # Examples
 ///
-/// Running the active state:
+/// Running the state machine:
 ///
 /// ```
 /// # use wolf_engine::{StateMachine, State, ContextBuilder};
