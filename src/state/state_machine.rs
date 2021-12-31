@@ -136,7 +136,7 @@ mod state_machine_tests {
     }
 
     #[test]
-    fn should_pull_state_off_the_stack() {
+    fn should_pop_state_off_the_stack() {
         let mut state_machine = StateMachine::new();
         state_machine.push(Box::from(MockState::new()));
 
