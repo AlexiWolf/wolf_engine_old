@@ -116,6 +116,7 @@ mod state_machine_tests {
     #[test]
     fn should_start_with_empty_stack() {
         let state_machine = StateMachine::new();
+
         assert_eq!(
             state_machine.stack.len(),
             0,
@@ -150,12 +151,14 @@ mod state_machine_tests {
     #[test]
     fn should_be_empty_if_there_are_no_states_on_the_stack() {
         let state_machine = StateMachine::new();
+
         assert!(state_machine.is_empty());
     }
 
     #[test]
     fn should_not_be_empty_if_there_are_states_on_the_stack() {
         let mut state_machine = StateMachine::new();
+
         state_machine.push(Box::from(MockState::new()));
 
         assert!(!state_machine.is_empty());
@@ -176,8 +179,8 @@ mod state_machine_tests {
         let (mut context, mut state_machine) = new_context_and_state_machine();
         let mut state = MockState::new();
         state.expect_update().times(3).returning(|_| None);
-        state_machine.push(Box::from(state));
 
+        state_machine.push(Box::from(state));
         for _ in 0..3 {
             state_machine.update(&mut context);
         }
@@ -191,8 +194,8 @@ mod state_machine_tests {
             .expect_update()
             .times(1)
             .returning(|_| Some(Transition::Pop));
-        state_machine.push(Box::from(state));
 
+        state_machine.push(Box::from(state));
         state_machine.update(&mut context);
 
         assert!(
@@ -247,8 +250,8 @@ mod state_machine_tests {
             .expect_update()
             .times(1)
             .returning(|_| Some(Transition::Quit));
-        state_machine.push(Box::from(quit_state));
 
+        state_machine.push(Box::from(quit_state));
         state_machine.update(&mut context);
 
         assert!(
