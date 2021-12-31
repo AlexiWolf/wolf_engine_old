@@ -1,5 +1,6 @@
 use crate::State;
 
+/// Instructs the [StateMachine] on what to do.
 pub type Transition = Option<Signal>;
 
 pub enum Signal {
