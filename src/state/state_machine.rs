@@ -73,6 +73,7 @@ impl State for StateMachine {
         if let Some(state) = self.active_mut() {
             state.update(context);
         }
+        None
     }
 
     fn render(&mut self, context: &mut Context) -> RenderResult {
@@ -200,7 +201,7 @@ mod state_machine_tests {
 
         impl State for TestState {
             fn update(&mut self, _context: &mut Context) -> UpdateResult {
-                ()
+                None
             }
 
             fn render(&mut self, _context: &mut Context) -> RenderResult {
@@ -231,6 +232,7 @@ mod state_machine_tests {
         impl State for CallTestState {
             fn update(&mut self, _context: &mut Context) -> UpdateResult {
                 self.updates += 1;
+                None
             }
 
             fn render(&mut self, _context: &mut Context) -> RenderResult {
@@ -258,7 +260,9 @@ mod state_machine_tests {
 
         impl State for TransitionTestState {
 
-            fn update(&mut self, _context: &mut Context) -> UpdateResult {}
+            fn update(&mut self, _context: &mut Context) -> UpdateResult {
+                None
+            }
 
             fn render(&mut self, _context: &mut Context) -> RenderResult {}
         }
