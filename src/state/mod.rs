@@ -26,6 +26,27 @@ pub type RenderResult = ();
 /// 
 /// Game states are managed by the engine's [StateMachine].  The `update` method returns
 /// a [Transition] type.  These transitions are used to tell the state machine what to do.
+///
+/// # Examples
+///
+/// ```
+/// use wolf_engine::{State, Transition, RenderResult};
+///
+/// struct MyGame {
+///     number: u32,
+/// }
+///
+/// impl State for MyGame {
+///     fn update(&mut self, &mut Context) -> Transition {
+///         self.number += 1;
+///         None // Don't transition, just keep running
+///     }
+///
+///     fn render(&mut self, context: &mut Context) -> RenderResult {
+///         // Render logic
+///     }
+/// }
+/// ```
 #[cfg_attr(test, automock)]
 pub trait State {
     fn update(&mut self, context: &mut Context) -> Transition;
