@@ -64,6 +64,9 @@ impl StateMachine {
         }
     }
 
+    /// Push the provided [State] to the top of the stack.
+    ///
+    /// The state will become the new active state. 
     pub fn push(&mut self, state: Box<dyn State>) {
         self.stack.push(state);
     }
