@@ -76,6 +76,7 @@ impl StateMachine {
         self.pop();
     }
 
+    /// Pop the active [State] off the stack and return it.
     pub fn pop(&mut self) -> Option<Box<dyn State>> {
         self.stack.pop()
     }
