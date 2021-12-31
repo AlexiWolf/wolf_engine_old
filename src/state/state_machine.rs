@@ -112,7 +112,7 @@ mod state_machine_tests {
     use super::*;
 
     #[test]
-    fn should_initialize_with_empty_stack() {
+    fn should_start_with_empty_stack() {
         let state_machine = StateMachine::new();
         assert_eq!(
             state_machine.stack.len(),
