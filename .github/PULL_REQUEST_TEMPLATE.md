@@ -4,19 +4,17 @@
 
 See [Semantic Versioning](https://semver.org/) for more information.
 
-<! -- 
-Select one (Delete the rest):
--->
+<!-- Select one (Delete the rest): -->
 
 - Non-Code
 - Patch
 - Minor
 - Major
--  
-<! --
-Guide: 
 
-- Non-Code: Changes are not to the codebase.
+<!--
+Guidelines: 
+
+- Non-Code: Changes are not to the code base.
 - Patch: Changes do not effect the public API.
 - Minor: Any changes to the public API before version 1.0, or backwards-compatible changes to the public API after version 1.0.
 - Major: Any non-backwards-compatible change to the public API after version 1.0.  
@@ -54,4 +52,4 @@ This is the standard checklist of tasks that **MUST** be completed before a PR c
 - [ ] Merge
   - [ ] The feature branch has been brought up to date with the main branch.
   - [ ] The version number has been bumped.
-  - [ ] I understand and agree to the contribution guidelines. 
+  - [ ] I understand and agree to the contribution guidelines.
