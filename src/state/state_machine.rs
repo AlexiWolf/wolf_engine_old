@@ -170,7 +170,7 @@ mod state_machine_tests {
     }
 
     #[test]
-    fn should_call_state_update() {
+    fn should_handle_none_transition() {
         let (mut context, mut state_machine) = new_context_and_state_machine(); 
         let mut state = MockState::new();
         state.expect_update()
