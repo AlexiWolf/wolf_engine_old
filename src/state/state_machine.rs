@@ -1,6 +1,6 @@
 use std::fmt::Display;
 
-use crate::{Context, RenderResult, State, TransitionTypetionType, Transition};
+use crate::{Context, RenderResult, State, Transition, TransitionType};
 
 /// Provides a system for managing and running many [State] objects.
 ///
@@ -59,10 +59,10 @@ impl StateMachine {
     pub fn do_transition(&mut self, update_result: Transition) {
         if let Some(transition) = update_result {
             match transition {
-                TransitionTypetionType::Push(state) => self.push(state),
-                TransitionTypetionType::Pop => self.pop_no_return(),
-                TransitionTypetionType::CleanPush(state) => self.clean_push(state),
-                TransitionTypetionType::Quit => self.clean(),
+                TransitionType::Push(state) => self.push(state),
+                TransitionType::Pop => self.pop_no_return(),
+                TransitionType::CleanPush(state) => self.clean_push(state),
+                TransitionType::Quit => self.clean(),
             }
         }
     }
@@ -138,7 +138,7 @@ impl Default for StateMachine {
 
 #[cfg(test)]
 mod state_machine_tests {
-    use crate::{ContextBuilder, MockState, TransitionTypetionType};
+    use crate::{ContextBuilder, MockState, TransitionType};
 
     use super::*;
 
@@ -222,7 +222,7 @@ mod state_machine_tests {
         state
             .expect_update()
             .times(1)
-            .returning(|_| Some(TransitionTypetionType::Pop));
+            .returning(|_| Some(TransitionType::Pop));
 
         state_machine.push(Box::from(state));
         state_machine.update(&mut context);
@@ -242,7 +242,7 @@ mod state_machine_tests {
         transition_to_state
             .expect_update()
             .times(1)
-            .return_once(move |_| Some(TransitionTypetionType::Push(Box::from(no_transition))));
+            .return_once(move |_| Some(TransitionType::Push(Box::from(no_transition))));
 
         state_machine.push(Box::from(transition_to_state));
         for _ in 0..2 {
@@ -262,7 +262,7 @@ mod state_machine_tests {
         clean_push_state
             .expect_update()
             .times(1)
-            .return_once(move |_| Some(TransitionTypetionType::CleanPush(Box::from(no_transition_state))));
+            .return_once(move |_| Some(TransitionType::CleanPush(Box::from(no_transition_state))));
 
         state_machine.push(Box::from(clean_push_state));
         for _ in 0..2 {
@@ -278,7 +278,7 @@ mod state_machine_tests {
         quit_state
             .expect_update()
             .times(1)
-            .returning(|_| Some(TransitionTypetionType::Quit));
+            .returning(|_| Some(TransitionType::Quit));
 
         state_machine.push(Box::from(quit_state));
         state_machine.update(&mut context);
