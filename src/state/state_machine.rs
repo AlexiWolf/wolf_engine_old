@@ -53,6 +53,9 @@ impl StateMachine {
     }
     
     /// Apply the provided [Transition] to the state machine.
+    ///
+    /// This method is primarily used by the `update` method, but it may be useful for 
+    /// those who want to use the state machine directly.
     pub fn do_transition(&mut self, update_result: UpdateResult) {
         if let Some(transition) = update_result {
             match transition {
