@@ -59,6 +59,12 @@ impl StateMachine {
         self.stack.pop()
     }
 
+    fn clean(&mut self) {
+        while !self.is_empty() {
+            self.pop();
+        }
+    }
+
     pub fn is_empty(&self) -> bool {
         self.stack.is_empty()
     }
@@ -78,15 +84,11 @@ impl State for StateMachine {
                         self.pop();
                     }
                     Transition::CleanPush(state) => {
-                        while !self.is_empty() {
-                            self.pop();
-                        }
+                        self.clean();
                         self.push(state);
                     }
                     Transition::Quit => {
-                        while !self.is_empty() {
-                            self.pop();
-                        }
+                        self.clean();
                     }
                 }
             }
