@@ -223,5 +223,10 @@ mod state_machine_tests {
         state_machine.push(Box::from(quit_state));
 
         state_machine.update(&mut context);
+
+        assert!(
+            state_machine.is_empty(), 
+            "The stack should be empty, but it is not"
+        );
     }
 }
