@@ -99,6 +99,7 @@ impl StateMachine {
         self.stack.is_empty()
     }
 
+    /// Get a mutable reference to the active [State].
     pub fn active_mut(&mut self) -> Option<&mut Box<dyn State>> {
         self.stack.last_mut()
     }
