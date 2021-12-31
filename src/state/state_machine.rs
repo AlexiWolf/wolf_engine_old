@@ -186,4 +186,22 @@ mod state_machine_tests {
         
         assert!(state_machine.is_empty(), "The state machine should be empty.");
     }
+
+    #[test]
+    fn should_handle_to_state_transition() {
+        let mut context = ContextBuilder::new().build();
+        let mut state_machine = StateMachine::new();
+        let mut state_a = MockState::new();
+        let mut state_b = MockState::new();
+        state_b.expect_update()
+            .times(1)
+            .returning(|_| None);
+        state_a.expect_update()
+            .times(1)
+            .returning(|_| Some(Transition::ToState(state_b)));
+
+        for _ in 0..2 {
+            state_machine.update(&mut context);
+        }
+    }
 }
