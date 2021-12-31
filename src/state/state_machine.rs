@@ -122,7 +122,7 @@ mod state_machine_tests {
     }
 
     #[test]
-    fn should_push_state_to_stack() {
+    fn should_push_state_on_the_stack() {
         let state = MockState::new();
         let mut state_machine = StateMachine::new();
 
