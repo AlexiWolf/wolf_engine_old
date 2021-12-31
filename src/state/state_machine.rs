@@ -211,8 +211,8 @@ mod state_machine_tests {
             .expect_update()
             .times(1)
             .return_once(move |_| Some(Transition::Push(Box::from(no_transition))));
-        state_machine.push(Box::from(transition_to_state));
 
+        state_machine.push(Box::from(transition_to_state));
         for _ in 0..2 {
             state_machine.update(&mut context);
         }
