@@ -1,6 +1,8 @@
 use crate::State;
 
-pub enum Transition {
+pub type Transition = Option<Signal>;
+
+pub enum Signal {
     Push(Box<dyn State>),
     CleanPush(Box<dyn State>),
     Pop,
