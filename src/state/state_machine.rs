@@ -209,10 +209,10 @@ mod state_machine_tests {
 
     #[test]
     fn should_handle_quit_transition() {
-        let context = ContextBuilder::new().build();
+        let mut context = ContextBuilder::new().build();
         let mut state_machine = StateMachine::new();
-        let mut state_a = MockState::new();
-        let mut state_b = MockState::new();
+        let state_a = MockState::new();
+        let state_b = MockState::new();
         let mut quit_state = MockState::new();
         quit_state.expect_update()
             .times(1)
