@@ -91,7 +91,7 @@ impl Display for StateMachine {
 
 #[cfg(test)]
 mod state_machine_tests {
-    use crate::{ContextBuilder, Transition};
+    use crate::{ContextBuilder, Transition, MockState};
 
     use super::*;
 
@@ -107,7 +107,7 @@ mod state_machine_tests {
 
     #[test]
     fn should_push_state_to_stack() {
-        let state = fixtures::TestState::new("default");
+        let state = MockState::new();
         let mut state_machine = StateMachine::new();
 
         state_machine.push(Box::from(state));
@@ -122,7 +122,7 @@ mod state_machine_tests {
     #[test]
     fn should_pull_state_off_the_stack() {
         let mut state_machine = StateMachine::new();
-        state_machine.push(Box::from(fixtures::TestState::new("default")));
+        state_machine.push(Box::from(MockState::new()));
 
         let state = state_machine.pop();
 
@@ -138,7 +138,7 @@ mod state_machine_tests {
     #[test]
     fn should_not_be_empty_if_there_are_states_on_the_stack() {
         let mut state_machine = StateMachine::new();
-        state_machine.push(Box::from(fixtures::TestState::new("default")));
+        state_machine.push(Box::from(MockState::new()));
 
         assert!(!state_machine.is_empty());
     }
@@ -146,7 +146,7 @@ mod state_machine_tests {
     #[test]
     fn should_have_active_state_accessor() {
         let mut state_machine = StateMachine::new();
-        state_machine.push(Box::from(fixtures::TestState::new("default")));
+        state_machine.push(Box::from(MockState::new()));
 
         let state = state_machine.active_mut();
 
@@ -157,26 +157,26 @@ mod state_machine_tests {
     fn should_call_state_update() {
         let mut context = ContextBuilder::new().build();
         let mut state_machine = StateMachine::new();
-        state_machine.push(Box::from(fixtures::CallTestState::new()));
+        let mut state = MockState::new();
+        state.expect_update()
+            .times(3)
+            .returning(|_| None);
+        state_machine.push(Box::from(state));
 
         for _ in 0..3 {
             state_machine.update(&mut context);
-            state_machine.render(&mut context);
         }
-        let state = state_machine.pop().unwrap();
-
-        assert_eq!(
-            format!("{}", state),
-            "3, 3",
-            "The state did not have the correct number of calls"
-        );
     }
 
     #[test]
     fn should_handle_pop_transition() {
         let mut context = ContextBuilder::new().build();
         let mut state_machine = StateMachine::new(); 
-        state_machine.push(Box::from(fixtures::TransitionTestState::new(Transition::Pop)));
+        let mut state = MockState::new();
+        state.expect_update()
+            .times(..)
+            .returning(|_| Some(Transition::Pop));
+        state_machine.push(Box::from(state));
         
         state_machine.update(&mut context);
         
