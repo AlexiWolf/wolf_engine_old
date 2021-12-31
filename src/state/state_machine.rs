@@ -116,6 +116,12 @@ impl Display for StateMachine {
     }
 }
 
+impl Default for StateMachine {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 #[cfg(test)]
 mod state_machine_tests {
     use crate::{ContextBuilder, MockState, Transition};
