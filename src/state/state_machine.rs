@@ -59,6 +59,11 @@ impl StateMachine {
         self.stack.pop()
     }
 
+    fn clean_push(&mut self, state: Box<dyn State>) {
+        self.clean();
+        self.push(state);
+    }
+
     fn clean(&mut self) {
         while !self.is_empty() {
             self.pop();
@@ -84,8 +89,7 @@ impl State for StateMachine {
                         self.pop();
                     }
                     Transition::CleanPush(state) => {
-                        self.clean();
-                        self.push(state);
+                        self.clean_push(state);
                     }
                     Transition::Quit => {
                         self.clean();
