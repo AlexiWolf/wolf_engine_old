@@ -212,14 +212,11 @@ mod state_machine_tests {
     #[test]
     fn should_handle_quit_transition() {
         let (mut context, mut state_machine) = new_context_and_state_machine(); 
-        let state_a = MockState::new();
-        let state_b = MockState::new();
+        add_placeholder_states(&mut state_machine);
         let mut quit_state = MockState::new();
         quit_state.expect_update()
             .times(1)
             .returning(|_| Some(Transition::Quit));
-        state_machine.push(Box::from(state_a));
-        state_machine.push(Box::from(state_b));
         state_machine.push(Box::from(quit_state));
 
         state_machine.update(&mut context);
@@ -228,6 +225,11 @@ mod state_machine_tests {
             state_machine.is_empty(), 
             "The stack should be empty, but it is not"
         );
+    }
+
+    fn add_placeholder_states(state_machine: &mut StateMachine) {
+        state_machine.push(Box::from(MockState::new()));
+        state_machine.push(Box::from(MockState::new()));
     }
 
     fn new_context_and_state_machine() -> (Context, StateMachine) {
