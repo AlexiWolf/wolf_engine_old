@@ -73,9 +73,14 @@ impl State for StateMachine {
         if let Some(state) = self.active_mut() {
             if let Some(transition) = state.update(context) {
                 match transition {
-                    Transition::Pop => {self.pop();},
                     Transition::Push(state) => self.push(state), 
-                    Transition::CleanPush(_) => (),
+                    Transition::Pop => {self.pop();},
+                    Transition::CleanPush(state) => {
+                        while !self.is_empty() {
+                            self.pop();
+                        }
+                        self.push(state);
+                    },
                     Transition::Quit => {
                         while !self.is_empty() {
                             self.pop();
