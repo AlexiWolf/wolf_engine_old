@@ -4,8 +4,10 @@ use crate::{Context, RenderResult, State, Transition, TransitionType};
 
 /// Provides a system for managing and running many [State] objects.
 ///
-/// The State Machine stores a set of [State] objects in a stack, and runs them by
-/// delegating function calls down to the states on the stack.  
+/// The state machine acts as a common interface through which all attached [state]s can 
+/// be run and managed.  The state machine is essentially a specialized `stack` that runs 
+/// [State] objects.  The state machine itself is a [State] designed to run other states.
+/// It does this by delegating function calls down to the [State]s stored in its stack.
 ///
 /// # Active States
 ///
