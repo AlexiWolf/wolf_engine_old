@@ -198,7 +198,7 @@ mod state_machine_tests {
             .returning(|_| None);
         state_a.expect_update()
             .times(1)
-            .returning(|_| Some(Transition::ToState(state_b)));
+            .return_once(move |_| Some(Transition::ToState(Box::from(state_b))));
 
         for _ in 0..2 {
             state_machine.update(&mut context);
