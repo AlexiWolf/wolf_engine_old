@@ -4,7 +4,7 @@ mod fixed_update_game_loop;
 
 pub use fixed_update_game_loop::*;
 
-use crate::Context;
+use crate::{Context, State};
 use std::fmt::Display;
 
 /// Indicates the status of the GameLoop. For now, this doesn't do anything.
@@ -83,12 +83,8 @@ pub type Frames = u64;
 ///
 pub trait GameLoop: Display {
     /// Update the game state.
-    fn update<F>(&mut self, context: &mut Context, update_function: F) -> LoopResult
-    where
-        F: FnMut(&mut Context) -> LoopResult;
+    fn update(&mut self, context: &mut Context, state: &mut dyn State) -> LoopResult;
 
     /// Render the game state.
-    fn render<F>(&mut self, context: &mut Context, render_function: F) -> LoopResult
-    where
-        F: FnMut(&mut Context) -> LoopResult;
+    fn render(&mut self, context: &mut Context, state: &mut dyn State) -> LoopResult;
 }
