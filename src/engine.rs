@@ -71,10 +71,10 @@ mod wolf_engine_tests {
             .build(context);
         let mut state = MockState::new();
         state.expect_update()
-            .times(1)
+            .times(1..)
             .returning(|_| Some(TransitionType::Quit));
         state.expect_render()
-            .times(1)
+            .times(1..)
             .returning(|_| ());
         
         wolf_engine.run(Box::from(state));
