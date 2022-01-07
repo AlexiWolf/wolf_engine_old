@@ -53,3 +53,19 @@ pub trait State {
 
     fn render(&mut self, context: &mut Context) -> RenderResult;
 }
+
+/// A no-op state that will close immediately. 
+///
+/// It's mostly here for doc-tests / examples to avoid rewriting the same empty state for
+/// each one.
+#[doc(hidden)]
+pub struct EmptyState;
+
+impl State for EmptyState {
+    fn update(&mut self, _context: &mut Context) -> Transition {
+        Some(TransitionType::Quit)
+    }
+
+
+    fn render(&mut self, _context: &mut Context) -> RenderResult {}
+}

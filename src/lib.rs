@@ -49,12 +49,12 @@
 //!
 //! # Starting the Engine
 //!  
-//! To run the engine, you provide the `update` and `render` functions for your game.  The engine
-//! will use the [GameLoop](crate::game_loop::GameLoop) to manage how the functions are
-//! called.  The engine will take ownership over itself and run until the game quits.
+//! To run the engine, you provide your game state to the engine.  The engine will use 
+//! the [GameLoop](crate::game_loop::GameLoop) to manage how the functions are called.  
+//! The engine will take ownership over itself and run until the game quits.
 //!
 //! ```
-//! # use wolf_engine::{WolfEngine, WolfEngineBuilder, ContextBuilder, game_loop::FixedUpdateGameLoop };
+//! # use wolf_engine::{EmptyState, WolfEngine, WolfEngineBuilder, ContextBuilder, game_loop::FixedUpdateGameLoop };
 //! #
 //! # let context = ContextBuilder::new()
 //! #    .build();
@@ -62,15 +62,9 @@
 //! # let engine = WolfEngineBuilder::with_default_game_loop()
 //! #    .build(context);
 //! #
-//! engine.run(
-//!     |_context| {
-//!         // Update Function
-//!         # std::process::exit(0);
-//!     },
-//!     |_context| {
-//!         // Render Function
-//!     },
-//! );
+//! # let state = EmptyState;
+//! #
+//! engine.run(Box::from(state));
 //! ```
 //!
 //! ## Custom Game Loops
