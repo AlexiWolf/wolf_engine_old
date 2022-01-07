@@ -82,11 +82,24 @@ impl StateStack {
         Self { stack: vec![] }
     }
 
-    /// Apply the provided [Transition] to the state stack.
+    /// Indicates if there are any [State]s on the stack.
+    pub fn is_empty(&self) -> bool {
+        self.stack.is_empty()
+    }
+
+    /// Get a mutable reference to the active [State].
+    pub fn active_mut(&mut self) -> Option<&mut Box<dyn State>> {
+        self.stack.last_mut()
+    }
+
+    /// Push the provided [State] to the top of the stack.
     ///
-    /// This method is primarily used by the `update` method, but it may be useful for
-    /// those who want to use the state stack directly.
-    pub fn do_transition(&mut self, update_result: Transition) {
+    /// The state will become the new active state.
+    pub fn push(&mut self, state: Box<dyn State>) {
+        self.stack.push(state);
+    }
+
+    fn do_transition(&mut self, update_result: Transition) {
         if let Some(transition) = update_result {
             match transition {
                 TransitionType::Push(state) => self.push(state),
@@ -97,44 +110,23 @@ impl StateStack {
         }
     }
 
-    /// Push the provided [State] to the top of the stack.
-    ///
-    /// The state will become the new active state.
-    pub fn push(&mut self, state: Box<dyn State>) {
-        self.stack.push(state);
-    }
-
-    /// Pop the active [State] off the stack, but do not return it.
-    pub fn pop_no_return(&mut self) {
+    fn pop_no_return(&mut self) {
         self.pop();
     }
 
-    /// Pop the active [State] off the stack and return it.
-    pub fn pop(&mut self) -> Option<Box<dyn State>> {
+    fn pop(&mut self) -> Option<Box<dyn State>> {
         self.stack.pop()
     }
 
-    /// Pop all [State]s off the stack before pushing the provided state.
-    pub fn clean_push(&mut self, state: Box<dyn State>) {
+    fn clean_push(&mut self, state: Box<dyn State>) {
         self.clean();
         self.push(state);
     }
 
-    /// Pop all [State]s off the stack.
-    pub fn clean(&mut self) {
+    fn clean(&mut self) {
         while !self.is_empty() {
             self.pop();
         }
-    }
-
-    /// Indicates if there are any [State]s on the stack.
-    pub fn is_empty(&self) -> bool {
-        self.stack.is_empty()
-    }
-
-    /// Get a mutable reference to the active [State].
-    pub fn active_mut(&mut self) -> Option<&mut Box<dyn State>> {
-        self.stack.last_mut()
     }
 }
 
