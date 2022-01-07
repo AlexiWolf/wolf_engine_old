@@ -222,10 +222,8 @@ impl Default for FixedUpdateGameLoopBuilder {
 mod fixed_update_game_loop_tests {
     use super::*;
     use crate::MockState;
-    use crate::{game_loop::Ticks, Context, ContextBuilder};
-    use std::sync::{Arc, Mutex};
+    use crate::{Context, ContextBuilder};
     use std::thread;
-    use mockall::predicate;
     use test_case::test_case;
 
     #[test_case(800, 0; "with 800 ms of lag")]
