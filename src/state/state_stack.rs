@@ -56,27 +56,27 @@ use crate::{Context, RenderResult, State, Transition, TransitionType};
 /// Running the state stack:
 ///
 /// ```
-/// # use wolf_engine::{StateMachine, State, ContextBuilder};
+/// # use wolf_engine::{StateStack, State, ContextBuilder};
 /// #
 /// # let mut context = ContextBuilder::new()
 /// #    .build();
 /// #
-/// let mut state_machine = StateMachine::new();
+/// let mut state_stack = StateStack::new();
 ///
 /// loop {
-///     state_machine.update(&mut context);
-///     state_machine.render(&mut context);
+///     state_stack.update(&mut context);
+///     state_stack.render(&mut context);
 ///     # break;
 /// }
 /// ```
 ///
 /// See the [examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples)
 /// for a more complete example how to use [State]s and the state stack.
-pub struct StateMachine {
+pub struct StateStack {
     stack: Vec<Box<dyn State>>,
 }
 
-impl StateMachine {
+impl StateStack {
     /// Create a new state stack with an empty stack.
     pub fn new() -> Self {
         Self { stack: vec![] }
@@ -138,7 +138,7 @@ impl StateMachine {
     }
 }
 
-impl State for StateMachine {
+impl State for StateStack {
     fn update(&mut self, context: &mut Context) -> Transition {
         if let Some(state) = self.active_mut() {
             let update_result = state.update(context);
@@ -154,30 +154,30 @@ impl State for StateMachine {
     }
 }
 
-impl Display for StateMachine {
+impl Display for StateStack {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "State Machine: {} states", self.stack.len())
     }
 }
 
-impl Default for StateMachine {
+impl Default for StateStack {
     fn default() -> Self {
         Self::new()
     }
 }
 
 #[cfg(test)]
-mod state_machine_tests {
+mod state_stack_tests {
     use crate::{ContextBuilder, MockState, TransitionType};
 
     use super::*;
 
     #[test]
     fn should_start_with_empty_stack() {
-        let state_machine = StateMachine::new();
+        let state_stack = StateStack::new();
 
         assert_eq!(
-            state_machine.stack.len(),
+            state_stack.stack.len(),
             0,
             "The state stack was initialized with a state on the stack"
         );
@@ -186,12 +186,12 @@ mod state_machine_tests {
     #[test]
     fn should_push_state_on_the_stack() {
         let state = MockState::new();
-        let mut state_machine = StateMachine::new();
+        let mut state_stack = StateStack::new();
 
-        state_machine.push(Box::from(state));
+        state_stack.push(Box::from(state));
 
         assert_eq!(
-            state_machine.stack.len(),
+            state_stack.stack.len(),
             1,
             "The state was not pushed to the stack"
         );
@@ -199,73 +199,73 @@ mod state_machine_tests {
 
     #[test]
     fn should_pop_state_off_the_stack() {
-        let mut state_machine = StateMachine::new();
-        state_machine.push(Box::from(MockState::new()));
+        let mut state_stack = StateStack::new();
+        state_stack.push(Box::from(MockState::new()));
 
-        let state = state_machine.pop();
+        let state = state_stack.pop();
 
         assert!(state.is_some(), "No state was returned");
     }
 
     #[test]
     fn should_be_empty_if_there_are_no_states_on_the_stack() {
-        let state_machine = StateMachine::new();
+        let state_stack = StateStack::new();
 
-        assert!(state_machine.is_empty());
+        assert!(state_stack.is_empty());
     }
 
     #[test]
     fn should_not_be_empty_if_there_are_states_on_the_stack() {
-        let mut state_machine = StateMachine::new();
+        let mut state_stack = StateStack::new();
 
-        state_machine.push(Box::from(MockState::new()));
+        state_stack.push(Box::from(MockState::new()));
 
-        assert!(!state_machine.is_empty());
+        assert!(!state_stack.is_empty());
     }
 
     #[test]
     fn should_have_active_state_accessor() {
-        let mut state_machine = StateMachine::new();
-        state_machine.push(Box::from(MockState::new()));
+        let mut state_stack = StateStack::new();
+        state_stack.push(Box::from(MockState::new()));
 
-        let state = state_machine.active_mut();
+        let state = state_stack.active_mut();
 
         assert!(state.is_some(), "The active state was None");
     }
 
     #[test]
     fn should_handle_none_transition() {
-        let (mut context, mut state_machine) = new_context_and_state_machine();
+        let (mut context, mut state_stack) = new_context_and_state_stack();
         let mut state = MockState::new();
         state.expect_update().times(3).returning(|_| None);
 
-        state_machine.push(Box::from(state));
+        state_stack.push(Box::from(state));
         for _ in 0..3 {
-            state_machine.update(&mut context);
+            state_stack.update(&mut context);
         }
     }
 
     #[test]
     fn should_handle_pop_transition() {
-        let (mut context, mut state_machine) = new_context_and_state_machine();
+        let (mut context, mut state_stack) = new_context_and_state_stack();
         let mut state = MockState::new();
         state
             .expect_update()
             .times(1)
             .returning(|_| Some(TransitionType::Pop));
 
-        state_machine.push(Box::from(state));
-        state_machine.update(&mut context);
+        state_stack.push(Box::from(state));
+        state_stack.update(&mut context);
 
         assert!(
-            state_machine.is_empty(),
+            state_stack.is_empty(),
             "The state stack should be empty."
         );
     }
 
     #[test]
     fn should_handle_to_state_transition() {
-        let (mut context, mut state_machine) = new_context_and_state_machine();
+        let (mut context, mut state_stack) = new_context_and_state_stack();
         let mut transition_to_state = MockState::new();
         let mut no_transition = MockState::new();
         no_transition.expect_update().times(1).returning(|_| None);
@@ -274,15 +274,15 @@ mod state_machine_tests {
             .times(1)
             .return_once(move |_| Some(TransitionType::Push(Box::from(no_transition))));
 
-        state_machine.push(Box::from(transition_to_state));
+        state_stack.push(Box::from(transition_to_state));
         for _ in 0..2 {
-            state_machine.update(&mut context);
+            state_stack.update(&mut context);
         }
     }
 
     #[test]
     fn should_handle_clean_push_transition() {
-        let (mut context, mut state_machine) = new_context_and_state_machine();
+        let (mut context, mut state_stack) = new_context_and_state_stack();
         let mut no_transition_state = MockState::new();
         no_transition_state
             .expect_update()
@@ -294,39 +294,39 @@ mod state_machine_tests {
             .times(1)
             .return_once(move |_| Some(TransitionType::CleanPush(Box::from(no_transition_state))));
 
-        state_machine.push(Box::from(clean_push_state));
+        state_stack.push(Box::from(clean_push_state));
         for _ in 0..2 {
-            state_machine.update(&mut context);
+            state_stack.update(&mut context);
         }
     }
 
     #[test]
     fn should_handle_quit_transition() {
-        let (mut context, mut state_machine) = new_context_and_state_machine();
-        add_placeholder_states(&mut state_machine);
+        let (mut context, mut state_stack) = new_context_and_state_stack();
+        add_placeholder_states(&mut state_stack);
         let mut quit_state = MockState::new();
         quit_state
             .expect_update()
             .times(1)
             .returning(|_| Some(TransitionType::Quit));
 
-        state_machine.push(Box::from(quit_state));
-        state_machine.update(&mut context);
+        state_stack.push(Box::from(quit_state));
+        state_stack.update(&mut context);
 
         assert!(
-            state_machine.is_empty(),
+            state_stack.is_empty(),
             "The stack should be empty, but it is not"
         );
     }
 
-    fn add_placeholder_states(state_machine: &mut StateMachine) {
-        state_machine.push(Box::from(MockState::new()));
-        state_machine.push(Box::from(MockState::new()));
+    fn add_placeholder_states(state_stack: &mut StateStack) {
+        state_stack.push(Box::from(MockState::new()));
+        state_stack.push(Box::from(MockState::new()));
     }
 
-    fn new_context_and_state_machine() -> (Context, StateMachine) {
+    fn new_context_and_state_stack() -> (Context, StateStack) {
         let context = ContextBuilder::new().build();
-        let state_machine = StateMachine::new();
-        (context, state_machine)
+        let state_stack = StateStack::new();
+        (context, state_stack)
     }
 }

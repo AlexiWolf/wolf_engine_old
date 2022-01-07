@@ -1,7 +1,7 @@
-mod state_machine;
+mod state_stack;
 mod transition;
 
-pub use state_machine::*;
+pub use state_stack::*;
 pub use transition::*;
 
 use crate::Context;
