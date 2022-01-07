@@ -307,6 +307,8 @@ mod fixed_update_game_loop_tests {
         let (mut game_loop, mut context) = test_game_loop(0, 0);
         game_loop.tps = tick_rate;
         let mut state = MockState::new();
+        state.expect_update()
+            .returning(|_| None);
 
         thread::sleep(Duration::from_millis(1000 / fps));
         game_loop.update(&mut context, &mut state);
