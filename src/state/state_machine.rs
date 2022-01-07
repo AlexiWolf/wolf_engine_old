@@ -2,31 +2,58 @@ use std::fmt::Display;
 
 use crate::{Context, RenderResult, State, Transition, TransitionType};
 
-/// Provides a system for managing and running many [State] objects.
+/// Provides a stack for storing, managing, and running multiple [State] objects.
 ///
-/// The state machine acts as a common interface through which all attached [State]s can
-/// be run and managed.  The state machine is essentially a specialized `stack` that runs
-/// [State] objects.  The state machine itself is a [State] designed to run other states.
-/// It does this by delegating function calls down to the [State]s stored in its stack.
+/// The state stack acts as a common interface through which numerous [State]s can be run
+/// and managed.  The state stack is essentially a specialized [State] designed to run 
+/// other [State] objects.  Attached [State]s are stored on a stack, and the state stack
+/// delegates `update` and `render` calls to objects on the stack in a specific order.
 ///
-/// # Active States
+/// The state stack will update and render all [State]s stored on the stack.  This allows 
+/// the game to switch modes but continue doing things in the background.  It may help to
+/// think about the [State]s as being "layered" on top of each other.
 ///
-/// A state is designated as "active" when it's on the top of the stack.  Active states
+/// For example: You may want to implement an inventory screen that pops up on top of the 
+/// game, but you don't want your game to stop.  Using the stack-based approach allows you
+/// to push your inventory to the top of the stack, and the now "active" inventory can 
+/// consume inputs, while the game continues to run in the background.  
+///
+/// If a "layered" behavior is not desireable, the `clean_push` [Transition] will pop all
+/// states off the stack before pushing the new state.  Clean pushing [State]s makes the 
+/// state stack feel more like a finite state machine.
+///
+/// # Active State
+///
+/// The "active" is whatever state is currently on the top of the stack.  Active states
 /// have the following properties:
 ///
-/// - Receive calls from the functions defined by the [State] trait.
-/// - Can control the state machine by returning a [Transition] to it.
+/// - Only the active state will have it's "foreground" `[update/render]` methods called.
+/// - The active state will not have it's `background_[update/render]` methods called.
+/// - The active state is the only stat that can send a [Transition] to the state stack.
+///
+/// Normally, the active state is going to be the "mode" your game is in.
 ///
 /// # Inactive States
 ///
 /// A state is designated as "inactive" when it's not on the top of the stack.  Inactive
 /// states have the following properties:
 ///
-/// - Only receive calls from "background" functions.
+/// - Background states will only have their `background_[update/render]` methods called.
+/// - Background states will not have their "foreground" `[update/render]` methods called.
+/// - Background states cannot send a [Transition] to the state stack.
+///
+/// # Update / Render Order
+///
+/// The state stack always updates the **active** state first, then the background 
+/// states are updated in bottom-to-top order.
+///
+/// The states are always rendered in bottom-to-top order, with the active state being 
+/// rendered last.  This allows the top states to display graphics over the states below 
+/// them.
 ///
 /// # Examples
 ///
-/// Running the state machine:
+/// Running the state stack:
 ///
 /// ```
 /// # use wolf_engine::{StateMachine, State, ContextBuilder};
@@ -42,20 +69,23 @@ use crate::{Context, RenderResult, State, Transition, TransitionType};
 ///     # break;
 /// }
 /// ```
+///
+/// See the [examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples)
+/// for a more complete example how to use [State]s and the state stack.
 pub struct StateMachine {
     stack: Vec<Box<dyn State>>,
 }
 
 impl StateMachine {
-    /// Create a new state machine with an empty stack.
+    /// Create a new state stack with an empty stack.
     pub fn new() -> Self {
         Self { stack: vec![] }
     }
 
-    /// Apply the provided [Transition] to the state machine.
+    /// Apply the provided [Transition] to the state stack.
     ///
     /// This method is primarily used by the `update` method, but it may be useful for
-    /// those who want to use the state machine directly.
+    /// those who want to use the state stack directly.
     pub fn do_transition(&mut self, update_result: Transition) {
         if let Some(transition) = update_result {
             match transition {
@@ -149,7 +179,7 @@ mod state_machine_tests {
         assert_eq!(
             state_machine.stack.len(),
             0,
-            "The state machine was initialized with a state on the stack"
+            "The state stack was initialized with a state on the stack"
         );
     }
 
@@ -229,7 +259,7 @@ mod state_machine_tests {
 
         assert!(
             state_machine.is_empty(),
-            "The state machine should be empty."
+            "The state stack should be empty."
         );
     }
 
