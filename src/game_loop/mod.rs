@@ -38,23 +38,22 @@ pub type Frames = u64;
 /// Wolf Engine also fully supports using a custom `GameLoop`.  Simply implement this trait.
 ///
 /// ```
-/// use wolf_engine::{Context, game_loop::{GameLoop, LoopResult}};
-/// # use std::fmt::{Display, Formatter};
+/// use wolf_engine::{State, Context, game_loop::{GameLoop, LoopResult}};
+/// # use std::fmt::{Formatter, Display};
 ///
 /// pub struct MyGameLoop;
 ///
 /// impl GameLoop for MyGameLoop {
-///     fn update<F>(&mut self, context: &mut Context, mut update_function: F) -> LoopResult
-///     where F: FnMut(&mut Context) -> LoopResult {
-///         update_function(context)
+/// 
+///     fn update(&mut self, context: &mut Context, state: &mut dyn State) -> LoopResult {
+///         state.update(context);
 ///     }
 ///
-///     fn render<F>(&mut self, context: &mut Context, mut render_function: F) -> LoopResult
-///     where F: FnMut(&mut Context) -> LoopResult {
-///         render_function(context)
+///     fn render(&mut self, context: &mut Context, state: &mut dyn State) -> LoopResult {
+///         state.render(context);
 ///     }
-///
 /// }
+///
 ///# impl Display for MyGameLoop {
 ///#     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
 ///#         write!(f, "")
@@ -80,7 +79,6 @@ pub type Frames = u64;
 /// result from it.  Additional timing controls (Vsync, frame-limiting, ext.), or frame
 /// interpolation may be added.  Generally, a single call to `render` should render a single frame,
 /// but this is not a hard requirement.
-///
 pub trait GameLoop: Display {
     /// Update the game state.
     fn update(&mut self, context: &mut Context, state: &mut dyn State) -> LoopResult;
