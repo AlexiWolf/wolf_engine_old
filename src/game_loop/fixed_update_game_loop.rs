@@ -340,6 +340,9 @@ mod fixed_update_game_loop_tests {
     fn should_reset_the_update_time_each_frame() {
         let (mut game_loop, mut context) = test_game_loop(0, 0);
         let mut state = MockState::new();
+        state.expect_update()
+            .returning(|_| None);
+
         for _ in 0..5 {
             assert_eq!(
                 game_loop.update_time.as_millis(),
