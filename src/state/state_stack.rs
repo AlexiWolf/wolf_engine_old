@@ -18,7 +18,7 @@ use crate::{Context, RenderResult, State, Transition, TransitionType};
 /// to push your inventory to the top of the stack, and the now "active" inventory can 
 /// consume inputs, while the game continues to run in the background.  
 ///
-/// If a "layered" behavior is not desireable, the `clean_push` [Transition] will pop all
+/// If a "layered" behavior is not desirable, the `clean_push` [Transition] will pop all
 /// states off the stack before pushing the new state.  Clean pushing [State]s makes the 
 /// state stack feel more like a finite state machine.
 ///
