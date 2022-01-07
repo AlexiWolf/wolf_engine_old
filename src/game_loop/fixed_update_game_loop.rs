@@ -321,6 +321,9 @@ mod fixed_update_game_loop_tests {
     fn should_count_frames_rendered() {
         let (mut game_loop, mut context) = test_game_loop(0, 0);
         let mut state = MockState::new();
+        state.expect_render()
+            .times(10)
+            .returning(|_| ());
 
         for _ in 0..10 {
             game_loop.render(&mut context, &mut state);
