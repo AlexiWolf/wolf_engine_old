@@ -51,7 +51,8 @@
 //!  
 //! To run the engine, you provide your game state to the engine.  The engine will use 
 //! the [GameLoop](crate::game_loop::GameLoop) to manage how the functions are called.  
-//! The engine will take ownership over itself and run until the game quits.
+//! The engine will take ownership over itself and run until the game quits.  You will 
+//! need to [Box] the state before passing it to the engine.
 //!
 //! ```
 //! # use wolf_engine::{EmptyState, WolfEngine, WolfEngineBuilder, ContextBuilder, game_loop::FixedUpdateGameLoop };
