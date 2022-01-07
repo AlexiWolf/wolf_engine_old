@@ -44,7 +44,7 @@ pub type Frames = u64;
 /// pub struct MyGameLoop;
 ///
 /// impl GameLoop for MyGameLoop {
-/// 
+///
 ///     fn update(&mut self, context: &mut Context, state: &mut dyn State) -> LoopResult {
 ///         state.update(context);
 ///     }

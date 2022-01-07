@@ -57,7 +57,7 @@ pub type TickRate = f64;
 /// # let mut game_loop = FixedUpdateGameLoopBuilder::new()
 /// #     .build();
 /// # let mut context = ContextBuilder::new().build();
-/// # 
+/// #
 /// # let mut state = EmptyState;
 /// #
 /// loop {
@@ -141,11 +141,8 @@ impl FixedUpdateGameLoop {
         self.update_timing(tick_run_time);
         context.game_loop.add_tick();
     }
-    
-    fn run_tick_and_track_execution_time(
-        state: &mut dyn State,
-        context: &mut Context,
-    ) -> Duration {
+
+    fn run_tick_and_track_execution_time(state: &mut dyn State, context: &mut Context) -> Duration {
         let tick_start = Instant::now();
         state.update(context);
         tick_start.elapsed()
@@ -258,12 +255,10 @@ mod fixed_update_game_loop_tests {
     fn should_stop_ticking_if_max_update_time_is_reached(tick_delay: u64, ticks: usize) {
         let (mut game_loop, mut context) = test_game_loop(16, 0);
         let mut state = MockState::new();
-        state.expect_update()
-            .times(ticks)
-            .returning(move |_| { 
-                thread::sleep(Duration::from_millis(tick_delay));
-                None
-            });
+        state.expect_update().times(ticks).returning(move |_| {
+            thread::sleep(Duration::from_millis(tick_delay));
+            None
+        });
         game_loop.max_update_time = Duration::from_millis(5);
 
         game_loop.update(&mut context, &mut state);
@@ -273,10 +268,8 @@ mod fixed_update_game_loop_tests {
     fn should_call_the_update_function() {
         let (mut game_loop, mut context) = test_game_loop(8, 0);
         let mut state = MockState::new();
-        state.expect_update()
-            .times(1..)
-            .returning(|_| None);
-        
+        state.expect_update().times(1..).returning(|_| None);
+
         game_loop.update(&mut context, &mut state);
     }
 
@@ -284,9 +277,7 @@ mod fixed_update_game_loop_tests {
     fn should_call_the_render_function() {
         let (mut game_loop, mut context) = test_game_loop(8, 0);
         let mut state = MockState::new();
-        state.expect_render()
-            .times(1)
-            .returning(|_| ());
+        state.expect_render().times(1).returning(|_| ());
 
         game_loop.render(&mut context, &mut state);
     }
@@ -303,8 +294,7 @@ mod fixed_update_game_loop_tests {
         let (mut game_loop, mut context) = test_game_loop(0, 0);
         game_loop.tps = tick_rate;
         let mut state = MockState::new();
-        state.expect_update()
-            .returning(|_| None);
+        state.expect_update().returning(|_| None);
 
         thread::sleep(Duration::from_millis(1000 / fps));
         game_loop.update(&mut context, &mut state);
@@ -319,9 +309,7 @@ mod fixed_update_game_loop_tests {
     fn should_count_frames_rendered() {
         let (mut game_loop, mut context) = test_game_loop(0, 0);
         let mut state = MockState::new();
-        state.expect_render()
-            .times(10)
-            .returning(|_| ());
+        state.expect_render().times(10).returning(|_| ());
 
         for _ in 0..10 {
             game_loop.render(&mut context, &mut state);
@@ -338,8 +326,7 @@ mod fixed_update_game_loop_tests {
     fn should_reset_the_update_time_each_frame() {
         let (mut game_loop, mut context) = test_game_loop(0, 0);
         let mut state = MockState::new();
-        state.expect_update()
-            .returning(|_| None);
+        state.expect_update().returning(|_| None);
 
         for _ in 0..5 {
             assert_eq!(

@@ -4,8 +4,8 @@ use crate::{Context, RenderResult, State, Transition, TransitionType};
 
 /// Provides a system for managing and running many [State] objects.
 ///
-/// The state machine acts as a common interface through which all attached [State]s can 
-/// be run and managed.  The state machine is essentially a specialized `stack` that runs 
+/// The state machine acts as a common interface through which all attached [State]s can
+/// be run and managed.  The state machine is essentially a specialized `stack` that runs
 /// [State] objects.  The state machine itself is a [State] designed to run other states.
 /// It does this by delegating function calls down to the [State]s stored in its stack.
 ///
@@ -51,10 +51,10 @@ impl StateMachine {
     pub fn new() -> Self {
         Self { stack: vec![] }
     }
-    
+
     /// Apply the provided [Transition] to the state machine.
     ///
-    /// This method is primarily used by the `update` method, but it may be useful for 
+    /// This method is primarily used by the `update` method, but it may be useful for
     /// those who want to use the state machine directly.
     pub fn do_transition(&mut self, update_result: Transition) {
         if let Some(transition) = update_result {
@@ -69,7 +69,7 @@ impl StateMachine {
 
     /// Push the provided [State] to the top of the stack.
     ///
-    /// The state will become the new active state. 
+    /// The state will become the new active state.
     pub fn push(&mut self, state: Box<dyn State>) {
         self.stack.push(state);
     }
