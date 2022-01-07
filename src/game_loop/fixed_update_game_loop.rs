@@ -157,9 +157,7 @@ impl FixedUpdateGameLoop {
 impl GameLoop for FixedUpdateGameLoop {
     fn update(&mut self, context: &mut Context, state: &mut dyn State) -> LoopResult {
         self.accumulate_lag();
-        trace!("Starting new update cycle: {}", self);
         self.run_tick_loop(state, context);
-        trace!("Finished running ticks: {}", self);
         self.update_time = Duration::from_secs(0);
     }
 
@@ -291,7 +289,8 @@ mod fixed_update_game_loop_tests {
         let (mut game_loop, mut context) = test_game_loop(8, 0);
         let mut state = MockState::new();
         state.expect_render()
-            .times(1);
+            .times(1)
+            .returning(|_| ());
 
         game_loop.render(&mut context, &mut state);
     }
