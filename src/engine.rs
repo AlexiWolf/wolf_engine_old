@@ -1,6 +1,6 @@
 use crate::{
     game_loop::{FixedUpdateGameLoop, GameLoop},
-    Context,
+    Context, StateMachine, State,
 };
 
 /// Provides the core functionality of the engine.
@@ -14,10 +14,17 @@ use crate::{
 pub struct WolfEngine<Loop: GameLoop> {
     context: Context,
     game_loop: Loop,
+    state_machine: StateMachine 
 }
 
 impl<Loop: GameLoop> WolfEngine<Loop> {
-    pub fn run(self) {}
+    pub fn run(mut self, initial_state: Box<dyn State>) {
+        self.state_machine.push(initial_state);
+        while !self.state_machine.is_empty() {
+            self.game_loop.update(&mut self.context, &mut self.state_machine);
+            self.game_loop.render(&mut self.context, &mut self.state_machine);
+        }
+    }
 }
 
 /// Build an instance of [WolfEngine].
@@ -46,6 +53,7 @@ impl<Loop: GameLoop> WolfEngineBuilder<Loop> {
         WolfEngine {
             context,
             game_loop: self.game_loop,
+            state_machine: StateMachine::new(),
         }
     }
 }
