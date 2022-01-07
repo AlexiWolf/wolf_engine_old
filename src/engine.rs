@@ -17,18 +17,7 @@ pub struct WolfEngine<Loop: GameLoop> {
 }
 
 impl<Loop: GameLoop> WolfEngine<Loop> {
-    pub fn run<Update, Render>(mut self, mut update_function: Update, mut render_function: Render)
-    where
-        Update: FnMut(&mut Context),
-        Render: FnMut(&mut Context),
-    {
-        loop {
-            self.game_loop
-                .update(&mut self.context, |context| update_function(context));
-            self.game_loop
-                .render(&mut self.context, |context| render_function(context));
-        }
-    }
+    pub fn run(self) {}
 }
 
 /// Build an instance of [WolfEngine].
@@ -60,3 +49,4 @@ impl<Loop: GameLoop> WolfEngineBuilder<Loop> {
         }
     }
 }
+
