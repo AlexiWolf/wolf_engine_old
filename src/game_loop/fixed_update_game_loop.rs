@@ -53,18 +53,16 @@ pub type TickRate = f64;
 /// update and render functions, along with the [Context] object are passed in.
 ///
 /// ```
-/// # use wolf_engine::{ContextBuilder, game_loop::{GameLoop, FixedUpdateGameLoopBuilder}};
+/// # use wolf_engine::{EmptyState, ContextBuilder, game_loop::{GameLoop, FixedUpdateGameLoopBuilder}};
 /// # let mut game_loop = FixedUpdateGameLoopBuilder::new()
 /// #     .build();
 /// # let mut context = ContextBuilder::new().build();
+/// # 
+/// # let mut state = EmptyState;
 /// #
 /// loop {
-///     game_loop.update(&mut context, |context| {
-///         // Update logic goes here.
-///     });
-///     game_loop.render(&mut context, |context| {
-///         // Render logic goes here.
-///     });
+///     game_loop.update(&mut context, &mut state);
+///     game_loop.render(&mut context, &mut state);
 /// #   break;
 /// }
 /// ```
