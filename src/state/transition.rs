@@ -1,9 +1,9 @@
 use crate::State;
 
-/// Indicates if / how the [StateMachine](crate::StateMachine) should change [State].
+/// Indicates if / how the [StateStack](crate::StateStack) should change [State].
 pub type Transition = Option<TransitionType>;
 
-/// Indicates the type of [Transition] the [StateMachine](crate::StateMachine) should
+/// Indicates the type of [Transition] the [StateStack](crate::StateStack) should
 /// perform.
 pub enum TransitionType {
     /// Push a new [State] to the top of the stack.

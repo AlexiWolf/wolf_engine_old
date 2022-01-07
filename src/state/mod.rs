@@ -24,7 +24,7 @@ pub type RenderResult = ();
 /// `MainMenuState`, a `LevelState`, and a `PausedState` for your game.  Trying to shove
 /// all of that game logic into a single state will quickly make your game unworkable.
 ///
-/// Game states are managed by the engine's [StateMachine].  The `update` method returns
+/// Game states are managed by the engine's [StateStack].  The `update` method returns
 /// a [Transition] type.  These transitions are used to tell the state machine what to do.
 ///
 /// # Examples
