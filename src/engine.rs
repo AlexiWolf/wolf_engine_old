@@ -62,7 +62,7 @@ impl<Loop: GameLoop> WolfEngineBuilder<Loop> {
 
 #[cfg(test)]
 mod wolf_engine_tests {
-    use crate::{ContextBuilder, MockState, TransitionType};
+    use crate::{ContextBuilder, MockState, Transition};
 
     use super::*;
 
@@ -74,7 +74,7 @@ mod wolf_engine_tests {
         state
             .expect_update()
             .times(1..)
-            .returning(|_| Some(TransitionType::Quit));
+            .returning(|_| Some(Transition::Quit));
         state.expect_render().times(1..).returning(|_| ());
 
         wolf_engine.run(Box::from(state));

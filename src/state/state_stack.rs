@@ -1,6 +1,6 @@
 use std::fmt::Display;
 
-use crate::{Context, RenderResult, State, OptionalTransition, TransitionType};
+use crate::{Context, RenderResult, State, OptionalTransition, Transition};
 
 /// Provides a stack for storing, managing, and running multiple [State] objects.
 ///
@@ -102,10 +102,10 @@ impl StateStack {
     fn do_transition(&mut self, update_result: OptionalTransition) {
         if let Some(transition) = update_result {
             match transition {
-                TransitionType::Push(state) => self.push(state),
-                TransitionType::Pop => self.pop_no_return(),
-                TransitionType::CleanPush(state) => self.clean_push(state),
-                TransitionType::Quit => self.clean(),
+                Transition::Push(state) => self.push(state),
+                Transition::Pop => self.pop_no_return(),
+                Transition::CleanPush(state) => self.clean_push(state),
+                Transition::Quit => self.clean(),
             }
         }
     }
@@ -160,7 +160,7 @@ impl Default for StateStack {
 
 #[cfg(test)]
 mod state_stack_tests {
-    use crate::{ContextBuilder, MockState, TransitionType};
+    use crate::{ContextBuilder, MockState, Transition};
 
     use super::*;
 
@@ -244,7 +244,7 @@ mod state_stack_tests {
         state
             .expect_update()
             .times(1)
-            .returning(|_| Some(TransitionType::Pop));
+            .returning(|_| Some(Transition::Pop));
 
         state_stack.push(Box::from(state));
         state_stack.update(&mut context);
@@ -264,7 +264,7 @@ mod state_stack_tests {
         transition_to_state
             .expect_update()
             .times(1)
-            .return_once(move |_| Some(TransitionType::Push(Box::from(no_transition))));
+            .return_once(move |_| Some(Transition::Push(Box::from(no_transition))));
 
         state_stack.push(Box::from(transition_to_state));
         for _ in 0..2 {
@@ -284,7 +284,7 @@ mod state_stack_tests {
         clean_push_state
             .expect_update()
             .times(1)
-            .return_once(move |_| Some(TransitionType::CleanPush(Box::from(no_transition_state))));
+            .return_once(move |_| Some(Transition::CleanPush(Box::from(no_transition_state))));
 
         state_stack.push(Box::from(clean_push_state));
         for _ in 0..2 {
@@ -300,7 +300,7 @@ mod state_stack_tests {
         quit_state
             .expect_update()
             .times(1)
-            .returning(|_| Some(TransitionType::Quit));
+            .returning(|_| Some(Transition::Quit));
 
         state_stack.push(Box::from(quit_state));
         state_stack.update(&mut context);
