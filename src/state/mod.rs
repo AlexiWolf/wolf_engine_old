@@ -30,14 +30,14 @@ pub type RenderResult = ();
 /// # Examples
 ///
 /// ```
-/// use wolf_engine::{Context, State, Transition, RenderResult};
+/// use wolf_engine::{Context, State, OptionalTransition, RenderResult};
 ///
 /// struct MyGame {
 ///     number: u32,
 /// }
 ///
 /// impl State for MyGame {
-///     fn update(&mut self, _context: &mut Context) -> Transition {
+///     fn update(&mut self, _context: &mut Context) -> OptionalTransition {
 ///         self.number += 1;
 ///         None // Don't transition, just keep running
 ///     }
@@ -49,7 +49,7 @@ pub type RenderResult = ();
 /// ```
 #[cfg_attr(test, automock)]
 pub trait State {
-    fn update(&mut self, context: &mut Context) -> Transition;
+    fn update(&mut self, context: &mut Context) -> OptionalTransition;
 
     fn render(&mut self, context: &mut Context) -> RenderResult;
 }
@@ -62,7 +62,7 @@ pub trait State {
 pub struct EmptyState;
 
 impl State for EmptyState {
-    fn update(&mut self, _context: &mut Context) -> Transition {
+    fn update(&mut self, _context: &mut Context) -> OptionalTransition {
         Some(TransitionType::Quit)
     }
 

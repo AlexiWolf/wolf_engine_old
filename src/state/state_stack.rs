@@ -1,6 +1,6 @@
 use std::fmt::Display;
 
-use crate::{Context, RenderResult, State, Transition, TransitionType};
+use crate::{Context, RenderResult, State, OptionalTransition, TransitionType};
 
 /// Provides a stack for storing, managing, and running multiple [State] objects.
 ///
@@ -99,7 +99,7 @@ impl StateStack {
         self.stack.push(state);
     }
 
-    fn do_transition(&mut self, update_result: Transition) {
+    fn do_transition(&mut self, update_result: OptionalTransition) {
         if let Some(transition) = update_result {
             match transition {
                 TransitionType::Push(state) => self.push(state),
@@ -131,7 +131,7 @@ impl StateStack {
 }
 
 impl State for StateStack {
-    fn update(&mut self, context: &mut Context) -> Transition {
+    fn update(&mut self, context: &mut Context) -> OptionalTransition {
         if let Some(state) = self.active_mut() {
             let update_result = state.update(context);
             self.do_transition(update_result);

@@ -1,7 +1,7 @@
 use crate::State;
 
 /// Indicates if / how the [StateStack](crate::StateStack) should change [State].
-pub type Transition = Option<TransitionType>;
+pub type OptionalTransition = Option<TransitionType>;
 
 /// Indicates the type of [Transition] the [StateStack](crate::StateStack) should
 /// perform.
