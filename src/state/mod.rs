@@ -50,8 +50,10 @@ pub type RenderResult = ();
 #[cfg_attr(test, automock)]
 pub trait State {
     fn update(&mut self, context: &mut Context) -> OptionalTransition;
+    fn background_update(&mut self, context: &mut Context);
 
     fn render(&mut self, context: &mut Context) -> RenderResult;
+    fn background_render(&mut self, context: &mut Context) -> RenderResult;
 }
 
 /// A no-op state that will close immediately.
