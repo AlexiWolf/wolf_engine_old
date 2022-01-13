@@ -136,6 +136,12 @@ impl State for StateStack {
             let update_result = state.update(context);
             self.do_transition(update_result);
         }
+        let mut states = self.stack.iter_mut().peekable();
+        while let Some(state) = states.next() {
+            if states.next().is_some() {
+                state.background_update(context);
+            } 
+        }
         None
     }
 
