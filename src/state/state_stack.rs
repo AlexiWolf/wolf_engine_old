@@ -311,6 +311,56 @@ mod state_stack_tests {
         );
     }
 
+    #[test]
+    fn should_run_background_update_for_background_states() {
+        let (mut context, mut state_stack) = new_context_and_state_stack();
+        let mut state_a = MockState::new();
+        state_a.expect_background_update()
+            .times(10)
+            .returning(|_| ());
+        state_a.expect_update()
+            .times(0)
+            .returning(|_| None);
+        let mut state_b = MockState::new();
+        state_b.expect_update()
+            .times(10)
+            .returning(|_| None);
+        state_b.expect_background_update()
+           .times(0)
+           .returning(|_| ());
+        state_stack.push(Box::from(state_a));
+        state_stack.push(Box::from(state_b));
+        
+        for _ in 0..10 {
+            state_stack.update(&mut context); 
+        }
+    }
+
+    #[test]
+    fn should_run_background_render_for_background_states() {
+        let (mut context, mut state_stack) = new_context_and_state_stack();
+        let mut state_a = MockState::new();
+        state_a.expect_background_render()
+            .times(10)
+            .returning(|_| ());
+        state_a.expect_render()
+            .times(0)
+            .returning(|_| ());
+        let mut state_b = MockState::new();
+        state_b.expect_render()
+            .times(10)
+            .returning(|_| ());
+        state_b.expect_background_render()
+           .times(0)
+           .returning(|_| ());
+        state_stack.push(Box::from(state_a));
+        state_stack.push(Box::from(state_b));
+        
+        for _ in 0..10 {
+            state_stack.render(&mut context); 
+        }
+    }
+
     fn add_placeholder_states(state_stack: &mut StateStack) {
         state_stack.push(Box::from(MockState::new()));
         state_stack.push(Box::from(MockState::new()));
