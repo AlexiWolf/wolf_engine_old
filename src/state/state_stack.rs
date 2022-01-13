@@ -260,14 +260,14 @@ mod state_stack_tests {
         let (mut context, mut state_stack) = new_context_and_state_stack();
         let mut transition_to_state = MockState::new();
         let mut no_transition = MockState::new();
-        no_transition.expect_update().times(1).returning(|_| None);
+        no_transition.expect_update().times(9).returning(|_| None);
         transition_to_state
             .expect_update()
             .times(1)
             .return_once(move |_| Some(Transition::Push(Box::from(no_transition))));
 
         state_stack.push(Box::from(transition_to_state));
-        for _ in 0..2 {
+        for _ in 0..10 {
             state_stack.update(&mut context);
         }
     }
