@@ -1,4 +1,4 @@
-use std::fmt::Display;
+use std::{fmt::Display, iter::Take, slice::IterMut};
 
 use crate::{Context, RenderResult, State, OptionalTransition, Transition};
 
@@ -125,16 +125,21 @@ impl StateStack {
             self.pop();
         }
     }
+
+    fn take_background_states(&mut self) -> Take<IterMut<Box<dyn State>>> {
+        let stack_size = self.stack.len();
+        let background_states = match stack_size {
+            1.. => stack_size - 1,
+            _ => 0,
+        };
+        self.stack.iter_mut()
+            .take(background_states)
+    }
 }
 
 impl State for StateStack {
     fn update(&mut self, context: &mut Context) -> OptionalTransition {
-        let stack_size = self.stack.len();
-        if stack_size > 1 {
-            self.stack.iter_mut()
-                .take(stack_size - 1)
-                .for_each(|state| state.background_update(context));
-        }
+        self.take_background_states().for_each(|state| state.background_update(context));
         if let Some(state) = self.active_mut() {
             let update_result = state.update(context);
             self.do_transition(update_result);
@@ -143,12 +148,7 @@ impl State for StateStack {
     }
 
     fn render(&mut self, context: &mut Context) -> RenderResult {
-        let stack_size = self.stack.len();
-        if stack_size > 1 {
-        self.stack.iter_mut()
-            .take(stack_size - 1)
-            .for_each(|state| state.background_render(context));
-        }
+        self.take_background_states().for_each(|state| state.background_render(context));
         if let Some(state) = self.active_mut() {
             state.render(context);
         }
