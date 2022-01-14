@@ -358,11 +358,6 @@ mod state_stack_tests {
         }
     }
 
-    fn add_placeholder_states(state_stack: &mut StateStack) {
-        state_stack.push(Box::from(MockState::new()));
-        state_stack.push(Box::from(MockState::new()));
-    }
-
     fn new_context_and_state_stack() -> (Context, StateStack) {
         let context = ContextBuilder::new().build();
         let state_stack = StateStack::new();
