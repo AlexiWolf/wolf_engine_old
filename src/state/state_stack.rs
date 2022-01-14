@@ -144,9 +144,11 @@ impl State for StateStack {
 
     fn render(&mut self, context: &mut Context) -> RenderResult {
         let stack_size = self.stack.len();
+        if stack_size > 1 {
         self.stack.iter_mut()
             .take(stack_size - 1)
             .for_each(|state| state.background_render(context));
+        }
         if let Some(state) = self.active_mut() {
             state.render(context);
         }
