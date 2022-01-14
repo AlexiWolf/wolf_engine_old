@@ -44,12 +44,9 @@ use crate::{Context, RenderResult, State, OptionalTransition, Transition};
 ///
 /// # Update / Render Order
 ///
-/// The state stack always updates the **active** state first, then the background 
-/// states are updated in bottom-to-top order.
-///
-/// The states are always rendered in bottom-to-top order, with the active state being 
-/// rendered last.  This allows the top states to display graphics over the states below 
-/// them.
+/// The states are always updated and rendered in bottom-to-top order, with the active 
+/// state being going last.  This allows the top states to display graphics over the 
+/// states below them.
 ///
 /// # Examples
 ///
@@ -132,15 +129,15 @@ impl StateStack {
 
 impl State for StateStack {
     fn update(&mut self, context: &mut Context) -> OptionalTransition {
+        let stack_size = self.stack.len();
+        if stack_size > 1 {
+            self.stack.iter_mut()
+                .take(stack_size - 1)
+                .for_each(|state| state.background_update(context));
+        }
         if let Some(state) = self.active_mut() {
             let update_result = state.update(context);
             self.do_transition(update_result);
-        }
-        let mut states = self.stack.iter_mut().peekable();
-        while let Some(state) = states.next() {
-            if states.next().is_some() {
-                state.background_update(context);
-            } 
         }
         None
     }
@@ -275,6 +272,9 @@ mod state_stack_tests {
             .expect_update()
             .times(1)
             .return_once(move |_| Some(Transition::Push(Box::from(no_transition))));
+        transition_to_state.expect_background_update()
+            .times(9)
+            .returning(|_| ());
 
         state_stack.push(Box::from(transition_to_state));
         for _ in 0..10 {
