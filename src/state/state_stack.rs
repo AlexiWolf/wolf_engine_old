@@ -305,7 +305,6 @@ mod state_stack_tests {
     #[test]
     fn should_handle_quit_transition() {
         let (mut context, mut state_stack) = new_context_and_state_stack();
-        add_placeholder_states(&mut state_stack);
         let mut quit_state = MockState::new();
         quit_state
             .expect_update()
