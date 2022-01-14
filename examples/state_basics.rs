@@ -35,19 +35,19 @@ impl MyState {
 
 impl State for MyState {
     fn update(&mut self, _context: &mut Context) -> OptionalTransition {
-        debug!("Update: {}", self.updates);
-        self.updates += 1;
         if self.frames == 10 {
             info!("Goodbye!");
             Some(Transition::Quit)
         } else {
+            self.updates += 1;
+            debug!("Update: {}", self.updates);
             None
         }
     }
 
     fn render(&mut self, _context: &mut Context) -> RenderResult {
-        info!("{}", self.message);
         self.frames += 1;
+        info!("{} {}", self.message, self.frames);
         thread::sleep(Duration::from_millis(32));
     }
 }
