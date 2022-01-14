@@ -6,7 +6,6 @@ pub type OptionalTransition = Option<Transition>;
 /// Indicates the type of [Transition] the [StateStack](crate::StateStack) should
 /// perform.
 pub enum Transition {
-    
     Push(Box<dyn State>),
 
     /// Pop the active [State] off the stack and shut it down.

@@ -1,25 +1,25 @@
 use std::{fmt::Display, iter::Take, slice::IterMut};
 
-use crate::{Context, RenderResult, State, OptionalTransition, Transition};
+use crate::{Context, OptionalTransition, RenderResult, State, Transition};
 
 /// Provides a stack for storing, managing, and running multiple [State] objects.
 ///
 /// The state stack acts as a common interface through which numerous [State]s can be run
-/// and managed.  The state stack is essentially a specialized [State] designed to run 
+/// and managed.  The state stack is essentially a specialized [State] designed to run
 /// other [State] objects.  Attached [State]s are stored on a stack, and the state stack
 /// delegates `update` and `render` calls to objects on the stack in a specific order.
 ///
-/// The state stack will update and render all [State]s stored on the stack.  This allows 
+/// The state stack will update and render all [State]s stored on the stack.  This allows
 /// the game to switch modes but continue doing things in the background.  It may help to
 /// think about the [State]s as being "layered" on top of each other.
 ///
-/// For example: You may want to implement an inventory screen that pops up on top of the 
+/// For example: You may want to implement an inventory screen that pops up on top of the
 /// game, but you don't want your game to stop.  Using the stack-based approach allows you
-/// to push your inventory to the top of the stack, and the now "active" inventory can 
+/// to push your inventory to the top of the stack, and the now "active" inventory can
 /// consume inputs, while the game continues to run in the background.  
 ///
 /// If a "layered" behavior is not desirable, the `clean_push` [Transition] will pop all
-/// states off the stack before pushing the new state.  Clean pushing [State]s makes the 
+/// states off the stack before pushing the new state.  Clean pushing [State]s makes the
 /// state stack feel more like a finite state machine.
 ///
 /// # Active State
@@ -44,8 +44,8 @@ use crate::{Context, RenderResult, State, OptionalTransition, Transition};
 ///
 /// # Update / Render Order
 ///
-/// The states are always updated and rendered in bottom-to-top order, with the active 
-/// state being going last.  This allows the top states to display graphics over the 
+/// The states are always updated and rendered in bottom-to-top order, with the active
+/// state being going last.  This allows the top states to display graphics over the
 /// states below them.
 ///
 /// # Examples
@@ -132,14 +132,14 @@ impl StateStack {
             1.. => stack_size - 1,
             _ => 0,
         };
-        self.stack.iter_mut()
-            .take(background_states)
+        self.stack.iter_mut().take(background_states)
     }
 }
 
 impl State for StateStack {
     fn update(&mut self, context: &mut Context) -> OptionalTransition {
-        self.take_background_states().for_each(|state| state.background_update(context));
+        self.take_background_states()
+            .for_each(|state| state.background_update(context));
         if let Some(state) = self.active_mut() {
             let update_result = state.update(context);
             self.do_transition(update_result);
@@ -148,7 +148,8 @@ impl State for StateStack {
     }
 
     fn render(&mut self, context: &mut Context) -> RenderResult {
-        self.take_background_states().for_each(|state| state.background_render(context));
+        self.take_background_states()
+            .for_each(|state| state.background_render(context));
         if let Some(state) = self.active_mut() {
             state.render(context);
         }
@@ -258,10 +259,7 @@ mod state_stack_tests {
         state_stack.push(Box::from(state));
         state_stack.update(&mut context);
 
-        assert!(
-            state_stack.is_empty(),
-            "The state stack should be empty."
-        );
+        assert!(state_stack.is_empty(), "The state stack should be empty.");
     }
 
     #[test]
@@ -274,7 +272,8 @@ mod state_stack_tests {
             .expect_update()
             .times(1)
             .return_once(move |_| Some(Transition::Push(Box::from(no_transition))));
-        transition_to_state.expect_background_update()
+        transition_to_state
+            .expect_background_update()
             .times(9)
             .returning(|_| ());
 
@@ -326,18 +325,17 @@ mod state_stack_tests {
     fn should_run_background_update_for_background_states() {
         let (mut context, mut state_stack) = new_context_and_state_stack();
         let mut state_a = MockState::new();
-        state_a.expect_background_update()
+        state_a
+            .expect_background_update()
             .times(10)
             .returning(|_| ());
         let mut state_b = MockState::new();
-        state_b.expect_update()
-            .times(10)
-            .returning(|_| None);
+        state_b.expect_update().times(10).returning(|_| None);
         state_stack.push(Box::from(state_a));
         state_stack.push(Box::from(state_b));
-        
+
         for _ in 0..10 {
-            state_stack.update(&mut context); 
+            state_stack.update(&mut context);
         }
     }
 
@@ -345,21 +343,20 @@ mod state_stack_tests {
     fn should_run_background_render_for_background_states() {
         let (mut context, mut state_stack) = new_context_and_state_stack();
         let mut state_a = MockState::new();
-        state_a.expect_background_render()
+        state_a
+            .expect_background_render()
             .times(10)
             .returning(|_| ());
         let mut state_b = MockState::new();
-        state_b.expect_render()
-            .times(10)
-            .returning(|_| ());
+        state_b.expect_render().times(10).returning(|_| ());
         state_stack.push(Box::from(state_a));
         state_stack.push(Box::from(state_b));
-        
+
         for _ in 0..10 {
-            state_stack.render(&mut context); 
+            state_stack.render(&mut context);
         }
     }
-    
+
     #[test]
     fn should_run_with_empty_stack() {
         let (mut context, mut state_stack) = new_context_and_state_stack();
