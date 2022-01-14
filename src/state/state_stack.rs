@@ -327,16 +327,10 @@ mod state_stack_tests {
         state_a.expect_background_update()
             .times(10)
             .returning(|_| ());
-        state_a.expect_update()
-            .times(0)
-            .returning(|_| None);
         let mut state_b = MockState::new();
         state_b.expect_update()
             .times(10)
             .returning(|_| None);
-        state_b.expect_background_update()
-           .times(0)
-           .returning(|_| ());
         state_stack.push(Box::from(state_a));
         state_stack.push(Box::from(state_b));
         
@@ -352,16 +346,10 @@ mod state_stack_tests {
         state_a.expect_background_render()
             .times(10)
             .returning(|_| ());
-        state_a.expect_render()
-            .times(0)
-            .returning(|_| ());
         let mut state_b = MockState::new();
         state_b.expect_render()
             .times(10)
             .returning(|_| ());
-        state_b.expect_background_render()
-           .times(0)
-           .returning(|_| ());
         state_stack.push(Box::from(state_a));
         state_stack.push(Box::from(state_b));
         
