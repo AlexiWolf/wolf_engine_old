@@ -357,6 +357,16 @@ mod state_stack_tests {
             state_stack.render(&mut context); 
         }
     }
+    
+    #[test]
+    fn should_run_with_empty_stack() {
+        let (mut context, mut state_stack) = new_context_and_state_stack();
+
+        for _ in 0..10 {
+            state_stack.update(&mut context);
+            state_stack.render(&mut context);
+        }
+    }
 
     fn new_context_and_state_stack() -> (Context, StateStack) {
         let context = ContextBuilder::new().build();
