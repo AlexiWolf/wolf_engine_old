@@ -28,6 +28,7 @@
 //! #    .build();
 //! #
 //! let engine = WolfEngineBuilder::with_default_game_loop()
+//!     // Custom settings go here.
 //!     .build(context);
 //! ```
 //!
@@ -43,10 +44,11 @@
 //! #    .build();
 //! #
 //! let game_loop = FixedUpdateGameLoopBuilder::new()
-//!     // Custom settings.
+//!     // Custom settings go here.
 //!     .build();
 //!
 //! let engine = WolfEngineBuilder::with_fixed_game_loop(game_loop)
+//!     // Custom settings go here.
 //!     .build(context);
 //! ```
 //!
