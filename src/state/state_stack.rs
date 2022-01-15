@@ -38,15 +38,15 @@ use crate::{Context, OptionalTransition, RenderResult, State, Transition};
 /// A state is designated as "inactive" when it's not on the top of the stack.  Inactive
 /// states have the following properties:
 ///
-/// - Background states will only have their `background_[update/render]` methods called.
-/// - Background states will not have their "foreground" `[update/render]` methods called.
-/// - Background states cannot send a [Transition] to the state stack.
+/// - Inactive states will only have their `background_[update/render]` methods called.
+/// - Inactive states will not have their "foreground" `[update/render]` methods called.
+/// - Inactive states cannot send a [Transition] to the state stack.
 ///
 /// # Update / Render Order
 ///
 /// The states are always updated and rendered in bottom-to-top order, with the active
-/// state being going last.  This allows the top states to display graphics over the
-/// states below them.
+/// state going last.  This allows the top states to display graphics over the states 
+/// below them.
 ///
 /// # Examples
 ///
