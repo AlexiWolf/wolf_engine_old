@@ -15,7 +15,7 @@ future game projects.
 features, bugs, changing APIs, and other spooky stuff until release 1.0.
 
 These are the currently planned features for Wolf Engine.  Not all of them are
-ready just yet, so this is more of a roadmap, than a feature list for now. 
+ready just yet, so this is more of a road-map, than a feature list for now. 
 Features will be checked off as they are implemented.
 
 - [ ] Core
