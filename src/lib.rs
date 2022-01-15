@@ -67,28 +67,6 @@
 //! #
 //! engine.run(Box::from(state));
 //! ```
-//!
-//! ## Custom Game Loops
-//!  
-//! Alternatively, you can use a custom [GameLoop](crate::game_loop::GameLoop) implementation by
-//! using the `WolfEngineBuilder::with_custom_game_loop()` method.
-//!
-//! Refer to the [GameLoop](crate::game_loop::GameLoop) documentation for more information on
-//! implementing a custom game loop.
-//!
-//! ```
-//! # use wolf_engine::{ContextBuilder, WolfEngineBuilder, game_loop::{FixedUpdateGameLoopBuilder}};
-//! #
-//! # let context = ContextBuilder::new()
-//! #    .build();
-//! #
-//! # // For demonstrational purposes, this game loop will work, but it can be any GameLoop.
-//! # let custom_game_loop = FixedUpdateGameLoopBuilder::new()
-//! #   .build();
-//! #
-//! let engine = WolfEngineBuilder::with_custom_game_loop(custom_game_loop)
-//!     .build(context);
-//! ```
 
 mod engine;
 mod logging;
