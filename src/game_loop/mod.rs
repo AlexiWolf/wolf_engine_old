@@ -73,6 +73,12 @@ pub type Frames = u64;
 ///         state.render(context);
 ///     }
 /// }
+/// #
+/// # impl Display for MyGameLoop {		
+/// #     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {		
+/// #         write!(f, "")		
+/// #     }		
+/// # }
 /// ```
 ///
 /// You can use a custom [GameLoop](crate::game_loop::GameLoop) implementation by using 
