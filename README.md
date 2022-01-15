@@ -20,12 +20,13 @@ Features will be checked off as they are implemented.
 
 - [ ] Core
   - [x] Logging
-  - [ ] Game States
+  - [x] Game States
   - [ ] Events / Listeners
   - [ ] Filesysten / Asset Loading
   - [ ] Input
   - [ ] ECS
   - [ ] Scenes / Prefabs
+  - [ ] Python Scripting
 - [ ] Graphics
   - [ ] Windowing
   - [ ] Low-level graphics 
