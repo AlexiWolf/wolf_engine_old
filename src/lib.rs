@@ -17,7 +17,7 @@
 //! The `WolfEngineBuilder::with_default_game_loop()` method will give you the default
 //! [FixedUpdateGameLoop](crate::game_loop::FixedUpdateGameLoop).  The default settings should be
 //! okay for most games.
-//u!
+//!
 //! ```
 //! # use wolf_engine::{ContextBuilder, WolfEngineBuilder};
 //! #
@@ -97,6 +97,7 @@
 
 mod engine;
 mod logging;
+mod state;
 
 pub mod context;
 pub mod game_loop;
@@ -104,3 +105,4 @@ pub mod game_loop;
 pub use context::{Context, ContextBuilder};
 pub use engine::*;
 pub use logging::*;
+pub use state::*;
