@@ -48,7 +48,7 @@ Add Wolf Engine to your dependencies in `Cargo.toml`:
 
 ```TOML
 [dependencies]
-wolf_engine = "*"
+wolf_engine = "0.1"
 ```
 
 ### Basic Usage 
