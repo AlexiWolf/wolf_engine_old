@@ -10,16 +10,16 @@ pub fn main() {
     let context = ContextBuilder::new()
         // Custom settings go here.
         .build();
-    
+
     // Then build an instance of the engine.
     let engine = WolfEngineBuilder::with_default_game_loop()
         // Custom settings go here.
         .build(context);
-    
+
     // Initialize your game state.
     let game = FizzBuzzState::new();
-    
-    // Then pass your game state to the engine on startup.  Have fun! 
+
+    // Then pass your game state to the engine on startup.  Have fun!
     engine.run(Box::from(game));
 }
 
@@ -29,9 +29,7 @@ pub struct FizzBuzzState {
 
 impl FizzBuzzState {
     pub fn new() -> Self {
-        Self {
-            number: 0,
-        }
+        Self { number: 0 }
     }
 
     fn fizz_buzz(number: u64) -> String {
@@ -60,7 +58,6 @@ impl State for FizzBuzzState {
     }
 
     fn render(&mut self, _context: &mut Context) -> RenderResult {
-        // Nothing to render for this example. 
+        // Nothing to render for this example.
     }
 }
-

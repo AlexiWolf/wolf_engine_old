@@ -1,6 +1,6 @@
 use std::{thread, time::Duration};
 
-use log::{info, LevelFilter, debug};
+use log::{debug, info, LevelFilter};
 use wolf_engine::{
     initialize_logging, Context, ContextBuilder, OptionalTransition, RenderResult, State,
     Transition, WolfEngineBuilder,
@@ -31,7 +31,7 @@ impl State for MainState {
     fn update(&mut self, _context: &mut Context) -> OptionalTransition {
         if self.number == 10 {
             debug!("[MainState] All 10 messages displayed, quitting!");
-            Some(Transition::Quit) 
+            Some(Transition::Quit)
         } else {
             debug!("[MainState] Pushing new sub-state to the stack.");
             self.number += 1;
@@ -41,7 +41,9 @@ impl State for MainState {
     }
 
     fn background_update(&mut self, _context: &mut Context) {
-        debug!("[MainState (Background)] Waiting for the message to be displayed by the sub-state.");
+        debug!(
+            "[MainState (Background)] Waiting for the message to be displayed by the sub-state."
+        );
     }
 
     fn render(&mut self, _context: &mut Context) -> RenderResult {}

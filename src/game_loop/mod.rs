@@ -47,14 +47,14 @@ pub type Frames = u64;
 ///
 /// ## Rendering
 ///
-/// The most basic `render` implementation simply calls the game's render function and 
+/// The most basic `render` implementation simply calls the game's render function and
 /// returns the result from it.  Additional timing controls (Vsync, frame-limiting, ext.),
-/// or frame interpolation may be added.  Generally, a single call to `render` should 
+/// or frame interpolation may be added.  Generally, a single call to `render` should
 /// render a single frame.
 ///
-/// # Custom Game Loops 
+/// # Custom Game Loops
 ///
-/// Wolf Engine also fully supports using a custom `GameLoop`.  Simply implement this 
+/// Wolf Engine also fully supports using a custom `GameLoop`.  Simply implement this
 /// trait.
 ///
 /// ```
@@ -74,14 +74,14 @@ pub type Frames = u64;
 ///     }
 /// }
 /// #
-/// # impl Display for MyGameLoop {		
-/// #     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {		
-/// #         write!(f, "")		
-/// #     }		
+/// # impl Display for MyGameLoop {
+/// #     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+/// #         write!(f, "")
+/// #     }
 /// # }
 /// ```
 ///
-/// You can use a custom [GameLoop](crate::game_loop::GameLoop) implementation by using 
+/// You can use a custom [GameLoop](crate::game_loop::GameLoop) implementation by using
 /// the `WolfEngineBuilder::with_custom_game_loop()` method.
 ///
 /// ```

@@ -1,8 +1,8 @@
 //! Wolf Engine is a game framework for Rust with a focus on flexibility and ease of
-//! use.   It aims to provide sensible default workflows to those who just want to 
+//! use.   It aims to provide sensible default workflows to those who just want to
 //! build a game while allowing custom options for those who don't want to be forced
 //! to do things *The Wolf Engine Way (TM)*.  
-//! 
+//!
 //! # Getting Started
 //!
 //! To initialize the engine, start by initializing a [Context] using the
@@ -18,7 +18,7 @@
 //!
 //! Then you can build and instance of the engine using the [WolfEngineBuilder].
 //! The `WolfEngineBuilder::with_default_game_loop()` method will give you the default
-//! [FixedUpdateGameLoop](crate::game_loop::FixedUpdateGameLoop).  The default settings 
+//! [FixedUpdateGameLoop](crate::game_loop::FixedUpdateGameLoop).  The default settings
 //! should be okay for most games.
 //!
 //! ```
@@ -32,9 +32,9 @@
 //!     .build(context);
 //! ```
 //!
-//! If you want to customize the [FixedUpdateGameLoop](crate::game_loop::FixedUpdateGameLoop), 
+//! If you want to customize the [FixedUpdateGameLoop](crate::game_loop::FixedUpdateGameLoop),
 //! you can build an instance yourself using the
-//! [FixedUpdateGameLoopBuilder](crate::game_loop::FixedUpdateGameLoopBuilder), then pass 
+//! [FixedUpdateGameLoopBuilder](crate::game_loop::FixedUpdateGameLoopBuilder), then pass
 //! it to `WolfEngineBuilder::with_fixed_game_loop()`.
 //!
 //! ```
