@@ -20,6 +20,7 @@ Features will be checked off as they are implemented.
 
 - [ ] Core
   - [x] Logging
+  - [x] Game Loop
   - [x] Game States
   - [ ] Events / Listeners
   - [ ] Filesysten / Asset Loading
