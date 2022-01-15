@@ -67,6 +67,11 @@
 //! #
 //! engine.run(Box::from(state));
 //! ```
+//!
+//! # Examples
+//!
+//! Refer to the [examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples)
+//! for more complete examples of how to use Wolf Engine.
 
 mod engine;
 mod logging;
