@@ -94,7 +94,6 @@ pub type Frames = u64;
 /// let engine = WolfEngineBuilder::with_custom_game_loop(custom_game_loop)
 ///     .build(context);
 /// ```
-// but this is not a hard requirement.
 pub trait GameLoop: Display {
     /// Update the game state.
     fn update(&mut self, context: &mut Context, state: &mut dyn State) -> LoopResult;
