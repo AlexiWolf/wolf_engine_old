@@ -23,7 +23,7 @@ Features will be checked off as they are implemented.
   - [x] Game Loop
   - [x] Game States
   - [ ] Events / Listeners
-  - [ ] Filesysten / Asset Loading
+  - [ ] Filesystem / Asset Loading
   - [ ] Input
   - [ ] ECS
   - [ ] Scenes / Prefabs
