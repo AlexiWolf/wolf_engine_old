@@ -24,8 +24,8 @@ use crate::{Context, OptionalTransition, RenderResult, State, Transition};
 ///
 /// # Active State
 ///
-/// The "active" is whatever state is currently on the top of the stack.  Active states
-/// have the following properties:
+/// The "active" [State] is whatever state is currently on the top of the stack.  Active 
+/// states have the following properties:
 ///
 /// - Only the active state will have it's "foreground" `[update/render]` methods called.
 /// - The active state will not have it's `background_[update/render]` methods called.
