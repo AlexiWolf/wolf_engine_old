@@ -39,6 +39,9 @@ Features will be checked off as they are implemented.
   - [ ] High-level audio functions
 - [ ] Networking
 
+
+## Getting Started
+
 ### Installation
 
 Add Wolf Engine to your dependencies in `Cargo.toml`:
@@ -47,12 +50,6 @@ Add Wolf Engine to your dependencies in `Cargo.toml`:
 [dependencies]
 wolf_engine = "*"
 ```
-
-### Getting Started
-
-TODO: Write a "quick-start" guide.  I'm waiting to do this because the 
-instructions will be chainging very soon.  Refer to the documentation in 
-[lib.rs](src/lib.rs) for a current guide.
 
 ### License
 
