@@ -1,6 +1,6 @@
 use crate::{
     game_loop::{GameLoop, LoopResult},
-    Context,
+    Context, State,
 };
 use log::trace;
 use std::fmt::{Display, Formatter};
@@ -53,18 +53,16 @@ pub type TickRate = f64;
 /// update and render functions, along with the [Context] object are passed in.
 ///
 /// ```
-/// # use wolf_engine::{ContextBuilder, game_loop::{GameLoop, FixedUpdateGameLoopBuilder}};
+/// # use wolf_engine::{EmptyState, ContextBuilder, game_loop::{GameLoop, FixedUpdateGameLoopBuilder}};
 /// # let mut game_loop = FixedUpdateGameLoopBuilder::new()
 /// #     .build();
 /// # let mut context = ContextBuilder::new().build();
 /// #
+/// # let mut state = EmptyState;
+/// #
 /// loop {
-///     game_loop.update(&mut context, |context| {
-///         // Update logic goes here.
-///     });
-///     game_loop.render(&mut context, |context| {
-///         // Render logic goes here.
-///     });
+///     game_loop.update(&mut context, &mut state);
+///     game_loop.render(&mut context, &mut state);
 /// #   break;
 /// }
 /// ```
@@ -126,60 +124,40 @@ impl FixedUpdateGameLoop {
         self.lag += elapsed_time;
     }
 
-    fn run_tick_and_track_execution_time<F>(
-        update_function: &mut F,
-        context: &mut Context,
-    ) -> Duration
-    where
-        F: FnMut(&mut Context),
-    {
-        let tick_start = Instant::now();
-        update_function(context);
-        tick_start.elapsed()
-    }
-
     fn update_timing(&mut self, tick_run_time: Duration) {
         self.update_time += tick_run_time;
         self.lag -= self.time_step();
     }
 
-    fn run_tick_loop<F>(&mut self, update_function: &mut F, context: &mut Context)
-    where
-        F: FnMut(&mut Context),
-    {
+    fn run_tick_loop(&mut self, state: &mut dyn State, context: &mut Context) {
         while self.can_update() {
             trace!("Running Tick: {}", self);
-            self.tick(update_function, context);
+            self.tick(state, context);
         }
     }
 
-    fn tick<F>(&mut self, update_function: &mut F, context: &mut Context)
-    where
-        F: FnMut(&mut Context),
-    {
-        let tick_run_time = Self::run_tick_and_track_execution_time(update_function, context);
+    fn tick(&mut self, state: &mut dyn State, context: &mut Context) {
+        let tick_run_time = Self::run_tick_and_track_execution_time(state, context);
         self.update_timing(tick_run_time);
         context.game_loop.add_tick();
+    }
+
+    fn run_tick_and_track_execution_time(state: &mut dyn State, context: &mut Context) -> Duration {
+        let tick_start = Instant::now();
+        state.update(context);
+        tick_start.elapsed()
     }
 }
 
 impl GameLoop for FixedUpdateGameLoop {
-    fn update<F>(&mut self, context: &mut Context, mut update_function: F) -> LoopResult
-    where
-        F: FnMut(&mut Context),
-    {
+    fn update(&mut self, context: &mut Context, state: &mut dyn State) -> LoopResult {
         self.accumulate_lag();
-        trace!("Starting new update cycle: {}", self);
-        self.run_tick_loop(&mut update_function, context);
-        trace!("Finished running ticks: {}", self);
+        self.run_tick_loop(state, context);
         self.update_time = Duration::from_secs(0);
     }
 
-    fn render<F>(&mut self, context: &mut Context, mut render_function: F) -> LoopResult
-    where
-        F: FnMut(&mut Context),
-    {
-        render_function(context);
+    fn render(&mut self, context: &mut Context, state: &mut dyn State) -> LoopResult {
+        state.render(context);
         context.game_loop.add_frame();
     }
 }
@@ -238,8 +216,8 @@ impl Default for FixedUpdateGameLoopBuilder {
 #[cfg(test)]
 mod fixed_update_game_loop_tests {
     use super::*;
-    use crate::{game_loop::Ticks, Context, ContextBuilder};
-    use std::sync::{Arc, Mutex};
+    use crate::MockState;
+    use crate::{Context, ContextBuilder};
     use std::thread;
     use test_case::test_case;
 
@@ -272,51 +250,36 @@ mod fixed_update_game_loop_tests {
         );
     }
 
-    #[test_case(0 => 2 ; "expecting 2 ticks because max update time is not reached")]
-    #[test_case(6 => 1 ; "expecting 1 tick because max update time is reached")]
-    fn should_stop_ticking_if_max_update_time_is_reached(tick_delay: u64) -> Ticks {
+    #[test_case(0, 2 ; "with 0 ms of update time")]
+    #[test_case(6, 1 ; "with 6 ms of update time")]
+    fn should_stop_ticking_if_max_update_time_is_reached(tick_delay: u64, ticks: usize) {
         let (mut game_loop, mut context) = test_game_loop(16, 0);
+        let mut state = MockState::new();
+        state.expect_update().times(ticks).returning(move |_| {
+            thread::sleep(Duration::from_millis(tick_delay));
+            None
+        });
         game_loop.max_update_time = Duration::from_millis(5);
 
-        game_loop.update(&mut context, |_| {
-            thread::sleep(Duration::from_millis(tick_delay));
-        });
-
-        context.game_loop.ticks()
+        game_loop.update(&mut context, &mut state);
     }
 
     #[test]
     fn should_call_the_update_function() {
-        let has_called_update_function = Arc::from(Mutex::from(false));
         let (mut game_loop, mut context) = test_game_loop(8, 0);
+        let mut state = MockState::new();
+        state.expect_update().times(1..).returning(|_| None);
 
-        game_loop.update(&mut context, |_| {
-            let mut has_called_update_function = has_called_update_function.lock().unwrap();
-            *has_called_update_function = true;
-        });
-
-        let has_called_update_function = has_called_update_function.lock().unwrap();
-        assert!(
-            *has_called_update_function,
-            "The update function was not called."
-        );
+        game_loop.update(&mut context, &mut state);
     }
 
     #[test]
     fn should_call_the_render_function() {
-        let has_called_render_function = Arc::from(Mutex::from(false));
         let (mut game_loop, mut context) = test_game_loop(8, 0);
+        let mut state = MockState::new();
+        state.expect_render().times(1).returning(|_| ());
 
-        game_loop.render(&mut context, |_| {
-            let mut has_called_render_function = has_called_render_function.lock().unwrap();
-            *has_called_render_function = true;
-        });
-
-        let has_called_render_function = has_called_render_function.lock().unwrap();
-        assert!(
-            *has_called_render_function,
-            "The render function was not called."
-        );
+        game_loop.render(&mut context, &mut state);
     }
 
     /// Testing minimum ticks because this test is not consistent cross platforms when checking
@@ -330,9 +293,11 @@ mod fixed_update_game_loop_tests {
     fn should_tick_at_least(tick_rate: f64, fps: u64, minimum_ticks: u64) {
         let (mut game_loop, mut context) = test_game_loop(0, 0);
         game_loop.tps = tick_rate;
+        let mut state = MockState::new();
+        state.expect_update().returning(|_| None);
 
         thread::sleep(Duration::from_millis(1000 / fps));
-        game_loop.update(&mut context, |_| {});
+        game_loop.update(&mut context, &mut state);
 
         assert!(
             context.game_loop.ticks() >= minimum_ticks,
@@ -343,9 +308,11 @@ mod fixed_update_game_loop_tests {
     #[test]
     fn should_count_frames_rendered() {
         let (mut game_loop, mut context) = test_game_loop(0, 0);
+        let mut state = MockState::new();
+        state.expect_render().times(10).returning(|_| ());
 
         for _ in 0..10 {
-            game_loop.render(&mut context, |_| {})
+            game_loop.render(&mut context, &mut state);
         }
 
         assert_eq!(
@@ -358,6 +325,9 @@ mod fixed_update_game_loop_tests {
     #[test]
     fn should_reset_the_update_time_each_frame() {
         let (mut game_loop, mut context) = test_game_loop(0, 0);
+        let mut state = MockState::new();
+        state.expect_update().returning(|_| None);
+
         for _ in 0..5 {
             assert_eq!(
                 game_loop.update_time.as_millis(),
@@ -365,9 +335,7 @@ mod fixed_update_game_loop_tests {
                 "The update time was not reset."
             );
             game_loop.lag = Duration::from_millis(8);
-            game_loop.update(&mut context, |_| {
-                thread::sleep(Duration::from_millis(4));
-            });
+            game_loop.update(&mut context, &mut state);
         }
     }
 

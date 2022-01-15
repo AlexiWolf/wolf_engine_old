@@ -1,6 +1,6 @@
 use crate::{
     game_loop::{FixedUpdateGameLoop, GameLoop},
-    Context,
+    Context, State, StateStack,
 };
 
 /// Provides the core functionality of the engine.
@@ -14,19 +14,17 @@ use crate::{
 pub struct WolfEngine<Loop: GameLoop> {
     context: Context,
     game_loop: Loop,
+    state_machine: StateStack,
 }
 
 impl<Loop: GameLoop> WolfEngine<Loop> {
-    pub fn run<Update, Render>(mut self, mut update_function: Update, mut render_function: Render)
-    where
-        Update: FnMut(&mut Context),
-        Render: FnMut(&mut Context),
-    {
-        loop {
+    pub fn run(mut self, initial_state: Box<dyn State>) {
+        self.state_machine.push(initial_state);
+        while !self.state_machine.is_empty() {
             self.game_loop
-                .update(&mut self.context, |context| update_function(context));
+                .update(&mut self.context, &mut self.state_machine);
             self.game_loop
-                .render(&mut self.context, |context| render_function(context));
+                .render(&mut self.context, &mut self.state_machine);
         }
     }
 }
@@ -57,6 +55,28 @@ impl<Loop: GameLoop> WolfEngineBuilder<Loop> {
         WolfEngine {
             context,
             game_loop: self.game_loop,
+            state_machine: StateStack::new(),
         }
+    }
+}
+
+#[cfg(test)]
+mod wolf_engine_tests {
+    use crate::{ContextBuilder, MockState, Transition};
+
+    use super::*;
+
+    #[test]
+    fn should_run_the_state() {
+        let context = ContextBuilder::new().build();
+        let wolf_engine = WolfEngineBuilder::with_default_game_loop().build(context);
+        let mut state = MockState::new();
+        state
+            .expect_update()
+            .times(1..)
+            .returning(|_| Some(Transition::Quit));
+        state.expect_render().times(1..).returning(|_| ());
+
+        wolf_engine.run(Box::from(state));
     }
 }

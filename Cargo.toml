@@ -15,3 +15,4 @@ simple_logger = "1.13"
 
 [dev-dependencies]
 test-case = "1.2"
+mockall = "0.11"

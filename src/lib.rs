@@ -1,4 +1,7 @@
-//! A lightweight game framework.
+//! Wolf Engine is a game framework for Rust with a focus on flexibility and ease of
+//! use.   It aims to provide sensible default workflows to those who just want to
+//! build a game while allowing custom options for those who don't want to be forced
+//! to do things *The Wolf Engine Way (TM)*.  
 //!
 //! # Getting Started
 //!
@@ -15,8 +18,8 @@
 //!
 //! Then you can build and instance of the engine using the [WolfEngineBuilder].
 //! The `WolfEngineBuilder::with_default_game_loop()` method will give you the default
-//! [FixedUpdateGameLoop](crate::game_loop::FixedUpdateGameLoop).  The default settings should be
-//! okay for most games.
+//! [FixedUpdateGameLoop](crate::game_loop::FixedUpdateGameLoop).  The default settings
+//! should be okay for most games.
 //!
 //! ```
 //! # use wolf_engine::{ContextBuilder, WolfEngineBuilder};
@@ -25,13 +28,14 @@
 //! #    .build();
 //! #
 //! let engine = WolfEngineBuilder::with_default_game_loop()
+//!     // Custom settings go here.
 //!     .build(context);
 //! ```
 //!
-//! If you want to customize the [FixedUpdateGameLoop](crate::game_loop::FixedUpdateGameLoop), you
-//! can build an instance yourself using the
-//! [FixedUpdateGameLoopBuilder](crate::game_loop::FixedUpdateGameLoopBuilder), then pass it to
-//! `WolfEngineBuilder::with_fixed_game_loop()`.
+//! If you want to customize the [FixedUpdateGameLoop](crate::game_loop::FixedUpdateGameLoop),
+//! you can build an instance yourself using the
+//! [FixedUpdateGameLoopBuilder](crate::game_loop::FixedUpdateGameLoopBuilder), then pass
+//! it to `WolfEngineBuilder::with_fixed_game_loop()`.
 //!
 //! ```
 //! # use wolf_engine::{ContextBuilder, WolfEngineBuilder, game_loop::FixedUpdateGameLoopBuilder};
@@ -40,21 +44,21 @@
 //! #    .build();
 //! #
 //! let game_loop = FixedUpdateGameLoopBuilder::new()
-//!     // Custom settings.
+//!     // Custom settings go here.
 //!     .build();
 //!
 //! let engine = WolfEngineBuilder::with_fixed_game_loop(game_loop)
+//!     // Custom settings go here.
 //!     .build(context);
 //! ```
 //!
-//! # Starting the Engine
-//!  
-//! To run the engine, you provide the `update` and `render` functions for your game.  The engine
-//! will use the [GameLoop](crate::game_loop::GameLoop) to manage how the functions are
-//! called.  The engine will take ownership over itself and run until the game quits.
+//! To run the engine, you provide your game state to the engine.  The engine will use
+//! the [GameLoop](crate::game_loop::GameLoop) to manage how the functions are called.  
+//! The engine will take ownership over itself and run until the game quits.  You will
+//! need to [Box] the state before passing it to the engine.
 //!
 //! ```
-//! # use wolf_engine::{WolfEngine, WolfEngineBuilder, ContextBuilder, game_loop::FixedUpdateGameLoop };
+//! # use wolf_engine::{EmptyState, WolfEngine, WolfEngineBuilder, ContextBuilder, game_loop::FixedUpdateGameLoop };
 //! #
 //! # let context = ContextBuilder::new()
 //! #    .build();
@@ -62,38 +66,15 @@
 //! # let engine = WolfEngineBuilder::with_default_game_loop()
 //! #    .build(context);
 //! #
-//! engine.run(
-//!     |_context| {
-//!         // Update Function
-//!         # std::process::exit(0);
-//!     },
-//!     |_context| {
-//!         // Render Function
-//!     },
-//! );
+//! # let state = EmptyState;
+//! #
+//! engine.run(Box::from(state));
 //! ```
 //!
-//! ## Custom Game Loops
-//!  
-//! Alternatively, you can use a custom [GameLoop](crate::game_loop::GameLoop) implementation by
-//! using the `WolfEngineBuilder::with_custom_game_loop()` method.
+//! # Examples
 //!
-//! Refer to the [GameLoop](crate::game_loop::GameLoop) documentation for more information on
-//! implementing a custom game loop.
-//!
-//! ```
-//! # use wolf_engine::{ContextBuilder, WolfEngineBuilder, game_loop::{FixedUpdateGameLoopBuilder}};
-//! #
-//! # let context = ContextBuilder::new()
-//! #    .build();
-//! #
-//! # // For demonstrational purposes, this game loop will work, but it can be any GameLoop.
-//! # let custom_game_loop = FixedUpdateGameLoopBuilder::new()
-//! #   .build();
-//! #
-//! let engine = WolfEngineBuilder::with_custom_game_loop(custom_game_loop)
-//!     .build(context);
-//! ```
+//! Refer to the [examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples)
+//! for more complete examples of how to use Wolf Engine.
 
 mod engine;
 mod logging;
