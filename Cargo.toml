@@ -16,3 +16,9 @@ simple_logger = "1.13"
 [dev-dependencies]
 test-case = "1.2"
 mockall = "0.11"
+
+[package]
+description = "A game framework with a focus on flexibility and ease of use."
+repository = "https://github.com/AlexiWolf/wolf_engine"
+license = "MIT OR Apache-2.0"
+
