@@ -1,5 +1,8 @@
-//! A lightweight game framework.
-//!
+//! Wolf Engine is a game framework for Rust with a focus on flexibility and ease of
+//! use.   It aims to provide sensible default workflows to those who just want to 
+//! build a game while allowing custom options for those who don't want to be forced
+//! to do things *The Wolf Engine Way (TM)*.  
+//! 
 //! # Getting Started
 //!
 //! To initialize the engine, start by initializing a [Context] using the
@@ -15,8 +18,8 @@
 //!
 //! Then you can build and instance of the engine using the [WolfEngineBuilder].
 //! The `WolfEngineBuilder::with_default_game_loop()` method will give you the default
-//! [FixedUpdateGameLoop](crate::game_loop::FixedUpdateGameLoop).  The default settings should be
-//! okay for most games.
+//! [FixedUpdateGameLoop](crate::game_loop::FixedUpdateGameLoop).  The default settings 
+//! should be okay for most games.
 //!
 //! ```
 //! # use wolf_engine::{ContextBuilder, WolfEngineBuilder};
@@ -28,10 +31,10 @@
 //!     .build(context);
 //! ```
 //!
-//! If you want to customize the [FixedUpdateGameLoop](crate::game_loop::FixedUpdateGameLoop), you
-//! can build an instance yourself using the
-//! [FixedUpdateGameLoopBuilder](crate::game_loop::FixedUpdateGameLoopBuilder), then pass it to
-//! `WolfEngineBuilder::with_fixed_game_loop()`.
+//! If you want to customize the [FixedUpdateGameLoop](crate::game_loop::FixedUpdateGameLoop), 
+//! you can build an instance yourself using the
+//! [FixedUpdateGameLoopBuilder](crate::game_loop::FixedUpdateGameLoopBuilder), then pass 
+//! it to `WolfEngineBuilder::with_fixed_game_loop()`.
 //!
 //! ```
 //! # use wolf_engine::{ContextBuilder, WolfEngineBuilder, game_loop::FixedUpdateGameLoopBuilder};
@@ -47,8 +50,6 @@
 //!     .build(context);
 //! ```
 //!
-//! # Starting the Engine
-//!  
 //! To run the engine, you provide your game state to the engine.  The engine will use
 //! the [GameLoop](crate::game_loop::GameLoop) to manage how the functions are called.  
 //! The engine will take ownership over itself and run until the game quits.  You will
