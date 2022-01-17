@@ -15,7 +15,8 @@ future game projects.
 features, bugs, changing APIs, and other spooky stuff until release 1.0.
 
 These are the currently planned features for Wolf Engine.  Not all of them are
-ready just yet, so this is more of a road-map, than a feature list for now. 
+ready just yet, so this is more of a road map than a feature list for now. 
+
 Features will be checked off as they are implemented.
 
 - [ ] Core
@@ -33,14 +34,13 @@ Features will be checked off as they are implemented.
   - [ ] Low-level graphics 
   - [ ] High-level 2D graphics functions
   - [ ] High-level 3D graphics functions
-  - [ ] Cameras
 - [ ] Audio
-  - [ ] Low-level graphics
+  - [ ] Low-level audio 
   - [ ] High-level audio functions
 - [ ] Networking
 
 
-## Getting Started
+## Quick-start 
 
 ### Installation
 
@@ -51,77 +51,17 @@ Add Wolf Engine to your dependencies in `Cargo.toml`:
 wolf_engine = "0.1"
 ```
 
-### Basic Usage 
+### Usage 
 
-``` Rust
-use log::*;
-use wolf_engine::*;
+For basic usage, see:
 
-pub fn main() {
-    // Wolf Engine includes a default logger for convenience, but using it is optional.
-    // Feel free to bring your own logger.
-    initialize_logging(LevelFilter::Debug);
+ - [The Quickstart Example](https://github.com/AlexiWolf/wolf_engine/blob/main/examples/quickstart.rs)
 
-    // Start by initializing the Context object.
-    let context = ContextBuilder::new()
-        // Custom settings go here.
-        .build();
-    
-    // Then build an instance of the engine.
-    let engine = WolfEngineBuilder::with_default_game_loop()
-        // Custom settings go here.
-        .build(context);
-    
-    // Initialize your game state.
-    let game = FizzBuzzState::new();
-    
-    // Then pass your game state to the engine on startup.  Have fun! 
-    engine.run(Box::from(game));
-}
 
-pub struct FizzBuzzState {
-    number: u64,
-}
+And for more advanced usage, see:
 
-impl FizzBuzzState {
-    pub fn new() -> Self {
-        Self {
-            number: 0,
-        }
-    }
-
-    fn fizz_buzz(number: u64) -> String {
-        if number % 15 == 0 {
-            "fizz-buzz".to_string()
-        } else if number % 5 == 0 {
-            "buzz".to_string()
-        } else if number % 3 == 0 {
-            "fizz".to_string()
-        } else {
-            number.to_string()
-        }
-    }
-}
-
-impl State for FizzBuzzState {
-    fn update(&mut self, _context: &mut Context) -> OptionalTransition {
-        if self.number == 100 {
-            info!("Goodbye!");
-            Some(Transition::Quit) // Tell the engine we want to quit.
-        } else {
-            self.number += 1;
-            info!("{}", Self::fizz_buzz(self.number));
-            None // Tell the engine we want to continue running this state.
-        }
-    }
-
-    fn render(&mut self, _context: &mut Context) -> RenderResult {
-        // Nothing to render for this example. 
-    }
-}
-```
-
-Refer to the documentation, and examples folder for more detailed information.
+ - [The Documentation](https://docs.rs/wolf_engine/latest/wolf_engine/) 
+ - [The Examples Folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples).
 
 ### License
 
