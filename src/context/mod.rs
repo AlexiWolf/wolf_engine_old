@@ -15,11 +15,10 @@ pub use game_loop_context::*;
 ///
 /// Use the [ContextBuilder] to build a new `Context`.
 ///
-///
 /// ```
 /// # use wolf_engine::ContextBuilder;
 /// #
-/// let context = ContextBuilder::new()
+/// let (context, event_loop) = ContextBuilder::new()
 ///     // Insert additional settings here.    
 ///     .build();
 /// ```
