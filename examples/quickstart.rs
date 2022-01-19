@@ -7,7 +7,7 @@ pub fn main() {
     initialize_logging(LevelFilter::Debug);
 
     // Start by initializing the Context object.
-    let context = ContextBuilder::new()
+    let (context, event_loop) = ContextBuilder::new()
         // Custom settings go here.
         .build();
 

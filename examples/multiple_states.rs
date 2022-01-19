@@ -11,7 +11,7 @@ pub fn main() {
 
     let starting_state = MainState::new();
 
-    let context = ContextBuilder::new().build();
+    let (context, event_loop) = ContextBuilder::new().build();
     WolfEngineBuilder::with_default_game_loop()
         .build(context)
         .run(Box::from(starting_state));

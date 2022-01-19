@@ -368,7 +368,7 @@ mod state_stack_tests {
     }
 
     fn new_context_and_state_stack() -> (Context, StateStack) {
-        let context = ContextBuilder::new().build();
+        let (context, _) = ContextBuilder::new().build();
         let state_stack = StateStack::new();
         (context, state_stack)
     }
