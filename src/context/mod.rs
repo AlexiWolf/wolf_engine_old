@@ -3,6 +3,7 @@
 mod game_loop_context;
 
 pub use game_loop_context::*;
+use winit::event_loop::EventLoop;
 
 /// Provides a central hub through which to access all other contexts.
 ///
@@ -11,7 +12,7 @@ pub use game_loop_context::*;
 /// specific contexts through the main context, but sometimes the main context will have helper
 /// functions for common tasks.
 ///
-/// # Examples
+// # Examples
 ///
 /// Use the [ContextBuilder] to build a new `Context`.
 ///
@@ -27,7 +28,9 @@ pub struct Context {
 }
 
 /// Builds a [Context] object.
-pub struct ContextBuilder;
+pub struct ContextBuilder {
+    event_loop: EventLoop<()>,
+}
 
 impl ContextBuilder {
     pub fn new() -> Self {
@@ -35,15 +38,18 @@ impl ContextBuilder {
     }
 
     /// Consumes the `ContextBuilder` and returns the built [Context] object.
-    pub fn build(self) -> Context {
-        Context {
+    pub fn build(self) -> (Context, EventLoop<()>){
+        let context = Context {
             game_loop: GameLoopContext::new(),
-        }
+        };
+        (context, self.event_loop)
     }
 }
 
 impl Default for ContextBuilder {
     fn default() -> Self {
-        Self
+        Self {
+            event_loop: EventLoop::new()
+        }
     }
 }
