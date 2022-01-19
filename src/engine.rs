@@ -68,7 +68,7 @@ mod wolf_engine_tests {
 
     #[test]
     fn should_run_the_state() {
-        let context = ContextBuilder::new().build();
+        let (context, _event_loop) = ContextBuilder::new().build();
         let wolf_engine = WolfEngineBuilder::with_default_game_loop().build(context);
         let mut state = MockState::new();
         state
