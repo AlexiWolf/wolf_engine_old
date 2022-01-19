@@ -12,7 +12,7 @@ use winit::event_loop::EventLoop;
 /// specific contexts through the main context, but sometimes the main context will have helper
 /// functions for common tasks.
 ///
-// # Examples
+/// # Examples
 ///
 /// Use the [ContextBuilder] to build a new `Context`.
 ///
