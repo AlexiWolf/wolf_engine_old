@@ -29,27 +29,41 @@ pub struct Context {
 
 /// Builds a [Context] object.
 pub struct ContextBuilder {
-    event_loop: EventLoop<()>,
+    event_loop: Option<EventLoop<()>>,
 }
 
 impl ContextBuilder {
     pub fn new() -> Self {
         Self::default()
     }
+    
+    pub fn without_event_loop() -> Self {
+        Self {
+            event_loop: None,
+        }
+    }
 
     /// Consumes the `ContextBuilder` and returns the built [Context] object.
     pub fn build(self) -> (Context, EventLoop<()>){
-        let context = Context {
+        let context = self.make_context();
+        (context, self.event_loop.expect("No EventLoop was provided"))
+    }
+
+    pub fn build_without_event_loop(self) -> Context {
+        self.make_context()
+    }
+
+    fn make_context(&self) -> Context {
+        Context {
             game_loop: GameLoopContext::new(),
-        };
-        (context, self.event_loop)
+        }
     }
 }
 
 impl Default for ContextBuilder {
     fn default() -> Self {
         Self {
-            event_loop: EventLoop::new()
+            event_loop: Some(EventLoop::new())
         }
     }
 }
