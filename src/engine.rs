@@ -1,3 +1,9 @@
+use winit::{
+    event::*,
+    event_loop::{ControlFlow, EventLoop},
+    platform::run_return::EventLoopExtRunReturn,
+};
+
 use crate::{
     game_loop::{FixedUpdateGameLoop, GameLoop},
     Context, State, StateStack,
@@ -14,18 +20,38 @@ use crate::{
 pub struct WolfEngine<Loop: GameLoop> {
     context: Context,
     game_loop: Loop,
-    state_machine: StateStack,
+    state_stack: StateStack,
 }
 
 impl<Loop: GameLoop> WolfEngine<Loop> {
-    pub fn run(mut self, initial_state: Box<dyn State>) {
-        self.state_machine.push(initial_state);
-        while !self.state_machine.is_empty() {
-            self.game_loop
-                .update(&mut self.context, &mut self.state_machine);
-            self.game_loop
-                .render(&mut self.context, &mut self.state_machine);
-        }
+    pub fn run(mut self, initial_state: Box<dyn State>, event_loop: EventLoop<()>) {
+        self.state_stack.push(initial_state);
+        self.run_event_loop(event_loop);
+    }
+
+    fn run_event_loop(&mut self, mut event_loop: EventLoop<()>) {
+        event_loop.run_return(|event, _window, control_flow| {
+            match event {
+                Event::MainEventsCleared => {
+                    self.game_loop
+                        .update(&mut self.context, &mut self.state_stack);
+                }
+                Event::RedrawRequested(_) => {
+                    self.game_loop
+                        .render(&mut self.context, &mut self.state_stack);
+                }
+                Event::WindowEvent {
+                    event: WindowEvent::CloseRequested,
+                    ..
+                } => {
+                    self.state_stack.clear();
+                }
+                _ => (),
+            }
+            if self.state_stack.is_empty() {
+                *control_flow = ControlFlow::Exit;
+            }
+        });
     }
 }
 
@@ -55,28 +81,7 @@ impl<Loop: GameLoop> WolfEngineBuilder<Loop> {
         WolfEngine {
             context,
             game_loop: self.game_loop,
-            state_machine: StateStack::new(),
+            state_stack: StateStack::new(),
         }
-    }
-}
-
-#[cfg(test)]
-mod wolf_engine_tests {
-    use crate::{ContextBuilder, MockState, Transition};
-
-    use super::*;
-
-    #[test]
-    fn should_run_the_state() {
-        let context = ContextBuilder::new().build();
-        let wolf_engine = WolfEngineBuilder::with_default_game_loop().build(context);
-        let mut state = MockState::new();
-        state
-            .expect_update()
-            .times(1..)
-            .returning(|_| Some(Transition::Quit));
-        state.expect_render().times(1..).returning(|_| ());
-
-        wolf_engine.run(Box::from(state));
     }
 }
