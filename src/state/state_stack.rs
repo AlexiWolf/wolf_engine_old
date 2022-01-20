@@ -102,7 +102,7 @@ impl StateStack {
                 Transition::Push(state) => self.push(state),
                 Transition::Pop => self.pop_no_return(),
                 Transition::CleanPush(state) => self.clean_push(state),
-                Transition::Quit => self.clean(),
+                Transition::Quit => self.clear(),
             }
         }
     }
@@ -116,11 +116,11 @@ impl StateStack {
     }
 
     fn clean_push(&mut self, state: Box<dyn State>) {
-        self.clean();
+        self.clear();
         self.push(state);
     }
 
-    fn clean(&mut self) {
+    pub fn clear(&mut self) {
         while !self.is_empty() {
             self.pop();
         }
