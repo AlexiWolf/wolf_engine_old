@@ -34,6 +34,9 @@ impl<Loop: GameLoop> WolfEngine<Loop> {
                 Event::RedrawRequested(_) => {
                     self.game_loop.render(&mut self.context, &mut self.state_machine);
                 },
+                Event::WindowEvent { event: WindowEvent::CloseRequested, .. } => {
+                    self.state_machine.clear();
+                }
                 _ => (),
             }
             if self.state_machine.is_empty() {
