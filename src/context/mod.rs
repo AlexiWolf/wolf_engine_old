@@ -33,22 +33,49 @@ pub struct ContextBuilder {
 }
 
 impl ContextBuilder {
+
+    /// Use the default [ContextBuilder]
+    ///
+    /// The [ContextBuilder] can only be initialized on the main thread.  This limitation
+    /// comes from the [EventLoop], which is automatically initialized for you by this 
+    /// method.
+    ///
+    /// # Panics
+    ///
+    /// - The [EventLoop] will panic if initialized outside the main thread.
     pub fn new() -> Self {
         Self::default()
     }
-    
+
+    /// Create a [ContextBuilder] that does not have an [EventLoop].  
+    ///
+    /// This method is really only useful for situations where you need to get around the 
+    /// "initialize on main thread only" limitation of the [EventLoop].  In almost all 
+    /// cases, you should probably be using the `new()` or `default()` methods instead.
     pub fn without_event_loop() -> Self {
         Self {
             event_loop: None,
         }
     }
-
-    /// Consumes the `ContextBuilder` and returns the built [Context] object.
+    
+    /// Consumes the [ContextBuilder] and returns a [Context] and an [EventLoop].
+    ///
+    /// # Panics
+    ///
+    /// - Will panic if there is no [EventLoop].  
+    /// 
+    /// This happens if you create the [ContextBuilder] with 
+    /// `ContextBuilder::without_event_loop()`.  Use `ContextBuilder::new()` instead.
     pub fn build(self) -> (Context, EventLoop<()>){
         let context = self.make_context();
-        (context, self.event_loop.expect("No EventLoop was provided"))
+        (context, self.event_loop.expect("There is no EventLoop! Did you mean to use ContextBuilder::new()?"))
     }
 
+    /// Consumes the `ContextBuilder` and returns only a [Context] object.
+    ///
+    /// This method is really only useful for situations where you need to get around the 
+    /// "initialize on main thread only" limitation of the [EventLoop].  In almost all 
+    /// cases, you should probably be using the `build` method instead.
     pub fn build_without_event_loop(self) -> Context {
         self.make_context()
     }
