@@ -1,4 +1,8 @@
-use winit::{event_loop::{EventLoop, ControlFlow}, platform::run_return::EventLoopExtRunReturn, event::*};
+use winit::{
+    event::*,
+    event_loop::{ControlFlow, EventLoop},
+    platform::run_return::EventLoopExtRunReturn,
+};
 
 use crate::{
     game_loop::{FixedUpdateGameLoop, GameLoop},
@@ -29,12 +33,17 @@ impl<Loop: GameLoop> WolfEngine<Loop> {
         event_loop.run_return(|event, _window, control_flow| {
             match event {
                 Event::MainEventsCleared => {
-                    self.game_loop.update(&mut self.context, &mut self.state_stack);
-                },
+                    self.game_loop
+                        .update(&mut self.context, &mut self.state_stack);
+                }
                 Event::RedrawRequested(_) => {
-                    self.game_loop.render(&mut self.context, &mut self.state_stack);
-                },
-                Event::WindowEvent { event: WindowEvent::CloseRequested, .. } => {
+                    self.game_loop
+                        .render(&mut self.context, &mut self.state_stack);
+                }
+                Event::WindowEvent {
+                    event: WindowEvent::CloseRequested,
+                    ..
+                } => {
                     self.state_stack.clear();
                 }
                 _ => (),

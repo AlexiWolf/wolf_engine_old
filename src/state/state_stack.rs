@@ -45,7 +45,7 @@ use crate::{Context, OptionalTransition, RenderResult, State, Transition};
 /// # Update / Render Order
 ///
 /// The states are always updated and rendered in bottom-to-top order, with the active
-/// state going last.  This allows the top states to display graphics over the states 
+/// state going last.  This allows the top states to display graphics over the states
 /// below them.
 ///
 /// # Examples
