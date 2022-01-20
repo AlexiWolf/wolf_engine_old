@@ -59,24 +59,3 @@ impl<Loop: GameLoop> WolfEngineBuilder<Loop> {
         }
     }
 }
-
-#[cfg(test)]
-mod wolf_engine_tests {
-    use crate::{ContextBuilder, MockState, Transition};
-
-    use super::*;
-
-    #[test]
-    fn should_run_the_state() {
-        let (context, _event_loop) = ContextBuilder::new().build();
-        let wolf_engine = WolfEngineBuilder::with_default_game_loop().build(context);
-        let mut state = MockState::new();
-        state
-            .expect_update()
-            .times(1..)
-            .returning(|_| Some(Transition::Quit));
-        state.expect_render().times(1..).returning(|_| ());
-
-        wolf_engine.run(Box::from(state));
-    }
-}
