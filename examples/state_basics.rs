@@ -14,7 +14,7 @@ pub fn main() {
     let (context, event_loop) = ContextBuilder::new().build();
     WolfEngineBuilder::with_default_game_loop()
         .build(context)
-        .run(Box::from(my_state))
+        .run(Box::from(my_state), event_loop);
 }
 
 pub struct MyState {

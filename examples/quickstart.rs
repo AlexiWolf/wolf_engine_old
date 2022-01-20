@@ -20,7 +20,7 @@ pub fn main() {
     let game = FizzBuzzState::new();
 
     // Then pass your game state to the engine on startup.  Have fun!
-    engine.run(Box::from(game));
+    engine.run(Box::from(game), event_loop);
 }
 
 pub struct FizzBuzzState {
