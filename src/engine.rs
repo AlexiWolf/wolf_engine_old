@@ -1,3 +1,5 @@
+use winit::{event_loop::EventLoop, platform::run_return::EventLoopExtRunReturn};
+
 use crate::{
     game_loop::{FixedUpdateGameLoop, GameLoop},
     Context, State, StateStack,
@@ -18,14 +20,12 @@ pub struct WolfEngine<Loop: GameLoop> {
 }
 
 impl<Loop: GameLoop> WolfEngine<Loop> {
-    pub fn run(mut self, initial_state: Box<dyn State>) {
+    pub fn run(mut self, initial_state: Box<dyn State>, mut event_loop: EventLoop<()>) {
         self.state_machine.push(initial_state);
-        while !self.state_machine.is_empty() {
-            self.game_loop
-                .update(&mut self.context, &mut self.state_machine);
-            self.game_loop
-                .render(&mut self.context, &mut self.state_machine);
-        }
+        
+        event_loop.run_return(|_event, _window, _control_flow| {
+            
+        });
     }
 }
 
