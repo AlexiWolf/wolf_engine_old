@@ -16,12 +16,12 @@ use crate::{
 pub struct WolfEngine<Loop: GameLoop> {
     context: Context,
     game_loop: Loop,
-    state_machine: StateStack,
+    state_stack: StateStack,
 }
 
 impl<Loop: GameLoop> WolfEngine<Loop> {
     pub fn run(mut self, initial_state: Box<dyn State>, event_loop: EventLoop<()>) {
-        self.state_machine.push(initial_state);
+        self.state_stack.push(initial_state);
         self.run_event_loop(event_loop);
     }
 
@@ -29,17 +29,17 @@ impl<Loop: GameLoop> WolfEngine<Loop> {
         event_loop.run_return(|event, _window, control_flow| {
             match event {
                 Event::MainEventsCleared => {
-                    self.game_loop.update(&mut self.context, &mut self.state_machine);
+                    self.game_loop.update(&mut self.context, &mut self.state_stack);
                 },
                 Event::RedrawRequested(_) => {
-                    self.game_loop.render(&mut self.context, &mut self.state_machine);
+                    self.game_loop.render(&mut self.context, &mut self.state_stack);
                 },
                 Event::WindowEvent { event: WindowEvent::CloseRequested, .. } => {
-                    self.state_machine.clear();
+                    self.state_stack.clear();
                 }
                 _ => (),
             }
-            if self.state_machine.is_empty() {
+            if self.state_stack.is_empty() {
                 *control_flow = ControlFlow::Exit;
             }
         });
@@ -72,7 +72,7 @@ impl<Loop: GameLoop> WolfEngineBuilder<Loop> {
         WolfEngine {
             context,
             game_loop: self.game_loop,
-            state_machine: StateStack::new(),
+            state_stack: StateStack::new(),
         }
     }
 }
