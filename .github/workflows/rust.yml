@@ -21,7 +21,7 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        if [$RUNNER_OS == "Linux"]; then
+        if ["$RUNNER_OS" == "Linux"]; then
           apt install xorg
         fi
       shell: bash
