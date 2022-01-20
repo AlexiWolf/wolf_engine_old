@@ -68,7 +68,7 @@
 //! #
 //! # let state = EmptyState;
 //! #
-//! engine.run(Box::from(state));
+//! engine.run(Box::from(state), event_loop);
 //! ```
 //!
 //! # Examples
