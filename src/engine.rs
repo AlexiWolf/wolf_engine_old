@@ -1,3 +1,5 @@
+
+#[cfg(feature = "window")]
 use winit::{
     event::*,
     event_loop::{ControlFlow, EventLoop},
@@ -23,6 +25,7 @@ pub struct WolfEngine<Loop: GameLoop> {
     state_stack: StateStack,
 }
 
+#[cfg(feature = "window")]
 impl<Loop: GameLoop> WolfEngine<Loop> {
     pub fn run(mut self, initial_state: Box<dyn State>, event_loop: EventLoop<()>) {
         self.state_stack.push(initial_state);
