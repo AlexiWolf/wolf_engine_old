@@ -56,7 +56,7 @@ pub type TickRate = f64;
 /// # use wolf_engine::{EmptyState, ContextBuilder, game_loop::{GameLoop, FixedUpdateGameLoopBuilder}};
 /// # let mut game_loop = FixedUpdateGameLoopBuilder::new()
 /// #     .build();
-/// # let (mut context, mut event_loop) = ContextBuilder::new().build();
+/// # let mut context = ContextBuilder::new().build();
 /// #
 /// # let mut state = EmptyState;
 /// #
