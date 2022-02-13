@@ -95,7 +95,7 @@ impl Default for ContextBuilder {
     fn default() -> Self {
         Self {
             #[cfg(feature = "window")]
-            event_loop: Some(EventLoop::new()),
+            event_loop: None 
         }
     }
 }
