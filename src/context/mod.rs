@@ -68,7 +68,7 @@ impl ContextBuilder {
     /// This happens if you create the [ContextBuilder] with
     /// `ContextBuilder::without_event_loop()`.  Use `ContextBuilder::new()` instead.
     #[cfg(feature = "window")]
-    pub fn build(self) -> (Context, EventLoop<()>) {
+    pub fn build_with_event_loop(self) -> (Context, EventLoop<()>) {
         let context = self.make_context();
         (
             context,
