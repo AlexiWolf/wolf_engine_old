@@ -11,7 +11,7 @@
 //! ```
 //! # use wolf_engine::ContextBuilder;
 //! #
-//! let (context, event_loop) = ContextBuilder::new()
+//! let context = ContextBuilder::new()
 //!     // Custom settings.
 //!     .build();
 //!```
@@ -24,7 +24,7 @@
 //! ```
 //! # use wolf_engine::{ContextBuilder, WolfEngineBuilder};
 //! #
-//! # let (context, event_loop) = ContextBuilder::new()
+//! # let context = ContextBuilder::new()
 //! #    .build();
 //! #
 //! let engine = WolfEngineBuilder::with_default_game_loop()
@@ -40,7 +40,7 @@
 //! ```
 //! # use wolf_engine::{ContextBuilder, WolfEngineBuilder, game_loop::FixedUpdateGameLoopBuilder};
 //! #
-//! # let (context, event_loop) = ContextBuilder::new()
+//! # let context = ContextBuilder::new()
 //! #    .build();
 //! #
 //! let game_loop = FixedUpdateGameLoopBuilder::new()
@@ -60,7 +60,7 @@
 //! ```
 //! # use wolf_engine::{EmptyState, WolfEngine, WolfEngineBuilder, ContextBuilder, game_loop::FixedUpdateGameLoop };
 //! #
-//! # let (context, event_loop) = ContextBuilder::new()
+//! # let context = ContextBuilder::new()
 //! #    .build();
 //! #
 //! # let engine = WolfEngineBuilder::with_default_game_loop()
@@ -68,7 +68,7 @@
 //! #
 //! # let state = EmptyState;
 //! #
-//! engine.run(Box::from(state), event_loop);
+//! engine.run(Box::from(state));
 //! ```
 //!
 //! # Examples
