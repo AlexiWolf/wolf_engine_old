@@ -69,7 +69,9 @@ impl ContextBuilder {
     /// `ContextBuilder::without_event_loop()`.  Use `ContextBuilder::new()` instead.
     #[cfg(feature = "window")]
     pub fn build_with_event_loop(self) -> (Context, EventLoop<()>) {
-        let context = self.make_context();
+        let context = Context {
+            game_loop: GameLoopContext::new(),
+        };
         (
             context,
             self.event_loop
