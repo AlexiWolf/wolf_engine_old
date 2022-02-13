@@ -21,7 +21,7 @@ use winit::event_loop::EventLoop;
 /// ```
 /// # use wolf_engine::ContextBuilder;
 /// #
-/// let (context, event_loop) = ContextBuilder::new()
+/// let context = ContextBuilder::new()
 ///     // Insert additional settings here.    
 ///     .build();
 /// ```
