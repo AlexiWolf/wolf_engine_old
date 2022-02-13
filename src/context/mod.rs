@@ -55,7 +55,7 @@ impl ContextBuilder {
     /// "initialize on main thread only" limitation of the [EventLoop].  In almost all
     /// cases, you should probably be using the `new()` or `default()` methods instead.
     #[cfg(feature = "window")]
-    fn with_default_event_loop() -> Self {
+    pub fn with_default_event_loop() -> Self {
         Self { event_loop: Some(EventLoop::new()) }
     }
 
