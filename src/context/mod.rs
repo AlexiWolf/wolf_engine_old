@@ -82,11 +82,7 @@ impl ContextBuilder {
     /// This method is really only useful for situations where you need to get around the
     /// "initialize on main thread only" limitation of the [EventLoop].  In almost all
     /// cases, you should probably be using the `build` method instead.
-    pub fn build_without_event_loop(self) -> Context {
-        self.make_context()
-    }
-
-    fn make_context(&self) -> Context {
+    pub fn build(self) -> Context {
         Context {
             game_loop: GameLoopContext::new(),
         }
