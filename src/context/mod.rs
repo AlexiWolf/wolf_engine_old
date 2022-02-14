@@ -58,7 +58,6 @@ impl ContextBuilder {
     ///
     /// - The [EventLoop] will panic if you attempt to call this function off the main
     ///   thread.  See [EventLoop::new] for more information.
-    #[cfg(feature = "window")]
     pub fn with_create_event_loop() -> Self {
         Self { event_loop: Some(EventLoop::new()) }
     }
@@ -68,7 +67,6 @@ impl ContextBuilder {
     /// # Panics
     ///
     /// - Will panic if there is no [EventLoop].  
-    #[cfg(feature = "window")]
     pub fn build_with_event_loop(self) -> (Context, EventLoop<()>) {
         let context = Context {
             game_loop: GameLoopContext::new(),
