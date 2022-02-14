@@ -89,7 +89,7 @@ pub type Frames = u64;
 /// #    ContextBuilder, WolfEngineBuilder, game_loop::FixedUpdateGameLoopBuilder
 /// # };
 /// #
-/// # let (context, event_loop) = ContextBuilder::new()
+/// # let context = ContextBuilder::new()
 /// #    .build();
 /// #
 /// # // Using fixed game loop for the example because the actual loop is unimportant.

@@ -7,7 +7,7 @@ pub fn main() {
     initialize_logging(LevelFilter::Debug);
 
     // Start by initializing the Context object.
-    let (context, event_loop) = ContextBuilder::new()
+    let context = ContextBuilder::new()
         // Custom settings go here.
         .build();
 
@@ -20,7 +20,7 @@ pub fn main() {
     let game = FizzBuzzState::new();
 
     // Then pass your game state to the engine on startup.  Have fun!
-    engine.run(Box::from(game), event_loop);
+    engine.run(Box::from(game));
 }
 
 pub struct FizzBuzzState {

@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+
+jobs:
+  test:
+    name: Tests
+
+    strategy:
+      fail-fast: false
+      matrix:
+        rust-version: [stable, nightly]
+        platform:
+          - { os: ubuntu-latest }
+          - { os: ubuntu-latest, features: "window" }
+          - { os: windows-latest }
+          - { os: windows-latest, features: "window" }
+          - { os: macos-latest }
+          - { os: macos-latest, features: "window" }
+
+    env:
+      RUST_BACKTRACE: 1
+      CARGO_TERM_COLOR: always
+      FEATURES: ${{ format(',{0}', matrix.platform.features ) }}
+      OPTIONS: ${{ matrix.platform.options }}
+
+    runs-on: ${{ matrix.platform.os }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run tests
+      shell: bash
+      run: cargo test --verbose $OPTIONS --features $FEATURES

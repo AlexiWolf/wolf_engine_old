@@ -1,7 +1,7 @@
 [package]
 name = "wolf_engine"
 description = "A game framework with a focus on flexibility and ease of use."
-version = "0.2.0"
+version = "0.3.0"
 authors = ["AlexiWolf <alexiwolf@pm.me>"]
 edition = "2018"
 license = "MIT OR Apache-2.0"
@@ -15,9 +15,11 @@ lazy_static = "1.4"
 colored = "2"
 chrono = "0.4"
 simple_logger = "1.13"
-winit = "0.26"
+winit = {version = "0.26", optional = true}
 
 [dev-dependencies]
 test-case = "1.2"
 mockall = "0.11"
 
+[features]
+window = ["winit"]

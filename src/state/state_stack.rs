@@ -55,7 +55,7 @@ use crate::{Context, OptionalTransition, RenderResult, State, Transition};
 /// ```
 /// # use wolf_engine::{StateStack, State, ContextBuilder};
 /// #
-/// # let (mut context, event_loop) = ContextBuilder::new()
+/// # let mut context = ContextBuilder::new()
 /// #    .build();
 /// #
 /// let mut state_stack = StateStack::new();
@@ -368,7 +368,7 @@ mod state_stack_tests {
     }
 
     fn new_context_and_state_stack() -> (Context, StateStack) {
-        let context = ContextBuilder::without_event_loop().build_without_event_loop();
+        let context = ContextBuilder::new().build();
         let state_stack = StateStack::new();
         (context, state_stack)
     }

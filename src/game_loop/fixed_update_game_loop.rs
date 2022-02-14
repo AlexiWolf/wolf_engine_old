@@ -56,7 +56,7 @@ pub type TickRate = f64;
 /// # use wolf_engine::{EmptyState, ContextBuilder, game_loop::{GameLoop, FixedUpdateGameLoopBuilder}};
 /// # let mut game_loop = FixedUpdateGameLoopBuilder::new()
 /// #     .build();
-/// # let (mut context, mut event_loop) = ContextBuilder::new().build();
+/// # let mut context = ContextBuilder::new().build();
 /// #
 /// # let mut state = EmptyState;
 /// #
@@ -346,7 +346,7 @@ mod fixed_update_game_loop_tests {
         let mut game_loop = FixedUpdateGameLoopBuilder::new().build();
         game_loop.lag = Duration::from_millis(artificial_lag);
         game_loop.update_time = Duration::from_millis(artificial_update_time);
-        let context = ContextBuilder::without_event_loop().build_without_event_loop();
+        let context = ContextBuilder::new().build();
         (game_loop, context)
     }
 }

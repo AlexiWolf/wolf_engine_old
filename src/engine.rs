@@ -1,3 +1,4 @@
+#[cfg(feature = "window")]
 use winit::{
     event::*,
     event_loop::{ControlFlow, EventLoop},
@@ -24,7 +25,20 @@ pub struct WolfEngine<Loop: GameLoop> {
 }
 
 impl<Loop: GameLoop> WolfEngine<Loop> {
-    pub fn run(mut self, initial_state: Box<dyn State>, event_loop: EventLoop<()>) {
+    pub fn run(mut self, initial_state: Box<dyn State>) {
+        self.state_stack.push(initial_state);
+        while !self.state_stack.is_empty() {
+            self.game_loop
+                .update(&mut self.context, &mut self.state_stack);
+            self.game_loop
+                .render(&mut self.context, &mut self.state_stack);
+        }
+    }
+}
+
+#[cfg(feature = "window")]
+impl<Loop: GameLoop> WolfEngine<Loop> {
+    pub fn run_with_event_loop(mut self, initial_state: Box<dyn State>, event_loop: EventLoop<()>) {
         self.state_stack.push(initial_state);
         self.run_event_loop(event_loop);
     }
@@ -83,5 +97,26 @@ impl<Loop: GameLoop> WolfEngineBuilder<Loop> {
             game_loop: self.game_loop,
             state_stack: StateStack::new(),
         }
+    }
+}
+
+#[cfg(test)]
+mod wolf_engine_tests {
+    use crate::{ContextBuilder, MockState, Transition};
+
+    use super::*;
+
+    #[test]
+    fn should_run_the_state() {
+        let context = ContextBuilder::new().build();
+        let wolf_engine = WolfEngineBuilder::with_default_game_loop().build(context);
+        let mut state = MockState::new();
+        state
+            .expect_update()
+            .times(1..)
+            .returning(|_| Some(Transition::Quit));
+        state.expect_render().times(1..).returning(|_| ());
+
+        wolf_engine.run(Box::from(state));
     }
 }
