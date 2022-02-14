@@ -30,6 +30,7 @@ pub struct Context {
 }
 
 /// Builds a [Context] object.
+#[derive(Default)]
 pub struct ContextBuilder {
     #[cfg(feature = "window")]
     event_loop: Option<EventLoop<()>>,
@@ -80,11 +81,3 @@ impl ContextBuilder {
     }
 }
 
-impl Default for ContextBuilder {
-    fn default() -> Self {
-        Self {
-            #[cfg(feature = "window")]
-            event_loop: None,
-        }
-    }
-}
