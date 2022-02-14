@@ -1,5 +1,9 @@
 # Wolf Engine
 
+[![CI](https://github.com/AlexiWolf/wolf_engine/actions/workflows/ci.yml/badge.svg)](https://github.com/AlexiWolf/wolf_engine/actions/workflows/ci.yml)
+[![Crates.io](https://img.shields.io/crates/l/wolf_engine)](https://github.com/AlexiWolf/wolf_engine#license)
+[![Crates.io](https://img.shields.io/crates/v/wolf_engine)](https://crates.io/crates/wolf_engine)
+
 Wolf Engine is a game framework for Rust with a focus on flexibility and ease of
 use.   It aims to provide sensible default workflows to those who just want to 
 build a game while allowing custom options for those who don't want to be forced
