@@ -33,4 +33,5 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Run tests
+      shell: bash
       run: cargo test --verbose $OPTIONS --features $FEATURES
