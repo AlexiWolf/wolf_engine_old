@@ -19,5 +19,5 @@ jobs:
         rust-version: stable
 
     - name: Publish Crate on Crates.io 
-      run: cargo publish --token ${{ secrets.crates_io.token }}
+      run: cargo publish --token ${{ secrets.CRATES_IO_TOKEN }}
 
