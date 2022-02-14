@@ -26,7 +26,7 @@ jobs:
     env:
       RUST_BACKTRACE: 1
       CARGO_TERM_COLOR: always
-      FEATURES: ${{ format(',{0}', matrix.platform.features ) }
+      FEATURES: ${{ format(',{0}', matrix.platform.features ) }}
       OPTIONS: ${{ matrix.platform.options }}
 
     runs-on: ${{ matrix.platform.os }}
