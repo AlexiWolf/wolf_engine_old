@@ -6,20 +6,31 @@ on:
   pull_request:
     branches: [ main ]
 
-env:
-  CARGO_TERM_COLOR: always
 
 jobs:
   test:
     name: Tests
 
-    runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        rust-version: [stable, nightly]
+        platform:
+          - { os: ubuntu-latest }
+          - { os: ubuntu-latest, features: "window" }
+          - { os: windows-latest }
+          - { os: windows-latest, features: "window" }
+          - { os: macos-latest }
+          - { os: macos-latest, features: "window" }
 
+    env:
+      RUST_BACKTRACE: 1
+      CARGO_TERM_COLOR: always
+      FEATURES: ${{ matrix.platform.features }}
+      OPTIONS: ${{ matrix.platform.options }}
+
+    runs-on: ${{ matrix.platform.os }}
     steps:
     - uses: actions/checkout@v2
-
     - name: Run tests
-      run: cargo test --verbose
+      run: cargo test --verbose $OPTIONS --features $FEATURES
