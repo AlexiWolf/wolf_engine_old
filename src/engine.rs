@@ -11,13 +11,10 @@ use crate::{
 };
 
 /// Provides the core functionality of the engine.
-///
-/// `Engine` is, as the name suggests, the core of the game engine.  It provides some common
-/// behavior such as: Running the main loop (utilizing a [Scheduler] for timing control), cleanly
-/// shutting down, and holding ownership over the [Context] object.
-///
-/// The engine tries to only include functionality that is common to all `Engine` projects.  
-/// Anything else should live on the [Context] object instead.
+/// 
+/// The main job of the engine is to run the main loop. The engine takes an initial 
+/// [State] object and pushes that onto it's internal [StateStack].  It will then run your
+/// game through the [StateStack] utilizing a [Scheduler] for timing control.
 pub struct Engine<Schedule: Scheduler> {
     context: Context,
     scheduler: Schedule,
@@ -69,7 +66,7 @@ impl<Loop: Scheduler> Engine<Loop> {
     }
 }
 
-/// Build an instance of [Engine].
+/// Build and customize an instance of the [Engine].
 pub struct EngineBuilder<Loop: Scheduler> {
     scheduler: Loop,
 }
