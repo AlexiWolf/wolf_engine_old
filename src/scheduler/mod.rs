@@ -7,9 +7,6 @@ pub use fixed_update_scheduler::*;
 use crate::{Context, State};
 use std::fmt::Display;
 
-/// Indicates the status of the Scheduler. For now, this doesn't do anything.
-pub type LoopResult = ();
-
 /// Represents the number of ticks a [Scheduler] has performed.
 pub type Ticks = u64;
 
@@ -102,8 +99,8 @@ pub type Frames = u64;
 /// ```
 pub trait Scheduler: Display {
     /// Update the game state.
-    fn update(&mut self, context: &mut Context, state: &mut dyn State) -> LoopResult;
+    fn update(&mut self, context: &mut Context, state: &mut dyn State); 
 
     /// Render the game state.
-    fn render(&mut self, context: &mut Context, state: &mut dyn State) -> LoopResult;
+    fn render(&mut self, context: &mut Context, state: &mut dyn State);
 }
