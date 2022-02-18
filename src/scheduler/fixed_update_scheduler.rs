@@ -9,17 +9,20 @@ use std::time::{Duration, Instant};
 /// Represents the number of ticks in a second (tps.)
 pub type TickRate = f64;
 
-/// Provides a [Scheduler] with consistent fixed-time-step updates, and variable rendering.
+/// Provides a [Scheduler] with consistent fixed-time-step updates, and variable 
+/// rendering.
 ///
 /// # Frame-rate Independence
 ///
-/// No matter what frame-rate the game is running at, the gameplay will stay consistent.  The loop
-/// will always perform the same number of ticks for a given period of game time, and the time-step
-/// for each tick will always be the same. This is achieved by adjusting the number of ticks in
-/// response to how far the game has fallen behind where it should be.
+/// No matter what frame-rate the game is running at, the gameplay will stay consistent.
+/// The loop will always perform the same number of ticks for a given period of game time,
+/// and the time-step for each tick will always be the same. This is achieved by adjusting
+/// the number of ticks in response to how far the game has fallen behind where it should 
+/// be.
 ///
-/// How far behind the game is is called `lag`.  The game is ticked forward until the `lag` is
-/// less than the time-step, or until the real update time has exceeded the update time limit.
+/// How far behind the game is is called `lag`.  The game is ticked forward until the 
+/// `lag` is less than the time-step, or until the real update time has exceeded the 
+/// update time limit.
 ///
 /// This results in the following behavior.
 ///
@@ -30,17 +33,20 @@ pub type TickRate = f64;
 ///
 /// # Dealing With Excess Lag
 ///
-/// Sometimes the `lag` will not be cleared all the way to 0.  In other cases, large lag-spikes may
-/// cause the game to exceed it's update time limit.  In these cases, the remaining `lag` carried
-/// over to the next update call and more ticks will be run to catch back up.
+/// Sometimes the `lag` will not be cleared all the way to 0.  In other cases, large 
+/// lag-spikes may cause the game to exceed it's update time limit.  In these cases, the 
+/// remaining `lag` is carried over to the next update call and more ticks will be run to 
+/// catch back up.
 ///
-/// A side-effect of this system is that sometimes frames will be rendered in between ticks.  This
-/// can result in ugly stuttering.  To mitigate this, the render function can use the remaining lag
-/// to interpolate and smooth the rendered frame between the current one and the next one.
+/// A side-effect of this system is that sometimes frames will be rendered in between 
+/// ticks.  This can result in ugly stuttering.  To mitigate this, the render function 
+/// can use the remaining lag to interpolate and smooth the rendered frame between the 
+/// current one and the next one.
 ///
 /// # Examples
 ///
-/// The [FixedUpdateSchedulerBuilder] should be used to build new instances of the loop.
+/// The [FixedUpdateSchedulerBuilder] should be used to build new instances of the 
+/// scheduler.
 ///
 /// ```
 /// # use wolf_engine::scheduler::FixedUpdateSchedulerBuilder;
@@ -49,8 +55,8 @@ pub type TickRate = f64;
 ///     .build();
 /// ```
 ///
-/// The game loop can then be used by calling `update` and `render` in a loop.  The game's
-/// update and render functions, along with the [Context] object are passed in.
+/// The scheduler can then be used by calling `update` and `render` in a loop. A Game's 
+/// [State], along with the [Context] object are passed in.
 ///
 /// ```
 /// # use wolf_engine::{EmptyState, ContextBuilder, scheduler::{Scheduler, FixedUpdateSchedulerBuilder}};
@@ -229,7 +235,7 @@ mod fixed_update_scheduler_tests {
         let (scheduler, _) = test_scheduler(lag, update_time);
         assert!(
             scheduler.can_update(),
-            "The game loop should be able to update with {}ms of lag and {}ms of update time.",
+            "The scheduler should be able to update with {}ms of lag and {}ms of update time.",
             scheduler.lag.as_millis(),
             scheduler.update_time.as_millis()
         );
@@ -244,7 +250,7 @@ mod fixed_update_scheduler_tests {
         let (scheduler, _) = test_scheduler(lag, update_time);
         assert!(
             !scheduler.can_update(),
-            "The game loop should not be able to update with {}ms of lag and {}ms of update time.",
+            "The scheduler should not be able to update with {}ms of lag and {}ms of update time.",
             scheduler.lag.as_millis(),
             scheduler.update_time.as_millis()
         );
@@ -301,7 +307,7 @@ mod fixed_update_scheduler_tests {
 
         assert!(
             context.scheduler.ticks() >= minimum_ticks,
-            "The game loop did not reach the expected number of ticks"
+            "The scheduler did not reach the expected number of ticks"
         )
     }
 
@@ -318,7 +324,7 @@ mod fixed_update_scheduler_tests {
         assert_eq!(
             context.scheduler.frames(),
             10,
-            "The game loop should have counted 10 frames.",
+            "The scheduler should have counted 10 frames.",
         )
     }
 
