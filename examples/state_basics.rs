@@ -8,13 +8,6 @@ use wolf_engine::{
 
 pub fn main() {
     initialize_logging(log::LevelFilter::Debug);
-
-    let my_state = MyState::new("Hello, World!");
-
-    let context = ContextBuilder::new().build();
-    EngineBuilder::with_default_scheduler()
-        .build(context)
-        .run(Box::from(my_state));
 }
 
 pub struct MyState {
