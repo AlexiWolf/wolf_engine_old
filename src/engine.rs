@@ -106,32 +106,6 @@ pub struct EngineBuilder<Loop: Scheduler> {
     scheduler: Loop,
 }
 
-impl EngineBuilder<FixedUpdateScheduler> {
-    pub fn with_default_scheduler() -> Self {
-        Self {
-            scheduler: Default::default(),
-        }
-    }
-
-    pub fn with_fixed_scheduler(scheduler: FixedUpdateScheduler) -> Self {
-        Self { scheduler }
-    }
-}
-
-impl<Loop: Scheduler> EngineBuilder<Loop> {
-    pub fn with_custom_scheduler(scheduler: Loop) -> Self {
-        Self { scheduler }
-    }
-
-    pub fn build(self, context: Context) -> Engine<Loop> {
-        Engine {
-            context,
-            scheduler: self.scheduler,
-            state_stack: StateStack::new(),
-        }
-    }
-}
-
 #[cfg(test)]
 mod wolf_engine_tests {
     use crate::{ContextBuilder, MockState, Transition};
