@@ -102,7 +102,7 @@ impl FixedUpdateScheduler {
         self.max_update_time
     }
 
-    pub fn can_update(&self) -> bool {
+    pub fn can_run_a_tick(&self) -> bool {
         self.lag_is_greater_than_time_step() && self.has_not_exceeded_max_update_time()
     }
 
@@ -136,7 +136,7 @@ impl FixedUpdateScheduler {
     }
 
     fn run_tick_loop(&mut self, state: &mut dyn State, context: &mut Context) {
-        while self.can_update() {
+        while self.can_run_a_tick() {
             trace!("Running Tick: {}", self);
             self.tick(state, context);
         }
@@ -234,7 +234,7 @@ mod fixed_update_scheduler_tests {
     fn should_update(lag: u64, update_time: u64) {
         let (scheduler, _) = test_scheduler(lag, update_time);
         assert!(
-            scheduler.can_update(),
+            scheduler.can_run_a_tick(),
             "The scheduler should be able to update with {}ms of lag and {}ms of update time.",
             scheduler.lag.as_millis(),
             scheduler.update_time.as_millis()
@@ -249,7 +249,7 @@ mod fixed_update_scheduler_tests {
     fn should_not_update(lag: u64, update_time: u64) {
         let (scheduler, _) = test_scheduler(lag, update_time);
         assert!(
-            !scheduler.can_update(),
+            !scheduler.can_run_a_tick(),
             "The scheduler should not be able to update with {}ms of lag and {}ms of update time.",
             scheduler.lag.as_millis(),
             scheduler.update_time.as_millis()
