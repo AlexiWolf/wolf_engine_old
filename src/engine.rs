@@ -26,6 +26,16 @@ use crate::{
 /// Engine::new()
 ///     .run(Box::from(my_game_state));
 /// ```
+///
+/// Using Engine::default() does the same thing:
+///
+/// ```
+/// # use wolf_engine::{Engine, EmptyState};
+/// # let my_game_state = EmptyState;
+/// #
+/// Engine::default()
+///     .run(Box::from(my_game_state));
+/// ```
 pub struct Engine<Schedule: Scheduler> {
     context: Context,
     scheduler: Schedule,
