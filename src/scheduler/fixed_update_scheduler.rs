@@ -1,7 +1,4 @@
-use crate::{
-    game_loop::{GameLoop, LoopResult},
-    Context, State,
-};
+use crate::{scheduler::Scheduler, Context, State};
 use log::trace;
 use std::fmt::{Display, Formatter};
 use std::time::{Duration, Instant};
@@ -9,17 +6,20 @@ use std::time::{Duration, Instant};
 /// Represents the number of ticks in a second (tps.)
 pub type TickRate = f64;
 
-/// Provides a [GameLoop] with consistent fixed-time-step updates, and variable rendering.
+/// Provides a [Scheduler] with consistent fixed-time-step updates, and variable
+/// rendering.
 ///
 /// # Frame-rate Independence
 ///
-/// No matter what frame-rate the game is running at, the gameplay will stay consistent.  The loop
-/// will always perform the same number of ticks for a given period of game time, and the time-step
-/// for each tick will always be the same. This is achieved by adjusting the number of ticks in
-/// response to how far the game has fallen behind where it should be.
+/// No matter what frame-rate the game is running at, the gameplay will stay consistent.
+/// The loop will always perform the same number of ticks for a given period of game time,
+/// and the time-step for each tick will always be the same. This is achieved by adjusting
+/// the number of ticks in response to how far the game has fallen behind where it should
+/// be.
 ///
-/// How far behind the game is is called `lag`.  The game is ticked forward until the `lag` is
-/// less than the time-step, or until the real update time has exceeded the update time limit.
+/// How far behind the game is is called `lag`.  The game is ticked forward until the
+/// `lag` is less than the time-step, or until the real update time has exceeded the
+/// update time limit.
 ///
 /// This results in the following behavior.
 ///
@@ -30,44 +30,47 @@ pub type TickRate = f64;
 ///
 /// # Dealing With Excess Lag
 ///
-/// Sometimes the `lag` will not be cleared all the way to 0.  In other cases, large lag-spikes may
-/// cause the game to exceed it's update time limit.  In these cases, the remaining `lag` carried
-/// over to the next update call and more ticks will be run to catch back up.
+/// Sometimes the `lag` will not be cleared all the way to 0.  In other cases, large
+/// lag-spikes may cause the game to exceed it's update time limit.  In these cases, the
+/// remaining `lag` is carried over to the next update call and more ticks will be run to
+/// catch back up.
 ///
-/// A side-effect of this system is that sometimes frames will be rendered in between ticks.  This
-/// can result in ugly stuttering.  To mitigate this, the render function can use the remaining lag
-/// to interpolate and smooth the rendered frame between the current one and the next one.
+/// A side-effect of this system is that sometimes frames will be rendered in between
+/// ticks.  This can result in ugly stuttering.  To mitigate this, the render function
+/// can use the remaining lag to interpolate and smooth the rendered frame between the
+/// current one and the next one.
 ///
 /// # Examples
 ///
-/// The [FixedUpdateGameLoopBuilder] should be used to build new instances of the loop.
+/// The [FixedUpdateSchedulerBuilder] should be used to build new instances of the
+/// scheduler.
 ///
 /// ```
-/// # use wolf_engine::game_loop::FixedUpdateGameLoopBuilder;
+/// # use wolf_engine::scheduler::FixedUpdateSchedulerBuilder;
 ///
-/// let mut game_loop = FixedUpdateGameLoopBuilder::new()
+/// let mut scheduler = FixedUpdateSchedulerBuilder::new()
 ///     .build();
 /// ```
 ///
-/// The game loop can then be used by calling `update` and `render` in a loop.  The game's
-/// update and render functions, along with the [Context] object are passed in.
+/// The scheduler can then be used by calling `update` and `render` in a loop. A Game's
+/// [State], along with the [Context] object are passed in.
 ///
 /// ```
-/// # use wolf_engine::{EmptyState, ContextBuilder, game_loop::{GameLoop, FixedUpdateGameLoopBuilder}};
-/// # let mut game_loop = FixedUpdateGameLoopBuilder::new()
+/// # use wolf_engine::{EmptyState, ContextBuilder, scheduler::{Scheduler, FixedUpdateSchedulerBuilder}};
+/// # let mut scheduler = FixedUpdateSchedulerBuilder::new()
 /// #     .build();
 /// # let mut context = ContextBuilder::new().build();
 /// #
 /// # let mut state = EmptyState;
 /// #
 /// loop {
-///     game_loop.update(&mut context, &mut state);
-///     game_loop.render(&mut context, &mut state);
+///     scheduler.update(&mut context, &mut state);
+///     scheduler.render(&mut context, &mut state);
 /// #   break;
 /// }
 /// ```
 ///
-pub struct FixedUpdateGameLoop {
+pub struct FixedUpdateScheduler {
     tps: TickRate,
     max_update_time: Duration,
     update_time: Duration,
@@ -75,7 +78,7 @@ pub struct FixedUpdateGameLoop {
     lag: Duration,
 }
 
-impl FixedUpdateGameLoop {
+impl FixedUpdateScheduler {
     pub fn new() -> Self {
         let now = Instant::now();
         let zero = Duration::from_secs(0);
@@ -96,7 +99,7 @@ impl FixedUpdateGameLoop {
         self.max_update_time
     }
 
-    pub fn can_update(&self) -> bool {
+    pub fn can_run_a_tick(&self) -> bool {
         self.lag_is_greater_than_time_step() && self.has_not_exceeded_max_update_time()
     }
 
@@ -130,7 +133,7 @@ impl FixedUpdateGameLoop {
     }
 
     fn run_tick_loop(&mut self, state: &mut dyn State, context: &mut Context) {
-        while self.can_update() {
+        while self.can_run_a_tick() {
             trace!("Running Tick: {}", self);
             self.tick(state, context);
         }
@@ -139,7 +142,7 @@ impl FixedUpdateGameLoop {
     fn tick(&mut self, state: &mut dyn State, context: &mut Context) {
         let tick_run_time = Self::run_tick_and_track_execution_time(state, context);
         self.update_timing(tick_run_time);
-        context.game_loop.add_tick();
+        context.scheduler.add_tick();
     }
 
     fn run_tick_and_track_execution_time(state: &mut dyn State, context: &mut Context) -> Duration {
@@ -149,20 +152,20 @@ impl FixedUpdateGameLoop {
     }
 }
 
-impl GameLoop for FixedUpdateGameLoop {
-    fn update(&mut self, context: &mut Context, state: &mut dyn State) -> LoopResult {
+impl Scheduler for FixedUpdateScheduler {
+    fn update(&mut self, context: &mut Context, state: &mut dyn State) {
         self.accumulate_lag();
         self.run_tick_loop(state, context);
         self.update_time = Duration::from_secs(0);
     }
 
-    fn render(&mut self, context: &mut Context, state: &mut dyn State) -> LoopResult {
+    fn render(&mut self, context: &mut Context, state: &mut dyn State) {
         state.render(context);
-        context.game_loop.add_frame();
+        context.scheduler.add_frame();
     }
 }
 
-impl Display for FixedUpdateGameLoop {
+impl Display for FixedUpdateScheduler {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
@@ -174,47 +177,47 @@ impl Display for FixedUpdateGameLoop {
     }
 }
 
-impl Default for FixedUpdateGameLoop {
+impl Default for FixedUpdateScheduler {
     fn default() -> Self {
         Self::new()
     }
 }
 
-/// Builds an instance of [FixedUpdateGameLoop].
-pub struct FixedUpdateGameLoopBuilder {
-    game_loop: FixedUpdateGameLoop,
+/// Builds an instance of [FixedUpdateScheduler].
+pub struct FixedUpdateSchedulerBuilder {
+    scheduler: FixedUpdateScheduler,
 }
 
-impl FixedUpdateGameLoopBuilder {
+impl FixedUpdateSchedulerBuilder {
     pub fn new() -> Self {
         Self {
-            game_loop: FixedUpdateGameLoop::default(),
+            scheduler: FixedUpdateScheduler::default(),
         }
     }
 
     pub fn with_tps(mut self, tps: TickRate) -> Self {
-        self.game_loop.tps = tps;
+        self.scheduler.tps = tps;
         self
     }
 
     pub fn with_max_update_time(mut self, max_update_time: Duration) -> Self {
-        self.game_loop.max_update_time = max_update_time;
+        self.scheduler.max_update_time = max_update_time;
         self
     }
 
-    pub fn build(self) -> FixedUpdateGameLoop {
-        self.game_loop
+    pub fn build(self) -> FixedUpdateScheduler {
+        self.scheduler
     }
 }
 
-impl Default for FixedUpdateGameLoopBuilder {
+impl Default for FixedUpdateSchedulerBuilder {
     fn default() -> Self {
         Self::new()
     }
 }
 
 #[cfg(test)]
-mod fixed_update_game_loop_tests {
+mod fixed_update_scheduler_tests {
     use super::*;
     use crate::MockState;
     use crate::{Context, ContextBuilder};
@@ -226,12 +229,12 @@ mod fixed_update_game_loop_tests {
     #[test_case(8, 0; "with 8 ms of lag")]
     #[test_case(8, 99; "with 99 ms of update time")]
     fn should_update(lag: u64, update_time: u64) {
-        let (game_loop, _) = test_game_loop(lag, update_time);
+        let (scheduler, _) = test_scheduler(lag, update_time);
         assert!(
-            game_loop.can_update(),
-            "The game loop should be able to update with {}ms of lag and {}ms of update time.",
-            game_loop.lag.as_millis(),
-            game_loop.update_time.as_millis()
+            scheduler.can_run_a_tick(),
+            "The scheduler should be able to update with {}ms of lag and {}ms of update time.",
+            scheduler.lag.as_millis(),
+            scheduler.update_time.as_millis()
         );
     }
 
@@ -241,45 +244,45 @@ mod fixed_update_game_loop_tests {
     #[test_case(8, 101; "with 101 ms of update time")]
     #[test_case(8, 100; "with 100 ms of update time")]
     fn should_not_update(lag: u64, update_time: u64) {
-        let (game_loop, _) = test_game_loop(lag, update_time);
+        let (scheduler, _) = test_scheduler(lag, update_time);
         assert!(
-            !game_loop.can_update(),
-            "The game loop should not be able to update with {}ms of lag and {}ms of update time.",
-            game_loop.lag.as_millis(),
-            game_loop.update_time.as_millis()
+            !scheduler.can_run_a_tick(),
+            "The scheduler should not be able to update with {}ms of lag and {}ms of update time.",
+            scheduler.lag.as_millis(),
+            scheduler.update_time.as_millis()
         );
     }
 
     #[test_case(0, 2 ; "with 0 ms of update time")]
     #[test_case(6, 1 ; "with 6 ms of update time")]
     fn should_stop_ticking_if_max_update_time_is_reached(tick_delay: u64, ticks: usize) {
-        let (mut game_loop, mut context) = test_game_loop(16, 0);
+        let (mut scheduler, mut context) = test_scheduler(16, 0);
         let mut state = MockState::new();
         state.expect_update().times(ticks).returning(move |_| {
             thread::sleep(Duration::from_millis(tick_delay));
             None
         });
-        game_loop.max_update_time = Duration::from_millis(5);
+        scheduler.max_update_time = Duration::from_millis(5);
 
-        game_loop.update(&mut context, &mut state);
+        scheduler.update(&mut context, &mut state);
     }
 
     #[test]
     fn should_call_the_update_function() {
-        let (mut game_loop, mut context) = test_game_loop(8, 0);
+        let (mut scheduler, mut context) = test_scheduler(8, 0);
         let mut state = MockState::new();
         state.expect_update().times(1..).returning(|_| None);
 
-        game_loop.update(&mut context, &mut state);
+        scheduler.update(&mut context, &mut state);
     }
 
     #[test]
     fn should_call_the_render_function() {
-        let (mut game_loop, mut context) = test_game_loop(8, 0);
+        let (mut scheduler, mut context) = test_scheduler(8, 0);
         let mut state = MockState::new();
         state.expect_render().times(1).returning(|_| ());
 
-        game_loop.render(&mut context, &mut state);
+        scheduler.render(&mut context, &mut state);
     }
 
     /// Testing minimum ticks because this test is not consistent cross platforms when checking
@@ -291,91 +294,91 @@ mod fixed_update_game_loop_tests {
     #[test_case(120.0, 60, 2  ; "2 times at 120 tps and 60 fps")]
     #[test_case(120.0, 120, 1 ; "1 time at 120 tps and 120 fps")]
     fn should_tick_at_least(tick_rate: f64, fps: u64, minimum_ticks: u64) {
-        let (mut game_loop, mut context) = test_game_loop(0, 0);
-        game_loop.tps = tick_rate;
+        let (mut scheduler, mut context) = test_scheduler(0, 0);
+        scheduler.tps = tick_rate;
         let mut state = MockState::new();
         state.expect_update().returning(|_| None);
 
         thread::sleep(Duration::from_millis(1000 / fps));
-        game_loop.update(&mut context, &mut state);
+        scheduler.update(&mut context, &mut state);
 
         assert!(
-            context.game_loop.ticks() >= minimum_ticks,
-            "The game loop did not reach the expected number of ticks"
+            context.scheduler.ticks() >= minimum_ticks,
+            "The scheduler did not reach the expected number of ticks"
         )
     }
 
     #[test]
     fn should_count_frames_rendered() {
-        let (mut game_loop, mut context) = test_game_loop(0, 0);
+        let (mut scheduler, mut context) = test_scheduler(0, 0);
         let mut state = MockState::new();
         state.expect_render().times(10).returning(|_| ());
 
         for _ in 0..10 {
-            game_loop.render(&mut context, &mut state);
+            scheduler.render(&mut context, &mut state);
         }
 
         assert_eq!(
-            context.game_loop.frames(),
+            context.scheduler.frames(),
             10,
-            "The game loop should have counted 10 frames.",
+            "The scheduler should have counted 10 frames.",
         )
     }
 
     #[test]
     fn should_reset_the_update_time_each_frame() {
-        let (mut game_loop, mut context) = test_game_loop(0, 0);
+        let (mut scheduler, mut context) = test_scheduler(0, 0);
         let mut state = MockState::new();
         state.expect_update().returning(|_| None);
 
         for _ in 0..5 {
             assert_eq!(
-                game_loop.update_time.as_millis(),
+                scheduler.update_time.as_millis(),
                 0,
                 "The update time was not reset."
             );
-            game_loop.lag = Duration::from_millis(8);
-            game_loop.update(&mut context, &mut state);
+            scheduler.lag = Duration::from_millis(8);
+            scheduler.update(&mut context, &mut state);
         }
     }
 
-    fn test_game_loop(
+    fn test_scheduler(
         artificial_lag: u64,
         artificial_update_time: u64,
-    ) -> (FixedUpdateGameLoop, Context) {
-        let mut game_loop = FixedUpdateGameLoopBuilder::new().build();
-        game_loop.lag = Duration::from_millis(artificial_lag);
-        game_loop.update_time = Duration::from_millis(artificial_update_time);
+    ) -> (FixedUpdateScheduler, Context) {
+        let mut scheduler = FixedUpdateSchedulerBuilder::new().build();
+        scheduler.lag = Duration::from_millis(artificial_lag);
+        scheduler.update_time = Duration::from_millis(artificial_update_time);
         let context = ContextBuilder::new().build();
-        (game_loop, context)
+        (scheduler, context)
     }
 }
 
 #[cfg(test)]
-mod fixed_update_game_loop_builder_tests {
+mod fixed_update_scheduler_builder_tests {
     use super::*;
 
     #[test]
     fn should_have_default_values_in_builder() {
-        let game_loop = FixedUpdateGameLoopBuilder::new().build();
+        let scheduler = FixedUpdateSchedulerBuilder::new().build();
 
-        assert_eq!(game_loop.tps(), 120.0);
-        assert_eq!(game_loop.max_update_time(), Duration::from_millis(100));
+        assert_eq!(scheduler.tps(), 120.0);
+        assert_eq!(scheduler.max_update_time(), Duration::from_millis(100));
     }
 
     #[test]
     fn should_have_tps_setter() {
-        let game_loop = FixedUpdateGameLoopBuilder::new().with_tps(60.0).build();
+        let scheduler = FixedUpdateSchedulerBuilder::new().with_tps(60.0).build();
 
-        assert_eq!(game_loop.tps(), 60.0);
+        assert_eq!(scheduler.tps(), 60.0);
     }
 
     #[test]
     fn should_have_max_update_time_setter() {
-        let game_loop = FixedUpdateGameLoopBuilder::new()
+        let scheduler = FixedUpdateSchedulerBuilder::new()
             .with_max_update_time(Duration::from_secs(1))
             .build();
 
-        assert_eq!(game_loop.max_update_time(), Duration::from_secs(1));
+        assert_eq!(scheduler.max_update_time(), Duration::from_secs(1));
     }
 }

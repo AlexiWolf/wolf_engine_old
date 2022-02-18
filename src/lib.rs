@@ -17,8 +17,8 @@
 //!```
 //!
 //! Then you can build and instance of the engine using the [WolfEngineBuilder].
-//! The `WolfEngineBuilder::with_default_game_loop()` method will give you the default
-//! [FixedUpdateGameLoop](crate::game_loop::FixedUpdateGameLoop).  The default settings
+//! The `WolfEngineBuilder::with_default_scheduler()` method will give you the default
+//! [FixedUpdateScheduler](crate::scheduler::FixedUpdateScheduler).  The default settings
 //! should be okay for most games.
 //!
 //! ```
@@ -27,43 +27,43 @@
 //! # let context = ContextBuilder::new()
 //! #    .build();
 //! #
-//! let engine = WolfEngineBuilder::with_default_game_loop()
+//! let engine = WolfEngineBuilder::with_default_scheduler()
 //!     // Custom settings go here.
 //!     .build(context);
 //! ```
 //!
-//! If you want to customize the [FixedUpdateGameLoop](crate::game_loop::FixedUpdateGameLoop),
+//! If you want to customize the [FixedUpdateScheduler](crate::scheduler::FixedUpdateScheduler),
 //! you can build an instance yourself using the
-//! [FixedUpdateGameLoopBuilder](crate::game_loop::FixedUpdateGameLoopBuilder), then pass
-//! it to `WolfEngineBuilder::with_fixed_game_loop()`.
+//! [FixedUpdateSchedulerBuilder](crate::scheduler::FixedUpdateSchedulerBuilder), then pass
+//! it to `WolfEngineBuilder::with_fixed_scheduler()`.
 //!
 //! ```
-//! # use wolf_engine::{ContextBuilder, WolfEngineBuilder, game_loop::FixedUpdateGameLoopBuilder};
+//! # use wolf_engine::{ContextBuilder, WolfEngineBuilder, scheduler::FixedUpdateSchedulerBuilder};
 //! #
 //! # let context = ContextBuilder::new()
 //! #    .build();
 //! #
-//! let game_loop = FixedUpdateGameLoopBuilder::new()
+//! let scheduler = FixedUpdateSchedulerBuilder::new()
 //!     // Custom settings go here.
 //!     .build();
 //!
-//! let engine = WolfEngineBuilder::with_fixed_game_loop(game_loop)
+//! let engine = WolfEngineBuilder::with_fixed_scheduler(scheduler)
 //!     // Custom settings go here.
 //!     .build(context);
 //! ```
 //!
 //! To run the engine, you provide your game state to the engine.  The engine will use
-//! the [GameLoop](crate::game_loop::GameLoop) to manage how the functions are called.  
+//! the [Scheduler](crate::scheduler::Scheduler) to manage how the functions are called.  
 //! The engine will take ownership over itself and run until the game quits.  You will
 //! need to [Box] the state before passing it to the engine.
 //!
 //! ```
-//! # use wolf_engine::{EmptyState, WolfEngine, WolfEngineBuilder, ContextBuilder, game_loop::FixedUpdateGameLoop };
+//! # use wolf_engine::{EmptyState, WolfEngine, WolfEngineBuilder, ContextBuilder, scheduler::FixedUpdateScheduler };
 //! #
 //! # let context = ContextBuilder::new()
 //! #    .build();
 //! #
-//! # let engine = WolfEngineBuilder::with_default_game_loop()
+//! # let engine = WolfEngineBuilder::with_default_scheduler()
 //! #    .build(context);
 //! #
 //! # let state = EmptyState;
@@ -81,7 +81,7 @@ mod logging;
 mod state;
 
 pub mod context;
-pub mod game_loop;
+pub mod scheduler;
 
 pub use context::{Context, ContextBuilder};
 pub use engine::*;
