@@ -14,14 +14,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        rust-version: [stable, nightly]
+        rust-version: 
+          - stable 
+          - nightly
         platform:
           - { os: ubuntu-latest }
-          - { os: ubuntu-latest, features: "window" }
           - { os: windows-latest }
-          - { os: windows-latest, features: "window" }
           - { os: macos-latest }
-          - { os: macos-latest, features: "window" }
 
     env:
       RUST_BACKTRACE: 1
@@ -30,8 +29,16 @@ jobs:
       OPTIONS: ${{ matrix.platform.options }}
 
     runs-on: ${{ matrix.platform.os }}
+
     steps:
     - uses: actions/checkout@v2
+
+    - name: Setup Rust
+      uses: ATiltedTree/setup-rust@v1
+      with:
+        rust-version: ${{ matrix.rust-version }} 
+
     - name: Run tests
       shell: bash
       run: cargo test --verbose $OPTIONS --features $FEATURES
+
