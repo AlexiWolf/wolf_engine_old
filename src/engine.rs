@@ -94,6 +94,13 @@ impl<Loop: Scheduler> Engine<Loop> {
     }
 }
 
+impl Default for Engine<FixedUpdateScheduler> {
+    fn default() -> Self {
+        todo!();
+    }
+}
+
+
 /// Build and customize an instance of the [Engine].
 pub struct EngineBuilder<Loop: Scheduler> {
     scheduler: Loop,
