@@ -108,14 +108,13 @@ pub struct EngineBuilder<Schedule: Scheduler> {
 
 #[cfg(test)]
 mod wolf_engine_tests {
-    use crate::{ContextBuilder, MockState, Transition};
+    use crate::{MockState, Transition};
 
     use super::*;
 
     #[test]
     fn should_run_the_state() {
-        let context = ContextBuilder::new().build();
-        let wolf_engine = EngineBuilder::with_default_scheduler().build(context);
+        let wolf_engine = Engine::default();
         let mut state = MockState::new();
         state
             .expect_update()
