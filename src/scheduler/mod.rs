@@ -14,20 +14,20 @@ pub type Frames = u64;
 
 /// Controls how the game is run.
 ///
-/// The scheduler is responsible for determining if or when the game should be updated 
-/// or rendered.  Schedulers are useful for creating predictable update timing, preventing 
+/// The scheduler is responsible for determining if or when the game should be updated
+/// or rendered.  Schedulers are useful for creating predictable update timing, preventing
 /// busy loops, and implementing frame limiters, among other things.
 ///
 /// Wolf Engine's default scheduler is the
-/// [FixedUpdateScheduler](fixed_update_scheduler::FixedUpdateScheduler). 
+/// [FixedUpdateScheduler](fixed_update_scheduler::FixedUpdateScheduler).
 ///
 /// Different schedulers may operate differently, so you should refer to implementation
 /// documentation for specific details.
 ///
 /// ## Updating
 ///
-/// At it's most basic, the `update` function just calls the game's update function and 
-/// returns the result from it.  Depending on the implementation, different update 
+/// At it's most basic, the `update` function just calls the game's update function and
+/// returns the result from it.  Depending on the implementation, different update
 /// strategies may be used and / or additional timing controls may be added.
 ///
 /// Ticks vs Updates:
@@ -87,7 +87,7 @@ pub type Frames = u64;
 /// ```
 pub trait Scheduler {
     /// Update the game state.
-    fn update(&mut self, context: &mut Context, state: &mut dyn State); 
+    fn update(&mut self, context: &mut Context, state: &mut dyn State);
 
     /// Render the game state.
     fn render(&mut self, context: &mut Context, state: &mut dyn State);

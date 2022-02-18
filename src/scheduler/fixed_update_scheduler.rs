@@ -1,7 +1,4 @@
-use crate::{
-    scheduler::Scheduler,
-    Context, State,
-};
+use crate::{scheduler::Scheduler, Context, State};
 use log::trace;
 use std::fmt::{Display, Formatter};
 use std::time::{Duration, Instant};
@@ -9,7 +6,7 @@ use std::time::{Duration, Instant};
 /// Represents the number of ticks in a second (tps.)
 pub type TickRate = f64;
 
-/// Provides a [Scheduler] with consistent fixed-time-step updates, and variable 
+/// Provides a [Scheduler] with consistent fixed-time-step updates, and variable
 /// rendering.
 ///
 /// # Frame-rate Independence
@@ -17,11 +14,11 @@ pub type TickRate = f64;
 /// No matter what frame-rate the game is running at, the gameplay will stay consistent.
 /// The loop will always perform the same number of ticks for a given period of game time,
 /// and the time-step for each tick will always be the same. This is achieved by adjusting
-/// the number of ticks in response to how far the game has fallen behind where it should 
+/// the number of ticks in response to how far the game has fallen behind where it should
 /// be.
 ///
-/// How far behind the game is is called `lag`.  The game is ticked forward until the 
-/// `lag` is less than the time-step, or until the real update time has exceeded the 
+/// How far behind the game is is called `lag`.  The game is ticked forward until the
+/// `lag` is less than the time-step, or until the real update time has exceeded the
 /// update time limit.
 ///
 /// This results in the following behavior.
@@ -33,19 +30,19 @@ pub type TickRate = f64;
 ///
 /// # Dealing With Excess Lag
 ///
-/// Sometimes the `lag` will not be cleared all the way to 0.  In other cases, large 
-/// lag-spikes may cause the game to exceed it's update time limit.  In these cases, the 
-/// remaining `lag` is carried over to the next update call and more ticks will be run to 
+/// Sometimes the `lag` will not be cleared all the way to 0.  In other cases, large
+/// lag-spikes may cause the game to exceed it's update time limit.  In these cases, the
+/// remaining `lag` is carried over to the next update call and more ticks will be run to
 /// catch back up.
 ///
-/// A side-effect of this system is that sometimes frames will be rendered in between 
-/// ticks.  This can result in ugly stuttering.  To mitigate this, the render function 
-/// can use the remaining lag to interpolate and smooth the rendered frame between the 
+/// A side-effect of this system is that sometimes frames will be rendered in between
+/// ticks.  This can result in ugly stuttering.  To mitigate this, the render function
+/// can use the remaining lag to interpolate and smooth the rendered frame between the
 /// current one and the next one.
 ///
 /// # Examples
 ///
-/// The [FixedUpdateSchedulerBuilder] should be used to build new instances of the 
+/// The [FixedUpdateSchedulerBuilder] should be used to build new instances of the
 /// scheduler.
 ///
 /// ```
@@ -55,7 +52,7 @@ pub type TickRate = f64;
 ///     .build();
 /// ```
 ///
-/// The scheduler can then be used by calling `update` and `render` in a loop. A Game's 
+/// The scheduler can then be used by calling `update` and `render` in a loop. A Game's
 /// [State], along with the [Context] object are passed in.
 ///
 /// ```
