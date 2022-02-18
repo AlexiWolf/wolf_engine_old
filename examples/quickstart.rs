@@ -5,22 +5,6 @@ pub fn main() {
     // Wolf Engine includes a default logger for convenience, but using it is optional.
     // Feel free to bring your own logger.
     initialize_logging(LevelFilter::Debug);
-
-    // Start by initializing the Context object.
-    let context = ContextBuilder::new()
-        // Custom settings go here.
-        .build();
-
-    // Then build an instance of the engine.
-    let engine = EngineBuilder::with_default_scheduler()
-        // Custom settings go here.
-        .build(context);
-
-    // Initialize your game state.
-    let game = FizzBuzzState::new();
-
-    // Then pass your game state to the engine on startup.  Have fun!
-    engine.run(Box::from(game));
 }
 
 pub struct FizzBuzzState {
