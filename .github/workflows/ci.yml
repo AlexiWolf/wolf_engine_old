@@ -25,7 +25,6 @@ jobs:
       CARGO_TERM_COLOR: always
       FEATURES: ${{ format(',{0}', matrix.platform.features ) }}
       OPTIONS: ${{ matrix.platform.options }}
-      RUST_VERSION: ${{ matrix.rust_version }}
 
     runs-on: ${{ matrix.platform.os }}
 
@@ -34,8 +33,6 @@ jobs:
 
     - name: Setup Rust
       uses: ATiltedTree/setup-rust@v1
-      with:
-        rust-version: $RUST_VERSION 
 
     - name: Run tests
       shell: bash
