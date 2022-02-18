@@ -17,11 +17,8 @@ jobs:
         rust-version: [stable, nightly]
         platform:
           - { os: ubuntu-latest }
-          - { os: ubuntu-latest, features: "window" }
           - { os: windows-latest }
-          - { os: windows-latest, features: "window" }
           - { os: macos-latest }
-          - { os: macos-latest, features: "window" }
 
     env:
       RUST_BACKTRACE: 1
