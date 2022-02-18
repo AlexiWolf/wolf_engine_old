@@ -7,38 +7,33 @@ pub use fixed_update_scheduler::*;
 use crate::{Context, State};
 use std::fmt::Display;
 
-/// Represents the number of ticks a [Scheduler] has performed.
+/// Represents the number of ticks the engine has run.
 pub type Ticks = u64;
 
-/// Represents the number of frames a [Scheduler] has rendered.
+/// Represents the number of frames the engine has rendered.
 pub type Frames = u64;
 
 /// Controls how the game is run.
 ///
-/// The `Scheduler` is the core control structure Wolf Engine, as it directly controls how the game
-/// is run.  It is primarily responsible for:
+/// The scheduler is responsible for determining if or when the game should be updated 
+/// or rendered.  Schedulers are useful for creating predictable update timing, preventing 
+/// busy loops, and implementing frame limiters, among other things.
 ///
-/// - Updating the game state.
-/// - Rendering the current frame.
-/// - Tracking basic information about itself, such as the number of *ticks* performed, and
-///   *frames* it's rendered.
+/// Wolf Engine's default scheduler is the
+/// [FixedUpdateScheduler](fixed_update_scheduler::FixedUpdateScheduler). 
 ///
-/// Wolf Engine's default `Scheduler` is the
-/// [FixedUpdateScheduler](fixed_update_scheduler::FixedUpdateScheduler).  See its documentation for
-/// usage information.
-///
-/// Different `Scheduler`s may operate differently, so you should refer to implementation
-/// documentation for specific details,
+/// Different schedulers may operate differently, so you should refer to implementation
+/// documentation for specific details.
 ///
 /// ## Updating
 ///
-/// At it's most basic, the `update` function just calls the game's update function and returns
-/// the result from it.  Depending on the implementation, different update strategies may be used
-/// and / or additional timing controls may be added.
+/// At it's most basic, the `update` function just calls the game's update function and 
+/// returns the result from it.  Depending on the implementation, different update 
+/// strategies may be used and / or additional timing controls may be added.
 ///
 /// Ticks vs Updates:
 ///
-/// - An *update* refers to a single call to the game loop's `update` method.
+/// - An *update* refers to a single call to the scheduler's `update` method.
 /// - A *tick* refers to a single step of the game's state.
 /// - There may be 0, 1, or any other number of *ticks* in an *update*.
 ///
@@ -49,10 +44,9 @@ pub type Frames = u64;
 /// or frame interpolation may be added.  Generally, a single call to `render` should
 /// render a single frame.
 ///
-/// # Custom Game Loops
+/// # Creating a Custom Scheduler
 ///
-/// Wolf Engine also fully supports using a custom `Scheduler`.  Simply implement this
-/// trait.
+/// Wolf Engine fully supports using a custom scheduler.  Simply implement this trait.
 ///
 /// ```
 /// use wolf_engine::{State, Context, scheduler::Scheduler};
@@ -63,10 +57,12 @@ pub type Frames = u64;
 /// impl Scheduler for MyScheduler {
 ///
 ///     fn update(&mut self, context: &mut Context, state: &mut dyn State) {
+///         // Add timing control logic here.
 ///         state.update(context);
 ///     }
 ///
 ///     fn render(&mut self, context: &mut Context, state: &mut dyn State) {
+///         // Add timing control logic here.
 ///         state.render(context);
 ///     }
 /// }
