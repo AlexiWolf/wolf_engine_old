@@ -34,7 +34,7 @@ jobs:
     - name: Setup Rust
       uses: ATiltedTree/setup-rust@v1
       with:
-        rust-version: stable
+        rust-version: ${{ matrix.rust_version }} 
 
     - name: Run tests
       shell: bash
