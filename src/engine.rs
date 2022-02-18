@@ -6,8 +6,8 @@ use winit::{
 };
 
 use crate::{
-    scheduler::{FixedUpdateScheduler, Scheduler},
-    Context, State, StateStack,
+    scheduler::{FixedUpdateScheduler, Scheduler, FixedUpdateSchedulerBuilder},
+    Context, State, StateStack, ContextBuilder,
 };
 
 /// Provides the core functionality of the engine.
@@ -30,6 +30,13 @@ pub struct Engine<Schedule: Scheduler> {
     context: Context,
     scheduler: Schedule,
     state_stack: StateStack,
+}
+
+
+impl Engine<FixedUpdateScheduler> {
+    pub fn new() -> Self {
+        todo!()
+    }
 }
 
 impl<Loop: Scheduler> Engine<Loop> {
