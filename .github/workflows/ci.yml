@@ -27,8 +27,16 @@ jobs:
       OPTIONS: ${{ matrix.platform.options }}
 
     runs-on: ${{ matrix.platform.os }}
+
     steps:
     - uses: actions/checkout@v2
+
+    - name: Setup Rust
+      uses: ATiltedTree/setup-rust@v1
+      with:
+        rust-version: stable
+
     - name: Run tests
       shell: bash
       run: cargo test --verbose $OPTIONS --features $FEATURES
+
