@@ -5,7 +5,6 @@ mod fixed_update_scheduler;
 pub use fixed_update_scheduler::*;
 
 use crate::{Context, State};
-use std::fmt::Display;
 
 /// Represents the number of ticks the engine has run.
 pub type Ticks = u64;
@@ -50,7 +49,6 @@ pub type Frames = u64;
 ///
 /// ```
 /// use wolf_engine::{State, Context, scheduler::Scheduler};
-/// # use std::fmt::{Formatter, Display};
 ///
 /// pub struct MyScheduler;
 ///
@@ -66,12 +64,6 @@ pub type Frames = u64;
 ///         state.render(context);
 ///     }
 /// }
-/// #
-/// # impl Display for MyScheduler {
-/// #     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-/// #         write!(f, "")
-/// #     }
-/// # }
 /// ```
 ///
 /// You can use a custom [Scheduler](crate::scheduler::Scheduler) implementation by using
@@ -93,7 +85,7 @@ pub type Frames = u64;
 /// let engine = WolfEngineBuilder::with_custom_scheduler(custom_scheduler)
 ///     .build(context);
 /// ```
-pub trait Scheduler: Display {
+pub trait Scheduler {
     /// Update the game state.
     fn update(&mut self, context: &mut Context, state: &mut dyn State); 
 
