@@ -1,8 +1,8 @@
 //! Provides access to engine state and tooling.
 
-mod game_loop_context;
+mod scheduler_context;
 
-pub use game_loop_context::*;
+pub use scheduler_context::*;
 
 #[cfg(feature = "window")]
 use winit::event_loop::EventLoop;
@@ -26,7 +26,7 @@ use winit::event_loop::EventLoop;
 ///     .build();
 /// ```
 pub struct Context {
-    pub game_loop: GameLoopContext,
+    pub scheduler: SchedulerContext,
 }
 
 /// Builds a [Context] object.
@@ -45,7 +45,7 @@ impl ContextBuilder {
     /// Consumes the `ContextBuilder` and uses it to configure a [Context] object.
     pub fn build(self) -> Context {
         Context {
-            game_loop: GameLoopContext::new(),
+            scheduler: SchedulerContext::new(),
         }
     }
 }
@@ -71,7 +71,7 @@ impl ContextBuilder {
     /// - Will panic if there is no [EventLoop].  
     pub fn build_with_event_loop(self) -> (Context, EventLoop<()>) {
         let context = Context {
-            game_loop: GameLoopContext::new(),
+            scheduler: SchedulerContext::new(),
         };
         (
             context,

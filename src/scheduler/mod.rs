@@ -1,24 +1,24 @@
 //! Provides flexible update and frame timing controls for [WolfEngine](crate::WolfEngine).
 
-mod fixed_update_game_loop;
+mod fixed_update_scheduler;
 
-pub use fixed_update_game_loop::*;
+pub use fixed_update_scheduler::*;
 
 use crate::{Context, State};
 use std::fmt::Display;
 
-/// Indicates the status of the GameLoop. For now, this doesn't do anything.
+/// Indicates the status of the Scheduler. For now, this doesn't do anything.
 pub type LoopResult = ();
 
-/// Represents the number of ticks a [GameLoop] has performed.
+/// Represents the number of ticks a [Scheduler] has performed.
 pub type Ticks = u64;
 
-/// Represents the number of frames a [GameLoop] has rendered.
+/// Represents the number of frames a [Scheduler] has rendered.
 pub type Frames = u64;
 
 /// Controls how the game is run.
 ///
-/// The `GameLoop` is the core control structure Wolf Engine, as it directly controls how the game
+/// The `Scheduler` is the core control structure Wolf Engine, as it directly controls how the game
 /// is run.  It is primarily responsible for:
 ///
 /// - Updating the game state.
@@ -26,11 +26,11 @@ pub type Frames = u64;
 /// - Tracking basic information about itself, such as the number of *ticks* performed, and
 ///   *frames* it's rendered.
 ///
-/// Wolf Engine's default `GameLoop` is the
-/// [FixedUpdateGameLoop](fixed_update_game_loop::FixedUpdateGameLoop).  See its documentation for
+/// Wolf Engine's default `Scheduler` is the
+/// [FixedUpdateScheduler](fixed_update_scheduler::FixedUpdateScheduler).  See its documentation for
 /// usage information.
 ///
-/// Different `GameLoop`s may operate differently, so you should refer to implementation
+/// Different `Scheduler`s may operate differently, so you should refer to implementation
 /// documentation for specific details,
 ///
 /// ## Updating
@@ -54,16 +54,16 @@ pub type Frames = u64;
 ///
 /// # Custom Game Loops
 ///
-/// Wolf Engine also fully supports using a custom `GameLoop`.  Simply implement this
+/// Wolf Engine also fully supports using a custom `Scheduler`.  Simply implement this
 /// trait.
 ///
 /// ```
-/// use wolf_engine::{State, Context, game_loop::{GameLoop, LoopResult}};
+/// use wolf_engine::{State, Context, scheduler::{Scheduler, LoopResult}};
 /// # use std::fmt::{Formatter, Display};
 ///
-/// pub struct MyGameLoop;
+/// pub struct MyScheduler;
 ///
-/// impl GameLoop for MyGameLoop {
+/// impl Scheduler for MyScheduler {
 ///
 ///     fn update(&mut self, context: &mut Context, state: &mut dyn State) -> LoopResult {
 ///         state.update(context);
@@ -74,33 +74,33 @@ pub type Frames = u64;
 ///     }
 /// }
 /// #
-/// # impl Display for MyGameLoop {
+/// # impl Display for MyScheduler {
 /// #     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
 /// #         write!(f, "")
 /// #     }
 /// # }
 /// ```
 ///
-/// You can use a custom [GameLoop](crate::game_loop::GameLoop) implementation by using
-/// the `WolfEngineBuilder::with_custom_game_loop()` method.
+/// You can use a custom [Scheduler](crate::scheduler::Scheduler) implementation by using
+/// the `WolfEngineBuilder::with_custom_scheduler()` method.
 ///
 /// ```
 /// # use wolf_engine::{
-/// #    ContextBuilder, WolfEngineBuilder, game_loop::FixedUpdateGameLoopBuilder
+/// #    ContextBuilder, WolfEngineBuilder, scheduler::FixedUpdateSchedulerBuilder
 /// # };
 /// #
 /// # let context = ContextBuilder::new()
 /// #    .build();
 /// #
 /// # // Using fixed game loop for the example because the actual loop is unimportant.
-/// # // Any GameLoop can be provided here and it will work just the same.
-/// # let custom_game_loop = FixedUpdateGameLoopBuilder::new()
+/// # // Any Scheduler can be provided here and it will work just the same.
+/// # let custom_scheduler = FixedUpdateSchedulerBuilder::new()
 /// #   .build();
 /// #
-/// let engine = WolfEngineBuilder::with_custom_game_loop(custom_game_loop)
+/// let engine = WolfEngineBuilder::with_custom_scheduler(custom_scheduler)
 ///     .build(context);
 /// ```
-pub trait GameLoop: Display {
+pub trait Scheduler: Display {
     /// Update the game state.
     fn update(&mut self, context: &mut Context, state: &mut dyn State) -> LoopResult;
 

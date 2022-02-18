@@ -12,7 +12,7 @@ pub fn main() {
     let starting_state = MainState::new();
 
     let context = ContextBuilder::new().build();
-    WolfEngineBuilder::with_default_game_loop()
+    WolfEngineBuilder::with_default_scheduler()
         .build(context)
         .run(Box::from(starting_state));
 }

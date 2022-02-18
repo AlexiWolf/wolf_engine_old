@@ -12,7 +12,7 @@ pub fn main() {
         .build();
 
     // Then build an instance of the engine.
-    let engine = WolfEngineBuilder::with_default_game_loop()
+    let engine = WolfEngineBuilder::with_default_scheduler()
         // Custom settings go here.
         .build(context);
 
