@@ -14,7 +14,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        rust-version: [stable, nightly]
+        rust-version: 
+          - stable 
+          - nightly
         platform:
           - { os: ubuntu-latest }
           - { os: windows-latest }
@@ -33,6 +35,8 @@ jobs:
 
     - name: Setup Rust
       uses: ATiltedTree/setup-rust@v1
+      with:
+        rust-version: ${{ matrix.rust-version }} 
 
     - name: Run tests
       shell: bash
