@@ -2,8 +2,8 @@ use std::{thread, time::Duration};
 
 use log::{debug, info};
 use wolf_engine::{
-    initialize_logging, Context, ContextBuilder, OptionalTransition, RenderResult, State,
-    Transition, WolfEngineBuilder,
+    initialize_logging, Context, ContextBuilder, EngineBuilder, OptionalTransition, RenderResult,
+    State, Transition,
 };
 
 pub fn main() {
@@ -12,7 +12,7 @@ pub fn main() {
     let my_state = MyState::new("Hello, World!");
 
     let context = ContextBuilder::new().build();
-    WolfEngineBuilder::with_default_scheduler()
+    EngineBuilder::with_default_scheduler()
         .build(context)
         .run(Box::from(my_state));
 }

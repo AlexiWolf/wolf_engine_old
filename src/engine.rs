@@ -12,19 +12,16 @@ use crate::{
 
 /// Provides the core functionality of the engine.
 ///
-/// `WolfEngine` is, as the name suggests, the core of the game engine.  It provides some common
-/// behavior such as: Running the main loop (utilizing a [Scheduler] for timing control), cleanly
-/// shutting down, and holding ownership over the [Context] object.
-///
-/// The engine tries to only include functionality that is common to all `WolfEngine` projects.  
-/// Anything else should live on the [Context] object instead.
-pub struct WolfEngine<Schedule: Scheduler> {
+/// The main job of the engine is to run the main loop. The engine takes an initial
+/// [State] object and pushes that onto it's internal [StateStack].  It will then run your
+/// game through the [StateStack] utilizing a [Scheduler] for timing control.
+pub struct Engine<Schedule: Scheduler> {
     context: Context,
     scheduler: Schedule,
     state_stack: StateStack,
 }
 
-impl<Loop: Scheduler> WolfEngine<Loop> {
+impl<Loop: Scheduler> Engine<Loop> {
     pub fn run(mut self, initial_state: Box<dyn State>) {
         self.state_stack.push(initial_state);
         while !self.state_stack.is_empty() {
@@ -37,7 +34,7 @@ impl<Loop: Scheduler> WolfEngine<Loop> {
 }
 
 #[cfg(feature = "window")]
-impl<Loop: Scheduler> WolfEngine<Loop> {
+impl<Loop: Scheduler> Engine<Loop> {
     pub fn run_with_event_loop(mut self, initial_state: Box<dyn State>, event_loop: EventLoop<()>) {
         self.state_stack.push(initial_state);
         self.run_event_loop(event_loop);
@@ -69,12 +66,12 @@ impl<Loop: Scheduler> WolfEngine<Loop> {
     }
 }
 
-/// Build an instance of [WolfEngine].
-pub struct WolfEngineBuilder<Loop: Scheduler> {
+/// Build and customize an instance of the [Engine].
+pub struct EngineBuilder<Loop: Scheduler> {
     scheduler: Loop,
 }
 
-impl WolfEngineBuilder<FixedUpdateScheduler> {
+impl EngineBuilder<FixedUpdateScheduler> {
     pub fn with_default_scheduler() -> Self {
         Self {
             scheduler: Default::default(),
@@ -86,13 +83,13 @@ impl WolfEngineBuilder<FixedUpdateScheduler> {
     }
 }
 
-impl<Loop: Scheduler> WolfEngineBuilder<Loop> {
+impl<Loop: Scheduler> EngineBuilder<Loop> {
     pub fn with_custom_scheduler(scheduler: Loop) -> Self {
         Self { scheduler }
     }
 
-    pub fn build(self, context: Context) -> WolfEngine<Loop> {
-        WolfEngine {
+    pub fn build(self, context: Context) -> Engine<Loop> {
+        Engine {
             context,
             scheduler: self.scheduler,
             state_stack: StateStack::new(),
@@ -109,7 +106,7 @@ mod wolf_engine_tests {
     #[test]
     fn should_run_the_state() {
         let context = ContextBuilder::new().build();
-        let wolf_engine = WolfEngineBuilder::with_default_scheduler().build(context);
+        let wolf_engine = EngineBuilder::with_default_scheduler().build(context);
         let mut state = MockState::new();
         state
             .expect_update()

@@ -16,18 +16,18 @@
 //!     .build();
 //!```
 //!
-//! Then you can build and instance of the engine using the [WolfEngineBuilder].
-//! The `WolfEngineBuilder::with_default_scheduler()` method will give you the default
+//! Then you can build and instance of the engine using the [EngineBuilder].
+//! The `EngineBuilder::with_default_scheduler()` method will give you the default
 //! [FixedUpdateScheduler](crate::scheduler::FixedUpdateScheduler).  The default settings
 //! should be okay for most games.
 //!
 //! ```
-//! # use wolf_engine::{ContextBuilder, WolfEngineBuilder};
+//! # use wolf_engine::{ContextBuilder, EngineBuilder};
 //! #
 //! # let context = ContextBuilder::new()
 //! #    .build();
 //! #
-//! let engine = WolfEngineBuilder::with_default_scheduler()
+//! let engine = EngineBuilder::with_default_scheduler()
 //!     // Custom settings go here.
 //!     .build(context);
 //! ```
@@ -35,10 +35,10 @@
 //! If you want to customize the [FixedUpdateScheduler](crate::scheduler::FixedUpdateScheduler),
 //! you can build an instance yourself using the
 //! [FixedUpdateSchedulerBuilder](crate::scheduler::FixedUpdateSchedulerBuilder), then pass
-//! it to `WolfEngineBuilder::with_fixed_scheduler()`.
+//! it to `EngineBuilder::with_fixed_scheduler()`.
 //!
 //! ```
-//! # use wolf_engine::{ContextBuilder, WolfEngineBuilder, scheduler::FixedUpdateSchedulerBuilder};
+//! # use wolf_engine::{ContextBuilder, EngineBuilder, scheduler::FixedUpdateSchedulerBuilder};
 //! #
 //! # let context = ContextBuilder::new()
 //! #    .build();
@@ -47,7 +47,7 @@
 //!     // Custom settings go here.
 //!     .build();
 //!
-//! let engine = WolfEngineBuilder::with_fixed_scheduler(scheduler)
+//! let engine = EngineBuilder::with_fixed_scheduler(scheduler)
 //!     // Custom settings go here.
 //!     .build(context);
 //! ```
@@ -58,12 +58,12 @@
 //! need to [Box] the state before passing it to the engine.
 //!
 //! ```
-//! # use wolf_engine::{EmptyState, WolfEngine, WolfEngineBuilder, ContextBuilder, scheduler::FixedUpdateScheduler };
+//! # use wolf_engine::{EmptyState, Engine, EngineBuilder, ContextBuilder, scheduler::FixedUpdateScheduler };
 //! #
 //! # let context = ContextBuilder::new()
 //! #    .build();
 //! #
-//! # let engine = WolfEngineBuilder::with_default_scheduler()
+//! # let engine = EngineBuilder::with_default_scheduler()
 //! #    .build(context);
 //! #
 //! # let state = EmptyState;
