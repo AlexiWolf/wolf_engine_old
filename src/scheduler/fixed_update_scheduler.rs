@@ -1,5 +1,5 @@
 use crate::{
-    scheduler::{Scheduler, LoopResult},
+    scheduler::Scheduler,
     Context, State,
 };
 use log::trace;
@@ -150,13 +150,13 @@ impl FixedUpdateScheduler {
 }
 
 impl Scheduler for FixedUpdateScheduler {
-    fn update(&mut self, context: &mut Context, state: &mut dyn State) -> LoopResult {
+    fn update(&mut self, context: &mut Context, state: &mut dyn State) {
         self.accumulate_lag();
         self.run_tick_loop(state, context);
         self.update_time = Duration::from_secs(0);
     }
 
-    fn render(&mut self, context: &mut Context, state: &mut dyn State) -> LoopResult {
+    fn render(&mut self, context: &mut Context, state: &mut dyn State) {
         state.render(context);
         context.scheduler.add_frame();
     }

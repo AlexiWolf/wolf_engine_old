@@ -55,18 +55,18 @@ pub type Frames = u64;
 /// trait.
 ///
 /// ```
-/// use wolf_engine::{State, Context, scheduler::{Scheduler, LoopResult}};
+/// use wolf_engine::{State, Context, scheduler::Scheduler};
 /// # use std::fmt::{Formatter, Display};
 ///
 /// pub struct MyScheduler;
 ///
 /// impl Scheduler for MyScheduler {
 ///
-///     fn update(&mut self, context: &mut Context, state: &mut dyn State) -> LoopResult {
+///     fn update(&mut self, context: &mut Context, state: &mut dyn State) {
 ///         state.update(context);
 ///     }
 ///
-///     fn render(&mut self, context: &mut Context, state: &mut dyn State) -> LoopResult {
+///     fn render(&mut self, context: &mut Context, state: &mut dyn State) {
 ///         state.render(context);
 ///     }
 /// }
