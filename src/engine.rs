@@ -11,8 +11,8 @@ use crate::{
 };
 
 /// Provides the core functionality of the engine.
-/// 
-/// The main job of the engine is to run the main loop. The engine takes an initial 
+///
+/// The main job of the engine is to run the main loop. The engine takes an initial
 /// [State] object and pushes that onto it's internal [StateStack].  It will then run your
 /// game through the [StateStack] utilizing a [Scheduler] for timing control.
 pub struct Engine<Schedule: Scheduler> {

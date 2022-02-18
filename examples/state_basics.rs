@@ -2,8 +2,8 @@ use std::{thread, time::Duration};
 
 use log::{debug, info};
 use wolf_engine::{
-    initialize_logging, Context, ContextBuilder, OptionalTransition, RenderResult, State,
-    Transition, EngineBuilder,
+    initialize_logging, Context, ContextBuilder, EngineBuilder, OptionalTransition, RenderResult,
+    State, Transition,
 };
 
 pub fn main() {
