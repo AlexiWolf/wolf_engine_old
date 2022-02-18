@@ -3,7 +3,7 @@ use std::{thread, time::Duration};
 use log::{debug, info, LevelFilter};
 use wolf_engine::{
     initialize_logging, Context, ContextBuilder, OptionalTransition, RenderResult, State,
-    Transition, WolfEngineBuilder,
+    Transition, EngineBuilder,
 };
 
 pub fn main() {
@@ -12,7 +12,7 @@ pub fn main() {
     let starting_state = MainState::new();
 
     let context = ContextBuilder::new().build();
-    WolfEngineBuilder::with_default_scheduler()
+    EngineBuilder::with_default_scheduler()
         .build(context)
         .run(Box::from(starting_state));
 }
