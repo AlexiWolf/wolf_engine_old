@@ -44,7 +44,7 @@ pub struct Engine {
 
 impl Engine {
     pub fn new() -> Self {
-        Self::default() 
+        Self::default()
     }
 
     pub fn run(mut self, initial_state: Box<dyn State>) {
@@ -94,14 +94,13 @@ impl Engine {
 impl Default for Engine {
     fn default() -> Self {
         let context = Context::default();
-        EngineBuilder::new()
-            .build(context)
+        EngineBuilder::new().build(context)
     }
 }
 
 /// Build and customize an instance of the [Engine].
 pub struct EngineBuilder {
-    scheduler: Box<dyn Scheduler> 
+    scheduler: Box<dyn Scheduler>,
 }
 
 impl EngineBuilder {
@@ -110,22 +109,24 @@ impl EngineBuilder {
     }
 
     pub fn build(self, context: Context) -> Engine {
-        Engine { 
-            context, 
-            scheduler: self.scheduler, 
-            state_stack: StateStack::new()
-        } 
+        Engine {
+            context,
+            scheduler: self.scheduler,
+            state_stack: StateStack::new(),
+        }
     }
 
     pub fn with_scheduler(mut self, scheduler: Box<dyn Scheduler>) -> Self {
         self.scheduler = scheduler;
-        self 
+        self
     }
 }
 
 impl Default for EngineBuilder {
     fn default() -> Self {
-        Self { scheduler: Box::from(FixedUpdateScheduler::default()) }
+        Self {
+            scheduler: Box::from(FixedUpdateScheduler::default()),
+        }
     }
 }
 
@@ -149,7 +150,6 @@ mod wolf_engine_tests {
     }
 }
 
-
 #[cfg(test)]
 mod engine_builder_tests {
     use super::*;
@@ -159,9 +159,12 @@ mod engine_builder_tests {
     fn should_allow_custom_states() {
         let context = Context::default();
         let mut scheduler = MockScheduler::new();
-        scheduler.expect_update()
+        scheduler
+            .expect_update()
             .times(1)
-            .returning(|context, state_stack| { state_stack.update(context); });
+            .returning(|context, state_stack| {
+                state_stack.update(context);
+            });
         scheduler.expect_render().times(..).return_const(());
 
         EngineBuilder::new()

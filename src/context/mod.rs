@@ -38,8 +38,7 @@ pub struct ContextBuilder {
 
 impl Default for Context {
     fn default() -> Self {
-        ContextBuilder::new()
-            .build()
+        ContextBuilder::new().build()
     }
 }
 
