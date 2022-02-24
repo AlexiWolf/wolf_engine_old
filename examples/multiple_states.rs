@@ -1,12 +1,12 @@
 use std::{thread, time::Duration};
 
-use log::{debug, info, LevelFilter};
-use wolf_engine::{
-    initialize_logging, Context, Engine, OptionalTransition, RenderResult, State, Transition,
-};
+use log::*;
+use wolf_engine::*;
 
 pub fn main() {
+    #[cfg(feature = "logging")]
     initialize_logging(LevelFilter::Debug);
+
     let state = MainState::new();
 
     Engine::new().run(Box::from(state));

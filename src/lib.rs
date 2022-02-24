@@ -57,13 +57,17 @@
 //! for more complete examples of how to use Wolf Engine.
 
 mod engine;
-mod logging;
 mod state;
+
+#[cfg(feature = "logging")]
+mod logging;
 
 pub mod context;
 pub mod scheduler;
 
 pub use context::{Context, ContextBuilder};
 pub use engine::*;
-pub use logging::*;
 pub use state::*;
+
+#[cfg(feature = "logging")]
+pub use logging::*;
