@@ -14,7 +14,9 @@ log = "0.4"
 lazy_static = "1.4"
 colored = "2"
 chrono = "0.4"
-simple_logger = "1.13"
+
+# Optional Dependencies
+simple_logger = {version = "1.13", optional = true}
 winit = {version = "0.26", optional = true}
 
 [dev-dependencies]
@@ -22,4 +24,6 @@ test-case = "1.2"
 mockall = "0.11"
 
 [features]
+logging = ["simple_logger"]
 window = ["winit"]
+
