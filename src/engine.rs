@@ -116,6 +116,10 @@ impl EngineBuilder {
             state_stack: StateStack::new()
         } 
     }
+
+    pub fn with_scheduler(self, _scheduler: Box<dyn Scheduler>) -> Self {
+        self 
+    }
 }
 
 impl Default for EngineBuilder {
