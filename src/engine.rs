@@ -105,9 +105,13 @@ pub struct EngineBuilder {
 }
 
 impl EngineBuilder {
-   pub fn new() -> Self {
-       Self::default()
-   }
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn build(self, _context: Context) -> Engine {
+        todo!()
+    }
 }
 
 impl Default for EngineBuilder {
