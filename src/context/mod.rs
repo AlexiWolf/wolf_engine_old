@@ -36,6 +36,12 @@ pub struct ContextBuilder {
     event_loop: Option<EventLoop<()>>,
 }
 
+impl Default for Context {
+    fn default() -> Self {
+        ContextBuilder::new().build()
+    }
+}
+
 impl ContextBuilder {
     /// Create the default [ContextBuilder].
     pub fn new() -> Self {

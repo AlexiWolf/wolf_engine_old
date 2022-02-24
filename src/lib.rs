@@ -17,7 +17,7 @@
 //!```
 //!
 //! Then you can build and instance of the engine using the [EngineBuilder].
-//! The `EngineBuilder::with_default_scheduler()` method will give you the default
+//! The [EngineBuilder::new()] method will give you the default
 //! [FixedUpdateScheduler](crate::scheduler::FixedUpdateScheduler).  The default settings
 //! should be okay for most games.
 //!
@@ -27,27 +27,7 @@
 //! # let context = ContextBuilder::new()
 //! #    .build();
 //! #
-//! let engine = EngineBuilder::with_default_scheduler()
-//!     // Custom settings go here.
-//!     .build(context);
-//! ```
-//!
-//! If you want to customize the [FixedUpdateScheduler](crate::scheduler::FixedUpdateScheduler),
-//! you can build an instance yourself using the
-//! [FixedUpdateSchedulerBuilder](crate::scheduler::FixedUpdateSchedulerBuilder), then pass
-//! it to `EngineBuilder::with_fixed_scheduler()`.
-//!
-//! ```
-//! # use wolf_engine::{ContextBuilder, EngineBuilder, scheduler::FixedUpdateSchedulerBuilder};
-//! #
-//! # let context = ContextBuilder::new()
-//! #    .build();
-//! #
-//! let scheduler = FixedUpdateSchedulerBuilder::new()
-//!     // Custom settings go here.
-//!     .build();
-//!
-//! let engine = EngineBuilder::with_fixed_scheduler(scheduler)
+//! let engine = EngineBuilder::new()
 //!     // Custom settings go here.
 //!     .build(context);
 //! ```
@@ -63,7 +43,7 @@
 //! # let context = ContextBuilder::new()
 //! #    .build();
 //! #
-//! # let engine = EngineBuilder::with_default_scheduler()
+//! # let engine = EngineBuilder::new()
 //! #    .build(context);
 //! #
 //! # let state = EmptyState;

@@ -6,6 +6,9 @@ pub use fixed_update_scheduler::*;
 
 use crate::{Context, State};
 
+#[cfg(test)]
+use mockall::automock;
+
 /// Represents the number of ticks the engine has run.
 pub type Ticks = u64;
 
@@ -67,7 +70,7 @@ pub type Frames = u64;
 /// ```
 ///
 /// You can use a custom [Scheduler](crate::scheduler::Scheduler) implementation by using
-/// the `EngineBuilder::with_custom_scheduler()` method.
+/// the `EngineBuilder::with_scheduler()` method.
 ///
 /// ```
 /// # use wolf_engine::{
@@ -82,9 +85,11 @@ pub type Frames = u64;
 /// # let custom_scheduler = FixedUpdateSchedulerBuilder::new()
 /// #   .build();
 /// #
-/// let engine = EngineBuilder::with_custom_scheduler(custom_scheduler)
+/// let engine = EngineBuilder::new()
+///     .with_scheduler(Box::from(custom_scheduler))
 ///     .build(context);
 /// ```
+#[cfg_attr(test, automock)]
 pub trait Scheduler {
     /// Update the game state.
     fn update(&mut self, context: &mut Context, state: &mut dyn State);

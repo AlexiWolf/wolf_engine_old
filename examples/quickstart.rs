@@ -6,23 +6,17 @@ pub fn main() {
     // Feel free to bring your own logger.
     initialize_logging(LevelFilter::Debug);
 
-    // Start by initializing the Context object.
-    let context = ContextBuilder::new()
-        // Custom settings go here.
-        .build();
-
-    // Then build an instance of the engine.
-    let engine = EngineBuilder::with_default_scheduler()
-        // Custom settings go here.
-        .build(context);
-
     // Initialize your game state.
     let game = FizzBuzzState::new();
 
-    // Then pass your game state to the engine on startup.  Have fun!
-    engine.run(Box::from(game));
+    // Pass your state to the engine.  Have fun!
+    Engine::new().run(Box::from(game));
 }
 
+// Your game is implemented as one or many game states.  A game state stores all the
+// data and logic for your game.  You pass an instance of the game state to the engine,
+// and the engine will run the game state.  Game states can interact with the engine
+// through the Context object, and by returning Transitions.
 pub struct FizzBuzzState {
     number: u64,
 }

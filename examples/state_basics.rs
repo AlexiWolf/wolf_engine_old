@@ -2,19 +2,15 @@ use std::{thread, time::Duration};
 
 use log::{debug, info};
 use wolf_engine::{
-    initialize_logging, Context, ContextBuilder, EngineBuilder, OptionalTransition, RenderResult,
-    State, Transition,
+    initialize_logging, Context, Engine, OptionalTransition, RenderResult, State, Transition,
 };
 
 pub fn main() {
     initialize_logging(log::LevelFilter::Debug);
 
-    let my_state = MyState::new("Hello, World!");
+    let state = MyState::new("Hello, world!");
 
-    let context = ContextBuilder::new().build();
-    EngineBuilder::with_default_scheduler()
-        .build(context)
-        .run(Box::from(my_state));
+    Engine::new().run(Box::from(state));
 }
 
 pub struct MyState {
