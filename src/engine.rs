@@ -36,20 +36,17 @@ use crate::{
 /// Engine::default()
 ///     .run(Box::from(my_game_state));
 /// ```
-pub struct Engine<Schedule: Scheduler> {
+pub struct Engine {
     context: Context,
-    scheduler: Schedule,
+    scheduler: Box<dyn Scheduler>,
     state_stack: StateStack,
 }
 
-
-impl Engine<FixedUpdateScheduler> {
+impl Engine {
     pub fn new() -> Self {
         todo!()
     }
-}
 
-impl<Schedule: Scheduler> Engine<Schedule> {
     pub fn run(mut self, initial_state: Box<dyn State>) {
         self.state_stack.push(initial_state);
         while !self.state_stack.is_empty() {
@@ -62,7 +59,7 @@ impl<Schedule: Scheduler> Engine<Schedule> {
 }
 
 #[cfg(feature = "window")]
-impl<Schedule: Scheduler> Engine<Schedule> {
+impl Engine {
     pub fn run_with_event_loop(mut self, initial_state: Box<dyn State>, event_loop: EventLoop<()>) {
         self.state_stack.push(initial_state);
         self.run_event_loop(event_loop);
@@ -94,7 +91,7 @@ impl<Schedule: Scheduler> Engine<Schedule> {
     }
 }
 
-impl Default for Engine<FixedUpdateScheduler> {
+impl Default for Engine {
     fn default() -> Self {
         todo!();
     }
