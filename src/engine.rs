@@ -159,7 +159,9 @@ mod engine_builder_tests {
     fn should_allow_custom_states() {
         let context = Context::default();
         let mut scheduler = MockScheduler::new();
-        scheduler.expect_update().times(1..).return_const(());           
+        scheduler.expect_update()
+            .times(1)
+            .returning(|context, state_stack| { state_stack.update(context); });
         scheduler.expect_render().times(..).return_const(());
 
         EngineBuilder::new()
