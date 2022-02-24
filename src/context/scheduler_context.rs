@@ -2,7 +2,7 @@ use std::sync::{Arc, Mutex};
 
 use crate::scheduler::{Frames, Ticks};
 
-/// Provides access to information and controls for the [Scheduler](crate::scheduler::GameLoop).
+/// Provides access to information and controls for the [Scheduler](crate::scheduler::Scheduler).
 ///
 /// # Examples
 ///
@@ -14,7 +14,7 @@ use crate::scheduler::{Frames, Ticks};
 /// let scheduler_context = SchedulerContext::new();
 /// ```
 ///
-/// Once created, the SchedulerContext exposes information about the [GameLoop](crate::scheduler::GameLoop).
+/// Once created, the SchedulerContext exposes information about the [Scheduler](crate::scheduler::Scheduler).
 ///
 /// ```
 /// # use wolf_engine::context::SchedulerContext;
@@ -27,7 +27,7 @@ use crate::scheduler::{Frames, Ticks};
 ///
 /// Tick and frame information can be added to the context.  
 ///
-/// **Note:** These method are only intended for the [Scheduler](crate::scheduler::GameLoop) and other parts of
+/// **Note:** These method are only intended for the [Scheduler](crate::scheduler::Scheduler) and other parts of
 /// the engine. If you are not providing a custom game loop, you **should not** touch these.
 ///
 /// ```
