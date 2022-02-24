@@ -67,7 +67,7 @@ pub type Frames = u64;
 /// ```
 ///
 /// You can use a custom [Scheduler](crate::scheduler::Scheduler) implementation by using
-/// the `EngineBuilder::with_custom_scheduler()` method.
+/// the `EngineBuilder::with_scheduler()` method.
 ///
 /// ```
 /// # use wolf_engine::{
@@ -82,7 +82,8 @@ pub type Frames = u64;
 /// # let custom_scheduler = FixedUpdateSchedulerBuilder::new()
 /// #   .build();
 /// #
-/// let engine = EngineBuilder::with_custom_scheduler(custom_scheduler)
+/// let engine = EngineBuilder::new()
+///     .with_scheduler(custom_scheduler)
 ///     .build(context);
 /// ```
 pub trait Scheduler {
