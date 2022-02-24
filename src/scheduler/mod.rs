@@ -83,7 +83,7 @@ pub type Frames = u64;
 /// #   .build();
 /// #
 /// let engine = EngineBuilder::new()
-///     .with_scheduler(custom_scheduler)
+///     .with_scheduler(Box::from(custom_scheduler))
 ///     .build(context);
 /// ```
 pub trait Scheduler {
