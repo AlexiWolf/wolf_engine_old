@@ -2,7 +2,7 @@ use log::*;
 use wolf_engine::*;
 
 pub fn main() {
-    // If the "logging" feature is enabled, Wolf Engine includes a default logger for 
+    // If the "logging" feature is enabled, Wolf Engine includes a default logger for
     // convenience, but using it is optional.  Feel free to bring your own logger instead.
     #[cfg(feature = "logging")]
     initialize_logging(LevelFilter::Debug);
