@@ -9,7 +9,7 @@ use crate::{
 /// [State] object and pushes that onto it's internal [StateStack].  It will then run your
 /// game through the [StateStack] utilizing a [Scheduler] for timing control.
 ///
-/// If you just want to use the defaults, you can use `Engine::new()`.  Of course, you'll
+/// If you just want to use the defaults, you can use [Engine::new()].  Of course, you'll
 /// need to pass it your game's [State]:
 ///
 /// ```
@@ -20,7 +20,7 @@ use crate::{
 ///     .run(Box::from(my_game_state));
 /// ```
 ///
-/// Using Engine::default() does the same thing:
+/// Using [Engine::default()] does the same thing:
 ///
 /// ```
 /// # use wolf_engine::{Engine, EmptyState};

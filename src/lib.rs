@@ -17,7 +17,7 @@
 //!```
 //!
 //! Then you can build and instance of the engine using the [EngineBuilder].
-//! The `EngineBuilder::new()` method will give you the default
+//! The [EngineBuilder::new()] method will give you the default
 //! [FixedUpdateScheduler](crate::scheduler::FixedUpdateScheduler).  The default settings
 //! should be okay for most games.
 //!
