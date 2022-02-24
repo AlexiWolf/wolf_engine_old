@@ -93,7 +93,9 @@ impl Engine {
 
 impl Default for Engine {
     fn default() -> Self {
-        todo!();
+        let context = Context::default();
+        EngineBuilder::new()
+            .build(context)
     }
 }
 
