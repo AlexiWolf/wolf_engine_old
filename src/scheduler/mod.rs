@@ -6,6 +6,9 @@ pub use fixed_update_scheduler::*;
 
 use crate::{Context, State};
 
+#[cfg(test)]
+use mockall::automock;
+
 /// Represents the number of ticks the engine has run.
 pub type Ticks = u64;
 
@@ -86,6 +89,7 @@ pub type Frames = u64;
 ///     .with_scheduler(Box::from(custom_scheduler))
 ///     .build(context);
 /// ```
+#[cfg_attr(test, automock)]
 pub trait Scheduler {
     /// Update the game state.
     fn update(&mut self, context: &mut Context, state: &mut dyn State);
