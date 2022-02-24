@@ -102,8 +102,20 @@ impl Default for Engine<FixedUpdateScheduler> {
 
 
 /// Build and customize an instance of the [Engine].
-pub struct EngineBuilder<Schedule: Scheduler> {
-    scheduler: Schedule,
+pub struct EngineBuilder {
+    scheduler: Box<dyn Scheduler> 
+}
+
+impl EngineBuilder {
+   pub fn new() -> Self {
+       Self::default()
+   }
+}
+
+impl Default for EngineBuilder {
+    fn default() -> Self {
+        Self { scheduler: Box::from(FixedUpdateScheduler::default()) }
+    }
 }
 
 #[cfg(test)]
