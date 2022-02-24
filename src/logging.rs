@@ -3,7 +3,7 @@
 use log::LevelFilter;
 use simple_logger::SimpleLogger;
 
-/// Initialize the default logger.
+/// Initializes the logging system with a pre-configured [SimpleLogger] instance. 
 ///
 /// This function is provided for those who don't need a complicated logging setup.  
 /// Messages will be logged to the terminal.
