@@ -1,10 +1,3 @@
-#[cfg(feature = "window")]
-use winit::{
-    event::*,
-    event_loop::{ControlFlow, EventLoop},
-    platform::run_return::EventLoopExtRunReturn,
-};
-
 use crate::{
     scheduler::{FixedUpdateScheduler, Scheduler},
     Context, State, StateStack,
@@ -55,39 +48,6 @@ impl Engine {
             self.scheduler
                 .render(&mut self.context, &mut self.state_stack);
         }
-    }
-}
-
-#[cfg(feature = "window")]
-impl Engine {
-    pub fn run_with_event_loop(mut self, initial_state: Box<dyn State>, event_loop: EventLoop<()>) {
-        self.state_stack.push(initial_state);
-        self.run_event_loop(event_loop);
-    }
-
-    fn run_event_loop(&mut self, mut event_loop: EventLoop<()>) {
-        event_loop.run_return(|event, _window, control_flow| {
-            match event {
-                Event::MainEventsCleared => {
-                    self.scheduler
-                        .update(&mut self.context, &mut self.state_stack);
-                }
-                Event::RedrawRequested(_) => {
-                    self.scheduler
-                        .render(&mut self.context, &mut self.state_stack);
-                }
-                Event::WindowEvent {
-                    event: WindowEvent::CloseRequested,
-                    ..
-                } => {
-                    self.state_stack.clear();
-                }
-                _ => (),
-            }
-            if self.state_stack.is_empty() {
-                *control_flow = ControlFlow::Exit;
-            }
-        });
     }
 }
 
