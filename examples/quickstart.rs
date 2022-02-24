@@ -5,8 +5,20 @@ pub fn main() {
     // Wolf Engine includes a default logger for convenience, but using it is optional.
     // Feel free to bring your own logger.
     initialize_logging(LevelFilter::Debug);
+    
+    // Initialize your game state. 
+    let game = FizzBuzzState::new();
+    
+    // Pass your state to the engine.  Have fun!
+    Engine::new()
+        .run(Box::from(game));
 }
 
+
+// Your game is implemented as one or many game states.  A game state stores all the 
+// data and logic for your game.  You pass an instance of the game state to the engine, 
+// and the engine will run the game state.  Game states can interact with the engine
+// through the Context object, and by returning Transitions.
 pub struct FizzBuzzState {
     number: u64,
 }
