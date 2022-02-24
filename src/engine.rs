@@ -117,7 +117,8 @@ impl EngineBuilder {
         } 
     }
 
-    pub fn with_scheduler(self, _scheduler: Box<dyn Scheduler>) -> Self {
+    pub fn with_scheduler(mut self, scheduler: Box<dyn Scheduler>) -> Self {
+        self.scheduler = scheduler;
         self 
     }
 }
