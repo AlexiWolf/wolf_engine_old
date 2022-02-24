@@ -44,7 +44,7 @@ pub struct Engine {
 
 impl Engine {
     pub fn new() -> Self {
-        todo!()
+        Self::default() 
     }
 
     pub fn run(mut self, initial_state: Box<dyn State>) {
