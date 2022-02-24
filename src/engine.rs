@@ -147,3 +147,23 @@ mod wolf_engine_tests {
         wolf_engine.run(Box::from(state));
     }
 }
+
+
+#[cfg(test)]
+mod engine_builder_tests {
+    use super::*;
+    use crate::{scheduler::MockScheduler, EmptyState};
+
+    #[test]
+    fn should_allow_custom_states() {
+        let context = Context::default();
+        let mut scheduler = MockScheduler::new();
+        scheduler.expect_update()
+            .times(1);
+
+        EngineBuilder::new()
+            .with_scheduler(Box::from(scheduler))
+            .build(context)
+            .run(Box::from(EmptyState));
+    }
+}
