@@ -109,8 +109,12 @@ impl EngineBuilder {
         Self::default()
     }
 
-    pub fn build(self, _context: Context) -> Engine {
-        todo!()
+    pub fn build(self, context: Context) -> Engine {
+        Engine { 
+            context, 
+            scheduler: self.scheduler, 
+            state_stack: StateStack::new()
+        } 
     }
 }
 
