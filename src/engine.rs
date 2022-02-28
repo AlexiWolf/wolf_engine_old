@@ -8,23 +8,25 @@ use crate::{
 /// Provides the core behavior of the [Engine].
 ///
 /// Engine cores take ownership over the running [Engine], and directly provide core 
-/// behavior at run-time.  In most cases, running some sort of main loop.
+/// behavior at run-time.  In most cases, the engine core will be providing the main loop
+/// for the [Engine].
 ///
-/// The main reason for separating the main loop, from the [Engine] to make it easy to
-/// change the [Engine]'s core behavior without needing to rewrite its code.  Using an 
-/// engine core, you could, for example:
+/// The main reason for separating the core from the [Engine] to make it easy to change
+/// the [Engine]'s core behavior without needing to rewrite its code.  Using an engine 
+/// core, you could, for example:
 ///
 /// - Change the behavior of the main loop to better suit your game's needs.
-/// - Integrate with 3rd party frameworks (such as Winit, Call Loop, or Tokio), and allow
+/// - Integrate with 3rd party frameworks (such as Winit, Calloop, or Tokio), and allow
 ///   them to control the main loop.
 /// - Extend existing engine cores with useful debugging features.
 ///
+/// [run_engine()] is the default engine core.
+///
 /// # Examples
 ///
-/// ## Implementing an Engine Core
-/// 
-/// Any function that takes an [Engine] as an argument, and that does not have a return 
-/// type can be used as an engine core.
+/// Any function that takes an [Engine] as an argument and does not have a return type can
+/// be used as an engine core.  To create a custom engine core, you just implement it as 
+/// a function:
 ///
 /// ```
 /// # use wolf_engine::{Engine, EngineCore};
@@ -40,9 +42,7 @@ use crate::{
 /// }
 /// ```
 ///
-/// ## Using a Custom Engine Core
-///
-/// To use a custom engine core, the core can be passed to the 
+/// To use a custom engine core, the core is [Box]ed, then passed to 
 /// [EngineBuilder::with_engine_core()] method at startup.
 ///
 /// ```
