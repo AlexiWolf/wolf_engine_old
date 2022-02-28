@@ -16,6 +16,21 @@ use crate::{
 /// - Integrate with 3rd party frameworks (such as Winit, Call Loop, or Tokio), and allow
 ///   them to control the main loop.
 /// - Extend existing engine cores with useful debugging features.
+///
+/// # Implementing an Engine Core
+/// 
+/// Any function that takes an [Engine] as an argument, and that does not have a return 
+/// type can be used as an engine core.
+///
+/// ```
+/// # use wolf_engine::{Engine, EngineCore};
+/// #
+/// pub fn custom_engine_core(engine: Engine) {
+///     loop {
+/// #       break
+///     }
+/// }
+/// ```
 pub type EngineCore = Box<dyn Fn(Engine)>;
 
 /// Provides the core functionality of the engine.
