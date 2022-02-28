@@ -80,10 +80,10 @@ pub type EngineCore = Box<dyn Fn(Engine)>;
 ///     .run(Box::from(my_game_state));
 /// ```
 pub struct Engine {
-    context: Option<Context>,
-    scheduler: Option<Box<dyn Scheduler>>,
-    state_stack: Option<StateStack>,
-    core: Option<EngineCore>,
+    context: Context,
+    scheduler: Box<dyn Scheduler>,
+    state_stack: StateStack,
+    core: EngineCore,
 }
 
 impl Engine {
@@ -92,20 +92,20 @@ impl Engine {
     }
 
     pub fn run(mut self, initial_state: Box<dyn State>) {
-        self.state_stack.unwrap().push(initial_state);
+        self.state_stack.push(initial_state);
 
         let mut engine = replace(&mut self, Self::empty());
-        let engine_core = replace(&mut engine.core, None).expect("Engine core is None"); 
+        let engine_core = replace(&mut engine.core, Box::from(|_| {}));
 
         (engine_core)(engine);
     }
 
     fn empty() -> Self {
         Self {
-            context: None, 
-            scheduler: None, 
-            state_stack: None, 
-            core: None, 
+            context: Context::default(), 
+            scheduler: Box::from(FixedUpdateScheduler::default()), 
+            state_stack: StateStack::new(), 
+            core: Box::from(|_| {}), 
         }
     }
 }
@@ -130,10 +130,10 @@ impl EngineBuilder {
 
     pub fn build(self, context: Context) -> Engine {
         Engine {
-            context: Some(context),
-            scheduler: Some(self.scheduler),
-            state_stack: Some(StateStack::new()),
-            core: Some(self.core),
+            context,
+            scheduler: self.scheduler,
+            state_stack: StateStack::new(),
+            core: self.core,
         }
     }
 
