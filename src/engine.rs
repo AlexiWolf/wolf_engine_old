@@ -130,10 +130,10 @@ impl EngineBuilder {
 
     pub fn build(self, context: Context) -> Engine {
         Engine {
-            context,
-            scheduler: self.scheduler,
-            state_stack: StateStack::new(),
-            core: self.core,
+            context: Some(context),
+            scheduler: Some(self.scheduler),
+            state_stack: Some(StateStack::new()),
+            core: Some(self.core),
         }
     }
 
