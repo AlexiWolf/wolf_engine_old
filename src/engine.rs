@@ -18,7 +18,7 @@ use crate::{
 /// ```
 /// # use wolf_engine::{Engine, EmptyState};
 /// # let my_game_state = EmptyState;
-///
+/// #
 /// Engine::new()
 ///     .run(Box::from(my_game_state));
 /// ```
