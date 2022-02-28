@@ -78,8 +78,13 @@ impl StateStack {
     pub fn new() -> Self {
         Self { stack: vec![] }
     }
+    
+    /// Is true if there are any [States] on the stack. 
+    pub fn is_not_empty(&self) -> bool {
+        !self.is_empty()
+    }
 
-    /// Indicates if there are any [State]s on the stack.
+    /// Is true if there are no [State]s on the stack.
     pub fn is_empty(&self) -> bool {
         self.stack.is_empty()
     }
