@@ -3,6 +3,19 @@ use crate::{
     Context, State, StateStack,
 };
 
+/// Provides the core behavior of the [Engine].
+///
+/// Engine cores take ownership over the running [Engine], and directly provide core 
+/// behavior at run-time.  In most cases, running some sort of main loop.
+///
+/// The main reason for separating the main loop, from the [Engine] to make it easy to
+/// change the [Engine]'s core behavior wihout needing to rewrite its code.  Using an 
+/// engine core, you could, for example:
+///
+/// - Change the behavior of the main loop to better suit your game's needs.
+/// - Integrate with 3rd party frameworks (such as Winit, Call Loop, or Tokio), and allow
+///   them to control the main loop.
+/// - Extend existing engine cores with useful debugging features.
 pub type EngineCore = Box<dyn Fn(Engine)>;
 
 /// Provides the core functionality of the engine.
