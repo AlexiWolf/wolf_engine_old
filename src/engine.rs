@@ -124,7 +124,7 @@ impl EngineBuilder {
         self
     }
 
-    pub fn with_engine_core(mut self, engine_core: Box<dyn Fn(EngineCore)>) -> Self {
+    pub fn with_engine_core(mut self, engine_core: EngineCore) -> Self {
         self
     }
 }
