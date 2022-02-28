@@ -104,6 +104,7 @@ impl Default for Engine {
 /// Build and customize an instance of the [Engine].
 pub struct EngineBuilder {
     scheduler: Box<dyn Scheduler>,
+    core: EngineCore,
 }
 
 impl EngineBuilder {
@@ -125,6 +126,7 @@ impl EngineBuilder {
     }
 
     pub fn with_engine_core(mut self, engine_core: EngineCore) -> Self {
+        self.core = engine_core;
         self
     }
 }
@@ -133,6 +135,7 @@ impl Default for EngineBuilder {
     fn default() -> Self {
         Self {
             scheduler: Box::from(FixedUpdateScheduler::default()),
+            core: Box::from(run_engine),
         }
     }
 }
