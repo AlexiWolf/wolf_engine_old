@@ -62,6 +62,7 @@ mod state;
 #[cfg(feature = "logging")]
 mod logging;
 
+pub mod core;
 pub mod context;
 pub mod scheduler;
 
