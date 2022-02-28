@@ -72,12 +72,7 @@ impl Engine {
 
     pub fn run(mut self, initial_state: Box<dyn State>) {
         self.state_stack.push(initial_state);
-        while !self.state_stack.is_empty() {
-            self.scheduler
-                .update(&mut self.context, &mut self.state_stack);
-            self.scheduler
-                .render(&mut self.context, &mut self.state_stack);
-        }
+        run_engine(self);
     }
 }
 
@@ -118,6 +113,20 @@ impl Default for EngineBuilder {
             scheduler: Box::from(FixedUpdateScheduler::default()),
         }
     }
+}
+
+/// Run the [Engine] until the [StateStack] is empty. 
+/// 
+/// This is a simple [EngineCore] that runs the engine in a loop.  It will run the 
+/// [Engine]'s [StateStack] using the active [Scheduler].  The loop will continue to run 
+/// until the [StateStack] is empty, then it will exit.
+pub fn run_engine(mut engine: Engine) {
+   while !engine.state_stack.is_empty() {
+       engine.scheduler
+           .update(&mut engine.context, &mut engine.state_stack);
+       engine.scheduler
+           .render(&mut engine.context, &mut engine.state_stack);
+   }
 }
 
 #[cfg(test)]
