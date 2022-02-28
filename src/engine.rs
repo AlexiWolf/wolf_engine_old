@@ -3,6 +3,8 @@ use crate::{
     Context, State, StateStack,
 };
 
+pub type EngineCore = Box<dyn Fn(Engine)>;
+
 /// Provides the core functionality of the engine.
 ///
 /// The main job of the engine is to run the main loop. The engine takes an initial
