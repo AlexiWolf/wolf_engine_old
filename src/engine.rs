@@ -163,11 +163,11 @@ impl Default for EngineBuilder {
 /// [Engine]'s [StateStack] using the active [Scheduler].  The loop will continue to run 
 /// until the [StateStack] is empty, then it will exit.
 pub fn run_engine(mut engine: Engine) {
-   while !engine.state_stack.is_empty() {
-       engine.scheduler
-           .update(&mut engine.context, &mut engine.state_stack);
-       engine.scheduler
-           .render(&mut engine.context, &mut engine.state_stack);
+   while !engine.state_stack().is_empty() {
+       engine.scheduler_mut()
+           .update(&mut engine.context, &mut engine.state_stack_mut());
+       engine.scheduler_mut()
+           .render(&mut engine.context, &mut engine.state_stack_mut());
    }
 }
 
