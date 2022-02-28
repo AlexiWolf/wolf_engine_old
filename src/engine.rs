@@ -29,8 +29,12 @@ use crate::{
 /// ```
 /// # use wolf_engine::{Engine, EngineCore};
 /// #
-/// pub fn custom_engine_core(engine: Engine) {
+/// pub fn custom_engine_core(mut engine: Engine) {
 ///     loop {
+///         engine.scheduler
+///             .update(&mut engine.context, &mut engine.state_stack);
+///         engine.scheduler
+///             .render(&mut engine.context, &mut engine.state_stack);
 /// #       break
 ///     }
 /// }
