@@ -15,7 +15,7 @@ use winit::event_loop::EventLoop;
 ///
 /// # Examples
 ///
-/// Use the [ContextBuilder] to build a new `Context`.
+/// Use the [ContextBuilder] to build a new context object. 
 ///
 /// ```
 /// # use wolf_engine::ContextBuilder;
