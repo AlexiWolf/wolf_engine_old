@@ -58,7 +58,7 @@ pub type EngineCore = Box<dyn Fn(Engine)>;
 /// [Engine]'s [StateStack] using the active [Scheduler].  The loop will continue to run 
 /// until the [StateStack] is empty, then it will exit.
 pub fn run_engine(mut engine: Engine) {
-   while !engine.state_stack.is_empty() {
+   while engine.state_stack.is_not_empty() {
        engine.scheduler
            .update(&mut engine.context, &mut engine.state_stack);
        engine.scheduler
