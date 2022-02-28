@@ -45,11 +45,14 @@ impl Engine {
 
     pub fn run(mut self, initial_state: Box<dyn State>) {
         self.state_stack.push(initial_state);
+        let (engine, core_function) = self.extract_core_function();
+        (core_function)(engine);
+    }
 
+    fn extract_core_function(mut self) -> (Engine, Box<dyn Fn(Engine)>) {
         let mut engine = replace(&mut self, Self::empty());
         let engine_core = replace(&mut engine.core, Box::from(|_| {}));
-
-        (engine_core)(engine);
+        (engine, engine_core)
     }
 
     fn empty() -> Self {
