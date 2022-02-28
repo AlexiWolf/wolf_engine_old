@@ -123,6 +123,10 @@ impl EngineBuilder {
         self.scheduler = scheduler;
         self
     }
+
+    pub fn with_engine_core(mut self, engine_core: Box<dyn Fn(EngineCore)>) -> Self {
+        self
+    }
 }
 
 impl Default for EngineBuilder {
