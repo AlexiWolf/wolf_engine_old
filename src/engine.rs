@@ -9,7 +9,7 @@ use crate::{
 /// behavior at run-time.  In most cases, running some sort of main loop.
 ///
 /// The main reason for separating the main loop, from the [Engine] to make it easy to
-/// change the [Engine]'s core behavior wihout needing to rewrite its code.  Using an 
+/// change the [Engine]'s core behavior without needing to rewrite its code.  Using an 
 /// engine core, you could, for example:
 ///
 /// - Change the behavior of the main loop to better suit your game's needs.
