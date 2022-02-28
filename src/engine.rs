@@ -80,9 +80,9 @@ pub type EngineCore = Box<dyn Fn(Engine)>;
 ///     .run(Box::from(my_game_state));
 /// ```
 pub struct Engine {
-    context: Context,
-    scheduler: Box<dyn Scheduler>,
-    state_stack: StateStack,
+    pub context: Context,
+    pub scheduler: Box<dyn Scheduler>,
+    pub state_stack: StateStack,
     core: EngineCore,
 }
 
