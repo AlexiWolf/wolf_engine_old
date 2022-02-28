@@ -1,3 +1,5 @@
+use std::mem::replace;
+
 use crate::{
     scheduler::{FixedUpdateScheduler, Scheduler},
     Context, State, StateStack,
@@ -81,6 +83,7 @@ pub struct Engine {
     context: Context,
     scheduler: Box<dyn Scheduler>,
     state_stack: StateStack,
+    core: EngineCore,
 }
 
 impl Engine {
@@ -90,7 +93,11 @@ impl Engine {
 
     pub fn run(mut self, initial_state: Box<dyn State>) {
         self.state_stack.push(initial_state);
-        run_engine(self);
+
+        let mut engine = replace(&mut self, Self::empty());
+        let engine_core = replace(&mut engine.core, Box::from(|_| {}));
+
+        (engine_core)(engine);
     }
 }
 
@@ -117,6 +124,7 @@ impl EngineBuilder {
             context,
             scheduler: self.scheduler,
             state_stack: StateStack::new(),
+            core: self.core,
         }
     }
 
