@@ -17,7 +17,9 @@ use crate::{
 ///   them to control the main loop.
 /// - Extend existing engine cores with useful debugging features.
 ///
-/// # Implementing an Engine Core
+/// # Examples
+///
+/// ## Implementing an Engine Core
 /// 
 /// Any function that takes an [Engine] as an argument, and that does not have a return 
 /// type can be used as an engine core.
@@ -30,6 +32,22 @@ use crate::{
 /// #       break
 ///     }
 /// }
+/// ```
+///
+/// ## Using a Custom Engine Core
+///
+/// To use a custom engine core, the core can be passed to the 
+/// [EngineBuilder::with_engine_core()] method at startup.
+///
+/// ```
+/// # use wolf_engine::{EngineBuilder, run_engine};
+/// # 
+/// # let custom_engine_core = run_engine;
+/// # let context = Context::default();
+/// #
+/// let engine = EngineBuilder::new()
+///     .with_engine_core(Box::from(custom_engine_core))
+///     .build(context);
 /// ```
 pub type EngineCore = Box<dyn Fn(Engine)>;
 
