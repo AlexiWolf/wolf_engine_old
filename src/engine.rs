@@ -1,4 +1,7 @@
+use std::mem::replace;
+
 use crate::{
+    core::{run_engine, EngineCore},
     scheduler::{FixedUpdateScheduler, Scheduler},
     Context, State, StateStack,
 };
@@ -30,9 +33,10 @@ use crate::{
 ///     .run(Box::from(my_game_state));
 /// ```
 pub struct Engine {
-    context: Context,
-    scheduler: Box<dyn Scheduler>,
-    state_stack: StateStack,
+    pub context: Context,
+    pub scheduler: Box<dyn Scheduler>,
+    pub state_stack: StateStack,
+    core: EngineCore,
 }
 
 impl Engine {
@@ -42,11 +46,22 @@ impl Engine {
 
     pub fn run(mut self, initial_state: Box<dyn State>) {
         self.state_stack.push(initial_state);
-        while !self.state_stack.is_empty() {
-            self.scheduler
-                .update(&mut self.context, &mut self.state_stack);
-            self.scheduler
-                .render(&mut self.context, &mut self.state_stack);
+        let (engine, core_function) = self.extract_core_function();
+        (core_function)(engine);
+    }
+
+    fn extract_core_function(mut self) -> (Engine, Box<dyn Fn(Engine)>) {
+        let mut engine = replace(&mut self, Self::empty());
+        let engine_core = replace(&mut engine.core, Box::from(|_| {}));
+        (engine, engine_core)
+    }
+
+    fn empty() -> Self {
+        Self {
+            context: Context::default(),
+            scheduler: Box::from(FixedUpdateScheduler::default()),
+            state_stack: StateStack::new(),
+            core: Box::from(|_| {}),
         }
     }
 }
@@ -61,6 +76,7 @@ impl Default for Engine {
 /// Build and customize an instance of the [Engine].
 pub struct EngineBuilder {
     scheduler: Box<dyn Scheduler>,
+    core: EngineCore,
 }
 
 impl EngineBuilder {
@@ -73,11 +89,17 @@ impl EngineBuilder {
             context,
             scheduler: self.scheduler,
             state_stack: StateStack::new(),
+            core: self.core,
         }
     }
 
     pub fn with_scheduler(mut self, scheduler: Box<dyn Scheduler>) -> Self {
         self.scheduler = scheduler;
+        self
+    }
+
+    pub fn with_engine_core(mut self, engine_core: EngineCore) -> Self {
+        self.core = engine_core;
         self
     }
 }
@@ -86,6 +108,7 @@ impl Default for EngineBuilder {
     fn default() -> Self {
         Self {
             scheduler: Box::from(FixedUpdateScheduler::default()),
+            core: Box::from(run_engine),
         }
     }
 }
@@ -112,6 +135,10 @@ mod wolf_engine_tests {
 
 #[cfg(test)]
 mod engine_builder_tests {
+    use std::sync::Mutex;
+
+    use lazy_static::lazy_static;
+
     use super::*;
     use crate::{scheduler::MockScheduler, EmptyState};
 
@@ -131,5 +158,25 @@ mod engine_builder_tests {
             .with_scheduler(Box::from(scheduler))
             .build(context)
             .run(Box::from(EmptyState));
+    }
+
+    #[test]
+    fn should_set_engine_core() {
+        lazy_static! {
+            static ref HAS_RAN_CUSTOM_CORE: Mutex<bool> = Mutex::from(false);
+        }
+        let context = Context::default();
+        let engine = EngineBuilder::new()
+            .with_engine_core(Box::from(|_| {
+                *HAS_RAN_CUSTOM_CORE.lock().unwrap() = true;
+            }))
+            .build(context);
+
+        engine.run(Box::from(EmptyState));
+
+        assert!(
+            *HAS_RAN_CUSTOM_CORE.lock().unwrap(),
+            "The custom engine core was not used"
+        );
     }
 }
