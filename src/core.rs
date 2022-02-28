@@ -38,7 +38,7 @@ use crate::Engine;
 /// ```
 ///
 /// To use a custom engine core, the core is [Box]ed, then passed to
-/// [EngineBuilder::with_engine_core()] method at startup.
+/// [EngineBuilder::with_engine_core()](crate::EngineBuilder) method at startup.
 ///
 /// ```
 /// # use wolf_engine::{Context, EngineBuilder, core::run_engine};
@@ -52,11 +52,12 @@ use crate::Engine;
 /// ```
 pub type EngineCore = Box<dyn Fn(Engine)>;
 
-/// Run the [Engine] until the [StateStack] is empty.
+/// Run the [Engine] until the [StateStack](crate::StateStack) is empty.
 ///
 /// This is a simple [EngineCore] that runs the engine in a loop.  It will run the
-/// [Engine]'s [StateStack] using the active [Scheduler].  The loop will continue to run
-/// until the [StateStack] is empty, then it will exit.
+/// [Engine]'s [StateStack](crate::StateStack) using the active 
+/// [Scheduler](crate::scheduler::Scheduler).  The loop will continue to run until the 
+/// [StateStack](crate::StateStack)is empty, then it will exit.
 pub fn run_engine(mut engine: Engine) {
     while engine.state_stack.is_not_empty() {
         engine
