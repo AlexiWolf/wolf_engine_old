@@ -40,7 +40,7 @@ use crate::{
 /// [EngineBuilder::with_engine_core()] method at startup.
 ///
 /// ```
-/// # use wolf_engine::{EngineBuilder, run_engine};
+/// # use wolf_engine::{Context, EngineBuilder, run_engine};
 /// # 
 /// # let custom_engine_core = run_engine;
 /// # let context = Context::default();
