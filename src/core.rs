@@ -1,4 +1,7 @@
+//! Provides swapable [EngineCore] functions.
+
 use crate::Engine;
+
 
 /// Defines which functions can be used as an [Engine] core.
 ///
