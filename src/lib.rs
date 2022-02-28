@@ -62,8 +62,8 @@ mod state;
 #[cfg(feature = "logging")]
 mod logging;
 
-pub mod core;
 pub mod context;
+pub mod core;
 pub mod scheduler;
 
 pub use context::{Context, ContextBuilder};

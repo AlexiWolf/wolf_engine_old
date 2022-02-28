@@ -1,5 +1,5 @@
 use log::info;
-use wolf_engine::{Context, EngineBuilder, Engine, EmptyState};
+use wolf_engine::{Context, EmptyState, Engine, EngineBuilder};
 
 pub fn main() {
     let context = Context::default();
@@ -11,24 +11,25 @@ pub fn main() {
 
 /// Engine cores are just normal functions.
 ///
-/// The only requirements are they take an [Engine] as an argument, and they don't 
+/// The only requirements are they take an [Engine] as an argument, and they don't
 /// return anything.
-/// 
-/// Core functions offer you a lot of control because they give you full ownership over 
-/// the running [Engine] instance.  This essentially means you can directly control over 
+///
+/// Core functions offer you a lot of control because they give you full ownership over
+/// the running [Engine] instance.  This essentially means you can directly control over
 /// how the engine runs things.
 pub fn my_custom_core_function(mut engine: Engine) {
-    info!("Hello, from a custom core function!"); 
+    info!("Hello, from a custom core function!");
 
     // Lets make a simple core that runs 10 times, the quits.
     let mut iterations = 0;
 
     while iterations > 0 {
-        engine.state_stack.active_mut()
+        engine
+            .state_stack
+            .active_mut()
             .unwrap()
             .update(&mut engine.context);
 
         iterations += 1;
     }
 }
-

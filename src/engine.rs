@@ -1,8 +1,9 @@
 use std::mem::replace;
 
 use crate::{
+    core::{run_engine, EngineCore},
     scheduler::{FixedUpdateScheduler, Scheduler},
-    Context, State, StateStack, core::{EngineCore, run_engine},
+    Context, State, StateStack,
 };
 
 /// Provides the core functionality of the engine.
@@ -57,10 +58,10 @@ impl Engine {
 
     fn empty() -> Self {
         Self {
-            context: Context::default(), 
-            scheduler: Box::from(FixedUpdateScheduler::default()), 
-            state_stack: StateStack::new(), 
-            core: Box::from(|_| {}), 
+            context: Context::default(),
+            scheduler: Box::from(FixedUpdateScheduler::default()),
+            state_stack: StateStack::new(),
+            core: Box::from(|_| {}),
         }
     }
 }
@@ -161,14 +162,21 @@ mod engine_builder_tests {
 
     #[test]
     fn should_set_engine_core() {
-        lazy_static! { static ref HAS_RAN_CUSTOM_CORE: Mutex<bool> = Mutex::from(false); }
+        lazy_static! {
+            static ref HAS_RAN_CUSTOM_CORE: Mutex<bool> = Mutex::from(false);
+        }
         let context = Context::default();
         let engine = EngineBuilder::new()
-            .with_engine_core(Box::from(|_| { *HAS_RAN_CUSTOM_CORE.lock().unwrap() = true; }))
+            .with_engine_core(Box::from(|_| {
+                *HAS_RAN_CUSTOM_CORE.lock().unwrap() = true;
+            }))
             .build(context);
 
         engine.run(Box::from(EmptyState));
 
-        assert!(*HAS_RAN_CUSTOM_CORE.lock().unwrap(), "The custom engine core was not used");
+        assert!(
+            *HAS_RAN_CUSTOM_CORE.lock().unwrap(),
+            "The custom engine core was not used"
+        );
     }
 }
