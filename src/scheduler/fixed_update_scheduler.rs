@@ -47,7 +47,7 @@ pub type TickRate = f64;
 ///
 /// ```
 /// # use wolf_engine::scheduler::FixedUpdateSchedulerBuilder;
-///
+/// #
 /// let mut scheduler = FixedUpdateSchedulerBuilder::new()
 ///     .build();
 /// ```
@@ -79,6 +79,7 @@ pub struct FixedUpdateScheduler {
 }
 
 impl FixedUpdateScheduler {
+    /// Create a new fixed update scheduler with the default settings.
     pub fn new() -> Self {
         let now = Instant::now();
         let zero = Duration::from_secs(0);
@@ -91,14 +92,23 @@ impl FixedUpdateScheduler {
         }
     }
 
+    /// Returns the current target [TickRate] of the scheduler.
     pub fn tps(&self) -> TickRate {
         self.tps
     }
 
+    /// Returns the max update [Duration] allowed by the scheduler.
     pub fn max_update_time(&self) -> Duration {
         self.max_update_time
     }
 
+    /// Returns true if a tick can be run.
+    ///
+    /// A tick can be run if:
+    ///
+    /// - The current `lag` is greater than the `time_step` set by the [TickRate].
+    /// - The time spent in the current update loop has not exceeded the maximum update
+    ///   time.
     pub fn can_run_a_tick(&self) -> bool {
         self.lag_is_greater_than_time_step() && self.has_not_exceeded_max_update_time()
     }
@@ -189,22 +199,26 @@ pub struct FixedUpdateSchedulerBuilder {
 }
 
 impl FixedUpdateSchedulerBuilder {
+    /// Create a new fixed scheduler builder with the default settings.
     pub fn new() -> Self {
         Self {
             scheduler: FixedUpdateScheduler::default(),
         }
     }
 
+    /// Set the target [TickRate], or ticks per second of the scheduler.
     pub fn with_tps(mut self, tps: TickRate) -> Self {
         self.scheduler.tps = tps;
         self
     }
 
+    /// Set the max update time of the scheduler.
     pub fn with_max_update_time(mut self, max_update_time: Duration) -> Self {
         self.scheduler.max_update_time = max_update_time;
         self
     }
 
+    /// Build an instance of [FixedUpdateScheduler] using the builder.
     pub fn build(self) -> FixedUpdateScheduler {
         self.scheduler
     }

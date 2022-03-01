@@ -1,4 +1,4 @@
-//! Provides flexible update and frame timing controls for [Engine](crate::Engine).
+//! Provides flexible update and frame timing controls for the [Engine](crate::Engine).
 
 mod fixed_update_scheduler;
 

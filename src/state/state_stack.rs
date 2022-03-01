@@ -125,6 +125,7 @@ impl StateStack {
         self.push(state);
     }
 
+    /// Pop all states off the stack.
     pub fn clear(&mut self) {
         while !self.is_empty() {
             self.pop();

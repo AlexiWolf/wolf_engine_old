@@ -7,16 +7,15 @@ pub use scheduler_context::*;
 #[cfg(feature = "window")]
 use winit::event_loop::EventLoop;
 
-/// Provides a central hub through which to access all other contexts.
+/// Provides storage and controlled access to global [Engine](crate::Engine) state.
 ///
-/// This is the main context.  It may be helpful to think of it as the "gateway" to the whole engine
-/// because it owns all of the contexts active on the engine.  In many cases you will access
-/// specific contexts through the main context, but sometimes the main context will have helper
-/// functions for common tasks.
+/// The context object stores global state for the [Engine](crate::Engine).  Any types
+/// that need to work with the [Engine](crate::Engine) can do so through the context
+/// object.  Most utility functions will use the context object to do their work.
 ///
 /// # Examples
 ///
-/// Use the [ContextBuilder] to build a new `Context`.
+/// Use the [ContextBuilder] to build a new context object.
 ///
 /// ```
 /// # use wolf_engine::ContextBuilder;

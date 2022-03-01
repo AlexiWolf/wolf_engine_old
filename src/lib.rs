@@ -5,56 +5,42 @@
 //!
 //! # Getting Started
 //!
-//! To initialize the engine, start by initializing a [Context] using the
-//! [ContextBuilder](crate::ContextBuilder).
+//! If you don't care about customizing the engine's behavior, [Engine::new()] is the
+//! fastest way to get up and running.
 //!
 //! ```
-//! # use wolf_engine::ContextBuilder;
+//! # use wolf_engine::{Engine, EmptyState};
 //! #
-//! let context = ContextBuilder::new()
-//!     // Custom settings.
-//!     .build();
-//!```
-//!
-//! Then you can build and instance of the engine using the [EngineBuilder].
-//! The [EngineBuilder::new()] method will give you the default
-//! [FixedUpdateScheduler](crate::scheduler::FixedUpdateScheduler).  The default settings
-//! should be okay for most games.
-//!
-//! ```
-//! # use wolf_engine::{ContextBuilder, EngineBuilder};
+//! # let my_game_state = EmptyState;
 //! #
-//! # let context = ContextBuilder::new()
-//! #    .build();
-//! #
-//! let engine = EngineBuilder::new()
-//!     // Custom settings go here.
-//!     .build(context);
+//! Engine::new()
+//!     .run(Box::from(my_game_state));
 //! ```
 //!
-//! To run the engine, you provide your game state to the engine.  The engine will use
-//! the [Scheduler](crate::scheduler::Scheduler) to manage how the functions are called.  
-//! The engine will take ownership over itself and run until the game quits.  You will
-//! need to [Box] the state before passing it to the engine.
+//! Wolf Engine games are organized into one or more game [State]s.  These game [State]s
+//! bundle your game's data and logic into a single package that's easy to pass to the
+//! [Engine].  You will need to implement your game as a [State].
 //!
 //! ```
-//! # use wolf_engine::{EmptyState, Engine, EngineBuilder, ContextBuilder, scheduler::FixedUpdateScheduler };
+//! # use wolf_engine::*;
 //! #
-//! # let context = ContextBuilder::new()
-//! #    .build();
-//! #
-//! # let engine = EngineBuilder::new()
-//! #    .build(context);
-//! #
-//! # let state = EmptyState;
-//! #
-//! engine.run(Box::from(state));
-//! ```
+//! pub struct MyGame;
 //!
-//! # Examples
+//! impl State for MyGame {
+//!     fn update(&mut self, _context: &mut Context) -> OptionalTransition {
+//!         // Update your game here.
+//!         None
+//!     }
+//!
+//!     fn render(&mut self, _context: &mut Context) -> RenderResult {
+//!         // Render your game here.
+//!     }
+//! }
+//! ```
 //!
 //! Refer to the [examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples)
-//! for more complete examples of how to use Wolf Engine.
+//! for more complete examples of how to use Wolf Engine.  The [Quick-start Example](https://github.com/AlexiWolf/wolf_engine/blob/main/examples/quickstart.rs)
+//! is a good starting place.
 
 mod engine;
 mod state;
