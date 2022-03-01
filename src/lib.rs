@@ -13,7 +13,7 @@
 //! #
 //! # let my_game_state = EmptyState;
 //! #
-//! wolf_engine::new()
+//! Engine::new()
 //!     .run(Box::from(my_game_state));
 //! ```
 //! 
