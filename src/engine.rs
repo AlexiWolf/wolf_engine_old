@@ -8,9 +8,11 @@ use crate::{
 
 /// Provides the core functionality of the engine.
 ///
-/// The main job of the engine is to run the main loop. The engine takes an initial
-/// [State] object and pushes that onto it's internal [StateStack].  It will then run your
-/// game through the [StateStack] utilizing a [Scheduler] for timing control.
+/// The engine is the core of, well, the engine.  It's primary job is to take and run a 
+/// set of game [State] objects.  The engine uses a [StateStack] to store all active 
+/// [State]s, and a [Scheduler] to control when things are run.
+///
+/// # Examples
 ///
 /// If you just want to use the defaults, you can use [Engine::new()]. 
 ///
@@ -18,8 +20,7 @@ use crate::{
 /// # use wolf_engine::{Engine, EmptyState};
 /// # let my_game_state = EmptyState;
 /// #
-/// Engine::new()
-///     .run(Box::from(my_game_state));
+/// let engine = Engine::new();
 /// ```
 ///
 /// Using [Engine::default()] does the same thing:
@@ -28,9 +29,48 @@ use crate::{
 /// # use wolf_engine::{Engine, EmptyState};
 /// # let my_game_state = EmptyState;
 /// #
-/// Engine::default()
-///     .run(Box::from(my_game_state));
+/// let engine = Engine::default();
 /// ```
+///
+/// If you don't want to use the default settings, the [EngineBuilder], and 
+/// [ContextBuilder](crate::ContextBuilder) can be used to customize just about every 
+/// aspect of the engine.
+///
+/// ```
+/// # use wolf_engine::{Engine, EngineBuilder, ContextBuilder}
+/// #
+/// let context = ContextBuilder::new()
+///     // Customize the context here.
+///     .build();
+/// let engine = EngineBuilder::new()
+///     // Customize the engine here.
+///     .build(context);
+/// ```
+///
+/// You can refer to the [EngineBuilder], and [ContextBuilder](crate::ContextBuilder) 
+/// documentation for specifics on each object can do.
+/// 
+/// Running the engine is the same, no matter if you're using the default instance, or 
+/// a customized instance.  Just run [Engine::run()] and pass your games starting [State]
+/// to it.
+///
+/// ```
+/// # use wolf_engine::{Engine, EmptyState}
+/// #
+/// # let engine = Engine::default();
+/// # let my_game_state = EmptyState;
+/// #
+/// engine.run(Box::from(my_game_state));
+/// ```
+///
+/// # Engine Cores
+///
+/// The engine doesn't run the main loop on it's own.  Instead, it delegates the main loop
+/// to an [EngineCore] function.  This helps to make the engine more modular, and 
+/// customizable.  An [EngineCore] can be used to change the specific way the engine runs
+/// with ease, and is primarily used to integrate with 3rd party modules that insist
+/// on being control of the main loop (such as Winit.)  See [EngineCore]'s documentation 
+/// for more details.
 pub struct Engine {
     pub context: Context,
     pub scheduler: Box<dyn Scheduler>,
