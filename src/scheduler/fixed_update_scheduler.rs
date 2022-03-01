@@ -47,7 +47,7 @@ pub type TickRate = f64;
 ///
 /// ```
 /// # use wolf_engine::scheduler::FixedUpdateSchedulerBuilder;
-///
+/// #
 /// let mut scheduler = FixedUpdateSchedulerBuilder::new()
 ///     .build();
 /// ```
