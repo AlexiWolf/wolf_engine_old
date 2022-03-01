@@ -200,22 +200,26 @@ pub struct FixedUpdateSchedulerBuilder {
 }
 
 impl FixedUpdateSchedulerBuilder {
+    /// Create a new fixed scheduler builder with the default settings.
     pub fn new() -> Self {
         Self {
             scheduler: FixedUpdateScheduler::default(),
         }
     }
-
+    
+    /// Set the target [TickRate], or ticks per second of the scheduler.
     pub fn with_tps(mut self, tps: TickRate) -> Self {
         self.scheduler.tps = tps;
         self
     }
 
+    /// Set the max update time of the scheduler.
     pub fn with_max_update_time(mut self, max_update_time: Duration) -> Self {
         self.scheduler.max_update_time = max_update_time;
         self
     }
 
+    /// Build an instance of [FixedUpdateScheduler] using the builder.
     pub fn build(self) -> FixedUpdateScheduler {
         self.scheduler
     }
