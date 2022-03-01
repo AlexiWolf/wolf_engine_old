@@ -52,27 +52,27 @@ pub struct SchedulerContext {
 }
 
 impl SchedulerContext {
-    // Creates a new instance with all values starting at 0. 
+    /// Creates a new instance with all values starting at 0. 
     pub fn new() -> Self {
         Self::default()
     }
     
-    // Increment the number of ticks by 1.
+    /// Increment the number of ticks by 1.
     pub fn add_tick(&self) {
         *self.ticks.lock().unwrap() += 1;
     }
     
-    // Access the current number of counted ticks.
+    /// Access the current number of counted ticks.
     pub fn ticks(&self) -> Ticks {
         *self.ticks.lock().unwrap()
     }
 
-    // Increment the number of frames by 1.
+    /// Increment the number of frames by 1.
     pub fn add_frame(&self) {
         *self.frames.lock().unwrap() += 1;
     }
 
-    // Access the current number of counted frames.
+    /// Access the current number of counted frames.
     pub fn frames(&self) -> Frames {
         *self.frames.lock().unwrap()
     }
