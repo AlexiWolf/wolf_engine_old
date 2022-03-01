@@ -37,7 +37,7 @@ use crate::{
 /// aspect of the engine.
 ///
 /// ```
-/// # use wolf_engine::{Engine, EngineBuilder, ContextBuilder}
+/// # use wolf_engine::{Engine, EngineBuilder, ContextBuilder};
 /// #
 /// let context = ContextBuilder::new()
 ///     // Customize the context here.
@@ -55,7 +55,7 @@ use crate::{
 /// to it.
 ///
 /// ```
-/// # use wolf_engine::{Engine, EmptyState}
+/// # use wolf_engine::{Engine, EmptyState};
 /// #
 /// # let engine = Engine::default();
 /// # let my_game_state = EmptyState;
