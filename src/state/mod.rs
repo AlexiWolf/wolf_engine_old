@@ -49,10 +49,17 @@ pub type RenderResult = ();
 /// ```
 #[cfg_attr(test, automock)]
 pub trait State {
-    fn update(&mut self, context: &mut Context) -> OptionalTransition;
-    fn background_update(&mut self, _context: &mut Context) {}
 
+    /// Update the game state.
+    fn update(&mut self, context: &mut Context) -> OptionalTransition;
+    
+    /// Update the game state in the background.
+    fn background_update(&mut self, _context: &mut Context) {}
+    
+    /// Render the game state.
     fn render(&mut self, context: &mut Context) -> RenderResult;
+
+    /// Render the game state in the background.
     fn background_render(&mut self, _context: &mut Context) -> RenderResult {}
 }
 
