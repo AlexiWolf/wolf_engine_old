@@ -79,10 +79,12 @@ pub struct Engine {
 }
 
 impl Engine {
+    /// Creates and instance of the engine with the defualt settings.
     pub fn new() -> Self {
         Self::default()
     }
-
+    
+    /// Takes ownership over the engine and runs until the [EngineCore] exits.
     pub fn run(mut self, initial_state: Box<dyn State>) {
         self.state_stack.push(initial_state);
         let (engine, core_function) = self.extract_core_function();
@@ -119,10 +121,12 @@ pub struct EngineBuilder {
 }
 
 impl EngineBuilder {
+    /// Creates a new engine builder with the default settings.
     pub fn new() -> Self {
         Self::default()
     }
-
+    
+    /// Consumes the engine builder and returns an [Engine] created from it.
     pub fn build(self, context: Context) -> Engine {
         Engine {
             context,
@@ -131,12 +135,14 @@ impl EngineBuilder {
             core: self.core,
         }
     }
-
+    
+    /// Set a custom [Scheduler] to be used.
     pub fn with_scheduler(mut self, scheduler: Box<dyn Scheduler>) -> Self {
         self.scheduler = scheduler;
         self
     }
-
+    
+    /// Set a custom [EngineCore] to be used.
     pub fn with_engine_core(mut self, engine_core: EngineCore) -> Self {
         self.core = engine_core;
         self
