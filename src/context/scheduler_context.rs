@@ -2,7 +2,7 @@ use std::sync::{Arc, Mutex};
 
 use crate::scheduler::{Frames, Ticks};
 
-/// Provides access to information and controls for the 
+/// Provides access to information and controls for the
 /// [Scheduler](crate::scheduler::Scheduler).
 ///
 /// # Examples
@@ -15,7 +15,7 @@ use crate::scheduler::{Frames, Ticks};
 /// let scheduler_context = SchedulerContext::new();
 /// ```
 ///
-/// Once created, the SchedulerContext exposes information about the 
+/// Once created, the SchedulerContext exposes information about the
 /// [Scheduler](crate::scheduler::Scheduler).
 ///
 /// ```
@@ -52,16 +52,16 @@ pub struct SchedulerContext {
 }
 
 impl SchedulerContext {
-    /// Creates a new instance with all values starting at 0. 
+    /// Creates a new instance with all values starting at 0.
     pub fn new() -> Self {
         Self::default()
     }
-    
+
     /// Increment the number of ticks by 1.
     pub fn add_tick(&self) {
         *self.ticks.lock().unwrap() += 1;
     }
-    
+
     /// Access the current number of counted ticks.
     pub fn ticks(&self) -> Ticks {
         *self.ticks.lock().unwrap()

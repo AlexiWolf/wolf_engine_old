@@ -8,13 +8,13 @@ use crate::{
 
 /// Provides the core functionality of the engine.
 ///
-/// The engine is the core of, well, the engine.  It's primary job is to take and run a 
-/// set of game [State] objects.  The engine uses a [StateStack] to store all active 
+/// The engine is the core of, well, the engine.  It's primary job is to take and run a
+/// set of game [State] objects.  The engine uses a [StateStack] to store all active
 /// [State]s, and a [Scheduler] to control when things are run.
 ///
 /// # Examples
 ///
-/// If you just want to use the defaults, you can use [Engine::new()]. 
+/// If you just want to use the defaults, you can use [Engine::new()].
 ///
 /// ```
 /// # use wolf_engine::{Engine, EmptyState};
@@ -32,8 +32,8 @@ use crate::{
 /// let engine = Engine::default();
 /// ```
 ///
-/// If you don't want to use the default settings, the [EngineBuilder], and 
-/// [ContextBuilder](crate::ContextBuilder) can be used to customize just about every 
+/// If you don't want to use the default settings, the [EngineBuilder], and
+/// [ContextBuilder](crate::ContextBuilder) can be used to customize just about every
 /// aspect of the engine.
 ///
 /// ```
@@ -47,10 +47,10 @@ use crate::{
 ///     .build(context);
 /// ```
 ///
-/// You can refer to the [EngineBuilder], and [ContextBuilder](crate::ContextBuilder) 
+/// You can refer to the [EngineBuilder], and [ContextBuilder](crate::ContextBuilder)
 /// documentation for specifics on each object can do.
-/// 
-/// Running the engine is the same, no matter if you're using the default instance, or 
+///
+/// Running the engine is the same, no matter if you're using the default instance, or
 /// a customized instance.  Just run [Engine::run()] and pass your games starting [State]
 /// to it.
 ///
@@ -66,10 +66,10 @@ use crate::{
 /// # Engine Cores
 ///
 /// The engine doesn't run the main loop on it's own.  Instead, it delegates the main loop
-/// to an [EngineCore] function.  This helps to make the engine more modular, and 
+/// to an [EngineCore] function.  This helps to make the engine more modular, and
 /// customizable.  An [EngineCore] can be used to change the specific way the engine runs
 /// with ease, and is primarily used to integrate with 3rd party modules that insist
-/// on being control of the main loop (such as Winit.)  See [EngineCore]'s documentation 
+/// on being control of the main loop (such as Winit.)  See [EngineCore]'s documentation
 /// for more details.
 pub struct Engine {
     pub context: Context,
@@ -83,7 +83,7 @@ impl Engine {
     pub fn new() -> Self {
         Self::default()
     }
-    
+
     /// Takes ownership over the engine and runs until the [EngineCore] exits.
     pub fn run(mut self, initial_state: Box<dyn State>) {
         self.state_stack.push(initial_state);
@@ -125,7 +125,7 @@ impl EngineBuilder {
     pub fn new() -> Self {
         Self::default()
     }
-    
+
     /// Consumes the engine builder and returns an [Engine] created from it.
     pub fn build(self, context: Context) -> Engine {
         Engine {
@@ -135,13 +135,13 @@ impl EngineBuilder {
             core: self.core,
         }
     }
-    
+
     /// Set a custom [Scheduler] to be used.
     pub fn with_scheduler(mut self, scheduler: Box<dyn Scheduler>) -> Self {
         self.scheduler = scheduler;
         self
     }
-    
+
     /// Set a custom [EngineCore] to be used.
     pub fn with_engine_core(mut self, engine_core: EngineCore) -> Self {
         self.core = engine_core;

@@ -5,7 +5,7 @@
 //!
 //! # Getting Started
 //!
-//! If you don't care about customizing the engine's behavior, [Engine::new()] is the 
+//! If you don't care about customizing the engine's behavior, [Engine::new()] is the
 //! fastest way to get up and running.
 //!
 //! ```
@@ -16,9 +16,9 @@
 //! Engine::new()
 //!     .run(Box::from(my_game_state));
 //! ```
-//! 
+//!
 //! Wolf Engine games are organized into one or more game [State]s.  These game [State]s
-//! bundle your game's data and logic into a single package that's easy to pass to the 
+//! bundle your game's data and logic into a single package that's easy to pass to the
 //! [Engine].  You will need to implement your game as a [State].
 //!
 //! ```

@@ -2,7 +2,6 @@
 
 use crate::Engine;
 
-
 /// Defines which functions can be used as an [Engine] core.
 ///
 /// Core functions take ownership over the running [Engine], and directly implement the
@@ -58,8 +57,8 @@ pub type EngineCore = Box<dyn Fn(Engine)>;
 /// Run the [Engine] until the [StateStack](crate::StateStack) is empty.
 ///
 /// This is a simple [EngineCore] that runs the engine in a loop.  It will run the
-/// [Engine]'s [StateStack](crate::StateStack) using the active 
-/// [Scheduler](crate::scheduler::Scheduler).  The loop will continue to run until the 
+/// [Engine]'s [StateStack](crate::StateStack) using the active
+/// [Scheduler](crate::scheduler::Scheduler).  The loop will continue to run until the
 /// [StateStack](crate::StateStack)is empty, then it will exit.
 pub fn run_engine(mut engine: Engine) {
     while engine.state_stack.is_not_empty() {

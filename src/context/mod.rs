@@ -9,13 +9,13 @@ use winit::event_loop::EventLoop;
 
 /// Provides storage and controlled access to global [Engine](crate::Engine) state.
 ///
-/// The context object stores global state for the [Engine](crate::Engine).  Any types 
-/// that need to work with the [Engine](crate::Engine) can do so through the context 
+/// The context object stores global state for the [Engine](crate::Engine).  Any types
+/// that need to work with the [Engine](crate::Engine) can do so through the context
 /// object.  Most utility functions will use the context object to do their work.
 ///
 /// # Examples
 ///
-/// Use the [ContextBuilder] to build a new context object. 
+/// Use the [ContextBuilder] to build a new context object.
 ///
 /// ```
 /// # use wolf_engine::ContextBuilder;

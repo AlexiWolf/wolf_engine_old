@@ -79,7 +79,6 @@ pub struct FixedUpdateScheduler {
 }
 
 impl FixedUpdateScheduler {
-
     /// Create a new fixed update scheduler with the default settings.
     pub fn new() -> Self {
         let now = Instant::now();
@@ -92,7 +91,7 @@ impl FixedUpdateScheduler {
             lag: zero,
         }
     }
-    
+
     /// Returns the current target [TickRate] of the scheduler.
     pub fn tps(&self) -> TickRate {
         self.tps
@@ -108,7 +107,7 @@ impl FixedUpdateScheduler {
     /// A tick can be run if:
     ///
     /// - The current `lag` is greater than the `time_step` set by the [TickRate].
-    /// - The time spent in the current update loop has not exceeded the maximum update 
+    /// - The time spent in the current update loop has not exceeded the maximum update
     ///   time.
     pub fn can_run_a_tick(&self) -> bool {
         self.lag_is_greater_than_time_step() && self.has_not_exceeded_max_update_time()
@@ -206,7 +205,7 @@ impl FixedUpdateSchedulerBuilder {
             scheduler: FixedUpdateScheduler::default(),
         }
     }
-    
+
     /// Set the target [TickRate], or ticks per second of the scheduler.
     pub fn with_tps(mut self, tps: TickRate) -> Self {
         self.scheduler.tps = tps;
