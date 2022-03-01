@@ -2,7 +2,8 @@ use std::sync::{Arc, Mutex};
 
 use crate::scheduler::{Frames, Ticks};
 
-/// Provides access to information and controls for the [Scheduler](crate::scheduler::Scheduler).
+/// Provides access to information and controls for the 
+/// [Scheduler](crate::scheduler::Scheduler).
 ///
 /// # Examples
 ///
@@ -14,7 +15,8 @@ use crate::scheduler::{Frames, Ticks};
 /// let scheduler_context = SchedulerContext::new();
 /// ```
 ///
-/// Once created, the SchedulerContext exposes information about the [Scheduler](crate::scheduler::Scheduler).
+/// Once created, the SchedulerContext exposes information about the 
+/// [Scheduler](crate::scheduler::Scheduler).
 ///
 /// ```
 /// # use wolf_engine::context::SchedulerContext;
@@ -26,9 +28,6 @@ use crate::scheduler::{Frames, Ticks};
 /// ```
 ///
 /// Tick and frame information can be added to the context.  
-///
-/// **Note:** These method are only intended for the [Scheduler](crate::scheduler::Scheduler) and other parts of
-/// the engine. If you are not providing a custom game loop, you **should not** touch these.
 ///
 /// ```
 /// # use wolf_engine::context::SchedulerContext;
@@ -53,22 +52,27 @@ pub struct SchedulerContext {
 }
 
 impl SchedulerContext {
+    // Creates a new instance with all values starting at 0. 
     pub fn new() -> Self {
         Self::default()
     }
-
+    
+    // Increment the number of ticks by 1.
     pub fn add_tick(&self) {
         *self.ticks.lock().unwrap() += 1;
     }
-
+    
+    // Access the current number of counted ticks.
     pub fn ticks(&self) -> Ticks {
         *self.ticks.lock().unwrap()
     }
 
+    // Increment the number of frames by 1.
     pub fn add_frame(&self) {
         *self.frames.lock().unwrap() += 1;
     }
 
+    // Access the current number of counted frames.
     pub fn frames(&self) -> Frames {
         *self.frames.lock().unwrap()
     }
