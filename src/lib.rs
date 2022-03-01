@@ -27,12 +27,12 @@
 //! pub struct MyGame;
 //!
 //! impl State for MyGame {
-//!     pub fn update(&mut self, _context: &mut Context) -> OptionalTransition {
+//!     fn update(&mut self, _context: &mut Context) -> OptionalTransition {
 //!         // Update your game here.
 //!         None
 //!     }
 //!
-//!     pub fn render(&mut self, _context: &mut Context) -> RenderResult {
+//!     fn render(&mut self, _context: &mut Context) -> RenderResult {
 //!         // Render your game here.
 //!     }
 //! }
