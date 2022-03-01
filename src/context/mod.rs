@@ -7,7 +7,7 @@ pub use scheduler_context::*;
 #[cfg(feature = "window")]
 use winit::event_loop::EventLoop;
 
-/// Provides storage, and controlled access to global [Engine](crate::Engine) state.
+/// Provides storage and controlled access to global [Engine](crate::Engine) state.
 ///
 /// The context object stores global state for the [Engine](crate::Engine).  Any types 
 /// that need to work with the [Engine](crate::Engine) can do so through the context 
