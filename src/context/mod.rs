@@ -27,6 +27,12 @@ pub struct Context {
     pub scheduler: SchedulerContext,
 }
 
+impl Context {
+    pub fn add_subcontext(&mut self) {
+        
+    }
+}
+
 impl Default for Context {
     fn default() -> Self {
         ContextBuilder::new().build()
