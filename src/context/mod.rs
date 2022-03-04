@@ -68,7 +68,7 @@ impl Context {
     pub fn remove_subcontext<T: Subcontext>(&mut self) {
 
     }
-
+}
 
 impl Default for Context {
     fn default() -> Self {
