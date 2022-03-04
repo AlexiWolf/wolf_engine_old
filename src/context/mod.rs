@@ -116,6 +116,8 @@ mod context_tests {
         context.add_subcontext(subcontext);
         
         context.remove_subcontext::<MockSubcontext>();
+
+        assert_eq!(context.subcontexts.len(), 0);
     }
 
     #[test]
