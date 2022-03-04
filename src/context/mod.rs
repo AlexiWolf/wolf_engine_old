@@ -99,7 +99,10 @@ mod context_tests {
     #[test]
     fn should_provide_immutable_access_to_subcontexts() {
         let mut context = Context::default();
-        let message_context = MessageContext::new("Hello, world!");
+        context.add_subcontext(MessageContext::new("Hello, world!"));
+
+        let message_context = context.get_subcontext::<MessageContext>()
+            .expect("did not get a MessageContext back");
     }
 
     struct MessageContext {
