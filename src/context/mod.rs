@@ -37,7 +37,11 @@ pub struct Context {
 impl Context {
     pub fn add_subcontext<T: Subcontext>(&mut self, subcontext: T) {
         let type_id = TypeId::of::<T>();
-        self.subcontexts.insert(type_id, Box::from(subcontext));
+        if self.subcontexts.contains_key(&type_id) {
+            panic!();
+        } else {
+            self.subcontexts.insert(type_id, Box::from(subcontext));
+        }
     }
 }
 
