@@ -52,3 +52,15 @@ impl ContextBuilder {
     }
 }
 
+#[cfg(test)]
+mod context_tests {
+    use super::*;
+    
+    #[test]
+    fn should_allow_custom_sub_contexts() {
+        let mut context = Context::default();
+        let mut sub_context = MockSubContext::new();
+
+        context.add_subcontext(sub_context);
+    }
+}
