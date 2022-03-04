@@ -68,7 +68,7 @@ mod context_tests {
     #[test]
     fn should_allow_custom_sub_contexts() {
         let mut context = Context::default();
-        let mut subcontext = MockSubcontext::new();
+        let subcontext = MockSubcontext::new();
 
         context.add_subcontext(subcontext);
     }
