@@ -117,7 +117,7 @@ mod context_tests {
         
         context.remove_subcontext::<MockSubcontext>();
 
-        assert_eq!(context.subcontexts.len(), 0);
+        assert_eq!(context.subcontexts.len(), 0, "the subcontext was not removed");
     }
 
     #[test]
