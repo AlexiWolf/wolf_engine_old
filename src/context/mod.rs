@@ -38,7 +38,8 @@ impl Context {
     pub fn add_subcontext<T: Subcontext>(&mut self, subcontext: T) {
         let type_id = TypeId::of::<T>();
         if self.subcontexts.contains_key(&type_id) {
-            panic!();
+            panic!("a subcontext of this type already exists: there can be only one \
+                   instance per type" );
         } else {
             self.subcontexts.insert(type_id, Box::from(subcontext));
         }
