@@ -106,7 +106,7 @@ mod context_tests {
         context.add_subcontext(MessageContext::new("Hello, world!"));
 
         let message_context = context.get_subcontext::<MessageContext>()
-            .expect("did not get a MessageContext back");
+            .expect("got None instead of the subcontext");
         
         assert_eq!(message_context.message, "Hello, world!");
     }
