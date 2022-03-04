@@ -44,6 +44,10 @@ impl Context {
             self.subcontexts.insert(type_id, Box::from(subcontext));
         }
     }
+
+    pub fn get_subcontext<T: Subcontext>(&mut self) -> Option<Box<&T>> {
+        None
+    }
 }
 
 impl Default for Context {
