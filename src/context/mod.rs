@@ -52,6 +52,15 @@ pub struct Context {
 
 impl Context {
 
+    /// Add a [Subcontext] object.
+    ///
+    /// This function ensures that only a single instance of each [Subcontext] type may 
+    /// be added.  For example: If you add an instance of `SubcontextA`, then later 
+    /// attempt to add another instance of `SubcontextA`, this will cause a panic.
+    ///
+    /// # Panics 
+    ///
+    /// - Will panic if you attempt to add more than one instance of a type. 
     #[allow(clippy::map_entry)]
     pub fn add_subcontext<T: Subcontext>(&mut self, subcontext: T) {
         let type_id = TypeId::of::<T>();
@@ -64,7 +73,8 @@ impl Context {
             self.subcontexts.insert(type_id, Box::from(subcontext));
         }
     }
-
+    
+    /// Access a specific type of [Subcontext] immutably. 
     pub fn get_subcontext<T: Subcontext>(&self) -> Option<Box<&T>> {
         let type_id = TypeId::of::<T>();
         if let Some(any) = self.subcontexts.get(&type_id) {
@@ -74,7 +84,8 @@ impl Context {
             None
         }
     }
-
+    
+    /// Access a specific type of [Subcontext] mutably. 
     pub fn get_subcontext_mut<T: Subcontext>(&mut self) -> Option<Box<&mut T>> {
         let type_id = TypeId::of::<T>();
         if let Some(any) = self.subcontexts.get_mut(&type_id) {
@@ -84,7 +95,13 @@ impl Context {
             None
         }
     }
-
+    
+    /// Remove a specific type of [Subcontext].
+    ///
+    /// You should avoid removing a [Subcontext] unless you're 100% sure no other parts 
+    /// of the code are depending on it.  Removing a [Subcontext] will likely cause any
+    /// code depending on it to panic or otherwise fail.  As a general rule, avoid 
+    /// removing anything you didn't add yourself.
     pub fn remove_subcontext<T: Subcontext>(&mut self) {
         let type_id = TypeId::of::<T>();
         self.subcontexts.remove(&type_id);
