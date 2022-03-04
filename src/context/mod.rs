@@ -38,6 +38,8 @@ pub struct Context {
 }
 
 impl Context {
+
+    #[allow(clippy::map_entry)]
     pub fn add_subcontext<T: Subcontext>(&mut self, subcontext: T) {
         let type_id = TypeId::of::<T>();
         if self.subcontexts.contains_key(&type_id) {
