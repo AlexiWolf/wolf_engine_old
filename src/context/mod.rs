@@ -30,10 +30,7 @@ pub struct Context {
 
 /// Builds a [Context] object.
 #[derive(Default)]
-pub struct ContextBuilder {
-    #[cfg(feature = "window")]
-    event_loop: Option<EventLoop<()>>,
-}
+pub struct ContextBuilder {}
 
 impl Default for Context {
     fn default() -> Self {
@@ -55,33 +52,3 @@ impl ContextBuilder {
     }
 }
 
-#[cfg(feature = "window")]
-impl ContextBuilder {
-    /// Create an [EventLoop].
-    ///
-    /// # Panics
-    ///
-    /// - The [EventLoop] will panic if you attempt to call this function off the main
-    ///   thread.  See [EventLoop::new] for more information.
-    pub fn with_create_event_loop() -> Self {
-        Self {
-            event_loop: Some(EventLoop::new()),
-        }
-    }
-
-    /// Consumes the [ContextBuilder] and returns a [Context] and an [EventLoop].
-    ///
-    /// # Panics
-    ///
-    /// - Will panic if there is no [EventLoop].  
-    pub fn build_with_event_loop(self) -> (Context, EventLoop<()>) {
-        let context = Context {
-            scheduler: SchedulerContext::new(),
-        };
-        (
-            context,
-            self.event_loop
-                .expect("There is no EventLoop.  Did you mean to use the 'build' method?"),
-        )
-    }
-}
