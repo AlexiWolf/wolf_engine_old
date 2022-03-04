@@ -107,6 +107,15 @@ mod context_tests {
     }
 
     #[test]
+    fn should_remove_subcontext() {
+        let mut context = Context::default();
+        let subcontext = MockSubcontext::new();
+        context.add_subcontext(subcontext);
+        
+        context.remove::<MockSubcontext>();
+    }
+
+    #[test]
     #[should_panic]
     fn should_allow_only_one_subcontext_of_a_given_type() {
         let mut context = Context::default();
