@@ -117,6 +117,15 @@ mod context_tests {
         assert_eq!(message_context.message, "Hello, world!");
     }
 
+    #[test]
+    fn should_provide_mutable_access_to_subcontexts() {
+        let mut context = Context::default();
+        context.add_subcontext(MessageContext::new("Hello, world!"));
+
+        let message_context = context.get_subcontext_mut::<MessageContext>()
+            .expect("got None instead of the subcontext");
+    }
+
     struct MessageContext {
         pub message: String,
     }
