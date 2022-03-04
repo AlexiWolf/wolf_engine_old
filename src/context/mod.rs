@@ -79,4 +79,15 @@ mod context_tests {
 
         assert_eq!(context.subcontexts.len(), 1, "The subcontext was not added");
     }
+
+    #[test]
+    #[should_panic]
+    fn should_allow_only_one_subcontext_of_a_given_type() {
+        let mut context = Context::default();
+        let subcontext_a = MockSubcontext::new();
+        let subcontext_b = MockSubcontext::new();
+
+        context.add_subcontext(subcontext_a);
+        context.add_subcontext(subcontext_b);
+    }
 }
