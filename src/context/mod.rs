@@ -32,7 +32,7 @@ pub struct Context {
 }
 
 impl Context {
-    pub fn add_subcontext(&mut self) {
+    pub fn add_subcontext<T: Subcontext>(&mut self, _subcontext: T) {
         
     }
 }
