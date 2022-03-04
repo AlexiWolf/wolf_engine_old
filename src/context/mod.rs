@@ -66,7 +66,8 @@ impl Context {
     }
 
     pub fn remove_subcontext<T: Subcontext>(&mut self) {
-
+        let type_id = TypeId::of::<T>();
+        self.subcontexts.remove(&type_id);
     }
 }
 
