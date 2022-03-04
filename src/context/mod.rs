@@ -71,5 +71,7 @@ mod context_tests {
         let subcontext = MockSubcontext::new();
 
         context.add_subcontext(subcontext);
+
+        assert_eq!(context.subcontexts.len(), 1, "The subcontext was not added");
     }
 }
