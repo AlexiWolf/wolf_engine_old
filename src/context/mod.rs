@@ -54,6 +54,17 @@ impl Context {
             None
         }
     }
+
+    pub fn get_subcontext_mut<T: Subcontext>(&mut self) -> Option<Box<&mut T>> {
+        let type_id = TypeId::of::<T>();
+        if let Some(any) = self.subcontexts.get_mut(&type_id) {
+            let subcontext = any.downcast_mut::<T>().expect("failed to downcast");
+            Some(Box::from(subcontext))
+        } else {
+            None
+        }
+    }
+   
 }
 
 impl Default for Context {
