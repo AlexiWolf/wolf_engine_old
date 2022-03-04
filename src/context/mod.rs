@@ -107,6 +107,8 @@ mod context_tests {
 
         let message_context = context.get_subcontext::<MessageContext>()
             .expect("did not get a MessageContext back");
+        
+        assert_eq!(message_context.message, "Hello, world!");
     }
 
     struct MessageContext {
