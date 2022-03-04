@@ -2,7 +2,10 @@
 
 mod scheduler_context;
 
-use std::{collections::HashMap, any::{TypeId, Any}};
+use std::{
+    any::{Any, TypeId},
+    collections::HashMap,
+};
 
 pub use scheduler_context::*;
 
@@ -38,8 +41,10 @@ impl Context {
     pub fn add_subcontext<T: Subcontext>(&mut self, subcontext: T) {
         let type_id = TypeId::of::<T>();
         if self.subcontexts.contains_key(&type_id) {
-            panic!("a subcontext of this type already exists: there can be only one \
-                   instance per type" );
+            panic!(
+                "a subcontext of this type already exists: there can be only one \
+                   instance per type"
+            );
         } else {
             self.subcontexts.insert(type_id, Box::from(subcontext));
         }
@@ -99,7 +104,7 @@ impl ContextBuilder {
 #[cfg(test)]
 mod context_tests {
     use super::*;
-    
+
     #[test]
     fn should_add_subcontext() {
         let mut context = Context::default();
@@ -126,10 +131,14 @@ mod context_tests {
         let mut context = Context::default();
         let subcontext = MockSubcontext::new();
         context.add_subcontext(subcontext);
-        
+
         context.remove_subcontext::<MockSubcontext>();
 
-        assert_eq!(context.subcontexts.len(), 0, "the subcontext was not removed");
+        assert_eq!(
+            context.subcontexts.len(),
+            0,
+            "the subcontext was not removed"
+        );
     }
 
     #[test]
@@ -144,9 +153,10 @@ mod context_tests {
         let mut context = Context::default();
         context.add_subcontext(MessageContext::new("Hello, world!"));
 
-        let message_context = context.get_subcontext::<MessageContext>()
+        let message_context = context
+            .get_subcontext::<MessageContext>()
             .expect("got None instead of the subcontext");
-        
+
         assert_eq!(message_context.message, "Hello, world!");
     }
 
@@ -155,10 +165,11 @@ mod context_tests {
         let mut context = Context::default();
         context.add_subcontext(MessageContext::new("Hello, world!"));
 
-        let message_context = context.get_subcontext_mut::<MessageContext>()
+        let message_context = context
+            .get_subcontext_mut::<MessageContext>()
             .expect("got None instead of the subcontext");
         message_context.message = "Goodbye, world!".to_string();
-       
+
         assert_eq!(message_context.message, "Goodbye, world!");
     }
 
