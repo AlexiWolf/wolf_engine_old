@@ -28,15 +28,15 @@ pub struct Context {
     pub scheduler: SchedulerContext,
 }
 
-/// Builds a [Context] object.
-#[derive(Default)]
-pub struct ContextBuilder {}
-
 impl Default for Context {
     fn default() -> Self {
         ContextBuilder::new().build()
     }
 }
+
+/// Builds a [Context] object.
+#[derive(Default)]
+pub struct ContextBuilder {}
 
 impl ContextBuilder {
     /// Create the default [ContextBuilder].
