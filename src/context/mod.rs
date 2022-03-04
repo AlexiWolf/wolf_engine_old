@@ -45,7 +45,7 @@ impl Context {
         }
     }
 
-    pub fn get_subcontext<T: Subcontext>(&mut self) -> Option<Box<&T>> {
+    pub fn get_subcontext<T: Subcontext>(&self) -> Option<Box<&T>> {
         let type_id = TypeId::of::<T>();
         if let Some(any) = self.subcontexts.get(&type_id) {
             let subcontext = any.downcast_ref::<T>().expect("failed to downcast");
