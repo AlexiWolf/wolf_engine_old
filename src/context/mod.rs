@@ -21,16 +21,29 @@ pub trait Subcontext: 'static {}
 /// that need to work with the [Engine](crate::Engine) can do so through the context
 /// object.  Most utility functions will use the context object to do their work.
 ///
+/// The data and state stored by the context object is provided by a number of 
+/// [Subcontext] objects attached to it.  These [Subcontext]s are added at runtime rather
+/// than compile time.
+///
+/// This works by storing the [Subcontext] as a [Box]ed dyn [Any] object in a map with the 
+/// [TypeId] of the object is used as the key.  When accessing a stored [Subcontext] 
+/// object, you must provide the type (`T`) of the object you'd like to access, then 
+/// the [TypeId] of `T` is used to lookup the corresponding [Subcontext] in the map.  The
+/// object is then down-casted back to `T` and returned to the caller
+///
+/// Because the [TypeId] of the [Subcontext] object is used as the look-up key, there can 
+/// be only one instance of a specific [Subcontext] type added to the context at a time.
+/// Attempting to add another [Subcontext] object with a [TypeId] that's already present 
+/// in the map will result in a panic.
+///
 /// # Examples
 ///
-/// Use the [ContextBuilder] to build a new context object.
+/// To create the default context, use [Context::default()];
 ///
 /// ```
-/// # use wolf_engine::ContextBuilder;
+/// # use wolf_engine::Context;
 /// #
-/// let context = ContextBuilder::new()
-///     // Insert additional settings here.    
-///     .build();
+/// let context = Context::default();
 /// ```
 pub struct Context {
     pub scheduler: SchedulerContext,
