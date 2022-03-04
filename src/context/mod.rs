@@ -135,6 +135,9 @@ mod context_tests {
 
         let message_context = context.get_subcontext_mut::<MessageContext>()
             .expect("got None instead of the subcontext");
+        message_context.message = "Goodbye, world!".to_string();
+       
+        assert_eq!(message_context.message, "Goodbye, world!");
     }
 
     struct MessageContext {
