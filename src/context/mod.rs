@@ -64,8 +64,11 @@ impl Context {
             None
         }
     }
-   
-}
+
+    pub fn remove_subcontext<T: Subcontext>(&mut self) {
+
+    }
+
 
 impl Default for Context {
     fn default() -> Self {
@@ -112,7 +115,7 @@ mod context_tests {
         let subcontext = MockSubcontext::new();
         context.add_subcontext(subcontext);
         
-        context.remove::<MockSubcontext>();
+        context.remove_subcontext::<MockSubcontext>();
     }
 
     #[test]
