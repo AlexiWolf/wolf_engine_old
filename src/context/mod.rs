@@ -4,6 +4,10 @@ mod scheduler_context;
 
 pub use scheduler_context::*;
 
+#[cfg(test)]
+use mockall::automock;
+
+#[cfg_attr(test, automock)]
 pub trait Subcontext: 'static {}
 
 /// Provides storage and controlled access to global [Engine](crate::Engine) state.
