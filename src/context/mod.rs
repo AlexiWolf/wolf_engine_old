@@ -95,4 +95,24 @@ mod context_tests {
         context.add_subcontext(subcontext_a);
         context.add_subcontext(subcontext_b);
     }
+
+    #[test]
+    fn should_provide_immutable_access_to_subcontexts() {
+        let mut context = Context::default();
+        let message_context = MessageContext::new("Hello, world!");
+    }
+
+    struct MessageContext {
+        pub message: String,
+    }
+
+    impl MessageContext {
+        pub fn new(message: &str) -> Self {
+            Self {
+                message: message.to_string(),
+            }
+        }
+    }
+
+    impl Subcontext for MessageContext {}
 }
