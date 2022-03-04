@@ -2,6 +2,8 @@
 
 mod scheduler_context;
 
+use std::{collections::HashMap, any::{TypeId, Any}};
+
 pub use scheduler_context::*;
 
 #[cfg(test)]
@@ -29,6 +31,7 @@ pub trait Subcontext: 'static {}
 /// ```
 pub struct Context {
     pub scheduler: SchedulerContext,
+    subcontexts: HashMap<TypeId, Box<dyn Any>>,
 }
 
 impl Context {
@@ -57,6 +60,7 @@ impl ContextBuilder {
     pub fn build(self) -> Context {
         Context {
             scheduler: SchedulerContext::new(),
+            subcontexts: HashMap::new(),
         }
     }
 }
