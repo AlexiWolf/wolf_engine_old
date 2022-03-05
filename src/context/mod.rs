@@ -110,7 +110,7 @@ impl Context {
 
 impl Default for Context {
     fn default() -> Self {
-        ContextBuilder::new().build()
+        Self::new() 
     }
 }
 
