@@ -234,7 +234,7 @@ impl Default for FixedUpdateSchedulerBuilder {
 mod fixed_update_scheduler_tests {
     use super::*;
     use crate::MockState;
-    use crate::{Context, ContextBuilder};
+    use crate::Context;
     use std::thread;
     use test_case::test_case;
 
@@ -363,7 +363,7 @@ mod fixed_update_scheduler_tests {
         let mut scheduler = FixedUpdateSchedulerBuilder::new().build();
         scheduler.lag = Duration::from_millis(artificial_lag);
         scheduler.update_time = Duration::from_millis(artificial_update_time);
-        let context = ContextBuilder::new().build();
+        let context = Context::default();
         (scheduler, context)
     }
 }
