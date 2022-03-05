@@ -46,6 +46,7 @@ use super::Subcontext;
 /// # assert_eq!(scheduler_context.ticks(), 1, "1 tick should have been added");
 /// # assert_eq!(scheduler_context.frames(), 1, "1 frame should have been added");
 /// ```
+#[derive(Default)]
 pub struct SchedulerContext {
     ticks: Ticks,
     frames: Frames,
@@ -75,15 +76,6 @@ impl SchedulerContext {
     /// Access the current number of counted frames.
     pub fn frames(&self) -> Frames {
         self.frames
-    }
-}
-
-impl Default for SchedulerContext {
-    fn default() -> Self {
-        Self {
-            ticks: 0,
-            frames: 0,
-        }
     }
 }
 
