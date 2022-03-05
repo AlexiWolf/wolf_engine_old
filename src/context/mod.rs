@@ -54,7 +54,6 @@ impl Context {
     /// Create an instance of the default context. 
     pub fn new() -> Self {
         Self {
-            scheduler: SchedulerContext::new(),
             subcontexts: HashMap::new(),
         }
     }
