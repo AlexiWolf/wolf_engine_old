@@ -2,6 +2,8 @@ use std::sync::{Arc, Mutex};
 
 use crate::scheduler::{Frames, Ticks};
 
+use super::Subcontext;
+
 /// Provides access to information and controls for the
 /// [Scheduler](crate::scheduler::Scheduler).
 ///
@@ -86,3 +88,6 @@ impl Default for SchedulerContext {
         }
     }
 }
+
+impl Subcontext for SchedulerContext {}
+
