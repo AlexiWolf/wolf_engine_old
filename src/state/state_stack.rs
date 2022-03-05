@@ -53,10 +53,9 @@ use crate::{Context, OptionalTransition, RenderResult, State, Transition};
 /// Running the state stack:
 ///
 /// ```
-/// # use wolf_engine::{StateStack, State, ContextBuilder};
+/// # use wolf_engine::{StateStack, State, Context};
 /// #
-/// # let mut context = ContextBuilder::new()
-/// #    .build();
+/// # let mut context = Context::default();
 /// #
 /// let mut state_stack = StateStack::new();
 ///

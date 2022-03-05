@@ -56,10 +56,10 @@ pub type TickRate = f64;
 /// [State], along with the [Context] object are passed in.
 ///
 /// ```
-/// # use wolf_engine::{EmptyState, ContextBuilder, scheduler::{Scheduler, FixedUpdateSchedulerBuilder}};
+/// # use wolf_engine::{EmptyState, Context, scheduler::{Scheduler, FixedUpdateSchedulerBuilder}};
 /// # let mut scheduler = FixedUpdateSchedulerBuilder::new()
 /// #     .build();
-/// # let mut context = ContextBuilder::new().build();
+/// # let mut context = Context::default();
 /// #
 /// # let mut state = EmptyState;
 /// #

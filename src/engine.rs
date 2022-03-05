@@ -36,7 +36,7 @@ use crate::{
 /// can be used to customize just about every aspect of the engine.
 ///
 /// ```
-/// # use wolf_engine::{Engine, EngineBuilder};
+/// # use wolf_engine::{Engine, Context, EngineBuilder};
 /// #
 /// let context = Context::default();
 /// // Add to the Context object here.
