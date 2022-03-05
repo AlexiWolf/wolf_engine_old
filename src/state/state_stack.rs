@@ -176,7 +176,7 @@ impl Default for StateStack {
 
 #[cfg(test)]
 mod state_stack_tests {
-    use crate::{ContextBuilder, MockState, Transition};
+    use crate::{MockState, Transition};
 
     use super::*;
 
@@ -374,7 +374,7 @@ mod state_stack_tests {
     }
 
     fn new_context_and_state_stack() -> (Context, StateStack) {
-        let context = ContextBuilder::new().build();
+        let context = Context::new();
         let state_stack = StateStack::new();
         (context, state_stack)
     }
