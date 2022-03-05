@@ -108,6 +108,12 @@ impl Context {
     }
 }
 
+impl Default for Context {
+    fn default() -> Self {
+        ContextBuilder::new().build()
+    }
+}
+
 #[cfg(test)]
 mod context_tests {
     use super::*;
