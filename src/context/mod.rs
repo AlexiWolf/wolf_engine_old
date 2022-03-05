@@ -52,12 +52,24 @@ pub struct Context {
 impl Context {
     
     /// Create an instance of the default context. 
+    ///
+    /// The default context starts off with a few common [Subcontext]s.  If this is not 
+    /// desirable, use [Context::empty()].
+    ///
+    /// The default [Subcontext]s:
+    ///
+    /// - [SchedulerContext]
     pub fn new() -> Self {
-        let mut context = Self {
-            subcontexts: HashMap::new(),
-        };
+        let mut context = Self::empty();
         context.add_subcontext(SchedulerContext::new());
         context
+    }
+
+    /// Create an empty context with no [Subcontext]s.
+    pub fn empty() -> Self {
+        Self {
+            subcontexts: HashMap::new(),
+        }
     }
 
     /// Add a [Subcontext] object.
@@ -128,7 +140,7 @@ mod context_tests {
 
     #[test]
     fn should_add_subcontext() {
-        let mut context = Context::default();
+        let mut context = Context::empty();
         let subcontext = MockSubcontext::new();
 
         context.add_subcontext(subcontext);
@@ -139,7 +151,7 @@ mod context_tests {
     #[test]
     #[should_panic]
     fn should_allow_only_one_subcontext_of_a_given_type() {
-        let mut context = Context::default();
+        let mut context = Context::empty();
         let subcontext_a = MockSubcontext::new();
         let subcontext_b = MockSubcontext::new();
 
@@ -149,7 +161,7 @@ mod context_tests {
 
     #[test]
     fn should_remove_subcontext() {
-        let mut context = Context::default();
+        let mut context = Context::empty();
         let subcontext = MockSubcontext::new();
         context.add_subcontext(subcontext);
 
@@ -164,14 +176,14 @@ mod context_tests {
 
     #[test]
     fn should_fail_silently_if_removing_nonexistent_subcontext() {
-        let mut context = Context::default();
+        let mut context = Context::empty();
 
         context.remove_subcontext::<MockSubcontext>();
     }
 
     #[test]
     fn should_provide_immutable_access_to_subcontexts() {
-        let mut context = Context::default();
+        let mut context = Context::empty();
         context.add_subcontext(MessageContext::new("Hello, world!"));
 
         let message_context = context
@@ -183,7 +195,7 @@ mod context_tests {
 
     #[test]
     fn should_provide_mutable_access_to_subcontexts() {
-        let mut context = Context::default();
+        let mut context = Context::empty();
         context.add_subcontext(MessageContext::new("Hello, world!"));
 
         let message_context = context
