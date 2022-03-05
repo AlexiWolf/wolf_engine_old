@@ -1,6 +1,6 @@
-use std::sync::{Arc, Mutex};
-
 use crate::scheduler::{Frames, Ticks};
+
+use super::Subcontext;
 
 /// Provides access to information and controls for the
 /// [Scheduler](crate::scheduler::Scheduler).
@@ -32,7 +32,7 @@ use crate::scheduler::{Frames, Ticks};
 /// ```
 /// # use wolf_engine::context::SchedulerContext;
 /// #
-/// # let scheduler_context = SchedulerContext::new();
+/// # let mut scheduler_context = SchedulerContext::new();
 /// #
 /// # assert_eq!(scheduler_context.ticks(), 0, "There should be 0 ticks before add_tick is called");
 /// # assert_eq!(scheduler_context.frames(), 0, "There should be 0 frames before add_tick is called");
@@ -46,9 +46,10 @@ use crate::scheduler::{Frames, Ticks};
 /// # assert_eq!(scheduler_context.ticks(), 1, "1 tick should have been added");
 /// # assert_eq!(scheduler_context.frames(), 1, "1 frame should have been added");
 /// ```
+#[derive(Default)]
 pub struct SchedulerContext {
-    ticks: Arc<Mutex<Ticks>>,
-    frames: Arc<Mutex<Frames>>,
+    ticks: Ticks,
+    frames: Frames,
 }
 
 impl SchedulerContext {
@@ -58,31 +59,24 @@ impl SchedulerContext {
     }
 
     /// Increment the number of ticks by 1.
-    pub fn add_tick(&self) {
-        *self.ticks.lock().unwrap() += 1;
+    pub fn add_tick(&mut self) {
+        self.ticks += 1;
     }
 
     /// Access the current number of counted ticks.
     pub fn ticks(&self) -> Ticks {
-        *self.ticks.lock().unwrap()
+        self.ticks
     }
 
     /// Increment the number of frames by 1.
-    pub fn add_frame(&self) {
-        *self.frames.lock().unwrap() += 1;
+    pub fn add_frame(&mut self) {
+        self.frames += 1;
     }
 
     /// Access the current number of counted frames.
     pub fn frames(&self) -> Frames {
-        *self.frames.lock().unwrap()
+        self.frames
     }
 }
 
-impl Default for SchedulerContext {
-    fn default() -> Self {
-        Self {
-            ticks: Arc::from(Mutex::from(0)),
-            frames: Arc::from(Mutex::from(0)),
-        }
-    }
-}
+impl Subcontext for SchedulerContext {}

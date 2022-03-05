@@ -74,11 +74,10 @@ pub type Frames = u64;
 ///
 /// ```
 /// # use wolf_engine::{
-/// #    ContextBuilder, EngineBuilder, scheduler::FixedUpdateSchedulerBuilder
+/// #    Context, EngineBuilder, scheduler::FixedUpdateSchedulerBuilder
 /// # };
 /// #
-/// # let context = ContextBuilder::new()
-/// #    .build();
+/// # let context = Context::default();
 /// #
 /// # // Using fixed game loop for the example because the actual loop is unimportant.
 /// # // Any Scheduler can be provided here and it will work just the same.

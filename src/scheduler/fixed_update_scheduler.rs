@@ -1,3 +1,4 @@
+use crate::context::SchedulerContext;
 use crate::{scheduler::Scheduler, Context, State};
 use log::trace;
 use std::fmt::{Display, Formatter};
@@ -56,10 +57,10 @@ pub type TickRate = f64;
 /// [State], along with the [Context] object are passed in.
 ///
 /// ```
-/// # use wolf_engine::{EmptyState, ContextBuilder, scheduler::{Scheduler, FixedUpdateSchedulerBuilder}};
+/// # use wolf_engine::{EmptyState, Context, scheduler::{Scheduler, FixedUpdateSchedulerBuilder}};
 /// # let mut scheduler = FixedUpdateSchedulerBuilder::new()
 /// #     .build();
-/// # let mut context = ContextBuilder::new().build();
+/// # let mut context = Context::default();
 /// #
 /// # let mut state = EmptyState;
 /// #
@@ -152,7 +153,9 @@ impl FixedUpdateScheduler {
     fn tick(&mut self, state: &mut dyn State, context: &mut Context) {
         let tick_run_time = Self::run_tick_and_track_execution_time(state, context);
         self.update_timing(tick_run_time);
-        context.scheduler.add_tick();
+        if let Some(scheduler_context) = context.get_subcontext_mut::<SchedulerContext>() {
+            scheduler_context.add_tick();
+        }
     }
 
     fn run_tick_and_track_execution_time(state: &mut dyn State, context: &mut Context) -> Duration {
@@ -171,7 +174,9 @@ impl Scheduler for FixedUpdateScheduler {
 
     fn render(&mut self, context: &mut Context, state: &mut dyn State) {
         state.render(context);
-        context.scheduler.add_frame();
+        if let Some(scheduler_context) = context.get_subcontext_mut::<SchedulerContext>() {
+            scheduler_context.add_frame();
+        }
     }
 }
 
@@ -233,8 +238,8 @@ impl Default for FixedUpdateSchedulerBuilder {
 #[cfg(test)]
 mod fixed_update_scheduler_tests {
     use super::*;
+    use crate::Context;
     use crate::MockState;
-    use crate::{Context, ContextBuilder};
     use std::thread;
     use test_case::test_case;
 
@@ -316,8 +321,11 @@ mod fixed_update_scheduler_tests {
         thread::sleep(Duration::from_millis(1000 / fps));
         scheduler.update(&mut context, &mut state);
 
+        let scheduler_context = context
+            .get_subcontext::<SchedulerContext>()
+            .expect("no SchedulerContext");
         assert!(
-            context.scheduler.ticks() >= minimum_ticks,
+            scheduler_context.ticks() >= minimum_ticks,
             "The scheduler did not reach the expected number of ticks"
         )
     }
@@ -332,8 +340,11 @@ mod fixed_update_scheduler_tests {
             scheduler.render(&mut context, &mut state);
         }
 
+        let scheduler_context = context
+            .get_subcontext::<SchedulerContext>()
+            .expect("no SchedulerContext");
         assert_eq!(
-            context.scheduler.frames(),
+            scheduler_context.frames(),
             10,
             "The scheduler should have counted 10 frames.",
         )
@@ -363,7 +374,7 @@ mod fixed_update_scheduler_tests {
         let mut scheduler = FixedUpdateSchedulerBuilder::new().build();
         scheduler.lag = Duration::from_millis(artificial_lag);
         scheduler.update_time = Duration::from_millis(artificial_update_time);
-        let context = ContextBuilder::new().build();
+        let context = Context::default();
         (scheduler, context)
     }
 }

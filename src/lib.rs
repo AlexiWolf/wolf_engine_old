@@ -52,7 +52,7 @@ pub mod context;
 pub mod core;
 pub mod scheduler;
 
-pub use context::{Context, ContextBuilder};
+pub use context::Context;
 pub use engine::*;
 pub use state::*;
 

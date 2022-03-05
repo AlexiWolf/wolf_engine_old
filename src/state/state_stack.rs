@@ -53,10 +53,9 @@ use crate::{Context, OptionalTransition, RenderResult, State, Transition};
 /// Running the state stack:
 ///
 /// ```
-/// # use wolf_engine::{StateStack, State, ContextBuilder};
+/// # use wolf_engine::{StateStack, State, Context};
 /// #
-/// # let mut context = ContextBuilder::new()
-/// #    .build();
+/// # let mut context = Context::default();
 /// #
 /// let mut state_stack = StateStack::new();
 ///
@@ -176,7 +175,7 @@ impl Default for StateStack {
 
 #[cfg(test)]
 mod state_stack_tests {
-    use crate::{ContextBuilder, MockState, Transition};
+    use crate::{MockState, Transition};
 
     use super::*;
 
@@ -374,7 +373,7 @@ mod state_stack_tests {
     }
 
     fn new_context_and_state_stack() -> (Context, StateStack) {
-        let context = ContextBuilder::new().build();
+        let context = Context::new();
         let state_stack = StateStack::new();
         (context, state_stack)
     }
