@@ -32,23 +32,21 @@ use crate::{
 /// let engine = Engine::default();
 /// ```
 ///
-/// If you don't want to use the default settings, the [EngineBuilder], and
-/// [ContextBuilder](crate::ContextBuilder) can be used to customize just about every
-/// aspect of the engine.
+/// If you don't want to use the default settings, the [EngineBuilder], and the [Context]
+/// can be used to customize just about every aspect of the engine.
 ///
 /// ```
-/// # use wolf_engine::{Engine, EngineBuilder, ContextBuilder};
+/// # use wolf_engine::{Engine, EngineBuilder};
 /// #
-/// let context = ContextBuilder::new()
-///     // Customize the context here.
-///     .build();
+/// let context = Context::default();
+/// // Add to the Context object here.
 /// let engine = EngineBuilder::new()
 ///     // Customize the engine here.
 ///     .build(context);
 /// ```
 ///
-/// You can refer to the [EngineBuilder], and [ContextBuilder](crate::ContextBuilder)
-/// documentation for specifics on each object can do.
+/// You can refer to the [EngineBuilder], and [Context] documentation for specifics on 
+/// each object can do.
 ///
 /// Running the engine is the same, no matter if you're using the default instance, or
 /// a customized instance.  Just run [Engine::run()] and pass your games starting [State]
