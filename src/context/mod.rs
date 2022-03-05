@@ -53,9 +53,11 @@ impl Context {
     
     /// Create an instance of the default context. 
     pub fn new() -> Self {
-        Self {
+        let mut context = Self {
             subcontexts: HashMap::new(),
-        }
+        };
+        context.add_subcontext(SchedulerContext::new());
+        context
     }
 
     /// Add a [Subcontext] object.
