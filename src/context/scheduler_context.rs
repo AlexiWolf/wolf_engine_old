@@ -64,7 +64,7 @@ impl SchedulerContext {
 
     /// Access the current number of counted ticks.
     pub fn ticks(&self) -> Ticks {
-        self.ticks 
+        self.ticks
     }
 
     /// Increment the number of frames by 1.
@@ -88,4 +88,3 @@ impl Default for SchedulerContext {
 }
 
 impl Subcontext for SchedulerContext {}
-

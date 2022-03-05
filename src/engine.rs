@@ -45,7 +45,7 @@ use crate::{
 ///     .build(context);
 /// ```
 ///
-/// You can refer to the [EngineBuilder], and [Context] documentation for specifics on 
+/// You can refer to the [EngineBuilder], and [Context] documentation for specifics on
 /// each object can do.
 ///
 /// Running the engine is the same, no matter if you're using the default instance, or

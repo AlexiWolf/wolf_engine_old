@@ -21,19 +21,19 @@ pub trait Subcontext: 'static {}
 /// that need to work with the [Engine](crate::Engine) can do so through the context
 /// object.  Most utility functions will use the context object to do their work.
 ///
-/// The data and state stored by the context object is provided by a number of 
+/// The data and state stored by the context object is provided by a number of
 /// [Subcontext] objects attached to it.  These [Subcontext]s are added at runtime rather
 /// than compile time.
 ///
-/// This works by storing the [Subcontext] as a [Box]ed dyn [Any] object in a map with the 
-/// [TypeId] of the object is used as the key.  When accessing a stored [Subcontext] 
-/// object, you must provide the type (`T`) of the object you'd like to access, then 
+/// This works by storing the [Subcontext] as a [Box]ed dyn [Any] object in a map with the
+/// [TypeId] of the object is used as the key.  When accessing a stored [Subcontext]
+/// object, you must provide the type (`T`) of the object you'd like to access, then
 /// the [TypeId] of `T` is used to lookup the corresponding [Subcontext] in the map.  The
 /// object is then down-casted back to `T` and returned to the caller
 ///
-/// Because the [TypeId] of the [Subcontext] object is used as the look-up key, there can 
+/// Because the [TypeId] of the [Subcontext] object is used as the look-up key, there can
 /// be only one instance of a specific [Subcontext] type added to the context at a time.
-/// Attempting to add another [Subcontext] object with a [TypeId] that's already present 
+/// Attempting to add another [Subcontext] object with a [TypeId] that's already present
 /// in the map will result in a panic.
 ///
 /// # Examples
@@ -50,10 +50,9 @@ pub struct Context {
 }
 
 impl Context {
-    
-    /// Create an instance of the default context. 
+    /// Create an instance of the default context.
     ///
-    /// The default context starts off with a few common [Subcontext]s.  If this is not 
+    /// The default context starts off with a few common [Subcontext]s.  If this is not
     /// desirable, use [Context::empty()].
     ///
     /// The default [Subcontext]s:
@@ -74,13 +73,13 @@ impl Context {
 
     /// Add a [Subcontext] object.
     ///
-    /// This function ensures that only a single instance of each [Subcontext] type may 
-    /// be added.  For example: If you add an instance of `SubcontextA`, then later 
+    /// This function ensures that only a single instance of each [Subcontext] type may
+    /// be added.  For example: If you add an instance of `SubcontextA`, then later
     /// attempt to add another instance of `SubcontextA`, this will cause a panic.
     ///
-    /// # Panics 
+    /// # Panics
     ///
-    /// - Will panic if you attempt to add more than one instance of a type. 
+    /// - Will panic if you attempt to add more than one instance of a type.
     #[allow(clippy::map_entry)]
     pub fn add_subcontext<T: Subcontext>(&mut self, subcontext: T) {
         let type_id = TypeId::of::<T>();
@@ -93,8 +92,8 @@ impl Context {
             self.subcontexts.insert(type_id, Box::from(subcontext));
         }
     }
-    
-    /// Access a specific type of [Subcontext] immutably. 
+
+    /// Access a specific type of [Subcontext] immutably.
     pub fn get_subcontext<T: Subcontext>(&self) -> Option<Box<&T>> {
         let type_id = TypeId::of::<T>();
         if let Some(any) = self.subcontexts.get(&type_id) {
@@ -104,8 +103,8 @@ impl Context {
             None
         }
     }
-    
-    /// Access a specific type of [Subcontext] mutably. 
+
+    /// Access a specific type of [Subcontext] mutably.
     pub fn get_subcontext_mut<T: Subcontext>(&mut self) -> Option<Box<&mut T>> {
         let type_id = TypeId::of::<T>();
         if let Some(any) = self.subcontexts.get_mut(&type_id) {
@@ -115,12 +114,12 @@ impl Context {
             None
         }
     }
-    
+
     /// Remove a specific type of [Subcontext].
     ///
-    /// You should avoid removing a [Subcontext] unless you're 100% sure no other parts 
+    /// You should avoid removing a [Subcontext] unless you're 100% sure no other parts
     /// of the code are depending on it.  Removing a [Subcontext] will likely cause any
-    /// code depending on it to panic or otherwise fail.  As a general rule, avoid 
+    /// code depending on it to panic or otherwise fail.  As a general rule, avoid
     /// removing anything you didn't add yourself.
     pub fn remove_subcontext<T: Subcontext>(&mut self) {
         let type_id = TypeId::of::<T>();
@@ -130,7 +129,7 @@ impl Context {
 
 impl Default for Context {
     fn default() -> Self {
-        Self::new() 
+        Self::new()
     }
 }
 

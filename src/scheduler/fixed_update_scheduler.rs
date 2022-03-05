@@ -175,7 +175,7 @@ impl Scheduler for FixedUpdateScheduler {
     fn render(&mut self, context: &mut Context, state: &mut dyn State) {
         state.render(context);
         if let Some(scheduler_context) = context.get_subcontext_mut::<SchedulerContext>() {
-            scheduler_context.add_frame(); 
+            scheduler_context.add_frame();
         }
     }
 }
@@ -238,8 +238,8 @@ impl Default for FixedUpdateSchedulerBuilder {
 #[cfg(test)]
 mod fixed_update_scheduler_tests {
     use super::*;
-    use crate::MockState;
     use crate::Context;
+    use crate::MockState;
     use std::thread;
     use test_case::test_case;
 
@@ -320,8 +320,9 @@ mod fixed_update_scheduler_tests {
 
         thread::sleep(Duration::from_millis(1000 / fps));
         scheduler.update(&mut context, &mut state);
-        
-        let scheduler_context = context.get_subcontext::<SchedulerContext>()
+
+        let scheduler_context = context
+            .get_subcontext::<SchedulerContext>()
             .expect("no SchedulerContext");
         assert!(
             scheduler_context.ticks() >= minimum_ticks,
@@ -339,7 +340,8 @@ mod fixed_update_scheduler_tests {
             scheduler.render(&mut context, &mut state);
         }
 
-        let scheduler_context = context.get_subcontext::<SchedulerContext>()
+        let scheduler_context = context
+            .get_subcontext::<SchedulerContext>()
             .expect("no SchedulerContext");
         assert_eq!(
             scheduler_context.frames(),
