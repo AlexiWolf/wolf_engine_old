@@ -108,31 +108,6 @@ impl Context {
     }
 }
 
-impl Default for Context {
-    fn default() -> Self {
-        ContextBuilder::new().build()
-    }
-}
-
-/// Builds a [Context] object.
-#[derive(Default)]
-pub struct ContextBuilder {}
-
-impl ContextBuilder {
-    /// Create the default [ContextBuilder].
-    pub fn new() -> Self {
-        Self::default()
-    }
-
-    /// Consumes the `ContextBuilder` and uses it to configure a [Context] object.
-    pub fn build(self) -> Context {
-        Context {
-            scheduler: SchedulerContext::new(),
-            subcontexts: HashMap::new(),
-        }
-    }
-}
-
 #[cfg(test)]
 mod context_tests {
     use super::*;
