@@ -46,7 +46,6 @@ pub trait Subcontext: 'static {}
 /// let context = Context::default();
 /// ```
 pub struct Context {
-    pub scheduler: SchedulerContext,
     subcontexts: HashMap<TypeId, Box<dyn Any>>,
 }
 
