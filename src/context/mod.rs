@@ -29,7 +29,7 @@ pub trait Subcontext: 'static {}
 /// let context = Context::default();
 /// ```
 ///
-/// Adding contexts is done using the [Context::add_subcontext()] method.
+/// Adding a [Subcontext] is done using the [Context::add_subcontext()] method.
 ///
 /// ```
 /// # use wolf_engine::context::*;
@@ -41,6 +41,29 @@ pub trait Subcontext: 'static {}
 /// #
 /// context.add_subcontext(my_subcontext);
 /// ```
+///
+/// The [Subcontext] can be accessed again using [Context::get_subcontext()] or 
+/// [Context::get_subcontext_mut()].
+///
+/// ```
+/// # use wolf_engine::context::*;
+/// # 
+/// # struct MySubcontext;
+/// # impl Subcontext for MySubcontext {} 
+/// # let subcontext = MySubcontext;
+/// # let mut context = Context::empty();
+/// # context.add_subcontext(subcontext);
+/// #
+/// // If you want an immutable reference:
+/// if let Some(my_subcontext) = context.get_subcontext::<MySubcontext>() {
+///     // Do something with the Subcontext.
+/// }
+/// 
+/// // If you want a mutable reference:
+/// if let Some(my_subcontext_mut) = context.get_subcontext_mut::<MySubcontext>() {
+///     // Do something with the Subcontext.
+/// }
+///
 pub struct Context {
     subcontexts: AnyMap,
 }
