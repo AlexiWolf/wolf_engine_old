@@ -2,11 +2,7 @@
 
 mod scheduler_context;
 
-use std::{
-    any::{Any, TypeId},
-    collections::HashMap,
-};
-
+use anymap::AnyMap;
 pub use scheduler_context::*;
 
 #[cfg(test)]
@@ -46,7 +42,7 @@ pub trait Subcontext: 'static {}
 /// let context = Context::default();
 /// ```
 pub struct Context {
-    subcontexts: HashMap<TypeId, Box<dyn Any>>,
+    subcontexts: AnyMap, 
 }
 
 impl Context {
@@ -67,7 +63,7 @@ impl Context {
     /// Create an empty context with no [Subcontext]s.
     pub fn empty() -> Self {
         Self {
-            subcontexts: HashMap::new(),
+            subcontexts: AnyMap::new(),
         }
     }
 
@@ -82,37 +78,24 @@ impl Context {
     /// - Will panic if you attempt to add more than one instance of a type.
     #[allow(clippy::map_entry)]
     pub fn add_subcontext<T: Subcontext>(&mut self, subcontext: T) {
-        let type_id = TypeId::of::<T>();
-        if self.subcontexts.contains_key(&type_id) {
+        if self.subcontexts.contains::<T>() {
             panic!(
                 "a subcontext of this type already exists: there can be only one \
                    instance per type"
             );
         } else {
-            self.subcontexts.insert(type_id, Box::from(subcontext));
+            self.subcontexts.insert(subcontext);
         }
     }
 
     /// Access a specific type of [Subcontext] immutably.
-    pub fn get_subcontext<T: Subcontext>(&self) -> Option<Box<&T>> {
-        let type_id = TypeId::of::<T>();
-        if let Some(any) = self.subcontexts.get(&type_id) {
-            let subcontext = any.downcast_ref::<T>().expect("failed to downcast");
-            Some(Box::from(subcontext))
-        } else {
-            None
-        }
+    pub fn get_subcontext<T: Subcontext>(&self) -> Option<&T> {
+        self.subcontexts.get::<T>()
     }
 
     /// Access a specific type of [Subcontext] mutably.
-    pub fn get_subcontext_mut<T: Subcontext>(&mut self) -> Option<Box<&mut T>> {
-        let type_id = TypeId::of::<T>();
-        if let Some(any) = self.subcontexts.get_mut(&type_id) {
-            let subcontext = any.downcast_mut::<T>().expect("failed to downcast");
-            Some(Box::from(subcontext))
-        } else {
-            None
-        }
+    pub fn get_subcontext_mut<T: Subcontext>(&mut self) -> Option<&mut T> {
+        self.subcontexts.get_mut::<T>()
     }
 
     /// Remove a specific type of [Subcontext].
@@ -122,8 +105,7 @@ impl Context {
     /// code depending on it to panic or otherwise fail.  As a general rule, avoid
     /// removing anything you didn't add yourself.
     pub fn remove_subcontext<T: Subcontext>(&mut self) {
-        let type_id = TypeId::of::<T>();
-        self.subcontexts.remove(&type_id);
+        self.subcontexts.remove::<T>();
     }
 }
 
