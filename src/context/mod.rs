@@ -28,6 +28,19 @@ pub trait Subcontext: 'static {}
 /// #
 /// let context = Context::default();
 /// ```
+///
+/// Adding contexts is done using the [Context::add_subcontext()] method.
+///
+/// ```
+/// # use wolf_engine::context::*;
+/// # 
+/// # struct MySubcontext;
+/// # impl Subcontext for MySubcontext {} 
+/// # let my_subcontext = MySubcontext;
+/// # let mut context = Context::empty();
+/// #
+/// context.add_subcontext(my_subcontext);
+/// ```
 pub struct Context {
     subcontexts: AnyMap,
 }
