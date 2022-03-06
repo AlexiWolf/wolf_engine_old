@@ -14,7 +14,7 @@ pub trait Subcontext: 'static {}
 /// Provides storage and controlled access to global [Engine](crate::Engine) state.
 ///
 /// The context object essentially provides a dynamic container for [Subcontext] objects. 
-/// [Subcontext]s store data used by the engine, engine modules, or the end-user's game.
+/// [Subcontext]s store data used by the engine, engine modules, or the game.
 /// Specific [Subcontext]s can be dynamically added, and retrieved by type, at runtime, 
 /// allowing for greatly improved flexibility, as any type implementing the [Subcontext] 
 /// trait can be used.  An [AnyMap] is used to achieve this behavior.
