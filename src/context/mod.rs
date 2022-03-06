@@ -31,7 +31,7 @@ pub trait Subcontext: 'static {}
 /// let context = Context::default();
 /// ```
 pub struct Context {
-    subcontexts: AnyMap, 
+    subcontexts: AnyMap,
 }
 
 impl Context {
