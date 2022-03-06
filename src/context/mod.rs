@@ -2,11 +2,7 @@
 
 mod scheduler_context;
 
-use std::{
-    any::{Any, TypeId},
-    collections::HashMap,
-};
-
+use anymap::AnyMap;
 pub use scheduler_context::*;
 
 #[cfg(test)]
@@ -17,24 +13,11 @@ pub trait Subcontext: 'static {}
 
 /// Provides storage and controlled access to global [Engine](crate::Engine) state.
 ///
-/// The context object stores global state for the [Engine](crate::Engine).  Any types
-/// that need to work with the [Engine](crate::Engine) can do so through the context
-/// object.  Most utility functions will use the context object to do their work.
-///
-/// The data and state stored by the context object is provided by a number of
-/// [Subcontext] objects attached to it.  These [Subcontext]s are added at runtime rather
-/// than compile time.
-///
-/// This works by storing the [Subcontext] as a [Box]ed dyn [Any] object in a map with the
-/// [TypeId] of the object is used as the key.  When accessing a stored [Subcontext]
-/// object, you must provide the type (`T`) of the object you'd like to access, then
-/// the [TypeId] of `T` is used to lookup the corresponding [Subcontext] in the map.  The
-/// object is then down-casted back to `T` and returned to the caller
-///
-/// Because the [TypeId] of the [Subcontext] object is used as the look-up key, there can
-/// be only one instance of a specific [Subcontext] type added to the context at a time.
-/// Attempting to add another [Subcontext] object with a [TypeId] that's already present
-/// in the map will result in a panic.
+/// The context object essentially provides a dynamic container for [Subcontext] objects. 
+/// [Subcontext]s store data used by the engine, engine modules, or the game.
+/// Specific [Subcontext]s can be dynamically added, and retrieved by type, at runtime, 
+/// allowing for greatly improved flexibility, as any type implementing the [Subcontext] 
+/// trait can be used.  An [AnyMap] is used to achieve this behavior.
 ///
 /// # Examples
 ///
@@ -45,8 +28,44 @@ pub trait Subcontext: 'static {}
 /// #
 /// let context = Context::default();
 /// ```
+///
+/// Adding a [Subcontext] is done using the [Context::add_subcontext()] method.
+///
+/// ```
+/// # use wolf_engine::context::*;
+/// # 
+/// # struct MySubcontext;
+/// # impl Subcontext for MySubcontext {} 
+/// # let my_subcontext = MySubcontext;
+/// # let mut context = Context::empty();
+/// #
+/// context.add_subcontext(my_subcontext);
+/// ```
+///
+/// The [Subcontext] can be accessed again using [Context::get_subcontext()] or 
+/// [Context::get_subcontext_mut()].
+///
+/// ```
+/// # use wolf_engine::context::*;
+/// # 
+/// # struct MySubcontext;
+/// # impl Subcontext for MySubcontext {} 
+/// # let subcontext = MySubcontext;
+/// # let mut context = Context::empty();
+/// # context.add_subcontext(subcontext);
+/// #
+/// // If you want an immutable reference:
+/// if let Some(my_subcontext) = context.get_subcontext::<MySubcontext>() {
+///     // Do something with the Subcontext.
+/// }
+/// 
+/// // If you want a mutable reference:
+/// if let Some(my_subcontext_mut) = context.get_subcontext_mut::<MySubcontext>() {
+///     // Do something with the Subcontext.
+/// }
+///
 pub struct Context {
-    subcontexts: HashMap<TypeId, Box<dyn Any>>,
+    subcontexts: AnyMap,
 }
 
 impl Context {
@@ -67,7 +86,7 @@ impl Context {
     /// Create an empty context with no [Subcontext]s.
     pub fn empty() -> Self {
         Self {
-            subcontexts: HashMap::new(),
+            subcontexts: AnyMap::new(),
         }
     }
 
@@ -82,37 +101,24 @@ impl Context {
     /// - Will panic if you attempt to add more than one instance of a type.
     #[allow(clippy::map_entry)]
     pub fn add_subcontext<T: Subcontext>(&mut self, subcontext: T) {
-        let type_id = TypeId::of::<T>();
-        if self.subcontexts.contains_key(&type_id) {
+        if self.subcontexts.contains::<T>() {
             panic!(
                 "a subcontext of this type already exists: there can be only one \
                    instance per type"
             );
         } else {
-            self.subcontexts.insert(type_id, Box::from(subcontext));
+            self.subcontexts.insert(subcontext);
         }
     }
 
     /// Access a specific type of [Subcontext] immutably.
-    pub fn get_subcontext<T: Subcontext>(&self) -> Option<Box<&T>> {
-        let type_id = TypeId::of::<T>();
-        if let Some(any) = self.subcontexts.get(&type_id) {
-            let subcontext = any.downcast_ref::<T>().expect("failed to downcast");
-            Some(Box::from(subcontext))
-        } else {
-            None
-        }
+    pub fn get_subcontext<T: Subcontext>(&self) -> Option<&T> {
+        self.subcontexts.get::<T>()
     }
 
     /// Access a specific type of [Subcontext] mutably.
-    pub fn get_subcontext_mut<T: Subcontext>(&mut self) -> Option<Box<&mut T>> {
-        let type_id = TypeId::of::<T>();
-        if let Some(any) = self.subcontexts.get_mut(&type_id) {
-            let subcontext = any.downcast_mut::<T>().expect("failed to downcast");
-            Some(Box::from(subcontext))
-        } else {
-            None
-        }
+    pub fn get_subcontext_mut<T: Subcontext>(&mut self) -> Option<&mut T> {
+        self.subcontexts.get_mut::<T>()
     }
 
     /// Remove a specific type of [Subcontext].
@@ -122,8 +128,7 @@ impl Context {
     /// code depending on it to panic or otherwise fail.  As a general rule, avoid
     /// removing anything you didn't add yourself.
     pub fn remove_subcontext<T: Subcontext>(&mut self) {
-        let type_id = TypeId::of::<T>();
-        self.subcontexts.remove(&type_id);
+        self.subcontexts.remove::<T>();
     }
 }
 
