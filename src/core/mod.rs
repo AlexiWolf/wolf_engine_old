@@ -4,4 +4,4 @@ mod context;
 
 pub use engine::*;
 pub use core_function::*;
-pub use context::Context;
+pub use context::*;
