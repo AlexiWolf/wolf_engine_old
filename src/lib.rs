@@ -48,11 +48,9 @@ mod state;
 #[cfg(feature = "logging")]
 mod logging;
 
-pub mod context;
 pub mod scheduler;
 
 pub use crate::core::*;
-pub use context::Context;
 pub use state::*;
 
 #[cfg(feature = "logging")]
