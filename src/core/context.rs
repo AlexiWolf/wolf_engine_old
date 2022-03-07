@@ -1,9 +1,6 @@
 //! Provides access to engine state and tooling.
 
-mod scheduler_context;
-
 use anymap::AnyMap;
-pub use scheduler_context::*;
 
 #[cfg(test)]
 use mockall::automock;
