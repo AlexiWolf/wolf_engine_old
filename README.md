@@ -24,9 +24,9 @@ These are the features currently planned for Wolf Engine.  Not all of them are r
 road map than a feature list for now.  Entries are checked off as they are implemented.
 
 - [x] Core
-  - [x] Core functions
-  - [x] Dynamic Context data 
-  - [x] Schedulers (timing controls)
+  - [x] Core Functions
+  - [x] Dynamic Context Data 
+  - [x] Schedulers (Timing Controls)
   - [x] Game States
 - [ ] Engine Modules
   - [x] Logging
@@ -39,8 +39,8 @@ road map than a feature list for now.  Entries are checked off as they are imple
   - [ ] Networking 
   - [ ] FFI
   - [ ] Scripting
-    - [ ] Lua scripting
-    - [ ] Python scripting 
+    - [ ] Lua Scripting
+    - [ ] Python Scripting 
 
 ## Quick-start 
 
