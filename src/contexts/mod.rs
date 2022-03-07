@@ -1,4 +1,4 @@
-use scheduler_context;
+mod scheduler_context;
 
 pub use scheduler_context::*;
 

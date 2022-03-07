@@ -1,16 +1,17 @@
-use wolf_engine::context::Subcontext;
 use wolf_engine::*;
 
-use log::*;
+use log::{info, LevelFilter};
 
 pub fn main() {
     #[cfg(feature = "logging")]
-    wolf_engine::initialize_logging(LevelFilter::Info);
+    initialize_logging(LevelFilter::Info);
 
     let mut context = Context::default();
     context.add_subcontext(CustomContext::new("Hello, World!"));
-
-    EngineBuilder::new().build(context).run(Box::from(MyState));
+    
+    EngineBuilder::new()
+        .build(context)
+        .run(Box::from(MyState));
 }
 
 pub struct CustomContext {
@@ -35,7 +36,7 @@ impl State for MyState {
     fn update(&mut self, context: &mut Context) -> OptionalTransition {
         let custom_context = context.get_subcontext_mut::<CustomContext>().unwrap();
         if custom_context.count == 10 {
-            Some(Transition::Quit)
+            Some(Transition::Quit) 
         } else {
             custom_context.count += 1;
             None
@@ -47,3 +48,4 @@ impl State for MyState {
         info!("{}: {}", custom_context.message, custom_context.count);
     }
 }
+

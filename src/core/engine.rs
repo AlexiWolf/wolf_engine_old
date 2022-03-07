@@ -1,10 +1,6 @@
 use std::mem::replace;
 
-use crate::{
-    core::{run_engine, EngineCore},
-    scheduler::{FixedUpdateScheduler, Scheduler},
-    Context, State, StateStack,
-};
+use crate::{Context, scheduler::{Scheduler, FixedUpdateScheduler}, StateStack, EngineCore, State, run_engine};
 
 /// Provides the core functionality of the engine.
 ///

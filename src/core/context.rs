@@ -5,6 +5,8 @@ use anymap::AnyMap;
 #[cfg(test)]
 use mockall::automock;
 
+use crate::contexts::SchedulerContext;
+
 #[cfg_attr(test, automock)]
 pub trait Subcontext: 'static {}
 
@@ -29,7 +31,7 @@ pub trait Subcontext: 'static {}
 /// Adding a [Subcontext] is done using the [Context::add_subcontext()] method.
 ///
 /// ```
-/// # use wolf_engine::context::*;
+/// # use wolf_engine::*;
 /// # 
 /// # struct MySubcontext;
 /// # impl Subcontext for MySubcontext {} 
@@ -43,7 +45,7 @@ pub trait Subcontext: 'static {}
 /// [Context::get_subcontext_mut()].
 ///
 /// ```
-/// # use wolf_engine::context::*;
+/// # use wolf_engine::*;
 /// # 
 /// # struct MySubcontext;
 /// # impl Subcontext for MySubcontext {} 

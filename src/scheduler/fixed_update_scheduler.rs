@@ -1,4 +1,4 @@
-use crate::SchedulerContext;
+use crate::contexts::SchedulerContext;
 use crate::{scheduler::Scheduler, Context, State};
 use log::trace;
 use std::fmt::{Display, Formatter};
