@@ -42,18 +42,17 @@
 //! for more complete examples of how to use Wolf Engine.  The [Quick-start Example](https://github.com/AlexiWolf/wolf_engine/blob/main/examples/quickstart.rs)
 //! is a good starting place.
 
-mod engine;
+mod core;
 mod state;
 
 #[cfg(feature = "logging")]
 mod logging;
-mod core;
 
 pub mod context;
 pub mod scheduler;
 
+pub use crate::core::*;
 pub use context::Context;
-pub use engine::*;
 pub use state::*;
 
 #[cfg(feature = "logging")]
