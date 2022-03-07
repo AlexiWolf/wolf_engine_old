@@ -26,7 +26,7 @@ use crate::Engine;
 /// a function:
 ///
 /// ```
-/// # use wolf_engine::{Engine, core::EngineCore};
+/// # use wolf_engine::*;
 /// #
 /// pub fn custom_engine_core(mut engine: Engine) {
 ///     loop {
@@ -43,7 +43,7 @@ use crate::Engine;
 /// [EngineBuilder::with_engine_core()](crate::EngineBuilder) method at startup.
 ///
 /// ```
-/// # use wolf_engine::{Context, EngineBuilder, core::run_engine};
+/// # use wolf_engine::*;
 /// #
 /// # let custom_engine_core = run_engine;
 /// # let context = Context::default();
