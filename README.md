@@ -30,7 +30,7 @@ road map than a feature list for now.  Entries are checked off as they are imple
   - [x] Game States
 - [ ] Engine Modules
   - [x] Logging
-  - [ ] Event
+  - [ ] Events
   - [ ] Input 
   - [ ] ECS
   - [ ] Windowing
