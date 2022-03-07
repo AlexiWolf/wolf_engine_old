@@ -21,8 +21,7 @@ other spooky stuff until release 1.0.  Things are also moving very fast right no
 something else until the API has stabilized a bit.
 
 These are the features currently planned for Wolf Engine.  Not all of them are ready just yet, so this is more of a 
-road map than a feature list for now.  Planned features are listed to give an idea of what's planned, and what's 
-currently ready.  Entries are checked off as they are implemented.
+road map than a feature list for now.  Entries are checked off as they are implemented.
 
 - [x] Core
   - [x] Core functions
