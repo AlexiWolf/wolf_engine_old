@@ -1,1 +1,3 @@
-use crate::core::core_function;
+mod core_function;
+
+pub use core_function::*;
