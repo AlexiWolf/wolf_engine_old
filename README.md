@@ -63,7 +63,7 @@ For basic usage, see:
 
 And for more advanced usage, see:
 
- - [The Examples Folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples).
+ - [The Examples Folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples)
 
 ### License
 
