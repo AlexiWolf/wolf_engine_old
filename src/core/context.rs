@@ -1,6 +1,6 @@
 //! Provides access to engine state and tooling.
 
-use std::fmt::{Display, Formatter, self};
+use std::fmt::{self, Display, Formatter};
 
 use anymap::AnyMap;
 
@@ -15,8 +15,11 @@ pub struct ContextAlreadyExistsError;
 
 impl Display for ContextAlreadyExistsError {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        write!(f, "a subcontext of this type already exists: there can be only one \
-                    instance per type") 
+        write!(
+            f,
+            "a subcontext of this type already exists: there can be only one \
+                    instance per type"
+        )
     }
 }
 
