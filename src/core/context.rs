@@ -100,14 +100,12 @@ impl Context {
     ///
     /// - Will panic if you attempt to add more than one instance of a type.
     #[allow(clippy::map_entry)]
-    pub fn add_subcontext<T: Subcontext>(&mut self, subcontext: T) {
+    pub fn add_subcontext<T: Subcontext>(&mut self, subcontext: T) -> Result<(), ()> {
         if self.subcontexts.contains::<T>() {
-            panic!(
-                "a subcontext of this type already exists: there can be only one \
-                   instance per type"
-            );
+            Err(())
         } else {
             self.subcontexts.insert(subcontext);
+            Ok(())
         }
     }
 
