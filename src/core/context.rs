@@ -7,6 +7,7 @@ use mockall::automock;
 
 use crate::contexts::SchedulerContext;
 
+/// A marker trait which allows types to be added to the [Context](crate::Context).
 #[cfg_attr(test, automock)]
 pub trait Subcontext: 'static {}
 
