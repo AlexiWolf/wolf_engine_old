@@ -161,8 +161,8 @@ mod context_tests {
         let result_a = context.add_subcontext(subcontext_a);
         let result_b = context.add_subcontext(subcontext_b);
 
-        assert!(result_a.is_ok(), "first instance expected an okay result");
-        assert!(result_b.is_err(), "second instance expected an error result");
+        assert!(result_a.is_ok(), "adding the first instance should be ok");
+        assert!(result_b.is_err(), "adding the second instance should be an error");
     }
 
     #[test]
