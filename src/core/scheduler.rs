@@ -18,7 +18,7 @@ pub type Frames = u64;
 /// busy loops, and implementing frame limiters, among other things.
 ///
 /// Wolf Engine's default scheduler is the
-/// [FixedUpdateScheduler](fixed_update_scheduler::FixedUpdateScheduler).
+/// [FixedUpdateScheduler](crate::schedulers::FixedUpdateScheduler).
 ///
 /// Different schedulers may operate differently, so you should refer to implementation
 /// documentation for specific details.

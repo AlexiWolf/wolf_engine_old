@@ -1,7 +1,7 @@
 use crate::{Frames, Ticks, Subcontext};
 
 /// Provides access to information and controls for the
-/// [Scheduler](crate::scheduler::Scheduler).
+/// [Scheduler](crate::Scheduler).
 ///
 /// # Examples
 ///
@@ -14,7 +14,7 @@ use crate::{Frames, Ticks, Subcontext};
 /// ```
 ///
 /// Once created, the SchedulerContext exposes information about the
-/// [Scheduler](crate::scheduler::Scheduler).
+/// [Scheduler](crate::Scheduler).
 ///
 /// ```
 /// # use wolf_engine::contexts::SchedulerContext;

@@ -58,7 +58,7 @@ pub type EngineCore = Box<dyn Fn(Engine)>;
 ///
 /// This is a simple [EngineCore] that runs the engine in a loop.  It will run the
 /// [Engine]'s [StateStack](crate::StateStack) using the active
-/// [Scheduler](crate::scheduler::Scheduler).  The loop will continue to run until the
+/// [Scheduler](crate::Scheduler).  The loop will continue to run until the
 /// [StateStack](crate::StateStack)is empty, then it will exit.
 pub fn run_engine(mut engine: Engine) {
     while engine.state_stack.is_not_empty() {
