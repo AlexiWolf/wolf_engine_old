@@ -79,7 +79,8 @@ impl Context {
     /// - [SchedulerContext]
     pub fn new() -> Self {
         let mut context = Self::empty();
-        context.add_subcontext(SchedulerContext::new());
+        context.add_subcontext(SchedulerContext::new())
+            .expect("failed to add SchedulerContext");
         context
     }
 
@@ -145,7 +146,7 @@ mod context_tests {
         let mut context = Context::empty();
         let subcontext = MockSubcontext::new();
 
-        context.add_subcontext(subcontext);
+        context.add_subcontext(subcontext).expect("failed to add subcontext");
 
         assert_eq!(context.subcontexts.len(), 1, "The subcontext was not added");
     }
@@ -167,7 +168,7 @@ mod context_tests {
     fn should_remove_subcontext() {
         let mut context = Context::empty();
         let subcontext = MockSubcontext::new();
-        context.add_subcontext(subcontext);
+        context.add_subcontext(subcontext).expect("failed to add subcontext");
 
         context.remove_subcontext::<MockSubcontext>();
 
@@ -188,7 +189,7 @@ mod context_tests {
     #[test]
     fn should_provide_immutable_access_to_subcontexts() {
         let mut context = Context::empty();
-        context.add_subcontext(MessageContext::new("Hello, world!"));
+        context.add_subcontext(MessageContext::new("Hello, world!")).expect("failed to add subcontext");
 
         let message_context = context
             .get_subcontext::<MessageContext>()
@@ -200,7 +201,7 @@ mod context_tests {
     #[test]
     fn should_provide_mutable_access_to_subcontexts() {
         let mut context = Context::empty();
-        context.add_subcontext(MessageContext::new("Hello, world!"));
+        context.add_subcontext(MessageContext::new("Hello, world!")).expect("failed to add subcontext");
 
         let message_context = context
             .get_subcontext_mut::<MessageContext>()
