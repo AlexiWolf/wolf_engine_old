@@ -1,4 +1,4 @@
-///! Provides built-in [Scheduler](create::Scheduler) implementations.
+///! Provides built-in [Scheduler](crate::Scheduler) implementations.
 
 mod fixed_update_scheduler;
 
