@@ -1,5 +1,5 @@
 use crate::contexts::SchedulerContext;
-use crate::{scheduler::Scheduler, Context, State};
+use crate::{Scheduler, Context, State};
 use log::trace;
 use std::fmt::{Display, Formatter};
 use std::time::{Duration, Instant};
@@ -47,7 +47,7 @@ pub type TickRate = f64;
 /// scheduler.
 ///
 /// ```
-/// # use wolf_engine::scheduler::FixedUpdateSchedulerBuilder;
+/// # use wolf_engine::schedulers::FixedUpdateSchedulerBuilder;
 /// #
 /// let mut scheduler = FixedUpdateSchedulerBuilder::new()
 ///     .build();
@@ -57,7 +57,7 @@ pub type TickRate = f64;
 /// [State], along with the [Context] object are passed in.
 ///
 /// ```
-/// # use wolf_engine::{EmptyState, Context, scheduler::{Scheduler, FixedUpdateSchedulerBuilder}};
+/// # use wolf_engine::{EmptyState, Context, Scheduler, schedulers::FixedUpdateSchedulerBuilder};
 /// # let mut scheduler = FixedUpdateSchedulerBuilder::new()
 /// #     .build();
 /// # let mut context = Context::default();

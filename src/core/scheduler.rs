@@ -1,9 +1,5 @@
 //! Provides flexible update and frame timing controls for the [Engine](crate::Engine).
 
-mod fixed_update_scheduler;
-
-pub use fixed_update_scheduler::*;
-
 use crate::{Context, State};
 
 #[cfg(test)]
@@ -51,7 +47,7 @@ pub type Frames = u64;
 /// Wolf Engine fully supports using a custom scheduler.  Simply implement this trait.
 ///
 /// ```
-/// use wolf_engine::{State, Context, scheduler::Scheduler};
+/// use wolf_engine::{State, Context, Scheduler};
 ///
 /// pub struct MyScheduler;
 ///
@@ -69,12 +65,12 @@ pub type Frames = u64;
 /// }
 /// ```
 ///
-/// You can use a custom [Scheduler](crate::scheduler::Scheduler) implementation by using
+/// You can use a custom [Scheduler](crate::Scheduler) implementation by using
 /// the `EngineBuilder::with_scheduler()` method.
 ///
 /// ```
 /// # use wolf_engine::{
-/// #    Context, EngineBuilder, scheduler::FixedUpdateSchedulerBuilder
+/// #    Context, EngineBuilder, schedulers::FixedUpdateSchedulerBuilder
 /// # };
 /// #
 /// # let context = Context::default();

@@ -1,4 +1,4 @@
-use crate::{scheduler::{Frames, Ticks}, Subcontext};
+use crate::{Frames, Ticks, Subcontext};
 
 /// Provides access to information and controls for the
 /// [Scheduler](crate::scheduler::Scheduler).

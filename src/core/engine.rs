@@ -1,6 +1,6 @@
 use std::mem::replace;
 
-use crate::{Context, scheduler::{Scheduler, FixedUpdateScheduler}, StateStack, EngineCore, State, run_engine};
+use crate::{Context, schedulers::FixedUpdateScheduler, StateStack, EngineCore, State, run_engine, Scheduler};
 
 /// Provides the core functionality of the engine.
 ///
@@ -179,7 +179,7 @@ mod engine_builder_tests {
     use lazy_static::lazy_static;
 
     use super::*;
-    use crate::{scheduler::MockScheduler, EmptyState};
+    use crate::{MockScheduler, EmptyState};
 
     #[test]
     fn should_allow_custom_states() {
