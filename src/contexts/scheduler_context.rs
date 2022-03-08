@@ -1,11 +1,14 @@
 use crate::{Frames, Subcontext, Ticks};
 
-/// Provides access to information and controls for the
-/// [Scheduler](crate::Scheduler).
+/// Provides a way for the active [Scheduler](crate::Scheduler) to report basic data.  
+///
+/// The scheduler context allows the [Scheduler](crate::Scheduler) to update information 
+/// such as number of [Ticks] and [Frames] that have been run.  This information can 
+/// also be accessed by the rest of the engine. 
 ///
 /// # Examples
 ///
-/// The SchedulerContext can be created directly using the new method.
+/// The context can be created directly using the new method.
 ///
 /// ```
 /// # use wolf_engine::contexts::SchedulerContext;
@@ -13,8 +16,22 @@ use crate::{Frames, Subcontext, Ticks};
 /// let scheduler_context = SchedulerContext::new();
 /// ```
 ///
-/// Once created, the SchedulerContext exposes information about the
-/// [Scheduler](crate::Scheduler).
+/// In most cases, you don't need to create an instance yourself.  Instead, you will 
+/// get one from the [Context](crate::Context) object.
+///
+/// ```
+/// # use wolf_engine::*;
+/// # use wolf_engine::contexts::*;
+/// #
+/// # let scheduler_context = SchedulerContext::new();
+/// # let mut context = Context::empty();
+/// # context.add_subcontext(scheduler_context);
+/// #
+/// let scheduler_context = context.get_subcontext::<SchedulerContext>()
+///     .expect("no scheduler context");
+/// ```
+///
+/// From there, you can read information about the [Scheduler](crate::Scheduler).
 ///
 /// ```
 /// # use wolf_engine::contexts::SchedulerContext;
@@ -25,7 +42,17 @@ use crate::{Frames, Subcontext, Ticks};
 /// scheduler_context.frames();
 /// ```
 ///
-/// Tick and frame information can be added to the context.  
+/// ## Updating Stored Information
+/// 
+/// The expectation is that only the active [Scheduler](crate::Scheduler) will be updating 
+/// the context, so **you should avoid these functions unless you are implementing a 
+/// custom [Scheduler](crate::Scheduler).**  Updating the context information requires 
+/// a mutable reference, so the simplest way to avoid causing trouble is to only access 
+/// this context immutably as shown in the above examples.
+///
+/// While it is technically safe to use these functions elsewhere, as in it won't result 
+/// in unsafety or UB , it may cause other parts of the engine or game to behave 
+/// incorrectly.
 ///
 /// ```
 /// # use wolf_engine::contexts::SchedulerContext;
@@ -57,6 +84,9 @@ impl SchedulerContext {
     }
 
     /// Increment the number of ticks by 1.
+    ///
+    /// **Note:** This is not intended to be used unless you're implementing a custom 
+    /// [Scheduler](crate::Scheduler)
     pub fn add_tick(&mut self) {
         self.ticks += 1;
     }
@@ -67,6 +97,9 @@ impl SchedulerContext {
     }
 
     /// Increment the number of frames by 1.
+    ///
+    /// **Note:** This is not intended to be used unless you're implementing a custom 
+    /// [Scheduler](crate::Scheduler)
     pub fn add_frame(&mut self) {
         self.frames += 1;
     }
