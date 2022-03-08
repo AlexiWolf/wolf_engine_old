@@ -4,7 +4,7 @@ use log::{info, LevelFilter};
 
 pub fn main() {
     #[cfg(feature = "logging")]
-    initialize_logging(LevelFilter::Info);
+    wolf_engine::logging::initialize_logging(LevelFilter::Info);
 
     let mut context = Context::default();
     context.add_subcontext(CustomContext::new("Hello, World!"));

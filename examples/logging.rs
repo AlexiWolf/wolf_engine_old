@@ -1,7 +1,9 @@
 use log::*;
+use wolf_engine::*;
+
 pub fn main() {
     #[cfg(feature = "logging")]
-    wolf_engine::initialize_logging(LevelFilter::Debug);
+    logging::initialize_logging(LevelFilter::Debug);
 
     info!("Hello, world!");
     debug!("This is some debug information.");

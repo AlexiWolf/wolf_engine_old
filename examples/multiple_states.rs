@@ -5,7 +5,7 @@ use wolf_engine::*;
 
 pub fn main() {
     #[cfg(feature = "logging")]
-    initialize_logging(LevelFilter::Debug);
+    logging::initialize_logging(LevelFilter::Debug);
 
     let state = MainState::new();
 
