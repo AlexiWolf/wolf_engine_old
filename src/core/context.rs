@@ -9,6 +9,7 @@ use mockall::automock;
 
 use crate::contexts::SchedulerContext;
 
+/// Indicates a [Subcontext] has already been added to the [Context].
 #[derive(Debug)]
 pub struct ContextAlreadyExistsError;
 
