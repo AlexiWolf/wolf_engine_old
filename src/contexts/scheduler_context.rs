@@ -25,7 +25,7 @@ use crate::{Frames, Subcontext, Ticks};
 /// #
 /// # let scheduler_context = SchedulerContext::new();
 /// # let mut context = Context::empty();
-/// # context.add_subcontext(scheduler_context);
+/// # context.add(scheduler_context);
 /// #
 /// let scheduler_context = context.get_subcontext::<SchedulerContext>()
 ///     .expect("no scheduler context");

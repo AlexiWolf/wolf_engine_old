@@ -39,7 +39,7 @@ pub trait Subcontext: 'static {}
 /// # let my_subcontext = MySubcontext;
 /// # let mut context = Context::empty();
 /// #
-/// context.add_subcontext(my_subcontext);
+/// context.add(my_subcontext);
 /// ```
 ///
 /// The [Subcontext] can be accessed again using [Context::get_subcontext()] or
@@ -52,7 +52,7 @@ pub trait Subcontext: 'static {}
 /// # impl Subcontext for MySubcontext {}
 /// # let subcontext = MySubcontext;
 /// # let mut context = Context::empty();
-/// # context.add_subcontext(subcontext);
+/// # context.add(subcontext);
 /// #
 /// // If you want an immutable reference:
 /// if let Some(my_subcontext) = context.get_subcontext::<MySubcontext>() {
@@ -79,7 +79,7 @@ impl Context {
     /// - [SchedulerContext]
     pub fn new() -> Self {
         let mut context = Self::empty();
-        context.add_subcontext(SchedulerContext::new())
+        context.add(SchedulerContext::new())
             .expect("failed to add SchedulerContext");
         context
     }
@@ -101,7 +101,7 @@ impl Context {
     ///
     /// - Will panic if you attempt to add more than one instance of a type.
     #[allow(clippy::map_entry)]
-    pub fn add_subcontext<T: Subcontext>(&mut self, subcontext: T) -> Result<(), ()> {
+    pub fn add<T: Subcontext>(&mut self, subcontext: T) -> Result<(), ()> {
         if self.subcontexts.contains::<T>() {
             Err(())
         } else {
@@ -146,7 +146,7 @@ mod context_tests {
         let mut context = Context::empty();
         let subcontext = MockSubcontext::new();
 
-        context.add_subcontext(subcontext).expect("failed to add subcontext");
+        context.add(subcontext).expect("failed to add subcontext");
 
         assert_eq!(context.subcontexts.len(), 1, "The subcontext was not added");
     }
@@ -157,8 +157,8 @@ mod context_tests {
         let subcontext_a = MockSubcontext::new();
         let subcontext_b = MockSubcontext::new();
         
-        let result_a = context.add_subcontext(subcontext_a);
-        let result_b = context.add_subcontext(subcontext_b);
+        let result_a = context.add(subcontext_a);
+        let result_b = context.add(subcontext_b);
 
         assert!(result_a.is_ok(), "adding the first instance should be ok");
         assert!(result_b.is_err(), "adding the second instance should be an error");
@@ -168,7 +168,7 @@ mod context_tests {
     fn should_remove_subcontext() {
         let mut context = Context::empty();
         let subcontext = MockSubcontext::new();
-        context.add_subcontext(subcontext).expect("failed to add subcontext");
+        context.add(subcontext).expect("failed to add subcontext");
 
         context.remove_subcontext::<MockSubcontext>();
 
@@ -189,7 +189,7 @@ mod context_tests {
     #[test]
     fn should_provide_immutable_access_to_subcontexts() {
         let mut context = Context::empty();
-        context.add_subcontext(MessageContext::new("Hello, world!")).expect("failed to add subcontext");
+        context.add(MessageContext::new("Hello, world!")).expect("failed to add subcontext");
 
         let message_context = context
             .get_subcontext::<MessageContext>()
@@ -201,7 +201,7 @@ mod context_tests {
     #[test]
     fn should_provide_mutable_access_to_subcontexts() {
         let mut context = Context::empty();
-        context.add_subcontext(MessageContext::new("Hello, world!")).expect("failed to add subcontext");
+        context.add(MessageContext::new("Hello, world!")).expect("failed to add subcontext");
 
         let message_context = context
             .get_subcontext_mut::<MessageContext>()
