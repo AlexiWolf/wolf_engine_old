@@ -55,7 +55,7 @@ pub trait Subcontext: 'static {}
 /// # context.add(subcontext);
 /// #
 /// // If you want an immutable reference:
-/// if let Some(my_subcontext) = context.get_subcontext::<MySubcontext>() {
+/// if let Some(my_subcontext) = context.get::<MySubcontext>() {
 ///     // Do something with the Subcontext.
 /// }
 ///
@@ -111,7 +111,7 @@ impl Context {
     }
 
     /// Access a specific type of [Subcontext] immutably.
-    pub fn get_subcontext<T: Subcontext>(&self) -> Option<&T> {
+    pub fn get<T: Subcontext>(&self) -> Option<&T> {
         self.subcontexts.get::<T>()
     }
 
@@ -192,7 +192,7 @@ mod context_tests {
         context.add(MessageContext::new("Hello, world!")).expect("failed to add subcontext");
 
         let message_context = context
-            .get_subcontext::<MessageContext>()
+            .get::<MessageContext>()
             .expect("got None instead of the subcontext");
 
         assert_eq!(message_context.message, "Hello, world!");

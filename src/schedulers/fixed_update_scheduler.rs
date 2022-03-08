@@ -322,7 +322,7 @@ mod fixed_update_scheduler_tests {
         scheduler.update(&mut context, &mut state);
 
         let scheduler_context = context
-            .get_subcontext::<SchedulerContext>()
+            .get::<SchedulerContext>()
             .expect("no SchedulerContext");
         assert!(
             scheduler_context.ticks() >= minimum_ticks,
@@ -341,7 +341,7 @@ mod fixed_update_scheduler_tests {
         }
 
         let scheduler_context = context
-            .get_subcontext::<SchedulerContext>()
+            .get::<SchedulerContext>()
             .expect("no SchedulerContext");
         assert_eq!(
             scheduler_context.frames(),

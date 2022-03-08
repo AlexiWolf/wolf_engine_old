@@ -42,7 +42,7 @@ impl State for MyState {
     }
 
     fn render(&mut self, context: &mut Context) -> RenderResult {
-        let custom_context = context.get_subcontext::<CustomContext>().unwrap();
+        let custom_context = context.get::<CustomContext>().unwrap();
         info!("{}: {}", custom_context.message, custom_context.count);
     }
 }
