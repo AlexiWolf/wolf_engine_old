@@ -1,6 +1,5 @@
 use wolf_engine::*;
-
-use log::{info, LevelFilter};
+use log::*;
 
 pub fn main() {
     #[cfg(feature = "logging")]
