@@ -1,6 +1,6 @@
 use std::mem::replace;
 
-use crate::{Context, schedulers::FixedUpdateScheduler, StateStack, EngineCore, State, run_engine, Scheduler};
+use crate::{Context, schedulers::FixedUpdateScheduler, StateStack, CoreFunction, State, run_engine, Scheduler};
 
 /// Provides the core functionality of the engine.
 ///
@@ -69,7 +69,7 @@ pub struct Engine {
     pub context: Context,
     pub scheduler: Box<dyn Scheduler>,
     pub state_stack: StateStack,
-    core: EngineCore,
+    core: CoreFunction,
 }
 
 impl Engine {
@@ -111,7 +111,7 @@ impl Default for Engine {
 /// Build and customize an instance of the [Engine].
 pub struct EngineBuilder {
     scheduler: Box<dyn Scheduler>,
-    core: EngineCore,
+    core: CoreFunction,
 }
 
 impl EngineBuilder {
@@ -137,7 +137,7 @@ impl EngineBuilder {
     }
 
     /// Set a custom [EngineCore] to be used.
-    pub fn with_engine_core(mut self, engine_core: EngineCore) -> Self {
+    pub fn with_engine_core(mut self, engine_core: CoreFunction) -> Self {
         self.core = engine_core;
         self
     }
