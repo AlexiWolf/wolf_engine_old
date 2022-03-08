@@ -60,7 +60,7 @@ pub trait Subcontext: 'static {}
 /// }
 ///
 /// // If you want a mutable reference:
-/// if let Some(my_subcontext_mut) = context.get_subcontext_mut::<MySubcontext>() {
+/// if let Some(my_subcontext_mut) = context.get_mut::<MySubcontext>() {
 ///     // Do something with the Subcontext.
 /// }
 ///
@@ -116,7 +116,7 @@ impl Context {
     }
 
     /// Access a specific type of [Subcontext] mutably.
-    pub fn get_subcontext_mut<T: Subcontext>(&mut self) -> Option<&mut T> {
+    pub fn get_mut<T: Subcontext>(&mut self) -> Option<&mut T> {
         self.subcontexts.get_mut::<T>()
     }
 
@@ -204,7 +204,7 @@ mod context_tests {
         context.add(MessageContext::new("Hello, world!")).expect("failed to add subcontext");
 
         let message_context = context
-            .get_subcontext_mut::<MessageContext>()
+            .get_mut::<MessageContext>()
             .expect("got None instead of the subcontext");
         message_context.message = "Goodbye, world!".to_string();
 

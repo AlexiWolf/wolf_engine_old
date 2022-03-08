@@ -32,7 +32,7 @@ pub struct MyState;
 
 impl State for MyState {
     fn update(&mut self, context: &mut Context) -> OptionalTransition {
-        let custom_context = context.get_subcontext_mut::<CustomContext>().unwrap();
+        let custom_context = context.get_mut::<CustomContext>().unwrap();
         if custom_context.count == 10 {
             Some(Transition::Quit)
         } else {
