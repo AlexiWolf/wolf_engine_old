@@ -52,7 +52,7 @@ use crate::Engine;
 ///     .with_engine_core(Box::from(custom_engine_core))
 ///     .build(context);
 /// ```
-pub type EngineCore = Box<dyn Fn(Engine)>;
+pub type CoreFunction = Box<dyn Fn(Engine)>;
 
 /// Run the [Engine] until the [StateStack](crate::StateStack) is empty.
 ///
