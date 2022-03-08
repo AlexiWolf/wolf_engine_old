@@ -43,16 +43,14 @@
 //! is a good starting place.
 
 mod core;
-mod state;
 
-pub mod scheduler;
+pub mod schedulers;
 pub mod contexts;
 
 #[cfg(feature = "logging")]
 mod logging;
 
 pub use crate::core::*;
-pub use state::*;
 
 #[cfg(feature = "logging")]
 pub use logging::*;
