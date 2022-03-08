@@ -1,11 +1,27 @@
 //! Provides access to engine state and tooling.
 
+use std::fmt::{self, Display, Formatter};
+
 use anymap::AnyMap;
 
 #[cfg(test)]
 use mockall::automock;
 
 use crate::contexts::SchedulerContext;
+
+/// Indicates a [Subcontext] has already been added to the [Context].
+#[derive(Debug)]
+pub struct ContextAlreadyExistsError;
+
+impl Display for ContextAlreadyExistsError {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        write!(
+            f,
+            "a subcontext of this type already exists: there can be only one \
+                    instance per type"
+        )
+    }
+}
 
 /// A marker trait which allows types to be added to the [Context](crate::Context).
 #[cfg_attr(test, automock)]
@@ -29,7 +45,7 @@ pub trait Subcontext: 'static {}
 /// let context = Context::default();
 /// ```
 ///
-/// Adding a [Subcontext] is done using the [Context::add_subcontext()] method.
+/// Adding a [Subcontext] is done using the [Context::add()] method.
 ///
 /// ```
 /// # use wolf_engine::*;
@@ -39,11 +55,11 @@ pub trait Subcontext: 'static {}
 /// # let my_subcontext = MySubcontext;
 /// # let mut context = Context::empty();
 /// #
-/// context.add_subcontext(my_subcontext);
+/// context.add(my_subcontext);
 /// ```
 ///
-/// The [Subcontext] can be accessed again using [Context::get_subcontext()] or
-/// [Context::get_subcontext_mut()].
+/// The [Subcontext] can be accessed again using [Context::get()] or
+/// [Context::get_mut()].
 ///
 /// ```
 /// # use wolf_engine::*;
@@ -52,15 +68,15 @@ pub trait Subcontext: 'static {}
 /// # impl Subcontext for MySubcontext {}
 /// # let subcontext = MySubcontext;
 /// # let mut context = Context::empty();
-/// # context.add_subcontext(subcontext);
+/// # context.add(subcontext);
 /// #
 /// // If you want an immutable reference:
-/// if let Some(my_subcontext) = context.get_subcontext::<MySubcontext>() {
+/// if let Some(my_subcontext) = context.get::<MySubcontext>() {
 ///     // Do something with the Subcontext.
 /// }
 ///
 /// // If you want a mutable reference:
-/// if let Some(my_subcontext_mut) = context.get_subcontext_mut::<MySubcontext>() {
+/// if let Some(my_subcontext_mut) = context.get_mut::<MySubcontext>() {
 ///     // Do something with the Subcontext.
 /// }
 ///
@@ -79,7 +95,9 @@ impl Context {
     /// - [SchedulerContext]
     pub fn new() -> Self {
         let mut context = Self::empty();
-        context.add_subcontext(SchedulerContext::new());
+        context
+            .add(SchedulerContext::new())
+            .expect("failed to add SchedulerContext");
         context
     }
 
@@ -94,30 +112,28 @@ impl Context {
     ///
     /// This function ensures that only a single instance of each [Subcontext] type may
     /// be added.  For example: If you add an instance of `SubcontextA`, then later
-    /// attempt to add another instance of `SubcontextA`, this will cause a panic.
+    /// attempt to add another instance of `SubcontextA`, this will result in an error.
     ///
-    /// # Panics
-    ///
-    /// - Will panic if you attempt to add more than one instance of a type.
+    /// A result is returned to indicate if the [Subcontext] was successfully added.  An
+    /// [Ok] indicates the context was added, and an [Err] indicates there is already an
+    /// instance of the type added.
     #[allow(clippy::map_entry)]
-    pub fn add_subcontext<T: Subcontext>(&mut self, subcontext: T) {
+    pub fn add<T: Subcontext>(&mut self, subcontext: T) -> Result<(), ContextAlreadyExistsError> {
         if self.subcontexts.contains::<T>() {
-            panic!(
-                "a subcontext of this type already exists: there can be only one \
-                   instance per type"
-            );
+            Err(ContextAlreadyExistsError)
         } else {
             self.subcontexts.insert(subcontext);
+            Ok(())
         }
     }
 
     /// Access a specific type of [Subcontext] immutably.
-    pub fn get_subcontext<T: Subcontext>(&self) -> Option<&T> {
+    pub fn get<T: Subcontext>(&self) -> Option<&T> {
         self.subcontexts.get::<T>()
     }
 
     /// Access a specific type of [Subcontext] mutably.
-    pub fn get_subcontext_mut<T: Subcontext>(&mut self) -> Option<&mut T> {
+    pub fn get_mut<T: Subcontext>(&mut self) -> Option<&mut T> {
         self.subcontexts.get_mut::<T>()
     }
 
@@ -127,7 +143,7 @@ impl Context {
     /// of the code are depending on it.  Removing a [Subcontext] will likely cause any
     /// code depending on it to panic or otherwise fail.  As a general rule, avoid
     /// removing anything you didn't add yourself.
-    pub fn remove_subcontext<T: Subcontext>(&mut self) {
+    pub fn remove<T: Subcontext>(&mut self) {
         self.subcontexts.remove::<T>();
     }
 }
@@ -147,29 +163,34 @@ mod context_tests {
         let mut context = Context::empty();
         let subcontext = MockSubcontext::new();
 
-        context.add_subcontext(subcontext);
+        context.add(subcontext).expect("failed to add subcontext");
 
         assert_eq!(context.subcontexts.len(), 1, "The subcontext was not added");
     }
 
     #[test]
-    #[should_panic]
     fn should_allow_only_one_subcontext_of_a_given_type() {
         let mut context = Context::empty();
         let subcontext_a = MockSubcontext::new();
         let subcontext_b = MockSubcontext::new();
 
-        context.add_subcontext(subcontext_a);
-        context.add_subcontext(subcontext_b);
+        let result_a = context.add(subcontext_a);
+        let result_b = context.add(subcontext_b);
+
+        assert!(result_a.is_ok(), "adding the first instance should be ok");
+        assert!(
+            result_b.is_err(),
+            "adding the second instance should be an error"
+        );
     }
 
     #[test]
     fn should_remove_subcontext() {
         let mut context = Context::empty();
         let subcontext = MockSubcontext::new();
-        context.add_subcontext(subcontext);
+        context.add(subcontext).expect("failed to add subcontext");
 
-        context.remove_subcontext::<MockSubcontext>();
+        context.remove::<MockSubcontext>();
 
         assert_eq!(
             context.subcontexts.len(),
@@ -182,16 +203,18 @@ mod context_tests {
     fn should_fail_silently_if_removing_nonexistent_subcontext() {
         let mut context = Context::empty();
 
-        context.remove_subcontext::<MockSubcontext>();
+        context.remove::<MockSubcontext>();
     }
 
     #[test]
     fn should_provide_immutable_access_to_subcontexts() {
         let mut context = Context::empty();
-        context.add_subcontext(MessageContext::new("Hello, world!"));
+        context
+            .add(MessageContext::new("Hello, world!"))
+            .expect("failed to add subcontext");
 
         let message_context = context
-            .get_subcontext::<MessageContext>()
+            .get::<MessageContext>()
             .expect("got None instead of the subcontext");
 
         assert_eq!(message_context.message, "Hello, world!");
@@ -200,10 +223,12 @@ mod context_tests {
     #[test]
     fn should_provide_mutable_access_to_subcontexts() {
         let mut context = Context::empty();
-        context.add_subcontext(MessageContext::new("Hello, world!"));
+        context
+            .add(MessageContext::new("Hello, world!"))
+            .expect("failed to add subcontext");
 
         let message_context = context
-            .get_subcontext_mut::<MessageContext>()
+            .get_mut::<MessageContext>()
             .expect("got None instead of the subcontext");
         message_context.message = "Goodbye, world!".to_string();
 
