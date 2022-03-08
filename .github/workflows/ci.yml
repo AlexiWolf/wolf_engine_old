@@ -40,5 +40,5 @@ jobs:
 
     - name: Run tests
       shell: bash
-      run: cargo test --verbose $OPTIONS --features $FEATURES
+      run: cargo test --verbose $OPTIONS --features=logging,$FEATURES
 
