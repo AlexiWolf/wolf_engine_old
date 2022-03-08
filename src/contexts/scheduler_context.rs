@@ -60,6 +60,9 @@ impl SchedulerContext {
     }
 
     /// Increment the number of ticks by 1.
+    ///
+    /// **Note:** This is not intended to be used unless you're implementing a custom 
+    /// [Scheduler](crate::Scheduler)
     pub fn add_tick(&mut self) {
         self.ticks += 1;
     }
@@ -78,9 +81,6 @@ impl SchedulerContext {
     }
 
     /// Access the current number of counted frames.
-    ///
-    /// **Note:** This is not intended to be used unless you're implementing a custom 
-    /// [Scheduler](crate::Scheduler)
     pub fn frames(&self) -> Frames {
         self.frames
     }
