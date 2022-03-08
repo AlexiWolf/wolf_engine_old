@@ -6,7 +6,8 @@ pub fn main() {
     wolf_engine::logging::initialize_logging(LevelFilter::Info);
 
     let mut context = Context::default();
-    context.add_subcontext(CustomContext::new("Hello, World!"));
+    context.add_subcontext(CustomContext::new("Hello, World!"))
+        .expect("failed to add subcontext");
 
     EngineBuilder::new().build(context).run(Box::from(MyState));
 }
