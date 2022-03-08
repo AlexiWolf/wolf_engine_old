@@ -45,7 +45,7 @@ use crate::Engine;
 /// ```
 /// # use wolf_engine::*;
 /// #
-/// # let custom_engine_core = run_engine;
+/// # let custom_engine_core = run_while_has_active_state;
 /// # let context = Context::default();
 /// #
 /// let engine = EngineBuilder::new()
@@ -60,7 +60,7 @@ pub type CoreFunction = Box<dyn Fn(Engine)>;
 /// [Engine]'s [StateStack](crate::StateStack) using the active
 /// [Scheduler](crate::Scheduler).  The loop will continue to run until the
 /// [StateStack](crate::StateStack)is empty, then it will exit.
-pub fn run_engine(mut engine: Engine) {
+pub fn run_while_has_active_state(mut engine: Engine) {
     while engine.state_stack.is_not_empty() {
         engine
             .scheduler

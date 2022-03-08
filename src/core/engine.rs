@@ -1,6 +1,6 @@
 use std::mem::replace;
 
-use crate::{Context, schedulers::FixedUpdateScheduler, StateStack, CoreFunction, State, run_engine, Scheduler};
+use crate::{Context, schedulers::FixedUpdateScheduler, StateStack, CoreFunction, State, run_while_has_active_state, Scheduler};
 
 /// Provides the core functionality of the engine.
 ///
@@ -147,7 +147,7 @@ impl Default for EngineBuilder {
     fn default() -> Self {
         Self {
             scheduler: Box::from(FixedUpdateScheduler::default()),
-            core: Box::from(run_engine),
+            core: Box::from(run_while_has_active_state),
         }
     }
 }
