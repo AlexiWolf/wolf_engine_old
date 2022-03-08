@@ -48,9 +48,7 @@ pub mod schedulers;
 pub mod contexts;
 
 #[cfg(feature = "logging")]
-mod logging;
+pub mod logging;
 
 pub use crate::core::*;
 
-#[cfg(feature = "logging")]
-pub use logging::*;
