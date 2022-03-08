@@ -126,7 +126,7 @@ impl Context {
     /// of the code are depending on it.  Removing a [Subcontext] will likely cause any
     /// code depending on it to panic or otherwise fail.  As a general rule, avoid
     /// removing anything you didn't add yourself.
-    pub fn remove_subcontext<T: Subcontext>(&mut self) {
+    pub fn remove<T: Subcontext>(&mut self) {
         self.subcontexts.remove::<T>();
     }
 }
@@ -170,7 +170,7 @@ mod context_tests {
         let subcontext = MockSubcontext::new();
         context.add(subcontext).expect("failed to add subcontext");
 
-        context.remove_subcontext::<MockSubcontext>();
+        context.remove::<MockSubcontext>();
 
         assert_eq!(
             context.subcontexts.len(),
@@ -183,7 +183,7 @@ mod context_tests {
     fn should_fail_silently_if_removing_nonexistent_subcontext() {
         let mut context = Context::empty();
 
-        context.remove_subcontext::<MockSubcontext>();
+        context.remove::<MockSubcontext>();
     }
 
     #[test]
