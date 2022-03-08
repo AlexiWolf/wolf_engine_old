@@ -60,10 +60,10 @@ use crate::{Context, schedulers::FixedUpdateScheduler, StateStack, CoreFunction,
 /// # Engine Cores
 ///
 /// The engine doesn't run the main loop on it's own.  Instead, it delegates the main loop
-/// to an [EngineCore] function.  This helps to make the engine more modular, and
-/// customizable.  An [EngineCore] can be used to change the specific way the engine runs
+/// to an [CoreFunction] function.  This helps to make the engine more modular, and
+/// customizable.  An [CoreFunction] can be used to change the specific way the engine runs
 /// with ease, and is primarily used to integrate with 3rd party modules that insist
-/// on being control of the main loop (such as Winit.)  See [EngineCore]'s documentation
+/// on being control of the main loop (such as Winit.)  See [CoreFunction]'s documentation
 /// for more details.
 pub struct Engine {
     pub context: Context,
@@ -78,7 +78,7 @@ impl Engine {
         Self::default()
     }
 
-    /// Takes ownership over the engine and runs until the [EngineCore] exits.
+    /// Takes ownership over the engine and runs until the [CoreFunction] exits.
     pub fn run(mut self, initial_state: Box<dyn State>) {
         self.state_stack.push(initial_state);
         let (engine, core_function) = self.extract_core_function();
@@ -136,7 +136,7 @@ impl EngineBuilder {
         self
     }
 
-    /// Set a custom [EngineCore] to be used.
+    /// Set a custom [CoreFunction] to be used.
     pub fn with_engine_core(mut self, engine_core: CoreFunction) -> Self {
         self.core = engine_core;
         self

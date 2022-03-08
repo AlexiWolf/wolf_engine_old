@@ -1,4 +1,4 @@
-//! Provides swapable [EngineCore] functions.
+//! Provides swapable [CoreFunction] functions.
 
 use crate::Engine;
 
@@ -17,7 +17,7 @@ use crate::Engine;
 ///   them to control the main loop.
 /// - Extend existing engine cores with useful debugging features.
 ///
-/// [run_engine()] is the default core function.
+/// [run_while_has_active_state()] is the default core function.
 ///
 /// # Examples
 ///
@@ -56,7 +56,7 @@ pub type CoreFunction = Box<dyn Fn(Engine)>;
 
 /// Run the [Engine] until the [StateStack](crate::StateStack) is empty.
 ///
-/// This is a simple [EngineCore] that runs the engine in a loop.  It will run the
+/// This is a simple [CoreFunction] that runs the engine in a loop.  It will run the
 /// [Engine]'s [StateStack](crate::StateStack) using the active
 /// [Scheduler](crate::Scheduler).  The loop will continue to run until the
 /// [StateStack](crate::StateStack)is empty, then it will exit.
