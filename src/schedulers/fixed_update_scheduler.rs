@@ -1,5 +1,5 @@
 use crate::contexts::SchedulerContext;
-use crate::{Scheduler, Context, State};
+use crate::{Context, Scheduler, State};
 use log::trace;
 use std::fmt::{Display, Formatter};
 use std::time::{Duration, Instant};

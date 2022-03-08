@@ -44,11 +44,10 @@
 
 mod core;
 
-pub mod schedulers;
 pub mod contexts;
+pub mod schedulers;
 
 #[cfg(feature = "logging")]
 pub mod logging;
 
 pub use crate::core::*;
-

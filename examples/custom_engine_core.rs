@@ -2,7 +2,7 @@ use log::*;
 use wolf_engine::*;
 
 pub fn main() {
-    #[cfg(feature="logging")]
+    #[cfg(feature = "logging")]
     logging::initialize_logging(LevelFilter::Info);
 
     let context = Context::default();
