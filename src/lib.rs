@@ -5,8 +5,9 @@
 //!
 //! # Getting Started
 //!
-//! If you don't care about customizing the engine's behavior, [Engine::new()] is the
-//! fastest way to get up and running.
+//! Wolf Engine ships with sensible defaults to help jump-start projects as quickly as 
+//! possible.  You can get started with the default settings by calling [Engine::new()], 
+//! or alternatively [Engine::default()].
 //!
 //! ```
 //! # use wolf_engine::{Engine, EmptyState};
@@ -16,6 +17,12 @@
 //! Engine::new()
 //!     .run(Box::from(my_game_state));
 //! ```
+//!
+//! The defaults are probably fine for simple projects, or when you're just getting 
+//! started.  You can reference the [Engine]'s documentation if you want to customize the
+//! engine. 
+//!
+//! ## Game States 
 //!
 //! Wolf Engine games are organized into one or more game [State]s.  These game [State]s
 //! bundle your game's data and logic into a single package that's easy to pass to the
