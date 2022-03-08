@@ -45,7 +45,7 @@ pub trait Subcontext: 'static {}
 /// let context = Context::default();
 /// ```
 ///
-/// Adding a [Subcontext] is done using the [Context::add_subcontext()] method.
+/// Adding a [Subcontext] is done using the [Context::add()] method.
 ///
 /// ```
 /// # use wolf_engine::*;
@@ -58,8 +58,8 @@ pub trait Subcontext: 'static {}
 /// context.add(my_subcontext);
 /// ```
 ///
-/// The [Subcontext] can be accessed again using [Context::get_subcontext()] or
-/// [Context::get_subcontext_mut()].
+/// The [Subcontext] can be accessed again using [Context::get()] or
+/// [Context::get_mut()].
 ///
 /// ```
 /// # use wolf_engine::*;
