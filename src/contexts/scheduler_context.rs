@@ -1,25 +1,23 @@
-use crate::scheduler::{Frames, Ticks};
-
-use super::Subcontext;
+use crate::{Frames, Subcontext, Ticks};
 
 /// Provides access to information and controls for the
-/// [Scheduler](crate::scheduler::Scheduler).
+/// [Scheduler](crate::Scheduler).
 ///
 /// # Examples
 ///
 /// The SchedulerContext can be created directly using the new method.
 ///
 /// ```
-/// # use wolf_engine::context::SchedulerContext;
+/// # use wolf_engine::contexts::SchedulerContext;
 /// #
 /// let scheduler_context = SchedulerContext::new();
 /// ```
 ///
 /// Once created, the SchedulerContext exposes information about the
-/// [Scheduler](crate::scheduler::Scheduler).
+/// [Scheduler](crate::Scheduler).
 ///
 /// ```
-/// # use wolf_engine::context::SchedulerContext;
+/// # use wolf_engine::contexts::SchedulerContext;
 /// #
 /// # let scheduler_context = SchedulerContext::new();
 /// #
@@ -30,7 +28,7 @@ use super::Subcontext;
 /// Tick and frame information can be added to the context.  
 ///
 /// ```
-/// # use wolf_engine::context::SchedulerContext;
+/// # use wolf_engine::contexts::SchedulerContext;
 /// #
 /// # let mut scheduler_context = SchedulerContext::new();
 /// #

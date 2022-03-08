@@ -1,11 +1,9 @@
-use wolf_engine::context::Subcontext;
 use wolf_engine::*;
-
 use log::*;
 
 pub fn main() {
     #[cfg(feature = "logging")]
-    wolf_engine::initialize_logging(LevelFilter::Info);
+    wolf_engine::logging::initialize_logging(LevelFilter::Info);
 
     let mut context = Context::default();
     context.add_subcontext(CustomContext::new("Hello, World!"));

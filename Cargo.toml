@@ -1,21 +1,19 @@
 [package]
 name = "wolf_engine"
 description = "A game framework with a focus on flexibility and ease of use."
-version = "0.9.1"
+version = "0.10.0"
 authors = ["AlexiWolf <alexiwolf@pm.me>"]
 edition = "2018"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/AlexiWolf/wolf_engine"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 log = "0.4"
 anymap = "0.12"
 
 # Optional Dependencies
+
 simple_logger = {version = "1.13", optional = true}
-winit = {version = "0.26", optional = true}
 
 [dev-dependencies]
 lazy_static= "1.4"
@@ -24,5 +22,4 @@ mockall = "0.11"
 
 [features]
 logging = ["simple_logger"]
-window = ["winit"]
 

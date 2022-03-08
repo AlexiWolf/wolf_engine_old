@@ -1,4 +1,4 @@
-//! Provides swapable [EngineCore] functions.
+//! Provides swapable [CoreFunction] functions.
 
 use crate::Engine;
 
@@ -17,7 +17,7 @@ use crate::Engine;
 ///   them to control the main loop.
 /// - Extend existing engine cores with useful debugging features.
 ///
-/// [run_engine()] is the default core function.
+/// [run_while_has_active_state()] is the default core function.
 ///
 /// # Examples
 ///
@@ -26,7 +26,7 @@ use crate::Engine;
 /// a function:
 ///
 /// ```
-/// # use wolf_engine::{Engine, core::EngineCore};
+/// # use wolf_engine::*;
 /// #
 /// pub fn custom_engine_core(mut engine: Engine) {
 ///     loop {
@@ -43,24 +43,24 @@ use crate::Engine;
 /// [EngineBuilder::with_engine_core()](crate::EngineBuilder) method at startup.
 ///
 /// ```
-/// # use wolf_engine::{Context, EngineBuilder, core::run_engine};
+/// # use wolf_engine::*;
 /// #
-/// # let custom_engine_core = run_engine;
+/// # let custom_engine_core = run_while_has_active_state;
 /// # let context = Context::default();
 /// #
 /// let engine = EngineBuilder::new()
 ///     .with_engine_core(Box::from(custom_engine_core))
 ///     .build(context);
 /// ```
-pub type EngineCore = Box<dyn Fn(Engine)>;
+pub type CoreFunction = Box<dyn Fn(Engine)>;
 
 /// Run the [Engine] until the [StateStack](crate::StateStack) is empty.
 ///
-/// This is a simple [EngineCore] that runs the engine in a loop.  It will run the
+/// This is a simple [CoreFunction] that runs the engine in a loop.  It will run the
 /// [Engine]'s [StateStack](crate::StateStack) using the active
-/// [Scheduler](crate::scheduler::Scheduler).  The loop will continue to run until the
+/// [Scheduler](crate::Scheduler).  The loop will continue to run until the
 /// [StateStack](crate::StateStack)is empty, then it will exit.
-pub fn run_engine(mut engine: Engine) {
+pub fn run_while_has_active_state(mut engine: Engine) {
     while engine.state_stack.is_not_empty() {
         engine
             .scheduler

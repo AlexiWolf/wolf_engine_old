@@ -1,7 +1,10 @@
-use log::info;
-use wolf_engine::{Context, EmptyState, Engine, EngineBuilder};
+use log::*;
+use wolf_engine::*;
 
 pub fn main() {
+    #[cfg(feature = "logging")]
+    logging::initialize_logging(LevelFilter::Info);
+
     let context = Context::default();
     EngineBuilder::new()
         .with_engine_core(Box::from(my_custom_core_function))

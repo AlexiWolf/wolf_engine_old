@@ -1,22 +1,22 @@
 //! Provides access to engine state and tooling.
 
-mod scheduler_context;
-
 use anymap::AnyMap;
-pub use scheduler_context::*;
 
 #[cfg(test)]
 use mockall::automock;
 
+use crate::contexts::SchedulerContext;
+
+/// A marker trait which allows types to be added to the [Context](crate::Context).
 #[cfg_attr(test, automock)]
 pub trait Subcontext: 'static {}
 
 /// Provides storage and controlled access to global [Engine](crate::Engine) state.
 ///
-/// The context object essentially provides a dynamic container for [Subcontext] objects. 
+/// The context object essentially provides a dynamic container for [Subcontext] objects.
 /// [Subcontext]s store data used by the engine, engine modules, or the game.
-/// Specific [Subcontext]s can be dynamically added, and retrieved by type, at runtime, 
-/// allowing for greatly improved flexibility, as any type implementing the [Subcontext] 
+/// Specific [Subcontext]s can be dynamically added, and retrieved by type, at runtime,
+/// allowing for greatly improved flexibility, as any type implementing the [Subcontext]
 /// trait can be used.  An [AnyMap] is used to achieve this behavior.
 ///
 /// # Examples
@@ -32,24 +32,24 @@ pub trait Subcontext: 'static {}
 /// Adding a [Subcontext] is done using the [Context::add_subcontext()] method.
 ///
 /// ```
-/// # use wolf_engine::context::*;
-/// # 
+/// # use wolf_engine::*;
+/// #
 /// # struct MySubcontext;
-/// # impl Subcontext for MySubcontext {} 
+/// # impl Subcontext for MySubcontext {}
 /// # let my_subcontext = MySubcontext;
 /// # let mut context = Context::empty();
 /// #
 /// context.add_subcontext(my_subcontext);
 /// ```
 ///
-/// The [Subcontext] can be accessed again using [Context::get_subcontext()] or 
+/// The [Subcontext] can be accessed again using [Context::get_subcontext()] or
 /// [Context::get_subcontext_mut()].
 ///
 /// ```
-/// # use wolf_engine::context::*;
-/// # 
+/// # use wolf_engine::*;
+/// #
 /// # struct MySubcontext;
-/// # impl Subcontext for MySubcontext {} 
+/// # impl Subcontext for MySubcontext {}
 /// # let subcontext = MySubcontext;
 /// # let mut context = Context::empty();
 /// # context.add_subcontext(subcontext);
@@ -58,7 +58,7 @@ pub trait Subcontext: 'static {}
 /// if let Some(my_subcontext) = context.get_subcontext::<MySubcontext>() {
 ///     // Do something with the Subcontext.
 /// }
-/// 
+///
 /// // If you want a mutable reference:
 /// if let Some(my_subcontext_mut) = context.get_subcontext_mut::<MySubcontext>() {
 ///     // Do something with the Subcontext.
