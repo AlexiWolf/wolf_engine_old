@@ -1,11 +1,14 @@
 use crate::{Frames, Subcontext, Ticks};
 
-/// Provides access to information and controls for the
-/// [Scheduler](crate::Scheduler).
+/// Provides a way for the active [Scheduler](crate::Scheduler) to report basic data.  
+///
+/// The scheduler context allows the [Scheduler(crate::Scheduler) to update information 
+/// such as number of [Ticks] and [Frames] that have been run.  This information can 
+/// also be accessed by the rest of the engine. 
 ///
 /// # Examples
 ///
-/// The SchedulerContext can be created directly using the new method.
+/// The context can be created directly using the new method.
 ///
 /// ```
 /// # use wolf_engine::contexts::SchedulerContext;
@@ -67,11 +70,17 @@ impl SchedulerContext {
     }
 
     /// Increment the number of frames by 1.
+    ///
+    /// **Note:** This is not intended to be used unless you're implementing a custom 
+    /// [Scheduler](crate::Scheduler)
     pub fn add_frame(&mut self) {
         self.frames += 1;
     }
 
     /// Access the current number of counted frames.
+    ///
+    /// **Note:** This is not intended to be used unless you're implementing a custom 
+    /// [Scheduler](crate::Scheduler)
     pub fn frames(&self) -> Frames {
         self.frames
     }
