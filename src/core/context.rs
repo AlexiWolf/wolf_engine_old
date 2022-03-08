@@ -1,11 +1,23 @@
 //! Provides access to engine state and tooling.
 
+use std::fmt::{Display, Formatter, self};
+
 use anymap::AnyMap;
 
 #[cfg(test)]
 use mockall::automock;
 
 use crate::contexts::SchedulerContext;
+
+#[derive(Debug)]
+pub struct ContextAlreadyExistsError;
+
+impl Display for ContextAlreadyExistsError {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        write!(f, "a subcontext of this type already exists: there can be only one \
+                    instance per type") 
+    }
+}
 
 /// A marker trait which allows types to be added to the [Context](crate::Context).
 #[cfg_attr(test, automock)]
@@ -102,9 +114,9 @@ impl Context {
     /// [Ok] indicates the context was added, and an [Err] indicates there is already an
     /// instance of the type added.
     #[allow(clippy::map_entry)]
-    pub fn add<T: Subcontext>(&mut self, subcontext: T) -> Result<(), ()> {
+    pub fn add<T: Subcontext>(&mut self, subcontext: T) -> Result<(), ContextAlreadyExistsError> {
         if self.subcontexts.contains::<T>() {
-            Err(())
+            Err(ContextAlreadyExistsError)
         } else {
             self.subcontexts.insert(subcontext);
             Ok(())
