@@ -153,14 +153,16 @@ mod context_tests {
     }
 
     #[test]
-    #[should_panic]
     fn should_allow_only_one_subcontext_of_a_given_type() {
         let mut context = Context::empty();
         let subcontext_a = MockSubcontext::new();
         let subcontext_b = MockSubcontext::new();
+        
+        let result_a = context.add_subcontext(subcontext_a);
+        let result_b = context.add_subcontext(subcontext_b);
 
-        context.add_subcontext(subcontext_a);
-        context.add_subcontext(subcontext_b);
+        assert!(result_a.is_ok(), "first instance expected an okay result");
+        assert!(result_b.is_err(), "second instance expected an error result");
     }
 
     #[test]
