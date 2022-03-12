@@ -116,7 +116,7 @@ impl StateStack {
         self.pop();
     }
 
-    fn pop(&mut self) -> Option<Box<dyn State>> {
+    fn pop(&mut self, context: &mut Context) -> Option<Box<dyn State>> {
         self.stack.pop()
     }
 
