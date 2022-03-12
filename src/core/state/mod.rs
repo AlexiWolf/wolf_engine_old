@@ -51,6 +51,8 @@ pub type RenderResult = ();
 pub trait State {
     fn setup(&mut self, context: &mut Context) {}
 
+    fn shutdown(&mut self, _context: &mut Context) {}
+
     /// Update the game state.
     fn update(&mut self, context: &mut Context) -> OptionalTransition;
 
