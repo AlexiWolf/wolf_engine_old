@@ -389,7 +389,7 @@ mod state_stack_tests {
         let mut state = new_mock_state_with_setup_expectation();
         state.expect_shutdown().times(1).returning(|_| ());
 
-        state_stack.pop();
+        state_stack.pop(&mut context);
     }
 
     fn new_context_and_state_stack() -> (Context, StateStack) {
