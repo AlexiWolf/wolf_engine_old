@@ -213,7 +213,10 @@ mod state_stack_tests {
     #[test]
     fn should_pop_state_off_the_stack() {
         let (mut context, mut state_stack) = new_context_and_state_stack();
-        state_stack.push(Box::from(new_mock_state_with_setup_expectation()), &mut context);
+        let mut state = new_mock_state_with_setup_expectation();
+        expect_shutdown(&mut state);
+
+        state_stack.push(Box::from(state), &mut context);
         let state = state_stack.pop(&mut context);
 
         assert!(state.is_some(), "No state was returned");
@@ -265,6 +268,7 @@ mod state_stack_tests {
             .expect_update()
             .times(1)
             .returning(|_| Some(Transition::Pop));
+        expect_shutdown(&mut state);
 
         state_stack.push(Box::from(state), &mut context);
         state_stack.update(&mut context);
@@ -306,6 +310,7 @@ mod state_stack_tests {
             .expect_update()
             .times(1)
             .return_once(move |_| Some(Transition::CleanPush(Box::from(no_transition_state))));
+        expect_shutdown(&mut clean_push_state);
 
         state_stack.push(Box::from(clean_push_state), &mut context);
         for _ in 0..2 {
@@ -321,6 +326,7 @@ mod state_stack_tests {
             .expect_update()
             .times(1)
             .returning(|_| Some(Transition::Quit));
+        expect_shutdown(&mut quit_state);
 
         state_stack.push(Box::from(quit_state), &mut context);
         state_stack.update(&mut context);
@@ -392,7 +398,8 @@ mod state_stack_tests {
     fn should_run_shutdown_method_when_state_is_removed() {
         let (mut context, mut state_stack) = new_context_and_state_stack();
         let mut state = new_mock_state_with_setup_expectation();
-        state.expect_shutdown().times(1).returning(|_| ());
+        expect_shutdown(&mut state);
+        state_stack.push(Box::from(state), &mut context);
 
         state_stack.pop(&mut context);
     }
@@ -407,5 +414,9 @@ mod state_stack_tests {
         let mut state = MockState::new();
         state.expect_setup().times(..).returning(|_| ());
         state
+    }
+
+    fn expect_shutdown(state: &mut MockState) {
+        state.expect_shutdown().times(1).returning(|_| ());
     }
 }
