@@ -117,7 +117,12 @@ impl StateStack {
     }
 
     fn pop(&mut self, context: &mut Context) -> Option<Box<dyn State>> {
-        self.stack.pop()
+        if let Some(mut state) = self.stack.pop() {
+            state.shutdown(context); 
+            Some(state)
+        } else {
+            None
+        }
     }
 
     fn clean_push(&mut self, state: Box<dyn State>, context: &mut Context) {
