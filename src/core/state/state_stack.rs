@@ -383,6 +383,15 @@ mod state_stack_tests {
         state_stack.push(Box::from(state), &mut context);
     }
 
+    #[test]
+    fn should_run_shutdown_method_when_state_is_removed() {
+        let (mut context, mut state_stack) = new_context_and_state_stack();
+        let mut state = new_mock_state_with_setup_expectation();
+        state.expect_shutdown().times(1).returning(|_| ());
+
+        state_stack.pop();
+    }
+
     fn new_context_and_state_stack() -> (Context, StateStack) {
         let context = Context::new();
         let state_stack = StateStack::new();
