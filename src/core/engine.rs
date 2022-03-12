@@ -171,6 +171,7 @@ mod wolf_engine_tests {
             .times(1..)
             .returning(|_| Some(Transition::Quit));
         state.expect_render().times(1..).returning(|_| ());
+        state.expect_shutdown().times(1).returning(|_| ());
 
         wolf_engine.run(Box::from(state));
     }
