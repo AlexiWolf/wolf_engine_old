@@ -100,12 +100,12 @@ impl StateStack {
         self.stack.push(state);
     }
 
-    fn do_transition(&mut self, update_result: OptionalTransition) {
+    fn do_transition(&mut self, update_result: OptionalTransition, context: &mut Context) {
         if let Some(transition) = update_result {
             match transition {
-                Transition::Push(state) => self.push(state),
+                Transition::Push(state) => self.push(state, context),
                 Transition::Pop => self.pop_no_return(),
-                Transition::CleanPush(state) => self.clean_push(state),
+                Transition::CleanPush(state) => self.clean_push(state, context),
                 Transition::Quit => self.clear(),
             }
         }
@@ -119,9 +119,9 @@ impl StateStack {
         self.stack.pop()
     }
 
-    fn clean_push(&mut self, state: Box<dyn State>) {
+    fn clean_push(&mut self, state: Box<dyn State>, context: &mut Context) {
         self.clear();
-        self.push(state);
+        self.push(state, context);
     }
 
     /// Pop all states off the stack.
@@ -147,7 +147,7 @@ impl State for StateStack {
             .for_each(|state| state.background_update(context));
         if let Some(state) = self.active_mut() {
             let update_result = state.update(context);
-            self.do_transition(update_result);
+            self.do_transition(update_result, context);
         }
         None
     }
@@ -192,10 +192,10 @@ mod state_stack_tests {
 
     #[test]
     fn should_push_state_on_the_stack() {
+        let (mut context, mut state_stack) = new_context_and_state_stack();
         let state = MockState::new();
-        let mut state_stack = StateStack::new();
 
-        state_stack.push(Box::from(state));
+        state_stack.push(Box::from(state), context);
 
         assert_eq!(
             state_stack.stack.len(),
@@ -206,8 +206,8 @@ mod state_stack_tests {
 
     #[test]
     fn should_pop_state_off_the_stack() {
-        let mut state_stack = StateStack::new();
-        state_stack.push(Box::from(MockState::new()));
+        let (mut context, mut state_stack) = new_context_and_state_stack();
+        state_stack.push(Box::from(MockState::new()), &mut context);
 
         let state = state_stack.pop();
 
@@ -223,17 +223,17 @@ mod state_stack_tests {
 
     #[test]
     fn should_not_be_empty_if_there_are_states_on_the_stack() {
-        let mut state_stack = StateStack::new();
+        let (mut context, mut state_stack) = new_context_and_state_stack();
 
-        state_stack.push(Box::from(MockState::new()));
+        state_stack.push(Box::from(MockState::new()), &mut context);
 
         assert!(!state_stack.is_empty());
     }
 
     #[test]
     fn should_have_active_state_accessor() {
-        let mut state_stack = StateStack::new();
-        state_stack.push(Box::from(MockState::new()));
+        let (mut context, mut state_stack) = new_context_and_state_stack();
+        state_stack.push(Box::from(MockState::new()), &mut context);
 
         let state = state_stack.active_mut();
 
@@ -246,7 +246,7 @@ mod state_stack_tests {
         let mut state = MockState::new();
         state.expect_update().times(3).returning(|_| None);
 
-        state_stack.push(Box::from(state));
+        state_stack.push(Box::from(state), &mut context);
         for _ in 0..3 {
             state_stack.update(&mut context);
         }
@@ -261,7 +261,7 @@ mod state_stack_tests {
             .times(1)
             .returning(|_| Some(Transition::Pop));
 
-        state_stack.push(Box::from(state));
+        state_stack.push(Box::from(state), &mut context);
         state_stack.update(&mut context);
 
         assert!(state_stack.is_empty(), "The state stack should be empty.");
@@ -282,7 +282,7 @@ mod state_stack_tests {
             .times(9)
             .returning(|_| ());
 
-        state_stack.push(Box::from(transition_to_state));
+        state_stack.push(Box::from(transition_to_state), &mut context);
         for _ in 0..10 {
             state_stack.update(&mut context);
         }
@@ -302,7 +302,7 @@ mod state_stack_tests {
             .times(1)
             .return_once(move |_| Some(Transition::CleanPush(Box::from(no_transition_state))));
 
-        state_stack.push(Box::from(clean_push_state));
+        state_stack.push(Box::from(clean_push_state), &mut context);
         for _ in 0..2 {
             state_stack.update(&mut context);
         }
@@ -317,7 +317,7 @@ mod state_stack_tests {
             .times(1)
             .returning(|_| Some(Transition::Quit));
 
-        state_stack.push(Box::from(quit_state));
+        state_stack.push(Box::from(quit_state), &mut context);
         state_stack.update(&mut context);
 
         assert!(
@@ -336,8 +336,8 @@ mod state_stack_tests {
             .returning(|_| ());
         let mut state_b = MockState::new();
         state_b.expect_update().times(10).returning(|_| None);
-        state_stack.push(Box::from(state_a));
-        state_stack.push(Box::from(state_b));
+        state_stack.push(Box::from(state_a), &mut context);
+        state_stack.push(Box::from(state_b), &mut context);
 
         for _ in 0..10 {
             state_stack.update(&mut context);
@@ -354,8 +354,8 @@ mod state_stack_tests {
             .returning(|_| ());
         let mut state_b = MockState::new();
         state_b.expect_render().times(10).returning(|_| ());
-        state_stack.push(Box::from(state_a));
-        state_stack.push(Box::from(state_b));
+        state_stack.push(Box::from(state_a), &mut context);
+        state_stack.push(Box::from(state_b), &mut context);
 
         for _ in 0..10 {
             state_stack.render(&mut context);
