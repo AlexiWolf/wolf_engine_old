@@ -194,7 +194,7 @@ mod state_stack_tests {
     #[test]
     fn should_push_state_on_the_stack() {
         let (mut context, mut state_stack) = new_context_and_state_stack();
-        let state = MockState::new();
+        let state = new_mock_state_with_setup_expectation();
 
         state_stack.push(Box::from(state), &mut context);
 
@@ -208,8 +208,7 @@ mod state_stack_tests {
     #[test]
     fn should_pop_state_off_the_stack() {
         let (mut context, mut state_stack) = new_context_and_state_stack();
-        state_stack.push(Box::from(MockState::new()), &mut context);
-
+        state_stack.push(Box::from(new_mock_state_with_setup_expectation()), &mut context);
         let state = state_stack.pop();
 
         assert!(state.is_some(), "No state was returned");
@@ -226,7 +225,7 @@ mod state_stack_tests {
     fn should_not_be_empty_if_there_are_states_on_the_stack() {
         let (mut context, mut state_stack) = new_context_and_state_stack();
 
-        state_stack.push(Box::from(MockState::new()), &mut context);
+        state_stack.push(Box::from(new_mock_state_with_setup_expectation()), &mut context);
 
         assert!(!state_stack.is_empty());
     }
@@ -234,7 +233,7 @@ mod state_stack_tests {
     #[test]
     fn should_have_active_state_accessor() {
         let (mut context, mut state_stack) = new_context_and_state_stack();
-        state_stack.push(Box::from(MockState::new()), &mut context);
+        state_stack.push(Box::from(new_mock_state_with_setup_expectation()), &mut context);
 
         let state = state_stack.active_mut();
 
@@ -244,7 +243,7 @@ mod state_stack_tests {
     #[test]
     fn should_handle_none_transition() {
         let (mut context, mut state_stack) = new_context_and_state_stack();
-        let mut state = MockState::new();
+        let mut state = new_mock_state_with_setup_expectation();
         state.expect_update().times(3).returning(|_| None);
 
         state_stack.push(Box::from(state), &mut context);
@@ -256,7 +255,7 @@ mod state_stack_tests {
     #[test]
     fn should_handle_pop_transition() {
         let (mut context, mut state_stack) = new_context_and_state_stack();
-        let mut state = MockState::new();
+        let mut state = new_mock_state_with_setup_expectation();
         state
             .expect_update()
             .times(1)
@@ -271,8 +270,8 @@ mod state_stack_tests {
     #[test]
     fn should_handle_to_state_transition() {
         let (mut context, mut state_stack) = new_context_and_state_stack();
-        let mut transition_to_state = MockState::new();
-        let mut no_transition = MockState::new();
+        let mut transition_to_state = new_mock_state_with_setup_expectation();
+        let mut no_transition = new_mock_state_with_setup_expectation();
         no_transition.expect_update().times(9).returning(|_| None);
         transition_to_state
             .expect_update()
@@ -292,12 +291,12 @@ mod state_stack_tests {
     #[test]
     fn should_handle_clean_push_transition() {
         let (mut context, mut state_stack) = new_context_and_state_stack();
-        let mut no_transition_state = MockState::new();
+        let mut no_transition_state = new_mock_state_with_setup_expectation();
         no_transition_state
             .expect_update()
             .times(1)
             .returning(|_| None);
-        let mut clean_push_state = MockState::new();
+        let mut clean_push_state = new_mock_state_with_setup_expectation();
         clean_push_state
             .expect_update()
             .times(1)
@@ -312,7 +311,7 @@ mod state_stack_tests {
     #[test]
     fn should_handle_quit_transition() {
         let (mut context, mut state_stack) = new_context_and_state_stack();
-        let mut quit_state = MockState::new();
+        let mut quit_state = new_mock_state_with_setup_expectation();
         quit_state
             .expect_update()
             .times(1)
@@ -330,12 +329,12 @@ mod state_stack_tests {
     #[test]
     fn should_run_background_update_for_background_states() {
         let (mut context, mut state_stack) = new_context_and_state_stack();
-        let mut state_a = MockState::new();
+        let mut state_a = new_mock_state_with_setup_expectation();
         state_a
             .expect_background_update()
             .times(10)
             .returning(|_| ());
-        let mut state_b = MockState::new();
+        let mut state_b = new_mock_state_with_setup_expectation();
         state_b.expect_update().times(10).returning(|_| None);
         state_stack.push(Box::from(state_a), &mut context);
         state_stack.push(Box::from(state_b), &mut context);
@@ -348,12 +347,12 @@ mod state_stack_tests {
     #[test]
     fn should_run_background_render_for_background_states() {
         let (mut context, mut state_stack) = new_context_and_state_stack();
-        let mut state_a = MockState::new();
+        let mut state_a = new_mock_state_with_setup_expectation();
         state_a
             .expect_background_render()
             .times(10)
             .returning(|_| ());
-        let mut state_b = MockState::new();
+        let mut state_b = new_mock_state_with_setup_expectation();
         state_b.expect_render().times(10).returning(|_| ());
         state_stack.push(Box::from(state_a), &mut context);
         state_stack.push(Box::from(state_b), &mut context);
@@ -388,5 +387,11 @@ mod state_stack_tests {
         let context = Context::new();
         let state_stack = StateStack::new();
         (context, state_stack)
+    }
+
+    fn new_mock_state_with_setup_expectation() -> MockState {
+        let mut state = MockState::new();
+        state.expect_setup().times(..).returning(|_| ());
+        state
     }
 }
