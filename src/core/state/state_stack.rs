@@ -96,7 +96,8 @@ impl StateStack {
     /// Push the provided [State] to the top of the stack.
     ///
     /// The state will become the new active state.
-    pub fn push(&mut self, state: Box<dyn State>, context: &mut Context) {
+    pub fn push(&mut self, mut state: Box<dyn State>, context: &mut Context) {
+        state.setup(context);
         self.stack.push(state);
     }
 
