@@ -195,7 +195,7 @@ mod state_stack_tests {
         let (mut context, mut state_stack) = new_context_and_state_stack();
         let state = MockState::new();
 
-        state_stack.push(Box::from(state), context);
+        state_stack.push(Box::from(state), &mut context);
 
         assert_eq!(
             state_stack.stack.len(),
