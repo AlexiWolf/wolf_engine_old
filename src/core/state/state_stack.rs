@@ -380,7 +380,7 @@ mod state_stack_tests {
             .times(1)
             .returning(|_| ());
 
-        state_stack.push(state, &mut context);
+        state_stack.push(Box::from(state), &mut context);
     }
 
     fn new_context_and_state_stack() -> (Context, StateStack) {
