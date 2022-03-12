@@ -112,8 +112,8 @@ impl StateStack {
         }
     }
 
-    fn pop_no_return(&mut self) {
-        self.pop();
+    fn pop_no_return(&mut self, context: &mut Context) {
+        self.pop(context);
     }
 
     fn pop(&mut self, context: &mut Context) -> Option<Box<dyn State>> {
