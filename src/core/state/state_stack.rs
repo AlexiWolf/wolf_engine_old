@@ -105,9 +105,9 @@ impl StateStack {
         if let Some(transition) = update_result {
             match transition {
                 Transition::Push(state) => self.push(state, context),
-                Transition::Pop => self.pop_no_return(),
+                Transition::Pop => self.pop_no_return(context),
                 Transition::CleanPush(state) => self.clean_push(state, context),
-                Transition::Quit => self.clear(),
+                Transition::Quit => self.clear(context),
             }
         }
     }
@@ -121,14 +121,14 @@ impl StateStack {
     }
 
     fn clean_push(&mut self, state: Box<dyn State>, context: &mut Context) {
-        self.clear();
+        self.clear(context);
         self.push(state, context);
     }
 
     /// Pop all states off the stack.
-    pub fn clear(&mut self) {
+    pub fn clear(&mut self, context: &mut Context) {
         while !self.is_empty() {
-            self.pop();
+            self.pop(context);
         }
     }
 
