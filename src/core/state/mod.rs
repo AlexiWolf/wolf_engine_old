@@ -49,8 +49,11 @@ pub type RenderResult = ();
 /// ```
 #[cfg_attr(test, automock)]
 pub trait State {
-    fn setup(&mut self, context: &mut Context) {}
 
+    /// Run one-time setup before the state is run.
+    fn setup(&mut self, _context: &mut Context) {}
+    
+    /// Run one-time setup after the state is removed.
     fn shutdown(&mut self, _context: &mut Context) {}
 
     /// Update the game state.
