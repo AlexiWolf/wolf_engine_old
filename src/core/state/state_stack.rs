@@ -374,13 +374,13 @@ mod state_stack_tests {
 
     #[test]
     fn should_run_startup_method_when_state_is_added() {
-        let (_, mut state_stack) = new_context_and_state_stack();
+        let (mut context, mut state_stack) = new_context_and_state_stack();
         let state = MockState::new();
         state.expect_setup()
             .times(1)
             .returning(|_| ());
 
-        state_stack.push(state);
+        state_stack.push(state, &mut context);
     }
 
     fn new_context_and_state_stack() -> (Context, StateStack) {

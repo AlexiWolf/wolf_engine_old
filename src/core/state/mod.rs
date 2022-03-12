@@ -49,6 +49,8 @@ pub type RenderResult = ();
 /// ```
 #[cfg_attr(test, automock)]
 pub trait State {
+    fn setup(&mut self, context: &mut Context) {}
+
     /// Update the game state.
     fn update(&mut self, context: &mut Context) -> OptionalTransition;
 
