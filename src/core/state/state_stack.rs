@@ -209,7 +209,7 @@ mod state_stack_tests {
     fn should_pop_state_off_the_stack() {
         let (mut context, mut state_stack) = new_context_and_state_stack();
         state_stack.push(Box::from(new_mock_state_with_setup_expectation()), &mut context);
-        let state = state_stack.pop();
+        let state = state_stack.pop(&mut context);
 
         assert!(state.is_some(), "No state was returned");
     }
