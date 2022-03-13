@@ -96,11 +96,15 @@ impl StateStack {
     ///
     /// The state will become the new active state.
     pub fn push(&mut self, mut state: Box<dyn State>, context: &mut Context) {
+        self.pause_active_state(context);
+        state.setup(context);
+        self.stack.push(state);
+    }
+
+    fn pause_active_state(&mut self, context: &mut Context) {
         if let Some(active_state) = self.active_mut() {
             active_state.pause(context);
         }
-        state.setup(context);
-        self.stack.push(state);
     }
 
     fn do_transition(&mut self, update_result: OptionalTransition, context: &mut Context) {
