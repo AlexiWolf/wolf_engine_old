@@ -1,7 +1,6 @@
 use std::{fmt::Display, iter::Take, slice::IterMut};
 
 use crate::{Context, OptionalTransition, RenderResult, State, Transition};
-
 /// Provides a stack for storing, managing, and running multiple [State] objects.
 ///
 /// The state stack acts as a common interface through which numerous [State]s can be run
@@ -412,8 +411,12 @@ mod state_stack_tests {
 
     fn new_mock_state_with_setup_expectation() -> MockState {
         let mut state = MockState::new();
-        state.expect_setup().times(..).returning(|_| ());
+        expect_startup(&mut state);
         state
+    }
+
+    fn expect_startup(state: &mut MockState) {
+        state.expect_setup().times(..).returning(|_| ());
     }
 
     fn expect_shutdown(state: &mut MockState) {
