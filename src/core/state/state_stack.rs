@@ -428,9 +428,14 @@ mod state_stack_tests {
     fn should_run_resume_method_when_state_is_reactivated() {
         let (mut context, mut state_stack) = new_context_and_state_stack();
         let mut state_a = new_mock_state_with_setup_expectation();
-        let state_b = new_mock_state_with_setup_expectation();
+        let mut state_b = new_mock_state_with_setup_expectation();
         expect_pause(&mut state_a);
+        expect_shutdown(&mut state_b);
         state_a.expect_resume().times(1).returning(|_| ());
+
+        state_stack.push(Box::from(state_a), &mut context);
+        state_stack.push(Box::from(state_b), &mut context);
+        state_stack.pop(&mut context);
     }
 
     fn new_context_and_state_stack() -> (Context, StateStack) {
