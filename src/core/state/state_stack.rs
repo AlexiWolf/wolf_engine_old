@@ -292,6 +292,7 @@ mod state_stack_tests {
             .expect_background_update()
             .times(9)
             .returning(|_| ());
+        expect_pause(&mut transition_to_state);
 
         state_stack.push(Box::from(transition_to_state), &mut context);
         for _ in 0..10 {
@@ -347,6 +348,7 @@ mod state_stack_tests {
             .expect_background_update()
             .times(10)
             .returning(|_| ());
+        expect_pause(&mut state_a);
         let mut state_b = new_mock_state_with_setup_expectation();
         state_b.expect_update().times(10).returning(|_| None);
         state_stack.push(Box::from(state_a), &mut context);
@@ -365,6 +367,7 @@ mod state_stack_tests {
             .expect_background_render()
             .times(10)
             .returning(|_| ());
+        expect_pause(&mut state_a);
         let mut state_b = new_mock_state_with_setup_expectation();
         state_b.expect_render().times(10).returning(|_| ());
         state_stack.push(Box::from(state_a), &mut context);
@@ -411,7 +414,7 @@ mod state_stack_tests {
         let (mut context, mut state_stack) = new_context_and_state_stack();
         let mut state_a = new_mock_state_with_setup_expectation();
         let state_b = new_mock_state_with_setup_expectation();
-        state_a.expect_pause().times(1).returning(|_| ());
+        expect_pause(&mut state_a);
         
         state_stack.push(Box::from(state_a), &mut context);
         state_stack.push(Box::from(state_b), &mut context);
@@ -435,5 +438,9 @@ mod state_stack_tests {
 
     fn expect_shutdown(state: &mut MockState) {
         state.expect_shutdown().times(1).returning(|_| ());
+    }
+
+    fn expect_pause(state: &mut MockState) {
+        state.expect_pause().times(1).returning(|_| ());
     }
 }
