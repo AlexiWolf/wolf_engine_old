@@ -96,6 +96,9 @@ impl StateStack {
     ///
     /// The state will become the new active state.
     pub fn push(&mut self, mut state: Box<dyn State>, context: &mut Context) {
+        if let Some(active_state) = self.active_mut() {
+            active_state.pause(context);
+        }
         state.setup(context);
         self.stack.push(state);
     }
