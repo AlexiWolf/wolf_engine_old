@@ -83,7 +83,7 @@ impl Engine {
 
     /// Takes ownership over the engine and runs until the [CoreFunction] exits.
     pub fn run(mut self, initial_state: Box<dyn State>) {
-        self.state_stack.push(initial_state);
+        self.state_stack.push(initial_state, &mut self.context);
         let (engine, core_function) = self.extract_core_function();
         (core_function)(engine);
     }
@@ -165,11 +165,13 @@ mod wolf_engine_tests {
     fn should_run_the_state() {
         let wolf_engine = Engine::default();
         let mut state = MockState::new();
+        state.expect_setup().times(..).returning(|_| ());
         state
             .expect_update()
             .times(1..)
             .returning(|_| Some(Transition::Quit));
         state.expect_render().times(1..).returning(|_| ());
+        state.expect_shutdown().times(1).returning(|_| ());
 
         wolf_engine.run(Box::from(state));
     }
