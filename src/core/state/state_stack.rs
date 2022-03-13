@@ -403,6 +403,14 @@ mod state_stack_tests {
         state_stack.pop(&mut context);
     }
 
+    #[test]
+    fn should_run_pause_method_when_state_is_deactivated() {
+        let (mut context, mut state_stack) = new_context_and_state_stack();
+        let mut state_a = new_mock_state_with_setup_expectation();
+        let mut state_b = new_mock_state_with_setup_expectation();
+        state_b.expect_pause().times(1).returning(|_| ());
+    }
+
     fn new_context_and_state_stack() -> (Context, StateStack) {
         let context = Context::new();
         let state_stack = StateStack::new();
