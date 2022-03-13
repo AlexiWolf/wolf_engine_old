@@ -416,7 +416,7 @@ mod state_stack_tests {
     }
 
     fn expect_startup(state: &mut MockState) {
-        state.expect_setup().times(..).returning(|_| ());
+        state.expect_setup().times(0..2).returning(|_| ());
     }
 
     fn expect_shutdown(state: &mut MockState) {
