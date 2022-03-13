@@ -125,7 +125,7 @@ impl StateStack {
     fn pop(&mut self, context: &mut Context) -> Option<Box<dyn State>> {
         if let Some(mut state) = self.stack.pop() {
             self.resume_active_state(context);
-            state.shutdown(context); 
+            state.shutdown(context);
             Some(state)
         } else {
             None
@@ -246,7 +246,10 @@ mod state_stack_tests {
     fn should_not_be_empty_if_there_are_states_on_the_stack() {
         let (mut context, mut state_stack) = new_context_and_state_stack();
 
-        state_stack.push(Box::from(new_mock_state_with_setup_expectation()), &mut context);
+        state_stack.push(
+            Box::from(new_mock_state_with_setup_expectation()),
+            &mut context,
+        );
 
         assert!(!state_stack.is_empty());
     }
@@ -254,7 +257,10 @@ mod state_stack_tests {
     #[test]
     fn should_have_active_state_accessor() {
         let (mut context, mut state_stack) = new_context_and_state_stack();
-        state_stack.push(Box::from(new_mock_state_with_setup_expectation()), &mut context);
+        state_stack.push(
+            Box::from(new_mock_state_with_setup_expectation()),
+            &mut context,
+        );
 
         let state = state_stack.active_mut();
 
@@ -403,9 +409,7 @@ mod state_stack_tests {
     fn should_run_startup_method_when_state_is_added() {
         let (mut context, mut state_stack) = new_context_and_state_stack();
         let mut state = MockState::new();
-        state.expect_setup()
-            .times(1)
-            .returning(|_| ());
+        state.expect_setup().times(1).returning(|_| ());
 
         state_stack.push(Box::from(state), &mut context);
     }
@@ -426,7 +430,7 @@ mod state_stack_tests {
         let mut state_a = new_mock_state_with_setup_expectation();
         let state_b = new_mock_state_with_setup_expectation();
         expect_pause(&mut state_a);
-        
+
         state_stack.push(Box::from(state_a), &mut context);
         state_stack.push(Box::from(state_b), &mut context);
     }
