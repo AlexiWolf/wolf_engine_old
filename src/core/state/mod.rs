@@ -50,15 +50,45 @@ pub type RenderResult = ();
 #[cfg_attr(test, automock)]
 pub trait State {
     /// Run one-time setup before the state is run.
+    ///
+    /// There are no specific requirements for this method.  You may use it to do whatever
+    /// your game needs.
+    ///
+    /// This method should be run only once throughout the life of the state object, and 
+    /// before any other method is run.
     fn setup(&mut self, _context: &mut Context) {}
 
-    /// Run one-time setup after the state is removed.
+    /// Run one-time cleanup after the state is removed.
+    ///
+    /// There are no specific requirements for this method.  You may use it to do whatever
+    /// your game needs.
+    ///
+    /// This method should be run only once throughout the life of the state object, and 
+    /// before any other method is run.
     fn shutdown(&mut self, _context: &mut Context) {}
 
-    /// Runs any time the state is deactivated.  
+    /// Pause the game state.
+    ///
+    /// There are no specific requirements for this method.  You may use it to do whatever
+    /// your game needs.
+    ///
+    /// By default this method runs when: 
+    ///
+    /// - The [StateStack] deactivates the state.
+    /// - The application has gone out of focus (such as when the user switches apps on 
+    ///   mobile.)
     fn pause(&mut self, _context: &mut Context) {}
-
-    /// Runs any time the state is reactivated.
+    
+    /// Resume the game state.
+    ///
+    /// There are no specific requirements for this method.  You may use it to do whatever
+    /// your game needs.
+    ///
+    /// By default this method runs when: 
+    ///
+    /// - The [StateStack] reactivates the state.
+    /// - The application has come back into focus (such as when the user switches apps on 
+    ///   mobile.)
     fn resume(&mut self, _context: &mut Context) {}
 
     /// Update the game state.
