@@ -55,6 +55,9 @@ pub trait State {
     
     /// Run one-time setup after the state is removed.
     fn shutdown(&mut self, _context: &mut Context) {}
+    
+    /// Runs any time the state is deactivated.  
+    fn pause(&mut self, _context: &mut Context) {}
 
     /// Update the game state.
     fn update(&mut self, context: &mut Context) -> OptionalTransition;
