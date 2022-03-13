@@ -92,6 +92,17 @@ impl StateStack {
         self.stack.last_mut()
     }
 
+    fn do_transition(&mut self, update_result: OptionalTransition, context: &mut Context) {
+        if let Some(transition) = update_result {
+            match transition {
+                Transition::Push(state) => self.push(state, context),
+                Transition::Pop => self.pop_no_return(context),
+                Transition::CleanPush(state) => self.clean_push(state, context),
+                Transition::Quit => self.clear(context),
+            }
+        }
+    }
+
     /// Push the provided [State] to the top of the stack.
     ///
     /// The state will become the new active state.
@@ -104,17 +115,6 @@ impl StateStack {
     fn pause_active_state(&mut self, context: &mut Context) {
         if let Some(active_state) = self.active_mut() {
             active_state.pause(context);
-        }
-    }
-
-    fn do_transition(&mut self, update_result: OptionalTransition, context: &mut Context) {
-        if let Some(transition) = update_result {
-            match transition {
-                Transition::Push(state) => self.push(state, context),
-                Transition::Pop => self.pop_no_return(context),
-                Transition::CleanPush(state) => self.clean_push(state, context),
-                Transition::Quit => self.clear(context),
-            }
         }
     }
 
