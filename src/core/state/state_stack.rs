@@ -125,6 +125,9 @@ impl StateStack {
     fn pop(&mut self, context: &mut Context) -> Option<Box<dyn State>> {
         if let Some(mut state) = self.stack.pop() {
             state.shutdown(context); 
+            if let Some(active_state) = self.active_mut() {
+                active_state.resume(context);
+            }
             Some(state)
         } else {
             None
