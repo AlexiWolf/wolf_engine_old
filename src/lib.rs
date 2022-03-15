@@ -58,3 +58,12 @@ pub mod schedulers;
 pub mod logging;
 
 pub use crate::core::*;
+
+use log::info;
+
+pub(crate) fn log_startup_information() {
+    let name = env!("CARGO_PKG_NAME");
+    let version = env!("CARGO_PKG_VERSION");
+    let homepage = env!("CARGO_PKG_HOMEPAGE");
+    info!("{} v{} - {}", name, version, homepage);
+}
