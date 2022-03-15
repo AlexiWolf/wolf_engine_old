@@ -2,7 +2,7 @@ use std::mem::replace;
 
 use crate::{
     run_while_has_active_state, schedulers::FixedUpdateScheduler, Context, CoreFunction, Scheduler,
-    State, StateStack,
+    State, StateStack, log_startup_information,
 };
 
 /// Provides the core functionality of the engine.
@@ -83,6 +83,7 @@ impl Engine {
 
     /// Takes ownership over the engine and runs until the [CoreFunction] exits.
     pub fn run(mut self, initial_state: Box<dyn State>) {
+        log_startup_information();
         self.state_stack.push(initial_state, &mut self.context);
         let (engine, core_function) = self.extract_core_function();
         (core_function)(engine);
