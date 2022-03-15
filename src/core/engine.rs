@@ -1,8 +1,8 @@
 use std::mem::replace;
 
 use crate::{
-    run_while_has_active_state, schedulers::FixedUpdateScheduler, Context, CoreFunction, Scheduler,
-    State, StateStack, log_startup_information,
+    log_startup_information, run_while_has_active_state, schedulers::FixedUpdateScheduler, Context,
+    CoreFunction, Scheduler, State, StateStack,
 };
 
 /// Provides the core functionality of the engine.

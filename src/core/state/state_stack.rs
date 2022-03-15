@@ -23,27 +23,27 @@ use crate::{Context, OptionalTransition, RenderResult, State, Transition};
 ///
 /// # Active State
 ///
-/// The "active" state is whatever state is currently on the top of the stack.  When a 
-/// state becomes the top state, it is "reactivated." Active states have the following 
+/// The "active" state is whatever state is currently on the top of the stack.  When a
+/// state becomes the top state, it is "reactivated." Active states have the following
 /// properties:
 ///
 /// - Only the active state will have it's "foreground" `[update/render]` methods called.
 /// - The active state will not have it's `background_[update/render]` methods called.
 /// - The active state is the only stat that can send a [Transition] to the state stack.
-/// - Active states wil have their [State::resume()] method called first thing when they 
+/// - Active states wil have their [State::resume()] method called first thing when they
 ///   are reactivated.
 ///
 /// Normally, the active state is going to be the "mode" your game is in.
 ///
 /// # Inactive States
 ///
-/// A state is designated as "inactive" (or is "deactivated") when it's not on the top 
+/// A state is designated as "inactive" (or is "deactivated") when it's not on the top
 /// of the stack.  Inactive states have the following properties:
 ///
 /// - Inactive states will only have their `background_[update/render]` methods called.
 /// - Inactive states will not have their "foreground" `[update/render]` methods called.
 /// - Inactive states cannot send a [Transition] to the state stack.
-/// - Inactive states will have their [State::pause()] method called first thing when 
+/// - Inactive states will have their [State::pause()] method called first thing when
 ///   they are deactivated.
 ///
 /// # Update / Render Order
