@@ -65,5 +65,5 @@ pub(crate) fn log_startup_information() {
     let name = env!("CARGO_PKG_NAME");
     let version = env!("CARGO_PKG_VERSION");
     let homepage = env!("CARGO_PKG_HOMEPAGE");
-    info!("{} v{} - {}", name, version, homepage);
+    info!("Hello from {} v{} - {}", name, version, homepage);
 }
