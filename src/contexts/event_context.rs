@@ -12,6 +12,10 @@ impl<E> EventContext<E> {
             event_queue: EventQueue::new(),
         }
     }
+
+    pub fn push(&self, event: E) {
+        
+    }
 }
 
 #[cfg(test)]
