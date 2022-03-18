@@ -1,3 +1,10 @@
+pub struct EventContext<E>;
+
+impl<E> EventContext<E> {
+    pub fn new() -> Self {
+        Self
+    }
+}
 
 #[cfg(test)]
 mod event_context_tests {
