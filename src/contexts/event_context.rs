@@ -23,5 +23,7 @@ mod event_context_tests {
     #[test]
     fn should_push_events_to_queue() {
         let events = EventContext::<u32>::new();
+        
+        events.push(1);
     }
 }
