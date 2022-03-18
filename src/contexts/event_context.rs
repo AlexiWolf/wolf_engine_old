@@ -29,5 +29,11 @@ mod event_context_tests {
         let events = EventContext::<u32>::new();
         
         events.push(1);
+
+        assert_eq!(get_next_event(&events), 1, "The event was not present");
+    }
+
+    fn get_next_event<E>(events: &EventContext<E>) -> E {
+        events.reader().iter().next().expect("could not read an event")
     }
 }
