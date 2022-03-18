@@ -11,6 +11,7 @@ homepage = "https://github.com/AlexiWolf/wolf_engine"
 [dependencies]
 log = "0.4"
 anymap = "0.12"
+rc_event_queue = "0.4"
 
 # Optional Dependencies
 
