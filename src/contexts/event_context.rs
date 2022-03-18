@@ -1,6 +1,6 @@
 use std::{pin::Pin, sync::Arc};
 
-use rc_event_queue::mpmc::EventQueue;
+use rc_event_queue::mpmc::{EventQueue, DefaultSettings, EventReader};
 
 pub struct EventContext<E> {
     event_queue: Pin<Arc<EventQueue<E>>> 
@@ -15,6 +15,10 @@ impl<E> EventContext<E> {
 
     pub fn push(&self, event: E) {
         
+    }
+
+    pub fn reader(&self) -> EventReader<E, DefaultSettings> {
+        EventReader::new(&*self.event_queue) 
     }
 }
 
