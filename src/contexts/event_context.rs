@@ -24,6 +24,8 @@ impl<E> EventContext<E> {
 
 #[cfg(test)]
 mod event_context_tests {
+    use rc_event_queue::LendingIterator;
+
     use crate::Context;
 
     pub use super::*;
