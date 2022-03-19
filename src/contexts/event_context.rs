@@ -24,6 +24,8 @@ impl<E> EventContext<E> {
 
 #[cfg(test)]
 mod event_context_tests {
+    use std::fmt::Debug;
+
     use rc_event_queue::LendingIterator;
 
     use crate::Context;
@@ -36,10 +38,12 @@ mod event_context_tests {
         
         events.push(1);
 
-        assert_eq!(get_next_event(&events), 1, "The event was not present");
+        assert_next_event_equals(&events, &1);
     }
 
-    fn get_next_event<E>(events: &EventContext<E>) -> E {
-        events.reader().iter().next().expect("could not read an event")
+    fn assert_next_event_equals<E: Eq + PartialEq + Debug>(events: &EventContext<E>, expected: &E) {
+        let mut reader = events.reader(); 
+        let mut events = reader.iter();
+        assert_eq!(events.next(), Some(expected), "the events do not match");
     }
 }
