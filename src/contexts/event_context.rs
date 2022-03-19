@@ -1,6 +1,9 @@
 use std::{pin::Pin, sync::Arc};
 
-use rc_event_queue::mpmc::{EventQueue, DefaultSettings, EventReader};
+use rc_event_queue::mpmc::DefaultSettings;
+
+pub type EventQueue<E> = rc_event_queue::mpmc::EventQueue<E>;
+pub type EventReader<E> = rc_event_queue::mpmc::EventReader<E, DefaultSettings>;
 
 pub struct EventContext<E> {
     event_queue: Pin<Arc<EventQueue<E>>> 
@@ -17,7 +20,7 @@ impl<E> EventContext<E> {
         self.event_queue.push(event); 
     }
 
-    pub fn reader(&self) -> EventReader<E, DefaultSettings> {
+    pub fn reader(&self) -> EventReader<E> {
         EventReader::new(&self.event_queue) 
     }
 }
@@ -26,7 +29,7 @@ impl<E> EventContext<E> {
 mod event_context_tests {
     use std::fmt::Debug;
 
-    use rc_event_queue::{LendingIterator, mpmc::DefaultSettings};
+    use rc_event_queue::LendingIterator;
 
     pub use super::*;
     
@@ -40,7 +43,7 @@ mod event_context_tests {
         assert_next_event_equals(&mut reader, &1);
     }
 
-    fn assert_next_event_equals<E: Eq + PartialEq + Debug>(reader: &mut EventReader<E, DefaultSettings>, expected: &E) {
+    fn assert_next_event_equals<E: Eq + PartialEq + Debug>(reader: &mut EventReader<E>, expected: &E) {
         while let Some(event) = reader.iter().next() {
             assert_eq!(event, expected, "the events do not match");
             return
