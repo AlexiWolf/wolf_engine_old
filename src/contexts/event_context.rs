@@ -1,9 +1,6 @@
 use std::{pin::Pin, sync::Arc};
 
-use rc_event_queue::mpmc::DefaultSettings;
-
-pub type EventQueue<E> = rc_event_queue::mpmc::EventQueue<E>;
-pub type EventReader<E> = rc_event_queue::mpmc::EventReader<E, DefaultSettings>;
+use crate::event::{EventQueue, EventReader};
 
 pub struct EventContext<E> {
     event_queue: Pin<Arc<EventQueue<E>>>,
@@ -29,7 +26,7 @@ impl<E> EventContext<E> {
 mod event_context_tests {
     use std::fmt::Debug;
 
-    use rc_event_queue::LendingIterator;
+    use crate::event::LendingIterator;
 
     pub use super::*;
 
