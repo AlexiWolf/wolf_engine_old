@@ -9,7 +9,7 @@ use ::rc_event_queue::mpmc::DefaultSettings;
 
 pub use ::rc_event_queue::LendingIterator;
 
-/// The [Settings](rc_event_queue::Settings) used by the [EventReader].
+/// The [Settings](rc_event_queue::mpmc::Settings) used by the [EventReader].
 pub type EventReaderSettings = DefaultSettings;
 
 /// Provides a FIFO event queue.
