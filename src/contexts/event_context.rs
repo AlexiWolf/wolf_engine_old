@@ -14,6 +14,9 @@ impl<E> EventContext<E> {
     }
 
     pub fn push(&self, event: E) {
+        if self.event_queue.total_capacity() < 100_000 {
+            self.event_queue.truncate_front(1000);
+        }
         self.event_queue.push(event);
     }
 
