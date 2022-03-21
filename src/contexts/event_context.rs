@@ -4,12 +4,15 @@ use crate::event::{EventQueue, EventReader};
 
 pub struct EventContext<E> {
     event_queue: Pin<Arc<EventQueue<E>>>,
+    pub max_queue_size: usize,
 }
 
 impl<E> EventContext<E> {
-    pub fn new() -> Self {
-        let event_context = Self::default();
-        event_context
+    pub fn new(max_queue_size: usize) -> Self {
+        Self {
+            event_queue: EventQueue::new(),
+            max_queue_size,
+        }
     }
 
     pub fn push(&self, event: E) {
@@ -32,6 +35,7 @@ impl<E> Default for EventContext<E> {
     fn default() -> Self {
         Self { 
             event_queue: EventQueue::new(), 
+            max_queue_size: 100_000,
         }
     }
 }
