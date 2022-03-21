@@ -158,6 +158,9 @@ impl Default for Context {
 mod context_tests {
     use super::*;
 
+    use crate::event::Event;
+    use crate::contexts::EventContext;
+
     #[test]
     fn should_add_subcontext() {
         let mut context = Context::empty();
@@ -248,4 +251,11 @@ mod context_tests {
     }
 
     impl Subcontext for MessageContext {}
+
+    #[test]
+    fn should_include_engine_event_context_in_default_context() {
+        let context = Context::default();
+
+        context.get::<EventContext<Event>>().expect("No engine event context");
+    }
 }
