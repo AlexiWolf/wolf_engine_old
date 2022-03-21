@@ -1,7 +1,7 @@
 //! Provides default engine events and an event system backed by [rc_event_queue].
 
 pub mod rc_event_queue {
-    //! Reexports [rc_event_queue]. 
+    //! Reexports [rc_event_queue].
     pub use rc_event_queue::*;
 }
 
@@ -27,4 +27,3 @@ pub type EventQueue<E> = ::rc_event_queue::mpmc::EventQueue<E>;
 /// The current event system uses [rc_event_queue] directly.  This typedef is provided to
 /// help make the API more friendly to the engine.
 pub type EventReader<E> = ::rc_event_queue::mpmc::EventReader<E, EventReaderSettings>;
-

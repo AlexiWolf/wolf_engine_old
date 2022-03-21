@@ -52,8 +52,8 @@
 mod core;
 
 pub mod contexts;
-pub mod schedulers;
 pub mod event;
+pub mod schedulers;
 
 #[cfg(feature = "logging")]
 pub mod logging;

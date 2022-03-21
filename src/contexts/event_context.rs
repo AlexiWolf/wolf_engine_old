@@ -17,7 +17,7 @@ impl<E> EventContext<E> {
 
     pub fn push(&self, event: E) {
         self.event_queue.push(event);
-        self.truncate_queue_if_over_max_capacity(); 
+        self.truncate_queue_if_over_max_capacity();
     }
 
     fn truncate_queue_if_over_max_capacity(&self) {
@@ -33,8 +33,8 @@ impl<E> EventContext<E> {
 
 impl<E> Default for EventContext<E> {
     fn default() -> Self {
-        Self { 
-            event_queue: EventQueue::new(), 
+        Self {
+            event_queue: EventQueue::new(),
             max_queue_size: 100_000,
         }
     }
@@ -74,12 +74,16 @@ mod event_context_tests {
         let events = EventContext::<u32>::new(20_472);
         let _unused_reader = events.reader();
 
-        for i in 0..=50_000{
+        for i in 0..=50_000 {
             events.push(i);
         }
 
         let queue_size = events.event_queue.total_capacity();
-        assert!(queue_size <= 20_472, "Expected capacity of up to 20,472, but got {} events", queue_size);
+        assert!(
+            queue_size <= 20_472,
+            "Expected capacity of up to 20,472, but got {} events",
+            queue_size
+        );
     }
 
     #[test]
@@ -92,6 +96,11 @@ mod event_context_tests {
         }
 
         let queue_size = events.event_queue.total_capacity();
-        assert!(queue_size == 20_472, "Expected capacity of 20,472 events, but got {}", queue_size);
+        assert!(
+            queue_size == 20_472,
+            "Expected capacity of 20,472 events, but got {}",
+            queue_size
+        );
     }
 }
+
