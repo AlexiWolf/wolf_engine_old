@@ -27,3 +27,7 @@ pub type EventQueue<E> = ::rc_event_queue::mpmc::EventQueue<E>;
 /// The current event system uses [rc_event_queue] directly.  This typedef is provided to
 /// help make the API more friendly to the engine.
 pub type EventReader<E> = ::rc_event_queue::mpmc::EventReader<E, EventReaderSettings>;
+
+/// The built-in event types for Wolf Engine.
+pub enum Event {}
+
