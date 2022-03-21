@@ -14,10 +14,14 @@ impl<E> EventContext<E> {
     }
 
     pub fn push(&self, event: E) {
+        self.truncate_queue_if_over_max_capacity(); 
+        self.event_queue.push(event);
+    }
+
+    fn truncate_queue_if_over_max_capacity(&self) {
         if self.event_queue.total_capacity() < 100_000 {
             self.event_queue.truncate_front(1000);
         }
-        self.event_queue.push(event);
     }
 
     pub fn reader(&self) -> EventReader<E> {
@@ -35,7 +39,7 @@ mod event_context_tests {
 
     #[test]
     fn should_push_events_to_queue() {
-        let events = EventContext::<u32>::new();
+        let events = EventContext::<u32>::default();
         let mut reader = events.reader();
 
         events.push(1);
