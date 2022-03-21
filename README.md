@@ -28,9 +28,9 @@ road map than a feature list for now.  Entries are checked off as they are imple
   - [x] Dynamic Context Data 
   - [x] Schedulers (Timing Controls)
   - [x] Game States
+  - [x] Events
 - [ ] Engine Modules
   - [x] Logging
-  - [ ] Events
   - [ ] Input 
   - [ ] ECS
   - [ ] Windowing
