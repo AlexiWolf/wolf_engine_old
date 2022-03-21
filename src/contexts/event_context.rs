@@ -71,19 +71,33 @@ mod event_context_tests {
 
     #[test]
     fn should_prevent_memory_leaks_by_dropping_events_from_the_queue() {
-        let events = EventContext::<u32>::new(20_000);
+        let events = EventContext::<u32>::new(20_472);
 
         // Unused readers normally result in a memory leak.
         #[allow(unused)]
         let _unused_reader = events.reader();
 
-        for i in 0..=50_000 {
+        for i in 0..=50_000{
             // The push method is expected to prevent memory leaks by limiting the event 
             // queue size.
             events.push(i);
         }
 
-        assert!(events.event_queue.total_capacity() < 100_000, "The event queue exceeded 100_000 events");
-        
+        let queue_size = events.event_queue.total_capacity();
+        assert!(queue_size <= 20_472, "Expected capacity of up to 20,472, but got {} events", queue_size);
+    }
+
+    #[test]
+    fn should_not_drop_events_unless_over_queue_size() {
+        let events = EventContext::<u32>::new(20_472);
+
+        let _unused_reader = events.reader();
+
+        for i in 0..20_472 {
+            events.push(i);
+        }
+
+        let queue_size = events.event_queue.total_capacity();
+        assert!(queue_size == 20_472, "Expected capacity of 20,472 events, but got {}", queue_size);
     }
 }
