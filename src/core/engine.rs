@@ -1,9 +1,9 @@
 use std::mem::replace;
 
-use crate::{
-    log_startup_information, run_while_has_active_state, schedulers::FixedUpdateScheduler, Context,
-    CoreFunction, Scheduler, State, StateStack,
-};
+use crate::contexts::EventContext;
+use crate::event::Event;
+use crate::schedulers::FixedUpdateScheduler;
+use crate::*;
 
 /// Provides the core functionality of the engine.
 ///
@@ -76,7 +76,7 @@ pub struct Engine {
 }
 
 impl Engine {
-    /// Creates and instance of the engine with the defualt settings.
+    /// Creates and instance of the engine with the default settings.
     pub fn new() -> Self {
         Self::default()
     }
@@ -84,9 +84,14 @@ impl Engine {
     /// Takes ownership over the engine and runs until the [CoreFunction] exits.
     pub fn run(mut self, initial_state: Box<dyn State>) {
         log_startup_information();
+        self.add_required_subcontexts();
         self.state_stack.push(initial_state, &mut self.context);
         let (engine, core_function) = self.extract_core_function();
         (core_function)(engine);
+    }
+
+    fn add_required_subcontexts(&mut self) {
+        self.context.add(EventContext::<Event>::default()).unwrap();
     }
 
     fn extract_core_function(mut self) -> (Engine, Box<dyn Fn(Engine)>) {
@@ -185,7 +190,6 @@ mod engine_builder_tests {
     use lazy_static::lazy_static;
 
     use super::*;
-    use crate::{EmptyState, MockScheduler};
 
     #[test]
     fn should_allow_custom_states() {
@@ -223,5 +227,23 @@ mod engine_builder_tests {
             *HAS_RAN_CUSTOM_CORE.lock().unwrap(),
             "The custom engine core was not used"
         );
+    }
+
+    #[test]
+    fn should_add_event_context_at_startup() {
+        Engine::new().run(Box::from(AddEventContextTestState));
+    }
+
+    struct AddEventContextTestState;
+
+    impl State for AddEventContextTestState {
+        fn update(&mut self, context: &mut Context) -> OptionalTransition {
+            context
+                .get::<EventContext<Event>>()
+                .expect("no EventContext");
+            Some(Transition::Quit)
+        }
+
+        fn render(&mut self, _context: &mut Context) -> RenderResult {}
     }
 }
