@@ -30,4 +30,3 @@ pub type EventReader<E> = ::rc_event_queue::mpmc::EventReader<E, EventReaderSett
 
 /// The built-in event types for Wolf Engine.
 pub enum Event {}
-

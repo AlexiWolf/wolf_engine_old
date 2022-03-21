@@ -1,9 +1,9 @@
 use std::mem::replace;
 
-use crate::*;
 use crate::contexts::EventContext;
 use crate::event::Event;
 use crate::schedulers::FixedUpdateScheduler;
+use crate::*;
 
 /// Provides the core functionality of the engine.
 ///
@@ -238,7 +238,9 @@ mod engine_builder_tests {
 
     impl State for AddEventContextTestState {
         fn update(&mut self, context: &mut Context) -> OptionalTransition {
-            context.get::<EventContext<Event>>().expect("no EventContext");
+            context
+                .get::<EventContext<Event>>()
+                .expect("no EventContext");
             Some(Transition::Quit)
         }
 
