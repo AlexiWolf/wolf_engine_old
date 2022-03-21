@@ -123,13 +123,22 @@ pub struct EventContext<E> {
 }
 
 impl<E> EventContext<E> {
+
+    /// Create a new Event Context with a custom queue size limit.
+    ///
+    /// If you don't need a custom queue size limit, you should use 
+    /// [EventContext::default()] instead.
     pub fn new(max_queue_size: usize) -> Self {
         Self {
             event_queue: EventQueue::new(),
             max_queue_size,
         }
     }
-
+   
+    /// Push an event to the event queue.
+    ///
+    /// This will also check if the queue size has exceeded the maximum and will forcibly
+    /// remove the oldest events from the queue.
     pub fn push(&self, event: E) {
         self.event_queue.push(event);
         self.truncate_queue_if_over_max_capacity();
@@ -141,6 +150,7 @@ impl<E> EventContext<E> {
         }
     }
 
+    /// Access an [EventReader] created from the internal [EventQueue].
     pub fn reader(&self) -> EventReader<E> {
         EventReader::new(&self.event_queue)
     }
