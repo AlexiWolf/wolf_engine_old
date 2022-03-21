@@ -74,7 +74,6 @@ mod event_context_tests {
         let events = EventContext::<u32>::new(20_472);
 
         // Unused readers normally result in a memory leak.
-        #[allow(unused)]
         let _unused_reader = events.reader();
 
         for i in 0..=50_000{
