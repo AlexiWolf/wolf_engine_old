@@ -88,7 +88,7 @@ mod event_context_tests {
     }
 
     #[test]
-    fn should_not_drop_events_unless_over_queue_size() {
+    fn should_not_drop_events_unless_over_max_queue_size() {
         let events = EventContext::<u32>::new(20_472);
 
         let _unused_reader = events.reader();
