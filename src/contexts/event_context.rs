@@ -16,8 +16,8 @@ impl<E> EventContext<E> {
     }
 
     pub fn push(&self, event: E) {
-        self.truncate_queue_if_over_max_capacity(); 
         self.event_queue.push(event);
+        self.truncate_queue_if_over_max_capacity(); 
     }
 
     fn truncate_queue_if_over_max_capacity(&self) {
