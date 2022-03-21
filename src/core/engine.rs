@@ -185,7 +185,10 @@ mod engine_builder_tests {
     use lazy_static::lazy_static;
 
     use super::*;
+
     use crate::{EmptyState, MockScheduler};
+    use crate::contexts::EventContext;
+    use crate::event::Event;
 
     #[test]
     fn should_allow_custom_states() {
@@ -223,5 +226,13 @@ mod engine_builder_tests {
             *HAS_RAN_CUSTOM_CORE.lock().unwrap(),
             "The custom engine core was not used"
         );
+    }
+
+    #[test]
+    fn should_add_event_context_at_startup() {
+        let mut engine = Engine::new();
+        engine.run(Box::from(EmptyState));
+
+        engine.context.get::<EventContext<Event>>().expect("No engine event context");
     }
 }
