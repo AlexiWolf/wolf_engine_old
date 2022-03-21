@@ -8,9 +8,8 @@ pub struct EventContext<E> {
 
 impl<E> EventContext<E> {
     pub fn new() -> Self {
-        Self {
-            event_queue: EventQueue::new(),
-        }
+        let event_context = Self::default();
+        event_context
     }
 
     pub fn push(&self, event: E) {
@@ -26,6 +25,14 @@ impl<E> EventContext<E> {
 
     pub fn reader(&self) -> EventReader<E> {
         EventReader::new(&self.event_queue)
+    }
+}
+
+impl<E> Default for EventContext<E> {
+    fn default() -> Self {
+        Self { 
+            event_queue: EventQueue::new(), 
+        }
     }
 }
 
