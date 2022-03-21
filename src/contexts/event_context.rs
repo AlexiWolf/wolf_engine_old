@@ -67,13 +67,13 @@ mod event_context_tests {
 
     #[test]
     fn should_prevent_memory_leaks_by_dropping_events_from_the_queue() {
-        let events = EventContext::<u32>::new();
+        let events = EventContext::<u32>::new(20_000);
 
         // Unused readers normally result in a memory leak.
         #[allow(unused)]
         let _unused_reader = events.reader();
 
-        for i in 0..=200_000 {
+        for i in 0..=50_000 {
             // The push method is expected to prevent memory leaks by limiting the event 
             // queue size.
             events.push(i);
