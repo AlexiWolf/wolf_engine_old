@@ -72,7 +72,6 @@ mod event_context_tests {
     #[test]
     fn should_prevent_memory_leaks_by_dropping_events_from_the_queue() {
         let events = EventContext::<u32>::new(20_472);
-
         let _unused_reader = events.reader();
 
         for i in 0..=50_000{
@@ -86,7 +85,6 @@ mod event_context_tests {
     #[test]
     fn should_not_drop_events_unless_over_max_queue_size() {
         let events = EventContext::<u32>::new(20_472);
-
         let _unused_reader = events.reader();
 
         for i in 0..20_472 {
