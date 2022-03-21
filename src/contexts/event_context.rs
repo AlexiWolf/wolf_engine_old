@@ -21,8 +21,8 @@ impl<E> EventContext<E> {
     }
 
     fn truncate_queue_if_over_max_capacity(&self) {
-        if self.event_queue.total_capacity() < 100_000 {
-            self.event_queue.truncate_front(1000);
+        if self.event_queue.total_capacity() > self.max_queue_size {
+            self.event_queue.truncate_front(1024);
         }
     }
 
