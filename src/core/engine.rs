@@ -1,9 +1,9 @@
 use std::mem::replace;
 
-use crate::{
-    log_startup_information, run_while_has_active_state, schedulers::FixedUpdateScheduler, Context,
-    CoreFunction, Scheduler, State, StateStack,
-};
+use crate::*;
+use crate::contexts::EventContext;
+use crate::event::Event;
+use crate::schedulers::FixedUpdateScheduler;
 
 /// Provides the core functionality of the engine.
 ///
@@ -84,6 +84,7 @@ impl Engine {
     /// Takes ownership over the engine and runs until the [CoreFunction] exits.
     pub fn run(mut self, initial_state: Box<dyn State>) {
         log_startup_information();
+        self.context.add(EventContext::<Event>::default()).unwrap();
         self.state_stack.push(initial_state, &mut self.context);
         let (engine, core_function) = self.extract_core_function();
         (core_function)(engine);
@@ -186,10 +187,6 @@ mod engine_builder_tests {
 
     use super::*;
 
-    use crate::{EmptyState, MockScheduler};
-    use crate::contexts::EventContext;
-    use crate::event::Event;
-
     #[test]
     fn should_allow_custom_states() {
         let context = Context::default();
@@ -230,9 +227,17 @@ mod engine_builder_tests {
 
     #[test]
     fn should_add_event_context_at_startup() {
-        let mut engine = Engine::new();
-        engine.run(Box::from(EmptyState));
+        Engine::new().run(Box::from(AddEventContextTestState));
+    }
 
-        engine.context.get::<EventContext<Event>>().expect("No engine event context");
+    struct AddEventContextTestState;
+
+    impl State for AddEventContextTestState {
+        fn update(&mut self, context: &mut Context) -> OptionalTransition {
+            context.get::<EventContext<Event>>().expect("no EventContext");
+            Some(Transition::Quit)
+        }
+
+        fn render(&mut self, _context: &mut Context) -> RenderResult {}
     }
 }
