@@ -1,6 +1,6 @@
 use std::{pin::Pin, sync::Arc};
 
-use crate::event::{EventQueue, EventReader};
+use crate::{event::{EventQueue, EventReader}, Subcontext};
 
 pub struct EventContext<E> {
     event_queue: Pin<Arc<EventQueue<E>>>,
@@ -39,6 +39,8 @@ impl<E> Default for EventContext<E> {
         }
     }
 }
+
+impl<E: 'static> Subcontext for EventContext<E> {}
 
 #[cfg(test)]
 mod event_context_tests {
