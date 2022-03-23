@@ -2,6 +2,7 @@ use std::mem::replace;
 
 use crate::contexts::EventContext;
 use crate::event::Event;
+use crate::plugins::CorePlugin;
 use crate::schedulers::FixedUpdateScheduler;
 use crate::*;
 
@@ -168,7 +169,7 @@ impl Default for EngineBuilder {
             context: Context::empty(),
             scheduler: Box::from(FixedUpdateScheduler::default()),
             core: Box::from(run_while_has_active_state),
-        }.with_plugin(CorePlugin::new())
+        }.with_plugin(Box::from(CorePlugin))
     }
 }
 
