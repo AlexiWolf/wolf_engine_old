@@ -139,7 +139,7 @@ impl Context {
     }
 
     pub fn is_empty(&self) -> bool {
-        false 
+        self.subcontexts.is_empty() 
     }
 }
 
