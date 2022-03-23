@@ -146,6 +146,10 @@ impl Context {
     pub fn remove<T: Subcontext>(&mut self) {
         self.subcontexts.remove::<T>();
     }
+
+    pub fn len(&self) -> usize {
+        0
+    }
 }
 
 impl Default for Context {
