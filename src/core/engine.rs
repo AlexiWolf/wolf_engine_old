@@ -164,11 +164,11 @@ impl EngineBuilder {
 
 impl Default for EngineBuilder {
     fn default() -> Self {
-        Self {
+         Self {
             context: Context::empty(),
             scheduler: Box::from(FixedUpdateScheduler::default()),
             core: Box::from(run_while_has_active_state),
-        }
+        }.with_plugin(CorePlugin::new())
     }
 }
 
