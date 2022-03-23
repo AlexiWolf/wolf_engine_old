@@ -246,4 +246,9 @@ mod engine_builder_tests {
 
         fn render(&mut self, _context: &mut Context) -> RenderResult {}
     }
+
+    #[test]
+    fn should_load_plugins() {
+        let plugin = MockPlugin::new();
+    }
 }
