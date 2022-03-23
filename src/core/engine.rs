@@ -111,7 +111,6 @@ impl Engine {
 
 impl Default for Engine {
     fn default() -> Self {
-        let context = Context::default();
         EngineBuilder::new().build()
     }
 }
