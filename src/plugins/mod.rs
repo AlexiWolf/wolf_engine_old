@@ -1,6 +1,5 @@
 use crate::{EngineBuilder, Plugin};
 
-
 pub(crate) struct CorePlugin; 
 
 impl Plugin for CorePlugin {
