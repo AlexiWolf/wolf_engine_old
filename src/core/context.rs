@@ -139,7 +139,7 @@ impl Context {
     }
 
     pub fn is_empty(&self) -> bool {
-        self.subcontexts.is_empty() 
+        self.subcontexts.is_empty()
     }
 }
 
@@ -156,8 +156,14 @@ mod context_tests {
     #[test]
     fn should_always_start_with_no_subcontexts() {
         assert!(Context::new().is_empty(), "Context::new() was not empty");
-        assert!(Context::empty().is_empty(), "Context::empty() was not empty");
-        assert!(Context::default().is_empty(), "Context::default() was not empty");
+        assert!(
+            Context::empty().is_empty(),
+            "Context::empty() was not empty"
+        );
+        assert!(
+            Context::default().is_empty(),
+            "Context::default() was not empty"
+        );
     }
 
     #[test]
