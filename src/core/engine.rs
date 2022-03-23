@@ -194,7 +194,7 @@ mod engine_builder_tests {
 
     use lazy_static::lazy_static;
 
-    use crate::contexts::SchedulerContext;
+    use crate::{contexts::{SchedulerContext, EventContext}, event::Event};
 
     use super::*;
 
