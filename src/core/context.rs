@@ -150,7 +150,7 @@ mod context_tests {
     use super::*;
 
     #[test]
-    fn should_always_initialize_empty_context_object() {
+    fn should_always_start_with_no_subcontexts() {
         assert_eq!(Context::new().len(), 0, "Context::new() was not empty");
         assert_eq!(Context::empty().len(), 0, "Context::empty() was not empty");
         assert_eq!(Context::default().len(), 0, "Context::default() was not empty");

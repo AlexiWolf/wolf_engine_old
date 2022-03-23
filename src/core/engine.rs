@@ -200,6 +200,8 @@ mod engine_builder_tests {
 
     use lazy_static::lazy_static;
 
+    use crate::contexts::SchedulerContext;
+
     use super::*;
 
     #[test]
@@ -276,5 +278,15 @@ mod engine_builder_tests {
         engine_builder = engine_builder.with_subcontext(subcontext);
 
         assert_eq!(engine_builder.context.len(), 1, "The subcontext was not added");
+    }
+
+    #[test]
+    fn should_load_core_plugin() {
+        let engine_builder = EngineBuilder::new();
+
+        let _event_context = engine_builder.context.get::<EventContext<Event>>()
+            .expect("failed to get EventContext<Event>");
+        let _scheduler_context = engine_builder.context.get::<SchedulerContext>()
+            .expect("failed to get SchedulerContext");
     }
 }
