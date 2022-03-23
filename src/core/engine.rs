@@ -1,7 +1,5 @@
 use std::mem::replace;
 
-use crate::contexts::EventContext;
-use crate::event::Event;
 use crate::plugins::CorePlugin;
 use crate::schedulers::FixedUpdateScheduler;
 use crate::*;

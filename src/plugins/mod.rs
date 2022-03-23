@@ -1,11 +1,4 @@
-use crate::{EngineBuilder, Plugin, contexts::{SchedulerContext, EventContext}, event::Event};
+mod core_plugin;
 
-pub(crate) struct CorePlugin; 
+pub(crate) use core_plugin::*;
 
-impl Plugin for CorePlugin {
-    fn setup(&mut self, engine_builder: EngineBuilder) -> EngineBuilder {
-        engine_builder
-            .with_subcontext(SchedulerContext::new())
-            .with_subcontext(EventContext::<Event>::default())
-    }
-}
