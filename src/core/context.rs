@@ -7,8 +7,6 @@ use anymap::AnyMap;
 #[cfg(test)]
 use mockall::automock;
 
-use crate::contexts::SchedulerContext;
-
 /// Indicates a [Subcontext] has already been added to the [Context].
 #[derive(Debug)]
 pub struct ContextAlreadyExistsError;
@@ -150,6 +148,13 @@ impl Default for Context {
 #[cfg(test)]
 mod context_tests {
     use super::*;
+
+    #[test]
+    fn should_always_initialize_empty_context_object() {
+        assert_eq!(Context::new().len(), 0, "Context::new() was not empty");
+        assert_eq!(Context::empty().len(), 0, "Context::empty() was not empty");
+        assert_eq!(Context::default().len(), 0, "Context::default() was not empty");
+    }
 
     #[test]
     fn should_add_subcontext() {
