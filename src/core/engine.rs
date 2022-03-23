@@ -255,7 +255,7 @@ mod engine_builder_tests {
             .returning(|_| ());
         
         let _engine = EngineBuilder::new()
-            .with_plugin()
+            .with_plugin(plugin)
             .build();
     }
 }
