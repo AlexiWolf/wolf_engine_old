@@ -155,7 +155,7 @@ impl EngineBuilder {
 impl Default for EngineBuilder {
     fn default() -> Self {
         Self {
-            context: Context::default(),
+            context: Context::empty(),
             scheduler: Box::from(FixedUpdateScheduler::default()),
             core: Box::from(run_while_has_active_state),
         }
