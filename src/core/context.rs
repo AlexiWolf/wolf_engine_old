@@ -85,20 +85,9 @@ pub struct Context {
 }
 
 impl Context {
-    /// Create an instance of the default context.
-    ///
-    /// The default context starts off with a few common [Subcontext]s.  If this is not
-    /// desirable, use [Context::empty()].
-    ///
-    /// The default [Subcontext]s:
-    ///
-    /// - [SchedulerContext]
+    /// Create a new context with no [Subcontext]s.
     pub fn new() -> Self {
-        let mut context = Self::empty();
-        context
-            .add(SchedulerContext::new())
-            .expect("failed to add SchedulerContext");
-        context
+        Self::empty()
     }
 
     /// Create an empty context with no [Subcontext]s.
