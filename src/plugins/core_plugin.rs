@@ -1,8 +1,8 @@
-use crate::*;
+use crate::contexts::{EventContext, SchedulerContext};
 use crate::event::Event;
-use crate::contexts::{SchedulerContext, EventContext};
+use crate::*;
 
-pub(crate) struct CorePlugin; 
+pub(crate) struct CorePlugin;
 
 impl Plugin for CorePlugin {
     fn setup(&mut self, engine_builder: EngineBuilder) -> EngineBuilder {

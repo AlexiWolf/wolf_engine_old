@@ -7,4 +7,3 @@ use crate::EngineBuilder;
 pub trait Plugin {
     fn setup(&mut self, engine_builder: EngineBuilder) -> EngineBuilder;
 }
-

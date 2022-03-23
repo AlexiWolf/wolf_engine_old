@@ -147,7 +147,7 @@ impl EngineBuilder {
     }
 
     pub fn with_plugin(self, mut plugin: Box<dyn Plugin>) -> Self {
-        plugin.setup(self) 
+        plugin.setup(self)
     }
 
     pub fn with_subcontext<S: Subcontext>(mut self, subcontext: S) -> Self {
@@ -158,11 +158,12 @@ impl EngineBuilder {
 
 impl Default for EngineBuilder {
     fn default() -> Self {
-         Self {
+        Self {
             context: Context::empty(),
             scheduler: Box::from(FixedUpdateScheduler::default()),
             core: Box::from(run_while_has_active_state),
-        }.with_plugin(Box::from(CorePlugin))
+        }
+        .with_plugin(Box::from(CorePlugin))
     }
 }
 
@@ -194,7 +195,10 @@ mod engine_builder_tests {
 
     use lazy_static::lazy_static;
 
-    use crate::{contexts::{SchedulerContext, EventContext}, event::Event};
+    use crate::{
+        contexts::{EventContext, SchedulerContext},
+        event::Event,
+    };
 
     use super::*;
 
@@ -255,13 +259,12 @@ mod engine_builder_tests {
     #[test]
     fn should_load_plugins() {
         let mut plugin = MockPlugin::new();
-        plugin.expect_setup()
+        plugin
+            .expect_setup()
             .times(1)
             .returning(|engine_builder| engine_builder);
-        
-        let _engine = EngineBuilder::new()
-            .with_plugin(Box::from(plugin))
-            .build();
+
+        let _engine = EngineBuilder::new().with_plugin(Box::from(plugin)).build();
     }
 
     #[test]
@@ -271,7 +274,7 @@ mod engine_builder_tests {
         let starting_subcontexts = engine_builder.context.len();
 
         engine_builder = engine_builder.with_subcontext(subcontext);
-        
+
         let ending_subcontexts = engine_builder.context.len();
         let subcontexts_added = ending_subcontexts - starting_subcontexts;
         assert_eq!(subcontexts_added, 1, "The subcontext was not added");
@@ -281,9 +284,13 @@ mod engine_builder_tests {
     fn should_load_core_plugin() {
         let engine_builder = EngineBuilder::new();
 
-        let _event_context = engine_builder.context.get::<EventContext<Event>>()
+        let _event_context = engine_builder
+            .context
+            .get::<EventContext<Event>>()
             .expect("failed to get EventContext<Event>");
-        let _scheduler_context = engine_builder.context.get::<SchedulerContext>()
+        let _scheduler_context = engine_builder
+            .context
+            .get::<SchedulerContext>()
             .expect("failed to get SchedulerContext");
     }
 }
