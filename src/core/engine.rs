@@ -156,7 +156,8 @@ impl EngineBuilder {
         plugin.setup(self) 
     }
 
-    pub fn with_subcontext<S: Subcontext>(self, subcontext: S) -> Self {
+    pub fn with_subcontext<S: Subcontext>(mut self, subcontext: S) -> Self {
+        self.context.add(subcontext).unwrap();
         self
     }
 }
