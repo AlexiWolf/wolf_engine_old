@@ -262,4 +262,14 @@ mod engine_builder_tests {
             .with_plugin(Box::from(plugin))
             .build();
     }
+
+    #[test]
+    fn should_add_subcontexts_to_the_context_object() {
+        let engine_builder = EngineBuilder::new();
+        let subcontext = MockSubcontext::new();
+
+        engine_builder.with_subcontext(subcontext);
+
+        assert_eq!(engine_builder.context.subcontexts.len(), 1, "The subcontext was not added");
+    }
 }
