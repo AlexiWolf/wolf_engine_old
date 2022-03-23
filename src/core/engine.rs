@@ -119,7 +119,7 @@ impl Default for Engine {
 
 /// Build and customize an instance of the [Engine].
 pub struct EngineBuilder {
-    context: Context,
+    pub context: Context,
     scheduler: Box<dyn Scheduler>,
     core: CoreFunction,
 }
