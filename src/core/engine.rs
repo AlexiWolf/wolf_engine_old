@@ -155,6 +155,10 @@ impl EngineBuilder {
     pub fn with_plugin(self, mut plugin: Box<dyn Plugin>) -> Self {
         plugin.setup(self) 
     }
+
+    pub fn with_subcontext<S: Subcontext>(self, subcontext: S) -> Self {
+        self
+    }
 }
 
 impl Default for EngineBuilder {
