@@ -148,7 +148,7 @@ impl Context {
     }
 
     pub fn len(&self) -> usize {
-        0
+        self.subcontexts.len()
     }
 }
 
