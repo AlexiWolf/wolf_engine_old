@@ -70,7 +70,7 @@ pub type Frames = u64;
 ///
 /// ```
 /// # use wolf_engine::*;
-/// # use wolf_engine::schedulers::FixedUpdateSchedulerBuilder
+/// # use wolf_engine::schedulers::FixedUpdateSchedulerBuilder;
 /// #
 /// # // Using fixed game loop for the example because the actual loop is unimportant.
 /// # // Any Scheduler can be provided here and it will work just the same.
