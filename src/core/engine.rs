@@ -112,12 +112,13 @@ impl Engine {
 impl Default for Engine {
     fn default() -> Self {
         let context = Context::default();
-        EngineBuilder::new().build(context)
+        EngineBuilder::new().build()
     }
 }
 
 /// Build and customize an instance of the [Engine].
 pub struct EngineBuilder {
+    context: Context,
     scheduler: Box<dyn Scheduler>,
     core: CoreFunction,
 }
@@ -131,7 +132,7 @@ impl EngineBuilder {
     /// Consumes the engine builder and returns an [Engine] created from it.
     pub fn build(self) -> Engine {
         Engine {
-            context,
+            context: self.context,
             scheduler: self.scheduler,
             state_stack: StateStack::new(),
             core: self.core,
@@ -154,6 +155,7 @@ impl EngineBuilder {
 impl Default for EngineBuilder {
     fn default() -> Self {
         Self {
+            context: Context::default(),
             scheduler: Box::from(FixedUpdateScheduler::default()),
             core: Box::from(run_while_has_active_state),
         }
