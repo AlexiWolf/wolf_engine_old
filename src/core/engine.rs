@@ -129,7 +129,7 @@ impl EngineBuilder {
     }
 
     /// Consumes the engine builder and returns an [Engine] created from it.
-    pub fn build(self, context: Context) -> Engine {
+    pub fn build(self) -> Engine {
         Engine {
             context,
             scheduler: self.scheduler,
