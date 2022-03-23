@@ -155,9 +155,9 @@ mod context_tests {
 
     #[test]
     fn should_always_start_with_no_subcontexts() {
-        assert_eq!(Context::new().is_empty(), "Context::new() was not empty");
-        assert_eq!(Context::empty().is_empty(), "Context::empty() was not empty");
-        assert_eq!(Context::default().is_empty(), "Context::default() was not empty");
+        assert!(Context::new().is_empty(), "Context::new() was not empty");
+        assert!(Context::empty().is_empty(), "Context::empty() was not empty");
+        assert!(Context::default().is_empty(), "Context::default() was not empty");
     }
 
     #[test]
