@@ -153,7 +153,7 @@ impl EngineBuilder {
     }
 
     pub fn with_plugin(self, plugin: Box<dyn Plugin>) -> Self {
-        self
+        plugin.setup(self) 
     }
 }
 
