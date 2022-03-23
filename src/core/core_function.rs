@@ -46,11 +46,10 @@ use crate::Engine;
 /// # use wolf_engine::*;
 /// #
 /// # let custom_engine_core = run_while_has_active_state;
-/// # let context = Context::default();
 /// #
 /// let engine = EngineBuilder::new()
 ///     .with_engine_core(Box::from(custom_engine_core))
-///     .build(context);
+///     .build();
 /// ```
 pub type CoreFunction = Box<dyn Fn(Engine)>;
 
