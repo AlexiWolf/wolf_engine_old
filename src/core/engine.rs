@@ -151,6 +151,10 @@ impl EngineBuilder {
         self.core = engine_core;
         self
     }
+
+    pub fn with_plugin(self, plugin: Box<dyn Plugin>) -> Self {
+        self
+    }
 }
 
 impl Default for EngineBuilder {
