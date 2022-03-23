@@ -137,6 +137,10 @@ impl Context {
     pub fn len(&self) -> usize {
         self.subcontexts.len()
     }
+
+    pub fn is_empty() -> bool {
+        false 
+    }
 }
 
 impl Default for Context {
