@@ -249,6 +249,9 @@ mod engine_builder_tests {
 
     #[test]
     fn should_load_plugins() {
-        let plugin = MockPlugin::new();
+        let mut plugin = MockPlugin::new();
+        plugin.expect_setup()
+            .times(1)
+            .returning(|_| ());
     }
 }
