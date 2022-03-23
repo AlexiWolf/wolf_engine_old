@@ -138,7 +138,7 @@ impl Context {
         self.subcontexts.len()
     }
 
-    pub fn is_empty() -> bool {
+    pub fn is_empty(&self) -> bool {
         false 
     }
 }
