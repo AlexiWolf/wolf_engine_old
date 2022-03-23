@@ -86,14 +86,9 @@ impl Engine {
     /// Takes ownership over the engine and runs until the [CoreFunction] exits.
     pub fn run(mut self, initial_state: Box<dyn State>) {
         log_startup_information();
-        self.add_required_subcontexts();
         self.state_stack.push(initial_state, &mut self.context);
         let (engine, core_function) = self.extract_core_function();
         (core_function)(engine);
-    }
-
-    fn add_required_subcontexts(&mut self) {
-        self.context.add(EventContext::<Event>::default()).unwrap();
     }
 
     fn extract_core_function(mut self) -> (Engine, Box<dyn Fn(Engine)>) {
