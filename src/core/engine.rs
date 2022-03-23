@@ -259,7 +259,7 @@ mod engine_builder_tests {
             .returning(|_| ());
         
         let _engine = EngineBuilder::new()
-            .with_plugin(plugin)
+            .with_plugin(Box::from(plugin))
             .build();
     }
 }
