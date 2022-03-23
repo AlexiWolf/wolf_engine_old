@@ -35,13 +35,12 @@ use crate::*;
 /// can be used to customize just about every aspect of the engine.
 ///
 /// ```
-/// # use wolf_engine::{Engine, Context, EngineBuilder};
+/// # use wolf_engine::EngineBuilder;
 /// #
-/// let context = Context::default();
 /// // Add to the Context object here.
 /// let engine = EngineBuilder::new()
 ///     // Customize the engine here.
-///     .build(context);
+///     .build();
 /// ```
 ///
 /// You can refer to the [EngineBuilder], and [Context] documentation for specifics on
