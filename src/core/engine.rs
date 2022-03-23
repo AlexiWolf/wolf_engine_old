@@ -274,6 +274,6 @@ mod engine_builder_tests {
 
         engine_builder.with_subcontext(subcontext);
 
-        assert_eq!(engine_builder.context.subcontexts.len(), 1, "The subcontext was not added");
+        assert_eq!(engine_builder.context.len(), 1, "The subcontext was not added");
     }
 }
