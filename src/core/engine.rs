@@ -269,10 +269,10 @@ mod engine_builder_tests {
 
     #[test]
     fn should_add_subcontexts_to_the_context_object() {
-        let engine_builder = EngineBuilder::new();
+        let mut engine_builder = EngineBuilder::new();
         let subcontext = MockSubcontext::new();
 
-        engine_builder.with_subcontext(subcontext);
+        engine_builder = engine_builder.with_subcontext(subcontext);
 
         assert_eq!(engine_builder.context.len(), 1, "The subcontext was not added");
     }
