@@ -194,7 +194,6 @@ mod engine_builder_tests {
 
     #[test]
     fn should_allow_custom_states() {
-        let context = Context::default();
         let mut scheduler = MockScheduler::new();
         scheduler
             .expect_update()
@@ -206,7 +205,7 @@ mod engine_builder_tests {
 
         EngineBuilder::new()
             .with_scheduler(Box::from(scheduler))
-            .build(context)
+            .build()
             .run(Box::from(EmptyState));
     }
 
@@ -215,12 +214,11 @@ mod engine_builder_tests {
         lazy_static! {
             static ref HAS_RAN_CUSTOM_CORE: Mutex<bool> = Mutex::from(false);
         }
-        let context = Context::default();
         let engine = EngineBuilder::new()
             .with_engine_core(Box::from(|_| {
                 *HAS_RAN_CUSTOM_CORE.lock().unwrap() = true;
             }))
-            .build(context);
+            .build();
 
         engine.run(Box::from(EmptyState));
 
