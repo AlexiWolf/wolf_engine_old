@@ -5,16 +5,6 @@
 
 Wolf Engine is a game framework that's designed to be flexible and easy to work with.
 
-### Design Goals
-
-- **Simple:** Offer sensible default options and a clean and simple API.  Always remember to KISS.
-- **Capable:** Build anything from small prototypes and game jams to full-featured production releases.
-- **Flexible:** Allow users the freedom to bring their own tools and customize the engine to fit their project's needs.
-- **Stable:** Utilize Rust's powerful type system and good BDD / TDD practices to squash bugs before they appear.
-- **Capable:** Provide 2D and 3D support and many more useful features.
-- **Light:** Every module except the core module is optional, so if it's not needed it won't be included.
-- **Fast:** Code should strive to run as fast as possible.
-
 ### Project Status
 
 **Wolf Engine is still in early alpha.**  While the core API is mostly complete, and is starting to stabilize somewhat,
@@ -25,6 +15,16 @@ In addition to being in alpha, I'm still actively learning about game, and game 
 made to ensure things work well, but I'm by no means an expert at this, and I fully expect to make mistakes.  Feedback 
 and / or  contribution is absolutely welcome, so feel free to create an issue for anything you feel could be done 
 better.
+
+### Design Goals
+
+- **Simple:** Offer sensible default options and a clean and simple API.  Always remember to KISS.
+- **Capable:** Build anything from small prototypes and game jams to full-featured production releases.
+- **Flexible:** Allow users the freedom to bring their own tools and customize the engine to fit their project's needs.
+- **Stable:** Utilize Rust's powerful type system and good BDD / TDD practices to squash bugs before they appear.
+- **Capable:** Provide 2D and 3D support and many more useful features.
+- **Light:** Every module except the core module is optional, so if it's not needed it won't be included.
+- **Fast:** Code should strive to run as fast as possible.
 
 ### Features
 
