@@ -61,6 +61,27 @@ provided to show you what is and is not ready, and to help you decide if Wolf En
   - [ ] Lua Scripting
   - [ ] Python Scripting 
 
+### Platform Support 
+
+Excellent cross-platform support is one of the main goals of Wolf Engine.  Development is happening primarily on Linux,
+and Windows, so those platforms have the best support currently.  By release 1.0, all platforms listed below should be 
+well supported.
+
+#### First-class Support
+
+- **Linux**
+- **Windows**
+
+#### Well Supported 
+
+- **MacOS**
+
+#### Not Tested, but May Work 
+
+- **Android**
+- **IOS**
+- **WASM**
+
 ## Getting Started
 
 ### Installation
