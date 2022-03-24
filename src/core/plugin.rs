@@ -32,6 +32,9 @@ use crate::EngineBuilder;
 /// #         engine_builder
 /// #     }
 /// # }
+/// #
+/// EngineBuilder::new()
+///     .with_plugin(Box::from(MyPlugin));
 /// ```
 ///
 /// ## Creating a Custom Plugin
