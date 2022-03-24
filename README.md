@@ -7,7 +7,7 @@ Wolf Engine is a game framework that's designed to be flexible and easy to work 
 
 ### Design Goals
 
-- **Simple:** Offer sensible default options and offer a clean and simple API.  Always remember to KISS.
+- **Simple:** Offer sensible default options and a clean and simple API.  Always remember to KISS.
 - **Capable:** Build anything from small prototypes and game jams to full-featured production releases.
 - **Flexible:** Allow users the freedom to bring their own tools and customize the engine to fit their project's needs.
 - **Stable:** Utilize Rust's powerful type system and good BDD / TDD practices to keep the API as bug-free as possible.
