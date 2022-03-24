@@ -26,6 +26,7 @@ If you wish to contribute, please make sure you have read the [Contribution Guid
 - **Capable:** Provide 2D and 3D support and many more useful features.
 - **Light:** Every module except the core module is optional, so if it's not needed it won't be included.
 - **Fast:** Code should strive to run as fast as possible.
+- **Cross-Platform:** Run on as many platforms as possible.
 
 ### Features
 
