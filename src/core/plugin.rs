@@ -3,19 +3,20 @@ use mockall::automock;
 
 use crate::EngineBuilder;
 
-/// A plugin for the [EngineBuilder].
+/// Provides additional functionality to the engine.
 ///
-/// Plugins are loaded at startup and are given ownership over the [EngineBuilder].  
-/// From there, they are free to set things up however they need to.  
+/// Plugins make it easy to extend the engine with new functionality.  Plugins are loaded
+/// at startup by the [EngineBuilder].  Plugins are given direct access to the 
+/// [EngineBuilder] during startup, and can add to it, or configure it in any way they 
+/// need.
 ///
-/// Plugins can: 
+/// Among other things, most plugins will: 
 ///
 /// - Add `Subcontext`s to the main `Context`.
 /// - Remove `Subcontext`s from the main `Context`.
 /// - Add other `Plugins`.
 /// - Change the engine's `Scheduler`.
-/// - Change the engine's `CoreFunction` (
-/// - And anything else.
+/// - Change the engine's `CoreFunction`. 
 ///
 /// # Examples
 ///
@@ -36,7 +37,7 @@ use crate::EngineBuilder;
 /// ## Creating a Custom Plugin
 ///
 /// You can create a custom plugin by implementing this trait.
-///
+/// 
 /// ```
 /// # use wolf_engine::*;
 /// #
