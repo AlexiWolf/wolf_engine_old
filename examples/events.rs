@@ -1,8 +1,8 @@
 use log::*;
 use rc_event_queue::LendingIterator;
-use wolf_engine::*;
 use wolf_engine::contexts::EventContext;
 use wolf_engine::event::EventReader;
+use wolf_engine::*;
 
 pub fn main() {
     #[cfg(feature = "logging")]
@@ -20,7 +20,7 @@ impl State for ExampleState {
     fn setup(&mut self, context: &mut Context) {
         let event_context = EventContext::<usize>::default();
         self.number_reader = Some(event_context.reader());
-        context.add(event_context).unwrap(); 
+        context.add(event_context).unwrap();
     }
 
     fn update(&mut self, context: &mut Context) -> OptionalTransition {
@@ -52,7 +52,8 @@ impl ExampleState {
     }
 
     pub fn get_event_context(context: &Context) -> &EventContext<usize> {
-        context.get::<EventContext<usize>>()
+        context
+            .get::<EventContext<usize>>()
             .expect("the context has no EventContext<usize>")
     }
 }

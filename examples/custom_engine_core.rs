@@ -5,10 +5,9 @@ pub fn main() {
     #[cfg(feature = "logging")]
     logging::initialize_logging(LevelFilter::Info);
 
-    let context = Context::default();
     EngineBuilder::new()
         .with_engine_core(Box::from(my_custom_core_function))
-        .build(context)
+        .build()
         .run(Box::from(EmptyState));
 }
 

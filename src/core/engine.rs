@@ -1,7 +1,6 @@
 use std::mem::replace;
 
-use crate::contexts::EventContext;
-use crate::event::Event;
+use crate::plugins::CorePlugin;
 use crate::schedulers::FixedUpdateScheduler;
 use crate::*;
 
@@ -16,7 +15,8 @@ use crate::*;
 /// If you just want to use the defaults, you can use [Engine::new()].
 ///
 /// ```
-/// # use wolf_engine::{Engine, EmptyState};
+/// # use wolf_engine::*;
+/// #
 /// # let my_game_state = EmptyState;
 /// #
 /// let engine = Engine::new();
@@ -25,7 +25,8 @@ use crate::*;
 /// Using [Engine::default()] does the same thing:
 ///
 /// ```
-/// # use wolf_engine::{Engine, EmptyState};
+/// # use wolf_engine::*;
+/// #
 /// # let my_game_state = EmptyState;
 /// #
 /// let engine = Engine::default();
@@ -35,13 +36,12 @@ use crate::*;
 /// can be used to customize just about every aspect of the engine.
 ///
 /// ```
-/// # use wolf_engine::{Engine, Context, EngineBuilder};
+/// # use wolf_engine::*;
 /// #
-/// let context = Context::default();
 /// // Add to the Context object here.
 /// let engine = EngineBuilder::new()
 ///     // Customize the engine here.
-///     .build(context);
+///     .build();
 /// ```
 ///
 /// You can refer to the [EngineBuilder], and [Context] documentation for specifics on
@@ -52,7 +52,7 @@ use crate::*;
 /// to it.
 ///
 /// ```
-/// # use wolf_engine::{Engine, EmptyState};
+/// # use wolf_engine::*;
 /// #
 /// # let engine = Engine::default();
 /// # let my_game_state = EmptyState;
@@ -84,14 +84,9 @@ impl Engine {
     /// Takes ownership over the engine and runs until the [CoreFunction] exits.
     pub fn run(mut self, initial_state: Box<dyn State>) {
         log_startup_information();
-        self.add_required_subcontexts();
         self.state_stack.push(initial_state, &mut self.context);
         let (engine, core_function) = self.extract_core_function();
         (core_function)(engine);
-    }
-
-    fn add_required_subcontexts(&mut self) {
-        self.context.add(EventContext::<Event>::default()).unwrap();
     }
 
     fn extract_core_function(mut self) -> (Engine, Box<dyn Fn(Engine)>) {
@@ -112,13 +107,13 @@ impl Engine {
 
 impl Default for Engine {
     fn default() -> Self {
-        let context = Context::default();
-        EngineBuilder::new().build(context)
+        EngineBuilder::new().build()
     }
 }
 
 /// Build and customize an instance of the [Engine].
 pub struct EngineBuilder {
+    pub context: Context,
     scheduler: Box<dyn Scheduler>,
     core: CoreFunction,
 }
@@ -130,9 +125,9 @@ impl EngineBuilder {
     }
 
     /// Consumes the engine builder and returns an [Engine] created from it.
-    pub fn build(self, context: Context) -> Engine {
+    pub fn build(self) -> Engine {
         Engine {
-            context,
+            context: self.context,
             scheduler: self.scheduler,
             state_stack: StateStack::new(),
             core: self.core,
@@ -150,14 +145,25 @@ impl EngineBuilder {
         self.core = engine_core;
         self
     }
+
+    pub fn with_plugin(self, mut plugin: Box<dyn Plugin>) -> Self {
+        plugin.setup(self)
+    }
+
+    pub fn with_subcontext<S: Subcontext>(mut self, subcontext: S) -> Self {
+        self.context.add(subcontext).unwrap();
+        self
+    }
 }
 
 impl Default for EngineBuilder {
     fn default() -> Self {
         Self {
+            context: Context::empty(),
             scheduler: Box::from(FixedUpdateScheduler::default()),
             core: Box::from(run_while_has_active_state),
         }
+        .with_plugin(Box::from(CorePlugin))
     }
 }
 
@@ -189,11 +195,15 @@ mod engine_builder_tests {
 
     use lazy_static::lazy_static;
 
+    use crate::{
+        contexts::{EventContext, SchedulerContext},
+        event::Event,
+    };
+
     use super::*;
 
     #[test]
     fn should_allow_custom_states() {
-        let context = Context::default();
         let mut scheduler = MockScheduler::new();
         scheduler
             .expect_update()
@@ -205,7 +215,7 @@ mod engine_builder_tests {
 
         EngineBuilder::new()
             .with_scheduler(Box::from(scheduler))
-            .build(context)
+            .build()
             .run(Box::from(EmptyState));
     }
 
@@ -214,12 +224,11 @@ mod engine_builder_tests {
         lazy_static! {
             static ref HAS_RAN_CUSTOM_CORE: Mutex<bool> = Mutex::from(false);
         }
-        let context = Context::default();
         let engine = EngineBuilder::new()
             .with_engine_core(Box::from(|_| {
                 *HAS_RAN_CUSTOM_CORE.lock().unwrap() = true;
             }))
-            .build(context);
+            .build();
 
         engine.run(Box::from(EmptyState));
 
@@ -245,5 +254,43 @@ mod engine_builder_tests {
         }
 
         fn render(&mut self, _context: &mut Context) -> RenderResult {}
+    }
+
+    #[test]
+    fn should_load_plugins() {
+        let mut plugin = MockPlugin::new();
+        plugin
+            .expect_setup()
+            .times(1)
+            .returning(|engine_builder| engine_builder);
+
+        let _engine = EngineBuilder::new().with_plugin(Box::from(plugin)).build();
+    }
+
+    #[test]
+    fn should_add_subcontexts_to_the_context_object() {
+        let mut engine_builder = EngineBuilder::new();
+        let subcontext = MockSubcontext::new();
+        let starting_subcontexts = engine_builder.context.len();
+
+        engine_builder = engine_builder.with_subcontext(subcontext);
+
+        let ending_subcontexts = engine_builder.context.len();
+        let subcontexts_added = ending_subcontexts - starting_subcontexts;
+        assert_eq!(subcontexts_added, 1, "The subcontext was not added");
+    }
+
+    #[test]
+    fn should_load_core_plugin() {
+        let engine_builder = EngineBuilder::new();
+
+        let _event_context = engine_builder
+            .context
+            .get::<EventContext<Event>>()
+            .expect("failed to get EventContext<Event>");
+        let _scheduler_context = engine_builder
+            .context
+            .get::<SchedulerContext>()
+            .expect("failed to get SchedulerContext");
     }
 }

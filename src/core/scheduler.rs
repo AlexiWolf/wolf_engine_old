@@ -69,11 +69,8 @@ pub type Frames = u64;
 /// the `EngineBuilder::with_scheduler()` method.
 ///
 /// ```
-/// # use wolf_engine::{
-/// #    Context, EngineBuilder, schedulers::FixedUpdateSchedulerBuilder
-/// # };
-/// #
-/// # let context = Context::default();
+/// # use wolf_engine::*;
+/// # use wolf_engine::schedulers::FixedUpdateSchedulerBuilder;
 /// #
 /// # // Using fixed game loop for the example because the actual loop is unimportant.
 /// # // Any Scheduler can be provided here and it will work just the same.
@@ -82,7 +79,7 @@ pub type Frames = u64;
 /// #
 /// let engine = EngineBuilder::new()
 ///     .with_scheduler(Box::from(custom_scheduler))
-///     .build(context);
+///     .build();
 /// ```
 #[cfg_attr(test, automock)]
 pub trait Scheduler {

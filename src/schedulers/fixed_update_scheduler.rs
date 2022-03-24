@@ -374,7 +374,8 @@ mod fixed_update_scheduler_tests {
         let mut scheduler = FixedUpdateSchedulerBuilder::new().build();
         scheduler.lag = Duration::from_millis(artificial_lag);
         scheduler.update_time = Duration::from_millis(artificial_update_time);
-        let context = Context::default();
+        let mut context = Context::default();
+        context.add(SchedulerContext::new()).unwrap();
         (scheduler, context)
     }
 }

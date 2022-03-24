@@ -7,8 +7,6 @@ use anymap::AnyMap;
 #[cfg(test)]
 use mockall::automock;
 
-use crate::contexts::SchedulerContext;
-
 /// Indicates a [Subcontext] has already been added to the [Context].
 #[derive(Debug)]
 pub struct ContextAlreadyExistsError;
@@ -85,20 +83,9 @@ pub struct Context {
 }
 
 impl Context {
-    /// Create an instance of the default context.
-    ///
-    /// The default context starts off with a few common [Subcontext]s.  If this is not
-    /// desirable, use [Context::empty()].
-    ///
-    /// The default [Subcontext]s:
-    ///
-    /// - [SchedulerContext]
+    /// Create a new context with no [Subcontext]s.
     pub fn new() -> Self {
-        let mut context = Self::empty();
-        context
-            .add(SchedulerContext::new())
-            .expect("failed to add SchedulerContext");
-        context
+        Self::empty()
     }
 
     /// Create an empty context with no [Subcontext]s.
@@ -146,6 +133,14 @@ impl Context {
     pub fn remove<T: Subcontext>(&mut self) {
         self.subcontexts.remove::<T>();
     }
+
+    pub fn len(&self) -> usize {
+        self.subcontexts.len()
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.subcontexts.is_empty()
+    }
 }
 
 impl Default for Context {
@@ -157,6 +152,19 @@ impl Default for Context {
 #[cfg(test)]
 mod context_tests {
     use super::*;
+
+    #[test]
+    fn should_always_start_with_no_subcontexts() {
+        assert!(Context::new().is_empty(), "Context::new() was not empty");
+        assert!(
+            Context::empty().is_empty(),
+            "Context::empty() was not empty"
+        );
+        assert!(
+            Context::default().is_empty(),
+            "Context::default() was not empty"
+        );
+    }
 
     #[test]
     fn should_add_subcontext() {
