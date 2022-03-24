@@ -1,4 +1,4 @@
-//! Provides built-in [Plugin] implementations.
+//! Provides built-in [Plugin](crate::Plugin) implementations.
 
 mod core_plugin;
 
