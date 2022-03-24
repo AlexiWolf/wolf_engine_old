@@ -15,6 +15,8 @@ In addition to being in alpha, I'm still actively learning about game and engine
 ensure things work well, but I'm by no means an expert at this. I fully expect to make mistakes.  Feedback and / or  
 contribution is absolutely welcome, so feel free to create an issue for anything you feel could be done better.
 
+If you wish to contribute, please make sure you have read the [Contribution Guidelines](#Contribution).
+
 ### Design Goals
 
 - **Simple:** Offer sensible default options and a clean and simple API.  Always remember to KISS.
