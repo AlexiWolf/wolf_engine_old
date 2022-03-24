@@ -7,14 +7,13 @@ Wolf Engine is a game framework that's designed to be flexible and easy to work 
 
 ### Project Status
 
-**Wolf Engine is still in early alpha.**  While the core API is mostly complete, and is starting to stabilize somewhat,
-it's still unproven *alpha* software.  You should expect missing features, bugs, changing APIs, and other spooky stuff
-until release 1.0.
+**Wolf Engine is in early alpha.**  The core API is mostly complete, and has started to stabilize somewhat, but it's 
+still unproven *alpha* software.  You should expect missing features, bugs, changing APIs, and other spooky stuff until 
+release 1.0.
 
-In addition to being in alpha, I'm still actively learning about game, and game engine development.  A best-effort is 
-made to ensure things work well, but I'm by no means an expert at this, and I fully expect to make mistakes.  Feedback 
-and / or  contribution is absolutely welcome, so feel free to create an issue for anything you feel could be done 
-better.
+In addition to being in alpha, I'm still actively learning about game and engine development.  A best-effort is made to 
+ensure things work well, but I'm by no means an expert at this. I fully expect to make mistakes.  Feedback and / or  
+contribution is absolutely welcome, so feel free to create an issue for anything you feel could be done better.
 
 ### Design Goals
 
