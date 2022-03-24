@@ -62,6 +62,26 @@ provided to show you what is and is not ready, and to help you decide if Wolf En
 
 ## Getting Started
 
+### Installation
+
+Add Wolf Engine to the dependencies section in your `Cargo.toml`:
+
+```TOML
+[dependencies]
+wolf_engine = "*"
+```
+
+### Usage 
+
+For basic usage, see:
+
+ - [The Quickstart Example](https://github.com/AlexiWolf/wolf_engine/blob/main/examples/quickstart.rs)
+ - [The Documentation](https://docs.rs/wolf_engine/latest/wolf_engine/) 
+
+And for more advanced usage, see:
+
+ - [The Examples Folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples)
+
 ## Influences and Credits
 
 ## Contribution
