@@ -70,6 +70,10 @@ impl PluginLoader {
     pub fn add(&self, _plugin: Box<dyn Plugin>) {
 
     }
+
+    pub fn len(&self) -> usize {
+        0
+    }
 }
 
 #[cfg(test)]
