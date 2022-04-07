@@ -114,6 +114,7 @@ impl Default for Engine {
 /// Build and customize an instance of the [Engine].
 pub struct EngineBuilder {
     pub engine: Engine,
+    plugin_loader: PluginLoader,
 }
 
 impl EngineBuilder {
@@ -123,8 +124,10 @@ impl EngineBuilder {
     }
 
     /// Consumes the engine builder and returns an [Engine] created from it.
-    pub fn build(self) -> Engine {
-        self.engine
+    pub fn build(mut self) -> Engine {
+        let plugin_loader = replace(&mut self.plugin_loader, PluginLoader::new());
+        let engine_builder = plugin_loader.load_all(self);
+        engine_builder.engine
     }
 
     /// Set a custom [Scheduler] to be used.
@@ -140,8 +143,9 @@ impl EngineBuilder {
     }
 
     /// Add a [Plugin] to be loaded with the [Engine].
-    pub fn with_plugin(self, mut plugin: Box<dyn Plugin>) -> Self {
-        plugin.setup(self).ok().expect("Failed to load the plugin")
+    pub fn with_plugin(mut self, plugin: Box<dyn Plugin>) -> Self {
+        self.plugin_loader.add(plugin);
+        self
     }
 
     /// Add a [Subcontext] to the [Engine].
@@ -158,6 +162,7 @@ impl Default for EngineBuilder {
     fn default() -> Self {
         Self {
             engine: Engine::empty(),
+            plugin_loader: PluginLoader::new(),
         }
         .with_plugin(Box::from(CorePlugin))
     }
