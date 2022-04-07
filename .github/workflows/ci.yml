@@ -42,3 +42,16 @@ jobs:
       shell: bash
       run: cargo test --verbose $OPTIONS --features=logging,$FEATURES
 
+  check_code_format:
+    name: Check Code Format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Setup Rust
+        uses: ATiltedTree/setup-rust@v1
+        with:
+          rust-version: stable 
+      - name: Check Code Format
+        shell: bash
+        run: cargo fmt --check
