@@ -87,7 +87,7 @@ mod plugin_loader_tests {
     #[test]
     fn should_store_added_plugins() {
         let plugin = MockPlugin::new();
-        let plugin_loader = PluginLoader::new();
+        let mut plugin_loader = PluginLoader::new();
 
         plugin_loader.add(Box::from(plugin));
 
