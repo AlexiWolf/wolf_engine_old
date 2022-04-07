@@ -282,13 +282,14 @@ mod engine_builder_tests {
 
     #[test]
     fn should_load_core_plugin() {
-        let engine_builder = EngineBuilder::new();
+        let engine = EngineBuilder::new()
+            .build();
 
-        let _event_context = engine_builder
+        let _event_context = engine
             .context
             .get::<EventContext<Event>>()
             .expect("failed to get EventContext<Event>");
-        let _scheduler_context = engine_builder
+        let _scheduler_context = engine
             .context
             .get::<SchedulerContext>()
             .expect("failed to get SchedulerContext");
