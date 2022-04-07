@@ -28,8 +28,8 @@ use crate::EngineBuilder;
 /// # pub struct MyPlugin;
 /// #
 /// # impl Plugin for MyPlugin {
-/// #     fn setup(&mut self, engine_builder: EngineBuilder) -> EngineBuilder {
-/// #         engine_builder
+/// #     fn setup(&mut self, engine_builder: EngineBuilder) -> PluginResult {
+/// #         Ok(engine_builder)
 /// #     }
 /// # }
 /// #
@@ -47,9 +47,9 @@ use crate::EngineBuilder;
 /// pub struct MyPlugin;
 ///
 /// impl Plugin for MyPlugin {
-///     fn setup(&mut self, engine_builder: EngineBuilder) -> EngineBuilder {
+///     fn setup(&mut self, engine_builder: EngineBuilder) -> PluginResult {
 ///         // Setup logic here.
-///         engine_builder
+///         Ok(engine_builder)
 ///     }
 /// }
 /// ```
