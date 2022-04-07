@@ -138,7 +138,7 @@ impl EngineBuilder {
         self.engine.core = engine_core;
         self
     }
-    
+
     /// Add a [Plugin] to be loaded with the [Engine].
     pub fn with_plugin(self, mut plugin: Box<dyn Plugin>) -> Self {
         plugin.setup(self).ok().expect("Failed to load the plugin")
@@ -260,8 +260,7 @@ mod engine_builder_tests {
 
     #[test]
     fn should_always_load_the_core_plugin() {
-        let engine = EngineBuilder::new()
-            .build();
+        let engine = EngineBuilder::new().build();
 
         let _event_context = engine
             .context

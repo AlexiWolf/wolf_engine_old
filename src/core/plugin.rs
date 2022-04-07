@@ -73,7 +73,7 @@ pub trait Plugin: Any {
 pub type Plugins = Vec<Box<dyn Plugin>>;
 
 pub struct PluginLoader {
-    plugins: Plugins, 
+    plugins: Plugins,
 }
 
 impl PluginLoader {
@@ -84,7 +84,7 @@ impl PluginLoader {
     }
 
     pub fn add(&mut self, plugin: Box<dyn Plugin>) {
-        self.plugins.push(plugin); 
+        self.plugins.push(plugin);
     }
 
     pub fn len(&self) -> usize {
@@ -98,11 +98,15 @@ impl PluginLoader {
                 Ok(engine_builder) => {
                     debug!("Successfully loaded plugin: {}", plugin.name());
                     engine_builder
-                }, 
+                }
                 Err((error_message, engine_builder)) => {
-                    error!("Failed to load plugin: {}: {}", plugin.name(), error_message);
+                    error!(
+                        "Failed to load plugin: {}: {}",
+                        plugin.name(),
+                        error_message
+                    );
                     engine_builder
-                },
+                }
             }
         }
         engine_builder
@@ -120,24 +124,28 @@ mod plugin_loader_tests {
 
         plugin_loader.add(Box::from(plugin));
 
-        assert_eq!(plugin_loader.len(), 1, "The plugin was not added to the PluginLoader");
+        assert_eq!(
+            plugin_loader.len(),
+            1,
+            "The plugin was not added to the PluginLoader"
+        );
     }
 
     #[test]
-    fn should_load_plugins_on_load_all_call() { 
+    fn should_load_plugins_on_load_all_call() {
         let mut plugin_loader = PluginLoader::new();
         plugin_loader.add(Box::from(mock_plugin()));
         plugin_loader.add(Box::from(mock_plugin()));
-       
+
         let _engine_builder = plugin_loader.load_all(EngineBuilder::new());
     }
 
     fn mock_plugin() -> MockPlugin {
         let mut plugin = MockPlugin::new();
-        plugin.expect_setup()
+        plugin
+            .expect_setup()
             .once()
             .returning(|engine_builder| Ok(engine_builder));
         plugin
     }
 }
-
