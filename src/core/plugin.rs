@@ -80,6 +80,10 @@ impl PluginLoader {
     pub fn len(&self) -> usize {
         self.plugins.len()
     }
+
+    pub fn load_all(self, engine_builder: EngineBuilder) -> EngineBuilder {
+        engine_builder
+    }
 }
 
 #[cfg(test)]
@@ -105,7 +109,7 @@ mod plugin_loader_tests {
         let mut plugin_loader = PluginLoader::new();
         plugin_loader.add(Box::from(plugin));
         let mut engine_builder = EngineBuilder::new();
-        
+     
         engine_builder = plugin_loader.load_all(engine_builder);
     }
 }
