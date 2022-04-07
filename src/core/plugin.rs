@@ -95,5 +95,18 @@ mod plugin_loader_tests {
 
         assert_eq!(plugin_loader.len(), 1, "The plugin was not added to the PluginLoader");
     }
+
+    #[test]
+    fn should_load_plugins_on_load_all_call() { 
+        let mut plugin = MockPlugin::new(); 
+        plugin.expect_setup()
+            .once()
+            .returning(|engine_builder| engine_builder);
+        let mut plugin_loader = PluginLoader::new();
+        plugin_loader.add(Box::from(plugin));
+        let mut engine_builder = EngineBuilder::new();
+        
+        engine_builder = plugin_loader.load_all(engine_builder);
+    }
 }
 
