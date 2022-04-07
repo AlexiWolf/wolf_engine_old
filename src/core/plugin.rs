@@ -76,7 +76,7 @@ impl PluginLoader {
     }
 
     pub fn len(&self) -> usize {
-        0
+        self.plugins.len()
     }
 }
 
