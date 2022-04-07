@@ -48,3 +48,19 @@ jobs:
       - name: Check Code Format
         shell: bash
         run: cargo fmt --check
+
+  check_clippy_warnings:
+    name: Check Clippy Warnings
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Setup Rust
+        uses: ATiltedTree/setup-rust@v1
+        with:
+          rust-version: stable 
+          components: clippy
+      - name: Check Code Format
+        shell: bash
+        run: cargo clippy -- --deny warnings
+ 
