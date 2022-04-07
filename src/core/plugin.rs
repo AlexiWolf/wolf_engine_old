@@ -3,6 +3,8 @@ use mockall::automock;
 
 use crate::EngineBuilder;
 
+pub type PluginResult = Result<EngineBuilder, (&'static str, EngineBuilder)>;
+
 /// Provides additional functionality to the engine.
 ///
 /// Plugins make it easy to extend the engine with new functionality.  Plugins are loaded
