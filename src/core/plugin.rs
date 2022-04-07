@@ -99,8 +99,8 @@ impl PluginLoader {
                     debug!("Successfully loaded plugin: {}", plugin.name());
                     engine_builder
                 }, 
-                Err((error, engine_builder)) => {
-                    error!("Failed to load plugin: {}: {}", plugin.name(), error);
+                Err((error_message, engine_builder)) => {
+                    error!("Failed to load plugin: {}: {}", plugin.name(), error_message);
                     engine_builder
                 },
             }
