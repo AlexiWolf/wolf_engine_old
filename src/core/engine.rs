@@ -145,7 +145,8 @@ impl EngineBuilder {
         self.core = engine_core;
         self
     }
-
+    
+    /// Add a [Plugin] to be loaded with the [Engine].
     pub fn with_plugin(self, mut plugin: Box<dyn Plugin>) -> Self {
         plugin.setup(self)
     }
