@@ -71,8 +71,8 @@ impl PluginLoader {
         }
     }
 
-    pub fn add(&self, _plugin: Box<dyn Plugin>) {
-        
+    pub fn add(&mut self, plugin: Box<dyn Plugin>) {
+        self.plugins.push(plugin); 
     }
 
     pub fn len(&self) -> usize {
