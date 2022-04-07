@@ -81,7 +81,10 @@ impl PluginLoader {
         self.plugins.len()
     }
 
-    pub fn load_all(self, engine_builder: EngineBuilder) -> EngineBuilder {
+    pub fn load_all(mut self, mut engine_builder: EngineBuilder) -> EngineBuilder {
+        for plugin in self.plugins.iter_mut() {
+            engine_builder = plugin.setup(engine_builder);
+        }
         engine_builder
     }
 }
