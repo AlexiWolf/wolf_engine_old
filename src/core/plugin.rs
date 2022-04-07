@@ -1,3 +1,5 @@
+use std::any::{type_name, Any};
+
 use log::*;
 
 #[cfg(test)]
@@ -61,8 +63,11 @@ pub type PluginError = (&'static str, EngineBuilder);
 ///
 /// Ownership over the [EngineBuilder] must be returned back to the caller.
 #[cfg_attr(test, automock)]
-pub trait Plugin {
+pub trait Plugin: Any {
     fn setup(&mut self, engine_builder: EngineBuilder) -> PluginResult;
+    fn name(&self) -> &'static str {
+        type_name::<Self>()
+    }
 }
 
 pub type Plugins = Vec<Box<dyn Plugin>>;
