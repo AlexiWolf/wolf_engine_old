@@ -113,9 +113,7 @@ impl Default for Engine {
 
 /// Build and customize an instance of the [Engine].
 pub struct EngineBuilder {
-    pub context: Context,
-    scheduler: Box<dyn Scheduler>,
-    core: CoreFunction,
+    pub engine: Engine,
 }
 
 impl EngineBuilder {
@@ -126,23 +124,18 @@ impl EngineBuilder {
 
     /// Consumes the engine builder and returns an [Engine] created from it.
     pub fn build(self) -> Engine {
-        Engine {
-            context: self.context,
-            scheduler: self.scheduler,
-            state_stack: StateStack::new(),
-            core: self.core,
-        }
+        self.engine
     }
 
     /// Set a custom [Scheduler] to be used.
     pub fn with_scheduler(mut self, scheduler: Box<dyn Scheduler>) -> Self {
-        self.scheduler = scheduler;
+        self.engine.scheduler = scheduler;
         self
     }
 
     /// Set a custom [CoreFunction] to be used.
     pub fn with_engine_core(mut self, engine_core: CoreFunction) -> Self {
-        self.core = engine_core;
+        self.engine.core = engine_core;
         self
     }
     
@@ -156,7 +149,7 @@ impl EngineBuilder {
     /// This method acts as a small wrapper around [Context::add()], except it won't fail
     /// if the [Subcontext] has already been added.
     pub fn with_subcontext<S: Subcontext>(mut self, subcontext: S) -> Self {
-        self.context.add(subcontext).unwrap();
+        self.engine.context.add(subcontext).unwrap();
         self
     }
 }
@@ -164,9 +157,7 @@ impl EngineBuilder {
 impl Default for EngineBuilder {
     fn default() -> Self {
         Self {
-            context: Context::empty(),
-            scheduler: Box::from(FixedUpdateScheduler::default()),
-            core: Box::from(run_while_has_active_state),
+            engine: Engine::empty(),
         }
         .with_plugin(Box::from(CorePlugin))
     }
@@ -258,11 +249,11 @@ mod engine_builder_tests {
     fn should_add_subcontexts_to_the_context_object() {
         let mut engine_builder = EngineBuilder::new();
         let subcontext = MockSubcontext::new();
-        let starting_subcontexts = engine_builder.context.len();
+        let starting_subcontexts = engine_builder.engine.context.len();
 
         engine_builder = engine_builder.with_subcontext(subcontext);
 
-        let ending_subcontexts = engine_builder.context.len();
+        let ending_subcontexts = engine_builder.engine.context.len();
         let subcontexts_added = ending_subcontexts - starting_subcontexts;
         assert_eq!(subcontexts_added, 1, "The subcontext was not added");
     }
