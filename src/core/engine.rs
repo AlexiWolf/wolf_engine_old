@@ -165,6 +165,7 @@ impl Default for EngineBuilder {
             plugin_loader: PluginLoader::new(),
         }
         .with_plugin(Box::from(CorePlugin))
+        .with_engine_core(Box::from(run_while_has_active_state))
     }
 }
 
