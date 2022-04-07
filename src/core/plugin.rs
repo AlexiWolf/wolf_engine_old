@@ -1,3 +1,5 @@
+use log::*;
+
 #[cfg(test)]
 use mockall::automock;
 
@@ -86,6 +88,7 @@ impl PluginLoader {
 
     pub fn load_all(mut self, mut engine_builder: EngineBuilder) -> EngineBuilder {
         for plugin in self.plugins.iter_mut() {
+            debug!("Now loading plugin: {}", plugin.name());
             engine_builder = plugin.setup(engine_builder).ok().unwrap();
         }
         engine_builder
