@@ -91,6 +91,10 @@ impl PluginLoader {
         self.plugins.len()
     }
 
+    pub fn is_empty(&self) -> bool {
+        false
+    }
+
     pub fn load_all(mut self, mut engine_builder: EngineBuilder) -> EngineBuilder {
         for plugin in self.plugins.iter_mut() {
             debug!("Now loading plugin: {}", plugin.name());
