@@ -141,7 +141,7 @@ impl EngineBuilder {
     
     /// Add a [Plugin] to be loaded with the [Engine].
     pub fn with_plugin(self, mut plugin: Box<dyn Plugin>) -> Self {
-        plugin.setup(self)
+        plugin.setup(self).ok().expect("Failed to load the plugin")
     }
 
     /// Add a [Subcontext] to the [Engine].
