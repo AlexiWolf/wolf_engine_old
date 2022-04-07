@@ -92,7 +92,7 @@ impl PluginLoader {
     }
 
     pub fn is_empty(&self) -> bool {
-        false
+        self.plugins.is_empty() 
     }
 
     pub fn load_all(mut self, mut engine_builder: EngineBuilder) -> EngineBuilder {
