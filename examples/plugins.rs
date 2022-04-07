@@ -3,7 +3,7 @@ use wolf_engine::*;
 
 pub fn main() {
     #[cfg(feature = "logging")]
-    logging::initialize_logging(LevelFilter::Info);
+    logging::initialize_logging(LevelFilter::Trace);
 
     EngineBuilder::new()
         .with_plugin(Box::from(MessagePlugin::new("Hello, world!")))
