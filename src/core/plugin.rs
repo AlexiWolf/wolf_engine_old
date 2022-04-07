@@ -76,6 +76,12 @@ pub struct PluginLoader {
     plugins: Plugins,
 }
 
+impl Default for PluginLoader {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl PluginLoader {
     pub fn new() -> Self {
         Self {
