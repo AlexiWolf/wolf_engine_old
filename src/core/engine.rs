@@ -263,7 +263,7 @@ mod engine_builder_tests {
     }
 
     #[test]
-    fn should_load_core_plugin() {
+    fn should_always_load_the_core_plugin() {
         let engine = EngineBuilder::new()
             .build();
 
