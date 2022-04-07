@@ -148,4 +148,10 @@ mod plugin_loader_tests {
             .returning(|engine_builder| Ok(engine_builder));
         plugin
     }
+
+    #[test]
+    fn should_create_empty_plugin_loader() {
+        let plugin_loader = PluginLoader::new();
+        assert_eq!(plugin_loader.is_empty(), "The plugin loader must start empty");
+    }
 }
