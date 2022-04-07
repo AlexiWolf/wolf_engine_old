@@ -239,24 +239,6 @@ mod engine_builder_tests {
     }
 
     #[test]
-    fn should_add_event_context_at_startup() {
-        Engine::new().run(Box::from(AddEventContextTestState));
-    }
-
-    struct AddEventContextTestState;
-
-    impl State for AddEventContextTestState {
-        fn update(&mut self, context: &mut Context) -> OptionalTransition {
-            context
-                .get::<EventContext<Event>>()
-                .expect("no EventContext");
-            Some(Transition::Quit)
-        }
-
-        fn render(&mut self, _context: &mut Context) -> RenderResult {}
-    }
-
-    #[test]
     fn should_load_plugins() {
         let mut plugin = MockPlugin::new();
         plugin
