@@ -82,6 +82,8 @@ mod plugin_loader_tests {
         let plugin_loader = PluginLoader::new();
 
         plugin_loader.add(Box::from(plugin));
+
+        assert_eq!(plugin_loader.len(), 1, "The plugin was not added to the PluginLoader");
     }
 }
 
