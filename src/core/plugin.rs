@@ -61,7 +61,7 @@ pub trait Plugin {
 }
 
 pub struct PluginLoader {
-    plugins: Vec<Box<dyn Plugin>>,
+    plugins: Plugins, 
 }
 
 impl PluginLoader {
@@ -79,6 +79,8 @@ impl PluginLoader {
         self.plugins.len()
     }
 }
+
+pub type Plugins = Vec<Box<dyn Plugin>>;
 
 #[cfg(test)]
 mod plugin_loader_tests {
