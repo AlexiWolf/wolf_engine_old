@@ -60,15 +60,19 @@ pub trait Plugin {
     fn setup(&mut self, engine_builder: EngineBuilder) -> EngineBuilder;
 }
 
-pub struct PluginLoader;     
+pub struct PluginLoader {
+    plugins: Vec<Box<dyn Plugin>>,
+}
 
 impl PluginLoader {
     pub fn new() -> Self {
-        Self
+        Self {
+            plugins: Vec::new()
+        }
     }
 
     pub fn add(&self, _plugin: Box<dyn Plugin>) {
-
+        
     }
 
     pub fn len(&self) -> usize {
