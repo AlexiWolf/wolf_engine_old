@@ -156,6 +156,6 @@ mod plugin_loader_tests {
     #[test]
     fn should_create_empty_plugin_loader() {
         let plugin_loader = PluginLoader::new();
-        assert_eq!(plugin_loader.is_empty(), "The plugin loader must start empty");
+        assert!(plugin_loader.is_empty(), "The plugin loader must start empty");
     }
 }
