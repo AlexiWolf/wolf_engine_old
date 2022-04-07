@@ -66,6 +66,10 @@ impl PluginLoader {
     pub fn new() -> Self {
         Self
     }
+
+    pub fn add(&self, _plugin: Box<dyn Plugin>) {
+
+    }
 }
 
 #[cfg(test)]
