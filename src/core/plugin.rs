@@ -67,7 +67,7 @@ pub struct PluginLoader {
 impl PluginLoader {
     pub fn new() -> Self {
         Self {
-            plugins: Vec::new()
+            plugins: Vec::new(),
         }
     }
 
