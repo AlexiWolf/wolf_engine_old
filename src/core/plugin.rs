@@ -60,6 +60,14 @@ pub trait Plugin {
     fn setup(&mut self, engine_builder: EngineBuilder) -> EngineBuilder;
 }
 
+pub struct PluginLoader;     
+
+impl PluginLoader {
+    pub fn new() -> Self {
+        Self
+    }
+}
+
 #[cfg(test)]
 mod plugin_loader_tests {
     use super::*;
