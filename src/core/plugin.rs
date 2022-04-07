@@ -3,7 +3,8 @@ use mockall::automock;
 
 use crate::EngineBuilder;
 
-pub type PluginResult = Result<EngineBuilder, (&'static str, EngineBuilder)>;
+pub type PluginResult = Result<EngineBuilder, PluginError>;
+pub type PluginError = (&'static str, EngineBuilder);
 
 /// Provides additional functionality to the engine.
 ///
