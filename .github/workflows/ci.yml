@@ -6,11 +6,9 @@ on:
   pull_request:
     branches: [ main ]
 
-
 jobs:
-  test:
-    name: Tests
-
+  run_tests:
+    name: Run Tests
     strategy:
       fail-fast: false
       matrix:
@@ -21,24 +19,48 @@ jobs:
           - { os: ubuntu-latest }
           - { os: windows-latest }
           - { os: macos-latest }
-
     env:
       RUST_BACKTRACE: 1
       CARGO_TERM_COLOR: always
       FEATURES: ${{ format(',{0}', matrix.platform.features ) }}
       OPTIONS: ${{ matrix.platform.options }}
-
     runs-on: ${{ matrix.platform.os }}
-
     steps:
     - uses: actions/checkout@v2
-
     - name: Setup Rust
       uses: ATiltedTree/setup-rust@v1
       with:
         rust-version: ${{ matrix.rust-version }} 
-
     - name: Run tests
       shell: bash
       run: cargo test --verbose $OPTIONS --features=logging,$FEATURES
 
+  check_code_format:
+    name: Check Code Format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Setup Rust
+        uses: ATiltedTree/setup-rust@v1
+        with:
+          rust-version: stable 
+      - name: Check Code Format
+        shell: bash
+        run: cargo fmt --check
+
+  check_clippy_warnings:
+    name: Check Clippy Warnings
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Setup Rust
+        uses: ATiltedTree/setup-rust@v1
+        with:
+          rust-version: stable 
+          components: clippy
+      - name: Check Code Format
+        shell: bash
+        run: cargo clippy -- --deny warnings
+ 
