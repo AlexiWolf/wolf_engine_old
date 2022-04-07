@@ -94,7 +94,16 @@ impl PluginLoader {
     pub fn load_all(mut self, mut engine_builder: EngineBuilder) -> EngineBuilder {
         for plugin in self.plugins.iter_mut() {
             debug!("Now loading plugin: {}", plugin.name());
-            engine_builder = plugin.setup(engine_builder).ok().unwrap();
+            engine_builder = match plugin.setup(engine_builder) {
+                Ok(engine_builder) => {
+                    debug!("Successfully loaded plugin: {}", plugin.name());
+                    engine_builder
+                }, 
+                Err((error, engine_builder)) => {
+                    error!("Failed to load plugin: {}: {}", plugin.name(), error);
+                    engine_builder
+                },
+            }
         }
         engine_builder
     }
