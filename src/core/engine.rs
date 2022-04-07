@@ -151,6 +151,10 @@ impl EngineBuilder {
         plugin.setup(self)
     }
 
+    /// Add a [Subcontext] to the [Engine].
+    ///
+    /// This method acts as a small wrapper around [Context::add()], except it won't fail
+    /// if the [Subcontext] has already been added.
     pub fn with_subcontext<S: Subcontext>(mut self, subcontext: S) -> Self {
         self.context.add(subcontext).unwrap();
         self
