@@ -110,7 +110,7 @@ mod plugin_loader_tests {
         let mut plugin = MockPlugin::new(); 
         plugin.expect_setup()
             .once()
-            .returning(|engine_builder| engine_builder);
+            .returning(|engine_builder| Ok(engine_builder));
         let mut plugin_loader = PluginLoader::new();
         plugin_loader.add(Box::from(plugin));
        
