@@ -16,8 +16,8 @@ pub struct MessagePlugin {
 }
 
 impl Plugin for MessagePlugin {
-    fn setup(&mut self, engine_builder: EngineBuilder) -> EngineBuilder {
-        engine_builder.with_subcontext(MessageContext::new(self.message.clone()))
+    fn setup(&mut self, engine_builder: EngineBuilder) -> PluginResult {
+        Ok(engine_builder.with_subcontext(MessageContext::new(self.message.clone())))
     }
 }
 
