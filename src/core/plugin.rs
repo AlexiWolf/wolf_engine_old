@@ -59,7 +59,7 @@ pub type PluginResult = Result<EngineBuilder, (&'static str, EngineBuilder)>;
 /// Ownership over the [EngineBuilder] must be returned back to the caller.
 #[cfg_attr(test, automock)]
 pub trait Plugin {
-    fn setup(&mut self, engine_builder: EngineBuilder) -> EngineBuilder;
+    fn setup(&mut self, engine_builder: EngineBuilder) -> PluginResult;
 }
 
 pub type Plugins = Vec<Box<dyn Plugin>>;
