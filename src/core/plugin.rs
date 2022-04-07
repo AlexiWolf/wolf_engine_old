@@ -104,6 +104,7 @@ mod plugin_loader_tests {
     }
 
     #[test]
+    #[allow(unused_assignments)]
     fn should_load_plugins_on_load_all_call() { 
         let mut plugin = MockPlugin::new(); 
         plugin.expect_setup()
@@ -112,7 +113,7 @@ mod plugin_loader_tests {
         let mut plugin_loader = PluginLoader::new();
         plugin_loader.add(Box::from(plugin));
         let mut engine_builder = EngineBuilder::new();
-     
+       
         engine_builder = plugin_loader.load_all(engine_builder);
     }
 }
