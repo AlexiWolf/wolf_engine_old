@@ -60,6 +60,8 @@ pub trait Plugin {
     fn setup(&mut self, engine_builder: EngineBuilder) -> EngineBuilder;
 }
 
+pub type Plugins = Vec<Box<dyn Plugin>>;
+
 pub struct PluginLoader {
     plugins: Plugins, 
 }
@@ -79,8 +81,6 @@ impl PluginLoader {
         self.plugins.len()
     }
 }
-
-pub type Plugins = Vec<Box<dyn Plugin>>;
 
 #[cfg(test)]
 mod plugin_loader_tests {
