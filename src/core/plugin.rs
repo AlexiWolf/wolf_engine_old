@@ -59,3 +59,15 @@ use crate::EngineBuilder;
 pub trait Plugin {
     fn setup(&mut self, engine_builder: EngineBuilder) -> EngineBuilder;
 }
+
+#[cfg(test)]
+mod plugin_loader_tests {
+    use super::*;
+
+    #[test]
+    fn should_store_added_plugins() {
+        let plugin = MockPlugin::new();
+        let plugin_loader = PluginLoader::new();
+    }
+}
+
