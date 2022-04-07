@@ -108,14 +108,21 @@ mod plugin_loader_tests {
 
     #[test]
     fn should_load_plugins_on_load_all_call() { 
-        let mut plugin = MockPlugin::new(); 
+        let mut plugin_a = MockPlugin::new(); 
+        let mut plugin_b = MockPlugin::new();
+        expect_setup(&mut plugin_a);
+        expect_setup(&mut plugin_b);
+        let mut plugin_loader = PluginLoader::new();
+        plugin_loader.add(Box::from(plugin_a));
+        plugin_loader.add(Box::from(plugin_b));
+       
+        let _engine_builder = plugin_loader.load_all(EngineBuilder::new());
+    }
+
+    fn expect_setup(plugin: &mut MockPlugin) {
         plugin.expect_setup()
             .once()
             .returning(|engine_builder| Ok(engine_builder));
-        let mut plugin_loader = PluginLoader::new();
-        plugin_loader.add(Box::from(plugin));
-       
-        let _engine_builder = plugin_loader.load_all(EngineBuilder::new());
     }
 }
 
