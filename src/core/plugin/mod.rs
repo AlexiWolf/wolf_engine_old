@@ -68,7 +68,7 @@ pub type PluginError = (&'static str, EngineBuilder);
 #[cfg_attr(test, automock)]
 pub trait Plugin: Any {
 
-    /// Uses the [EngineBuilder] to configure and extend the [Engine].
+    /// Uses the [EngineBuilder] to configure and extend the [Engine](crate::Engine).
     fn setup(&mut self, engine_builder: EngineBuilder) -> PluginResult;
 
     /// Get the name of the plugin.

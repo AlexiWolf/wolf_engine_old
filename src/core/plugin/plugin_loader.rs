@@ -45,7 +45,7 @@ impl PluginLoader {
     /// Consume the Plugin Loader and load all plugins in the order they were added.
     ///
     /// Information about which plugins are being loaded, as well as their status is 
-    /// logged as [debug information](Log::debug).
+    /// logged as [debug information](debug).
     pub fn load_all(mut self, mut engine_builder: EngineBuilder) -> EngineBuilder {
         for plugin in self.plugins.iter_mut() {
             debug!("Now loading plugin: {}", plugin.name());
