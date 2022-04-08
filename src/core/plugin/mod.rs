@@ -73,7 +73,7 @@ pub trait Plugin: Any {
 
     /// Get the name of the plugin.
     ///
-    /// By default, the [type name](type_name) for the plugin is used, but there are no 
+    /// By default the [type name](type_name) for the plugin is used, but there are no 
     /// specific requirements for what must be returned.  The plugin name may not be 
     /// unique and should not be used to uniquely identify a plugin.
     fn name(&self) -> &'static str {
