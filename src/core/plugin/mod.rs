@@ -7,7 +7,10 @@ use crate::EngineBuilder;
 use mockall::automock;
 use std::any::{type_name, Any};
 
+/// Indicates if the a [Plugin] has loaded successfully.
 pub type PluginResult = Result<EngineBuilder, PluginError>;
+
+/// Indicates the reason a [Plugin] has failed to load.
 pub type PluginError = (&'static str, EngineBuilder);
 
 /// Provides additional functionality to the engine.
