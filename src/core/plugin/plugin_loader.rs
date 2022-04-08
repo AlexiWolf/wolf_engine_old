@@ -1,8 +1,13 @@
 use crate::{EngineBuilder, Plugin};
 use log::*;
 
+/// A collection of Plugins.
 pub type Plugins = Vec<Box<dyn Plugin>>;
 
+/// Provides [Plugin] loading for the [EngineBuilder].
+///
+/// [Plugin]s are added the the plugin loader, then loaded in the order they were added
+/// when [PluginLoader::load_all()] is called.
 pub struct PluginLoader {
     plugins: Plugins,
 }
@@ -14,24 +19,33 @@ impl Default for PluginLoader {
 }
 
 impl PluginLoader {
+
+    /// Create an empty plugin loader. 
     pub fn new() -> Self {
         Self {
             plugins: Vec::new(),
         }
     }
-
+    
+    /// Add a [Plugin] to the queue.
     pub fn add(&mut self, plugin: Box<dyn Plugin>) {
         self.plugins.push(plugin);
     }
-
+    
+    /// Returns the number of plugins to be loaded. 
     pub fn len(&self) -> usize {
         self.plugins.len()
     }
-
+    
+    /// Returns true if there are no plugins added to the plugin loader. 
     pub fn is_empty(&self) -> bool {
         self.plugins.is_empty()
     }
-
+    
+    /// Consume the Plugin Loader and load all plugins in the order they were added.
+    ///
+    /// Information about which plugins are being loaded, as well as their status is 
+    /// logged as [debug information](Log::debug).
     pub fn load_all(mut self, mut engine_builder: EngineBuilder) -> EngineBuilder {
         for plugin in self.plugins.iter_mut() {
             debug!("Now loading plugin: {}", plugin.name());
