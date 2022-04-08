@@ -67,14 +67,13 @@ pub type PluginError = (&'static str, EngineBuilder);
 /// Ownership over the [EngineBuilder] must be returned back to the caller.
 #[cfg_attr(test, automock)]
 pub trait Plugin: Any {
-
     /// Uses the [EngineBuilder] to configure and extend the [Engine](crate::Engine).
     fn setup(&mut self, engine_builder: EngineBuilder) -> PluginResult;
 
     /// Get the name of the plugin.
     ///
-    /// By default the [type name](type_name) for the plugin is used, but there are no 
-    /// specific requirements for what must be returned.  The plugin name may not be 
+    /// By default the [type name](type_name) for the plugin is used, but there are no
+    /// specific requirements for what must be returned.  The plugin name may not be
     /// unique and should not be used to uniquely identify a plugin.
     fn name(&self) -> &'static str {
         type_name::<Self>()
