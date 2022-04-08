@@ -2,11 +2,9 @@ mod plugin_loader;
 
 pub use plugin_loader::*;
 
-use std::any::{type_name, Any};
-
 #[cfg(test)]
 use mockall::automock;
-
+use std::any::{type_name, Any};
 use crate::EngineBuilder;
 
 pub type PluginResult = Result<EngineBuilder, PluginError>;
