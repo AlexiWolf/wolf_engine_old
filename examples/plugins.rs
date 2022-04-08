@@ -7,6 +7,7 @@ pub fn main() {
 
     EngineBuilder::new()
         .with_plugin(Box::from(MessagePlugin::new("Hello, world!")))
+        .with_plugin(Box::from(FailurePlugin))
         .build()
         .run(Box::from(GameState));
 }
@@ -26,6 +27,15 @@ impl MessagePlugin {
         Self {
             message: message.to_string(),
         }
+    }
+}
+
+pub struct FailurePlugin;
+
+impl Plugin for FailurePlugin {
+    fn setup(&mut self, engine_builder: EngineBuilder) -> PluginResult {
+        debug!("Intentionally returning an error."); 
+        Err(("Something isn't right!", engine_builder))
     }
 }
 
