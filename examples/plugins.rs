@@ -34,7 +34,7 @@ pub struct FailurePlugin;
 
 impl Plugin for FailurePlugin {
     fn setup(&mut self, engine_builder: EngineBuilder) -> PluginResult {
-        debug!("Intentionally returning an error."); 
+        debug!("Intentionally returning an error.");
         Err(("Something isn't right!", engine_builder))
     }
 }

@@ -2,10 +2,10 @@ mod plugin_loader;
 
 pub use plugin_loader::*;
 
+use crate::EngineBuilder;
 #[cfg(test)]
 use mockall::automock;
 use std::any::{type_name, Any};
-use crate::EngineBuilder;
 
 pub type PluginResult = Result<EngineBuilder, PluginError>;
 pub type PluginError = (&'static str, EngineBuilder);
@@ -69,4 +69,3 @@ pub trait Plugin: Any {
         type_name::<Self>()
     }
 }
-
