@@ -1,7 +1,17 @@
-#[cfg(test)]
-use mockall::automock;
+mod plugin_loader;
+
+pub use plugin_loader::*;
 
 use crate::EngineBuilder;
+#[cfg(test)]
+use mockall::automock;
+use std::any::{type_name, Any};
+
+/// Indicates if the a [Plugin] has loaded successfully.
+pub type PluginResult = Result<EngineBuilder, PluginError>;
+
+/// Indicates the reason a [Plugin] has failed to load.
+pub type PluginError = (&'static str, EngineBuilder);
 
 /// Provides additional functionality to the engine.
 ///
@@ -28,8 +38,8 @@ use crate::EngineBuilder;
 /// # pub struct MyPlugin;
 /// #
 /// # impl Plugin for MyPlugin {
-/// #     fn setup(&mut self, engine_builder: EngineBuilder) -> EngineBuilder {
-/// #         engine_builder
+/// #     fn setup(&mut self, engine_builder: EngineBuilder) -> PluginResult {
+/// #         Ok(engine_builder)
 /// #     }
 /// # }
 /// #
@@ -47,15 +57,25 @@ use crate::EngineBuilder;
 /// pub struct MyPlugin;
 ///
 /// impl Plugin for MyPlugin {
-///     fn setup(&mut self, engine_builder: EngineBuilder) -> EngineBuilder {
+///     fn setup(&mut self, engine_builder: EngineBuilder) -> PluginResult {
 ///         // Setup logic here.
-///         engine_builder
+///         Ok(engine_builder)
 ///     }
 /// }
 /// ```
 ///
 /// Ownership over the [EngineBuilder] must be returned back to the caller.
 #[cfg_attr(test, automock)]
-pub trait Plugin {
-    fn setup(&mut self, engine_builder: EngineBuilder) -> EngineBuilder;
+pub trait Plugin: Any {
+    /// Uses the [EngineBuilder] to configure and extend the [Engine](crate::Engine).
+    fn setup(&mut self, engine_builder: EngineBuilder) -> PluginResult;
+
+    /// Get the name of the plugin.
+    ///
+    /// By default the [type name](type_name) for the plugin is used, but there are no
+    /// specific requirements for what must be returned.  The plugin name may not be
+    /// unique and should not be used to uniquely identify a plugin.
+    fn name(&self) -> &'static str {
+        type_name::<Self>()
+    }
 }

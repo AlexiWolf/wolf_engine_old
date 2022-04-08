@@ -5,12 +5,10 @@ pub fn main() {
     #[cfg(feature = "logging")]
     wolf_engine::logging::initialize_logging(LevelFilter::Info);
 
-    let mut engine_builder = EngineBuilder::new();
-    engine_builder
-        .context
-        .add(CustomContext::new("Hello, World!"))
-        .expect("failed to add subcontext");
-    engine_builder.build().run(Box::from(MyState));
+    EngineBuilder::new()
+        .with_subcontext(CustomContext::new("Hello, World!"))
+        .build()
+        .run(Box::from(MyState));
 }
 
 pub struct CustomContext {

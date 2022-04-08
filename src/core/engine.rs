@@ -113,9 +113,8 @@ impl Default for Engine {
 
 /// Build and customize an instance of the [Engine].
 pub struct EngineBuilder {
-    pub context: Context,
-    scheduler: Box<dyn Scheduler>,
-    core: CoreFunction,
+    pub engine: Engine,
+    plugin_loader: PluginLoader,
 }
 
 impl EngineBuilder {
@@ -125,33 +124,36 @@ impl EngineBuilder {
     }
 
     /// Consumes the engine builder and returns an [Engine] created from it.
-    pub fn build(self) -> Engine {
-        Engine {
-            context: self.context,
-            scheduler: self.scheduler,
-            state_stack: StateStack::new(),
-            core: self.core,
-        }
+    pub fn build(mut self) -> Engine {
+        let plugin_loader = replace(&mut self.plugin_loader, PluginLoader::new());
+        let engine_builder = plugin_loader.load_all(self);
+        engine_builder.engine
     }
 
     /// Set a custom [Scheduler] to be used.
     pub fn with_scheduler(mut self, scheduler: Box<dyn Scheduler>) -> Self {
-        self.scheduler = scheduler;
+        self.engine.scheduler = scheduler;
         self
     }
 
     /// Set a custom [CoreFunction] to be used.
     pub fn with_engine_core(mut self, engine_core: CoreFunction) -> Self {
-        self.core = engine_core;
+        self.engine.core = engine_core;
         self
     }
 
-    pub fn with_plugin(self, mut plugin: Box<dyn Plugin>) -> Self {
-        plugin.setup(self)
+    /// Add a [Plugin] to be loaded with the [Engine].
+    pub fn with_plugin(mut self, plugin: Box<dyn Plugin>) -> Self {
+        self.plugin_loader.add(plugin);
+        self
     }
 
+    /// Add a [Subcontext] to the [Engine].
+    ///
+    /// This method acts as a small wrapper around [Context::add()], except it won't fail
+    /// if the [Subcontext] has already been added.
     pub fn with_subcontext<S: Subcontext>(mut self, subcontext: S) -> Self {
-        self.context.add(subcontext).unwrap();
+        self.engine.context.add(subcontext).unwrap();
         self
     }
 }
@@ -159,11 +161,11 @@ impl EngineBuilder {
 impl Default for EngineBuilder {
     fn default() -> Self {
         Self {
-            context: Context::empty(),
-            scheduler: Box::from(FixedUpdateScheduler::default()),
-            core: Box::from(run_while_has_active_state),
+            engine: Engine::empty(),
+            plugin_loader: PluginLoader::new(),
         }
         .with_plugin(Box::from(CorePlugin))
+        .with_engine_core(Box::from(run_while_has_active_state))
     }
 }
 
@@ -239,30 +241,12 @@ mod engine_builder_tests {
     }
 
     #[test]
-    fn should_add_event_context_at_startup() {
-        Engine::new().run(Box::from(AddEventContextTestState));
-    }
-
-    struct AddEventContextTestState;
-
-    impl State for AddEventContextTestState {
-        fn update(&mut self, context: &mut Context) -> OptionalTransition {
-            context
-                .get::<EventContext<Event>>()
-                .expect("no EventContext");
-            Some(Transition::Quit)
-        }
-
-        fn render(&mut self, _context: &mut Context) -> RenderResult {}
-    }
-
-    #[test]
     fn should_load_plugins() {
         let mut plugin = MockPlugin::new();
         plugin
             .expect_setup()
             .times(1)
-            .returning(|engine_builder| engine_builder);
+            .returning(|engine_builder| Ok(engine_builder));
 
         let _engine = EngineBuilder::new().with_plugin(Box::from(plugin)).build();
     }
@@ -271,24 +255,24 @@ mod engine_builder_tests {
     fn should_add_subcontexts_to_the_context_object() {
         let mut engine_builder = EngineBuilder::new();
         let subcontext = MockSubcontext::new();
-        let starting_subcontexts = engine_builder.context.len();
+        let starting_subcontexts = engine_builder.engine.context.len();
 
         engine_builder = engine_builder.with_subcontext(subcontext);
 
-        let ending_subcontexts = engine_builder.context.len();
+        let ending_subcontexts = engine_builder.engine.context.len();
         let subcontexts_added = ending_subcontexts - starting_subcontexts;
         assert_eq!(subcontexts_added, 1, "The subcontext was not added");
     }
 
     #[test]
-    fn should_load_core_plugin() {
-        let engine_builder = EngineBuilder::new();
+    fn should_always_load_the_core_plugin() {
+        let engine = EngineBuilder::new().build();
 
-        let _event_context = engine_builder
+        let _event_context = engine
             .context
             .get::<EventContext<Event>>()
             .expect("failed to get EventContext<Event>");
-        let _scheduler_context = engine_builder
+        let _scheduler_context = engine
             .context
             .get::<SchedulerContext>()
             .expect("failed to get SchedulerContext");
