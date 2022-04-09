@@ -4,6 +4,8 @@ use std::fmt::{self, Display, Formatter};
 
 use anymap::AnyMap;
 
+use crate::utils::trust_cell::*;
+
 #[cfg(test)]
 use mockall::automock;
 
@@ -120,9 +122,13 @@ impl Context {
     }
 
     /// Access a specific type of [Subcontext] mutably.
-    pub fn get_mut<T: Subcontext>(&mut self) -> Option<&mut T> {
-        self.subcontexts.get_mut::<T>()
-    }
+    pub fn get_mut<T: Subcontext>(&self) -> Option<RefMut<T>> {
+        if let Some(cell) = self.subcontexts.get::<TrustCell<T>>() {
+            Some(cell.borrow_mut())
+        } else {
+            None
+        }
+    } 
 
     /// Remove a specific type of [Subcontext].
     ///
