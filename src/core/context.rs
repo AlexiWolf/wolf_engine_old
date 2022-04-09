@@ -128,6 +128,10 @@ impl Context {
             None
         }
     }
+    
+    pub fn try_borrow_mut<T: Subcontext>(&self) -> Option<Result<RefMut<T>, InvalidBorrow>> {
+        None
+    }
 
     /// Access a specific type of [Subcontext] mutably.
     pub fn borrow_mut<T: Subcontext>(&self) -> Option<RefMut<T>> {
