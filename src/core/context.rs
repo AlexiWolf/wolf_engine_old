@@ -108,10 +108,10 @@ impl Context {
     /// instance of the type added.
     #[allow(clippy::map_entry)]
     pub fn add<T: Subcontext>(&mut self, subcontext: T) -> Result<(), ContextAlreadyExistsError> {
-        if self.subcontexts.contains::<T>() {
+        if self.subcontexts.contains::<TrustCell<T>>() {
             Err(ContextAlreadyExistsError)
         } else {
-            self.subcontexts.insert(subcontext);
+            self.subcontexts.insert(TrustCell::new(subcontext));
             Ok(())
         }
     }
