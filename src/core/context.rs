@@ -76,7 +76,7 @@ pub trait Subcontext: 'static {}
 /// }
 ///
 /// // If you want a mutable reference:
-/// if let Some(my_subcontext_mut) = context.get_mut::<MySubcontext>() {
+/// if let Some(my_subcontext_mut) = context.borrow_mut::<MySubcontext>() {
 ///     // Do something with the Subcontext.
 /// };
 ///
@@ -126,7 +126,7 @@ impl Context {
     }
 
     /// Access a specific type of [Subcontext] mutably.
-    pub fn get_mut<T: Subcontext>(&self) -> Option<RefMut<T>> {
+    pub fn borrow_mut<T: Subcontext>(&self) -> Option<RefMut<T>> {
         if let Some(cell) = self.subcontexts.get::<TrustCell<T>>() {
             Some(cell.borrow_mut())
         } else {
@@ -248,7 +248,7 @@ mod context_tests {
             .expect("failed to add subcontext");
 
         let mut message_context = context
-            .get_mut::<MessageContext>()
+            .borrow_mut::<MessageContext>()
             .expect("got None instead of the subcontext");
         message_context.message = "Goodbye, world!".to_string();
 
@@ -266,7 +266,7 @@ mod context_tests {
             .expect("failed to add subcontext");
 
         let message_context = context.borrow::<MessageContext>().unwrap();
-        let mut print_context = context.get_mut::<PrintContext>().unwrap();
+        let mut print_context = context.borrow_mut::<PrintContext>().unwrap();
 
         print_context.print(&message_context);
 
