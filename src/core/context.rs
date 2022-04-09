@@ -247,7 +247,7 @@ mod context_tests {
             .add(MessageContext::new("Hello, world!"))
             .expect("failed to add subcontext");
 
-        let message_context = context
+        let mut message_context = context
             .get_mut::<MessageContext>()
             .expect("got None instead of the subcontext");
         message_context.message = "Goodbye, world!".to_string();
