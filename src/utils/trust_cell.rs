@@ -1,4 +1,6 @@
-//! Helper module for some internals, most users don't need to interact with it.
+//! Provides a thread-safe [TrustCell]. 
+//!
+//! This code is borrowed from [Shred](https://github.com/amethyst/shred).
 
 use std::{
     cell::UnsafeCell,
