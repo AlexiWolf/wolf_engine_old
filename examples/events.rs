@@ -3,6 +3,7 @@ use rc_event_queue::LendingIterator;
 use wolf_engine::contexts::EventContext;
 use wolf_engine::event::EventReader;
 use wolf_engine::*;
+use wolf_engine::utils::trust_cell::Ref;
 
 pub fn main() {
     #[cfg(feature = "logging")]
@@ -51,7 +52,7 @@ impl ExampleState {
         }
     }
 
-    pub fn get_event_context(context: &Context) -> &EventContext<usize> {
+    pub fn get_event_context(context: &Context) -> Ref<EventContext<usize>> {
         context
             .get::<EventContext<usize>>()
             .expect("the context has no EventContext<usize>")
