@@ -117,8 +117,12 @@ impl Context {
     }
 
     /// Access a specific type of [Subcontext] immutably.
-    pub fn get<T: Subcontext>(&self) -> Option<&T> {
-        self.subcontexts.get::<T>()
+    pub fn get<T: Subcontext>(&self) -> Option<Ref<T>> {
+        if let Some(cell) = self.subcontexts.get::<TrustCell<T>>() {
+            Some(cell.borrow())
+        } else {
+            None
+        }
     }
 
     /// Access a specific type of [Subcontext] mutably.
