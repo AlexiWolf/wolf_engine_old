@@ -78,7 +78,7 @@ pub trait Subcontext: 'static {}
 /// // If you want a mutable reference:
 /// if let Some(my_subcontext_mut) = context.get_mut::<MySubcontext>() {
 ///     // Do something with the Subcontext.
-/// }
+/// };
 ///
 pub struct Context {
     subcontexts: AnyMap,
