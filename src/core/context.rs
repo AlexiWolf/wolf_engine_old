@@ -71,7 +71,7 @@ pub trait Subcontext: 'static {}
 /// # context.add(subcontext);
 /// #
 /// // If you want an immutable reference:
-/// if let Some(my_subcontext) = context.get::<MySubcontext>() {
+/// if let Some(my_subcontext) = context.borrow::<MySubcontext>() {
 ///     // Do something with the Subcontext.
 /// }
 ///
@@ -117,7 +117,7 @@ impl Context {
     }
 
     /// Access a specific type of [Subcontext] immutably.
-    pub fn get<T: Subcontext>(&self) -> Option<Ref<T>> {
+    pub fn borrow<T: Subcontext>(&self) -> Option<Ref<T>> {
         if let Some(cell) = self.subcontexts.get::<TrustCell<T>>() {
             Some(cell.borrow())
         } else {
@@ -234,7 +234,7 @@ mod context_tests {
             .expect("failed to add subcontext");
 
         let message_context = context
-            .get::<MessageContext>()
+            .borrow::<MessageContext>()
             .expect("got None instead of the subcontext");
 
         assert_eq!(message_context.message, "Hello, world!");
@@ -265,7 +265,7 @@ mod context_tests {
             .add(PrintContext::new())
             .expect("failed to add subcontext");
 
-        let message_context = context.get::<MessageContext>().unwrap();
+        let message_context = context.borrow::<MessageContext>().unwrap();
         let mut print_context = context.get_mut::<PrintContext>().unwrap();
 
         print_context.print(&message_context);

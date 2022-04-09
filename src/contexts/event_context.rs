@@ -84,7 +84,7 @@ use crate::{
 /// # let mut context = Context::empty();
 /// # context.add(EventContext::<Event>::default()).unwrap();
 /// #
-/// let event_context = context.get::<EventContext<Event>>().expect("no event context");
+/// let event_context = context.borrow::<EventContext<Event>>().expect("no event context");
 /// ```
 ///
 /// # Preventing Memory Leaks

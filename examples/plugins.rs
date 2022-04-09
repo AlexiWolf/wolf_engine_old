@@ -55,7 +55,7 @@ pub struct GameState;
 
 impl State for GameState {
     fn update(&mut self, context: &mut Context) -> OptionalTransition {
-        let message = context.get::<MessageContext>().unwrap();
+        let message = context.borrow::<MessageContext>().unwrap();
         info!("{}", message.message);
         Some(Transition::Quit)
     }

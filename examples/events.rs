@@ -54,7 +54,7 @@ impl ExampleState {
 
     pub fn get_event_context(context: &Context) -> Ref<EventContext<usize>> {
         context
-            .get::<EventContext<usize>>()
+            .borrow::<EventContext<usize>>()
             .expect("the context has no EventContext<usize>")
     }
 }

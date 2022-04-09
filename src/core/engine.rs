@@ -270,11 +270,11 @@ mod engine_builder_tests {
 
         let _event_context = engine
             .context
-            .get::<EventContext<Event>>()
+            .borrow::<EventContext<Event>>()
             .expect("failed to get EventContext<Event>");
         let _scheduler_context = engine
             .context
-            .get::<SchedulerContext>()
+            .borrow::<SchedulerContext>()
             .expect("failed to get SchedulerContext");
     }
 }
