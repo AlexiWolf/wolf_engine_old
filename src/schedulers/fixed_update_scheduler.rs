@@ -153,7 +153,7 @@ impl FixedUpdateScheduler {
     fn tick(&mut self, state: &mut dyn State, context: &mut Context) {
         let tick_run_time = Self::run_tick_and_track_execution_time(state, context);
         self.update_timing(tick_run_time);
-        if let Some(scheduler_context) = context.get_mut::<SchedulerContext>() {
+        if let Some(mut scheduler_context) = context.get_mut::<SchedulerContext>() {
             scheduler_context.add_tick();
         }
     }
@@ -174,7 +174,7 @@ impl Scheduler for FixedUpdateScheduler {
 
     fn render(&mut self, context: &mut Context, state: &mut dyn State) {
         state.render(context);
-        if let Some(scheduler_context) = context.get_mut::<SchedulerContext>() {
+        if let Some(mut scheduler_context) = context.get_mut::<SchedulerContext>() {
             scheduler_context.add_frame();
         }
     }
