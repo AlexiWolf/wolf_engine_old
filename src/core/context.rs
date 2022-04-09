@@ -141,7 +141,7 @@ impl Context {
     /// code depending on it to panic or otherwise fail.  As a general rule, avoid
     /// removing anything you didn't add yourself.
     pub fn remove<T: Subcontext>(&mut self) {
-        self.subcontexts.remove::<T>();
+        self.subcontexts.remove::<TrustCell<T>>();
     }
 
     pub fn len(&self) -> usize {
