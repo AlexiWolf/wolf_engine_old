@@ -79,7 +79,7 @@ pub trait Subcontext: 'static {}
 /// // If you want a mutable reference:
 /// if let Some(my_subcontext_mut) = context.try_borrow_mut::<MySubcontext>() {
 ///     // Do something with the Subcontext.
-///     assert!(my_subcontext.is_ok());
+///     assert!(my_subcontext_mut.is_ok());
 /// };
 ///
 pub struct Context {
