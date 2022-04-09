@@ -73,15 +73,20 @@ pub trait Subcontext: 'static {}
 /// // If you want an immutable reference:
 /// if let Some(my_subcontext) = context.try_borrow::<MySubcontext>() {
 ///     // Do something with the Subcontext.
-///     assert!(my_subcontext.is_ok());
-/// }
+/// #   assert!(my_subcontext.is_ok());
+/// } 
+/// # else {
+/// #    panic!("No subcontext found");
+/// # };
 ///
 /// // If you want a mutable reference:
 /// if let Some(my_subcontext_mut) = context.try_borrow_mut::<MySubcontext>() {
 ///     // Do something with the Subcontext.
-///     assert!(my_subcontext_mut.is_ok());
-/// };
-///
+/// #   assert!(my_subcontext_mut.is_ok());
+/// }
+/// # else {
+/// #   panic!("No subcontext found");
+/// # };
 pub struct Context {
     subcontexts: AnyMap,
 }
