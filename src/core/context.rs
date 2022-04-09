@@ -151,6 +151,8 @@ impl Default for Context {
 
 #[cfg(test)]
 mod context_tests {
+    use log::info;
+
     use super::*;
 
     #[test]
@@ -242,6 +244,44 @@ mod context_tests {
 
         assert_eq!(message_context.message, "Goodbye, world!");
     }
+
+    #[test]
+    fn should_not_fight_the_borrow_checker_on_access_to_subcontexts() {
+        let mut context = Context::empty();
+        context
+            .add(MessageContext::new("Hello, world!"))
+            .expect("failed to add subcontext");
+        context
+            .add(PrintContext::new())
+            .expect("failed to add subcontext");
+
+        let message_context = context.get::<MessageContext>().unwrap();
+        let mut print_context = context.get_mut::<PrintContext>().unwrap();
+
+        print_context.print(&message_context);
+
+        assert_eq!(print_context.prints, 1);
+    }
+
+    struct PrintContext {
+        prints: usize,
+    }
+
+    impl Subcontext for PrintContext {}
+
+    impl PrintContext {
+        pub fn new() -> Self {
+            Self {
+                prints: 0,
+            }
+        }
+
+        pub fn print(&mut self, message: &MessageContext) {
+            info!("{}", message.message);
+            self.prints += 1;
+        }
+    }
+
 
     struct MessageContext {
         pub message: String,
