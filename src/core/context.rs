@@ -124,7 +124,11 @@ impl Context {
     }
 
     pub fn try_borrow<T: Subcontext>(&self) -> Option<Result<Ref<T>, InvalidBorrow>> {
-        None
+        if let Some(cell) = self.subcontexts.get::<TrustCell<T>>() {
+            Some(cell.try_borrow())
+        } else {
+            None
+        }
     }
 
     /// Access a specific type of [Subcontext] immutably.
