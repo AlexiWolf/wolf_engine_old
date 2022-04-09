@@ -73,11 +73,13 @@ pub trait Subcontext: 'static {}
 /// // If you want an immutable reference:
 /// if let Some(my_subcontext) = context.try_borrow::<MySubcontext>() {
 ///     // Do something with the Subcontext.
+///     assert!(my_subcontext.is_ok());
 /// }
 ///
 /// // If you want a mutable reference:
 /// if let Some(my_subcontext_mut) = context.try_borrow_mut::<MySubcontext>() {
 ///     // Do something with the Subcontext.
+///     assert!(my_subcontext.is_ok());
 /// };
 ///
 pub struct Context {
