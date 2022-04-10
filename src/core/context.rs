@@ -177,7 +177,8 @@ impl Context {
     pub fn remove<T: Subcontext>(&mut self) {
         self.subcontexts.remove::<TrustCell<T>>();
     }
-
+    
+    /// Get the number of [Subcontext] currently stored.
     pub fn len(&self) -> usize {
         self.subcontexts.len()
     }
