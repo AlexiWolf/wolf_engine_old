@@ -129,7 +129,9 @@ impl Context {
     /// Absence of write accesses is checked at run-time. If access is not possible, an
     /// error is returned.
     pub fn try_borrow<T: Subcontext>(&self) -> Option<Result<Ref<T>, InvalidBorrow>> {
-        self.subcontexts.get::<TrustCell<T>>().map(|cell| cell.try_borrow())
+        self.subcontexts
+            .get::<TrustCell<T>>()
+            .map(|cell| cell.try_borrow())
     }
 
     /// Get an immutable reference to a stored [Subcontext].
@@ -141,7 +143,9 @@ impl Context {
     /// This function will panic if there is a mutable reference to the data already in
     /// use.
     pub fn borrow<T: Subcontext>(&self) -> Option<Ref<T>> {
-        self.subcontexts.get::<TrustCell<T>>().map(|cell| cell.borrow())
+        self.subcontexts
+            .get::<TrustCell<T>>()
+            .map(|cell| cell.borrow())
     }
 
     /// Get a mutable reference to the inner data.
@@ -149,7 +153,9 @@ impl Context {
     /// Exclusive access is checked at run-time. If access is not possible, an
     /// error is returned.
     pub fn try_borrow_mut<T: Subcontext>(&self) -> Option<Result<RefMut<T>, InvalidBorrow>> {
-        self.subcontexts.get::<TrustCell<T>>().map(|cell| cell.try_borrow_mut())
+        self.subcontexts
+            .get::<TrustCell<T>>()
+            .map(|cell| cell.try_borrow_mut())
     }
 
     /// Get a mutable reference to a stored [Subcontext].
@@ -160,7 +166,9 @@ impl Context {
     ///
     /// This function will panic if there are any references to the data already in use.
     pub fn borrow_mut<T: Subcontext>(&self) -> Option<RefMut<T>> {
-        self.subcontexts.get::<TrustCell<T>>().map(|cell| cell.borrow_mut())
+        self.subcontexts
+            .get::<TrustCell<T>>()
+            .map(|cell| cell.borrow_mut())
     }
 
     /// Remove a specific type of [Subcontext].

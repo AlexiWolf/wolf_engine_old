@@ -243,10 +243,7 @@ mod engine_builder_tests {
     #[test]
     fn should_load_plugins() {
         let mut plugin = MockPlugin::new();
-        plugin
-            .expect_setup()
-            .times(1)
-            .returning(Ok);
+        plugin.expect_setup().times(1).returning(Ok);
 
         let _engine = EngineBuilder::new().with_plugin(Box::from(plugin)).build();
     }
