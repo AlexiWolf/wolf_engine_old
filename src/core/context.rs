@@ -34,12 +34,12 @@ pub trait Subcontext: 'static {}
 ///
 /// # Examples
 ///
-/// To create the default context, use [Context::default()];
+/// To create a new context, use [Context::new()];
 ///
 /// ```
 /// # use wolf_engine::Context;
 /// #
-/// let context = Context::default();
+/// let context = Context::new();
 /// ```
 ///
 /// Adding a [Subcontext] is done using the [Context::add()] method.
