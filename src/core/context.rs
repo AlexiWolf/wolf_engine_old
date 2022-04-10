@@ -50,7 +50,7 @@ pub trait Subcontext: 'static {}
 /// # struct MySubcontext;
 /// # impl Subcontext for MySubcontext {}
 /// # let my_subcontext = MySubcontext;
-/// # let mut context = Context::empty();
+/// # let mut context = Context::new();
 /// #
 /// context.add(my_subcontext);
 /// ```
@@ -64,7 +64,7 @@ pub trait Subcontext: 'static {}
 /// # struct MySubcontext;
 /// # impl Subcontext for MySubcontext {}
 /// # let subcontext = MySubcontext;
-/// # let mut context = Context::empty();
+/// # let mut context = Context::new();
 /// # context.add(subcontext);
 /// #
 /// // If you want an immutable reference:
@@ -92,11 +92,6 @@ pub struct Context {
 impl Context {
     /// Create a new context with no [Subcontext]s.
     pub fn new() -> Self {
-        Self::empty()
-    }
-
-    /// Create an empty context with no [Subcontext]s.
-    pub fn empty() -> Self {
         Self {
             subcontexts: AnyMap::new(),
         }
@@ -201,10 +196,6 @@ mod context_tests {
     fn should_always_start_with_no_subcontexts() {
         assert!(Context::new().is_empty(), "Context::new() was not empty");
         assert!(
-            Context::empty().is_empty(),
-            "Context::empty() was not empty"
-        );
-        assert!(
             Context::default().is_empty(),
             "Context::default() was not empty"
         );
@@ -212,7 +203,7 @@ mod context_tests {
 
     #[test]
     fn should_add_subcontext() {
-        let mut context = Context::empty();
+        let mut context = Context::new();
         let subcontext = MockSubcontext::new();
 
         context.add(subcontext).expect("failed to add subcontext");
@@ -222,7 +213,7 @@ mod context_tests {
 
     #[test]
     fn should_allow_only_one_subcontext_of_a_given_type() {
-        let mut context = Context::empty();
+        let mut context = Context::new();
         let subcontext_a = MockSubcontext::new();
         let subcontext_b = MockSubcontext::new();
 
@@ -238,7 +229,7 @@ mod context_tests {
 
     #[test]
     fn should_remove_subcontext() {
-        let mut context = Context::empty();
+        let mut context = Context::new();
         let subcontext = MockSubcontext::new();
         context.add(subcontext).expect("failed to add subcontext");
 
@@ -253,14 +244,14 @@ mod context_tests {
 
     #[test]
     fn should_fail_silently_if_removing_nonexistent_subcontext() {
-        let mut context = Context::empty();
+        let mut context = Context::new();
 
         context.remove::<MockSubcontext>();
     }
 
     #[test]
     fn should_provide_immutable_access_to_subcontexts() {
-        let mut context = Context::empty();
+        let mut context = Context::new();
         context
             .add(MessageContext::new("Hello, world!"))
             .expect("failed to add subcontext");
@@ -274,7 +265,7 @@ mod context_tests {
 
     #[test]
     fn should_provide_mutable_access_to_subcontexts() {
-        let mut context = Context::empty();
+        let mut context = Context::new();
         context
             .add(MessageContext::new("Hello, world!"))
             .expect("failed to add subcontext");
@@ -289,7 +280,7 @@ mod context_tests {
 
     #[test]
     fn should_not_fight_the_borrow_checker_on_access_to_subcontexts() {
-        let mut context = Context::empty();
+        let mut context = Context::new();
         context
             .add(MessageContext::new("Hello, world!"))
             .expect("failed to add subcontext");

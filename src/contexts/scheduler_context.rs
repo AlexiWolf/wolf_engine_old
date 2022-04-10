@@ -24,7 +24,7 @@ use crate::{Frames, Subcontext, Ticks};
 /// # use wolf_engine::contexts::*;
 /// #
 /// # let scheduler_context = SchedulerContext::new();
-/// # let mut context = Context::empty();
+/// # let mut context = Context::new();
 /// # context.add(scheduler_context);
 /// #
 /// let scheduler_context = context.borrow::<SchedulerContext>()

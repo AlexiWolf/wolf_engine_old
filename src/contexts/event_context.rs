@@ -81,7 +81,7 @@ use crate::{
 /// # use wolf_engine::contexts::EventContext;
 /// # use wolf_engine::event::Event;
 /// #
-/// # let mut context = Context::empty();
+/// # let mut context = Context::new();
 /// # context.add(EventContext::<Event>::default()).unwrap();
 /// #
 /// let event_context = context.borrow::<EventContext<Event>>().expect("no event context");
