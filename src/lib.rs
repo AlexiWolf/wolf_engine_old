@@ -1,6 +1,5 @@
 //! Wolf Engine is a game framework designed to be flexible an easy to work with.
 //!
-//! 
 //! # Getting Started
 //!
 //! Wolf Engine ships with sensible defaults to help you jump-start projects as quickly 
