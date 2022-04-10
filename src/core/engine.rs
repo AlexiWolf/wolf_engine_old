@@ -243,10 +243,7 @@ mod engine_builder_tests {
     #[test]
     fn should_load_plugins() {
         let mut plugin = MockPlugin::new();
-        plugin
-            .expect_setup()
-            .times(1)
-            .returning(|engine_builder| Ok(engine_builder));
+        plugin.expect_setup().times(1).returning(Ok);
 
         let _engine = EngineBuilder::new().with_plugin(Box::from(plugin)).build();
     }
@@ -270,11 +267,11 @@ mod engine_builder_tests {
 
         let _event_context = engine
             .context
-            .get::<EventContext<Event>>()
+            .borrow::<EventContext<Event>>()
             .expect("failed to get EventContext<Event>");
         let _scheduler_context = engine
             .context
-            .get::<SchedulerContext>()
+            .borrow::<SchedulerContext>()
             .expect("failed to get SchedulerContext");
     }
 }

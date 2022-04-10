@@ -97,10 +97,7 @@ mod plugin_loader_tests {
 
     fn mock_plugin() -> MockPlugin {
         let mut plugin = MockPlugin::new();
-        plugin
-            .expect_setup()
-            .once()
-            .returning(|engine_builder| Ok(engine_builder));
+        plugin.expect_setup().once().returning(Ok);
         plugin
     }
 

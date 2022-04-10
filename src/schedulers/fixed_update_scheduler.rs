@@ -153,7 +153,7 @@ impl FixedUpdateScheduler {
     fn tick(&mut self, state: &mut dyn State, context: &mut Context) {
         let tick_run_time = Self::run_tick_and_track_execution_time(state, context);
         self.update_timing(tick_run_time);
-        if let Some(scheduler_context) = context.get_mut::<SchedulerContext>() {
+        if let Some(mut scheduler_context) = context.borrow_mut::<SchedulerContext>() {
             scheduler_context.add_tick();
         }
     }
@@ -174,7 +174,7 @@ impl Scheduler for FixedUpdateScheduler {
 
     fn render(&mut self, context: &mut Context, state: &mut dyn State) {
         state.render(context);
-        if let Some(scheduler_context) = context.get_mut::<SchedulerContext>() {
+        if let Some(mut scheduler_context) = context.borrow_mut::<SchedulerContext>() {
             scheduler_context.add_frame();
         }
     }
@@ -322,7 +322,7 @@ mod fixed_update_scheduler_tests {
         scheduler.update(&mut context, &mut state);
 
         let scheduler_context = context
-            .get::<SchedulerContext>()
+            .borrow::<SchedulerContext>()
             .expect("no SchedulerContext");
         assert!(
             scheduler_context.ticks() >= minimum_ticks,
@@ -341,7 +341,7 @@ mod fixed_update_scheduler_tests {
         }
 
         let scheduler_context = context
-            .get::<SchedulerContext>()
+            .borrow::<SchedulerContext>()
             .expect("no SchedulerContext");
         assert_eq!(
             scheduler_context.frames(),
