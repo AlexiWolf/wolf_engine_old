@@ -58,8 +58,8 @@ pub trait Subcontext: 'static {}
 /// context.add(my_subcontext);
 /// ```
 ///
-/// The [Subcontext] can be accessed again using [Context::get()] or
-/// [Context::get_mut()].
+/// The [Subcontext] can be accessed again using [Context::try_borrow()] or
+/// [Context::try_borrow_mut()].
 ///
 /// ```
 /// # use wolf_engine::*;
@@ -123,6 +123,10 @@ impl Context {
         }
     }
 
+    /// Get an immutable reference to a stored [Subcontext].
+    ///
+    /// Absence of write accesses is checked at run-time. If access is not possible, an 
+    /// error is returned.
     pub fn try_borrow<T: Subcontext>(&self) -> Option<Result<Ref<T>, InvalidBorrow>> {
         if let Some(cell) = self.subcontexts.get::<TrustCell<T>>() {
             Some(cell.try_borrow())
@@ -131,7 +135,14 @@ impl Context {
         }
     }
 
-    /// Access a specific type of [Subcontext] immutably.
+    /// Get an immutable reference to a stored [Subcontext].
+    ///
+    /// Absence of write accesses is checked at run-time.
+    ///
+    /// # Panics
+    ///
+    /// This function will panic if there is a mutable reference to the data already in 
+    /// use.
     pub fn borrow<T: Subcontext>(&self) -> Option<Ref<T>> {
         if let Some(cell) = self.subcontexts.get::<TrustCell<T>>() {
             Some(cell.borrow())
@@ -140,6 +151,10 @@ impl Context {
         }
     }
     
+    /// Get a mutable reference to the inner data.
+    ///
+    /// Exclusive access is checked at run-time. If access is not possible, an
+    /// error is returned.
     pub fn try_borrow_mut<T: Subcontext>(&self) -> Option<Result<RefMut<T>, InvalidBorrow>> {
         if let Some(cell) = self.subcontexts.get::<TrustCell<T>>() {
             Some(cell.try_borrow_mut())
@@ -147,8 +162,14 @@ impl Context {
             None
         }
     }
-
-    /// Access a specific type of [Subcontext] mutably.
+    
+    /// Get a mutable reference to a stored [Subcontext].
+    ///
+    /// Exclusive access is checked at run-time.
+    ///
+    /// # Panics
+    ///
+    /// This function will panic if there are any references to the data already in use.
     pub fn borrow_mut<T: Subcontext>(&self) -> Option<RefMut<T>> {
         if let Some(cell) = self.subcontexts.get::<TrustCell<T>>() {
             Some(cell.borrow_mut())
