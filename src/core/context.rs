@@ -102,15 +102,11 @@ impl Context {
         }
     }
 
-    /// Add a [Subcontext] object.
+    /// Add a [Subcontext].
     ///
-    /// This function ensures that only a single instance of each [Subcontext] type may
-    /// be added.  For example: If you add an instance of `SubcontextA`, then later
-    /// attempt to add another instance of `SubcontextA`, this will result in an error.
-    ///
-    /// A result is returned to indicate if the [Subcontext] was successfully added.  An
-    /// [Ok] indicates the context was added, and an [Err] indicates there is already an
-    /// instance of the type added.
+    /// Only a single instance of a [Subcontext] type may be added.  If the [Subcontext] 
+    /// cannot be added because another object of the same type is already present, an 
+    /// [Err] is returned.
     #[allow(clippy::map_entry)]
     pub fn add<T: Subcontext>(&mut self, subcontext: T) -> Result<(), ContextAlreadyExistsError> {
         if self.subcontexts.contains::<TrustCell<T>>() {
@@ -168,12 +164,12 @@ impl Context {
             .map(|cell| cell.borrow_mut())
     }
 
-    /// Remove a specific type of [Subcontext].
+    /// Remove a [Subcontext].
     ///
-    /// You should avoid removing a [Subcontext] unless you're 100% sure no other parts
-    /// of the code are depending on it.  Removing a [Subcontext] will likely cause any
-    /// code depending on it to panic or otherwise fail.  As a general rule, avoid
-    /// removing anything you didn't add yourself.
+    /// Removing a [Subcontext] is very likely to result in panics or weird behavior from
+    /// code depending on it.  Only remove [Subcontext]s if you're absolutely sure they 
+    /// aren't going to be used again.  Even then, you should only remove types you put 
+    /// there yourself.
     pub fn remove<T: Subcontext>(&mut self) {
         self.subcontexts.remove::<TrustCell<T>>();
     }
