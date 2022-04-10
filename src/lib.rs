@@ -1,42 +1,41 @@
-//! Wolf Engine is a game framework for Rust with a focus on flexibility and ease of
-//! use.   It aims to provide sensible default workflows to those who just want to
-//! build a game while allowing custom options for those who don't want to be forced
-//! to do things *The Wolf Engine Way (TM)*.  
+//! Wolf Engine is a game framework designed to be flexible an easy to work with.
 //!
+//! 
 //! # Getting Started
 //!
-//! Wolf Engine ships with sensible defaults to help jump-start projects as quickly as
-//! possible.  You can get started with the default settings by calling [Engine::new()],
-//! or alternatively [Engine::default()].
+//! Wolf Engine ships with sensible defaults to help you jump-start projects as quickly 
+//! as possible.  Using `Engine::new()` will initialize the engine with the default 
+//! settings.
 //!
 //! ```
-//! # use wolf_engine::{Engine, EmptyState};
-//! #
-//! # let my_game_state = EmptyState;
-//! #
-//! Engine::new()
-//!     .run(Box::from(my_game_state));
-//! ```
+//! pub use wolf_engine::*;
+//! 
+//! pub fn main() {
+//!     Engine::new()
+//!         .run(Box::from(MyGameState::new()));
+//! }
 //!
-//! The defaults are probably fine for simple projects, or when you're just getting
-//! started.  You can reference the [Engine]'s documentation if you want to customize the
-//! engine.
+//! pub struct MyGameState {
+//!     number: usize,
+//! }
 //!
-//! ## Game States
+//! impl MyGameState {
+//!     pub fn new() -> Self {
+//!         Self {
+//!             number: 0,
+//!         }
+//!     }
+//! }
 //!
-//! Wolf Engine games are organized into one or more game [State]s.  These game [State]s
-//! bundle your game's data and logic into a single package that's easy to pass to the
-//! [Engine].  You will need to implement your game as a [State].
-//!
-//! ```
-//! # use wolf_engine::*;
-//! #
-//! pub struct MyGame;
-//!
-//! impl State for MyGame {
+//! impl State for MyGameState {
 //!     fn update(&mut self, _context: &mut Context) -> OptionalTransition {
 //!         // Update your game here.
-//!         None
+//!         if self.number > 10 {
+//!             self.number += 1;
+//!             None
+//!         } else {
+//!             Some(Transition::Quit)
+//!         }
 //!     }
 //!
 //!     fn render(&mut self, _context: &mut Context) -> RenderResult {
@@ -45,10 +44,8 @@
 //! }
 //! ```
 //!
-//! Refer to the [examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples)
-//! for more complete examples of how to use Wolf Engine.  The [Quick-start Example](https://github.com/AlexiWolf/wolf_engine/blob/main/examples/quickstart.rs)
-//! is a good starting place.
-
+//! More complete examples can be found in the 
+//! [Examples Folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples).
 mod core;
 
 pub mod contexts;
