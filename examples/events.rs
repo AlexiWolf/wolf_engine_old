@@ -2,8 +2,8 @@ use log::*;
 use rc_event_queue::LendingIterator;
 use wolf_engine::contexts::EventContext;
 use wolf_engine::event::EventReader;
-use wolf_engine::*;
 use wolf_engine::utils::trust_cell::Ref;
+use wolf_engine::*;
 
 pub fn main() {
     #[cfg(feature = "logging")]

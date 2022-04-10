@@ -74,7 +74,7 @@ pub trait Subcontext: 'static {}
 /// if let Some(my_subcontext) = context.try_borrow::<MySubcontext>() {
 ///     // Do something with the Subcontext.
 /// #   assert!(my_subcontext.is_ok());
-/// } 
+/// }
 /// # else {
 /// #    panic!("No subcontext found");
 /// # };
@@ -126,7 +126,7 @@ impl Context {
 
     /// Get an immutable reference to a stored [Subcontext].
     ///
-    /// Absence of write accesses is checked at run-time. If access is not possible, an 
+    /// Absence of write accesses is checked at run-time. If access is not possible, an
     /// error is returned.
     pub fn try_borrow<T: Subcontext>(&self) -> Option<Result<Ref<T>, InvalidBorrow>> {
         if let Some(cell) = self.subcontexts.get::<TrustCell<T>>() {
@@ -142,7 +142,7 @@ impl Context {
     ///
     /// # Panics
     ///
-    /// This function will panic if there is a mutable reference to the data already in 
+    /// This function will panic if there is a mutable reference to the data already in
     /// use.
     pub fn borrow<T: Subcontext>(&self) -> Option<Ref<T>> {
         if let Some(cell) = self.subcontexts.get::<TrustCell<T>>() {
@@ -151,7 +151,7 @@ impl Context {
             None
         }
     }
-    
+
     /// Get a mutable reference to the inner data.
     ///
     /// Exclusive access is checked at run-time. If access is not possible, an
@@ -163,7 +163,7 @@ impl Context {
             None
         }
     }
-    
+
     /// Get a mutable reference to a stored [Subcontext].
     ///
     /// Exclusive access is checked at run-time.
@@ -177,7 +177,7 @@ impl Context {
         } else {
             None
         }
-    } 
+    }
 
     /// Remove a specific type of [Subcontext].
     ///
@@ -326,9 +326,7 @@ mod context_tests {
 
     impl PrintContext {
         pub fn new() -> Self {
-            Self {
-                prints: 0,
-            }
+            Self { prints: 0 }
         }
 
         pub fn print(&mut self, message: &MessageContext) {
@@ -336,7 +334,6 @@ mod context_tests {
             self.prints += 1;
         }
     }
-
 
     struct MessageContext {
         pub message: String,

@@ -1,4 +1,4 @@
-//! Provides a thread-safe [TrustCell]. 
+//! Provides a thread-safe [TrustCell].
 //!
 //! This code is borrowed from [Shred](https://github.com/amethyst/shred).
 
@@ -622,4 +622,3 @@ mod tests {
         assert_eq!(cell.flag.load(Ordering::SeqCst), 0);
     }
 }
-
