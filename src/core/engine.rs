@@ -246,7 +246,7 @@ mod engine_builder_tests {
         plugin
             .expect_setup()
             .times(1)
-            .returning(|engine_builder| Ok(engine_builder));
+            .returning(Ok);
 
         let _engine = EngineBuilder::new().with_plugin(Box::from(plugin)).build();
     }

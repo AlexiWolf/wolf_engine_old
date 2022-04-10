@@ -100,7 +100,7 @@ mod plugin_loader_tests {
         plugin
             .expect_setup()
             .once()
-            .returning(|engine_builder| Ok(engine_builder));
+            .returning(Ok);
         plugin
     }
 
