@@ -99,8 +99,8 @@ impl Context {
 
     /// Add a [Subcontext].
     ///
-    /// Only a single instance of a [Subcontext] type may be added.  If the [Subcontext] 
-    /// cannot be added because another object of the same type is already present, an 
+    /// Only a single instance of a [Subcontext] type may be added.  If the [Subcontext]
+    /// cannot be added because another object of the same type is already present, an
     /// [Err] is returned.
     #[allow(clippy::map_entry)]
     pub fn add<T: Subcontext>(&mut self, subcontext: T) -> Result<(), ContextAlreadyExistsError> {
@@ -162,13 +162,13 @@ impl Context {
     /// Remove a [Subcontext].
     ///
     /// Removing a [Subcontext] is very likely to result in panics or weird behavior from
-    /// code depending on it.  Only remove [Subcontext]s if you're absolutely sure they 
-    /// aren't going to be used again.  Even then, you should only remove types you put 
+    /// code depending on it.  Only remove [Subcontext]s if you're absolutely sure they
+    /// aren't going to be used again.  Even then, you should only remove types you put
     /// there yourself.
     pub fn remove<T: Subcontext>(&mut self) {
         self.subcontexts.remove::<TrustCell<T>>();
     }
-    
+
     /// Get the number of [Subcontext] currently stored.
     pub fn len(&self) -> usize {
         self.subcontexts.len()
