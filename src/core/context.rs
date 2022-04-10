@@ -27,7 +27,7 @@ impl Display for ContextAlreadyExistsError {
 #[cfg_attr(test, automock)]
 pub trait Subcontext: 'static {}
 
-///Provides a dynamic storage container for global [Engine](crate::Engine) state.
+/// Provides a dynamic storage container for global [Engine](crate::Engine) state.
 ///
 /// The context object essentially provides a dynamic container for [Subcontext] objects.
 /// [Subcontext]s store data used by the engine, engine modules, or the game.
