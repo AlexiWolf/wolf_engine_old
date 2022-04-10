@@ -183,6 +183,7 @@ impl Context {
         self.subcontexts.len()
     }
 
+    /// Returns true if there are no [Subcontext]s currently stored.
     pub fn is_empty(&self) -> bool {
         self.subcontexts.is_empty()
     }
