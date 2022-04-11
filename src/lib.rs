@@ -10,30 +10,16 @@
 //! 
 //! pub fn main() {
 //!     Engine::new()
-//!         .run(Box::from(MyGameState::new()));
+//!         .run(Box::from(MyGameState));
 //! }
 //! 
-//! pub struct MyGameState {
-//!     number: usize,
-//! }
-//!
-//! impl MyGameState {
-//!     pub fn new() -> Self {
-//!         Self {
-//!             number: 0,
-//!         }
-//!     }
-//! }
+//! pub struct MyGameState;
 //!
 //! impl State for MyGameState {
 //!     fn update(&mut self, _context: &mut Context) -> OptionalTransition {
 //!         // Update your game here.
-//!         if self.number > 10 {
-//!             self.number += 1;
-//!             None
-//!         } else {
-//!             Some(Transition::Quit)
-//!         }
+//! #       return Some(Transition::Quit);
+//!         None
 //!     }
 //!
 //!     fn render(&mut self, _context: &mut Context) -> RenderResult {
