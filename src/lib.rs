@@ -38,8 +38,9 @@
 //! container which allows us to add new data to the [Engine] at run-time.
 //!
 //! If you have access to the [Context], you can request access to stored data by it's 
-//! type.  Rust's normal borrowing rules still apply, but they are checked at run-time not 
-//! compile-time.  
+//! type.  For [Subcontext]s, Rusts normal borrowing rules still apply, but they are 
+//! checked at run-time rather than at compile-time.  This is done to help avoid issues
+//! with the borrow checker when borrowing multiple [Subcontext]s.
 //!
 //! ```
 //!# pub use wolf_engine::*;
