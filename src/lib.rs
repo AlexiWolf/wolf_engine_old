@@ -84,9 +84,8 @@
 //! ## Functions Using the Context 
 //!
 //! A common pattern for Wolf Engine is passing the [Context] or specific [Subcontext] 
-//! objects to functions implementing some functionality.  Because the [Context] grants
-//! access to all [Engine] data, functions can use it to work on the current instance of 
-//! the [Engine].
+//! objects to functions.  Because the [Context] grants access to all [Engine] data, 
+//! functions can use it to work on the current instance of the [Engine].
 //! 
 //! ```
 //!# use wolf_engine::*;
