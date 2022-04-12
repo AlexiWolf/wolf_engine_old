@@ -29,9 +29,6 @@
 //! }
 //! ```
 //!
-//! More complete examples can be found in the 
-//! [Examples Folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples).
-//!
 //! # Context Data
 //!
 //! [Engine] data is stored in the [Context].  The [Context] is a dynamic storage 
@@ -104,6 +101,11 @@
 //!     // Do something cool.
 //! }
 //! ```
+//!
+//! # Advanced Usage
+//!
+//! More complete examples can be found in the 
+//! [Examples Folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples).
 mod core;
 
 pub mod contexts;
