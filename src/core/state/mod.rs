@@ -105,6 +105,10 @@ pub trait State {
 
     /// Update the game state in the background.
     ///
+    /// Background updates are useful for allowing game states to continue running logic
+    /// in the background, even when they are not the active state.  For example:
+    /// Running timers, counters, or keeping the game running behind an inventory or pause
+    /// menu.
     ///
     /// By default, this method runs when:
     ///
@@ -121,6 +125,10 @@ pub trait State {
     fn render(&mut self, context: &mut Context) -> RenderResult;
 
     /// Render the game state in the background.
+    ///
+    /// Background renders are useful for allowing game states to continue rendering 
+    /// in the background, even when they are not the active state. For example: 
+    /// Continuing to render the game behind an inventory or pause menu.
     ///
     /// By default, this method runs when:
     ///
