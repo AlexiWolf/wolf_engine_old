@@ -68,7 +68,7 @@ pub trait State {
     /// your game needs.
     ///
     /// This method should be run only once throughout the life of the state object, and
-    /// before any other method is run.
+    /// it will always be the last method called before the state is dropped.
     fn shutdown(&mut self, _context: &mut Context) {}
 
     /// Pause the game state.
