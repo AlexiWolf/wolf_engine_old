@@ -96,15 +96,36 @@ pub trait State {
     fn resume(&mut self, _context: &mut Context) {}
 
     /// Update the game state.
+    ///
+    /// By default, this method runs when:
+    ///
+    /// - A tick is ran by the [Engine],
+    /// - and the state is the topmost state on the [StateStack].
     fn update(&mut self, context: &mut Context) -> OptionalTransition;
 
     /// Update the game state in the background.
+    ///
+    ///
+    /// By default, this method runs when:
+    ///
+    /// - A tick is ran by the [Engine],
+    /// - and the state is not the topmost state on the [StateStack].
     fn background_update(&mut self, _context: &mut Context) {}
 
     /// Render the game state.
+    ///
+    /// By default, this method runs when:
+    ///
+    /// - A frame is rendered by the [Engine],
+    /// - and the state is the topmost state on the [StateStack].
     fn render(&mut self, context: &mut Context) -> RenderResult;
 
     /// Render the game state in the background.
+    ///
+    /// By default, this method runs when:
+    ///
+    /// - A frame is rendered by the [Engine],
+    /// - and the state is not the topmost state on the [StateStack].
     fn background_render(&mut self, _context: &mut Context) -> RenderResult {}
 }
 
