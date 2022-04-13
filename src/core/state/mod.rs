@@ -12,20 +12,19 @@ use mockall::automock;
 /// A currently unused return type for [State]'s render method.
 pub type RenderResult = ();
 
-/// Provides a common mechanism for getting game logic / data to the engine.
+/// Provides a way to package game data and logic to be run by the [Engine].
 ///
-/// A `State`, or "game state" is more or less the actual *game* part of your game.  Game
-/// states allow you to store game data and implement your game's logic in way that makes
-/// it easy to pass to send off to be run by the engine.
+/// Wolf Engine games consist of one or more state objects.  Each implementing a specific
+/// part of the game.  For example: It's useful to be able to break your game up into 
+/// manageable chunks such as a `MainMenuState`, a `LevelState`, and a `PausedState` where
+/// each State does a single job.  This helps to break your game into manageable chunks.
 ///
-/// Wolf Engine games are made up of one or more States.  For simple games one state may
-/// be fine, but more complex games may benefit from multiple states.  This allows you to
-/// split your game into more manageable chunks.  For example: You may want to have a
-/// `MainMenuState`, a `LevelState`, and a `PausedState` for your game.  Trying to shove
-/// all of that game logic into a single state will quickly make your game unworkable.
+/// By default, states are controlled by the [StateStack].  The [StateStack] allows states 
+/// to be stacked on top of each other and ran all together, resulting in a "layered" 
+/// behavior.  Active states can also control the [StateStack] by returning an 
+/// [OptionalTransition] from the [State::update()] method.  
 ///
-/// Game states are managed by the engine's [StateStack].  The `update` method returns
-/// a [Transition] type.  These transitions are used to tell the state machine what to do.
+/// See the [StateStack] docs for more information.
 ///
 /// # Examples
 ///
@@ -38,8 +37,13 @@ pub type RenderResult = ();
 ///
 /// impl State for MyGame {
 ///     fn update(&mut self, _context: &mut Context) -> OptionalTransition {
-///         self.number += 1;
-///         None // Don't transition, just keep running
+///         if number < 10 {
+///             self.number += 1;
+///             None // Don't transition, just keep running
+///         } else {
+///             // We've counted to 10, lets tell the engine to quit
+///             Some(Transition::Quit) 
+///         }
 ///     }
 ///
 ///     fn render(&mut self, _context: &mut Context) -> RenderResult {
