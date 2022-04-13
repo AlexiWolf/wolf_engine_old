@@ -99,7 +99,7 @@ pub trait State {
     ///
     /// By default, this method runs when:
     ///
-    /// - A tick is ran by the [Engine],
+    /// - The [Engine] requests a tick to run, 
     /// - and the state is the topmost state on the [StateStack].
     fn update(&mut self, context: &mut Context) -> OptionalTransition;
 
@@ -108,7 +108,7 @@ pub trait State {
     ///
     /// By default, this method runs when:
     ///
-    /// - A tick is ran by the [Engine],
+    /// - The [Engine] requests a tick to run, 
     /// - and the state is not the topmost state on the [StateStack].
     fn background_update(&mut self, _context: &mut Context) {}
 
@@ -116,7 +116,7 @@ pub trait State {
     ///
     /// By default, this method runs when:
     ///
-    /// - A frame is rendered by the [Engine],
+    /// - The [Engine] requests a frame to render,
     /// - and the state is the topmost state on the [StateStack].
     fn render(&mut self, context: &mut Context) -> RenderResult;
 
@@ -124,7 +124,7 @@ pub trait State {
     ///
     /// By default, this method runs when:
     ///
-    /// - A frame is rendered by the [Engine],
+    /// - The [Engine] requests a frame to render,
     /// - and the state is not the topmost state on the [StateStack].
     fn background_render(&mut self, _context: &mut Context) -> RenderResult {}
 }
