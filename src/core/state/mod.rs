@@ -14,14 +14,14 @@ pub type RenderResult = ();
 
 /// Provides a way to package game data and logic to be run by the [Engine].
 ///
-/// Wolf Engine games consist of one or more state objects.  Each implementing a specific
+/// Wolf Engine games consist of one or more State objects.  Each implementing a specific
 /// part of the game.  For example: It's useful to be able to break your game up into 
 /// manageable chunks such as a `MainMenuState`, a `LevelState`, and a `PausedState` where
 /// each State does a single job.  This helps to break your game into manageable chunks.
 ///
-/// By default, states are controlled by the [StateStack].  The [StateStack] allows states 
+/// By default, States are controlled by the [StateStack].  The [StateStack] allows States 
 /// to be stacked on top of each other and ran all together, resulting in a "layered" 
-/// behavior.  Active states can also control the [StateStack] by returning an 
+/// behavior.  Active States can also control the [StateStack] by returning an 
 /// [OptionalTransition] from the [State::update()] method.  
 ///
 /// See the [StateStack] docs for more information.
