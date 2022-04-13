@@ -4,7 +4,7 @@ mod transition;
 pub use state_stack::*;
 pub use transition::*;
 
-use crate::Context;
+use crate::*;
 
 #[cfg(test)]
 use mockall::automock;
@@ -29,7 +29,7 @@ pub type RenderResult = ();
 /// # Examples
 ///
 /// ```
-/// use wolf_engine::{Context, State, OptionalTransition, RenderResult};
+/// use wolf_engine::*;
 ///
 /// struct MyGame {
 ///     number: u32,
@@ -37,7 +37,7 @@ pub type RenderResult = ();
 ///
 /// impl State for MyGame {
 ///     fn update(&mut self, _context: &mut Context) -> OptionalTransition {
-///         if number < 10 {
+///         if self.number < 10 {
 ///             self.number += 1;
 ///             None // Don't transition, just keep running
 ///         } else {
