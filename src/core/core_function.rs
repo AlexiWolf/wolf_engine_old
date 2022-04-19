@@ -68,4 +68,5 @@ pub fn run_while_has_active_state(mut engine: Engine) {
             .scheduler
             .render(&mut engine.context, &mut engine.state_stack);
     }
+    log::debug!("The state stack is empty.  The engine will now shut down.")
 }

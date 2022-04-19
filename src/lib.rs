@@ -70,3 +70,7 @@ pub(crate) fn log_startup_information() {
     let homepage = env!("CARGO_PKG_HOMEPAGE");
     info!("Hello from {} v{} - {}", name, version, homepage);
 }
+
+pub(crate) fn log_shutdown() {
+    info!("Engine has stopped.  Goodbye.")
+}
