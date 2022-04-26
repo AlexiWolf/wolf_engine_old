@@ -6,7 +6,7 @@
 //! as possible.  To get started with the default settings, use [Engine::new()] and
 //! provide your game's starting [State] to the [Engine::run()] method.
 //!
-//! ```
+//! ```allow(clippy::needless_doctest_main)
 //! pub use wolf_engine::*;
 //!
 //! pub fn main() {
