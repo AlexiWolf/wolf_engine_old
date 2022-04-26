@@ -111,6 +111,9 @@ impl Default for Engine {
 }
 
 /// Build and customize an instance of the [Engine].
+///
+/// The two main jobs of the engine builder is to load [Plugin]s and allow users to 
+/// customize the [Engine]'s settings.
 pub struct EngineBuilder {
     pub engine: Engine,
     plugin_loader: PluginLoader,
