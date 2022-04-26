@@ -86,6 +86,7 @@ impl Engine {
         self.state_stack.push(initial_state, &mut self.context);
         let (engine, core_function) = self.extract_core_function();
         (core_function)(engine);
+        log_shutdown();
     }
 
     fn extract_core_function(mut self) -> (Engine, Box<dyn Fn(Engine)>) {
