@@ -2,18 +2,18 @@
 //!
 //! # Getting Started
 //!
-//! Wolf Engine ships with sensible defaults to help you jump-start projects as quickly 
-//! as possible.  To get started with the default settings, use [Engine::new()] and 
+//! Wolf Engine ships with sensible defaults to help you jump-start projects as quickly
+//! as possible.  To get started with the default settings, use [Engine::new()] and
 //! provide your game's starting [State] to the [Engine::run()] method.
 //!
 //! ```
 //! pub use wolf_engine::*;
-//! 
+//!
 //! pub fn main() {
 //!     Engine::new()
 //!         .run(Box::from(MyGameState));
 //! }
-//! 
+//!
 //! pub struct MyGameState;
 //!
 //! impl State for MyGameState {
@@ -31,22 +31,22 @@
 //!
 //! # Context Data
 //!
-//! [Engine] data is stored in the [Context].  The [Context] is a dynamic storage 
+//! [Engine] data is stored in the [Context].  The [Context] is a dynamic storage
 //! container which allows us to add new data to the [Engine] at run-time.
 //!
-//! If you have access to the [Context], you can request access to stored data by it's 
-//! type.  For [Subcontext]s, Rusts normal borrowing rules still apply, but they are 
+//! If you have access to the [Context], you can request access to stored data by it's
+//! type.  For [Subcontext]s, Rusts normal borrowing rules still apply, but they are
 //! checked at run-time rather than at compile-time.  This is done to help avoid issues
 //! with the borrow checker when borrowing multiple [Subcontext]s.
 //!
 //! ```
 //!# pub use wolf_engine::*;
-//!# 
+//!#
 //!# pub fn main() {
 //!#     Engine::new()
 //!#         .run(Box::from(MyGameState));
 //!# }
-//!# 
+//!#
 //!# pub struct MyGameState;
 //!#
 //!# impl State for MyGameState {
@@ -66,24 +66,24 @@
 //!#
 //!#     fn render(&mut self, _context: &mut Context) -> RenderResult {}
 //!# }
-//!# 
+//!#
 //!# pub struct ExampleContext {
 //!#    pub message: String,  
-//!# } 
+//!# }
 //!#
 //!# impl Subcontext for ExampleContext {}
 //! ```
 //!
-//! It is best to use [Context::try_borrow()] and [Context::try_borrow_mut()] instead of 
-//! [Context::borrow()] and [Context::borrow_mut()], as the non-try methods will panic if 
+//! It is best to use [Context::try_borrow()] and [Context::try_borrow_mut()] instead of
+//! [Context::borrow()] and [Context::borrow_mut()], as the non-try methods will panic if
 //! the borrowing rules are broken.
 //!
-//! ## Functions Using the Context 
+//! ## Functions Using the Context
 //!
-//! A common pattern for Wolf Engine is passing the [Context] or specific [Subcontext] 
-//! objects to functions.  Because the [Context] grants access to all [Engine] data, 
+//! A common pattern for Wolf Engine is passing the [Context] or specific [Subcontext]
+//! objects to functions.  Because the [Context] grants access to all [Engine] data,
 //! functions can use it to work on the current instance of the [Engine].
-//! 
+//!
 //! ```
 //!# use wolf_engine::*;
 //!#
@@ -104,7 +104,7 @@
 //!
 //! # Advanced Usage
 //!
-//! More complete examples can be found in the 
+//! More complete examples can be found in the
 //! [Examples Folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples).
 mod core;
 

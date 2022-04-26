@@ -15,13 +15,13 @@ pub type RenderResult = ();
 /// Provides a way to package game data and logic to be run by the [Engine].
 ///
 /// Wolf Engine games consist of one or more State objects.  Each implementing a specific
-/// part of the game.  For example: It's useful to be able to break your game up into 
+/// part of the game.  For example: It's useful to be able to break your game up into
 /// manageable chunks such as a `MainMenuState`, a `LevelState`, and a `PausedState` where
 /// each State does a single job.  This helps to break your game into manageable chunks.
 ///
-/// By default, States are controlled by the [StateStack].  The [StateStack] allows States 
-/// to be stacked on top of each other and ran all together, resulting in a "layered" 
-/// behavior.  Active States can also control the [StateStack] by returning an 
+/// By default, States are controlled by the [StateStack].  The [StateStack] allows States
+/// to be stacked on top of each other and ran all together, resulting in a "layered"
+/// behavior.  Active States can also control the [StateStack] by returning an
 /// [OptionalTransition] from the [State::update()] method.  
 ///
 /// See the [StateStack] docs for more information.
@@ -42,7 +42,7 @@ pub type RenderResult = ();
 ///             None // Don't transition, just keep running
 ///         } else {
 ///             // We've counted to 10, lets tell the engine to quit
-///             Some(Transition::Quit) 
+///             Some(Transition::Quit)
 ///         }
 ///     }
 ///
@@ -99,7 +99,7 @@ pub trait State {
     ///
     /// By default, this method runs when:
     ///
-    /// - The [Engine] requests a tick to run, 
+    /// - The [Engine] requests a tick to run,
     /// - and the state is the topmost state on the [StateStack].
     fn update(&mut self, context: &mut Context) -> OptionalTransition;
 
@@ -112,7 +112,7 @@ pub trait State {
     ///
     /// By default, this method runs when:
     ///
-    /// - The [Engine] requests a tick to run, 
+    /// - The [Engine] requests a tick to run,
     /// - and the state is not the topmost state on the [StateStack].
     fn background_update(&mut self, _context: &mut Context) {}
 
@@ -126,8 +126,8 @@ pub trait State {
 
     /// Render the game state in the background.
     ///
-    /// Background renders are useful for allowing game states to continue rendering 
-    /// in the background, even when they are not the active state. For example: 
+    /// Background renders are useful for allowing game states to continue rendering
+    /// in the background, even when they are not the active state. For example:
     /// Continuing to render the game behind an inventory or pause menu.
     ///
     /// By default, this method runs when:

@@ -32,7 +32,7 @@ use crate::*;
 /// let engine = Engine::default();
 /// ```
 ///
-/// If you don't want to use the default settings, the [EngineBuilder] and [Plugin] 
+/// If you don't want to use the default settings, the [EngineBuilder] and [Plugin]
 /// system can be used to customize just about every aspect of the engine.
 ///
 /// ```
@@ -112,7 +112,7 @@ impl Default for Engine {
 
 /// Build and customize an instance of the [Engine].
 ///
-/// The two main jobs of the engine builder is to load [Plugin]s and allow users to 
+/// The two main jobs of the engine builder is to load [Plugin]s and allow users to
 /// customize the [Engine]'s settings.  The engine builder provides direct access to the
 /// [Engine], and it's public types.
 pub struct EngineBuilder {
