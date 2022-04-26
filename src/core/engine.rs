@@ -32,8 +32,8 @@ use crate::*;
 /// let engine = Engine::default();
 /// ```
 ///
-/// If you don't want to use the default settings, the [EngineBuilder], and the [Context]
-/// can be used to customize just about every aspect of the engine.
+/// If you don't want to use the default settings, the [EngineBuilder] and [Plugin]
+/// system can be used to customize just about every aspect of the engine.
 ///
 /// ```
 /// # use wolf_engine::*;
@@ -44,11 +44,10 @@ use crate::*;
 ///     .build();
 /// ```
 ///
-/// You can refer to the [EngineBuilder], and [Context] documentation for specifics on
-/// each object can do.
+/// You can refer to the [EngineBuilder] documentation for specifics on what it can do.
 ///
 /// Running the engine is the same, no matter if you're using the default instance, or
-/// a customized instance.  Just run [Engine::run()] and pass your games starting [State]
+/// a customized instance.  Just run [Engine::run()] and pass your game's starting [State]
 /// to it.
 ///
 /// ```
@@ -113,6 +112,10 @@ impl Default for Engine {
 }
 
 /// Build and customize an instance of the [Engine].
+///
+/// The two main jobs of the engine builder is to load [Plugin]s and allow users to
+/// customize the [Engine]'s settings.  The engine builder provides direct access to the
+/// [Engine], and it's public types.
 pub struct EngineBuilder {
     pub engine: Engine,
     plugin_loader: PluginLoader,

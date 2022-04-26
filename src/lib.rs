@@ -1,41 +1,25 @@
-//! Wolf Engine is a game framework for Rust with a focus on flexibility and ease of
-//! use.   It aims to provide sensible default workflows to those who just want to
-//! build a game while allowing custom options for those who don't want to be forced
-//! to do things *The Wolf Engine Way (TM)*.  
+//! Wolf Engine is a game framework designed to be flexible an easy to work with.
 //!
 //! # Getting Started
 //!
-//! Wolf Engine ships with sensible defaults to help jump-start projects as quickly as
-//! possible.  You can get started with the default settings by calling [Engine::new()],
-//! or alternatively [Engine::default()].
+//! Wolf Engine ships with sensible defaults to help you jump-start projects as quickly
+//! as possible.  To get started with the default settings, use [Engine::new()] and
+//! provide your game's starting [State] to the [Engine::run()] method.
 //!
-//! ```
-//! # use wolf_engine::{Engine, EmptyState};
-//! #
-//! # let my_game_state = EmptyState;
-//! #
-//! Engine::new()
-//!     .run(Box::from(my_game_state));
-//! ```
+//! ```allow(clippy::needless_doctest_main)
+//! pub use wolf_engine::*;
 //!
-//! The defaults are probably fine for simple projects, or when you're just getting
-//! started.  You can reference the [Engine]'s documentation if you want to customize the
-//! engine.
+//! pub fn main() {
+//!     Engine::new()
+//!         .run(Box::from(MyGameState));
+//! }
 //!
-//! ## Game States
+//! pub struct MyGameState;
 //!
-//! Wolf Engine games are organized into one or more game [State]s.  These game [State]s
-//! bundle your game's data and logic into a single package that's easy to pass to the
-//! [Engine].  You will need to implement your game as a [State].
-//!
-//! ```
-//! # use wolf_engine::*;
-//! #
-//! pub struct MyGame;
-//!
-//! impl State for MyGame {
+//! impl State for MyGameState {
 //!     fn update(&mut self, _context: &mut Context) -> OptionalTransition {
 //!         // Update your game here.
+//! #       return Some(Transition::Quit);
 //!         None
 //!     }
 //!
@@ -45,10 +29,83 @@
 //! }
 //! ```
 //!
-//! Refer to the [examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples)
-//! for more complete examples of how to use Wolf Engine.  The [Quick-start Example](https://github.com/AlexiWolf/wolf_engine/blob/main/examples/quickstart.rs)
-//! is a good starting place.
-
+//! # Context Data
+//!
+//! [Engine] data is stored in the [Context].  The [Context] is a dynamic storage
+//! container which allows us to add new data to the [Engine] at run-time.
+//!
+//! If you have access to the [Context], you can request access to stored data by it's
+//! type.  For [Subcontext]s, Rusts normal borrowing rules still apply, but they are
+//! checked at run-time rather than at compile-time.  This is done to help avoid issues
+//! with the borrow checker when borrowing multiple [Subcontext]s.
+//!
+//! ```
+//!# pub use wolf_engine::*;
+//!#
+//!# pub fn main() {
+//!#     Engine::new()
+//!#         .run(Box::from(MyGameState));
+//!# }
+//!#
+//!# pub struct MyGameState;
+//!#
+//!# impl State for MyGameState {
+//! fn update(&mut self, context: &mut Context) -> OptionalTransition {
+//!     if let Some(Ok(subcontext)) = context.try_borrow::<ExampleContext>() {
+//!         log::info!("{}", subcontext.message);     
+//!         // This subcontext must go out of scope before we can borrow mutably.
+//!     }
+//!     if let Some(Ok(mut subcontext)) = context.try_borrow_mut::<ExampleContext>() {
+//!         // If anything else is borrowing the subcontext, we will get an error.
+//!         subcontext.message = "New Message".to_string();
+//!         log::info!("{}", subcontext.message);
+//!     }
+//!#    return Some(Transition::Quit);
+//!     None
+//! }
+//!#
+//!#     fn render(&mut self, _context: &mut Context) -> RenderResult {}
+//!# }
+//!#
+//!# pub struct ExampleContext {
+//!#    pub message: String,  
+//!# }
+//!#
+//!# impl Subcontext for ExampleContext {}
+//! ```
+//!
+//! It is best to use [Context::try_borrow()] and [Context::try_borrow_mut()] instead of
+//! [Context::borrow()] and [Context::borrow_mut()], as the non-try methods will panic if
+//! the borrowing rules are broken.
+//!
+//! ## Functions Using the Context
+//!
+//! A common pattern for Wolf Engine is passing the [Context] or specific [Subcontext]
+//! objects to functions.  Because the [Context] grants access to all [Engine] data,
+//! functions can use it to work on the current instance of the [Engine].
+//!
+//! ```
+//!# use wolf_engine::*;
+//!#
+//!# let context = &Context::new();
+//!# fn some_function(context: &Context) {}
+//! some_function(context);
+//! ```
+//!
+//! Implementing new functions using this pattern is also easy.
+//!
+//! ```
+//! # use wolf_engine::*;
+//! #
+//! pub fn my_function(context: &Context) {
+//!     // Do something cool.
+//! }
+//! ```
+//!
+//! # Advanced Usage
+//!
+//! More complete examples can be found in the
+//! [Examples Folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples).
 mod core;
 
 pub mod contexts;
