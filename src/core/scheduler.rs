@@ -85,7 +85,7 @@ pub type Frames = u64;
 pub trait Scheduler {
     /// Profiles the [Scheduler::update()] method.
     ///
-    /// **Warning:** This method private API and SHOULD NOT be used by 3rd party code.
+    /// **Warning:** This method is private API and SHOULD NOT be used by 3rd party code.
     /// It is subject to change at any time, and without warning.
     #[doc(hidden)]
     fn profile_update(&mut self, context: &mut Context, state: &mut dyn State) {
@@ -98,7 +98,7 @@ pub trait Scheduler {
 
     /// Profiles the [Scheduler::render()] method.
     ///
-    /// **Warning:** This method private API and SHOULD NOT be used by 3rd party code.
+    /// **Warning:** This method is private API and SHOULD NOT be used by 3rd party code.
     /// It is subject to change at any time, and without warning.
     #[doc(hidden)]
     fn profile_render(&mut self, context: &mut Context, state: &mut dyn State) {
