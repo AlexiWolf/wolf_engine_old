@@ -1,4 +1,4 @@
-use crate::{*, contexts::*};
+use crate::*;
 
 /// Provides profiling using [puffin].
 pub struct PuffinPlugin;
@@ -9,6 +9,7 @@ impl Plugin for PuffinPlugin {
             puffin::set_scopes_on(true);
         }
         if cfg!(feature = "http_profiling") {
+            use contexts::PuffinHttpContext;
             let puffin_server_result = PuffinHttpContext::new();
         }
         Ok(engine_builder)
