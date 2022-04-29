@@ -61,12 +61,14 @@ pub type CoreFunction = Box<dyn Fn(Engine)>;
 /// [StateStack](crate::StateStack)is empty, then it will exit.
 pub fn run_while_has_active_state(mut engine: Engine) {
     while engine.state_stack.is_not_empty() {
+        puffin::GlobalProfiler::lock().new_frame();
+        puffin::profile_scope!("frame");
         engine
             .scheduler
-            .update(&mut engine.context, &mut engine.state_stack);
+            .profile_update(&mut engine.context, &mut engine.state_stack);
         engine
             .scheduler
-            .render(&mut engine.context, &mut engine.state_stack);
+            .profile_render(&mut engine.context, &mut engine.state_stack);
     }
     log::debug!("The state stack is empty.  The engine will now shut down.")
 }

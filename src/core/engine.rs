@@ -1,6 +1,6 @@
 use std::mem::replace;
 
-use crate::plugins::CorePlugin;
+use crate::plugins::{CorePlugin, PuffinPlugin};
 use crate::schedulers::FixedUpdateScheduler;
 use crate::*;
 
@@ -169,6 +169,7 @@ impl Default for EngineBuilder {
             plugin_loader: PluginLoader::new(),
         }
         .with_plugin(Box::from(CorePlugin))
+        .with_plugin(Box::from(PuffinPlugin))
         .with_engine_core(Box::from(run_while_has_active_state))
     }
 }
@@ -209,14 +210,16 @@ mod engine_builder_tests {
     use super::*;
 
     #[test]
-    fn should_allow_custom_states() {
+    fn should_set_custom_scheduler() {
         let mut scheduler = MockScheduler::new();
         scheduler
-            .expect_update()
-            .times(1)
+            .expect_profile_update()
+            .times(1..)
             .returning(|context, state_stack| {
                 state_stack.update(context);
             });
+        scheduler.expect_update().times(..).return_const(());
+        scheduler.expect_profile_render().times(..).return_const(());
         scheduler.expect_render().times(..).return_const(());
 
         EngineBuilder::new()
