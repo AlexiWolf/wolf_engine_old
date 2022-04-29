@@ -87,6 +87,7 @@ pub trait Scheduler {
     ///
     /// **Warning:** This method private API and SHOULD NOT be used by 3rd party code.
     /// It is subject to change at any time, and without warning.
+    #[doc(hidden)]
     fn profile_update(&mut self, context: &mut Context, state: &mut dyn State) {
         self.update(context, state); 
     }
@@ -98,6 +99,7 @@ pub trait Scheduler {
     ///
     /// **Warning:** This method private API and SHOULD NOT be used by 3rd party code.
     /// It is subject to change at any time, and without warning.
+    #[doc(hidden)]
     fn profile_render(&mut self, context: &mut Context, state: &mut dyn State) {
         self.render(context, state);
     }
