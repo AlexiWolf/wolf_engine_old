@@ -217,6 +217,7 @@ mod engine_builder_tests {
             .returning(|context, state_stack| {
                 state_stack.update(context);
             });
+        scheduler.expect_update().times(..).return_const(());
         scheduler.expect_profile_render().times(..).return_const(());
         scheduler.expect_render().times(..).return_const(());
 
