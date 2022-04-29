@@ -1,5 +1,5 @@
 use log::*;
-use wolf_engine::{plugins::PuffinPlugin, *};
+use wolf_engine::*;
 
 pub fn main() {
     // If the "logging" feature is enabled, Wolf Engine includes a default logger for
@@ -11,10 +11,7 @@ pub fn main() {
     let game = FizzBuzzState::new();
 
     // Pass your state to the engine.  Have fun!
-    EngineBuilder::new()
-        .with_plugin(Box::from(PuffinPlugin))
-        .build()
-        .run(Box::from(game));
+    Engine::new().run(Box::from(game));
 }
 
 // Your game is implemented as one or many game states.  A game state stores all the
