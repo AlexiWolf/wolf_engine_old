@@ -10,7 +10,9 @@ impl Plugin for PuffinPlugin {
             puffin::set_scopes_on(true);
         }
         #[cfg(feature = "http_profiling")]
-        {engine_builder = enable_puffin_http(engine_builder);}
+        {
+            engine_builder = enable_puffin_http(engine_builder);
+        }
         Ok(engine_builder)
     }
 }
@@ -23,7 +25,10 @@ fn enable_puffin_http(mut engine_builder: EngineBuilder) -> EngineBuilder {
         info!("Successfully created Puffin HTTP server at: 0.0.0.0:8585");
         engine_builder = engine_builder.with_subcontext(http_context);
     } else {
-        warn!("Failed to create Puffin HTTP server at: 0.0.0.0:8585: {}", puffin_server_result.err().unwrap());
+        warn!(
+            "Failed to create Puffin HTTP server at: 0.0.0.0:8585: {}",
+            puffin_server_result.err().unwrap()
+        );
     }
     engine_builder
 }

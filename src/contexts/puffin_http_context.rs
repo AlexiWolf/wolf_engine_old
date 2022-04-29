@@ -1,4 +1,4 @@
-use puffin_http::{Server, Client};
+use puffin_http::{Client, Server};
 
 use crate::*;
 
@@ -14,7 +14,7 @@ impl PuffinHttpContext {
             let client = Client::new("127.0.0.1:8585".to_owned());
             Ok(Self {
                 server: server_result.unwrap(),
-                _client: client
+                _client: client,
             })
         } else {
             Err(server_result.err().unwrap())

@@ -90,7 +90,7 @@ pub trait Scheduler {
     #[doc(hidden)]
     fn profile_update(&mut self, context: &mut Context, state: &mut dyn State) {
         puffin::profile_scope!("update");
-        self.update(context, state); 
+        self.update(context, state);
     }
 
     /// Update the game state.
@@ -105,7 +105,7 @@ pub trait Scheduler {
         puffin::profile_scope!("render");
         self.render(context, state);
     }
-    
+
     /// Render the game state.
     fn render(&mut self, context: &mut Context, state: &mut dyn State);
 }
