@@ -1,10 +1,10 @@
 use crate::*;
-use log::*;
 
 /// Provides profiling using [puffin].
 pub struct PuffinPlugin;
 
 impl Plugin for PuffinPlugin {
+    #[allow(unused_mut)]
     fn setup(&mut self, mut engine_builder: EngineBuilder) -> PluginResult {
         if cfg!(feature = "profiling") {
             puffin::set_scopes_on(true);
@@ -22,10 +22,10 @@ fn enable_puffin_http(mut engine_builder: EngineBuilder) -> EngineBuilder {
     let puffin_server_result = contexts::PuffinHttpContext::new();
     if puffin_server_result.is_ok() {
         let http_context = puffin_server_result.unwrap();
-        info!("Successfully created Puffin HTTP server at: 0.0.0.0:8585");
+        log::info!("Successfully created Puffin HTTP server at: 0.0.0.0:8585");
         engine_builder = engine_builder.with_subcontext(http_context);
     } else {
-        warn!(
+        log::warn!(
             "Failed to create Puffin HTTP server at: 0.0.0.0:8585: {}",
             puffin_server_result.err().unwrap()
         );
