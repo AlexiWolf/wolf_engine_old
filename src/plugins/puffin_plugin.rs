@@ -1,5 +1,6 @@
 use crate::*;
 
+/// Provides profiling using [puffin].
 pub struct PuffinPlugin;
 
 impl Plugin for PuffinPlugin {
