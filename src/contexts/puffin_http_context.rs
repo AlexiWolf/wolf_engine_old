@@ -8,7 +8,7 @@ pub struct PuffinHttpContext {
 }
 
 impl PuffinHttpContext {
-    pub fn new(server_address: &str) -> Result<Self, ()> {
+    pub fn new(server_address: &str) -> Result<Self, anyhow::Error> {
         let server_result = Server::new(server_address);
         if server_result.is_ok() {
             let client = Client::new("127.0.0.1:8585".to_owned());
