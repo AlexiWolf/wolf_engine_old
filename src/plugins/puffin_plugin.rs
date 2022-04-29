@@ -1,4 +1,4 @@
-use crate::*;
+use crate::{*, contexts::PuffinHttpContext};
 
 /// Provides profiling using [puffin].
 pub struct PuffinPlugin;
