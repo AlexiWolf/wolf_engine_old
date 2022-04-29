@@ -89,6 +89,7 @@ pub trait Scheduler {
     /// It is subject to change at any time, and without warning.
     #[doc(hidden)]
     fn profile_update(&mut self, context: &mut Context, state: &mut dyn State) {
+        puffin::profile_scope!("update");
         self.update(context, state); 
     }
 
@@ -101,6 +102,7 @@ pub trait Scheduler {
     /// It is subject to change at any time, and without warning.
     #[doc(hidden)]
     fn profile_render(&mut self, context: &mut Context, state: &mut dyn State) {
+        puffin::profile_scope!("render");
         self.render(context, state);
     }
     
