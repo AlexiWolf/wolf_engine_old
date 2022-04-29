@@ -213,11 +213,7 @@ mod engine_builder_tests {
         let mut scheduler = MockScheduler::new();
         scheduler
             .expect_start_update()
-            .times(1)
-            .returning(|_, _| {});
-        scheduler
-            .expect_update()
-            .times(1)
+            .times(1..)
             .returning(|context, state_stack| {
                 state_stack.update(context);
             });
