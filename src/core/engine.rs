@@ -212,12 +212,12 @@ mod engine_builder_tests {
     fn should_set_custom_scheduler() {
         let mut scheduler = MockScheduler::new();
         scheduler
-            .expect_start_update()
+            .expect_profile_update()
             .times(1..)
             .returning(|context, state_stack| {
                 state_stack.update(context);
             });
-        scheduler.expect_start_render().times(..).return_const(());
+        scheduler.expect_profile_render().times(..).return_const(());
         scheduler.expect_render().times(..).return_const(());
 
         EngineBuilder::new()

@@ -83,14 +83,14 @@ pub type Frames = u64;
 /// ```
 #[cfg_attr(test, automock)]
 pub trait Scheduler {
-    fn start_update(&mut self, context: &mut Context, state: &mut dyn State) {
+    fn profile_update(&mut self, context: &mut Context, state: &mut dyn State) {
         self.update(context, state); 
     }
 
     /// Update the game state.
     fn update(&mut self, context: &mut Context, state: &mut dyn State);
-
-    fn start_render(&mut self, context: &mut Context, state: &mut dyn State) {
+t
+    fn profile_render(&mut self, context: &mut Context, state: &mut dyn State) {
         self.render(context, state);
     }
     

@@ -63,10 +63,10 @@ pub fn run_while_has_active_state(mut engine: Engine) {
     while engine.state_stack.is_not_empty() {
         engine
             .scheduler
-            .start_update(&mut engine.context, &mut engine.state_stack);
+            .profile_update(&mut engine.context, &mut engine.state_stack);
         engine
             .scheduler
-            .start_render(&mut engine.context, &mut engine.state_stack);
+            .profile_render(&mut engine.context, &mut engine.state_stack);
     }
     log::debug!("The state stack is empty.  The engine will now shut down.")
 }
