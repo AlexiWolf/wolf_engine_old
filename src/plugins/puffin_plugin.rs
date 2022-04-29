@@ -10,8 +10,7 @@ impl Plugin for PuffinPlugin {
         }
         if cfg!(feature = "http_profiling") {
             use contexts::PuffinHttpContext;
-            let server_address = "0.0.0.0:8585";
-            let puffin_server_result = PuffinHttpContext::new(server_address);
+            let puffin_server_result = PuffinHttpContext::new();
         }
         Ok(engine_builder)
     }
