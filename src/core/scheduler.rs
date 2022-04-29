@@ -89,7 +89,7 @@ pub trait Scheduler {
 
     /// Update the game state.
     fn update(&mut self, context: &mut Context, state: &mut dyn State);
-t
+
     fn profile_render(&mut self, context: &mut Context, state: &mut dyn State) {
         self.render(context, state);
     }
