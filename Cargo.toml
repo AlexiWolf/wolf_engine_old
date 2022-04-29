@@ -13,6 +13,7 @@ log = "0.4"
 anymap = "0.12"
 rc_event_queue = "0.4"
 puffin = "0.13"
+anyhow = "1.0"
 
 # Optional Dependencies
 
