@@ -209,7 +209,7 @@ mod engine_builder_tests {
     use super::*;
 
     #[test]
-    fn should_allow_custom_states() {
+    fn should_allow_custom_schedulers() {
         let mut scheduler = MockScheduler::new();
         scheduler
             .expect_start_update()
