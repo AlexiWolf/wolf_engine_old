@@ -21,5 +21,5 @@ pub use puffin::{current_file_name, current_function_name, profile_function, pro
 /// }
 /// ```
 pub fn profile_new_frame() {
-    puffin::GlobalProfiler::lock().new_frame(); 
+    puffin::GlobalProfiler::lock().new_frame();
 }
