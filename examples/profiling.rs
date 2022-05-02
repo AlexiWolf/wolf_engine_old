@@ -13,11 +13,19 @@
 use std::thread::sleep;
 use std::time::Duration;
 
+use log::*;
+use wolf_engine::plugins::PuffinPlugin;
 use wolf_engine::utils::{profile_function, profile_scope};
 use wolf_engine::*;
 
 pub fn main() {
-    Engine::new().run(Box::from(GameState));
+    #[cfg(feature = "logging")]
+    logging::initialize_logging(LevelFilter::Debug);
+
+    EngineBuilder::new()
+        .with_plugin(Box::from(PuffinPlugin))
+        .build()
+        .run(Box::from(GameState));
 }
 
 pub struct GameState;
