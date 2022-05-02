@@ -13,11 +13,15 @@
 use std::thread::sleep;
 use std::time::Duration;
 
-use wolf_engine::utils::{profile_function, profile_scope};
 use wolf_engine::*;
+use wolf_engine::plugins::PuffinPlugin;
+use wolf_engine::utils::{profile_function, profile_scope};
 
 pub fn main() {
-    Engine::new().run(Box::from(GameState));
+    EngineBuilder::new()
+        .with_plugin(Box::from(PuffinPlugin))
+        .build()
+        .run(Box::from(GameState));
 }
 
 pub struct GameState;
