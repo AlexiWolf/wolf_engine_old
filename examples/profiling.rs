@@ -16,8 +16,12 @@ use std::time::Duration;
 use wolf_engine::*;
 use wolf_engine::plugins::PuffinPlugin;
 use wolf_engine::utils::{profile_function, profile_scope};
+use log::*;
 
 pub fn main() {
+    #[cfg(feature = "logging")]
+    logging::initialize_logging(LevelFilter::Debug);
+
     EngineBuilder::new()
         .with_plugin(Box::from(PuffinPlugin))
         .build()
