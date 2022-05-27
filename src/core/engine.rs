@@ -143,14 +143,14 @@ mod wolf_engine_tests {
         state.expect_setup().times(1).returning(|_| ());
         engine.state_stack.push(Box::from(state), &mut engine.context);
 
-        assert!(engine.is_running(), "The Engine should not be running.");
+        assert!(engine.is_running(), "The Engine should indicate it is running.");
     }
 
     #[test]
     fn should_not_indicate_is_running_if_no_state_is_loaded() {
         let engine = Engine::default();
 
-        assert!(!engine.is_running(), "The Engine should not be running.");
+        assert!(!engine.is_running(), "The Engine should not indicate it is running."); 
     }
 }
 
