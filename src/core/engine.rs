@@ -103,7 +103,12 @@ impl Engine {
             core: Box::from(|_| {}),
         }
     }
-
+    
+    /// Returns true if the engine is running.
+    ///
+    /// The engine is considered to be running when the following conditions are met:
+    ///
+    /// - There is at least one [State] on the [StateStack].
     pub fn is_running(&self) -> bool {
         self.state_stack.is_not_empty() 
     }
