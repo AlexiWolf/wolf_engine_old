@@ -131,6 +131,15 @@ mod wolf_engine_tests {
 
         wolf_engine.run(Box::from(state));
     }
+
+    #[test]
+    fn should_indicate_is_running_if_state_is_loaded() {
+        let mut engine = Engine::default(); 
+        let mut state = MockState::new();
+        state.expect_setup().times(1).returning(|_| ());
+
+        assert!(engine.is_running(), "The Engine should not be running.");
+    }
 }
 
 /// Build and customize an instance of the [Engine].
