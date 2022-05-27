@@ -111,6 +111,28 @@ impl Default for Engine {
     }
 }
 
+#[cfg(test)]
+mod wolf_engine_tests {
+    use crate::{MockState, Transition};
+
+    use super::*;
+
+    #[test]
+    fn should_run_the_state() {
+        let wolf_engine = Engine::default();
+        let mut state = MockState::new();
+        state.expect_setup().times(..).returning(|_| ());
+        state
+            .expect_update()
+            .times(1..)
+            .returning(|_| Some(Transition::Quit));
+        state.expect_render().times(1..).returning(|_| ());
+        state.expect_shutdown().times(1).returning(|_| ());
+
+        wolf_engine.run(Box::from(state));
+    }
+}
+
 /// Build and customize an instance of the [Engine].
 ///
 /// The two main jobs of the engine builder is to load [Plugin]s and allow users to
@@ -170,28 +192,6 @@ impl Default for EngineBuilder {
         }
         .with_plugin(Box::from(CorePlugin))
         .with_engine_core(Box::from(run_while_has_active_state))
-    }
-}
-
-#[cfg(test)]
-mod wolf_engine_tests {
-    use crate::{MockState, Transition};
-
-    use super::*;
-
-    #[test]
-    fn should_run_the_state() {
-        let wolf_engine = Engine::default();
-        let mut state = MockState::new();
-        state.expect_setup().times(..).returning(|_| ());
-        state
-            .expect_update()
-            .times(1..)
-            .returning(|_| Some(Transition::Quit));
-        state.expect_render().times(1..).returning(|_| ());
-        state.expect_shutdown().times(1).returning(|_| ());
-
-        wolf_engine.run(Box::from(state));
     }
 }
 
