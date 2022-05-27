@@ -105,7 +105,7 @@ impl Engine {
     }
 
     pub fn is_running(&self) -> bool {
-        false 
+        self.state_stack.is_not_empty() 
     }
 }
 
