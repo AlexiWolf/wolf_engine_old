@@ -145,6 +145,13 @@ mod wolf_engine_tests {
 
         assert!(engine.is_running(), "The Engine should not be running.");
     }
+
+    #[test]
+    fn should_not_indicate_is_running_if_no_state_is_loaded() {
+        let engine = Engine::default();
+
+        assert!(!engine.is_running(), "The Engine should not be running.");
+    }
 }
 
 /// Build and customize an instance of the [Engine].
