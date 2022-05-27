@@ -141,6 +141,7 @@ mod wolf_engine_tests {
         let mut engine = Engine::default(); 
         let mut state = MockState::new();
         state.expect_setup().times(1).returning(|_| ());
+        engine.state_stack.push(Box::from(state), &mut engine.context);
 
         assert!(engine.is_running(), "The Engine should not be running.");
     }
