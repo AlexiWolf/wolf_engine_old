@@ -103,6 +103,10 @@ impl Engine {
             core: Box::from(|_| {}),
         }
     }
+
+    pub fn is_running(&self) -> bool {
+        false 
+    }
 }
 
 impl Default for Engine {
