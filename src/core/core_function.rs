@@ -30,8 +30,7 @@ use crate::Engine;
 /// #
 /// pub fn custom_engine_core(mut engine: Engine) {
 ///     while engine.is_running() {
-///         engine.scheduler
-///             .update(&mut engine.context, &mut engine.state_stack);
+///         engine.update();
 ///         engine.scheduler
 ///             .render(&mut engine.context, &mut engine.state_stack);
 /// #       break
