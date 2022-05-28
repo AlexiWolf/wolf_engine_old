@@ -103,29 +103,31 @@ impl Engine {
             core: Box::from(|_| {}),
         }
     }
-    
+
     /// Returns true if the engine is running.
     ///
     /// The engine is considered to be running when the following conditions are met:
     ///
     /// - There is at least one [State] on the [StateStack].
     pub fn is_running(&self) -> bool {
-        self.state_stack.is_not_empty() 
+        self.state_stack.is_not_empty()
     }
-    
+
+    pub fn start_frame() {
+        puffin::GlobalProfiler::lock().new_frame()
+    }
+
     /// Runs a complete update of all engine and game state.
     pub fn update(&mut self) {
         puffin::profile_scope!("update");
-        self
-            .scheduler
+        self.scheduler
             .update(&mut self.context, &mut self.state_stack);
     }
-    
+
     /// Renders the current frame.
     pub fn render(&mut self) {
         puffin::profile_scope!("render");
-        self
-            .scheduler
+        self.scheduler
             .render(&mut self.context, &mut self.state_stack);
     }
 }
@@ -159,19 +161,27 @@ mod wolf_engine_tests {
 
     #[test]
     fn should_indicate_is_running_if_state_is_loaded() {
-        let mut engine = Engine::default(); 
+        let mut engine = Engine::default();
         let mut state = MockState::new();
         state.expect_setup().times(1).returning(|_| ());
-        engine.state_stack.push(Box::from(state), &mut engine.context);
+        engine
+            .state_stack
+            .push(Box::from(state), &mut engine.context);
 
-        assert!(engine.is_running(), "The Engine should indicate it is running.");
+        assert!(
+            engine.is_running(),
+            "The Engine should indicate it is running."
+        );
     }
 
     #[test]
     fn should_not_indicate_is_running_if_no_state_is_loaded() {
         let engine = Engine::default();
 
-        assert!(!engine.is_running(), "The Engine should not indicate it is running."); 
+        assert!(
+            !engine.is_running(),
+            "The Engine should not indicate it is running."
+        );
     }
 }
 
