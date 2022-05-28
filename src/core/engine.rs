@@ -112,6 +112,10 @@ impl Engine {
     pub fn is_running(&self) -> bool {
         self.state_stack.is_not_empty() 
     }
+
+    pub fn update(&mut self) {
+
+    }
 }
 
 impl Default for Engine {
