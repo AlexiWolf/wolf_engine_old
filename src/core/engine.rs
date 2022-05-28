@@ -114,7 +114,7 @@ impl Engine {
     }
 
     /// Triggers the start of a new frame.
-    pub fn start_frame() {
+    pub fn start_frame(&mut self) {
         puffin::GlobalProfiler::lock().new_frame()
     }
 
