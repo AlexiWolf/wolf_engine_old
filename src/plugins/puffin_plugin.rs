@@ -20,8 +20,7 @@ impl Plugin for PuffinPlugin {
 #[cfg(feature = "http_profiling")]
 fn enable_puffin_http(mut engine_builder: EngineBuilder) -> EngineBuilder {
     let puffin_server_result = contexts::PuffinHttpContext::new();
-    if puffin_server_result.is_ok() {
-        let http_context = puffin_server_result.unwrap();
+    if let Ok(http_context) = puffin_server_result {
         log::info!("Successfully created Puffin HTTP server at: 0.0.0.0:8585");
         engine_builder = engine_builder.with_subcontext(http_context);
     } else {
