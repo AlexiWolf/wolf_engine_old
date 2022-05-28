@@ -116,7 +116,7 @@ impl Engine {
     pub fn update(&mut self) {
         self
             .scheduler
-            .profile_update(&mut self.context, &mut self.state_stack);
+            .update(&mut self.context, &mut self.state_stack);
     }
 
     pub fn render(&mut self) {
@@ -250,13 +250,11 @@ mod engine_builder_tests {
     fn should_set_custom_scheduler() {
         let mut scheduler = MockScheduler::new();
         scheduler
-            .expect_profile_update()
+            .expect_update()
             .times(1..)
             .returning(|context, state_stack| {
                 state_stack.update(context);
             });
-        scheduler.expect_update().times(..).return_const(());
-        scheduler.expect_profile_render().times(..).return_const(());
         scheduler.expect_render().times(..).return_const(());
 
         EngineBuilder::new()
