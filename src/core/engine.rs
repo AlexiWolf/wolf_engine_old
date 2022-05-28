@@ -112,7 +112,8 @@ impl Engine {
     pub fn is_running(&self) -> bool {
         self.state_stack.is_not_empty()
     }
-
+    
+    /// Triggers the start of a new frame.
     pub fn start_frame() {
         puffin::GlobalProfiler::lock().new_frame()
     }
