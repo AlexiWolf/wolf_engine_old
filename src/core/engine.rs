@@ -114,11 +114,15 @@ impl Engine {
     }
 
     pub fn update(&mut self) {
-
+        self
+            .scheduler
+            .profile_update(&mut self.context, &mut self.state_stack);
     }
 
     pub fn render(&mut self) {
-
+        self
+            .scheduler
+            .render(&mut self.context, &mut self.state_stack);
     }
 }
 
