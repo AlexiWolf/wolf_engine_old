@@ -114,12 +114,14 @@ impl Engine {
     }
 
     pub fn update(&mut self) {
+        puffin::profile_scope!("update");
         self
             .scheduler
             .update(&mut self.context, &mut self.state_stack);
     }
 
     pub fn render(&mut self) {
+        puffin::profile_scope!("render");
         self
             .scheduler
             .render(&mut self.context, &mut self.state_stack);
