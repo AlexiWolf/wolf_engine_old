@@ -103,11 +103,86 @@ impl Engine {
             core: Box::from(|_| {}),
         }
     }
+
+    /// Returns true if the engine is running.
+    ///
+    /// The engine is considered to be running when the following conditions are met:
+    ///
+    /// - There is at least one [State] on the [StateStack].
+    pub fn is_running(&self) -> bool {
+        self.state_stack.is_not_empty()
+    }
+
+    /// Triggers the start of a new frame.
+    pub fn start_frame(&mut self) {
+        puffin::GlobalProfiler::lock().new_frame()
+    }
+
+    /// Runs a complete update of all engine and game state.
+    pub fn update(&mut self) {
+        puffin::profile_scope!("update");
+        self.scheduler
+            .update(&mut self.context, &mut self.state_stack);
+    }
+
+    /// Renders the current frame.
+    pub fn render(&mut self) {
+        puffin::profile_scope!("render");
+        self.scheduler
+            .render(&mut self.context, &mut self.state_stack);
+    }
 }
 
 impl Default for Engine {
     fn default() -> Self {
         EngineBuilder::new().build()
+    }
+}
+
+#[cfg(test)]
+mod wolf_engine_tests {
+    use crate::{MockState, Transition};
+
+    use super::*;
+
+    #[test]
+    fn should_run_the_state() {
+        let wolf_engine = Engine::default();
+        let mut state = MockState::new();
+        state.expect_setup().times(..).returning(|_| ());
+        state
+            .expect_update()
+            .times(1..)
+            .returning(|_| Some(Transition::Quit));
+        state.expect_render().times(1..).returning(|_| ());
+        state.expect_shutdown().times(1).returning(|_| ());
+
+        wolf_engine.run(Box::from(state));
+    }
+
+    #[test]
+    fn should_indicate_is_running_if_state_is_loaded() {
+        let mut engine = Engine::default();
+        let mut state = MockState::new();
+        state.expect_setup().times(1).returning(|_| ());
+        engine
+            .state_stack
+            .push(Box::from(state), &mut engine.context);
+
+        assert!(
+            engine.is_running(),
+            "The Engine should indicate it is running."
+        );
+    }
+
+    #[test]
+    fn should_not_indicate_is_running_if_no_state_is_loaded() {
+        let engine = Engine::default();
+
+        assert!(
+            !engine.is_running(),
+            "The Engine should not indicate it is running."
+        );
     }
 }
 
@@ -174,28 +249,6 @@ impl Default for EngineBuilder {
 }
 
 #[cfg(test)]
-mod wolf_engine_tests {
-    use crate::{MockState, Transition};
-
-    use super::*;
-
-    #[test]
-    fn should_run_the_state() {
-        let wolf_engine = Engine::default();
-        let mut state = MockState::new();
-        state.expect_setup().times(..).returning(|_| ());
-        state
-            .expect_update()
-            .times(1..)
-            .returning(|_| Some(Transition::Quit));
-        state.expect_render().times(1..).returning(|_| ());
-        state.expect_shutdown().times(1).returning(|_| ());
-
-        wolf_engine.run(Box::from(state));
-    }
-}
-
-#[cfg(test)]
 mod engine_builder_tests {
     use std::sync::Mutex;
 
@@ -212,13 +265,11 @@ mod engine_builder_tests {
     fn should_set_custom_scheduler() {
         let mut scheduler = MockScheduler::new();
         scheduler
-            .expect_profile_update()
+            .expect_update()
             .times(1..)
             .returning(|context, state_stack| {
                 state_stack.update(context);
             });
-        scheduler.expect_update().times(..).return_const(());
-        scheduler.expect_profile_render().times(..).return_const(());
         scheduler.expect_render().times(..).return_const(());
 
         EngineBuilder::new()

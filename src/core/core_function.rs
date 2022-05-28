@@ -29,11 +29,10 @@ use crate::Engine;
 /// # use wolf_engine::*;
 /// #
 /// pub fn custom_engine_core(mut engine: Engine) {
-///     loop {
-///         engine.scheduler
-///             .update(&mut engine.context, &mut engine.state_stack);
-///         engine.scheduler
-///             .render(&mut engine.context, &mut engine.state_stack);
+///     while engine.is_running() {
+///         engine.start_frame();
+///         engine.update();
+///         engine.render();
 /// #       break
 ///     }
 /// }
@@ -63,12 +62,8 @@ pub fn run_while_has_active_state(mut engine: Engine) {
     while engine.state_stack.is_not_empty() {
         puffin::GlobalProfiler::lock().new_frame();
         puffin::profile_scope!("frame");
-        engine
-            .scheduler
-            .profile_update(&mut engine.context, &mut engine.state_stack);
-        engine
-            .scheduler
-            .profile_render(&mut engine.context, &mut engine.state_stack);
+        engine.update();
+        engine.render();
     }
     log::debug!("The state stack is empty.  The engine will now shut down.")
 }
