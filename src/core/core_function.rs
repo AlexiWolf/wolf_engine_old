@@ -31,8 +31,7 @@ use crate::Engine;
 /// pub fn custom_engine_core(mut engine: Engine) {
 ///     while engine.is_running() {
 ///         engine.update();
-///         engine.scheduler
-///             .render(&mut engine.context, &mut engine.state_stack);
+///         engine.render();
 /// #       break
 ///     }
 /// }
