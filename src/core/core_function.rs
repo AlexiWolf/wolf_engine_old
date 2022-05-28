@@ -29,7 +29,7 @@ use crate::Engine;
 /// # use wolf_engine::*;
 /// #
 /// pub fn custom_engine_core(mut engine: Engine) {
-///     loop {
+///     while engine.is_running() {
 ///         engine.scheduler
 ///             .update(&mut engine.context, &mut engine.state_stack);
 ///         engine.scheduler
