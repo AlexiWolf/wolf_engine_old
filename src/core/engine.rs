@@ -112,14 +112,16 @@ impl Engine {
     pub fn is_running(&self) -> bool {
         self.state_stack.is_not_empty() 
     }
-
+    
+    /// Runs a complete update of all engine and game state.
     pub fn update(&mut self) {
         puffin::profile_scope!("update");
         self
             .scheduler
             .update(&mut self.context, &mut self.state_stack);
     }
-
+    
+    /// Renders the current frame.
     pub fn render(&mut self) {
         puffin::profile_scope!("render");
         self
