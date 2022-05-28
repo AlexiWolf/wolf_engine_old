@@ -13,14 +13,13 @@
 use std::thread::sleep;
 use std::time::Duration;
 
-use log::*;
 use wolf_engine::plugins::PuffinPlugin;
 use wolf_engine::utils::{profile_function, profile_scope};
 use wolf_engine::*;
 
 pub fn main() {
     #[cfg(feature = "logging")]
-    logging::initialize_logging(LevelFilter::Debug);
+    logging::initialize_logging(log::LevelFilter::Debug);
 
     EngineBuilder::new()
         .with_plugin(Box::from(PuffinPlugin))
