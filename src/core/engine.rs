@@ -204,10 +204,10 @@ impl EngineBuilder {
     }
 
     /// Consumes the engine builder and returns an [Engine] created from it.
-    pub fn build(mut self) -> Engine {
+    pub fn build(mut self) -> Result<Engine, String> {
         let plugin_loader = replace(&mut self.plugin_loader, PluginLoader::new());
         let engine_builder = plugin_loader.load_all(self);
-        engine_builder.engine
+        Ok(engine_builder.engine)
     }
 
     /// Set a custom [Scheduler] to be used.
