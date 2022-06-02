@@ -14,7 +14,6 @@ jobs:
       matrix:
         rust-version: 
           - stable 
-          - nightly
         platform:
           - { os: ubuntu-latest }
           - { os: windows-latest }
