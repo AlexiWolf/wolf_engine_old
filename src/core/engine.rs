@@ -136,7 +136,9 @@ impl Engine {
 
 impl Default for Engine {
     fn default() -> Self {
-        EngineBuilder::new().build().expect("Failed to build the engine")
+        EngineBuilder::new()
+            .build()
+            .expect("Failed to build the engine")
     }
 }
 
@@ -305,7 +307,10 @@ mod engine_builder_tests {
         let mut plugin = MockPlugin::new();
         plugin.expect_setup().times(1).returning(Ok);
 
-        let _engine = EngineBuilder::new().with_plugin(Box::from(plugin)).build().expect("Failed to build the engine");
+        let _engine = EngineBuilder::new()
+            .with_plugin(Box::from(plugin))
+            .build()
+            .expect("Failed to build the engine");
     }
 
     #[test]
@@ -323,7 +328,9 @@ mod engine_builder_tests {
 
     #[test]
     fn should_always_load_the_core_plugin() {
-        let engine = EngineBuilder::new().build().expect("Failed to build the engine");
+        let engine = EngineBuilder::new()
+            .build()
+            .expect("Failed to build the engine");
 
         let _event_context = engine
             .context
