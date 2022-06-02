@@ -9,6 +9,7 @@ pub fn main() {
         .with_plugin(Box::from(MessagePlugin::new("Hello, world!")))
         .with_plugin(Box::from(FailurePlugin))
         .build()
+        .expect("Failed to build the engine")
         .run(Box::from(GameState));
 }
 

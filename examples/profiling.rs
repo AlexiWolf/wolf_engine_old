@@ -24,6 +24,7 @@ pub fn main() {
     EngineBuilder::new()
         .with_plugin(Box::from(PuffinPlugin))
         .build()
+        .expect("Failed to build the engine")
         .run(Box::from(GameState));
 }
 

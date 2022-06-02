@@ -8,6 +8,7 @@ pub fn main() {
     EngineBuilder::new()
         .with_engine_core(Box::from(my_custom_core_function))
         .build()
+        .expect("Failed to build the engine")
         .run(Box::from(EmptyState));
 }
 
