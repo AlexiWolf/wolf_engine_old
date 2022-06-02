@@ -136,7 +136,7 @@ impl Engine {
 
 impl Default for Engine {
     fn default() -> Self {
-        EngineBuilder::new().build()
+        EngineBuilder::new().build().expect("Failed to build the engine")
     }
 }
 
