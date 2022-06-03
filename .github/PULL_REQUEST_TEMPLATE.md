@@ -11,17 +11,6 @@ See [Semantic Versioning](https://semver.org/) for more information.
 - Minor
 - Major
 
-<!--
-Guidelines: 
-
-- Non-Code: Changes are not to the code base.
-- Patch: Changes do not effect the public API.
-- Minor: Any changes to the public API before version 1.0, or backwards-compatible changes to the public API after version 1.0.
-- Major: Any non-backwards-compatible change to the public API after version 1.0.  
- 
-Be aware that we will be unwilling to accept Major changes without careful consideration and a **VERY** good reason.
--->
-
 # Changes Made
 
 <!-- Planned changes should be done as a checklist, and changes marked off when completed. -->
