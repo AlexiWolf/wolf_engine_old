@@ -17,11 +17,11 @@ See [Semantic Versioning](https://semver.org/) for more information.
 
 <!-- Planned changes should be done as a checklist, and changes marked off when completed. -->
 
-- [ ] Add Change 1
-  - [ ] Part 1
-  - [ ] Part 2
-- [ ] Add Change 2
-- [ ] Add Change 3
+- [ ] Added `a`. 
+- [ ] Updated `b`.
+- [ ] Changed `c`.
+- [ ] Removed `d`.
+- [ ] Fixed `e`.
 
 # Merge Checklist
 
