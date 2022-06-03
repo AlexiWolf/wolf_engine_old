@@ -1,5 +1,7 @@
 <!-- Include a quick summary of the changes made in this PR. -->
 
+A short description of what was changed.
+
 # Change Type 
 
 See [Semantic Versioning](https://semver.org/) for more information.
@@ -39,6 +41,6 @@ This is the standard checklist of tasks that **MUST** be completed before a PR c
   - [ ] All doctests / examples are passing.
   - [ ] All documentation warnings / errors have been resolved.
 - [ ] Merge
-  - [ ] The feature branch has been brought up to date with the main branch.
+  - [ ] The feature branch has been brought up to date with the main branch (`fetch origin/main && merge origin/main`.)
   - [ ] The version number has been bumped.
   - [ ] I understand and agree to the contribution guidelines.
