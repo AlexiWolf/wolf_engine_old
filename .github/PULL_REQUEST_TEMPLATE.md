@@ -35,7 +35,7 @@ This is the standard checklist of tasks that **MUST** be completed before a PR c
   - [ ] All Clippy warnings have been resolved (run `cargo clippy`.)
 - [ ] Documentation
   - [ ] The documentation has been updated.
-  - [ ] Relavent examples have been provided in `/examples`.
+  - [ ] Relevant examples have been provided in `/examples`.
   - [ ] All doctests / examples are passing.
   - [ ] All documentation warnings / errors have been resolved.
 - [ ] Merge
