@@ -46,7 +46,7 @@ jobs:
           rust-version: stable 
       - name: Check Code Format
         shell: bash
-        run: cargo fmt --check --all-features
+        run: cargo fmt --all-features --check 
 
   check_clippy_warnings:
     name: Check Clippy Warnings
@@ -61,5 +61,5 @@ jobs:
           components: clippy
       - name: Check Code Format
         shell: bash
-        run: cargo clippy -- --deny warnings --all-features
+        run: cargo clippy --all-features -- --deny warnings 
  
