@@ -41,7 +41,8 @@ use crate::*;
 /// // Add to the Context object here.
 /// let engine = EngineBuilder::new()
 ///     // Customize the engine here.
-///     .build();
+///     .build()
+///     .expect("Failed to build the Engine");
 /// ```
 ///
 /// You can refer to the [EngineBuilder] documentation for specifics on what it can do.
@@ -135,7 +136,9 @@ impl Engine {
 
 impl Default for Engine {
     fn default() -> Self {
-        EngineBuilder::new().build()
+        EngineBuilder::new()
+            .build()
+            .expect("Failed to build the engine")
     }
 }
 
@@ -203,10 +206,10 @@ impl EngineBuilder {
     }
 
     /// Consumes the engine builder and returns an [Engine] created from it.
-    pub fn build(mut self) -> Engine {
+    pub fn build(mut self) -> Result<Engine, String> {
         let plugin_loader = replace(&mut self.plugin_loader, PluginLoader::new());
         let engine_builder = plugin_loader.load_all(self);
-        engine_builder.engine
+        Ok(engine_builder.engine)
     }
 
     /// Set a custom [Scheduler] to be used.
@@ -275,6 +278,7 @@ mod engine_builder_tests {
         EngineBuilder::new()
             .with_scheduler(Box::from(scheduler))
             .build()
+            .expect("Failed to build the engine")
             .run(Box::from(EmptyState));
     }
 
@@ -287,7 +291,8 @@ mod engine_builder_tests {
             .with_engine_core(Box::from(|_| {
                 *HAS_RAN_CUSTOM_CORE.lock().unwrap() = true;
             }))
-            .build();
+            .build()
+            .expect("Failed to build the engine");
 
         engine.run(Box::from(EmptyState));
 
@@ -302,7 +307,10 @@ mod engine_builder_tests {
         let mut plugin = MockPlugin::new();
         plugin.expect_setup().times(1).returning(Ok);
 
-        let _engine = EngineBuilder::new().with_plugin(Box::from(plugin)).build();
+        let _engine = EngineBuilder::new()
+            .with_plugin(Box::from(plugin))
+            .build()
+            .expect("Failed to build the engine");
     }
 
     #[test]
@@ -320,7 +328,9 @@ mod engine_builder_tests {
 
     #[test]
     fn should_always_load_the_core_plugin() {
-        let engine = EngineBuilder::new().build();
+        let engine = EngineBuilder::new()
+            .build()
+            .expect("Failed to build the engine");
 
         let _event_context = engine
             .context

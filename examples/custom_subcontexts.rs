@@ -8,6 +8,7 @@ pub fn main() {
     EngineBuilder::new()
         .with_subcontext(CustomContext::new("Hello, World!"))
         .build()
+        .expect("Failed to build the engine")
         .run(Box::from(MyState));
 }
 
