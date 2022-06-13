@@ -112,16 +112,6 @@ impl Context {
 
     /// Get an immutable reference to a stored [Subcontext].
     ///
-    /// Absence of write accesses is checked at run-time. If access is not possible, an
-    /// error is returned.
-    pub fn try_borrow<T: Subcontext>(&self) -> Option<Result<Ref<T>, InvalidBorrow>> {
-        self.subcontexts
-            .get::<TrustCell<T>>()
-            .map(|cell| cell.try_borrow())
-    }
-
-    /// Get an immutable reference to a stored [Subcontext].
-    ///
     /// Absence of write accesses is checked at run-time.
     ///
     /// # Panics
@@ -132,16 +122,6 @@ impl Context {
         self.subcontexts
             .get::<TrustCell<T>>()
             .map(|cell| cell.borrow())
-    }
-
-    /// Get a mutable reference to the inner data.
-    ///
-    /// Exclusive access is checked at run-time. If access is not possible, an
-    /// error is returned.
-    pub fn try_borrow_mut<T: Subcontext>(&self) -> Option<Result<RefMut<T>, InvalidBorrow>> {
-        self.subcontexts
-            .get::<TrustCell<T>>()
-            .map(|cell| cell.try_borrow_mut())
     }
 
     /// Get a mutable reference to a stored [Subcontext].
