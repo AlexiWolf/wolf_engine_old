@@ -1,6 +1,6 @@
 //! Provides access to engine state and tooling.
 
-use std::fmt::{self, Display, Formatter};
+use std::{fmt::{self, Display, Formatter}, sync::RwLock};
 
 use anymap::AnyMap;
 
@@ -102,10 +102,10 @@ impl Context {
     /// [Err] is returned.
     #[allow(clippy::map_entry)]
     pub fn add<T: Subcontext>(&mut self, subcontext: T) -> Result<(), ContextAlreadyExistsError> {
-        if self.subcontexts.contains::<TrustCell<T>>() {
+        if self.subcontexts.contains::<RwLock<T>>() {
             Err(ContextAlreadyExistsError)
         } else {
-            self.subcontexts.insert(TrustCell::new(subcontext));
+            self.subcontexts.insert(RwLock::new(subcontext));
             Ok(())
         }
     }
