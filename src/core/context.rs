@@ -1,6 +1,9 @@
 //! Provides access to engine state and tooling.
 
-use std::{fmt::{self, Display, Formatter}, sync::{RwLock, RwLockReadGuard, RwLockWriteGuard}};
+use std::{
+    fmt::{self, Display, Formatter},
+    sync::{RwLock, RwLockReadGuard, RwLockWriteGuard},
+};
 
 use anymap::AnyMap;
 
@@ -114,20 +117,22 @@ impl Context {
     ///
     /// This function will panic if the [RwLock] has been poisoned.
     pub fn borrow<T: Subcontext>(&self) -> Option<RwLockReadGuard<T>> {
-        self.subcontexts
-            .get::<RwLock<T>>()
-            .map(|lock| lock.read().expect("Failed to acquire the lock on the Subcontext"))
+        self.subcontexts.get::<RwLock<T>>().map(|lock| {
+            lock.read()
+                .expect("Failed to acquire the lock on the Subcontext")
+        })
     }
 
     /// Get mutable access to a stored [Subcontext] through a [RwLockWriteGuard].
     ///
     /// # Panics
     ///
-    /// This function will panic if the [RwLock] has been poisoned. 
+    /// This function will panic if the [RwLock] has been poisoned.
     pub fn borrow_mut<T: Subcontext>(&self) -> Option<RwLockWriteGuard<T>> {
-        self.subcontexts
-            .get::<RwLock<T>>()
-            .map(|lock| lock.write().expect("Failed to acquire the lock on the Subcontext"))
+        self.subcontexts.get::<RwLock<T>>().map(|lock| {
+            lock.write()
+                .expect("Failed to acquire the lock on the Subcontext")
+        })
     }
 
     /// Remove a [Subcontext].
