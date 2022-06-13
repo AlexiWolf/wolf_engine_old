@@ -121,13 +121,11 @@ impl Context {
             .map(|lock| lock.read().expect("Failed to acquire the lock on the Subcontext"))
     }
 
-    /// Get a mutable reference to a stored [Subcontext].
-    ///
-    /// Exclusive access is checked at run-time.
+    /// Get mutable access to a stored [Subcontext] through a [RwLockWriteGuard].
     ///
     /// # Panics
     ///
-    /// This function will panic if there are any references to the data already in use.
+    /// This function will panic if the [RwLock] has been poisoned. 
     pub fn borrow_mut<T: Subcontext>(&self) -> Option<RwLockWriteGuard<T>> {
         self.subcontexts
             .get::<RwLock<T>>()
