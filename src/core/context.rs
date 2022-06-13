@@ -110,18 +110,15 @@ impl Context {
         }
     }
 
-    /// Get an immutable reference to a stored [Subcontext].
-    ///
-    /// Absence of write accesses is checked at run-time.
+    /// Get immutable access to a stored [Subcontext] through a [RwLockReadGuard].
     ///
     /// # Panics
     ///
-    /// This function will panic if there is a mutable reference to the data already in
-    /// use.
+    /// This function will panic if the [RwLock] has been poisoned.
     pub fn borrow<T: Subcontext>(&self) -> Option<RwLockReadGuard<T>> {
         self.subcontexts
             .get::<RwLock<T>>()
-            .map(|cell| cell.read().expect("Failed to acquire the lock on the Subcontext"))
+            .map(|lock| lock.read().expect("Failed to acquire the lock on the Subcontext"))
     }
 
     /// Get a mutable reference to a stored [Subcontext].
