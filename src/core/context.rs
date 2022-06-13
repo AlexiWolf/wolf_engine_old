@@ -139,7 +139,7 @@ impl Context {
     /// aren't going to be used again.  Even then, you should only remove types you put
     /// there yourself.
     pub fn remove<T: Subcontext>(&mut self) {
-        self.subcontexts.remove::<TrustCell<T>>();
+        self.subcontexts.remove::<RwLock<T>>();
     }
 
     /// Get the number of [Subcontext] currently stored.
