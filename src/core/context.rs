@@ -4,8 +4,6 @@ use std::{fmt::{self, Display, Formatter}, sync::{RwLock, RwLockReadGuard, RwLoc
 
 use anymap::AnyMap;
 
-use crate::utils::trust_cell::*;
-
 #[cfg(test)]
 use mockall::automock;
 
