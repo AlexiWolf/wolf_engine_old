@@ -70,7 +70,6 @@ pub trait Subcontext: 'static {}
 /// // If you want an immutable reference:
 /// if let Some(my_subcontext) = context.borrow::<MySubcontext>() {
 ///     // Do something with the Subcontext.
-/// #   assert!(my_subcontext.is_ok());
 /// }
 /// # else {
 /// #    panic!("No subcontext found");
@@ -79,7 +78,6 @@ pub trait Subcontext: 'static {}
 /// // If you want a mutable reference:
 /// if let Some(my_subcontext_mut) = context.borrow_mut::<MySubcontext>() {
 ///     // Do something with the Subcontext.
-/// #   assert!(my_subcontext_mut.is_ok());
 /// }
 /// # else {
 /// #   panic!("No subcontext found");
