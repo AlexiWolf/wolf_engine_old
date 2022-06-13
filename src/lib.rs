@@ -51,12 +51,10 @@
 //!#
 //!# impl State for MyGameState {
 //! fn update(&mut self, context: &mut Context) -> OptionalTransition {
-//!     if let Some(Ok(subcontext)) = context.borrow::<ExampleContext>() {
+//!     if let Some(subcontext) = context.borrow::<ExampleContext>() {
 //!         log::info!("{}", subcontext.message);     
-//!         // This subcontext must go out of scope before we can borrow mutably.
 //!     }
-//!     if let Some(Ok(mut subcontext)) = context.borrow_mut::<ExampleContext>() {
-//!         // If anything else is borrowing the subcontext, we will get an error.
+//!     if let Some(mut subcontext) = context.borrow_mut::<ExampleContext>() {
 //!         subcontext.message = "New Message".to_string();
 //!         log::info!("{}", subcontext.message);
 //!     }
