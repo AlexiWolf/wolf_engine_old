@@ -55,8 +55,8 @@ pub trait Subcontext: 'static {}
 /// context.add(my_subcontext);
 /// ```
 ///
-/// The [Subcontext] can be accessed again using [Context::try_borrow()] or
-/// [Context::try_borrow_mut()].
+/// The [Subcontext] can be accessed again using [Context::borrow()] or
+/// [Context::borrow_mut()].
 ///
 /// ```
 /// # use wolf_engine::*;
@@ -68,7 +68,7 @@ pub trait Subcontext: 'static {}
 /// # context.add(subcontext);
 /// #
 /// // If you want an immutable reference:
-/// if let Some(my_subcontext) = context.try_borrow::<MySubcontext>() {
+/// if let Some(my_subcontext) = context.borrow::<MySubcontext>() {
 ///     // Do something with the Subcontext.
 /// #   assert!(my_subcontext.is_ok());
 /// }
@@ -77,7 +77,7 @@ pub trait Subcontext: 'static {}
 /// # };
 ///
 /// // If you want a mutable reference:
-/// if let Some(my_subcontext_mut) = context.try_borrow_mut::<MySubcontext>() {
+/// if let Some(my_subcontext_mut) = context.borrow_mut::<MySubcontext>() {
 ///     // Do something with the Subcontext.
 /// #   assert!(my_subcontext_mut.is_ok());
 /// }
