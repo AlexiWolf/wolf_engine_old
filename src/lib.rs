@@ -51,12 +51,10 @@
 //!#
 //!# impl State for MyGameState {
 //! fn update(&mut self, context: &mut Context) -> OptionalTransition {
-//!     if let Some(Ok(subcontext)) = context.try_borrow::<ExampleContext>() {
+//!     if let Some(subcontext) = context.borrow::<ExampleContext>() {
 //!         log::info!("{}", subcontext.message);     
-//!         // This subcontext must go out of scope before we can borrow mutably.
 //!     }
-//!     if let Some(Ok(mut subcontext)) = context.try_borrow_mut::<ExampleContext>() {
-//!         // If anything else is borrowing the subcontext, we will get an error.
+//!     if let Some(mut subcontext) = context.borrow_mut::<ExampleContext>() {
 //!         subcontext.message = "New Message".to_string();
 //!         log::info!("{}", subcontext.message);
 //!     }
@@ -74,7 +72,7 @@
 //!# impl Subcontext for ExampleContext {}
 //! ```
 //!
-//! It is best to use [Context::try_borrow()] and [Context::try_borrow_mut()] instead of
+//! It is best to use [Context::borrow()] and [Context::borrow_mut()] instead of
 //! [Context::borrow()] and [Context::borrow_mut()], as the non-try methods will panic if
 //! the borrowing rules are broken.
 //!

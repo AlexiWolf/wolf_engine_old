@@ -1,10 +1,11 @@
 //! Provides access to engine state and tooling.
 
-use std::fmt::{self, Display, Formatter};
+use std::{
+    fmt::{self, Display, Formatter},
+    sync::{RwLock, RwLockReadGuard, RwLockWriteGuard},
+};
 
 use anymap::AnyMap;
-
-use crate::utils::trust_cell::*;
 
 #[cfg(test)]
 use mockall::automock;
@@ -30,7 +31,7 @@ pub trait Subcontext: 'static {}
 /// Provides a dynamic storage container for global [Engine](crate::Engine) state.
 ///
 /// This allows for custom [Subcontext] data to be dynamically added, and safely accessed
-/// at run-time.  Context utilizes [AnyMap], and [TrustCell] to implement this behavior.
+/// at run-time.  Context utilizes [AnyMap], and [RwLock]s to implement this behavior.
 ///
 /// # Examples
 ///
@@ -55,8 +56,8 @@ pub trait Subcontext: 'static {}
 /// context.add(my_subcontext);
 /// ```
 ///
-/// The [Subcontext] can be accessed again using [Context::try_borrow()] or
-/// [Context::try_borrow_mut()].
+/// The [Subcontext] can be accessed again using [Context::borrow()] or
+/// [Context::borrow_mut()].
 ///
 /// ```
 /// # use wolf_engine::*;
@@ -68,18 +69,16 @@ pub trait Subcontext: 'static {}
 /// # context.add(subcontext);
 /// #
 /// // If you want an immutable reference:
-/// if let Some(my_subcontext) = context.try_borrow::<MySubcontext>() {
+/// if let Some(my_subcontext) = context.borrow::<MySubcontext>() {
 ///     // Do something with the Subcontext.
-/// #   assert!(my_subcontext.is_ok());
 /// }
 /// # else {
 /// #    panic!("No subcontext found");
 /// # };
 ///
 /// // If you want a mutable reference:
-/// if let Some(my_subcontext_mut) = context.try_borrow_mut::<MySubcontext>() {
+/// if let Some(my_subcontext_mut) = context.borrow_mut::<MySubcontext>() {
 ///     // Do something with the Subcontext.
-/// #   assert!(my_subcontext_mut.is_ok());
 /// }
 /// # else {
 /// #   panic!("No subcontext found");
@@ -104,59 +103,36 @@ impl Context {
     /// [Err] is returned.
     #[allow(clippy::map_entry)]
     pub fn add<T: Subcontext>(&mut self, subcontext: T) -> Result<(), ContextAlreadyExistsError> {
-        if self.subcontexts.contains::<TrustCell<T>>() {
+        if self.subcontexts.contains::<RwLock<T>>() {
             Err(ContextAlreadyExistsError)
         } else {
-            self.subcontexts.insert(TrustCell::new(subcontext));
+            self.subcontexts.insert(RwLock::new(subcontext));
             Ok(())
         }
     }
 
-    /// Get an immutable reference to a stored [Subcontext].
-    ///
-    /// Absence of write accesses is checked at run-time. If access is not possible, an
-    /// error is returned.
-    pub fn try_borrow<T: Subcontext>(&self) -> Option<Result<Ref<T>, InvalidBorrow>> {
-        self.subcontexts
-            .get::<TrustCell<T>>()
-            .map(|cell| cell.try_borrow())
-    }
-
-    /// Get an immutable reference to a stored [Subcontext].
-    ///
-    /// Absence of write accesses is checked at run-time.
+    /// Get immutable access to a stored [Subcontext] through a [RwLockReadGuard].
     ///
     /// # Panics
     ///
-    /// This function will panic if there is a mutable reference to the data already in
-    /// use.
-    pub fn borrow<T: Subcontext>(&self) -> Option<Ref<T>> {
-        self.subcontexts
-            .get::<TrustCell<T>>()
-            .map(|cell| cell.borrow())
+    /// This function will panic if the [RwLock] has been poisoned.
+    pub fn borrow<T: Subcontext>(&self) -> Option<RwLockReadGuard<T>> {
+        self.subcontexts.get::<RwLock<T>>().map(|lock| {
+            lock.read()
+                .expect("Failed to acquire the lock on the Subcontext")
+        })
     }
 
-    /// Get a mutable reference to the inner data.
-    ///
-    /// Exclusive access is checked at run-time. If access is not possible, an
-    /// error is returned.
-    pub fn try_borrow_mut<T: Subcontext>(&self) -> Option<Result<RefMut<T>, InvalidBorrow>> {
-        self.subcontexts
-            .get::<TrustCell<T>>()
-            .map(|cell| cell.try_borrow_mut())
-    }
-
-    /// Get a mutable reference to a stored [Subcontext].
-    ///
-    /// Exclusive access is checked at run-time.
+    /// Get mutable access to a stored [Subcontext] through a [RwLockWriteGuard].
     ///
     /// # Panics
     ///
-    /// This function will panic if there are any references to the data already in use.
-    pub fn borrow_mut<T: Subcontext>(&self) -> Option<RefMut<T>> {
-        self.subcontexts
-            .get::<TrustCell<T>>()
-            .map(|cell| cell.borrow_mut())
+    /// This function will panic if the [RwLock] has been poisoned.
+    pub fn borrow_mut<T: Subcontext>(&self) -> Option<RwLockWriteGuard<T>> {
+        self.subcontexts.get::<RwLock<T>>().map(|lock| {
+            lock.write()
+                .expect("Failed to acquire the lock on the Subcontext")
+        })
     }
 
     /// Remove a [Subcontext].
@@ -166,7 +142,7 @@ impl Context {
     /// aren't going to be used again.  Even then, you should only remove types you put
     /// there yourself.
     pub fn remove<T: Subcontext>(&mut self) {
-        self.subcontexts.remove::<TrustCell<T>>();
+        self.subcontexts.remove::<RwLock<T>>();
     }
 
     /// Get the number of [Subcontext] currently stored.
