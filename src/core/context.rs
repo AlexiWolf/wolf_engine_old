@@ -1,6 +1,6 @@
 //! Provides access to engine state and tooling.
 
-use std::{fmt::{self, Display, Formatter}, sync::{RwLock, RwLockReadGuard}};
+use std::{fmt::{self, Display, Formatter}, sync::{RwLock, RwLockReadGuard, RwLockWriteGuard}};
 
 use anymap::AnyMap;
 
@@ -128,10 +128,10 @@ impl Context {
     /// # Panics
     ///
     /// This function will panic if there are any references to the data already in use.
-    pub fn borrow_mut<T: Subcontext>(&self) -> Option<RefMut<T>> {
+    pub fn borrow_mut<T: Subcontext>(&self) -> Option<RwLockWriteGuard<T>> {
         self.subcontexts
-            .get::<TrustCell<T>>()
-            .map(|cell| cell.borrow_mut())
+            .get::<RwLock<T>>()
+            .map(|lock| lock.write().expect("Failed to acquire the lock on the Subcontext"))
     }
 
     /// Remove a [Subcontext].
