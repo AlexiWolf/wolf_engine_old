@@ -31,7 +31,7 @@ pub trait Subcontext: 'static {}
 /// Provides a dynamic storage container for global [Engine](crate::Engine) state.
 ///
 /// This allows for custom [Subcontext] data to be dynamically added, and safely accessed
-/// at run-time.  Context utilizes [AnyMap], and [TrustCell] to implement this behavior.
+/// at run-time.  Context utilizes [AnyMap], and [RwLock]s to implement this behavior.
 ///
 /// # Examples
 ///
