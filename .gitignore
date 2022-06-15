@@ -11,3 +11,6 @@ Cargo.lock
 # VS Code
 
 .vscode/
+
+# Tags File
+tags
