@@ -1,4 +1,4 @@
-use crate::contexts::{EventContext, SchedulerContext, EngineContext, EngineContext};
+use crate::contexts::{EventContext, SchedulerContext, EngineContext};
 use crate::event::Event;
 use crate::*;
 
