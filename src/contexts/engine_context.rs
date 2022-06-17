@@ -1,11 +1,13 @@
 use crate::*;
 
-pub struct EngineContext {}
+pub struct EngineContext {
+    pub has_quit: bool,
+}
 
 impl EngineContext {
     pub fn new() -> Self {
         Self {
-
+            has_quit: false,
         }
     }
 }
