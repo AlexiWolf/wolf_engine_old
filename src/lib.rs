@@ -58,7 +58,7 @@
 //!         subcontext.message = "New Message".to_string();
 //!         log::info!("{}", subcontext.message);
 //!     }
-//!#    return Some(Transition::Quit);
+//!#    return Some(Transition::Clean);
 //!     None
 //! }
 //!#
