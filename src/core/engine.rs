@@ -205,6 +205,38 @@ mod wolf_engine_tests {
         
         let _engine_context = engine.context.borrow::<EngineContext>();
     }
+
+    #[test]
+    fn should_stop_running_when_quit_is_called() {
+        let engine = Engine::default();
+
+        engine.run(Box::from(QuitTestState::new()));
+    }
+
+
+    struct QuitTestState {
+        ticks: usize,
+    }
+
+    impl QuitTestState {
+        pub fn new() -> Self {
+            Self { ticks: 0 }
+        }
+    }
+
+    impl State for QuitTestState {
+        fn update(&mut self, context: &mut Context) -> OptionalTransition {
+            if self.ticks == 0 { 
+                context.quit();
+            } else {
+                panic!("The engine was supposed to quit, but it is still running");
+            }
+            self.ticks += 1;
+            None
+        }
+
+        fn render(&mut self, _context: &mut Context) -> RenderResult {}
+    }
 }
 
 /// Build and customize an instance of the [Engine].
