@@ -1,3 +1,6 @@
+pub trait EngineControls {
+    fn quit(&mut self);
+}
 
 #[cfg(test)]
 mod engine_controls_test {
