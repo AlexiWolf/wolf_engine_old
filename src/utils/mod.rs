@@ -1,5 +1,8 @@
 //! Provides common helpers and utilities.
 
+mod engine_controls;
+
+pub use engine_controls::*;
 pub use puffin::{current_file_name, current_function_name, profile_function, profile_scope};
 
 /// Start a new [puffin] frame.
