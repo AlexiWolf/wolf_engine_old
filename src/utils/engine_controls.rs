@@ -17,6 +17,7 @@ mod engine_controls_test {
     #[test]
     fn should_quit() {
         let mut engine = Engine::default();
+        engine.state_stack.push(Box::from(EmptyState), &mut engine.context);
         
         engine.context.quit();
          
