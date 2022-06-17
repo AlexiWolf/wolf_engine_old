@@ -111,7 +111,7 @@ impl Engine {
     ///
     /// - There is at least one [State] on the [StateStack].
     pub fn is_running(&self) -> bool {
-        self.state_stack.is_not_empty()
+        self.state_stack.is_not_empty() || self.context.has_quit()
     }
 
     /// Triggers the start of a new frame.
@@ -187,6 +187,14 @@ mod wolf_engine_tests {
             !engine.is_running(),
             "The Engine should not indicate it is running."
         );
+    }
+
+    #[test]
+    fn should_not_indicate_is_running_if_engine_context_has_quit() {
+        let mut engine = Engine::default();
+        engine.state_stack.push(Box::from(EmptyState), &mut engine.context);
+        engine.context.borrow_mut::<EngineContext>().unwrap().has_quit = true;
+
     }
 
     #[test]
