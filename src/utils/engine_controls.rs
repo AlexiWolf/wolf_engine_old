@@ -1,4 +1,4 @@
-use crate::*;
+use crate::{*, contexts::EngineContext};
 
 pub trait EngineControls {
     fn quit(&mut self);
@@ -6,7 +6,9 @@ pub trait EngineControls {
 
 impl EngineControls for Context {
     fn quit(&mut self) {
-        
+        let mut engine_context = self.borrow_mut::<EngineContext>()
+            .expect("There is no EngineContext");
+        engine_context.has_quit = true;
     }
 }
 
