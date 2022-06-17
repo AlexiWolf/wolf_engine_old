@@ -6,9 +6,7 @@ impl Subcontext for EngineContext {}
 
 #[cfg(test)]
 mod engine_context_tests {
-    use super::EngineContext;
-
-    use super::EngineContext;
+    use super::*;
 
     pub fn should_initialize_has_quit_to_false() {
         let engine_context = EngineContext::new();
