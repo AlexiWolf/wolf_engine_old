@@ -2,6 +2,14 @@ use crate::*;
 
 pub struct EngineContext {}
 
+impl EngineContext {
+    pub fn new() -> Self {
+        Self {
+
+        }
+    }
+}
+
 impl Subcontext for EngineContext {}
 
 #[cfg(test)]
