@@ -34,7 +34,7 @@ impl State for MyState {
     fn update(&mut self, context: &mut Context) -> OptionalTransition {
         let mut custom_context = context.borrow_mut::<CustomContext>().unwrap();
         if custom_context.count == 10 {
-            Some(Transition::Quit)
+            Some(Transition::Clean)
         } else {
             custom_context.count += 1;
             None

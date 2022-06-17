@@ -32,7 +32,7 @@ impl State for MyState {
     fn update(&mut self, _context: &mut Context) -> OptionalTransition {
         if self.frames == 10 {
             info!("Goodbye!");
-            Some(Transition::Quit)
+            Some(Transition::Clean)
         } else {
             self.updates += 1;
             debug!("Update: {}", self.updates);

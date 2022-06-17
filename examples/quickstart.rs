@@ -44,7 +44,7 @@ impl State for FizzBuzzState {
     fn update(&mut self, _context: &mut Context) -> OptionalTransition {
         if self.number == 100 {
             info!("Goodbye!");
-            Some(Transition::Quit) // Tell the engine we want to quit.
+            Some(Transition::Clean) // Tell the engine we want to quit.
         } else {
             self.number += 1;
             info!("{}", Self::fizz_buzz(self.number));

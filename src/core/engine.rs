@@ -156,7 +156,7 @@ mod wolf_engine_tests {
         state
             .expect_update()
             .times(1..)
-            .returning(|_| Some(Transition::Quit));
+            .returning(|_| Some(Transition::Clean));
         state.expect_render().times(1..).returning(|_| ());
         state.expect_shutdown().times(1).returning(|_| ());
 

@@ -146,7 +146,7 @@ pub struct EmptyState;
 
 impl State for EmptyState {
     fn update(&mut self, _context: &mut Context) -> OptionalTransition {
-        Some(Transition::Quit)
+        Some(Transition::Clean)
     }
 
     fn render(&mut self, _context: &mut Context) -> RenderResult {}
