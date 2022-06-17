@@ -3,6 +3,7 @@ use std::mem::replace;
 use crate::plugins::CorePlugin;
 use crate::schedulers::FixedUpdateScheduler;
 use crate::*;
+use crate::utils::EngineControls;
 
 /// Provides the core functionality of the engine.
 ///
@@ -110,6 +111,7 @@ impl Engine {
     /// The engine is considered to be running when the following conditions are met:
     ///
     /// - There is at least one [State] on the [StateStack].
+    /// - [EngineControls::has_quit()] has been called.
     pub fn is_running(&self) -> bool {
         self.state_stack.is_not_empty() || self.context.has_quit()
     }
