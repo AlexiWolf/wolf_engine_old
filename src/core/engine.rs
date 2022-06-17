@@ -145,6 +145,7 @@ impl Default for Engine {
 #[cfg(test)]
 mod wolf_engine_tests {
     use crate::{MockState, Transition};
+    use crate::contexts::EngineContext;
 
     use super::*;
 
