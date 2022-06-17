@@ -187,6 +187,13 @@ mod wolf_engine_tests {
             "The Engine should not indicate it is running."
         );
     }
+
+    #[test]
+    fn should_have_engine_context() {
+        let engine = Engine::default();
+        
+        let engine_context = engine.context.borrow::<EngineContext>();
+    }
 }
 
 /// Build and customize an instance of the [Engine].
