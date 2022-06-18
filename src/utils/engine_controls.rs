@@ -24,7 +24,7 @@ impl EngineControls for Context {
 }
 
 #[cfg(test)]
-mod engine_controls_test {
+mod engine_context_controls_test {
     use super::*;
 
     #[test]
