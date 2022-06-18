@@ -45,7 +45,7 @@ impl PluginLoader {
     ///
     /// Information about which plugins are being loaded, as well as their status is
     /// logged as [debug information](debug).
-    pub fn load_all(mut self, mut engine_builder: EngineBuilder) -> EngineBuilder {
+    pub fn load_all(mut self, mut engine_builder: EngineBuilder) -> Result<EngineBuilder, ()> {
         for plugin in self.plugins.iter_mut() {
             debug!("Now loading plugin: {}", plugin.name());
             engine_builder = match plugin.setup(engine_builder) {
