@@ -309,7 +309,7 @@ mod engine_builder_tests {
     }
 
     #[test]
-    fn should_set_engine_core() {
+    fn should_set_main_loop() {
         let mut main_loop = MockMainLoop::new();
         main_loop.expect_run()
             .times(1)
