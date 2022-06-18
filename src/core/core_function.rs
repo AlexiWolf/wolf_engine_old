@@ -59,7 +59,7 @@ pub type CoreFunction = Box<dyn Fn(Engine)>;
 /// [Scheduler](crate::Scheduler).  The loop will continue to run until the
 /// [StateStack](crate::StateStack)is empty, then it will exit.
 pub fn run_while_has_active_state(mut engine: Engine) {
-    while engine.state_stack.is_not_empty() {
+    while engine.is_running() {
         puffin::GlobalProfiler::lock().new_frame();
         puffin::profile_scope!("frame");
         engine.update();
