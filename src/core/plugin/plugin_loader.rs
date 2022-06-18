@@ -59,11 +59,11 @@ impl PluginLoader {
                         plugin.name(),
                         error_message
                     );
-                    engine_builder
+                    return Err(()) 
                 }
             }
         }
-        engine_builder
+        Ok(engine_builder)
     }
 }
 
