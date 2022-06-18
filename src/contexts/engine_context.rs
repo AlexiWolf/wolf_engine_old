@@ -1,6 +1,8 @@
 use crate::*;
 
+/// Provides game-accessible [Engine] state and controls.
 pub struct EngineContext {
+    /// Indicates if the engine has quit.
     pub has_quit: bool,
 }
 
