@@ -92,7 +92,7 @@ mod plugin_loader_tests {
         plugin_loader.add(Box::from(mock_plugin()));
         plugin_loader.add(Box::from(mock_plugin()));
 
-        let _engine_builder = plugin_loader.load_all(EngineBuilder::new());
+        let _engine_builder = plugin_loader.load_all(EngineBuilder::new()).unwrap();
     }
 
     fn mock_plugin() -> MockPlugin {
