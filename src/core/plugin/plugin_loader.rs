@@ -110,7 +110,7 @@ mod plugin_loader_tests {
         let loader_result = plugin_loader.load_all(EngineBuilder::new());
     
         assert!(loader_result.is_err());
-        assert_eq!(loader_result.unwrap_err(), "Failed to load Test Plugin: Test Error");
+        assert_eq!(loader_result.err().unwrap(), "Failed to load Test Plugin: Test Error");
     }
 
     #[test]
