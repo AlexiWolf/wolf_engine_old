@@ -317,11 +317,6 @@ mod engine_builder_tests {
             .expect("Failed to build the engine");
 
         engine.run(Box::from(EmptyState));
-
-        assert!(
-            *HAS_RAN_CUSTOM_CORE.lock().unwrap(),
-            "The custom engine core was not used"
-        );
     }
 
     #[test]
