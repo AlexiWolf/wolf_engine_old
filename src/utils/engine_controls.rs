@@ -51,6 +51,16 @@ mod engine_controls_context_implementation_tests {
 }
 
 
+impl EngineControls for Engine {
+    fn quit(&mut self) {
+         
+    }
+
+    fn has_quit(&self) -> bool {
+        false
+    }
+}
+
 #[cfg(test)]
 mod engine_controls_engine_implementation_tests {
     use super::*;
