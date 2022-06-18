@@ -41,7 +41,7 @@ mod engine_controls_context_implementation_tests {
     fn should_only_indicate_has_quit_after_quit_has_been_called() {
         let mut engine = engine_with_empty_state();
 
-        assert_has_quit_indicates_quit_has_been_called(&mut engine);
+        assert_has_quit_indicates_quit_has_been_called(&mut engine.context);
     }
 }
 
