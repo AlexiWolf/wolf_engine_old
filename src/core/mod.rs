@@ -1,12 +1,12 @@
 mod context;
-mod core_function;
+mod main_loop;
 mod engine;
 mod plugin;
 mod scheduler;
 mod state;
 
 pub use context::*;
-pub use core_function::*;
+pub use main_loop::*;
 pub use engine::*;
 pub use plugin::*;
 pub use scheduler::*;
