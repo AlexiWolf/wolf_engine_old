@@ -92,9 +92,9 @@ impl Engine {
         log_shutdown();
     }
 
-    fn extract_core_function(mut self) -> (Engine, Box<dyn Fn(Engine)>) {
+    fn extract_core_function(mut self) -> (Engine, CoreFunction) {
         let mut engine = replace(&mut self, Self::empty());
-        let engine_core = replace(&mut engine.core, Box::from(|_| {}));
+        let engine_core = replace(&mut engine.core, Box::from(|_| { Engine::empty() }));
         (engine, engine_core)
     }
 
