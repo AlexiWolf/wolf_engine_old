@@ -192,14 +192,6 @@ mod wolf_engine_tests {
     }
 
     #[test]
-    fn should_not_indicate_is_running_if_engine_context_has_quit() {
-        let mut engine = Engine::default();
-        engine.state_stack.push(Box::from(EmptyState), &mut engine.context);
-        engine.context.borrow_mut::<EngineContext>().unwrap().has_quit = true;
-
-    }
-
-    #[test]
     fn should_have_engine_context() {
         let engine = Engine::default();
         
