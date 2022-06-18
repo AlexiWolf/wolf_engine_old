@@ -345,8 +345,9 @@ mod engine_builder_tests {
             static ref HAS_RAN_CUSTOM_CORE: Mutex<bool> = Mutex::from(false);
         }
         let engine = EngineBuilder::new()
-            .with_engine_core(Box::from(|_| {
+            .with_engine_core(Box::from(|engine| {
                 *HAS_RAN_CUSTOM_CORE.lock().unwrap() = true;
+                engine 
             }))
             .build()
             .expect("Failed to build the engine");
