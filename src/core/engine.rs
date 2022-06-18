@@ -103,7 +103,7 @@ impl Engine {
             context: Context::default(),
             scheduler: Box::from(FixedUpdateScheduler::default()),
             state_stack: StateStack::new(),
-            core: Box::from(|_| {}),
+            core: Box::from(|_| { Engine::empty() }),
         }
     }
 
