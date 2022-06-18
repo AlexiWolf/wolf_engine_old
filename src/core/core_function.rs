@@ -17,7 +17,7 @@ use crate::Engine;
 ///   them to control the main loop.
 /// - Extend existing engine cores with useful debugging features.
 ///
-/// [run_while_has_active_state()] is the default core function.
+/// [run_engine()] is the default core function.
 ///
 /// # Examples
 ///
