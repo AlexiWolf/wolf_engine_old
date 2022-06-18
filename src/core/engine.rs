@@ -236,7 +236,7 @@ impl EngineBuilder {
         let plugin_loader = replace(&mut self.plugin_loader, PluginLoader::new());
         match plugin_loader.load_all(self) {
             Ok(engine_builder) => Ok(engine_builder.engine),
-            Err(_) => Err("Failed to load plugin.".to_string()),
+            Err(error_message) => Err(error_message)
         }
     }
 
