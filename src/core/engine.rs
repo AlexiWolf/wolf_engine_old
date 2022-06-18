@@ -245,7 +245,7 @@ impl EngineBuilder {
     }
 
     /// Set a custom [CoreFunction] to be used.
-    pub fn with_engine_core(mut self, engine_core: MainLoop) -> Self {
+    pub fn with_engine_core(mut self, engine_core: Box<dyn MainLoop>) -> Self {
         self.engine.main_loop = engine_core;
         self
     }
