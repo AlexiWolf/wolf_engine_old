@@ -111,7 +111,7 @@ impl Engine {
     /// The engine is considered to be running when the following conditions are met:
     ///
     /// - There is at least one [State] on the [StateStack].
-    /// - [EngineControls::has_quit()] has been called.
+    /// - [Engine::has_quit()] returns true.
     pub fn is_running(&self) -> bool {
         self.state_stack.is_not_empty() && !self.context.has_quit()
     }
