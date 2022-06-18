@@ -45,7 +45,7 @@ impl PluginLoader {
     ///
     /// Information about which plugins are being loaded, as well as their status is
     /// logged as [debug information](debug).
-    pub fn load_all(mut self, mut engine_builder: EngineBuilder) -> Result<EngineBuilder, String>{
+    pub fn load_all(mut self, mut engine_builder: EngineBuilder) -> Result<EngineBuilder, String> {
         for plugin in self.plugins.iter_mut() {
             debug!("Now loading plugin: {}", plugin.name());
             engine_builder = match plugin.setup(engine_builder) {
@@ -56,7 +56,7 @@ impl PluginLoader {
                 Err((error_message, _)) => {
                     let error = format!("Failed to load {}: {}", plugin.name(), error_message);
                     error!("{}", error);
-                    return Err(error) 
+                    return Err(error);
                 }
             }
         }
@@ -101,17 +101,21 @@ mod plugin_loader_tests {
     #[test]
     fn should_return_error_on_plugin_failure() {
         let mut plugin_loader = PluginLoader::new();
-        let mut plugin = MockPlugin::new(); 
-        plugin.expect_setup()
+        let mut plugin = MockPlugin::new();
+        plugin
+            .expect_setup()
             .once()
             .returning(|engine_builder| Err(("Test Error", engine_builder)));
         plugin.expect_name().once().returning(|| "Test Plugin");
         plugin_loader.add(Box::from(plugin));
 
         let loader_result = plugin_loader.load_all(EngineBuilder::new());
-    
+
         assert!(loader_result.is_err());
-        assert_eq!(loader_result.err().unwrap(), "Failed to load Test Plugin: Test Error");
+        assert_eq!(
+            loader_result.err().unwrap(),
+            "Failed to load Test Plugin: Test Error"
+        );
     }
 
     #[test]
