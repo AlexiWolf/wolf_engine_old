@@ -64,5 +64,5 @@ pub fn run_engine(mut engine: Engine) {
         engine.update();
         engine.render();
     }
-    log::debug!("The state stack is empty.  The engine will now shut down.")
+    log::debug!("The Engine has quit, shutting down now.");
 }
