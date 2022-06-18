@@ -73,7 +73,7 @@ pub struct Engine {
     pub context: Context,
     pub scheduler: Box<dyn Scheduler>,
     pub state_stack: StateStack,
-    core: CoreFunction,
+    core: MainLoop,
 }
 
 impl Engine {
@@ -92,7 +92,7 @@ impl Engine {
         log_shutdown();
     }
 
-    fn extract_core_function(mut self) -> (Engine, CoreFunction) {
+    fn extract_core_function(mut self) -> (Engine, MainLoop) {
         let mut engine = replace(&mut self, Self::empty());
         let engine_core = replace(&mut engine.core, Box::from(|_| Engine::empty()));
         (engine, engine_core)
@@ -245,7 +245,7 @@ impl EngineBuilder {
     }
 
     /// Set a custom [CoreFunction] to be used.
-    pub fn with_engine_core(mut self, engine_core: CoreFunction) -> Self {
+    pub fn with_engine_core(mut self, engine_core: MainLoop) -> Self {
         self.engine.core = engine_core;
         self
     }

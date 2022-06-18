@@ -55,7 +55,7 @@ use crate::Engine;
 ///     .with_engine_core(Box::from(custom_engine_core))
 ///     .build();
 /// ```
-pub trait CoreFunction {
+pub trait MainLoop {
     fn run(&mut self, engine: Engine) -> Engine;
 }
 
