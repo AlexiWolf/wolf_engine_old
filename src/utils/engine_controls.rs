@@ -53,5 +53,15 @@ mod engine_controls_context_implementation_tests {
 
 #[cfg(test)]
 mod engine_controls_engine_implementation_tests {
+    use super::*;
 
+    #[test]
+    fn should_quit() {
+        let mut engine = Engine::default();
+        engine.state_stack.push(Box::from(EmptyState), &mut engine.context);
+
+        engine.quit();
+
+        assert!(!engine.is_running(), "The engine is running, but it should not be.");
+    }
 }
