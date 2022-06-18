@@ -104,7 +104,7 @@ mod plugin_loader_tests {
         let mut plugin = MockPlugin::new(); 
         plugin.expect_setup()
             .once()
-            .returning(|engine_builder| Err(("Test error", engine_builder)));
+            .returning(|engine_builder| Err(("Test Error", engine_builder)));
         plugin.expect_name().once().returning(|| "Test Plugin");
         plugin_loader.add(Box::from(plugin));
 
