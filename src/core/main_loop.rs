@@ -50,7 +50,9 @@ use crate::Engine;
 ///     .with_engine_core(Box::from(custom_engine_core))
 ///     .build();
 /// ```
-pub type CoreFunction = Box<dyn Fn(Engine) -> Engine>;
+pub trait CoreFunction {
+    fn run(&mut self, engine: Engine) -> Engine;
+}
 
 /// Runs the [Engine] until it has quit.  
 ///
