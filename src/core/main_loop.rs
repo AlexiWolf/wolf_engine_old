@@ -67,7 +67,7 @@ pub trait MainLoop {
 pub struct DefaultMainLoop;
 
 impl MainLoop for DefaultMainLoop {
-    fn run(mut engine: Engine) -> Engine {
+    fn run(&mut self, mut engine: Engine) -> Engine {
         while engine.is_running() {
             engine.start_frame();
             puffin::profile_scope!("frame");
