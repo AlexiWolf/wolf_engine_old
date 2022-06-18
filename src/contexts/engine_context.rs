@@ -12,6 +12,12 @@ impl EngineContext {
 
 impl Subcontext for EngineContext {}
 
+impl Default for EngineContext {
+    fn default() -> Self {
+        Self::new() 
+    }
+}
+
 #[cfg(test)]
 mod engine_context_tests {
     use super::*;
