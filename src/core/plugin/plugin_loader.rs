@@ -45,7 +45,7 @@ impl PluginLoader {
     ///
     /// Information about which plugins are being loaded, as well as their status is
     /// logged as [debug information](debug).
-    pub fn load_all(mut self, mut engine_builder: EngineBuilder) -> Result<EngineBuilder, ()> {
+    pub fn load_all(mut self, mut engine_builder: EngineBuilder) -> Result<EngineBuilder, String>{
         for plugin in self.plugins.iter_mut() {
             debug!("Now loading plugin: {}", plugin.name());
             engine_builder = match plugin.setup(engine_builder) {
@@ -54,12 +54,9 @@ impl PluginLoader {
                     engine_builder
                 }
                 Err((error_message, _)) => {
-                    error!(
-                        "Failed to load plugin: {}: {}",
-                        plugin.name(),
-                        error_message
-                    );
-                    return Err(()) 
+                    let error = format!("Failed to load {}: {}", plugin.name(), error_message);
+                    error!("{}", error);
+                    return Err(error) 
                 }
             }
         }
