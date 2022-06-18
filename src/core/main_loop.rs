@@ -22,10 +22,10 @@ use mockall::automock;
 ///
 /// # Examples
 ///
-/// To use the default main loop, you don't need to do anything special.  The engine will 
-/// automatically select [DefaultMainLoop] unless a different one is selected either by you, or, 
+/// To use the default main loop, you don't need to do anything special.  The engine will
+/// automatically select [DefaultMainLoop] unless a different one is selected either by you, or,
 /// more commonly, by a [Plugin](crate::Plugin).
-/// 
+///
 /// If you wish to override the engine's main loop behavior, you can simply implement this trait
 /// on a struct.
 ///
@@ -66,7 +66,7 @@ pub trait MainLoop {
 
 /// Provides the default main loop behavior.
 ///
-/// This is a minimal reference implementation of [MainLoop].  The main loop will exit when 
+/// This is a minimal reference implementation of [MainLoop].  The main loop will exit when
 /// [Engine::is_running()] returns false.
 pub struct DefaultMainLoop;
 
@@ -88,6 +88,6 @@ pub struct EmptyMainLoop;
 
 impl MainLoop for EmptyMainLoop {
     fn run(&mut self, engine: Engine) -> Engine {
-        engine 
+        engine
     }
 }

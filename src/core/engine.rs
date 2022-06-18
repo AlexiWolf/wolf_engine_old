@@ -61,7 +61,7 @@ use crate::*;
 /// engine.run(Box::from(my_game_state));
 /// ```
 ///
-/// # Main Loops 
+/// # Main Loops
 ///
 /// The engine doesn't run the main loop on it's own.  Instead, it delegates the main loop
 /// to an [MainLoop] implementation.  This helps to make the engine more modular, and
@@ -307,9 +307,7 @@ mod engine_builder_tests {
     #[test]
     fn should_set_main_loop() {
         let mut main_loop = MockMainLoop::new();
-        main_loop.expect_run()
-            .times(1)
-            .returning(|engine| engine);
+        main_loop.expect_run().times(1).returning(|engine| engine);
         let engine = EngineBuilder::new()
             .with_engine_core(Box::from(main_loop))
             .build()
