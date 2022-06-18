@@ -50,14 +50,14 @@ use crate::Engine;
 ///     .with_engine_core(Box::from(custom_engine_core))
 ///     .build();
 /// ```
-pub type CoreFunction = Box<dyn Fn(Engine)>;
+pub type CoreFunction = Box<dyn Fn(Engine) -> Engine>;
 
 /// Runs the [Engine] until it has quit.  
 ///
 /// This is the default [CoreFunction] implementation. 
 ///
 /// The main loop will exit when [Engine::is_running()] returns false.
-pub fn run_engine(mut engine: Engine) {
+pub fn run_engine(mut engine: Engine) -> Engine {
     while engine.is_running() {
         engine.start_frame();
         puffin::profile_scope!("frame");
@@ -65,4 +65,5 @@ pub fn run_engine(mut engine: Engine) {
         engine.render();
     }
     log::debug!("The Engine has quit, shutting down now.");
+    engine
 }
