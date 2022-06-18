@@ -2,8 +2,8 @@ use std::mem::replace;
 
 use crate::plugins::CorePlugin;
 use crate::schedulers::FixedUpdateScheduler;
-use crate::*;
 use crate::utils::EngineControls;
+use crate::*;
 
 /// Provides the core functionality of the engine.
 ///
@@ -94,7 +94,7 @@ impl Engine {
 
     fn extract_core_function(mut self) -> (Engine, CoreFunction) {
         let mut engine = replace(&mut self, Self::empty());
-        let engine_core = replace(&mut engine.core, Box::from(|_| { Engine::empty() }));
+        let engine_core = replace(&mut engine.core, Box::from(|_| Engine::empty()));
         (engine, engine_core)
     }
 
@@ -103,7 +103,7 @@ impl Engine {
             context: Context::default(),
             scheduler: Box::from(FixedUpdateScheduler::default()),
             state_stack: StateStack::new(),
-            core: Box::from(|_| { Engine::empty() }),
+            core: Box::from(|_| Engine::empty()),
         }
     }
 
@@ -147,8 +147,8 @@ impl Default for Engine {
 
 #[cfg(test)]
 mod wolf_engine_tests {
-    use crate::{MockState, Transition};
     use crate::contexts::EngineContext;
+    use crate::{MockState, Transition};
 
     use super::*;
 
@@ -195,7 +195,7 @@ mod wolf_engine_tests {
     #[test]
     fn should_have_engine_context() {
         let engine = Engine::default();
-        
+
         let _engine_context = engine.context.borrow::<EngineContext>();
     }
 
@@ -204,10 +204,10 @@ mod wolf_engine_tests {
         let engine = Engine::default();
         let mut state = MockState::new();
         state.expect_setup().times(..).returning(|_| ());
-        state
-            .expect_update()
-            .times(1..)
-            .returning(|context| { context.quit();  None });
+        state.expect_update().times(1..).returning(|context| {
+            context.quit();
+            None
+        });
         state.expect_render().times(..).returning(|_| ());
         state.expect_shutdown().times(1).returning(|_| ());
 

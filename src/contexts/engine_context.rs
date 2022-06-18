@@ -6,9 +6,7 @@ pub struct EngineContext {
 
 impl EngineContext {
     pub fn new() -> Self {
-        Self {
-            has_quit: false,
-        }
+        Self { has_quit: false }
     }
 }
 
@@ -17,7 +15,7 @@ impl Subcontext for EngineContext {}
 #[cfg(test)]
 mod engine_context_tests {
     use super::*;
-    
+
     #[test]
     fn should_initialize_has_quit_to_false() {
         let engine_context = EngineContext::new();
