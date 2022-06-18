@@ -52,15 +52,14 @@ use crate::Engine;
 /// ```
 pub type CoreFunction = Box<dyn Fn(Engine)>;
 
-/// Run the [Engine] until the [StateStack](crate::StateStack) is empty.
+/// Runs the [Engine] until it has quit.  
 ///
-/// This is a simple [CoreFunction] that runs the engine in a loop.  It will run the
-/// [Engine]'s [StateStack](crate::StateStack) using the active
-/// [Scheduler](crate::Scheduler).  The loop will continue to run until the
-/// [StateStack](crate::StateStack)is empty, then it will exit.
+/// This is the default [CoreFunction] implementation. 
+///
+/// The main loop will exit when [Engine::is_running()] returns false.
 pub fn run_engine(mut engine: Engine) {
     while engine.is_running() {
-        puffin::GlobalProfiler::lock().new_frame();
+        engine.start_frame();
         puffin::profile_scope!("frame");
         engine.update();
         engine.render();
