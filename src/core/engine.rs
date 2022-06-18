@@ -61,19 +61,19 @@ use crate::*;
 /// engine.run(Box::from(my_game_state));
 /// ```
 ///
-/// # Engine Cores
+/// # Main Loops
 ///
 /// The engine doesn't run the main loop on it's own.  Instead, it delegates the main loop
-/// to an [CoreFunction] function.  This helps to make the engine more modular, and
-/// customizable.  An [CoreFunction] can be used to change the specific way the engine runs
+/// to an [MainLoop] implementation.  This helps to make the engine more modular, and
+/// customizable.  A [MainLoop] can be used to change the specific way the engine runs
 /// with ease, and is primarily used to integrate with 3rd party modules that insist
-/// on being control of the main loop (such as Winit.)  See [CoreFunction]'s documentation
+/// on being control of the main loop (such as Winit.)  See [MainLoop]'s documentation
 /// for more details.
 pub struct Engine {
     pub context: Context,
     pub scheduler: Box<dyn Scheduler>,
     pub state_stack: StateStack,
-    core: CoreFunction,
+    main_loop: Box<dyn MainLoop>,
 }
 
 impl Engine {
@@ -82,19 +82,19 @@ impl Engine {
         Self::default()
     }
 
-    /// Takes ownership over the engine and runs until the [CoreFunction] exits.
+    /// Takes ownership over the engine and runs until the [MainLoop] exits.
     pub fn run(mut self, initial_state: Box<dyn State>) {
         log_startup_information();
         self.state_stack.push(initial_state, &mut self.context);
-        let (mut engine, core_function) = self.extract_core_function();
-        engine = (core_function)(engine);
+        let (mut engine, mut main_loop) = self.extract_core_function();
+        engine = (main_loop).run(engine);
         engine.state_stack.clear(&mut engine.context);
         log_shutdown();
     }
 
-    fn extract_core_function(mut self) -> (Engine, CoreFunction) {
+    fn extract_core_function(mut self) -> (Engine, Box<dyn MainLoop>) {
         let mut engine = replace(&mut self, Self::empty());
-        let engine_core = replace(&mut engine.core, Box::from(|_| Engine::empty()));
+        let engine_core = replace(&mut engine.main_loop, Box::from(EmptyMainLoop));
         (engine, engine_core)
     }
 
@@ -103,7 +103,7 @@ impl Engine {
             context: Context::default(),
             scheduler: Box::from(FixedUpdateScheduler::default()),
             state_stack: StateStack::new(),
-            core: Box::from(|_| Engine::empty()),
+            main_loop: Box::from(EmptyMainLoop),
         }
     }
 
@@ -244,9 +244,9 @@ impl EngineBuilder {
         self
     }
 
-    /// Set a custom [CoreFunction] to be used.
-    pub fn with_engine_core(mut self, engine_core: CoreFunction) -> Self {
-        self.engine.core = engine_core;
+    /// Set a custom [MainLoop] to be used.
+    pub fn with_main_loop(mut self, engine_core: Box<dyn MainLoop>) -> Self {
+        self.engine.main_loop = engine_core;
         self
     }
 
@@ -273,16 +273,12 @@ impl Default for EngineBuilder {
             plugin_loader: PluginLoader::new(),
         }
         .with_plugin(Box::from(CorePlugin))
-        .with_engine_core(Box::from(run_engine))
+        .with_main_loop(Box::from(DefaultMainLoop))
     }
 }
 
 #[cfg(test)]
 mod engine_builder_tests {
-    use std::sync::Mutex;
-
-    use lazy_static::lazy_static;
-
     use crate::{
         contexts::{EventContext, SchedulerContext},
         event::Event,
@@ -309,24 +305,15 @@ mod engine_builder_tests {
     }
 
     #[test]
-    fn should_set_engine_core() {
-        lazy_static! {
-            static ref HAS_RAN_CUSTOM_CORE: Mutex<bool> = Mutex::from(false);
-        }
+    fn should_set_main_loop() {
+        let mut main_loop = MockMainLoop::new();
+        main_loop.expect_run().times(1).returning(|engine| engine);
         let engine = EngineBuilder::new()
-            .with_engine_core(Box::from(|engine| {
-                *HAS_RAN_CUSTOM_CORE.lock().unwrap() = true;
-                engine
-            }))
+            .with_main_loop(Box::from(main_loop))
             .build()
             .expect("Failed to build the engine");
 
         engine.run(Box::from(EmptyState));
-
-        assert!(
-            *HAS_RAN_CUSTOM_CORE.lock().unwrap(),
-            "The custom engine core was not used"
-        );
     }
 
     #[test]
