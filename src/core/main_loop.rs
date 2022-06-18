@@ -56,7 +56,7 @@ use mockall::automock;
 /// # let custom_engine_core = EmptyMainLoop;
 /// #
 /// let engine = EngineBuilder::new()
-///     .with_engine_core(Box::from(custom_engine_core))
+///     .with_main_loop(Box::from(custom_engine_core))
 ///     .build();
 /// ```
 #[cfg_attr(test, automock)]
