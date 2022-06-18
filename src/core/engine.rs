@@ -234,8 +234,10 @@ impl EngineBuilder {
     /// Consumes the engine builder and returns an [Engine] created from it.
     pub fn build(mut self) -> Result<Engine, String> {
         let plugin_loader = replace(&mut self.plugin_loader, PluginLoader::new());
-        let engine_builder = plugin_loader.load_all(self);
-        Ok(engine_builder.engine)
+        match plugin_loader.load_all(self) {
+            Ok(engine_builder) => Ok(engine_builder.engine),
+            Err(error_message) => Err(error_message),
+        }
     }
 
     /// Set a custom [Scheduler] to be used.
@@ -325,6 +327,24 @@ mod engine_builder_tests {
             .with_plugin(Box::from(plugin))
             .build()
             .expect("Failed to build the engine");
+    }
+
+    #[test]
+    fn should_return_error_on_plugin_failure() {
+        let mut plugin = MockPlugin::new();
+        plugin
+            .expect_setup()
+            .once()
+            .returning(|engine_builder| Err(("Test Error", engine_builder)));
+        plugin.expect_name().once().returning(|| "Test Plugin");
+
+        let result = EngineBuilder::new().with_plugin(Box::from(plugin)).build();
+
+        assert!(result.is_err());
+        assert_eq!(
+            result.err().unwrap(),
+            "Failed to load Test Plugin: Test Error"
+        );
     }
 
     #[test]
