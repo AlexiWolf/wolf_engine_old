@@ -94,7 +94,7 @@ impl Engine {
 
     fn extract_core_function(mut self) -> (Engine, Box<dyn MainLoop>) {
         let mut engine = replace(&mut self, Self::empty());
-        let engine_core = replace(&mut engine.main_loop, Box::from(EmptyMainLoop);
+        let engine_core = replace(&mut engine.main_loop, Box::from(EmptyMainLoop));
         (engine, engine_core)
     }
 
