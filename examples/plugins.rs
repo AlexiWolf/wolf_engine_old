@@ -58,7 +58,7 @@ impl State for GameState {
     fn update(&mut self, context: &mut Context) -> OptionalTransition {
         let message = context.borrow::<MessageContext>().unwrap();
         info!("{}", message.message);
-        Some(Transition::Quit)
+        Some(Transition::Clean)
     }
 
     fn render(&mut self, _context: &mut Context) -> RenderResult {}

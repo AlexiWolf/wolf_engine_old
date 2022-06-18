@@ -32,7 +32,7 @@ impl State for ExampleState {
             events.push(self.number);
             None
         } else {
-            Some(Transition::Quit)
+            Some(Transition::Clean)
         }
     }
 

@@ -103,7 +103,7 @@ impl StateStack {
                 Transition::Push(state) => self.push(state, context),
                 Transition::Pop => self.pop_no_return(context),
                 Transition::CleanPush(state) => self.clean_push(state, context),
-                Transition::Quit => self.clear(context),
+                Transition::Clean => self.clear(context),
             }
         }
     }
@@ -350,7 +350,7 @@ mod state_stack_tests {
         quit_state
             .expect_update()
             .times(1)
-            .returning(|_| Some(Transition::Quit));
+            .returning(|_| Some(Transition::Clean));
         expect_shutdown(&mut quit_state);
 
         state_stack.push(Box::from(quit_state), &mut context);

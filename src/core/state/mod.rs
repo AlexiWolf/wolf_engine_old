@@ -42,7 +42,7 @@ pub type RenderResult = ();
 ///             None // Don't transition, just keep running
 ///         } else {
 ///             // We've counted to 10, lets tell the engine to quit
-///             Some(Transition::Quit)
+///             Some(Transition::Clean)
 ///         }
 ///     }
 ///
@@ -146,7 +146,7 @@ pub struct EmptyState;
 
 impl State for EmptyState {
     fn update(&mut self, _context: &mut Context) -> OptionalTransition {
-        Some(Transition::Quit)
+        Some(Transition::Clean)
     }
 
     fn render(&mut self, _context: &mut Context) -> RenderResult {}

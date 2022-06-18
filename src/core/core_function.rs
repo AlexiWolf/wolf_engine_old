@@ -17,7 +17,7 @@ use crate::Engine;
 ///   them to control the main loop.
 /// - Extend existing engine cores with useful debugging features.
 ///
-/// [run_while_has_active_state()] is the default core function.
+/// [run_engine()] is the default core function.
 ///
 /// # Examples
 ///
@@ -44,26 +44,26 @@ use crate::Engine;
 /// ```
 /// # use wolf_engine::*;
 /// #
-/// # let custom_engine_core = run_while_has_active_state;
+/// # let custom_engine_core = run_engine;
 /// #
 /// let engine = EngineBuilder::new()
 ///     .with_engine_core(Box::from(custom_engine_core))
 ///     .build();
 /// ```
-pub type CoreFunction = Box<dyn Fn(Engine)>;
+pub type CoreFunction = Box<dyn Fn(Engine) -> Engine>;
 
-/// Run the [Engine] until the [StateStack](crate::StateStack) is empty.
+/// Runs the [Engine] until it has quit.  
 ///
-/// This is a simple [CoreFunction] that runs the engine in a loop.  It will run the
-/// [Engine]'s [StateStack](crate::StateStack) using the active
-/// [Scheduler](crate::Scheduler).  The loop will continue to run until the
-/// [StateStack](crate::StateStack)is empty, then it will exit.
-pub fn run_while_has_active_state(mut engine: Engine) {
-    while engine.state_stack.is_not_empty() {
-        puffin::GlobalProfiler::lock().new_frame();
+/// This is the default [CoreFunction] implementation.
+///
+/// The main loop will exit when [Engine::is_running()] returns false.
+pub fn run_engine(mut engine: Engine) -> Engine {
+    while engine.is_running() {
+        engine.start_frame();
         puffin::profile_scope!("frame");
         engine.update();
         engine.render();
     }
-    log::debug!("The state stack is empty.  The engine will now shut down.")
+    log::debug!("The Engine has quit, shutting down now.");
+    engine
 }

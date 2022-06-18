@@ -26,7 +26,7 @@ impl State for MainState {
     fn update(&mut self, _context: &mut Context) -> OptionalTransition {
         if self.number == 10 {
             debug!("[MainState] All 10 messages displayed, quitting!");
-            Some(Transition::Quit)
+            Some(Transition::Clean)
         } else {
             debug!("[MainState] Pushing new sub-state to the stack.");
             self.number += 1;

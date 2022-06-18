@@ -2,6 +2,7 @@ use std::mem::replace;
 
 use crate::plugins::CorePlugin;
 use crate::schedulers::FixedUpdateScheduler;
+use crate::utils::EngineControls;
 use crate::*;
 
 /// Provides the core functionality of the engine.
@@ -85,14 +86,15 @@ impl Engine {
     pub fn run(mut self, initial_state: Box<dyn State>) {
         log_startup_information();
         self.state_stack.push(initial_state, &mut self.context);
-        let (engine, core_function) = self.extract_core_function();
-        (core_function)(engine);
+        let (mut engine, core_function) = self.extract_core_function();
+        engine = (core_function)(engine);
+        engine.state_stack.clear(&mut engine.context);
         log_shutdown();
     }
 
-    fn extract_core_function(mut self) -> (Engine, Box<dyn Fn(Engine)>) {
+    fn extract_core_function(mut self) -> (Engine, CoreFunction) {
         let mut engine = replace(&mut self, Self::empty());
-        let engine_core = replace(&mut engine.core, Box::from(|_| {}));
+        let engine_core = replace(&mut engine.core, Box::from(|_| Engine::empty()));
         (engine, engine_core)
     }
 
@@ -101,7 +103,7 @@ impl Engine {
             context: Context::default(),
             scheduler: Box::from(FixedUpdateScheduler::default()),
             state_stack: StateStack::new(),
-            core: Box::from(|_| {}),
+            core: Box::from(|_| Engine::empty()),
         }
     }
 
@@ -110,8 +112,9 @@ impl Engine {
     /// The engine is considered to be running when the following conditions are met:
     ///
     /// - There is at least one [State] on the [StateStack].
+    /// - [Engine::has_quit()] returns true.
     pub fn is_running(&self) -> bool {
-        self.state_stack.is_not_empty()
+        self.state_stack.is_not_empty() && !self.has_quit()
     }
 
     /// Triggers the start of a new frame.
@@ -144,6 +147,7 @@ impl Default for Engine {
 
 #[cfg(test)]
 mod wolf_engine_tests {
+    use crate::contexts::EngineContext;
     use crate::{MockState, Transition};
 
     use super::*;
@@ -156,7 +160,7 @@ mod wolf_engine_tests {
         state
             .expect_update()
             .times(1..)
-            .returning(|_| Some(Transition::Quit));
+            .returning(|_| Some(Transition::Clean));
         state.expect_render().times(1..).returning(|_| ());
         state.expect_shutdown().times(1).returning(|_| ());
 
@@ -186,6 +190,28 @@ mod wolf_engine_tests {
             !engine.is_running(),
             "The Engine should not indicate it is running."
         );
+    }
+
+    #[test]
+    fn should_have_engine_context() {
+        let engine = Engine::default();
+
+        let _engine_context = engine.context.borrow::<EngineContext>();
+    }
+
+    #[test]
+    fn should_stop_running_when_quit_is_called() {
+        let engine = Engine::default();
+        let mut state = MockState::new();
+        state.expect_setup().times(..).returning(|_| ());
+        state.expect_update().times(1..).returning(|context| {
+            context.quit();
+            None
+        });
+        state.expect_render().times(..).returning(|_| ());
+        state.expect_shutdown().times(1).returning(|_| ());
+
+        engine.run(Box::from(state));
     }
 }
 
@@ -247,7 +273,7 @@ impl Default for EngineBuilder {
             plugin_loader: PluginLoader::new(),
         }
         .with_plugin(Box::from(CorePlugin))
-        .with_engine_core(Box::from(run_while_has_active_state))
+        .with_engine_core(Box::from(run_engine))
     }
 }
 
@@ -288,8 +314,9 @@ mod engine_builder_tests {
             static ref HAS_RAN_CUSTOM_CORE: Mutex<bool> = Mutex::from(false);
         }
         let engine = EngineBuilder::new()
-            .with_engine_core(Box::from(|_| {
+            .with_engine_core(Box::from(|engine| {
                 *HAS_RAN_CUSTOM_CORE.lock().unwrap() = true;
+                engine
             }))
             .build()
             .expect("Failed to build the engine");

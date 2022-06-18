@@ -16,5 +16,5 @@ pub enum Transition {
     CleanPush(Box<dyn State>),
 
     /// Pop all [State]s off the stack, then shut down the engine.
-    Quit,
+    Clean,
 }
