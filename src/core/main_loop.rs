@@ -53,7 +53,7 @@ use mockall::automock;
 /// ```
 /// # use wolf_engine::*;
 /// #
-/// # let custom_engine_core = run_engine;
+/// # let custom_engine_core = EmptyMainLoop;
 /// #
 /// let engine = EngineBuilder::new()
 ///     .with_engine_core(Box::from(custom_engine_core))
