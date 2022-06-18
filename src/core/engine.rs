@@ -61,11 +61,11 @@ use crate::*;
 /// engine.run(Box::from(my_game_state));
 /// ```
 ///
-/// # Engine Cores
+/// # Main Loops 
 ///
 /// The engine doesn't run the main loop on it's own.  Instead, it delegates the main loop
-/// to an [MainLoop] function.  This helps to make the engine more modular, and
-/// customizable.  An [MainLoop] can be used to change the specific way the engine runs
+/// to an [MainLoop] implementation.  This helps to make the engine more modular, and
+/// customizable.  A [MainLoop] can be used to change the specific way the engine runs
 /// with ease, and is primarily used to integrate with 3rd party modules that insist
 /// on being control of the main loop (such as Winit.)  See [MainLoop]'s documentation
 /// for more details.
