@@ -86,8 +86,8 @@ impl Engine {
     pub fn run(mut self, initial_state: Box<dyn State>) {
         log_startup_information();
         self.state_stack.push(initial_state, &mut self.context);
-        let (mut engine, core_function) = self.extract_core_function();
-        engine = (core_function)(engine);
+        let (mut engine, main_loop) = self.extract_core_function();
+        engine = (main_loop)(engine);
         engine.state_stack.clear(&mut engine.context);
         log_shutdown();
     }
