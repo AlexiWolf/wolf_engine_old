@@ -60,11 +60,10 @@ pub trait MainLoop {
     fn run(&mut self, engine: Engine) -> Engine;
 }
 
-/// Runs the [Engine] until it has quit.  
+/// Provides the default main loop behavior.
 ///
-/// This is the default [MainLoop] implementation.
-///
-/// The main loop will exit when [Engine::is_running()] returns false.
+/// This is a minimal reference implementation of [MainLoop].  The main loop will exit when 
+/// [Engine::is_running()] returns false.
 pub struct DefaultMainLoop;
 
 impl MainLoop for DefaultMainLoop {
