@@ -78,3 +78,11 @@ impl MainLoop for DefaultMainLoop {
         engine
     }
 }
+
+pub(crate) struct EmptyMainLoop;
+
+impl MainLoop for EmptyMainLoop {
+    fn run(&mut self, engine: Engine) -> Engine {
+        engine 
+    }
+}
