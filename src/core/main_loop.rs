@@ -28,12 +28,17 @@ use crate::Engine;
 /// ```
 /// # use wolf_engine::*;
 /// #
-/// pub fn custom_engine_core(mut engine: Engine) {
-///     while engine.is_running() {
-///         engine.start_frame();
-///         engine.update();
-///         engine.render();
-/// #       break
+/// pub strcut CustomMainLoop;
+///
+/// impl MainLoop for CustomMainLoop {
+///     fn run(&mut self, mut engine: Engine) -> Engine {
+///         while engine.is_running() {
+///             engine.start_frame();
+///             engine.update();
+///             engine.render();
+/// #           break
+///         }
+///         engine
 ///     }
 /// }
 /// ```
