@@ -202,13 +202,6 @@ mod wolf_engine_tests {
     #[test]
     fn should_stop_running_when_quit_is_called() {
         let engine = Engine::default();
-
-        engine.run(Box::from(QuitTestState::new()));
-    }
-
-    #[test]
-    fn should_clean_state_stack_on_quit() {
-        let engine = Engine::default();
         let mut state = MockState::new();
         state.expect_setup().times(..).returning(|_| ());
         state
