@@ -6,7 +6,7 @@ pub fn main() {
     logging::initialize_logging(LevelFilter::Info);
 
     EngineBuilder::new()
-        .with_engine_core(Box::from(MyMainLoop))
+        .with_main_loop(Box::from(MyMainLoop))
         .build()
         .expect("Failed to build the engine")
         .run(Box::from(EmptyState));

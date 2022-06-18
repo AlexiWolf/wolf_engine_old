@@ -245,7 +245,7 @@ impl EngineBuilder {
     }
 
     /// Set a custom [MainLoop] to be used.
-    pub fn with_engine_core(mut self, engine_core: Box<dyn MainLoop>) -> Self {
+    pub fn with_main_loop(mut self, engine_core: Box<dyn MainLoop>) -> Self {
         self.engine.main_loop = engine_core;
         self
     }
@@ -273,7 +273,7 @@ impl Default for EngineBuilder {
             plugin_loader: PluginLoader::new(),
         }
         .with_plugin(Box::from(CorePlugin))
-        .with_engine_core(Box::from(DefaultMainLoop))
+        .with_main_loop(Box::from(DefaultMainLoop))
     }
 }
 
@@ -309,7 +309,7 @@ mod engine_builder_tests {
         let mut main_loop = MockMainLoop::new();
         main_loop.expect_run().times(1).returning(|engine| engine);
         let engine = EngineBuilder::new()
-            .with_engine_core(Box::from(main_loop))
+            .with_main_loop(Box::from(main_loop))
             .build()
             .expect("Failed to build the engine");
 
