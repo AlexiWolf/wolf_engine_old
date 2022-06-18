@@ -16,7 +16,7 @@ impl Subcontext for EngineContext {}
 
 impl Default for EngineContext {
     fn default() -> Self {
-        Self::new() 
+        Self::new()
     }
 }
 
