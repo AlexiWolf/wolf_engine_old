@@ -1,4 +1,4 @@
-//! Provides swapable [CoreFunction] functions.
+//! Provides swapable [MainLoop] functions.
 
 use crate::Engine;
 
@@ -61,7 +61,7 @@ pub trait MainLoop {
 
 /// Runs the [Engine] until it has quit.  
 ///
-/// This is the default [CoreFunction] implementation.
+/// This is the default [MainLoop] implementation.
 ///
 /// The main loop will exit when [Engine::is_running()] returns false.
 pub struct DefaultMainLoop;
