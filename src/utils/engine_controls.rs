@@ -38,7 +38,7 @@ mod engine_controls_context_implementation_tests {
     }
 
     #[test]
-    fn should_only_return_true_from_has_quit_when_quit_has_been_called() {
+    fn should_only_indicate_has_quit_after_quit_has_been_called() {
         let mut engine = Engine::default();
         engine.state_stack.push(Box::from(EmptyState), &mut engine.context);
 
@@ -76,7 +76,7 @@ mod engine_controls_engine_implementation_tests {
     }
 
     #[test]
-    fn should_only_return_true_from_has_quit_when_quit_has_been_called() {
+    fn should_only_indicate_has_quit_after_quit_has_been_called() {
         let mut engine = Engine::default();
         engine.state_stack.push(Box::from(EmptyState), &mut engine.context);
 
