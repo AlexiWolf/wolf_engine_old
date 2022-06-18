@@ -20,21 +20,25 @@ pub fn main() {
 /// Core functions offer you a lot of control because they give you full ownership over
 /// the running [Engine] instance.  This essentially means you can directly control over
 /// how the engine runs things.
-pub fn my_custom_core_function(mut engine: Engine) -> Engine {
-    info!("Hello, from a custom core function!");
+pub struct MyMainLoop;
 
-    // Lets make a simple core that runs 10 times, the quits.
-    let mut iterations = 0;
+impl MainLoop for MyMainLoop {
+    fn run(&mut self, mut engine: Engine) -> Engine {
+        info!("Hello, from a custom core function!");
 
-    while iterations > 0 {
+        // Lets make a simple core that runs 10 times, the quits.
+        let mut iterations = 0;
+
+        while iterations > 0 {
+            engine
+                .state_stack
+                .active_mut()
+                .unwrap()
+                .update(&mut engine.context);
+
+            iterations += 1;
+        }
+
         engine
-            .state_stack
-            .active_mut()
-            .unwrap()
-            .update(&mut engine.context);
-
-        iterations += 1;
     }
-
-    engine
 }
