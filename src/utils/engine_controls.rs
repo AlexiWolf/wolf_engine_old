@@ -1,7 +1,12 @@
 use crate::{*, contexts::EngineContext};
 
+
+/// An extension trait which provides basic control functions for the [Engine]. 
 pub trait EngineControls {
+    /// Shutdown the [Engine] and exit.
     fn quit(&mut self);
+
+    /// Returns true if [EngineControls::quit()] has been called.
     fn has_quit(&self) -> bool;
 }
 
