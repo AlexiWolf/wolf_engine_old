@@ -94,7 +94,7 @@ impl Engine {
 
     fn extract_core_function(mut self) -> (Engine, MainLoop) {
         let mut engine = replace(&mut self, Self::empty());
-        let engine_core = replace(&mut engine.main_loop, Box::from(|_| Engine::empty()));
+        let engine_core = replace(&mut engine.main_loop, Box::from(EmptyMainLoop);
         (engine, engine_core)
     }
 
@@ -103,7 +103,7 @@ impl Engine {
             context: Context::default(),
             scheduler: Box::from(FixedUpdateScheduler::default()),
             state_stack: StateStack::new(),
-            main_loop: Box::from(|_| Engine::empty()),
+            main_loop: Box::from(EmptyMainLoop),
         }
     }
 
