@@ -113,7 +113,7 @@ impl Engine {
     /// - There is at least one [State] on the [StateStack].
     /// - [Engine::has_quit()] returns true.
     pub fn is_running(&self) -> bool {
-        self.state_stack.is_not_empty() && !self.context.has_quit()
+        self.state_stack.is_not_empty() && !self.has_quit()
     }
 
     /// Triggers the start of a new frame.
