@@ -347,7 +347,7 @@ mod engine_builder_tests {
         let engine = EngineBuilder::new()
             .with_engine_core(Box::from(|engine| {
                 *HAS_RAN_CUSTOM_CORE.lock().unwrap() = true;
-                engine 
+                engine
             }))
             .build()
             .expect("Failed to build the engine");
