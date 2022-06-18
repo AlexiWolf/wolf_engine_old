@@ -279,10 +279,6 @@ impl Default for EngineBuilder {
 
 #[cfg(test)]
 mod engine_builder_tests {
-    use std::sync::Mutex;
-
-    use lazy_static::lazy_static;
-
     use crate::{
         contexts::{EventContext, SchedulerContext},
         event::Event,
