@@ -83,7 +83,8 @@ impl MainLoop for DefaultMainLoop {
     }
 }
 
-pub(crate) struct EmptyMainLoop;
+#[doc(hidden)]
+pub struct EmptyMainLoop;
 
 impl MainLoop for EmptyMainLoop {
     fn run(&mut self, engine: Engine) -> Engine {
