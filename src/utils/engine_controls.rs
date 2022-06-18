@@ -36,4 +36,16 @@ mod engine_context_controls_test {
          
         assert!(!engine.is_running(), "The engine is running, but it should not be.");
     }
+
+    #[test]
+    fn should_only_return_true_from_has_quit_when_quit_has_been_called() {
+        let mut engine = Engine::default();
+        engine.state_stack.push(Box::from(EmptyState), &mut engine.context);
+
+        assert!(!engine.context.has_quit(), "The engine should not have quit yet");
+
+        engine.context.quit();
+
+        assert!(engine.context.has_quit(), "The engine should have quit, but it didn't.");
+    }
 }
