@@ -12,11 +12,11 @@ pub fn main() {
         .run(Box::from(EmptyState));
 }
 
-/// A main loop is any struct which implements the `MainLoop` trait.
-///
-/// Main loops offer you a lot of control because they give you full ownership over
-/// the running `Engine` instance.  This essentially means you can directly control
-/// how the engine runs things.
+// A main loop is any struct which implements the `MainLoop` trait.
+//
+// Main loops offer you a lot of control because they give you full ownership over
+// the running `Engine` instance.  This essentially means you can directly control
+// how the engine runs things.
 pub struct MyMainLoop;
 
 impl MainLoop for MyMainLoop {
