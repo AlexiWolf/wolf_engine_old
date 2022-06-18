@@ -64,13 +64,17 @@ pub trait MainLoop {
 /// This is the default [CoreFunction] implementation.
 ///
 /// The main loop will exit when [Engine::is_running()] returns false.
-pub fn run_engine(mut engine: Engine) -> Engine {
-    while engine.is_running() {
-        engine.start_frame();
-        puffin::profile_scope!("frame");
-        engine.update();
-        engine.render();
+pub struct DefaultMainLoop;
+
+impl MainLoop for DefaultMainLoop {
+    fn run(mut engine: Engine) -> Engine {
+        while engine.is_running() {
+            engine.start_frame();
+            puffin::profile_scope!("frame");
+            engine.update();
+            engine.render();
+        }
+        log::debug!("The Engine has quit, shutting down now.");
+        engine
     }
-    log::debug!("The Engine has quit, shutting down now.");
-    engine
 }
