@@ -86,8 +86,9 @@ impl Engine {
     pub fn run(mut self, initial_state: Box<dyn State>) {
         log_startup_information();
         self.state_stack.push(initial_state, &mut self.context);
-        let (engine, core_function) = self.extract_core_function();
-        (core_function)(engine);
+        let (mut engine, core_function) = self.extract_core_function();
+        engine = (core_function)(engine);
+        engine.state_stack.clear(&mut engine.context);
         log_shutdown();
     }
 
@@ -205,6 +206,20 @@ mod wolf_engine_tests {
         engine.run(Box::from(QuitTestState::new()));
     }
 
+    #[test]
+    fn should_clean_state_stack_on_quit() {
+        let engine = Engine::default();
+        let mut state = MockState::new();
+        state.expect_setup().times(..).returning(|_| ());
+        state
+            .expect_update()
+            .times(1..)
+            .returning(|context| { context.quit();  None });
+        state.expect_render().times(..).returning(|_| ());
+        state.expect_shutdown().times(1).returning(|_| ());
+
+        engine.run(Box::from(state));
+    }
 
     struct QuitTestState {
         ticks: usize,
