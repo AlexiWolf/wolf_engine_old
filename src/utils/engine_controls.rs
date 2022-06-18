@@ -57,7 +57,7 @@ impl EngineControls for Engine {
     }
 
     fn has_quit(&self) -> bool {
-        false
+        self.context.has_quit()
     }
 }
 
