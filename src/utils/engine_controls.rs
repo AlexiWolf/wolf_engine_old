@@ -53,7 +53,7 @@ mod engine_controls_context_implementation_tests {
 
 impl EngineControls for Engine {
     fn quit(&mut self) {
-         
+        self.context.quit(); 
     }
 
     fn has_quit(&self) -> bool {
