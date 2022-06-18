@@ -64,10 +64,10 @@ use crate::*;
 /// # Engine Cores
 ///
 /// The engine doesn't run the main loop on it's own.  Instead, it delegates the main loop
-/// to an [CoreFunction] function.  This helps to make the engine more modular, and
-/// customizable.  An [CoreFunction] can be used to change the specific way the engine runs
+/// to an [MainLoop] function.  This helps to make the engine more modular, and
+/// customizable.  An [MainLoop] can be used to change the specific way the engine runs
 /// with ease, and is primarily used to integrate with 3rd party modules that insist
-/// on being control of the main loop (such as Winit.)  See [CoreFunction]'s documentation
+/// on being control of the main loop (such as Winit.)  See [MainLoop]'s documentation
 /// for more details.
 pub struct Engine {
     pub context: Context,
@@ -82,7 +82,7 @@ impl Engine {
         Self::default()
     }
 
-    /// Takes ownership over the engine and runs until the [CoreFunction] exits.
+    /// Takes ownership over the engine and runs until the [MainLoop] exits.
     pub fn run(mut self, initial_state: Box<dyn State>) {
         log_startup_information();
         self.state_stack.push(initial_state, &mut self.context);
@@ -244,7 +244,7 @@ impl EngineBuilder {
         self
     }
 
-    /// Set a custom [CoreFunction] to be used.
+    /// Set a custom [MainLoop] to be used.
     pub fn with_engine_core(mut self, engine_core: Box<dyn MainLoop>) -> Self {
         self.engine.main_loop = engine_core;
         self
