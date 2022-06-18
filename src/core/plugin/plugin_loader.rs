@@ -95,6 +95,12 @@ mod plugin_loader_tests {
         let _engine_builder = plugin_loader.load_all(EngineBuilder::new()).unwrap();
     }
 
+    fn mock_plugin() -> MockPlugin {
+        let mut plugin = MockPlugin::new();
+        plugin.expect_setup().once().returning(Ok);
+        plugin
+    }
+
     #[test]
     fn should_return_error_on_plugin_failure() {
         let mut plugin_loader = PluginLoader::new();
@@ -107,12 +113,6 @@ mod plugin_loader_tests {
         let loader_result = plugin_loader.load_all(EngineBuilder::new());
     
         assert!(loader_result.is_err());
-    }
-
-    fn mock_plugin() -> MockPlugin {
-        let mut plugin = MockPlugin::new();
-        plugin.expect_setup().once().returning(Ok);
-        plugin
     }
 
     #[test]
