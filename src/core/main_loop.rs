@@ -2,6 +2,9 @@
 
 use crate::Engine;
 
+#[cfg(test)]
+use mockall::automock;
+
 /// Defines which functions can be used as an [Engine] core.
 ///
 /// Main loops take ownership over the running [Engine], and directly implement the
@@ -56,6 +59,7 @@ use crate::Engine;
 ///     .with_engine_core(Box::from(custom_engine_core))
 ///     .build();
 /// ```
+#[cfg_attr(test, automock)]
 pub trait MainLoop {
     fn run(&mut self, engine: Engine) -> Engine;
 }
