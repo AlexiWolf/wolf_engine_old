@@ -26,27 +26,22 @@ impl EngineControls for Context {
 #[cfg(test)]
 mod engine_controls_context_implementation_tests {
     use super::*;
+    use super::shared_test_fixtures::*;
 
     #[test]
     fn should_quit() {
-        let mut engine = Engine::default();
-        engine.state_stack.push(Box::from(EmptyState), &mut engine.context);
+        let mut engine = engine_with_empty_state();
         
         engine.context.quit();
          
-        assert!(!engine.is_running(), "The engine is running, but it should not be.");
+        assert_engine_is_not_running(&engine);
     }
 
     #[test]
     fn should_only_indicate_has_quit_after_quit_has_been_called() {
-        let mut engine = Engine::default();
-        engine.state_stack.push(Box::from(EmptyState), &mut engine.context);
+        let mut engine = engine_with_empty_state();
 
-        assert!(!engine.context.has_quit(), "The engine should not have quit yet");
-
-        engine.context.quit();
-
-        assert!(engine.context.has_quit(), "The engine should have quit, but it didn't.");
+        assert_has_quit_indicates_quit_has_been_called(&mut engine);
     }
 }
 
@@ -64,26 +59,44 @@ impl EngineControls for Engine {
 #[cfg(test)]
 mod engine_controls_engine_implementation_tests {
     use super::*;
+    use super::shared_test_fixtures::*;
 
     #[test]
     fn should_quit() {
-        let mut engine = Engine::default();
-        engine.state_stack.push(Box::from(EmptyState), &mut engine.context);
-
+        let mut engine = engine_with_empty_state();
+        
         engine.quit();
 
-        assert!(!engine.is_running(), "The engine is running, but it should not be.");
+        assert_engine_is_not_running(&engine);
     }
 
     #[test]
     fn should_only_indicate_has_quit_after_quit_has_been_called() {
+        let mut engine = engine_with_empty_state();
+        
+        assert_has_quit_indicates_quit_has_been_called(&mut engine);
+    }
+}
+
+#[cfg(test)]
+mod shared_test_fixtures {
+    use super::*;
+
+    pub fn engine_with_empty_state() -> Engine {
         let mut engine = Engine::default();
         engine.state_stack.push(Box::from(EmptyState), &mut engine.context);
+        engine
+    }
 
-        assert!(!engine.has_quit(), "The engine should not have quit yet");
+    pub fn assert_engine_is_not_running(engine: &Engine) {
+        assert!(!engine.is_running(), "The engine is running, but it should not be.");
+    }
 
-        engine.quit();
+    pub fn assert_has_quit_indicates_quit_has_been_called(controls: &mut dyn EngineControls) {
+        assert!(!controls.has_quit(), "The engine should not have quit yet");
 
-        assert!(engine.has_quit(), "The engine should have quit, but it didn't.");
+        controls.quit();
+
+        assert!(controls.has_quit(), "The engine should have quit, but it didn't.");
     }
 }
