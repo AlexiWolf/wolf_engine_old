@@ -53,7 +53,7 @@ impl PluginLoader {
                     debug!("Successfully loaded plugin: {}", plugin.name());
                     engine_builder
                 }
-                Err((error_message, engine_builder)) => {
+                Err((error_message, _)) => {
                     error!(
                         "Failed to load plugin: {}: {}",
                         plugin.name(),
@@ -93,6 +93,20 @@ mod plugin_loader_tests {
         plugin_loader.add(Box::from(mock_plugin()));
 
         let _engine_builder = plugin_loader.load_all(EngineBuilder::new()).unwrap();
+    }
+
+    #[test]
+    fn should_return_error_on_plugin_failure() {
+        let mut plugin_loader = PluginLoader::new();
+        let mut plugin = MockPlugin::new(); 
+        plugin.expect_setup()
+            .once()
+            .returning(|engine_builder| Err(("Test error", engine_builder)));
+        plugin_loader.add(Box::from(plugin));
+
+        let loader_result = plugin_loader.load_all(EngineBuilder::new());
+    
+        assert!(loader_result.is_err());
     }
 
     fn mock_plugin() -> MockPlugin {
