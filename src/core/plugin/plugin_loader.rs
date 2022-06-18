@@ -105,6 +105,7 @@ mod plugin_loader_tests {
         plugin.expect_setup()
             .once()
             .returning(|engine_builder| Err(("Test error", engine_builder)));
+        plugin.expect_name().once().returning(|| "Test Plugin");
         plugin_loader.add(Box::from(plugin));
 
         let loader_result = plugin_loader.load_all(EngineBuilder::new());
