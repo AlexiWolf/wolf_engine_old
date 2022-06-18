@@ -20,7 +20,7 @@ pub fn main() {
 /// Core functions offer you a lot of control because they give you full ownership over
 /// the running [Engine] instance.  This essentially means you can directly control over
 /// how the engine runs things.
-pub fn my_custom_core_function(mut engine: Engine) {
+pub fn my_custom_core_function(mut engine: Engine) -> Engine {
     info!("Hello, from a custom core function!");
 
     // Lets make a simple core that runs 10 times, the quits.
@@ -35,4 +35,6 @@ pub fn my_custom_core_function(mut engine: Engine) {
 
         iterations += 1;
     }
+
+    engine
 }
