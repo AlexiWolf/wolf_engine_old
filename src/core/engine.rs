@@ -310,14 +310,9 @@ mod engine_builder_tests {
 
     #[test]
     fn should_set_engine_core() {
-        lazy_static! {
-            static ref HAS_RAN_CUSTOM_CORE: Mutex<bool> = Mutex::from(false);
-        }
+        let mut main_loop = MockMainLoop::new();
         let engine = EngineBuilder::new()
-            .with_engine_core(Box::from(|engine| {
-                *HAS_RAN_CUSTOM_CORE.lock().unwrap() = true;
-                engine
-            }))
+            .with_engine_core(Box::from(main_loop))
             .build()
             .expect("Failed to build the engine");
 
