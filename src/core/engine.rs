@@ -311,6 +311,9 @@ mod engine_builder_tests {
     #[test]
     fn should_set_engine_core() {
         let mut main_loop = MockMainLoop::new();
+        main_loop.expect_run()
+            .times(1)
+            .returning(|engine| engine);
         let engine = EngineBuilder::new()
             .with_engine_core(Box::from(main_loop))
             .build()
