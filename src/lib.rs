@@ -7,7 +7,8 @@
 //! provide your game's starting [State] to the [Engine::run()] method.
 //!
 //! ```
-//! pub use wolf_engine::*;
+//! use wolf_engine::*;
+//! # use wolf_engine::utils::EngineControls; 
 //!
 //! # #[allow(clippy::needless_doctest_main)]
 //! pub fn main() {
@@ -18,9 +19,9 @@
 //! pub struct MyGameState;
 //!
 //! impl State for MyGameState {
-//!     fn update(&mut self, _context: &mut Context) -> OptionalTransition {
+//!     fn update(&mut self, context: &mut Context) -> OptionalTransition {
 //!         // Update your game here.
-//! #       return Some(Transition::Quit);
+//! #       context.quit();
 //!         None
 //!     }
 //!
