@@ -1,14 +1,25 @@
 //! Wolf Engine is a game framework designed to be flexible an easy to work with.
 //!
-//! # Getting Started
+//! **Note:** Wolf Engine is still a W.I.P, and many features are still missing.  See the 
+//! [README](https://github.com/Alexiwolf/wolf_engine#features) for more information.
 //!
-//! Wolf Engine ships with sensible defaults to help you jump-start projects as quickly
-//! as possible.  To get started with the default settings, use [Engine::new()] and
-//! provide your game's starting [State] to the [Engine::run()] method.
+//! # Getting Started 
+//! 
+//! To get started with Wolf Engine, add the following to your `Cargo.toml`.
+//!
+//! ```text
+//! [dependencies]
+//! wolf_engine = "*"
+//! ```
+//! 
+//! The [Engine] ships with sensible defaults to help you get up and running as quickly as possible.
+//! To get started with the default settings, use [Engine::new()] or [Engine::default()], then 
+//! run the engine by calling [Engine::run()], and passing your game's starting [State] to it.
 //!
 //! ```
 //! use wolf_engine::*;
-//! # use wolf_engine::utils::EngineControls; 
+//! # 
+//! # use wolf_engine::utils::EngineControls;
 //!
 //! # #[allow(clippy::needless_doctest_main)]
 //! pub fn main() {
@@ -22,90 +33,132 @@
 //!     fn update(&mut self, context: &mut Context) -> OptionalTransition {
 //!         // Update your game here.
 //! #       context.quit();
-//!         None
+//!         None 
 //!     }
 //!
-//!     fn render(&mut self, _context: &mut Context) -> RenderResult {
+//!     fn render(&mut self, context: &mut Context) -> RenderResult {
 //!         // Render your game here.
 //!     }
 //! }
 //! ```
 //!
-//! # Context Data
+//! # Important Concepts
 //!
-//! [Engine] data is stored in the [Context].  The [Context] is a dynamic storage
-//! container which allows us to add new data to the [Engine] at run-time.
+//! There are a few fundamental concepts you should understand when while working with Wolf Engine.
 //!
-//! If you have access to the [Context], you can request access to stored data by it's
-//! type.  For [Subcontext]s, Rusts normal borrowing rules still apply, but they are
-//! checked at run-time rather than at compile-time.  This is done to help avoid issues
-//! with the borrow checker when borrowing multiple [Subcontext]s.
+//! ## Game States and the State Stack
 //!
-//! ```
-//!# pub use wolf_engine::*;
-//!#
-//!# pub fn main() {
-//!#     Engine::new()
-//!#         .run(Box::from(MyGameState));
-//!# }
-//!#
-//!# pub struct MyGameState;
-//!#
-//!# impl State for MyGameState {
-//! fn update(&mut self, context: &mut Context) -> OptionalTransition {
-//!     if let Some(subcontext) = context.borrow::<ExampleContext>() {
-//!         log::info!("{}", subcontext.message);     
-//!     }
-//!     if let Some(mut subcontext) = context.borrow_mut::<ExampleContext>() {
-//!         subcontext.message = "New Message".to_string();
-//!         log::info!("{}", subcontext.message);
-//!     }
-//!#    return Some(Transition::Clean);
-//!     None
-//! }
-//!#
-//!#     fn render(&mut self, _context: &mut Context) -> RenderResult {}
-//!# }
-//!#
-//!# pub struct ExampleContext {
-//!#    pub message: String,  
-//!# }
-//!#
-//!# impl Subcontext for ExampleContext {}
-//! ```
+//! Wolf Engine games are implemented as one or more [State] objects.  A [State] holds all the 
+//! logic and data for your game in a neat little package you can send to the [Engine].  When you
+//! start the [Engine], you will provide it with your game [State] to run.
 //!
-//! It is best to use [Context::borrow()] and [Context::borrow_mut()] instead of
-//! [Context::borrow()] and [Context::borrow_mut()], as the non-try methods will panic if
-//! the borrowing rules are broken.
+//! The [Engine] does not run your game [State] directly.  Instead, the [State] is pushed onto the 
+//! [StateStack], and is ran through it.  The [StateStack] stores and runs all active [State] 
+//! objects for the [Engine].
 //!
-//! ## Functions Using the Context
-//!
-//! A common pattern for Wolf Engine is passing the [Context] or specific [Subcontext]
-//! objects to functions.  Because the [Context] grants access to all [Engine] data,
-//! functions can use it to work on the current instance of the [Engine].
-//!
-//! ```
-//!# use wolf_engine::*;
-//!#
-//!# let context = &Context::new();
-//!# fn some_function(context: &Context) {}
-//! some_function(context);
-//! ```
-//!
-//! Implementing new functions using this pattern is also easy.
+//! An example of a simple game state:
 //!
 //! ```
 //! # use wolf_engine::*;
 //! #
-//! pub fn my_function(context: &Context) {
-//!     // Do something cool.
+//! pub struct MyState {
+//!     counter: u64, 
+//! }
+//!
+//! impl State for MyState {
+//!     fn update(&mut self, _context: &mut Context) -> OptionalTransition {
+//!         counter += 1;
+//!         None
+//!     }
+//!
+//!     fn render(&mut self, _context: &mut Context) -> RenderResult {}
 //! }
 //! ```
 //!
-//! # Advanced Usage
+//! #### Multiple States 
 //!
-//! More complete examples can be found in the
-//! [Examples Folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples).
+//! It is possible to have more than one [State] loaded and running at any given time.  The [Engine]
+//! employs [StateStack] to allow multiple [State]s to be loaded at the same time.  The [StateStack] 
+//! is controlled by the active [State] top of the stack) through [Transition]s returned by the 
+//! [State::update()] method.
+//!
+//! When multiple [State]s are loaded, they all run together from bottom-to-top order.  A [State]
+//! which is below another [State] on the stack is considered to be a "background" or "deactivated"
+//! [State].  A background [State] will only have its [State::background_update()] and 
+//! [State::background_render()] methods called. 
+//! 
+//! #### Changing States
+//!
+//! A [Transition] is ([Optionally](OptionalTransition)) returned by [State::update()] and is used 
+//! to control the [StateStack] by pushing and popping [State]s on the [StateStack].
+//!
+//! ```
+//! # use wolf_engine::*;
+//! #
+//! pub struct StateA {
+//!     pub counter: u32,
+//! }
+//!
+//! impl State for StateA {
+//!     fn update(&mut self, _context: &mut Context) -> OptionalTransition {
+//!         if self.counter < 10 {
+//!             println!("Hello from State A!");
+//!             // Increment the counter and push State B to the top of the stack.
+//!             self.counter += 1;
+//!             Some(Transition::Push(Box::from(StateB::new())))
+//!         } else {
+//!             // Once the counter reaches 10, pop all states off the stack.
+//!             // An empty state stack will trigger an engine shutdown.
+//!             Some(Transition::Clean)
+//!         }
+//!     }
+//!
+//!     fn render(&mut self, _context: &mut Context) -> RenderResult {}
+//! }
+//!
+//! pub struct StateB {
+//!     counter: u32,
+//! }
+//!
+//! # impl StateB {
+//! #   pub fn new() -> Self {
+//! #       Self { counter: 0 }
+//! #   }
+//! # }
+//! #
+//! impl State for StateB {
+//!     fn update(&mut self, _context: &mut Context) -> OptionalTransition {
+//!         if self.counter < 3 {
+//!             println!("Hello from State B!"); 
+//!             // Increment the counter then return no transition.
+//!             // The state will continue running as-is.
+//!             self.counter += 1;
+//!             None
+//!         } else {
+//!             // Once the counter reaches 3, pop this state off the stack.
+//!             // This will return control back to the State A.
+//!             Some(Transition::Pop)
+//!         }
+//!     }
+//!
+//!     fn render(&mut self, _context: &mut Context) -> RenderResult {}
+//! }
+//! ```
+//! It is important to note that only the top [State] can control the [StateStack], as 
+//! [State::update()] is the only method which can return a [Transition] to the [StateStack].  This
+//! is the only way available to user code for sending commands to the [StateStack].  While this
+//! may seem bit restrictive, it is done to keep state changes predictable.  When only the 
+//! top [State] can change the [StateStack], there is no possibility of random parts of the code 
+//! changing [State] in unpredictable ways.
+//!
+//! ## The Context Object
+//!
+//! ### Context Extension Traits
+//!
+//! ## The Engine Builder / Customizing the Engine 
+//!
+//! ## Engine Plugins / Extending the Engine 
+
 mod core;
 
 pub mod contexts;
