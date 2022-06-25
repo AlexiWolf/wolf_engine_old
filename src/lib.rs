@@ -251,6 +251,28 @@
 //!
 //! ## The Engine Builder / Customizing the Engine 
 //!
+//! If you want to configure or customize the [Engine], you can do so using the [EngineBuilder].
+//! The [EngineBuilder] is responsible for configuring the [Engine] is a simple and convenient way.
+//!
+//! ```
+//! # use wolf_engine::*;
+//! #
+//! let engine = EngineBuilder::new()
+//!     // customize the engine.
+//!     .build()
+//!     .unwrap();
+//! ```
+//!
+//! The [EngineBuilder] allows you to:
+//!
+//! - Load [Plugins](Plugin).
+//! - Configure [Engine] settings.
+//! - Load [Subcontexts](Subcontext).
+//! - Set a custom [Scheduler].
+//! - Set a custom [MainLoop].
+//!
+//! See the [EngineBuilder's](EngineBuilder) documentation for more information.
+//!
 //! ## Engine Plugins / Extending the Engine 
 
 mod core;
