@@ -1,9 +1,10 @@
 //! Wolf Engine is a game framework designed to be flexible an easy to work with.
 //!
-//! **Note:** Wolf Engine is still a W.I.P, and many features are still missing.  See the 
-//! [README](https://github.com/Alexiwolf/wolf_engine#features) for more information.
+//! **Note:** Wolf Engine is still a W.I.P. Many features are still missing and / or may change
+//! without warning.  See the [README](https://github.com/Alexiwolf/wolf_engine#features) for more 
+//! information.
 //!
-//! # Getting Started 
+//! # A Minimal Quick-Start Example
 //! 
 //! To get started with Wolf Engine, add the following to your `Cargo.toml`.
 //!
@@ -44,7 +45,8 @@
 //!
 //! # Important Concepts
 //!
-//! There are a few fundamental concepts you should understand when while working with Wolf Engine.
+//! There are a few fundamental concepts you should understand in order to work effectively with 
+//! Wolf Engine.
 //!
 //! ## Game States and the State Stack
 //!
@@ -67,7 +69,7 @@
 //!
 //! impl State for MyState {
 //!     fn update(&mut self, _context: &mut Context) -> OptionalTransition {
-//!         counter += 1;
+//!         self.counter += 1;
 //!         None
 //!     }
 //!
@@ -79,13 +81,15 @@
 //!
 //! It is possible to have more than one [State] loaded and running at any given time.  The [Engine]
 //! employs [StateStack] to allow multiple [State]s to be loaded at the same time.  The [StateStack] 
-//! is controlled by the active [State] top of the stack) through [Transition]s returned by the 
-//! [State::update()] method.
+//! is controlled by the [State] through [Transitions](Transition) returned by the [State::update()]
+//! method.
 //!
 //! When multiple [State]s are loaded, they all run together from bottom-to-top order.  A [State]
 //! which is below another [State] on the stack is considered to be a "background" or "deactivated"
-//! [State].  A background [State] will only have its [State::background_update()] and 
-//! [State::background_render()] methods called. 
+//! [State] while the topmost [State] is designated as the "foreground" or "active" [State].  A 
+//! background [State] will only have its [State::background_update()] and 
+//! [State::background_render()] methods called while the active [State] will have its 
+//! [State::update()] and [State::render()] methods called.
 //! 
 //! #### Changing States
 //!
@@ -153,7 +157,97 @@
 //!
 //! ## The Context Object
 //!
+//! The [Context] is a dynamic storage container which holds globally-accessible [Engine] state.
+//! In line with Wolf Engine's goal of being as flexible as possible, the [Context] allows new 
+//! [Subcontext] data to be loaded at run-time allowing for far greater extensibility.
+//!
+//! [Subcontext] objects most commonly store data for the [Engine], but they may also have bundled
+//! functionality.  You'll want to reference the documentation for the [Subcontext] you're working 
+//! with to see what it's capable of.
+//!
+//! If you have access to the [Context] object, you can retrieve any currently-loaded [Subcontext]
+//! using [Context::borrow()] for immutable access, or [Context::borrow_mut()] for a mutable access:
+//!
+//! ```
+//! # use wolf_engine::*;
+//! #
+//! # pub struct ExampleContext;
+//! #
+//! # impl Subcontext for ExampleContext {} 
+//! #
+//! # let mut context = Context::new();
+//! # context.add(ExampleContext);
+//! #
+//! // To borrow immutably, use Context::borrow().
+//! let example_context = context.borrow::<ExampleContext>();
+//! # drop(example_context);
+//!
+//! // To borrow mutably, use Context::borrow_mut().
+//! let example_context_mut = context.borrow_mut::<ExampleContext>();
+//! ```
+//!
+//! **Note:** Borrow rules are enforced at runtime by a [RwLock](std::sync::RwLock) meaning 
+//! [Context::borrow_mut()] will block the current thread until there are no other references to 
+//! the requested [Subcontext]. This has the potential to cause dead-locking if the lock is not 
+//! released. Refer to [RwLock](std::sync::RwLock) for more details.
+//!
 //! ### Context Extension Traits
+//!
+//! A common pattern for Wolf Engine is to use an "Extension Traits" pattern to functionality  
+//! directly to the [Context] object.  This pattern works by defining some methods it wants to 
+//! add to the [Context], then providing an implementation for the [Context].  To use an extension
+//! trait, you just import it.
+//!
+//! A good example of this is the [EngineControls](crate::utils::EngineControls) trait which adds 
+//! the [EngineControls::quit()](crate::utils::EngineControls::quit()) method.
+//!
+//! ```
+//! # use wolf_engine::*;
+//! // First you import the extension trait.
+//! use wolf_engine::utils::EngineControls;
+//!
+//! # // Instancing the Engine because a bare Context won't have an EngineContext loaded by
+//! # // default.  Without an EngineContext, context.quit() will panic.
+//! # let mut engine = Engine::default();
+//! # let context = &mut engine.context;
+//! #
+//! // Then you can use the methods it provides.
+//! context.quit() // Will quit the Engine.
+//! ```
+//!
+//! In most cases you'll be using existing extensions, but this pattern makes it easy for 
+//! 3rd parties to add their own extensions to the [Context].  For example, adding your own 
+//! methods to the [Context] is fairly straight forward: 
+//!
+//! ```
+//! # use wolf_engine::*;
+//! #
+//! // First you define your extension trait.
+//! pub trait GreetingExtension {
+//!     fn say_hello(&self, name: String) -> String;
+//! }
+//! 
+//! // Then you implement it for the Context.
+//! impl GreetingExtension for Context {
+//!     fn say_hello(&self, name: String) -> String {
+//!         let greeting_context = &self.borrow::<GreetingContext>().unwrap();
+//!         format!("{}, {}!", greeting_context.greeting, name)
+//!     }
+//! }
+//!
+//! #  pub struct GreetingContext {
+//! #      pub greeting: String
+//! #  }
+//! #  
+//! #  impl Subcontext for GreetingContext {}
+//! # 
+//! #  let mut context = Context::new();
+//! #  context.add(GreetingContext { greeting: "Hello".to_string() });
+//! # 
+//! // Now you can use your custom extension.
+//! let message = context.say_hello("World".to_string());
+//! assert_eq!(message, "Hello, World!");
+//! ```
 //!
 //! ## The Engine Builder / Customizing the Engine 
 //!
