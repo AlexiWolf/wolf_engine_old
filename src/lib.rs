@@ -249,7 +249,7 @@
 //! assert_eq!(message, "Hello, World!");
 //! ```
 //!
-//! ## The Engine Builder / Customizing the Engine 
+//! ## Configuring the Engine With the Engine Builder
 //!
 //! If you want to configure or customize the [Engine], you can do so using the [EngineBuilder].
 //! The [EngineBuilder] is responsible for configuring the [Engine] is a simple and convenient way.
