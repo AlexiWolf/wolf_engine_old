@@ -305,6 +305,11 @@
 //!     .build()
 //!     .unwrap();
 //! ```
+//!
+//! # Examples
+//!
+//! For more detailed examples see the 
+//! [Examples Folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples).
 
 mod core;
 
