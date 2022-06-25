@@ -265,8 +265,8 @@
 //!
 //! The [EngineBuilder] allows you to:
 //!
-//! - Load [Plugins](Plugin).
 //! - Configure [Engine] settings.
+//! - Load [Plugins](Plugin).
 //! - Load [Subcontexts](Subcontext).
 //! - Set a custom [Scheduler].
 //! - Set a custom [MainLoop].
