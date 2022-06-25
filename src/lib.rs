@@ -274,6 +274,37 @@
 //! See the [EngineBuilder's](EngineBuilder) documentation for more information.
 //!
 //! ## Engine Plugins / Extending the Engine 
+//!
+//! [Plugins](Plugin) are a very important part of Wolf Engine, as nearly all functionality, 
+//! including provided Wolf Engine features, are implemented using the [Plugin] system.  In fact, 
+//! the core [Engine] provides only the [State] system, the [Context], a [MainLoop], and the
+//! [Plugin] system.  Everything else is a [Plugin].  
+//!
+//! Using [Plugins](Plugin) for allows Wolf Engine to be as flexible as possible, as you
+//! can pick and choose only the [Plugins](Plugin) you need for your game.  If something is missing,
+//! or if you don't like how Wolf Engine implements a feature, you can simply replace it with a 
+//! custom [Plugin].
+//!
+//! Plugins can be added at startup using the [EngineBuilder], and are loaded on
+//! [EngineBuilder::build()].
+//!
+//! ```
+//! # use wolf_engine::*;
+//! #
+//! # pub struct ExamplePlugin;
+//! # impl Plugin for ExamplePlugin {
+//! #    fn setup(&mut self, engine_builder: EngineBuilder) -> PluginResult { Ok(engine_builder) }
+//! # }
+//! # 
+//! # impl ExamplePlugin {
+//! #     pub fn new() -> Self { Self }
+//! # }
+//! #
+//! let engine = EngineBuilder::new()
+//!     .with_plugin(Box::from(ExamplePlugin::new()))
+//!     .build()
+//!     .unwrap();
+//! ```
 
 mod core;
 
