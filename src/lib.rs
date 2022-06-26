@@ -58,9 +58,9 @@
 //!
 //! Wolf Engine games are implemented as one or more [State] objects.  A [State] holds all the 
 //! logic and data for your game in a neat little package you can send to the [Engine].  When you
-//! start the [Engine], you will provide it with your game [State] to run.
+//! start the [Engine], you pass your game's [State] it.
 //!
-//! The [Engine] does not run your game [State] directly.  Instead, the [State] is pushed onto the 
+//! The [Engine] does not run the [State] directly.  Instead, the [State] is pushed onto the 
 //! [StateStack], and is ran through it.  The [StateStack] stores and runs all active [State] 
 //! objects for the [Engine].
 //!
