@@ -219,9 +219,8 @@
 //! context.quit() // Will quit the Engine.
 //! ```
 //!
-//! In most cases you'll be using existing extensions, but this pattern makes it easy for 
-//! 3rd parties to add their own extensions to the [Context].  For example, adding your own 
-//! methods to the [Context] is fairly straight forward: 
+//! In most cases you'll be using existing extensions, but this pattern makes it easy to add custom
+//! extensions to the [Context].  For example:
 //!
 //! ```
 //! # use wolf_engine::*;
