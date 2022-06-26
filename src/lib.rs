@@ -83,7 +83,7 @@
 //! #### Multiple States 
 //!
 //! It is possible to have more than one [State] loaded and running at any given time as the 
-//! [Engine] does not run the [States](State) directly.  Instead, the [State] is pushed onto the  
+//! [Engine] does not run the [States](State) directly.  Instead, the [State] is pushed onto the 
 //! [StateStack] in order to allow multiple [State]s to be loaded at the same time.  The 
 //! [StateStack] stores and runs all currently-loaded [State] objects for the [Engine], and is 
 //! controlled by [Transitions](Transition) returned from the [State::update()] method.
