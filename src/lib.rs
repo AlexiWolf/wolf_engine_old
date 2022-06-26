@@ -88,17 +88,17 @@
 //! [StateStack] stores and runs all currently-loaded [State] objects for the [Engine], and is 
 //! controlled by [Transitions](Transition) returned from the [State::update()] method.
 //!
-//! When multiple [State]s are loaded, they all run together from bottom-to-top order.  A [State]
-//! which is below another [State] on the stack is considered to be a "background" or "deactivated"
-//! [State] while the topmost [State] is designated as the "foreground" or "active" [State].  A 
-//! background [State] will only have its [State::background_update()] and 
-//! [State::background_render()] methods called while the active [State] will have its 
+//! When multiple [States](State) are loaded, they all run together from bottom-to-top order.  A
+//! [State] which is below another [State] on the stack is considered to be a "background" or
+//! "deactivated" [State] while the topmost [State] is designated as the "foreground" or "active"
+//! [State].  A background [State] will only have its [State::background_update()] and
+//! [State::background_render()] methods called while the active [State] will have its
 //! [State::update()] and [State::render()] methods called.
 //! 
 //! #### Changing States
 //!
 //! A [Transition] is ([Optionally](OptionalTransition)) returned by [State::update()] and is used 
-//! to control the [StateStack] by pushing and popping [State]s on the [StateStack].
+//! to control the [StateStack] by pushing and popping [States](State) on the [StateStack].
 //!
 //! ```
 //! # use wolf_engine::*;
