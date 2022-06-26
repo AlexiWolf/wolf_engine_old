@@ -14,8 +14,8 @@
 //! ```
 //! 
 //! The [Engine] ships with sensible defaults to help you get up and running as quickly as possible.
-//! To get started with the default settings, use [Engine::new()] or [Engine::default()], then 
-//! run the engine by calling [Engine::run()], and passing your game's starting [State] to it.
+//! For default settings, use [Engine::new()] or [Engine::default()], then run by calling
+//! [Engine::run()] and passing your game's starting [State] to it.
 //!
 //! ```
 //! use wolf_engine::*;
