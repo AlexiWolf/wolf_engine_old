@@ -60,9 +60,6 @@
 //! logic and data for your game in a neat little package you can send to the [Engine].  When you
 //! start the [Engine], you pass your game's [State] it.
 //!
-//! The [Engine] does not run the [State] directly.  Instead, the [State] is pushed onto the 
-//! [StateStack], and is ran through it.  The [StateStack] stores and runs all active [State] 
-//! objects for the [Engine].
 //!
 //! An example of a simple game state:
 //!
@@ -85,10 +82,11 @@
 //!
 //! #### Multiple States 
 //!
-//! It is possible to have more than one [State] loaded and running at any given time.  The [Engine]
-//! employs [StateStack] to allow multiple [State]s to be loaded at the same time.  The [StateStack] 
-//! is controlled by the [State] through [Transitions](Transition) returned by the [State::update()]
-//! method.
+//! It is possible to have more than one [State] loaded and running at any given time as the 
+//! [Engine] does not run the [States](State) directly.  Instead, the [State] is pushed onto the  
+//! [StateStack] in order to allow multiple [State]s to be loaded at the same time.  The 
+//! [StateStack] stores and runs all currently-loaded [State] objects for the [Engine], and is 
+//! controlled by [Transitions](Transition) returned from the [State::update()] method.
 //!
 //! When multiple [State]s are loaded, they all run together from bottom-to-top order.  A [State]
 //! which is below another [State] on the stack is considered to be a "background" or "deactivated"
