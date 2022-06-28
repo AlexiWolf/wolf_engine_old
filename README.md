@@ -89,14 +89,10 @@ wolf_engine = "*"
 
 ### Usage 
 
-For basic usage, see:
-
- - [The Quickstart Example](https://github.com/AlexiWolf/wolf_engine/blob/main/examples/quickstart.rs)
- - [The Documentation](https://docs.rs/wolf_engine/latest/wolf_engine/) 
-
-And for more advanced usage, see:
-
- - [The Examples Folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples)
+[The documentation](https://docs.rs/wolf_engine/latest/wolf_engine/) details some of the basic concepts of the engine,
+while [the quick-start example](https://github.com/AlexiWolf/wolf_engine/blob/main/examples/quickstart.rs) and 
+[the examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) offer practical, and more advanced 
+usage examples.
 
 ## License
 
