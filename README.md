@@ -30,35 +30,30 @@ If you wish to contribute, please make sure you have read the [Contribution Guid
 ### Features
 
 These are the currently planned features for Wolf Engine.  Not all of them are ready yet, so this check-list is 
-provided to show you what is and is not ready, and to help you decide if Wolf Engine is right for your project.  
+provided to show you what is and is not ready.  
 
-- [x] Core 
-  - [x] Core Functions
+- [x] Core Engine 
+  - [x] Main Loop 
   - [x] Dynamic Context Data
-  - [x] Timing Controls (Schedulers)
+  - [x] Schedulers
   - [x] Game States
+  - [x] State Stack
   - [x] Plugins
-- [x] Event
-  - [x] Built-in (Core) Events
-  - [x] Custom Events
-- [x] Logging
+- [ ] Event System 
+  - [ ] Generic Event Queue
+  - [ ] Wolf Engine Events
+  - [ ] Custom Events
 - [ ] Input 
   - [ ] Keyboard / Mouse Input
   - [ ] Touch / Pen Input
   - [ ] Gamepad Input
-  - [ ] Input-to-Action Map
-- [ ] Window 
 - [ ] Graphics
-  - [ ] Low-level Graphics
-  - [ ] High-level 2D Graphics
-  - [ ] High-level 3D Graphics
-  - [ ] Shaders
-- [ ] Audio
-- [ ] Networking
-- [ ] FFI
-  - [ ] C / C++ Bindings
-  - [ ] Lua Scripting
-  - [ ] Python Scripting 
+  - [x] BYO Graphics System
+  - [ ] High-level Window System 
+  - [ ] High-level 2D Graphics API
+  - [ ] High-level 3D Graphics API
+- [ ] High-level Audio API
+- [ ] C / C++ Bindings
 
 ### Platform Support 
 
@@ -83,29 +78,12 @@ well supported.
 
 ## Getting Started
 
-### Installation
+[The documentation](https://docs.rs/wolf_engine/latest/wolf_engine/) details some of the basic concepts of the engine,
+while [the quick-start example](https://github.com/AlexiWolf/wolf_engine/blob/main/examples/quickstart.rs) and 
+[the examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) offer practical, and more advanced 
+usage examples.
 
-Add Wolf Engine to the dependencies section in your `Cargo.toml`:
-
-```TOML
-[dependencies]
-wolf_engine = "*"
-```
-
-### Usage 
-
-For basic usage, see:
-
- - [The Quickstart Example](https://github.com/AlexiWolf/wolf_engine/blob/main/examples/quickstart.rs)
- - [The Documentation](https://docs.rs/wolf_engine/latest/wolf_engine/) 
-
-And for more advanced usage, see:
-
- - [The Examples Folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples)
-
-## Contribution
-
-### License
+## License
 
 Wolf Engine is licensed under either
 
@@ -113,6 +91,8 @@ Wolf Engine is licensed under either
 - [MIT License](LICENSE-MIT)
 
 at your option.
+
+### Contribution
 
 Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work by you, as 
 defined in the Apache-2.0 license, shall be dual licensed as above, without additional terms or conditions.
