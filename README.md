@@ -32,33 +32,28 @@ If you wish to contribute, please make sure you have read the [Contribution Guid
 These are the currently planned features for Wolf Engine.  Not all of them are ready yet, so this check-list is 
 provided to show you what is and is not ready, and to help you decide if Wolf Engine is right for your project.  
 
-- [x] Core 
-  - [x] Core Functions
+- [x] Core Engine 
+  - [x] Main Loop 
   - [x] Dynamic Context Data
-  - [x] Timing Controls (Schedulers)
+  - [x] Schedulers
   - [x] Game States
+  - [x] State Stack
   - [x] Plugins
-- [x] Event
-  - [x] Built-in (Core) Events
-  - [x] Custom Events
-- [x] Logging
+- [ ] Event System 
+  - [ ] Generic Event Queue
+  - [ ] Wolf Engine Events
+  - [ ] Custom Events
 - [ ] Input 
   - [ ] Keyboard / Mouse Input
   - [ ] Touch / Pen Input
   - [ ] Gamepad Input
-  - [ ] Input-to-Action Map
-- [ ] Window 
 - [ ] Graphics
-  - [ ] Low-level Graphics
-  - [ ] High-level 2D Graphics
-  - [ ] High-level 3D Graphics
-  - [ ] Shaders
-- [ ] Audio
-- [ ] Networking
-- [ ] FFI
-  - [ ] C / C++ Bindings
-  - [ ] Lua Scripting
-  - [ ] Python Scripting 
+  - [x] BYO Graphics System
+  - [ ] High-level Window System 
+  - [ ] High-level 2D Graphics API
+  - [ ] High-level 3D Graphics API
+- [ ] High-level Audio API
+- [ ] C / C++ Bindings
 
 ### Platform Support 
 
