@@ -30,7 +30,7 @@ If you wish to contribute, please make sure you have read the [Contribution Guid
 ### Features
 
 These are the currently planned features for Wolf Engine.  Not all of them are ready yet, so this check-list is 
-provided to show you what is and is not ready, and to help you decide if Wolf Engine is right for your project.  
+provided to show you what is and is not ready.  
 
 - [x] Core Engine 
   - [x] Main Loop 
