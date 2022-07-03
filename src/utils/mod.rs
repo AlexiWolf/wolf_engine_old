@@ -2,15 +2,19 @@
 
 mod engine_controls;
 
+
+#[macro_use]
 mod profiling {
     #[macro_export]
     macro_rules! profile_function {
-        ($x:expr) => {};
+        () => ();
+        ($x:expr) => ();
     }
     
     #[macro_export]
     macro_rules! profile_scope {
-        ($x:expr) => {};
+        () => ();
+        ($x:expr) => (); 
     }
 }
 
