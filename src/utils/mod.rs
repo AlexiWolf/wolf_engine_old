@@ -3,6 +3,8 @@
 mod engine_controls;
 
 pub use engine_controls::*;
+
+#[cfg(feature = "profiling")]
 pub use puffin::{current_file_name, current_function_name, profile_function, profile_scope};
 
 /// Start a new [puffin] frame.
@@ -22,5 +24,6 @@ pub use puffin::{current_file_name, current_function_name, profile_function, pro
 /// }
 /// ```
 pub fn profile_new_frame() {
+    #[cfg(feature = "profiling")]
     puffin::GlobalProfiler::lock().new_frame();
 }
