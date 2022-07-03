@@ -44,13 +44,13 @@ macro_rules! profile_function {
 /// This macro is only active when the `profiling` feature is enabled.
 #[macro_export]
 macro_rules! profile_scope {
-    () => {
+    ($id:expr) => {
         #[cfg(feature = "profiling")]
-        puffin::profile_scope!();   
+        puffin::profile_scope!($id);   
     };
-    ($x:expr) => {
+    ($id:expr, $data:expr) => {
         #[cfg(feature = "profiling")]
-        puffin::profile_scope!($x);
+        puffin::profile_scope!($x, $data);
     };
 }
 
