@@ -14,14 +14,12 @@ use std::thread::sleep;
 use std::time::Duration;
 
 use wolf_engine::*;
-use wolf_engine::plugins::PuffinPlugin;
 
 pub fn main() {
     #[cfg(feature = "logging")]
     logging::initialize_logging(log::LevelFilter::Debug);
 
     EngineBuilder::new()
-        .with_plugin(Box::from(PuffinPlugin))
         .build()
         .expect("Failed to build the engine")
         .run(Box::from(GameState));
