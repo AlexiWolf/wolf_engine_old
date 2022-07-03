@@ -4,6 +4,30 @@ mod engine_controls;
 
 pub use engine_controls::*;
 
+/// Start a new [puffin] frame.
+///
+/// Equivalent to calling [puffin::GlobalProfiler::new_frame()].
+///
+/// # Examples
+///
+/// ```
+/// # use wolf_engine::*;
+/// #
+/// loop {
+///     profile_new_frame!(); // Start the new frame.
+///     profile_scope!("frame"); // Start the frame scope.
+///     // Update / Render / cool stuff.
+/// #   break;
+/// }
+/// ```
+#[macro_export]
+macro_rules! profile_new_frame {
+    () => {
+        #[cfg(feature = "profiling")]
+        puffin::GlobalProfiler::lock().new_frame();
+    };
+}
+
 #[macro_export]
 macro_rules! profile_function {
     () => {
@@ -28,26 +52,3 @@ macro_rules! profile_scope {
     };
 }
 
-/// Start a new [puffin] frame.
-///
-/// Equivalent to calling [puffin::GlobalProfiler::new_frame()].
-///
-/// # Examples
-///
-/// ```
-/// # use wolf_engine::*;
-/// #
-/// loop {
-///     profile_new_frame!(); // Start the new frame.
-///     profile_scope!("frame"); // Start the frame scope.
-///     // Update / Render / cool stuff.
-/// #   break;
-/// }
-/// ```
-#[macro_export]
-macro_rules! profile_new_frame {
-    () => {
-        #[cfg(feature = "profiling")]
-        puffin::GlobalProfiler::lock().new_frame();
-    };
-}
