@@ -2,8 +2,6 @@
 
 mod engine_controls;
 
-
-#[macro_use]
 mod profiling {
     #[macro_export]
     macro_rules! profile_function {
