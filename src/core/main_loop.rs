@@ -1,6 +1,6 @@
 //! Provides swapable [MainLoop] functions.
 
-use crate::Engine;
+use crate::*;
 
 #[cfg(test)]
 use mockall::automock;
@@ -74,7 +74,7 @@ impl MainLoop for DefaultMainLoop {
     fn run(&mut self, mut engine: Engine) -> Engine {
         while engine.is_running() {
             engine.start_frame();
-            puffin::profile_scope!("frame");
+            utils::profile_scope!("frame");
             engine.update();
             engine.render();
         }

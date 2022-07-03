@@ -1,9 +1,9 @@
 use std::mem::replace;
 
+use crate::*;
 use crate::plugins::CorePlugin;
 use crate::schedulers::FixedUpdateScheduler;
 use crate::utils::EngineControls;
-use crate::*;
 
 /// Provides the core functionality of the engine.
 ///
@@ -119,19 +119,19 @@ impl Engine {
 
     /// Triggers the start of a new frame.
     pub fn start_frame(&mut self) {
-        puffin::GlobalProfiler::lock().new_frame()
+        utils::profile_new_frame();
     }
 
     /// Runs a complete update of all engine and game state.
     pub fn update(&mut self) {
-        puffin::profile_scope!("update");
+        utils::profile_scope!("update");
         self.scheduler
             .update(&mut self.context, &mut self.state_stack);
     }
 
     /// Renders the current frame.
     pub fn render(&mut self) {
-        puffin::profile_scope!("render");
+        utils::profile_scope!("render");
         self.scheduler
             .render(&mut self.context, &mut self.state_stack);
     }

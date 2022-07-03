@@ -1,8 +1,10 @@
-use crate::contexts::SchedulerContext;
-use crate::{Context, Scheduler, State};
-use log::trace;
 use std::fmt::{Display, Formatter};
 use std::time::{Duration, Instant};
+
+use crate::*;
+use crate::contexts::SchedulerContext;
+
+use log::trace;
 
 /// Represents the number of ticks in a second (tps.)
 pub type TickRate = f64;
@@ -145,7 +147,7 @@ impl FixedUpdateScheduler {
 
     fn run_tick_loop(&mut self, state: &mut dyn State, context: &mut Context) {
         while self.can_run_a_tick() {
-            puffin::profile_scope!("tick");
+            utils::profile_scope!("tick");
             trace!("Running Tick: {}", self);
             self.tick(state, context);
         }
