@@ -13,9 +13,8 @@
 use std::thread::sleep;
 use std::time::Duration;
 
-use wolf_engine::plugins::PuffinPlugin;
-use wolf_engine::utils::{profile_function, profile_scope};
 use wolf_engine::*;
+use wolf_engine::plugins::PuffinPlugin;
 
 pub fn main() {
     #[cfg(feature = "logging")]
