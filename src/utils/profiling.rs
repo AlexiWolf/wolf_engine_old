@@ -2,7 +2,7 @@
 ///
 /// The [MainLoop](crate::MainLoop) should call this once per frame.
 ///
-/// This macro is only active when the `profiling` feature is enabled.
+/// The macro doesn't do anything unless the `profiling` feature is enabled.
 ///
 /// # Examples
 ///
@@ -26,7 +26,7 @@ macro_rules! profile_new_frame {
 
 /// Create a new profiler scope with the function name as the scope name.
 ///
-/// This macro is only active when the `profiling` feature is enabled.
+/// The macro doesn't do anything unless the `profiling` feature is enabled.
 #[macro_export]
 macro_rules! profile_function {
     () => {
@@ -34,14 +34,15 @@ macro_rules! profile_function {
         puffin::profile_function!();
     };
     ($data:expr) => {
-        #[cfg(feature = "profiling")]
-        puffin::profile_function!($data);
+        #[cfg(feature = "profiling")] puffin::profile_function!($data);
     };
 }
 
 /// Create a new profiler scope with a custom name.
 ///
-/// This macro is only active when the `profiling` feature is enabled.
+/// Scope names should be descriptive, ASCII and without spaces.
+///
+/// The macro doesn't do anything unless the `profiling` feature is enabled.
 #[macro_export]
 macro_rules! profile_scope {
     ($id:expr) => {
