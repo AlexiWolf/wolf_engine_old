@@ -44,7 +44,10 @@ macro_rules! profile_scope {
 /// #   break;
 /// }
 /// ```
-pub fn profile_new_frame() {
-    #[cfg(feature = "profiling")]
-    puffin::GlobalProfiler::lock().new_frame();
+#[macro_export]
+macro_rules! profile_new_frame {
+    () => {
+        #[cfg(feature = "profiling")]
+        puffin::GlobalProfiler::lock().new_frame();
+    };
 }
