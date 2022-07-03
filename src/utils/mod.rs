@@ -6,7 +6,7 @@ pub use engine_controls::*;
 
 /// Start a new profiler frame.
 ///
-/// The [MainLoop] should call this once per frame.
+/// The [MainLoop](crate::MainLoop) should call this once per frame.
 ///
 /// This macro is only active when the `profiling` feature is enabled.
 ///
