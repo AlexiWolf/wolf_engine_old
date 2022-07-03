@@ -119,7 +119,7 @@ impl Engine {
 
     /// Triggers the start of a new frame.
     pub fn start_frame(&mut self) {
-        utils::profile_new_frame();
+        profile_new_frame!();
     }
 
     /// Runs a complete update of all engine and game state.
