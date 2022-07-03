@@ -2,6 +2,8 @@
 
 mod engine_controls;
 
+pub use engine_controls::*;
+
 #[macro_export]
 macro_rules! profile_function {
     () => {
