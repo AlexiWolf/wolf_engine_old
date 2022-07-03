@@ -2,27 +2,29 @@
 
 mod engine_controls;
 
-mod profiling {
-    #[macro_export]
-    macro_rules! profile_function {
-        () => ();
-        ($x:expr) => ();
-    }
-    
-    #[macro_export]
-    macro_rules! profile_scope {
-        () => ();
-        ($x:expr) => (); 
-    }
+#[macro_export]
+macro_rules! profile_function {
+    () => {
+        #[cfg(feature = "profiling")]
+        puffin::profile_function!();
+    };
+    ($x:expr) => {
+        #[cfg(feature = "profiling")]
+        puffin::profile_function!($x)
+    };
 }
 
-pub use engine_controls::*;
-
-#[cfg(feature = "profiling")]
-pub use puffin::{profile_function, profile_scope};
-#[cfg(not(feature = "profiling"))]
-pub use profiling::*;
-
+#[macro_export]
+macro_rules! profile_scope {
+    () => {
+        #[cfg(feature = "profiling")]
+        puffin::profile_scope!();   
+    };
+    ($x:expr) => {
+        #[cfg(feature = "profiling")]
+        puffin::profile_scope!($x:expr);
+    };
+}
 
 /// Start a new [puffin] frame.
 ///
