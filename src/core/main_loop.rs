@@ -74,7 +74,7 @@ impl MainLoop for DefaultMainLoop {
     fn run(&mut self, mut engine: Engine) -> Engine {
         while engine.is_running() {
             engine.start_frame();
-            utils::profile_scope!("frame");
+            profile_scope!("frame");
             engine.update();
             engine.render();
         }

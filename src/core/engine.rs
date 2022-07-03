@@ -124,14 +124,14 @@ impl Engine {
 
     /// Runs a complete update of all engine and game state.
     pub fn update(&mut self) {
-        utils::profile_scope!("update");
+        profile_scope!("update");
         self.scheduler
             .update(&mut self.context, &mut self.state_stack);
     }
 
     /// Renders the current frame.
     pub fn render(&mut self) {
-        utils::profile_scope!("render");
+        profile_scope!("render");
         self.scheduler
             .render(&mut self.context, &mut self.state_stack);
     }

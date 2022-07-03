@@ -147,7 +147,7 @@ impl FixedUpdateScheduler {
 
     fn run_tick_loop(&mut self, state: &mut dyn State, context: &mut Context) {
         while self.can_run_a_tick() {
-            utils::profile_scope!("tick");
+            profile_scope!("tick");
             trace!("Running Tick: {}", self);
             self.tick(state, context);
         }
