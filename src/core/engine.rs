@@ -1,7 +1,7 @@
 use std::mem::replace;
 
 use crate::*;
-use crate::plugins::CorePlugin;
+use crate::plugins::{CorePlugin, PuffinPlugin};
 use crate::schedulers::FixedUpdateScheduler;
 use crate::utils::EngineControls;
 
@@ -266,6 +266,13 @@ impl EngineBuilder {
         self.engine.context.add(subcontext).unwrap();
         self
     }
+
+    fn load_default_plugins(mut self) -> Self {
+        self = self.with_plugin(Box::from(CorePlugin));
+        #[cfg(feature = "profiling")]
+        { self = self.with_plugin(Box::from(PuffinPlugin)); }
+        self
+    }
 }
 
 impl Default for EngineBuilder {
@@ -274,7 +281,7 @@ impl Default for EngineBuilder {
             engine: Engine::empty(),
             plugin_loader: PluginLoader::new(),
         }
-        .with_plugin(Box::from(CorePlugin))
+        .load_default_plugins()
         .with_main_loop(Box::from(DefaultMainLoop))
     }
 }
