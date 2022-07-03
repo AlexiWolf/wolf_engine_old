@@ -12,7 +12,7 @@ macro_rules! profile_function {
     };
     ($x:expr) => {
         #[cfg(feature = "profiling")]
-        puffin::profile_function!($x)
+        puffin::profile_function!($x);
     };
 }
 
@@ -24,7 +24,7 @@ macro_rules! profile_scope {
     };
     ($x:expr) => {
         #[cfg(feature = "profiling")]
-        puffin::profile_scope!($x:expr);
+        puffin::profile_scope!($x);
     };
 }
 
