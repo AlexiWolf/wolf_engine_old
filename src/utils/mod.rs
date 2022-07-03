@@ -4,9 +4,11 @@ mod engine_controls;
 
 pub use engine_controls::*;
 
-/// Start a new [puffin] frame.
+/// Start a new profiler frame.
 ///
-/// Equivalent to calling [puffin::GlobalProfiler::new_frame()].
+/// The [MainLoop] should call this once per frame.
+///
+/// This macro is only active when the `profiling` feature is enabled.
 ///
 /// # Examples
 ///
@@ -28,6 +30,9 @@ macro_rules! profile_new_frame {
     };
 }
 
+/// Create a new profiler scope with the function name as the scope name.
+///
+/// This macro is only active when the `profiling` feature is enabled.
 #[macro_export]
 macro_rules! profile_function {
     () => {
@@ -40,6 +45,9 @@ macro_rules! profile_function {
     };
 }
 
+/// Create a new profiler scope with a custom name.
+///
+/// This macro is only active when the `profiling` feature is enabled.
 #[macro_export]
 macro_rules! profile_scope {
     () => {
