@@ -2,10 +2,25 @@
 
 mod engine_controls;
 
+mod profiling {
+    #[macro_export]
+    macro_rules! profile_function {
+        ($x:expr) => {};
+    }
+    
+    #[macro_export]
+    macro_rules! profile_scope {
+        ($x:expr) => {};
+    }
+}
+
 pub use engine_controls::*;
 
 #[cfg(feature = "profiling")]
-pub use puffin::{current_file_name, current_function_name, profile_function, profile_scope};
+pub use puffin::{profile_function, profile_scope};
+#[cfg(not(feature = "profiling"))]
+pub use profiling::*;
+
 
 /// Start a new [puffin] frame.
 ///
