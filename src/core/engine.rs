@@ -1,7 +1,7 @@
 use std::mem::replace;
 
 use crate::*;
-use crate::plugins::{CorePlugin, PuffinPlugin};
+use crate::plugins::*;
 use crate::schedulers::FixedUpdateScheduler;
 use crate::utils::EngineControls;
 
