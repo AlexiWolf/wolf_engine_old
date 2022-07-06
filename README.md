@@ -40,7 +40,6 @@ provided to show you what is and is not ready.
   - [x] State Stack
   - [x] Plugins
 - [ ] Event System 
-  - [ ] Generic Event Queue
   - [ ] Wolf Engine Events
   - [ ] Custom Events
 - [ ] Input 
