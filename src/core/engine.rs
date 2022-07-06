@@ -1,6 +1,6 @@
 use std::mem::replace;
 
-use crate::plugins::CorePlugin;
+use crate::plugins::*;
 use crate::schedulers::FixedUpdateScheduler;
 use crate::utils::EngineControls;
 use crate::*;
@@ -119,19 +119,19 @@ impl Engine {
 
     /// Triggers the start of a new frame.
     pub fn start_frame(&mut self) {
-        puffin::GlobalProfiler::lock().new_frame()
+        profile_new_frame!();
     }
 
     /// Runs a complete update of all engine and game state.
     pub fn update(&mut self) {
-        puffin::profile_scope!("update");
+        profile_scope!("update");
         self.scheduler
             .update(&mut self.context, &mut self.state_stack);
     }
 
     /// Renders the current frame.
     pub fn render(&mut self) {
-        puffin::profile_scope!("render");
+        profile_scope!("render");
         self.scheduler
             .render(&mut self.context, &mut self.state_stack);
     }
@@ -266,6 +266,15 @@ impl EngineBuilder {
         self.engine.context.add(subcontext).unwrap();
         self
     }
+
+    fn load_default_plugins(mut self) -> Self {
+        self = self.with_plugin(Box::from(CorePlugin));
+        #[cfg(feature = "profiling")]
+        {
+            self = self.with_plugin(Box::from(PuffinPlugin));
+        }
+        self
+    }
 }
 
 impl Default for EngineBuilder {
@@ -274,7 +283,7 @@ impl Default for EngineBuilder {
             engine: Engine::empty(),
             plugin_loader: PluginLoader::new(),
         }
-        .with_plugin(Box::from(CorePlugin))
+        .load_default_plugins()
         .with_main_loop(Box::from(DefaultMainLoop))
     }
 }

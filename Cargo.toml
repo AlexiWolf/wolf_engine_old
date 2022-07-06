@@ -1,7 +1,7 @@
 [package]
 name = "wolf_engine"
 description = "A game framework with a focus on flexibility and ease of use."
-version = "0.20.0"
+version = "0.21.0"
 authors = ["AlexiWolf <alexiwolf@pm.me>"]
 edition = "2018"
 license = "MIT OR Apache-2.0"
@@ -12,13 +12,13 @@ homepage = "https://github.com/AlexiWolf/wolf_engine"
 log = "0.4"
 anymap = "0.12"
 rc_event_queue = "0.4"
-puffin = "0.13"
 anyhow = "1.0"
 
 # Optional Dependencies
 
 simple_logger = {version = "1.13", optional = true}
 puffin_http = {version = "0.10", optional = true}
+puffin = {version = "0.13", optional =true}
 
 [dev-dependencies]
 lazy_static= "1.4"
@@ -27,6 +27,6 @@ mockall = "0.11"
 
 [features]
 logging = ["simple_logger"]
-profiling = []
+profiling = ["puffin"]
 http_profiling = ["profiling", "puffin_http"]
 

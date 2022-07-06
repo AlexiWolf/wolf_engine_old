@@ -13,8 +13,6 @@
 use std::thread::sleep;
 use std::time::Duration;
 
-use wolf_engine::plugins::PuffinPlugin;
-use wolf_engine::utils::{profile_function, profile_scope};
 use wolf_engine::*;
 
 pub fn main() {
@@ -22,7 +20,6 @@ pub fn main() {
     logging::initialize_logging(log::LevelFilter::Debug);
 
     EngineBuilder::new()
-        .with_plugin(Box::from(PuffinPlugin))
         .build()
         .expect("Failed to build the engine")
         .run(Box::from(GameState));
