@@ -6,9 +6,7 @@ pub struct PuffinPlugin;
 impl Plugin for PuffinPlugin {
     #[allow(unused_mut)]
     fn setup(&mut self, mut engine_builder: EngineBuilder) -> PluginResult {
-        if cfg!(feature = "profiling") {
-            puffin::set_scopes_on(true);
-        }
+        puffin::set_scopes_on(true);
         #[cfg(feature = "http_profiling")]
         {
             engine_builder = enable_puffin_http(engine_builder);
