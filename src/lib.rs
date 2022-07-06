@@ -317,7 +317,6 @@
 mod core;
 
 pub mod contexts;
-pub mod event;
 pub mod plugins;
 pub mod schedulers;
 pub mod utils;
