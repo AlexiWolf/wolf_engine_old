@@ -290,10 +290,7 @@ impl Default for EngineBuilder {
 
 #[cfg(test)]
 mod engine_builder_tests {
-    use crate::{
-        contexts::{EventContext, SchedulerContext},
-        event::Event,
-    };
+    use crate::contexts::SchedulerContext;
 
     use super::*;
 
@@ -375,10 +372,6 @@ mod engine_builder_tests {
             .build()
             .expect("Failed to build the engine");
 
-        let _event_context = engine
-            .context
-            .borrow::<EventContext<Event>>()
-            .expect("failed to get EventContext<Event>");
         let _scheduler_context = engine
             .context
             .borrow::<SchedulerContext>()
