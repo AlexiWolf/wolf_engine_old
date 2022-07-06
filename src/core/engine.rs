@@ -1,9 +1,9 @@
 use std::mem::replace;
 
-use crate::*;
 use crate::plugins::*;
 use crate::schedulers::FixedUpdateScheduler;
 use crate::utils::EngineControls;
+use crate::*;
 
 /// Provides the core functionality of the engine.
 ///
@@ -270,7 +270,9 @@ impl EngineBuilder {
     fn load_default_plugins(mut self) -> Self {
         self = self.with_plugin(Box::from(CorePlugin));
         #[cfg(feature = "profiling")]
-        { self = self.with_plugin(Box::from(PuffinPlugin)); }
+        {
+            self = self.with_plugin(Box::from(PuffinPlugin));
+        }
         self
     }
 }
