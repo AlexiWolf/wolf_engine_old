@@ -26,6 +26,8 @@ impl<E> EventQueue<E> {
 
 #[cfg(test)]
 mod event_queue_tests {
+    use std::thread;
+
     pub use super::*;
 
     #[test]
@@ -42,6 +44,16 @@ mod event_queue_tests {
     pub fn should_send_events_through_a_sender() {
         let event_queue = EventQueue::new();
         let sender = event_queue.sender();
-
+    
+        sender.send(0).unwrap();
+        thread::spawn(move || {
+            sender.send(1).unwrap();
+        })
+            .join()
+            .unwrap();
+        
+        let events = event_queue.flush();
+        assert_eq!(events.get(0).unwrap(), &0);
+        assert_eq!(events.get(1).unwrap(), &1);
     }
 }
