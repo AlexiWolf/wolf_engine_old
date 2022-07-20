@@ -54,7 +54,7 @@ use std::sync::mpsc::{channel, Receiver, Sender};
 /// #
 /// # enum EventType { Event };
 /// #
-/// # let event_queue = EventQueue::new();
+/// # let event_queue = EventQueue::<i32>::new();
 /// #
 /// for event in event_queue.flush() {
 ///     // Handle events here.
