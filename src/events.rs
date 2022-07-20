@@ -91,6 +91,12 @@ impl<E> EventQueue<E> {
     }
 }
 
+impl<E> Default for EventQueue<E> {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 #[cfg(test)]
 mod event_queue_tests {
     use std::thread;
