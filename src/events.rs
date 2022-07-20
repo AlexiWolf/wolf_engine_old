@@ -56,4 +56,11 @@ mod event_queue_tests {
         assert_eq!(events.get(0).unwrap(), &0);
         assert_eq!(events.get(1).unwrap(), &1);
     }
+
+    #[test]
+    pub fn should_flush_empty_list_if_there_are_no_events() {
+        let event_queue = EventQueue::<i32>::new();
+
+        assert!(event_queue.flush().is_empty());
+    }
 }
