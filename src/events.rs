@@ -33,4 +33,10 @@ mod event_queue_tests {
 
         assert_eq!(events.get(0).expect("No event in the queue"), &0);
     }
+    
+    #[test]
+    pub fn should_send_events_through_a_sender() {
+        let event_queue = EventQueue::new();
+        let sender = event_queue.sender();
+    }
 }
