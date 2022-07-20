@@ -14,9 +14,13 @@ impl<E> EventQueue<E> {
         }
     }
 
-    pub fn send(&self, event: E) {}
+    pub fn send(&self, event: E) {
+        self.sender.send(event).unwrap();
+    }
 
-    pub fn flush(&self) -> Vec<E> { Vec::new() }
+    pub fn flush(&self) -> Vec<E> { 
+        Vec::new() 
+    }
 }
 
 #[cfg(test)]
