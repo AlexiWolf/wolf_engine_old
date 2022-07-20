@@ -1,9 +1,9 @@
 use std::sync::mpsc::{channel, Receiver, Sender};
 
 /// Provides a generic fifo, mpsc event queue based on [std::sync::mpsc].
-/// 
+///
 /// # Examples
-/// 
+///
 /// To create an `EventQueue`, use [EventQueue::new()].  You must specify the event type you wish
 /// to use, or allow Rust to figure it out based on usage.
 ///
@@ -15,7 +15,7 @@ use std::sync::mpsc::{channel, Receiver, Sender};
 /// let event_queue = EventQueue::<EventType>::new();
 /// ```
 ///
-/// Events can be sent directly through [EventQueue::send()] if you have direct access to the 
+/// Events can be sent directly through [EventQueue::send()] if you have direct access to the
 /// `EventQueue`.
 ///
 /// ```
@@ -27,9 +27,9 @@ use std::sync::mpsc::{channel, Receiver, Sender};
 /// event_queue.send(EventType::Event);
 /// ```
 ///
-/// The `EventQueue` itself cannot be sent across threads, so if you need to send events across 
-/// threads, you must create a [Sender] using [EventQueue::sender()].  A [Sender] can also be used 
-/// to send events from code which does not have direct access to the `EventQueue`. 
+/// The `EventQueue` itself cannot be sent across threads, so if you need to send events across
+/// threads, you must create a [Sender] using [EventQueue::sender()].  A [Sender] can also be used
+/// to send events from code which does not have direct access to the `EventQueue`.
 ///
 /// ```
 /// # use wolf_engine::events::EventQueue;
@@ -66,18 +66,17 @@ pub struct EventQueue<E> {
 }
 
 impl<E> EventQueue<E> {
-
     /// Creates a new event queue.
     pub fn new() -> Self {
         let (sender, receiver) = channel();
         Self { sender, receiver }
     }
-    
+
     /// Send an event to the event queue.
     pub fn send(&self, event: E) {
         self.sender.send(event).unwrap();
     }
-    
+
     /// Creates a new [Sender] from the event queue.
     ///
     /// A [Sender] can be created and moved to code to send events across threads, or to send
@@ -85,7 +84,7 @@ impl<E> EventQueue<E> {
     pub fn sender(&self) -> Sender<E> {
         self.sender.clone()
     }
-    
+
     /// Clears all events off the queue and returns them in a collection which can be iterated over.
     pub fn flush(&self) -> Vec<E> {
         self.receiver.try_iter().collect()
