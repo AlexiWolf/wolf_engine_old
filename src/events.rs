@@ -1,3 +1,10 @@
+pub struct EventQueue {}
+
+impl EventQueue {
+    pub fn new() -> Self {
+        Self {}
+    }
+}
 
 #[cfg(test)]
 mod event_queue_tests {
