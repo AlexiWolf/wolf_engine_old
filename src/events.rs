@@ -1,3 +1,5 @@
+//! Provides an event system for the engine.
+
 use std::sync::mpsc::{channel, Receiver, Sender};
 
 /// Provides a generic fifo, mpsc event queue based on [std::sync::mpsc].
