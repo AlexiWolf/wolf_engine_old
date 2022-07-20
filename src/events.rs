@@ -15,6 +15,10 @@ impl<E> EventQueue<E> {
         self.sender.send(event).unwrap();
     }
 
+    pub fn sender(&self) -> Sender<E> {
+        self.sender.clone()
+    }
+
     pub fn flush(&self) -> Vec<E> {
         self.receiver.try_iter().collect()
     }
@@ -38,5 +42,6 @@ mod event_queue_tests {
     pub fn should_send_events_through_a_sender() {
         let event_queue = EventQueue::new();
         let sender = event_queue.sender();
+
     }
 }
