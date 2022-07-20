@@ -13,5 +13,7 @@ mod event_queue_tests {
     #[test]
     pub fn should_send_and_receive_events() {
         let event_queue = EventQueue::new();
+
+        event_queue.send(0);
     }
 }
