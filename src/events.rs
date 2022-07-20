@@ -15,6 +15,8 @@ impl<E> EventQueue<E> {
     }
 
     pub fn send(&self, event: E) {}
+
+    pub fn flush(&self) -> Vec<E> { Vec::new() }
 }
 
 #[cfg(test)]
