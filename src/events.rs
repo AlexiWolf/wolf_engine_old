@@ -26,5 +26,7 @@ mod event_queue_tests {
         let event_queue = EventQueue::new();
 
         event_queue.send(0);
+
+        let events = event_queue.flush();
     }
 }
