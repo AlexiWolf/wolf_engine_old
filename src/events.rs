@@ -30,6 +30,6 @@ mod event_queue_tests {
         event_queue.send(0);
         let events = event_queue.flush();
 
-        assert_eq!(events.get(0).unwrap(), &0);
+        assert_eq!(events.get(0).expect("No event in the queue"), &0);
     }
 }
