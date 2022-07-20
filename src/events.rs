@@ -1,9 +1,20 @@
-pub struct EventQueue {}
+use std::sync::mpsc::{Sender, Receiver, channel};
 
-impl EventQueue {
+pub struct EventQueue<E> {
+    sender: Sender<E>,
+    receiver: Receiver<E>,
+}
+
+impl<E> EventQueue<E> {
     pub fn new() -> Self {
-        Self {}
+        let (sender, receiver) = channel();
+        Self {
+            sender,
+            receiver,
+        }
     }
+
+    pub fn send(&self, event: E) {}
 }
 
 #[cfg(test)]
