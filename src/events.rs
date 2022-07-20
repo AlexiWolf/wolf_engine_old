@@ -66,19 +66,27 @@ pub struct EventQueue<E> {
 }
 
 impl<E> EventQueue<E> {
+
+    /// Creates a new event queue.
     pub fn new() -> Self {
         let (sender, receiver) = channel();
         Self { sender, receiver }
     }
-
+    
+    /// Send an event to the event queue.
     pub fn send(&self, event: E) {
         self.sender.send(event).unwrap();
     }
-
+    
+    /// Creates a new [Sender] from the event queue.
+    ///
+    /// A [Sender] can be created and moved to code to send events across threads, or to send
+    /// events without direct access to the event queue.
     pub fn sender(&self) -> Sender<E> {
         self.sender.clone()
     }
-
+    
+    /// Clears all events off the queue and returns them in a collection which can be iterated over.
     pub fn flush(&self) -> Vec<E> {
         self.receiver.try_iter().collect()
     }
