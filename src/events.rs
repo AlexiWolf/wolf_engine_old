@@ -19,7 +19,7 @@ impl<E> EventQueue<E> {
     }
 
     pub fn flush(&self) -> Vec<E> { 
-        Vec::new() 
+        self.receiver.try_iter().collect()
     }
 }
 
