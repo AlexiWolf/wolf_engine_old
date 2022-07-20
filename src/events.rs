@@ -1,4 +1,4 @@
-use std::sync::mpsc::{Sender, Receiver, channel};
+use std::sync::mpsc::{channel, Receiver, Sender};
 
 pub struct EventQueue<E> {
     sender: Sender<E>,
@@ -8,24 +8,21 @@ pub struct EventQueue<E> {
 impl<E> EventQueue<E> {
     pub fn new() -> Self {
         let (sender, receiver) = channel();
-        Self {
-            sender,
-            receiver,
-        }
+        Self { sender, receiver }
     }
 
     pub fn send(&self, event: E) {
         self.sender.send(event).unwrap();
     }
 
-    pub fn flush(&self) -> Vec<E> { 
+    pub fn flush(&self) -> Vec<E> {
         self.receiver.try_iter().collect()
     }
 }
 
 #[cfg(test)]
 mod event_queue_tests {
-   pub use super::*;
+    pub use super::*;
 
     #[test]
     pub fn should_send_and_receive_events() {
