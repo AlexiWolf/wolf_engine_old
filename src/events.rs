@@ -1,5 +1,65 @@
 use std::sync::mpsc::{channel, Receiver, Sender};
 
+/// Provides a generic fifo, mpsc event queue based on [std::sync::mpsc].
+/// 
+/// # Examples
+/// 
+/// To create an `EventQueue`, use [EventQueue::new()].  You must specify the event type you wish
+/// to use, or allow Rust to figure it out based on usage.
+///
+/// ```
+/// # use wolf_engine::events::EventQueue;
+/// #
+/// # enum EventType { Event };
+/// #
+/// let event_queue = EventQueue::<EventType>::new();
+/// ```
+///
+/// Events can be sent directly through [EventQueue::send()] if you have direct access to the 
+/// `EventQueue`.
+///
+/// ```
+/// # use wolf_engine::events::EventQueue;
+/// #
+/// # enum EventType { Event };
+/// #
+/// let event_queue = EventQueue::new();
+/// event_queue.send(EventType::Event);
+/// ```
+///
+/// The `EventQueue` itself cannot be sent across threads, so if you need to send events across 
+/// threads, you must create a [Sender] using [EventQueue::sender()].  A [Sender] can also be used 
+/// to send events from code which does not have direct access to the `EventQueue`. 
+///
+/// ```
+/// # use wolf_engine::events::EventQueue;
+/// #
+/// # enum EventType { Event };
+/// #
+/// let event_queue = EventQueue::new();
+/// let event_sender = event_queue.sender();
+///
+/// std::thread::spawn(move || {
+///     event_sender.send(EventType::Event).unwrap();
+/// })
+/// # .join()
+/// # .unwrap();
+/// ```
+///
+/// Queued events can be accessed by calling [EventQueue::flush()] this will clear all events from
+/// the queue and return them in a collection which can be iterated over.
+///
+/// ```
+/// # use wolf_engine::events::EventQueue;
+/// #
+/// # enum EventType { Event };
+/// #
+/// # let event_queue = EventQueue::new();
+/// #
+/// for event in event_queue.flush() {
+///     // Handle events here.
+/// }
+/// ```
 pub struct EventQueue<E> {
     sender: Sender<E>,
     receiver: Receiver<E>,
