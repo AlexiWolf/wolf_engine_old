@@ -130,4 +130,9 @@ mod event_queue_tests {
 
         assert!(event_queue.flush().is_empty());
     }
+
+    #[test]
+    pub fn should_implement_default_trait() {
+        let _event_queue = EventQueue::<i32>::default();
+    }
 }
