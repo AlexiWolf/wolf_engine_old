@@ -2,6 +2,44 @@
 
 use std::sync::mpsc::{channel, Receiver, Sender};
 
+/// Provides a set of convenience methods to aid in working with multiple [EventQueues](EventQueue).
+///
+/// The main intention for this trait is to provide additional methods to [Context], allowing users
+/// to avoid having to manually borrow the [EventQueue] they want to work with.  For example,
+/// instead of:
+///
+/// ```
+/// # use wolf_engine::*;
+/// #
+/// # let mut context = Context::new();
+/// # let event_queue = EventQueue::<i32>::new();
+/// # context.add(event_queue);
+/// #
+/// let number_station = context.borrow::<EventQueue<i32>>().unwrap();
+/// 
+/// number_station.push(123);
+///
+/// for number in number_station.flush() {
+///     /// Do something cool.
+/// }
+/// ```
+/// You can instead use the new [Context] methods directly:
+///
+/// ```
+/// # use wolf_engine::*;
+/// #
+/// # let mut context = Context::new();
+/// # let event_queue = EventQueue::<i32>::new();
+/// # context.add(event_queue);
+/// #
+/// context.push_event(123);
+///
+/// for number in context.flush_events::<i32>() {
+///     /// Do something cool.
+/// }
+/// ```
+pub trait EventControls {}
+
 /// Provides a generic fifo, mpsc event queue based on [std::sync::mpsc].
 ///
 /// # Examples
