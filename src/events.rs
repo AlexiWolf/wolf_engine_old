@@ -100,6 +100,28 @@ pub trait EventControls {}
 ///     // Handle events here.
 /// }
 /// ```
+///
+/// # [Context] Integrations
+///
+/// The `EventQueue` is designed to be easily used used with the [Context].  First, it is marked 
+/// as a [Subcontext], allowing you to attach an `EventQueue` directly to the [Context] object.
+/// 
+/// ```
+/// # use wolf_engine::*;
+/// #
+/// # let mut context = Context::new();
+/// #
+/// let number_station = EventQueue::<i32>::new();
+/// context.add(number_station);
+/// 
+/// let _number_station = context.borrow::<EventQueue<i32>>().unwrap();
+/// ```
+///
+/// Second, the [EventControls] trait provides [EventQueue] methods usable directly on the 
+/// [Context].
+///
+/// Todo: Add usage examples.
+///
 pub struct EventQueue<E> {
     sender: Sender<E>,
     receiver: Receiver<E>,
