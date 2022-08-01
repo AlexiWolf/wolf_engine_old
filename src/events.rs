@@ -20,7 +20,7 @@ use std::sync::mpsc::{channel, Receiver, Sender};
 /// number_station.push(123);
 ///
 /// for number in number_station.flush() {
-///     /// Do something cool.
+///     // Do something cool.
 /// }
 /// ```
 /// You can instead use the new [Context] methods directly:
