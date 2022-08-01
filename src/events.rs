@@ -74,6 +74,8 @@ impl EventControls for Context {
     }
 }
 
+pub struct NoEventQueueError;
+
 #[cfg(test)]
 mod event_controls_context_implementation_tests {
     use super::*;
