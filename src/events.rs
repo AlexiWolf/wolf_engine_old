@@ -42,6 +42,9 @@ use crate::*;
 ///     // Do something cool.
 /// }
 /// ```
+///
+/// While this trait is intended to extend the [Context], it may be used to extend any type which 
+/// needs to interact with an [EventQueue].
 pub trait EventControls {
     fn send_event<E: 'static>(&self, event: E);
     fn flush_events<E: 'static>(&self) -> Vec<E>;
