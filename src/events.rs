@@ -74,6 +74,8 @@ impl EventControls for Context {
     }
 }
 
+
+#[derive(Debug)]
 pub struct NoEventQueueError;
 
 #[cfg(test)]
