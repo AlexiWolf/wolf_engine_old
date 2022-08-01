@@ -2,6 +2,8 @@
 
 use std::sync::mpsc::{channel, Receiver, Sender};
 
+use crate::Subcontext;
+
 /// Provides a set of convenience methods to aid in working with multiple [EventQueues](EventQueue).
 ///
 /// The main intention for this trait is to provide additional methods to [Context], allowing users
@@ -160,6 +162,8 @@ impl<E> Default for EventQueue<E> {
         Self::new()
     }
 }
+
+impl<E: 'static> Subcontext for EventQueue<E> {}
 
 #[cfg(test)]
 mod event_queue_tests {
