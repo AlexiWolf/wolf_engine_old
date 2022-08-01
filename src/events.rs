@@ -19,7 +19,7 @@ use crate::*;
 /// # context.add(event_queue);
 /// #
 /// let number_station = context.borrow::<EventQueue<i32>>().unwrap();
-/// 
+///
 /// number_station.send(123);
 ///
 /// for number in number_station.flush() {
@@ -43,7 +43,7 @@ use crate::*;
 /// }
 /// ```
 ///
-/// While this trait is intended to extend the [Context], it may be used to extend any type which 
+/// While this trait is intended to extend the [Context], it may be used to extend any type which
 /// needs to interact with an [EventQueue].
 pub trait EventControls {
     fn send_event<E: 'static>(&self, event: E);
@@ -54,7 +54,8 @@ pub trait EventControls {
 
 impl EventControls for Context {
     fn send_event<E: 'static>(&self, event: E) {
-        let event_queue = self.borrow::<EventQueue<E>>()
+        let event_queue = self
+            .borrow::<EventQueue<E>>()
             .expect("There is no EventQueue of the requested type");
         event_queue.send(event);
     }
@@ -69,7 +70,8 @@ impl EventControls for Context {
     }
 
     fn flush_events<E: 'static>(&self) -> Vec<E> {
-        let event_queue = self.borrow::<EventQueue<E>>()
+        let event_queue = self
+            .borrow::<EventQueue<E>>()
             .expect("There is no EventQueue of the requested type");
         event_queue.flush()
     }
@@ -82,7 +84,6 @@ impl EventControls for Context {
         }
     }
 }
-
 
 #[derive(Debug)]
 pub struct NoEventQueueError;
@@ -98,7 +99,9 @@ mod event_controls_context_implementation_tests {
 
         context.send_event(10 as i32);
         let events = context.flush_events::<i32>();
-        let number = events.get(0).expect("Failed to access the number in the event queue");
+        let number = events
+            .get(0)
+            .expect("Failed to access the number in the event queue");
 
         assert_eq!(number, &10);
     }
@@ -122,9 +125,15 @@ mod event_controls_context_implementation_tests {
         let mut context = Context::new();
         context.add(EventQueue::<i32>::new()).unwrap();
 
-        context.try_send_event(10).expect("Failed to send the event");
-        let events = context.try_flush_events::<i32>().expect("Failed to flush events");
-        let number = events.get(0).expect("Failed to access the number in the event queue");
+        context
+            .try_send_event(10)
+            .expect("Failed to send the event");
+        let events = context
+            .try_flush_events::<i32>()
+            .expect("Failed to flush events");
+        let number = events
+            .get(0)
+            .expect("Failed to access the number in the event queue");
 
         assert_eq!(number, &10);
     }
@@ -132,12 +141,18 @@ mod event_controls_context_implementation_tests {
     #[test]
     fn should_return_err_from_try_methods_when_there_is_no_event_queue() {
         let context = Context::new();
-        
+
         let send_result = context.try_send_event(10);
         let flush_result = context.try_flush_events::<i32>();
 
-        assert!(send_result.is_err(), "Expected a NoEventQueueError, but was Ok");
-        assert!(flush_result.is_err(), "Expected a NoEventQueueError, but was Ok");
+        assert!(
+            send_result.is_err(),
+            "Expected a NoEventQueueError, but was Ok"
+        );
+        assert!(
+            flush_result.is_err(),
+            "Expected a NoEventQueueError, but was Ok"
+        );
     }
 }
 
@@ -204,11 +219,11 @@ mod event_controls_context_implementation_tests {
 ///
 /// # [Context] Integrations
 ///
-/// The `EventQueue` is designed to be easily used with the [Context].  First, it is marked 
+/// The `EventQueue` is designed to be easily used with the [Context].  First, it is marked
 /// as a [Subcontext], allowing you to attach an `EventQueue` directly to the [Context] object.  
 ///
 /// You can add, then access the `EventQueue` same as any other [Subcontext]:
-/// 
+///
 /// ```
 /// # use wolf_engine::*;
 /// # use wolf_engine::events::*;
@@ -217,7 +232,7 @@ mod event_controls_context_implementation_tests {
 /// #
 /// let number_station = EventQueue::<i32>::new();
 /// context.add(number_station);
-/// 
+///
 /// let _number_station = context.borrow::<EventQueue<i32>>().unwrap();
 /// ```
 ///
@@ -240,10 +255,10 @@ mod event_controls_context_implementation_tests {
 /// }
 /// ```
 ///
-/// **Note:** Because [EventControls::send_event()], and [EventControls::flush_events()] will panic 
+/// **Note:** Because [EventControls::send_event()], and [EventControls::flush_events()] will panic
 /// if an `EventQueue` of type `E` is not present, you may want to use [EventQueue::try_send_event()]
 /// and [EventQueue::try_flush_events()] instead.
-/// 
+///
 /// ```
 /// # use wolf_engine::*;
 /// # use wolf_engine::events::*;
