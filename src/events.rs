@@ -107,6 +107,18 @@ mod event_controls_context_implementation_tests {
         let context = Context::new();
         let _events = context.flush_events::<i32>();
     }
+
+    #[test]
+    fn should_send_and_receive_events_through_try_methods() {
+        let mut context = Context::new();
+        context.add(EventQueue::<i32>::new()).unwrap();
+
+        context.try_send_event(10).expect("Failed to send the event");
+        let events = context.try_flush_events::<i32>().expect("Failed to flush events");
+        let number = events.get(0).expect("Failed to access the number in the event queue");
+
+        assert_eq!(number, &10);
+    }
 }
 
 /// Provides a generic, fifo, mpsc event queue based on [std::sync::mpsc].
