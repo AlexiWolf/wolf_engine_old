@@ -2,7 +2,7 @@
 
 use std::sync::mpsc::{channel, Receiver, Sender};
 
-use crate::Subcontext;
+use crate::*;
 
 /// Provides a set of convenience methods to aid in working with multiple [EventQueues](EventQueue).
 ///
