@@ -57,6 +57,23 @@ impl EventControls for Context {
     }
 }
 
+#[cfg(test)]
+mod event_controls_context_implementation_tests {
+    use super::*;
+
+    #[test]
+    fn should_send_and_receive_events_through_the_context() {
+        let mut context = Context::new();
+        context.add(EventQueue::<i32>::new()).unwrap();
+
+        context.send_event(10 as i32);
+        let events = context.flush_events::<i32>();
+        let number = events.get(0).expect("Failed to access the number in the event queue");
+
+        assert_eq!(number, &10);
+    }
+}
+
 /// Provides a generic fifo, mpsc event queue based on [std::sync::mpsc].
 ///
 /// # Examples
