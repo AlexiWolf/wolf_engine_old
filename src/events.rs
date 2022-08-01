@@ -20,7 +20,7 @@ use crate::*;
 /// #
 /// let number_station = context.borrow::<EventQueue<i32>>().unwrap();
 /// 
-/// number_station.send_event(123);
+/// number_station.send(123);
 ///
 /// for number in number_station.flush() {
 ///     // Do something cool.
@@ -49,6 +49,7 @@ pub trait EventControls {
 
 impl EventControls for Context {
     fn send_event<E>(&self, event: E) {
+
     }
 
     fn flush_events<E>(&self) -> Vec<E> {
