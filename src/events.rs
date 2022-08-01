@@ -55,7 +55,9 @@ impl EventControls for Context {
     }
 
     fn flush_events<E: 'static>(&self) -> Vec<E> {
-        Vec::new()
+        let event_queue = self.borrow::<EventQueue<E>>()
+            .expect("There is no EventQueue of the requested type");
+        event_queue.flush()
     }
 }
 
