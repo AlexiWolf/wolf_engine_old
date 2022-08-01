@@ -43,18 +43,18 @@ use crate::*;
 /// }
 /// ```
 pub trait EventControls {
-    fn send_event<E>(&self, event: E);
-    fn flush_events<E>(&self) -> Vec<E>;
+    fn send_event<E: 'static>(&self, event: E);
+    fn flush_events<E: 'static>(&self) -> Vec<E>;
 }
 
 impl EventControls for Context {
-    fn send_event<E>(&self, event: E) {
+    fn send_event<E: 'static>(&self, event: E) {
         let event_queue = self.borrow::<EventQueue<E>>()
             .expect("There is no EventQueue of the requested type");
         event_queue.send(event);
     }
 
-    fn flush_events<E>(&self) -> Vec<E> {
+    fn flush_events<E: 'static>(&self) -> Vec<E> {
         Vec::new()
     }
 }
