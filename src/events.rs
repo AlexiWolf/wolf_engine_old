@@ -27,6 +27,7 @@ use std::sync::mpsc::{channel, Receiver, Sender};
 ///
 /// ```
 /// # use wolf_engine::*;
+/// # use wolf_engine::event::*;
 /// #
 /// # let mut context = Context::new();
 /// # let event_queue = EventQueue::<i32>::new();
