@@ -42,7 +42,10 @@ use crate::*;
 ///     // Do something cool.
 /// }
 /// ```
-pub trait EventControls {}
+pub trait EventControls {
+    fn send_event<E>(event: E);
+    fn flush_events<E>() -> Vec<E>;
+}
 
 /// Provides a generic fifo, mpsc event queue based on [std::sync::mpsc].
 ///
