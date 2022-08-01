@@ -60,7 +60,12 @@ impl EventControls for Context {
     }
 
     fn try_send_event<E: 'static>(&self, event: E) -> Result<(), NoEventQueueError> {
-        Ok(())
+        if let Some(event_queue) = self.borrow::<EventQueue<E>>() {
+            event_queue.send(event);
+            Ok(())
+        } else {
+            Err(NoEventQueueError)
+        }
     }
 
     fn flush_events<E: 'static>(&self) -> Vec<E> {
