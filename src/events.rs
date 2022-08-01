@@ -47,6 +47,15 @@ pub trait EventControls {
     fn flush_events<E>() -> Vec<E>;
 }
 
+impl EventControls for Context {
+    fn send_event<E>(event: E) {
+    }
+
+    fn flush_events<E>() -> Vec<E> {
+        Vec::new()
+    }
+}
+
 /// Provides a generic fifo, mpsc event queue based on [std::sync::mpsc].
 ///
 /// # Examples
