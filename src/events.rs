@@ -35,7 +35,7 @@ use std::sync::mpsc::{channel, Receiver, Sender};
 /// context.push_event(123);
 ///
 /// for number in context.flush_events::<i32>() {
-///     /// Do something cool.
+///     // Do something cool.
 /// }
 /// ```
 pub trait EventControls {}
