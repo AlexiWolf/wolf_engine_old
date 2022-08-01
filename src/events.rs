@@ -47,7 +47,9 @@ use crate::*;
 /// needs to interact with an [EventQueue].
 pub trait EventControls {
     fn send_event<E: 'static>(&self, event: E);
+    fn try_send_event<E: 'static>(&self, event: E) -> Result<(), NoEventQueueError>;
     fn flush_events<E: 'static>(&self) -> Vec<E>;
+    fn try_flush_events<E: 'static>(&self) -> Result<Vec<E>, NoEventQueueError>;
 }
 
 impl EventControls for Context {
