@@ -93,6 +93,13 @@ mod event_controls_context_implementation_tests {
 
         assert_eq!(number, &10);
     }
+
+    #[test]
+    #[should_panic(expected = "There is no EventQueue of the requested type")]
+    fn should_panic_when_sending_events_if_there_is_no_event_queue() {
+        let context = Context::new();
+        context.send_event(10);
+    }
 }
 
 /// Provides a generic, fifo, mpsc event queue based on [std::sync::mpsc].
