@@ -20,7 +20,7 @@ use crate::*;
 /// #
 /// let number_station = context.borrow::<EventQueue<i32>>().unwrap();
 /// 
-/// number_station.push(123);
+/// number_station.send_event(123);
 ///
 /// for number in number_station.flush() {
 ///     // Do something cool.
@@ -36,7 +36,7 @@ use crate::*;
 /// # let event_queue = EventQueue::<i32>::new();
 /// # context.add(event_queue);
 /// #
-/// context.push_event(123);
+/// context.send_event(123);
 ///
 /// for number in context.flush_events::<i32>() {
 ///     // Do something cool.
