@@ -43,15 +43,15 @@ use crate::*;
 /// }
 /// ```
 pub trait EventControls {
-    fn send_event<E>(event: E);
-    fn flush_events<E>() -> Vec<E>;
+    fn send_event<E>(&self, event: E);
+    fn flush_events<E>(&self) -> Vec<E>;
 }
 
 impl EventControls for Context {
-    fn send_event<E>(event: E) {
+    fn send_event<E>(&self, event: E) {
     }
 
-    fn flush_events<E>() -> Vec<E> {
+    fn flush_events<E>(&self) -> Vec<E> {
         Vec::new()
     }
 }
