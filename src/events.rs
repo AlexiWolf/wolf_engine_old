@@ -128,6 +128,17 @@ mod event_controls_context_implementation_tests {
 
         assert_eq!(number, &10);
     }
+
+    #[test]
+    fn should_return_err_from_try_methods_when_there_is_no_event_queue() {
+        let context = Context::new();
+        
+        let send_result = context.try_send_event(10);
+        let flush_result = context.try_flush_events::<i32>();
+
+        assert!(send_result.is_err(), "Expected a NoEventQueueError, but was Ok");
+        assert!(flush_result.is_err(), "Expected a NoEventQueueError, but was Ok");
+    }
 }
 
 /// Provides a generic, fifo, mpsc event queue based on [std::sync::mpsc].
