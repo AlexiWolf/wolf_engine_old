@@ -49,7 +49,9 @@ pub trait EventControls {
 
 impl EventControls for Context {
     fn send_event<E>(&self, event: E) {
-
+        let event_queue = self.borrow::<EventQueue<E>>()
+            .expect("There is no EventQueue of the requested type");
+        event_queue.send(event);
     }
 
     fn flush_events<E>(&self) -> Vec<E> {
