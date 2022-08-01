@@ -75,7 +75,11 @@ impl EventControls for Context {
     }
 
     fn try_flush_events<E: 'static>(&self) -> Result<Vec<E>, NoEventQueueError> {
-        Ok(Vec::new())
+        if let Some(event_queue) = self.borrow::<EventQueue<E>>() {
+            Ok(event_queue.flush())
+        } else {
+            Err(NoEventQueueError)
+        }
     }
 }
 
