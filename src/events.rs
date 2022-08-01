@@ -81,7 +81,7 @@ mod event_controls_context_implementation_tests {
     }
 }
 
-/// Provides a generic fifo, mpsc event queue based on [std::sync::mpsc].
+/// Provides a generic, fifo, mpsc event queue based on [std::sync::mpsc].
 ///
 /// # Examples
 ///
@@ -144,8 +144,10 @@ mod event_controls_context_implementation_tests {
 ///
 /// # [Context] Integrations
 ///
-/// The `EventQueue` is designed to be easily used used with the [Context].  First, it is marked 
-/// as a [Subcontext], allowing you to attach an `EventQueue` directly to the [Context] object.
+/// The `EventQueue` is designed to be easily used with the [Context].  First, it is marked 
+/// as a [Subcontext], allowing you to attach an `EventQueue` directly to the [Context] object.  
+///
+/// You can add, then access the `EventQueue` same as any other [Subcontext]:
 /// 
 /// ```
 /// # use wolf_engine::*;
@@ -159,11 +161,45 @@ mod event_controls_context_implementation_tests {
 /// let _number_station = context.borrow::<EventQueue<i32>>().unwrap();
 /// ```
 ///
-/// Second, the [EventControls] trait provides [EventQueue] methods usable directly on the 
-/// [Context].
+/// The [EventControls] trait provides `EventQueue` methods usable directly on the [Context].  
+/// These methods use the data type (`E`) you provide to figure out which `EventQueue` to use.
+/// For example:
 ///
-/// Todo: Add usage examples.
+/// ```
+/// # use wolf_engine::*;
+/// # use wolf_engine::events::*;
+/// #
+/// # let mut context = Context::new();
+/// # let event_queue = EventQueue::<i32>::new();
+/// # context.add(event_queue);
+/// #
+/// context.send_event(123);
 ///
+/// for number in context.flush_events::<i32>() {
+///     // Do something cool.
+/// }
+/// ```
+///
+/// **Note:** Because [EventControls::send_event()], and [EventControls::flush_events()] will panic 
+/// if an `EventQueue` of type `E` is not present, you may want to use [EventQueue::try_send_event()]
+/// and [EventQueue::try_flush_events()] instead.
+/// 
+/// ```
+/// # use wolf_engine::*;
+/// # use wolf_engine::events::*;
+/// #
+/// # let mut context = Context::new();
+/// # let event_queue = EventQueue::<i32>::new();
+/// # context.add(event_queue);
+/// #
+/// context.try_send_event(123).unwrap();
+///
+/// if let Ok(events) = context.try_flush_events::<i32>() {
+///     for event in events {
+///         // Do something cool.
+///     }
+/// }
+/// ```
 pub struct EventQueue<E> {
     sender: Sender<E>,
     receiver: Receiver<E>,
