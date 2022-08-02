@@ -275,6 +275,24 @@ mod event_controls_context_implementation_tests {
 ///     }
 /// }
 /// ```
+/// It's also possible to get a [Sender] using [EventControls::event_sender()]:
+/// 
+/// ```
+/// # use wolf_engine::*;
+/// # use wolf_engine::events::*;
+/// #
+/// # let mut context = Context::new();
+/// # let event_queue = EventQueue::<i32>::new();
+/// # context.add(event_queue);
+/// #
+/// let sender = context.event_sender::<i32>().unwrap();
+/// sender.send(10).unwrap();
+///
+/// if let Ok(events) = context.try_flush_events::<i32>() {
+///     for event in events {
+///         // Do something cool.
+///     }
+/// }
 pub struct EventQueue<E> {
     sender: Sender<E>,
     receiver: Receiver<E>,
