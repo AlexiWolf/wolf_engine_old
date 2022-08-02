@@ -256,8 +256,8 @@ mod event_controls_context_implementation_tests {
 /// ```
 ///
 /// **Note:** Because [EventControls::send_event()], and [EventControls::flush_events()] will panic
-/// if an `EventQueue` of type `E` is not present, you may want to use [EventQueue::try_send_event()]
-/// and [EventQueue::try_flush_events()] instead.
+/// if an `EventQueue` of type `E` is not present, you may want to use 
+/// [EventControls::try_send_event()] and [EventControls::try_flush_events()] instead.
 ///
 /// ```
 /// # use wolf_engine::*;
