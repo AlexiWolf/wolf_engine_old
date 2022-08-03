@@ -50,13 +50,13 @@ pub trait EventControls {
     ///
     /// # Panics
     ///
-    /// This method will panic if there is no [EventQueue] of type `E`.  If you want to avoid 
+    /// This method will panic if there is no [EventQueue] of type `E`.  If you want to avoid
     /// a panic, you should use [EventControls::try_send_event()] instead.
     fn send_event<E: 'static>(&self, event: E);
 
     /// Send an event through an [EventQueue] similar to [EventQueue::send()].
     ///
-    /// This method will return an [NoEventQueueError] instead of panicking if there is no 
+    /// This method will return an [NoEventQueueError] instead of panicking if there is no
     /// [EventQueue] of type `E`.
     fn try_send_event<E: 'static>(&self, event: E) -> Result<(), NoEventQueueError>;
 
@@ -64,14 +64,13 @@ pub trait EventControls {
     ///
     /// # Panics
     ///
-    /// This method will panic if there is no [EventQueue] of type `E`.  If you want to avoid 
+    /// This method will panic if there is no [EventQueue] of type `E`.  If you want to avoid
     /// a panic, you should use [EventControls::try_flush_events()] instead.
     fn flush_events<E: 'static>(&self) -> Vec<E>;
 
-
     /// Clear all events off an [EventQueue] and return them similar to [EventQueue::flush()].
     ///
-    /// This method will return an [NoEventQueueError] instead of panicking if there is no 
+    /// This method will return an [NoEventQueueError] instead of panicking if there is no
     /// [EventQueue] of type `E`.
     fn try_flush_events<E: 'static>(&self) -> Result<Vec<E>, NoEventQueueError>;
 
@@ -97,7 +96,7 @@ impl EventControls for Context {
             Err(NoEventQueueError)
         }
     }
-    
+
     fn flush_events<E: 'static>(&self) -> Vec<E> {
         let event_queue = self
             .borrow::<EventQueue<E>>()
@@ -114,7 +113,8 @@ impl EventControls for Context {
     }
 
     fn event_sender<E: 'static>(&self) -> Option<Sender<E>> {
-        self.borrow::<EventQueue<E>>().map(|event_queue| event_queue.sender())
+        self.borrow::<EventQueue<E>>()
+            .map(|event_queue| event_queue.sender())
     }
 }
 
