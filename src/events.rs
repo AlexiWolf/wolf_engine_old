@@ -84,7 +84,7 @@ impl EventControls for Context {
             Err(NoEventQueueError)
         }
     }
-    
+
     fn event_sender<E: 'static>(&self) -> Option<Sender<E>> {
         if let Some(event_queue) = self.borrow::<EventQueue<E>>() {
             Some(event_queue.sender())
@@ -265,7 +265,7 @@ mod event_controls_context_implementation_tests {
 /// ```
 ///
 /// **Note:** Because [EventControls::send_event()], and [EventControls::flush_events()] will panic
-/// if an `EventQueue` of type `E` is not present, you may want to use 
+/// if an `EventQueue` of type `E` is not present, you may want to use
 /// [EventControls::try_send_event()] and [EventControls::try_flush_events()] instead.
 ///
 /// ```
@@ -285,7 +285,7 @@ mod event_controls_context_implementation_tests {
 /// }
 /// ```
 /// It's also possible to get a [Sender] using [EventControls::event_sender()]:
-/// 
+///
 /// ```
 /// # use wolf_engine::*;
 /// # use wolf_engine::events::*;
