@@ -118,6 +118,7 @@ impl EventControls for Context {
     }
 }
 
+/// Provides an error indicating there was no [EventQueue] of a requested type.
 #[derive(Debug)]
 pub struct NoEventQueueError;
 
