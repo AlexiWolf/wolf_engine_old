@@ -84,6 +84,10 @@ impl EventControls for Context {
             Err(NoEventQueueError)
         }
     }
+    
+    fn event_sender<E: 'static>(&self) -> Option<Sender<E>> {
+        None 
+    }
 }
 
 #[derive(Debug)]
