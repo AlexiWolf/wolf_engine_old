@@ -46,10 +46,38 @@ use crate::*;
 /// While this trait is intended to extend the [Context], it may be used to extend any type which
 /// needs to interact with an [EventQueue].
 pub trait EventControls {
+    /// Send an event through an [EventQueue] similar to [EventQueue::send()].
+    ///
+    /// # Panics
+    ///
+    /// This method will panic if there is no [EventQueue] of type `E`.  If you want to avoid 
+    /// a panic, you should use [EventControls::try_send_event()] instead.
     fn send_event<E: 'static>(&self, event: E);
+
+    /// Send an event through an [EventQueue] similar to [EventQueue::send()].
+    ///
+    /// This method will return an [NoEventQueueError] instead of panicking if there is no 
+    /// [EventQueue] of type `E`.
     fn try_send_event<E: 'static>(&self, event: E) -> Result<(), NoEventQueueError>;
+
+    /// Clear all events off an [EventQueue] and return them similar to [EventQueue::flush()].
+    ///
+    /// # Panics
+    ///
+    /// This method will panic if there is no [EventQueue] of type `E`.  If you want to avoid 
+    /// a panic, you should use [EventControls::try_flush_events()] instead.
     fn flush_events<E: 'static>(&self) -> Vec<E>;
+
+
+    /// Clear all events off an [EventQueue] and return them similar to [EventQueue::flush()].
+    ///
+    /// This method will return an [NoEventQueueError] instead of panicking if there is no 
+    /// [EventQueue] of type `E`.
     fn try_flush_events<E: 'static>(&self) -> Result<Vec<E>, NoEventQueueError>;
+
+    /// Access a [Sender] for a specific [EventQueue] similar to [EventQueue::sender()].
+    ///
+    /// If there is no [EventQueue] of type `E`, a [None] is returned.
     fn event_sender<E: 'static>(&self) -> Option<Sender<E>>;
 }
 
@@ -69,7 +97,7 @@ impl EventControls for Context {
             Err(NoEventQueueError)
         }
     }
-
+    
     fn flush_events<E: 'static>(&self) -> Vec<E> {
         let event_queue = self
             .borrow::<EventQueue<E>>()
