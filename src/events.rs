@@ -86,7 +86,11 @@ impl EventControls for Context {
     }
     
     fn event_sender<E: 'static>(&self) -> Option<Sender<E>> {
-        None 
+        if let Some(event_queue) = self.borrow::<EventQueue<E>>() {
+            Some(event_queue.sender())
+        } else {
+            None
+        }
     }
 }
 
