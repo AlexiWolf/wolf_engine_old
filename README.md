@@ -39,9 +39,9 @@ provided to show you what is and is not ready.
   - [x] Game States
   - [x] State Stack
   - [x] Plugins
-- [ ] Event System 
-  - [ ] Wolf Engine Events
-  - [ ] Custom Events
+- [x] Event System 
+  - [x] Event Queue
+  - [x] Custom Events
 - [ ] Input 
   - [ ] Keyboard / Mouse Input
   - [ ] Touch / Pen Input
