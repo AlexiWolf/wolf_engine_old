@@ -330,14 +330,14 @@ pub mod utils;
 #[cfg(feature = "logging")]
 pub mod logging;
 
-use log::info;
-
 pub use context::*;
 pub use engine::*;
 pub use main_loop::*;
 pub use plugin::*;
 pub use scheduler::*;
 pub use state::*;
+
+use log::info;
 
 pub(crate) fn log_startup_information() {
     let name = env!("CARGO_PKG_NAME");
