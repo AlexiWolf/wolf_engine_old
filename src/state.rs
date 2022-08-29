@@ -32,7 +32,7 @@ pub enum TransitionType {
 /// By default, States are controlled by the [StateStack].  The [StateStack] allows States
 /// to be stacked on top of each other and ran all together, resulting in a "layered"
 /// behavior.  Active States can also control the [StateStack] by returning an
-/// [OptionalTransition] from the [State::update()] method.  
+/// [Transition] from the [State::update()] method.  
 ///
 /// See the [StateStack] docs for more information.
 ///
@@ -46,13 +46,13 @@ pub enum TransitionType {
 /// }
 ///
 /// impl State for MyGame {
-///     fn update(&mut self, _context: &mut Context) -> OptionalTransition {
+///     fn update(&mut self, _context: &mut Context) -> Transition {
 ///         if self.number < 10 {
 ///             self.number += 1;
 ///             None // Don't transition, just keep running
 ///         } else {
 ///             // We've counted to 10, lets tell the engine to quit
-///             Some(Transition::Clean)
+///             Some(TranstionType::Clean)
 ///         }
 ///     }
 ///
