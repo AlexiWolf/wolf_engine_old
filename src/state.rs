@@ -3,12 +3,11 @@ use crate::*;
 #[cfg(test)]
 use mockall::automock;
 
-/// Indicates if a [Transition] should be performed.
-pub type OptionalTransition = Option<Transition>;
+/// An [Optional](Option), [TransitionType] used to send instructions to the [StateStack](crate::StateStack).
+pub type Transition = Option<TransitionType>;
 
-/// Indicates the type of [Transition] the [StateStack](crate::StateStack) should
-/// perform.
-pub enum Transition {
+/// Represents a state change for the [StateStack](crate::StateStack) to perform.
+pub enum TransitionType {
     /// Push a new [State] to the top of the stack.
     Push(Box<dyn State>),
 
@@ -32,7 +31,7 @@ pub enum Transition {
 /// By default, States are controlled by the [StateStack].  The [StateStack] allows States
 /// to be stacked on top of each other and ran all together, resulting in a "layered"
 /// behavior.  Active States can also control the [StateStack] by returning an
-/// [OptionalTransition] from the [State::update()] method.  
+/// [Transition] from the [State::update()] method.  
 ///
 /// See the [StateStack] docs for more information.
 ///
@@ -46,13 +45,13 @@ pub enum Transition {
 /// }
 ///
 /// impl State for MyGame {
-///     fn update(&mut self, _context: &mut Context) -> OptionalTransition {
+///     fn update(&mut self, _context: &mut Context) -> Transition {
 ///         if self.number < 10 {
 ///             self.number += 1;
 ///             None // Don't transition, just keep running
 ///         } else {
 ///             // We've counted to 10, lets tell the engine to quit
-///             Some(Transition::Clean)
+///             Some(TransitionType::Clean)
 ///         }
 ///     }
 ///
@@ -111,7 +110,7 @@ pub trait State {
     ///
     /// - The [Engine] requests a tick to run,
     /// - and the state is the topmost state on the [StateStack].
-    fn update(&mut self, context: &mut Context) -> OptionalTransition;
+    fn update(&mut self, context: &mut Context) -> Transition;
 
     /// Update the game state in the background.
     ///
@@ -155,8 +154,8 @@ pub trait State {
 pub struct EmptyState;
 
 impl State for EmptyState {
-    fn update(&mut self, _context: &mut Context) -> OptionalTransition {
-        Some(Transition::Clean)
+    fn update(&mut self, _context: &mut Context) -> Transition {
+        Some(TransitionType::Clean)
     }
 
     fn render(&mut self, _context: &mut Context) {}

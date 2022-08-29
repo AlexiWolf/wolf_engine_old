@@ -31,7 +31,7 @@
 //! pub struct MyGameState;
 //!
 //! impl State for MyGameState {
-//!     fn update(&mut self, context: &mut Context) -> OptionalTransition {
+//!     fn update(&mut self, context: &mut Context) -> Transition {
 //!         // Update your game here.
 //! #       context.quit();
 //!         None
@@ -71,7 +71,7 @@
 //! }
 //!
 //! impl State for MyState {
-//!     fn update(&mut self, _context: &mut Context) -> OptionalTransition {
+//!     fn update(&mut self, _context: &mut Context) -> Transition {
 //!         self.counter += 1;
 //!         None
 //!     }
@@ -97,7 +97,7 @@
 //!
 //! #### Changing States
 //!
-//! A [Transition] is ([Optionally](OptionalTransition)) returned by [State::update()] and is used
+//! A [Transition] is ([Optionally](Transition)) returned by [State::update()] and is used
 //! to control the [StateStack] by pushing and popping [States](State) on the [StateStack].
 //!
 //! ```
@@ -108,16 +108,16 @@
 //! }
 //!
 //! impl State for StateA {
-//!     fn update(&mut self, _context: &mut Context) -> OptionalTransition {
+//!     fn update(&mut self, _context: &mut Context) -> Transition {
 //!         if self.counter < 10 {
 //!             println!("Hello from State A!");
 //!             // Increment the counter and push State B to the top of the stack.
 //!             self.counter += 1;
-//!             Some(Transition::Push(Box::from(StateB::new())))
+//!             Some(TransitionType::Push(Box::from(StateB::new())))
 //!         } else {
 //!             // Once the counter reaches 10, pop all states off the stack.
 //!             // An empty state stack will trigger an engine shutdown.
-//!             Some(Transition::Clean)
+//!             Some(TransitionType::Clean)
 //!         }
 //!     }
 //!
@@ -135,7 +135,7 @@
 //! # }
 //! #
 //! impl State for StateB {
-//!     fn update(&mut self, _context: &mut Context) -> OptionalTransition {
+//!     fn update(&mut self, _context: &mut Context) -> Transition {
 //!         if self.counter < 3 {
 //!             println!("Hello from State B!");
 //!             // Increment the counter then return no transition.
@@ -145,7 +145,7 @@
 //!         } else {
 //!             // Once the counter reaches 3, pop this state off the stack.
 //!             // This will return control back to the State A.
-//!             Some(Transition::Pop)
+//!             Some(TransitionType::Pop)
 //!         }
 //!     }
 //!

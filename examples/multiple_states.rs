@@ -23,15 +23,15 @@ impl MainState {
 }
 
 impl State for MainState {
-    fn update(&mut self, _context: &mut Context) -> OptionalTransition {
+    fn update(&mut self, _context: &mut Context) -> Transition {
         if self.number == 10 {
             debug!("[MainState] All 10 messages displayed, quitting!");
-            Some(Transition::Clean)
+            Some(TransitionType::Clean)
         } else {
             debug!("[MainState] Pushing new sub-state to the stack.");
             self.number += 1;
             let sub_state = SubState::new(format!("Hello, World! {}", self.number));
-            Some(Transition::Push(Box::from(sub_state)))
+            Some(TransitionType::Push(Box::from(sub_state)))
         }
     }
 
@@ -59,10 +59,10 @@ impl SubState {
 }
 
 impl State for SubState {
-    fn update(&mut self, _context: &mut Context) -> OptionalTransition {
+    fn update(&mut self, _context: &mut Context) -> Transition {
         if self.displayed_message {
             debug!("[SubState] The message was displayed.  Returning control to the main state.");
-            Some(Transition::Pop)
+            Some(TransitionType::Pop)
         } else {
             debug!("[SubState] The message was not displayed.  Waiting for the next frame.");
             None

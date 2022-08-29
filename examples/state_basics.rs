@@ -29,10 +29,10 @@ impl MyState {
 }
 
 impl State for MyState {
-    fn update(&mut self, _context: &mut Context) -> OptionalTransition {
+    fn update(&mut self, _context: &mut Context) -> Transition {
         if self.frames == 10 {
             info!("Goodbye!");
-            Some(Transition::Clean)
+            Some(TransitionType::Clean)
         } else {
             self.updates += 1;
             debug!("Update: {}", self.updates);

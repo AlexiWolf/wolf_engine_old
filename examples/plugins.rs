@@ -55,10 +55,10 @@ impl Subcontext for MessageContext {}
 pub struct GameState;
 
 impl State for GameState {
-    fn update(&mut self, context: &mut Context) -> OptionalTransition {
+    fn update(&mut self, context: &mut Context) -> Transition {
         let message = context.borrow::<MessageContext>().unwrap();
         info!("{}", message.message);
-        Some(Transition::Clean)
+        Some(TransitionType::Clean)
     }
 
     fn render(&mut self, _context: &mut Context) {}
