@@ -56,7 +56,7 @@ pub enum Transition {
 ///         }
 ///     }
 ///
-///     fn render(&mut self, _context: &mut Context) -> RenderResult {
+///     fn render(&mut self, _context: &mut Context) {
 ///         // Render logic
 ///     }
 /// }
