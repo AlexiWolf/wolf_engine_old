@@ -5,12 +5,6 @@ use crate::{Context, State};
 #[cfg(test)]
 use mockall::automock;
 
-/// Represents the number of ticks the engine has run.
-pub type Ticks = u64;
-
-/// Represents the number of frames the engine has rendered.
-pub type Frames = u64;
-
 /// Controls how the game is run.
 ///
 /// The scheduler is responsible for determining if or when the game should be updated

@@ -37,7 +37,7 @@
 //!         None
 //!     }
 //!
-//!     fn render(&mut self, context: &mut Context) -> RenderResult {
+//!     fn render(&mut self, context: &mut Context) {
 //!         // Render your game here.
 //!     }
 //! }
@@ -76,7 +76,7 @@
 //!         None
 //!     }
 //!
-//!     fn render(&mut self, _context: &mut Context) -> RenderResult {}
+//!     fn render(&mut self, _context: &mut Context) {}
 //! }
 //! ```
 //!
@@ -121,7 +121,7 @@
 //!         }
 //!     }
 //!
-//!     fn render(&mut self, _context: &mut Context) -> RenderResult {}
+//!     fn render(&mut self, _context: &mut Context) {}
 //! }
 //!
 //! pub struct StateB {
@@ -149,7 +149,7 @@
 //!         }
 //!     }
 //!
-//!     fn render(&mut self, _context: &mut Context) -> RenderResult {}
+//!     fn render(&mut self, _context: &mut Context) {}
 //! }
 //! ```
 //! It is important to note that only the top [State] can control the [StateStack], as

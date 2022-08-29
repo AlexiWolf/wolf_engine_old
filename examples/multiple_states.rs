@@ -41,7 +41,7 @@ impl State for MainState {
         );
     }
 
-    fn render(&mut self, _context: &mut Context) -> RenderResult {}
+    fn render(&mut self, _context: &mut Context) {}
 }
 
 pub struct SubState {
@@ -69,7 +69,7 @@ impl State for SubState {
         }
     }
 
-    fn render(&mut self, _context: &mut Context) -> RenderResult {
+    fn render(&mut self, _context: &mut Context) {
         info!("[SubState] {}", self.message);
         self.displayed_message = true;
         thread::sleep(Duration::from_millis(32));

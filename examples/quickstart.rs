@@ -52,7 +52,7 @@ impl State for FizzBuzzState {
         }
     }
 
-    fn render(&mut self, _context: &mut Context) -> RenderResult {
+    fn render(&mut self, _context: &mut Context) {
         // Nothing to render for this example.
     }
 }

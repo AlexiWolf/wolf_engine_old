@@ -40,7 +40,7 @@ impl State for MyState {
         }
     }
 
-    fn render(&mut self, _context: &mut Context) -> RenderResult {
+    fn render(&mut self, _context: &mut Context) {
         self.frames += 1;
         info!("{} {}", self.message, self.frames);
         thread::sleep(Duration::from_millis(32));

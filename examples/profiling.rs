@@ -34,7 +34,7 @@ impl State for GameState {
         None
     }
 
-    fn render(&mut self, _context: &mut Context) -> RenderResult {
+    fn render(&mut self, _context: &mut Context) {
         // Allow Puffin to set profiler scope name based on the function name.
         profile_function!();
         sleep(Duration::from_millis(16)); // 60 fps.

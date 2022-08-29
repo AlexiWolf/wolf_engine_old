@@ -3,9 +3,6 @@ use crate::*;
 #[cfg(test)]
 use mockall::automock;
 
-/// A currently unused return type for [State]'s render method.
-pub type RenderResult = ();
-
 /// Indicates if a [Transition] should be performed.
 pub type OptionalTransition = Option<Transition>;
 
@@ -59,7 +56,7 @@ pub enum Transition {
 ///         }
 ///     }
 ///
-///     fn render(&mut self, _context: &mut Context) -> RenderResult {
+///     fn render(&mut self, _context: &mut Context) {
 ///         // Render logic
 ///     }
 /// }
@@ -135,7 +132,7 @@ pub trait State {
     ///
     /// - The [Engine] requests a frame to render,
     /// - and the state is the topmost state on the [StateStack].
-    fn render(&mut self, context: &mut Context) -> RenderResult;
+    fn render(&mut self, context: &mut Context);
 
     /// Render the game state in the background.
     ///
@@ -147,7 +144,7 @@ pub trait State {
     ///
     /// - The [Engine] requests a frame to render,
     /// - and the state is not the topmost state on the [StateStack].
-    fn background_render(&mut self, _context: &mut Context) -> RenderResult {}
+    fn background_render(&mut self, _context: &mut Context) {}
 }
 
 /// A no-op state that will close immediately.
@@ -162,5 +159,5 @@ impl State for EmptyState {
         Some(Transition::Clean)
     }
 
-    fn render(&mut self, _context: &mut Context) -> RenderResult {}
+    fn render(&mut self, _context: &mut Context) {}
 }
