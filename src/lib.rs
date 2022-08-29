@@ -320,6 +320,7 @@ mod main_loop;
 mod plugin;
 mod scheduler;
 mod state;
+mod state_stack;
 
 pub mod contexts;
 pub mod events;
@@ -336,6 +337,7 @@ pub use main_loop::*;
 pub use plugin::*;
 pub use scheduler::*;
 pub use state::*;
+pub use state_stack::*;
 
 use log::info;
 
