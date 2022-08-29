@@ -132,7 +132,7 @@ pub trait State {
     ///
     /// - The [Engine] requests a frame to render,
     /// - and the state is the topmost state on the [StateStack].
-    fn render(&mut self, context: &mut Context) -> RenderResult;
+    fn render(&mut self, context: &mut Context); 
 
     /// Render the game state in the background.
     ///
