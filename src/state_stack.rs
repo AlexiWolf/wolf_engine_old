@@ -176,7 +176,7 @@ impl State for StateStack {
         None
     }
 
-    fn render(&mut self, context: &mut Context) -> RenderResult {
+    fn render(&mut self, context: &mut Context) {
         self.take_background_states()
             .for_each(|state| state.background_render(context));
         if let Some(state) = self.active_mut() {

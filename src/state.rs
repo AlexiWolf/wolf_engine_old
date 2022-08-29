@@ -144,7 +144,7 @@ pub trait State {
     ///
     /// - The [Engine] requests a frame to render,
     /// - and the state is not the topmost state on the [StateStack].
-    fn background_render(&mut self, _context: &mut Context) -> RenderResult {}
+    fn background_render(&mut self, _context: &mut Context) {}
 }
 
 /// A no-op state that will close immediately.
@@ -159,5 +159,5 @@ impl State for EmptyState {
         Some(Transition::Clean)
     }
 
-    fn render(&mut self, _context: &mut Context) -> RenderResult {}
+    fn render(&mut self, _context: &mut Context)  {} 
 }
