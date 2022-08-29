@@ -118,20 +118,16 @@ impl Engine {
     }
 
     /// Triggers the start of a new frame.
-    pub fn start_frame(&mut self) {
-        profile_new_frame!();
-    }
+    pub fn start_frame(&mut self) {}
 
     /// Runs a complete update of all engine and game state.
     pub fn update(&mut self) {
-        profile_scope!("update");
         self.scheduler
             .update(&mut self.context, &mut self.state_stack);
     }
 
     /// Renders the current frame.
     pub fn render(&mut self) {
-        profile_scope!("render");
         self.scheduler
             .render(&mut self.context, &mut self.state_stack);
     }
@@ -269,10 +265,6 @@ impl EngineBuilder {
 
     fn load_default_plugins(mut self) -> Self {
         self = self.with_plugin(Box::from(CorePlugin));
-        #[cfg(feature = "profiling")]
-        {
-            self = self.with_plugin(Box::from(PuffinPlugin));
-        }
         self
     }
 }

@@ -16,8 +16,6 @@ anyhow = "1.0"
 # Optional Dependencies
 
 simple_logger = {version = "1.13", optional = true}
-puffin_http = {version = "0.10", optional = true}
-puffin = {version = "0.13", optional =true}
 
 [dev-dependencies]
 lazy_static= "1.4"
@@ -26,6 +24,4 @@ mockall = "0.11"
 
 [features]
 logging = ["simple_logger"]
-profiling = ["puffin"]
-http_profiling = ["profiling", "puffin_http"]
 
