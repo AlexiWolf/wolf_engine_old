@@ -73,8 +73,8 @@ use crate::Subcontext;
 /// ```
 #[derive(Default)]
 pub struct SchedulerContext {
-    ticks: usize,
-    frames: usize,
+    ticks: u64,
+    frames: u64,
 }
 
 impl SchedulerContext {
@@ -92,7 +92,7 @@ impl SchedulerContext {
     }
 
     /// Access the current number of counted ticks.
-    pub fn ticks(&self) -> usize {
+    pub fn ticks(&self) -> u64 {
         self.ticks
     }
 
@@ -105,7 +105,7 @@ impl SchedulerContext {
     }
 
     /// Access the current number of counted frames.
-    pub fn frames(&self) -> usize {
+    pub fn frames(&self) -> u64 {
         self.frames
     }
 }
