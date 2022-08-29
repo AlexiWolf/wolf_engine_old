@@ -4,7 +4,7 @@ use crate::*;
 use mockall::automock;
 
 /// Indicates if a [Transition] should be performed.
-pub type OptionalTransition = Option<TransitionType>;
+pub type Transition = Option<TransitionType>;
 
 /// Indicates the type of [Transition] the [StateStack](crate::StateStack) should
 /// perform.
@@ -111,7 +111,7 @@ pub trait State {
     ///
     /// - The [Engine] requests a tick to run,
     /// - and the state is the topmost state on the [StateStack].
-    fn update(&mut self, context: &mut Context) -> OptionalTransition;
+    fn update(&mut self, context: &mut Context) -> Transition;
 
     /// Update the game state in the background.
     ///
@@ -155,7 +155,7 @@ pub trait State {
 pub struct EmptyState;
 
 impl State for EmptyState {
-    fn update(&mut self, _context: &mut Context) -> OptionalTransition {
+    fn update(&mut self, _context: &mut Context) -> Transition {
         Some(TransitionType::Clean)
     }
 
