@@ -1,4 +1,4 @@
-use crate::{Frames, Subcontext, Ticks};
+use crate::Subcontext;
 
 /// Provides a way for the active [Scheduler](crate::Scheduler) to report basic data.  
 ///
@@ -73,8 +73,8 @@ use crate::{Frames, Subcontext, Ticks};
 /// ```
 #[derive(Default)]
 pub struct SchedulerContext {
-    ticks: Ticks,
-    frames: Frames,
+    ticks: usize,
+    frames: usize,
 }
 
 impl SchedulerContext {
@@ -92,7 +92,7 @@ impl SchedulerContext {
     }
 
     /// Access the current number of counted ticks.
-    pub fn ticks(&self) -> Ticks {
+    pub fn ticks(&self) -> usize {
         self.ticks
     }
 
@@ -105,7 +105,7 @@ impl SchedulerContext {
     }
 
     /// Access the current number of counted frames.
-    pub fn frames(&self) -> Frames {
+    pub fn frames(&self) -> usize {
         self.frames
     }
 }
