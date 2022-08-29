@@ -3,11 +3,10 @@ use crate::*;
 #[cfg(test)]
 use mockall::automock;
 
-/// Indicates if a [Transition] should be performed.
+/// An [Optional], [TransitionType] used to send instructions to the [StateStack](crate::StateStack).
 pub type Transition = Option<TransitionType>;
 
-/// Indicates the type of [Transition] the [StateStack](crate::StateStack) should
-/// perform.
+/// Represents a state change for the [StateStack](crate::StateStack) to perform.
 pub enum TransitionType {
     /// Push a new [State] to the top of the stack.
     Push(Box<dyn State>),
