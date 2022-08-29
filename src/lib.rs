@@ -314,7 +314,12 @@
 //! For more detailed examples see the
 //! [Examples Folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples).
 
-mod core;
+mod context;
+mod engine;
+mod main_loop;
+mod plugin;
+mod scheduler;
+mod state;
 
 pub mod contexts;
 pub mod events;
@@ -325,9 +330,14 @@ pub mod utils;
 #[cfg(feature = "logging")]
 pub mod logging;
 
-pub use crate::core::*;
-
 use log::info;
+
+pub use context::*;
+pub use engine::*;
+pub use main_loop::*;
+pub use plugin::*;
+pub use scheduler::*;
+pub use state::*;
 
 pub(crate) fn log_startup_information() {
     let name = env!("CARGO_PKG_NAME");
