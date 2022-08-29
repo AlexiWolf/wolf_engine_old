@@ -4,11 +4,11 @@ use crate::*;
 use mockall::automock;
 
 /// Indicates if a [Transition] should be performed.
-pub type OptionalTransition = Option<Transition>;
+pub type OptionalTransition = Option<TransitionType>;
 
 /// Indicates the type of [Transition] the [StateStack](crate::StateStack) should
 /// perform.
-pub enum Transition {
+pub enum TransitionType {
     /// Push a new [State] to the top of the stack.
     Push(Box<dyn State>),
 
@@ -156,7 +156,7 @@ pub struct EmptyState;
 
 impl State for EmptyState {
     fn update(&mut self, _context: &mut Context) -> OptionalTransition {
-        Some(Transition::Clean)
+        Some(TransitionType::Clean)
     }
 
     fn render(&mut self, _context: &mut Context) {}

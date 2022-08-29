@@ -1,6 +1,6 @@
 use std::{fmt::Display, iter::Take, slice::IterMut};
 
-use crate::{Context, OptionalTransition, State, Transition};
+use crate::{Context, Transition, State, TransitionType};
 /// Provides a stack for storing, managing, and running multiple [State] objects.
 ///
 /// The state stack acts as a common interface through which numerous [State]s can be run
@@ -97,13 +97,13 @@ impl StateStack {
         self.stack.last_mut()
     }
 
-    fn do_transition(&mut self, update_result: OptionalTransition, context: &mut Context) {
+    fn do_transition(&mut self, update_result: Transition, context: &mut Context) {
         if let Some(transition) = update_result {
             match transition {
-                Transition::Push(state) => self.push(state, context),
-                Transition::Pop => self.pop_no_return(context),
-                Transition::CleanPush(state) => self.clean_push(state, context),
-                Transition::Clean => self.clear(context),
+                TransitionType::Push(state) => self.push(state, context),
+                TransitionType::Pop => self.pop_no_return(context),
+                TransitionType::CleanPush(state) => self.clean_push(state, context),
+                TransitionType::Clean => self.clear(context),
             }
         }
     }
@@ -166,7 +166,7 @@ impl StateStack {
 }
 
 impl State for StateStack {
-    fn update(&mut self, context: &mut Context) -> OptionalTransition {
+    fn update(&mut self, context: &mut Context) -> Transition {
         self.take_background_states()
             .for_each(|state| state.background_update(context));
         if let Some(state) = self.active_mut() {
@@ -199,7 +199,7 @@ impl Default for StateStack {
 
 #[cfg(test)]
 mod state_stack_tests {
-    use crate::{MockState, Transition};
+    use crate::{MockState, TransitionType};
 
     use super::*;
 
@@ -291,7 +291,7 @@ mod state_stack_tests {
         state
             .expect_update()
             .times(1)
-            .returning(|_| Some(Transition::Pop));
+            .returning(|_| Some(TransitionType::Pop));
         expect_shutdown(&mut state);
 
         state_stack.push(Box::from(state), &mut context);
@@ -309,7 +309,7 @@ mod state_stack_tests {
         transition_to_state
             .expect_update()
             .times(1)
-            .return_once(move |_| Some(Transition::Push(Box::from(no_transition))));
+            .return_once(move |_| Some(TransitionType::Push(Box::from(no_transition))));
         transition_to_state
             .expect_background_update()
             .times(9)
@@ -334,7 +334,7 @@ mod state_stack_tests {
         clean_push_state
             .expect_update()
             .times(1)
-            .return_once(move |_| Some(Transition::CleanPush(Box::from(no_transition_state))));
+            .return_once(move |_| Some(TransitionType::CleanPush(Box::from(no_transition_state))));
         expect_shutdown(&mut clean_push_state);
 
         state_stack.push(Box::from(clean_push_state), &mut context);
@@ -350,7 +350,7 @@ mod state_stack_tests {
         quit_state
             .expect_update()
             .times(1)
-            .returning(|_| Some(Transition::Clean));
+            .returning(|_| Some(TransitionType::Clean));
         expect_shutdown(&mut quit_state);
 
         state_stack.push(Box::from(quit_state), &mut context);

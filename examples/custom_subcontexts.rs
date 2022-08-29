@@ -31,10 +31,10 @@ impl Subcontext for CustomContext {}
 pub struct MyState;
 
 impl State for MyState {
-    fn update(&mut self, context: &mut Context) -> OptionalTransition {
+    fn update(&mut self, context: &mut Context) -> Transition {
         let mut custom_context = context.borrow_mut::<CustomContext>().unwrap();
         if custom_context.count == 10 {
-            Some(Transition::Clean)
+            Some(TransitionType::Clean)
         } else {
             custom_context.count += 1;
             None

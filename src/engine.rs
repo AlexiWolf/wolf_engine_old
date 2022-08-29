@@ -144,7 +144,7 @@ impl Default for Engine {
 #[cfg(test)]
 mod wolf_engine_tests {
     use crate::contexts::EngineContext;
-    use crate::{MockState, Transition};
+    use crate::{MockState, TransitionType};
 
     use super::*;
 
@@ -156,7 +156,7 @@ mod wolf_engine_tests {
         state
             .expect_update()
             .times(1..)
-            .returning(|_| Some(Transition::Clean));
+            .returning(|_| Some(TransitionType::Clean));
         state.expect_render().times(1..).returning(|_| ());
         state.expect_shutdown().times(1).returning(|_| ());
 
