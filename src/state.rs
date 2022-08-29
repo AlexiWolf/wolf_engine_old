@@ -52,7 +52,7 @@ pub enum TransitionType {
 ///             None // Don't transition, just keep running
 ///         } else {
 ///             // We've counted to 10, lets tell the engine to quit
-///             Some(TranstionType::Clean)
+///             Some(TransitionType::Clean)
 ///         }
 ///     }
 ///
