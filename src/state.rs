@@ -3,7 +3,7 @@ use crate::*;
 #[cfg(test)]
 use mockall::automock;
 
-/// An [Option]al, [TransitionType] used to send instructions to the [StateStack](crate::StateStack).
+/// An [Optional](Option), [TransitionType] used to send instructions to the [StateStack](crate::StateStack).
 pub type Transition = Option<TransitionType>;
 
 /// Represents a state change for the [StateStack](crate::StateStack) to perform.
