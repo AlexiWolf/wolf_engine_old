@@ -3,9 +3,6 @@ use crate::*;
 #[cfg(test)]
 use mockall::automock;
 
-/// A currently unused return type for [State]'s render method.
-pub type RenderResult = ();
-
 /// Indicates if a [Transition] should be performed.
 pub type OptionalTransition = Option<Transition>;
 
