@@ -322,12 +322,12 @@ mod plugin_loader;
 mod scheduler;
 mod state;
 mod state_stack;
+mod transition;
 
 pub mod contexts;
 pub mod events;
 pub mod plugins;
 pub mod schedulers;
-pub mod transition;
 pub mod utils;
 
 #[cfg(feature = "logging")]
