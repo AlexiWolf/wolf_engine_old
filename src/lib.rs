@@ -326,6 +326,7 @@ pub mod contexts;
 pub mod events;
 pub mod plugins;
 pub mod schedulers;
+pub mod transition;
 pub mod utils;
 
 #[cfg(feature = "logging")]
@@ -338,6 +339,7 @@ pub use plugin::*;
 pub use scheduler::*;
 pub use state::*;
 pub use state_stack::*;
+pub use transition::*;
 
 use log::info;
 
