@@ -69,7 +69,6 @@ impl MainLoop for DefaultMainLoop {
             engine.update();
             engine.render();
         }
-        log::debug!("The Engine has quit, shutting down now.");
         engine
     }
 }
