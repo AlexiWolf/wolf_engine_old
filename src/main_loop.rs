@@ -5,29 +5,22 @@ use crate::*;
 #[cfg(test)]
 use mockall::automock;
 
-/// Defines which functions can be used as an [Engine] core.
+/// Provides a dynamic main loop for the [Engine]. 
 ///
-/// Main loops take ownership over the running [Engine], and directly implement the
-/// main loop for the [Engine].  When [Engine::run()] is called, the main loop behavior
-/// is delegated to the main loop implementation provided at startup.
+/// Main loops take ownership over the running [Engine] after it is run.   When [Engine::run()] is 
+/// called, the main loop behavior is delegated to the main loop implementation provided at
+/// startup.  By default, the [Engine] will use the [DefaultMainLoop].
 ///
-/// The main reason for separating the core main loop from the [Engine] to make it easy
-/// to change the [Engine]'s core behavior without needing to rewrite its code.  Using a
-/// a main loop, you could, for example:
+/// The main reason for separating the main loop from the [Engine] to make it easy to change the 
+/// [Engine]'s behavior without needing to rewrite its code.  Using a main loop, you could, for 
+/// example:
 ///
 /// - Change the behavior of the main loop to better suit your game's needs.
-/// - Integrate with 3rd party frameworks (such as Winit, SDL, or Tokio), and allow
-///   them to control the main loop.
-///
+/// - Integrate with 3rd party frameworks (such as Winit, or SDL). 
 ///
 /// # Examples
 ///
-/// To use the default main loop, you don't need to do anything special.  The engine will
-/// automatically select [DefaultMainLoop] unless a different one is selected either by you, or,
-/// more commonly, by a [Plugin](crate::Plugin).
-///
-/// If you wish to override the engine's main loop behavior, you can simply implement this trait
-/// on a struct.
+/// To override the engine's main loop behavior, start by implementing this trait for a struct.
 ///
 /// ```
 /// # use wolf_engine::*;
@@ -47,8 +40,7 @@ use mockall::automock;
 /// }
 /// ```
 ///
-/// To use a custom engine core, the core is [Box]ed, then passed to
-/// [EngineBuilder::with_engine_core()](crate::EngineBuilder) method at startup.
+/// Then set the main loop with [EngineBuilder::with_engine_core()](crate::EngineBuilder) at startup.
 ///
 /// ```
 /// # use wolf_engine::*;
