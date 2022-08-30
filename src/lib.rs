@@ -318,9 +318,11 @@ mod context;
 mod engine;
 mod main_loop;
 mod plugin;
+mod plugin_loader;
 mod scheduler;
 mod state;
 mod state_stack;
+mod transition;
 
 pub mod contexts;
 pub mod events;
@@ -335,9 +337,11 @@ pub use context::*;
 pub use engine::*;
 pub use main_loop::*;
 pub use plugin::*;
+pub use plugin_loader::*;
 pub use scheduler::*;
 pub use state::*;
 pub use state_stack::*;
+pub use transition::*;
 
 use log::info;
 

@@ -1,6 +1,7 @@
 use std::{fmt::Display, iter::Take, slice::IterMut};
 
 use crate::{Context, State, Transition, TransitionType};
+
 /// Provides a stack for storing, managing, and running multiple [State] objects.
 ///
 /// The state stack acts as a common interface through which numerous [State]s can be run
