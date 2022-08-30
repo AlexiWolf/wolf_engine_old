@@ -17,4 +17,3 @@ pub enum TransitionType {
     /// Pop all [State]s off the stack, then shut down the engine.
     Clean,
 }
-

@@ -5,18 +5,18 @@ use crate::*;
 #[cfg(test)]
 use mockall::automock;
 
-/// Provides a dynamic main loop for the [Engine]. 
+/// Provides a dynamic main loop for the [Engine].
 ///
-/// Main loops take ownership over the running [Engine] after it is run.   When [Engine::run()] is 
+/// Main loops take ownership over the running [Engine] after it is run.   When [Engine::run()] is
 /// called, the main loop behavior is delegated to the main loop implementation provided at
 /// startup.  By default, the [Engine] will use the [DefaultMainLoop].
 ///
-/// The main reason for separating the main loop from the [Engine] to make it easy to change the 
-/// [Engine]'s behavior without needing to rewrite its code.  Using a main loop, you could, for 
+/// The main reason for separating the main loop from the [Engine] to make it easy to change the
+/// [Engine]'s behavior without needing to rewrite its code.  Using a main loop, you could, for
 /// example:
 ///
 /// - Change the behavior of the main loop to better suit your game's needs.
-/// - Integrate with 3rd party frameworks (such as Winit, or SDL). 
+/// - Integrate with 3rd party frameworks (such as Winit, or SDL).
 ///
 /// # Examples
 ///
