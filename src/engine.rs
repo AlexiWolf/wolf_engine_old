@@ -1,7 +1,7 @@
 use std::mem::replace;
 
 use crate::plugins::*;
-use crate::schedulers::FixedUpdateScheduler;
+use crate::schedulers::{FixedUpdateScheduler, SimpleRenderScheduler};
 use crate::utils::EngineControls;
 use crate::*;
 
