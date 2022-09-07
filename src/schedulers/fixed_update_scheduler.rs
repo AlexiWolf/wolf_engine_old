@@ -290,15 +290,6 @@ mod fixed_update_scheduler_tests {
         scheduler.update(&mut context, &mut state);
     }
 
-    #[test]
-    fn should_call_the_render_function() {
-        let (mut scheduler, mut context) = test_scheduler(8, 0);
-        let mut state = MockState::new();
-        state.expect_render().times(1).returning(|_| ());
-
-        scheduler.render(&mut context, &mut state);
-    }
-
     /// Testing minimum ticks because this test is not consistent cross platforms when checking
     /// exact values.  Windows and Mac, for example, tend to spend more time than specified sleeping
     /// which results in the number of updates exceeding that exact value.  THIS BEHAVIOR IS
@@ -322,26 +313,6 @@ mod fixed_update_scheduler_tests {
         assert!(
             scheduler_context.ticks() >= minimum_ticks,
             "The scheduler did not reach the expected number of ticks"
-        )
-    }
-
-    #[test]
-    fn should_count_frames_rendered() {
-        let (mut scheduler, mut context) = test_scheduler(0, 0);
-        let mut state = MockState::new();
-        state.expect_render().times(10).returning(|_| ());
-
-        for _ in 0..10 {
-            scheduler.render(&mut context, &mut state);
-        }
-
-        let scheduler_context = context
-            .borrow::<SchedulerContext>()
-            .expect("no SchedulerContext");
-        assert_eq!(
-            scheduler_context.frames(),
-            10,
-            "The scheduler should have counted 10 frames.",
         )
     }
 
