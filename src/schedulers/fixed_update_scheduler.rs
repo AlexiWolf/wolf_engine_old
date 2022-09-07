@@ -173,13 +173,6 @@ impl UpdateScheduler for FixedUpdateScheduler {
         self.run_tick_loop(state, context);
         self.update_time = Duration::from_secs(0);
     }
-
-    fn render(&mut self, context: &mut Context, state: &mut dyn State) {
-        state.render(context);
-        if let Some(mut scheduler_context) = context.borrow_mut::<SchedulerContext>() {
-            scheduler_context.add_frame();
-        }
-    }
 }
 
 impl Display for FixedUpdateScheduler {
