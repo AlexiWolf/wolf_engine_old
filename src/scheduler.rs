@@ -60,7 +60,7 @@ use mockall::automock;
 /// #   .build();
 /// #
 /// let engine = EngineBuilder::new()
-///     .with_scheduler(Box::from(custom_scheduler))
+///     .with_update_scheduler(Box::from(custom_scheduler))
 ///     .build();
 /// ```
 #[cfg_attr(test, automock)]
