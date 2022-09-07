@@ -245,6 +245,7 @@ impl EngineBuilder {
     }
 
     pub fn with_render_scheduler(mut self, scheduler: Box<dyn RenderScheduler>) -> Self {
+        self.engine.render_scheduler = scheduler;
         self
     }
 
