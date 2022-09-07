@@ -68,3 +68,9 @@ pub trait UpdateScheduler {
     /// Update the game state.
     fn update(&mut self, context: &mut Context, state: &mut dyn State);
 }
+
+#[cfg_attr(test, automock)]
+pub trait RenderScheduler {
+    /// Render the current frame.
+    fn render(&mut self, context: &mut Context, state: &mut dyn State);
+}
