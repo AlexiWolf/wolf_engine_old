@@ -130,7 +130,8 @@ impl Engine {
 
     /// Renders the current frame.
     pub fn render(&mut self) {
-
+        self.render_scheduler
+            .render(&mut self.context, &mut self.state_stack);
     }
 }
 
