@@ -71,7 +71,7 @@ use crate::*;
 /// for more details.
 pub struct Engine {
     pub context: Context,
-    pub scheduler: Box<dyn UpdateScheduler>,
+    pub update_scheduler: Box<dyn UpdateScheduler>,
     pub state_stack: StateStack,
     main_loop: Box<dyn MainLoop>,
 }
@@ -101,7 +101,7 @@ impl Engine {
     fn empty() -> Self {
         Self {
             context: Context::default(),
-            scheduler: Box::from(FixedUpdateScheduler::default()),
+            update_scheduler: Box::from(FixedUpdateScheduler::default()),
             state_stack: StateStack::new(),
             main_loop: Box::from(EmptyMainLoop),
         }
@@ -122,13 +122,13 @@ impl Engine {
 
     /// Runs a complete update of all engine and game state.
     pub fn update(&mut self) {
-        self.scheduler
+        self.update_scheduler
             .update(&mut self.context, &mut self.state_stack);
     }
 
     /// Renders the current frame.
     pub fn render(&mut self) {
-        self.scheduler
+        self.update_scheduler
             .render(&mut self.context, &mut self.state_stack);
     }
 }
@@ -238,7 +238,7 @@ impl EngineBuilder {
 
     /// Set a custom [Scheduler] to be used.
     pub fn with_scheduler(mut self, scheduler: Box<dyn UpdateScheduler>) -> Self {
-        self.engine.scheduler = scheduler;
+        self.engine.update_scheduler = scheduler;
         self
     }
 
