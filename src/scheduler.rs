@@ -68,7 +68,7 @@ pub trait UpdateScheduler {
     fn update(&mut self, context: &mut Context, state: &mut dyn State);
 }
 
-///
+/// Controls how and when a frame should be rendered.
 #[cfg_attr(test, automock)]
 pub trait RenderScheduler {
     /// Render the current frame.
