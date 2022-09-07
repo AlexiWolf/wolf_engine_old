@@ -286,18 +286,17 @@ mod engine_builder_tests {
     use super::*;
 
     #[test]
-    fn should_set_custom_scheduler() {
-        let mut scheduler = UpdateScheduler::new();
+    fn should_set_custom_update_scheduler() {
+        let mut scheduler = MockUpdateScheduler::new();
         scheduler
             .expect_update()
             .times(1..)
             .returning(|context, state_stack| {
                 state_stack.update(context);
             });
-        scheduler.expect_render().times(..).return_const(());
 
         EngineBuilder::new()
-            .with_scheduler(Box::from(scheduler))
+            .with_update_scheduler(Box::from(scheduler))
             .build()
             .expect("Failed to build the engine")
             .run(Box::from(EmptyState));
