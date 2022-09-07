@@ -29,32 +29,20 @@ use mockall::automock;
 /// - A *tick* refers to a single step of the game's state.
 /// - There may be 0, 1, or any other number of *ticks* in an *update*.
 ///
-/// ## Rendering
-///
-/// The most basic `render` implementation simply calls the game's render function and
-/// returns the result from it.  Additional timing controls (Vsync, frame-limiting, ext.),
-/// or frame interpolation may be added.  Generally, a single call to `render` should
-/// render a single frame.
-///
 /// # Creating a Custom Scheduler
 ///
 /// Wolf Engine fully supports using a custom scheduler.  Simply implement this trait.
 ///
 /// ```
-/// use wolf_engine::{State, Context, Scheduler};
+/// #use wolf_engine::*;
+/// #
+/// pub struct MyUpdateScheduler;
 ///
-/// pub struct MyScheduler;
-///
-/// impl Scheduler for MyScheduler {
+/// impl UpdateScheduler for MyUpdateScheduler {
 ///
 ///     fn update(&mut self, context: &mut Context, state: &mut dyn State) {
 ///         // Add timing control logic here.
 ///         state.update(context);
-///     }
-///
-///     fn render(&mut self, context: &mut Context, state: &mut dyn State) {
-///         // Add timing control logic here.
-///         state.render(context);
 ///     }
 /// }
 /// ```
