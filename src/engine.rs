@@ -303,6 +303,21 @@ mod engine_builder_tests {
     }
 
     #[test]
+    fn should_set_custom_render_scheduler() {
+        let mut scheduler = MockRenderScheduler::new();
+        scheduler
+            .expect_render()
+            .times(1..)
+            .return_const(());
+
+        EngineBuilder::new()
+            .with_render_scheduler(Box::from(scheduler))
+            .build()
+            .expect("Failed to build the engine")
+            .run(Box::from(EmptyState));
+    }
+
+    #[test]
     fn should_set_main_loop() {
         let mut main_loop = MockMainLoop::new();
         main_loop.expect_run().times(1).returning(|engine| engine);
