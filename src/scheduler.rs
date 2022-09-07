@@ -64,7 +64,7 @@ use mockall::automock;
 ///     .build();
 /// ```
 #[cfg_attr(test, automock)]
-pub trait Scheduler {
+pub trait UpdateScheduler {
     /// Update the game state.
     fn update(&mut self, context: &mut Context, state: &mut dyn State);
 }

@@ -167,7 +167,7 @@ impl FixedUpdateScheduler {
     }
 }
 
-impl Scheduler for FixedUpdateScheduler {
+impl UpdateScheduler for FixedUpdateScheduler {
     fn update(&mut self, context: &mut Context, state: &mut dyn State) {
         self.accumulate_lag();
         self.run_tick_loop(state, context);

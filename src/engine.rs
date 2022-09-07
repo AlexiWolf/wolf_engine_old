@@ -71,7 +71,7 @@ use crate::*;
 /// for more details.
 pub struct Engine {
     pub context: Context,
-    pub scheduler: Box<dyn Scheduler>,
+    pub scheduler: Box<dyn UpdateScheduler>,
     pub state_stack: StateStack,
     main_loop: Box<dyn MainLoop>,
 }
@@ -237,7 +237,7 @@ impl EngineBuilder {
     }
 
     /// Set a custom [Scheduler] to be used.
-    pub fn with_scheduler(mut self, scheduler: Box<dyn Scheduler>) -> Self {
+    pub fn with_scheduler(mut self, scheduler: Box<dyn UpdateScheduler>) -> Self {
         self.engine.scheduler = scheduler;
         self
     }
@@ -288,7 +288,7 @@ mod engine_builder_tests {
 
     #[test]
     fn should_set_custom_scheduler() {
-        let mut scheduler = MockScheduler::new();
+        let mut scheduler = UpdateScheduler::new();
         scheduler
             .expect_update()
             .times(1..)
