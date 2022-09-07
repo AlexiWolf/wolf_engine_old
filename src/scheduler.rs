@@ -37,6 +37,7 @@
 //!
 //! ```
 //! # use wolf_engine::*;
+//! # use wolf_engine::schedulers::*;
 //! #
 //! pub struct MySimpleUpdateScheduler;
 //!
