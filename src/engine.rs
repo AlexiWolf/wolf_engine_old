@@ -151,7 +151,7 @@ mod wolf_engine_tests {
     fn should_run_the_state() {
         let wolf_engine = Engine::default();
         let mut state = MockState::new();
-        state.expect_setup().times(..).returning(|_| ());
+        state.expect_setup().times(1).returning(|_| ());
         state
             .expect_update()
             .times(1..)
