@@ -63,7 +63,6 @@ mod simple_render_scheduler;
 pub use fixed_update_scheduler::*;
 pub use simple_render_scheduler::*;
 
-
 use crate::*;
 
 #[cfg(test)]
