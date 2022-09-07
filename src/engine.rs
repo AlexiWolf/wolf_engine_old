@@ -102,8 +102,9 @@ impl Engine {
     fn empty() -> Self {
         Self {
             context: Context::default(),
-            update_scheduler: Box::from(FixedUpdateScheduler::default()),
             state_stack: StateStack::new(),
+            update_scheduler: Box::from(FixedUpdateScheduler::default()),
+            render_scheduler: Box::from(SimpleRenderScheduler),
             main_loop: Box::from(EmptyMainLoop),
         }
     }
