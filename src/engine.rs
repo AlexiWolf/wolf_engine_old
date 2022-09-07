@@ -71,8 +71,8 @@ use crate::*;
 /// for more details.
 pub struct Engine {
     pub context: Context,
-    pub update_scheduler: Box<dyn UpdateScheduler>,
     pub state_stack: StateStack,
+    update_scheduler: Box<dyn UpdateScheduler>,
     render_scheduler: Box<dyn RenderScheduler>,
     main_loop: Box<dyn MainLoop>,
 }
