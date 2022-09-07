@@ -9,7 +9,7 @@ use crate::utils::EngineControls;
 ///
 /// The engine is the core of, well, the engine.  It's primary job is to take and run a
 /// set of game [State] objects.  The engine uses a [StateStack] to store all active
-/// [State]s, and a [Scheduler] to control when things are run.
+/// [State]s, and a [Scheduler](schedulers) to control when things are run.
 ///
 /// # Examples
 ///

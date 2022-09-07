@@ -271,7 +271,7 @@
 //! - Configure [Engine] settings.
 //! - Load [Plugins](Plugin).
 //! - Load [Subcontexts](Subcontext).
-//! - Set a custom [Scheduler].
+//! - Set a custom [scheduler](schedulers).
 //! - Set a custom [MainLoop].
 //!
 //! See the [EngineBuilder's](EngineBuilder) documentation for more information.
