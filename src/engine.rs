@@ -235,8 +235,8 @@ impl EngineBuilder {
         }
     }
 
-    /// Set a custom [Scheduler] to be used.
-    pub fn with_scheduler(mut self, scheduler: Box<dyn UpdateScheduler>) -> Self {
+    /// Set a custom [UpdateScheduler] to be used.
+    pub fn with_update_scheduler(mut self, scheduler: Box<dyn UpdateScheduler>) -> Self {
         self.engine.update_scheduler = scheduler;
         self
     }
