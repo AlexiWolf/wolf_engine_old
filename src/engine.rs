@@ -243,7 +243,8 @@ impl EngineBuilder {
         self.engine.update_scheduler = scheduler;
         self
     }
-
+    
+    /// Set a custom [RenderScheduler] to be used.
     pub fn with_render_scheduler(mut self, scheduler: Box<dyn RenderScheduler>) -> Self {
         self.engine.render_scheduler = scheduler;
         self
