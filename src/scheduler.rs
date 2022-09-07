@@ -34,7 +34,7 @@ use mockall::automock;
 /// Wolf Engine fully supports using a custom scheduler.  Simply implement this trait.
 ///
 /// ```
-/// #use wolf_engine::*;
+/// # use wolf_engine::*;
 /// #
 /// pub struct MyUpdateScheduler;
 ///
