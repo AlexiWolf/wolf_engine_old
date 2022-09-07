@@ -241,6 +241,10 @@ impl EngineBuilder {
         self
     }
 
+    pub fn with_render_scheduler(mut self, scheduler: Box<dyn RenderScheduler>) -> Self {
+        self
+    }
+
     /// Set a custom [MainLoop] to be used.
     pub fn with_main_loop(mut self, engine_core: Box<dyn MainLoop>) -> Self {
         self.engine.main_loop = engine_core;
