@@ -73,6 +73,7 @@ pub struct Engine {
     pub context: Context,
     pub update_scheduler: Box<dyn UpdateScheduler>,
     pub state_stack: StateStack,
+    render_scheduler: Box<dyn RenderScheduler>,
     main_loop: Box<dyn MainLoop>,
 }
 
