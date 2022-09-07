@@ -3,7 +3,9 @@ use crate::*;
 pub struct SimpleRenderScheduler;
 
 impl RenderScheduler for SimpleRenderScheduler {
-    fn render(&mut self, context: &mut Context, state: &mut dyn State) {}
+    fn render(&mut self, context: &mut Context, state: &mut dyn State) {
+        state.render(context);
+    }
 }
 
 #[cfg(test)]
@@ -16,9 +18,11 @@ mod simple_render_scheduler_tests {
         let mut context = Context::new();
         let mut state = MockState::new();
         state.expect_render()
-            .once()
+            .times(5)
             .return_const(());
-
-        scheduler.render(&mut context, &mut state);
+    
+        for _ in 0..5 {
+            scheduler.render(&mut context, &mut state);
+        }
     }
 }
