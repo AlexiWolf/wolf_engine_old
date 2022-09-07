@@ -1,4 +1,5 @@
 use crate::*;
+use crate::schedulers::RenderScheduler;
 
 /// A simple, default [RenderScheduler] which immediately runs [State::render()] once.
 ///

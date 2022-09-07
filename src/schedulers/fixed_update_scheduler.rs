@@ -1,8 +1,9 @@
 use std::fmt::{Display, Formatter};
 use std::time::{Duration, Instant};
 
-use crate::contexts::SchedulerContext;
 use crate::*;
+use crate::schedulers::UpdateScheduler;
+use crate::contexts::SchedulerContext;
 
 use log::trace;
 
