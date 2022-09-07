@@ -61,7 +61,8 @@ pub type TickRate = f64;
 ///
 /// ```
 /// # use wolf_engine::*;
-/// # use wolf_engine::schedulers::FixedUpdateSchedulerBuilder;
+/// # use wolf_engine::schedulers::*;
+/// #
 /// # let mut scheduler = FixedUpdateSchedulerBuilder::new()
 /// #     .build();
 /// # let mut context = Context::default();
