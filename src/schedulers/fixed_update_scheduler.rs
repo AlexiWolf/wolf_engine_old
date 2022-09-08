@@ -10,8 +10,7 @@ use log::trace;
 /// Represents the number of ticks in a second (tps.)
 pub type TickRate = f64;
 
-/// Provides a [Scheduler] with consistent fixed-time-step updates, and variable
-/// rendering.
+/// Provides an [UpdateScheduler] with consistent, frame-rate independent, fixed time steps.
 ///
 /// # Frame-rate Independence
 ///
