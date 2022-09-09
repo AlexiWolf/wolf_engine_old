@@ -40,7 +40,6 @@
 //! pub struct MySimpleUpdateScheduler;
 //!
 //! impl UpdateScheduler for MySimpleUpdateScheduler {
-//!
 //!     fn update(&mut self, context: &mut Context, state: &mut dyn State) {
 //!         state.update(context);
 //!     }
