@@ -1,11 +1,7 @@
 use crate::*;
 use crate::schedulers::RenderScheduler;
 
-/// A simple, default [RenderScheduler] which immediately runs [State::render()] once.
-///
-/// This implementation offers no additional features, and more or less the same as calling 
-/// [State::render()] directly.  It is the default [RenderScheduler] for the [Engine], and you don't
-/// have to do anything to use it.
+/// A simple [RenderScheduler] which immediately runs [State::render()] just once.
 pub struct SimpleRenderScheduler;
 
 impl RenderScheduler for SimpleRenderScheduler {
