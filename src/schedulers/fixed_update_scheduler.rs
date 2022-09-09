@@ -57,7 +57,7 @@ pub type TickRate = f64;
 /// let mut scheduler = FixedUpdateSchedulerBuilder::new()
 ///     .build();
 /// ```
-/// To run the sheduler, use the [UpdateScheduler::].
+/// To run the sheduler, use [UpdateScheduler::update()].
 ///
 pub struct FixedUpdateScheduler {
     tps: TickRate,
