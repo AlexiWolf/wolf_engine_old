@@ -11,37 +11,40 @@ use log::trace;
 pub type TickRate = f64;
 
 /// Provides an [UpdateScheduler] with consistent, framerate-independent, fixed time steps.
+/// 
+/// Based on [Fix Your Timestep](https://www.gafferongames.com/post/fix_your_timestep/).
 ///
-/// # Frame-rate Independence
-///
-/// No matter what frame-rate the game is running at, the gameplay will stay consistent.
+/// No matter what frame-rate the game is running at, the game will run a consistent speed.
 /// The loop will always perform the same number of ticks for a given period of game time,
 /// and the time-step for each tick will always be the same. This is achieved by adjusting
-/// the number of ticks in response to how far the game has fallen behind where it should
-/// be.
+/// the number of ticks in response to how much time has passed between the last update, and 
+/// the current update.
 ///
-/// How far behind the game is is called `lag`.  The game is ticked forward until the
-/// `lag` is less than the time-step, or until the real update time has exceeded the
-/// update time limit.
+/// The amount of time between the last update and the current update is called the `lag`.  The 
+/// game is stepped forward in consistent time-steps until the `lag` is less than the time-step, or
+/// until the real update time has exceeded the update time limit.  
 ///
-/// This results in the following behavior.
+/// For example, assuming a tick-rate of 120 ticks / sec, you can expect the following behavior:
 ///
-/// - At 120 tps and 30 fps, the loop runs 4 x 8ms ticks per frame.
-/// - At 120 tps and 60 fps, the loop runs 2 x 8ms ticks per frame.
-/// - At 120 tps and 120 fps, the loop runs 1 x 8ms ticks per frame.
-/// - At 120 tps and 240 fps, the loop runs 1 x 8ms tick every 2 frames.
+/// - 4 x 8ms ticks per frame at 30 fps.
+/// - 2 x 8ms ticks per frame at 60 fps.
+/// - 1 x 8ms ticks per frame at 120 fps.
+/// - 1 x 8ms tick every 2 frames at 240 fps.
 ///
-/// # Dealing With Excess Lag
+/// In practice, the framerate, tick execution speed, and the nubmer of ticks ran is unlikely to be
+/// exact.  Sometimes the `lag` will not be cleared all the way to 0, and in other cases, large
+/// lag-spikes may cause the game to exceed it's update time limit.  If there is remaining `lag`, 
+/// the `lag` is carried over to the next update cycle and more ticks will be ran to catch up.  For 
+/// large lag spikes, the game may temporarily slow down, but it should catch back up within a few 
+/// frames and the number of ticks ran will stay consistent.
 ///
-/// Sometimes the `lag` will not be cleared all the way to 0.  In other cases, large
-/// lag-spikes may cause the game to exceed it's update time limit.  In these cases, the
-/// remaining `lag` is carried over to the next update call and more ticks will be run to
-/// catch back up.
+/// # Dealing With Choppy Gameplay Due to Remaining Lag
 ///
-/// A side-effect of this system is that sometimes frames will be rendered in between
-/// ticks.  This can result in ugly stuttering.  To mitigate this, the render function
-/// can use the remaining lag to interpolate and smooth the rendered frame between the
-/// current one and the next one.
+/// If the lag is not cleared all the way to 0, the frame will be rendering the game between two 
+/// updates.  This can happen when there is no clean way to divide the frame rate by the tick rate.
+/// This can lead to visibly choppy, and "laggy" feeling gameplay, especially at lower tick-rates.
+/// To solve this problem, the renderer can interpolate between the previous state, and the current
+/// state to smooth the motion.
 ///
 /// # Examples
 ///
@@ -54,25 +57,7 @@ pub type TickRate = f64;
 /// let mut scheduler = FixedUpdateSchedulerBuilder::new()
 ///     .build();
 /// ```
-///
-/// The scheduler can then be used by calling `update` and `render` in a loop. A Game's
-/// [State], along with the [Context] object are passed in.
-///
-/// ```
-/// # use wolf_engine::*;
-/// # use wolf_engine::schedulers::*;
-/// #
-/// # let mut scheduler = FixedUpdateSchedulerBuilder::new()
-/// #     .build();
-/// # let mut context = Context::default();
-/// #
-/// # let mut state = EmptyState;
-/// #
-/// loop {
-///     scheduler.update(&mut context, &mut state);
-/// #   break;
-/// }
-/// ```
+/// To run the sheduler, use the [UpdateScheduler::].
 ///
 pub struct FixedUpdateScheduler {
     tps: TickRate,
