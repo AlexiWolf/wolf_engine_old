@@ -14,42 +14,40 @@ pub type TickRate = f64;
 /// 
 /// Based on [Fix Your Timestep](https://www.gafferongames.com/post/fix_your_timestep/).
 ///
-/// No matter what frame-rate the game is running at, the game will run a consistent speed.
+/// No matter what framerate the game is running at, the game will run a consistent speed.
 /// The scheduler will always perform the same number of ticks for a given period of game time,
-/// and the time-step for each tick will always be the same. This is achieved by adjusting
-/// the number of ticks in response to how much time has passed between the last update, and 
+/// and the timestep for each tick will always be the same. This is achieved by adjusting
+/// the number of ticks in response to how much real time has passed between the last update, and 
 /// the current update.
 ///
-/// The amount of time between the last update and the current update is called the `lag`.  The 
-/// game is stepped forward in consistent time-steps until the `lag` is less than the time-step, or
-/// until the real update time has exceeded the update time limit.  
-///
-/// For example, assuming a tick-rate of 120 ticks / sec, you can expect the following behavior:
+/// The amount of real time between the last update and the current update is called the `lag`.  
+/// The game is stepped forward in consistent timesteps until the `lag` is less than the timestep,
+/// or the real update time has exceeded the update time limit.  For example, assuming a tickrate 
+/// of 120 ticks / sec, you can expect the following behavior:
 ///
 /// - 4 x 8ms ticks per frame at 30 fps.
 /// - 2 x 8ms ticks per frame at 60 fps.
 /// - 1 x 8ms ticks per frame at 120 fps.
 /// - 1 x 8ms tick every 2 frames at 240 fps.
 ///
-/// In practice, the framerate, tick execution speed, and the nubmer of ticks ran is unlikely to be
+/// In practice, the framerate, tick execution speed, and number of ticks ran is unlikely to be
 /// exact.  Sometimes the `lag` will not be cleared all the way to 0, and in other cases, large
-/// lag-spikes may cause the game to exceed it's update time limit.  If there is remaining `lag`, 
-/// the `lag` is carried over to the next update cycle and more ticks will be ran to catch up.  For 
+/// lag spikes may cause the game to exceed it's update time limit.  If there is remaining `lag`, 
+/// the `lag` is carried over to the next update cycle and more ticks will run to catch up.  For 
 /// large lag spikes, the game may temporarily slow down, but it should catch back up within a few 
-/// frames and the number of ticks ran will stay consistent.
+/// frames, and the number of ticks ran will stay consistent.
 ///
-/// # Dealing With Choppy Gameplay Due to Remaining Lag
+/// # Dealing With Choppy Gameplay From Residual Lag
 ///
 /// If the lag is not cleared all the way to 0, the frame will be rendering the game between two 
 /// updates.  This can happen when there is no clean way to divide the frame rate by the tick rate.
-/// This can lead to visibly choppy, and "laggy" feeling gameplay, especially at lower tick-rates.
+/// This can lead to visibly choppy, and "laggy" feeling gameplay, especially at lower tickrates.
 /// To solve this problem, the renderer can interpolate between the previous state, and the current
 /// state to smooth the motion.
 ///
 /// # Examples
 ///
-/// The [FixedUpdateSchedulerBuilder] should be used to build new instances of the
-/// scheduler.
+/// The [FixedUpdateSchedulerBuilder] should be used to build new instances of the scheduler.
 ///
 /// ```
 /// # use wolf_engine::schedulers::FixedUpdateSchedulerBuilder;
