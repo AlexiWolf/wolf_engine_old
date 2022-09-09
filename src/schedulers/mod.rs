@@ -7,8 +7,8 @@
 //! documentation for specific details.
 //!
 //! The scheduler traits make it easy to change the behavior of the [Engine] to suit your game's 
-//! needs. Different implementations may provide different behavior and / or additional features, 
-//! so you should refer to implementation docs for specific details.
+//! needs. Different implementations may provide different behavior and additional features, so you
+//! should refer to implementation docs for specific details.
 //!
 //! By default, the [Engine] will use a [FixedUpdateScheduler](crate::schedulers::FixedUpdateScheduler)
 //! and a [SimpleRenderScheduler](crate::schedulers::SimpleRenderScheduler).
