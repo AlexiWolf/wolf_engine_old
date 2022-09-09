@@ -15,7 +15,7 @@ pub type TickRate = f64;
 /// Based on [Fix Your Timestep](https://www.gafferongames.com/post/fix_your_timestep/).
 ///
 /// No matter what frame-rate the game is running at, the game will run a consistent speed.
-/// The loop will always perform the same number of ticks for a given period of game time,
+/// The scheduler will always perform the same number of ticks for a given period of game time,
 /// and the time-step for each tick will always be the same. This is achieved by adjusting
 /// the number of ticks in response to how much time has passed between the last update, and 
 /// the current update.
