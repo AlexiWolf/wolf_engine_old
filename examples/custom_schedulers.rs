@@ -1,10 +1,12 @@
 use log::info;
-use wolf_engine::*;
 use wolf_engine::schedulers::*;
+use wolf_engine::*;
 
 pub fn main() {
     #[cfg(feature = "logging")]
-    { logging::initialize_logging(log::LevelFilter::Info); }
+    {
+        logging::initialize_logging(log::LevelFilter::Info);
+    }
 
     EngineBuilder::new()
         .with_update_scheduler(Box::from(CustomUpdateScheduler))
@@ -28,7 +30,7 @@ pub struct CustomRenderScheduler;
 impl RenderScheduler for CustomRenderScheduler {
     fn render(&mut self, context: &mut Context, state: &mut dyn State) {
         info!("Hello from a custom Render Scheduler!");
-        state.render(context); 
+        state.render(context);
     }
 }
 

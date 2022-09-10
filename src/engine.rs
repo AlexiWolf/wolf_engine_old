@@ -1,9 +1,9 @@
 use std::mem::replace;
 
-use crate::*;
 use crate::plugins::*;
 use crate::schedulers::*;
 use crate::utils::EngineControls;
+use crate::*;
 
 /// Provides the core functionality of the engine.
 ///
@@ -243,7 +243,7 @@ impl EngineBuilder {
         self.engine.update_scheduler = scheduler;
         self
     }
-    
+
     /// Set a custom [RenderScheduler] to be used.
     pub fn with_render_scheduler(mut self, scheduler: Box<dyn RenderScheduler>) -> Self {
         self.engine.render_scheduler = scheduler;
@@ -314,10 +314,7 @@ mod engine_builder_tests {
     #[test]
     fn should_set_custom_render_scheduler() {
         let mut scheduler = MockRenderScheduler::new();
-        scheduler
-            .expect_render()
-            .times(1..)
-            .return_const(());
+        scheduler.expect_render().times(1..).return_const(());
 
         EngineBuilder::new()
             .with_render_scheduler(Box::from(scheduler))

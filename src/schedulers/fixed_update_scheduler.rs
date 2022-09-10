@@ -1,9 +1,9 @@
 use std::fmt::{Display, Formatter};
 use std::time::{Duration, Instant};
 
-use crate::*;
-use crate::schedulers::UpdateScheduler;
 use crate::contexts::SchedulerContext;
+use crate::schedulers::UpdateScheduler;
+use crate::*;
 
 use log::trace;
 
@@ -11,18 +11,18 @@ use log::trace;
 pub type TickRate = f64;
 
 /// Provides an [UpdateScheduler] with consistent, framerate-independent, fixed time steps.
-/// 
+///
 /// Based on [Fix Your Timestep](https://www.gafferongames.com/post/fix_your_timestep/).
 ///
 /// No matter what framerate the game is running at, the game will run a consistent speed.
 /// The scheduler will always perform the same number of ticks for a given period of game time,
 /// and the timestep for each tick will always be the same. This is achieved by adjusting
-/// the number of ticks in response to how much real time has passed between the last update, and 
+/// the number of ticks in response to how much real time has passed between the last update, and
 /// the current update.
 ///
 /// The amount of real time between the last update and the current update is called the `lag`.  
 /// The game is stepped forward in consistent timesteps until the `lag` is less than the timestep,
-/// or the real update time has exceeded the update time limit.  For example, assuming a tickrate 
+/// or the real update time has exceeded the update time limit.  For example, assuming a tickrate
 /// of 120 ticks / sec, you can expect the following behavior:
 ///
 /// - 4 x 8ms ticks per frame at 30 fps.
@@ -32,14 +32,14 @@ pub type TickRate = f64;
 ///
 /// In practice, the framerate, tick execution speed, and number of ticks ran is unlikely to be
 /// exact.  Sometimes the `lag` will not be cleared all the way to 0, and in other cases, large
-/// lag spikes may cause the game to exceed it's update time limit.  If there is remaining `lag`, 
-/// the `lag` is carried over to the next update cycle and more ticks will run to catch up.  For 
-/// large lag spikes, the game may temporarily slow down, but it should catch back up within a few 
+/// lag spikes may cause the game to exceed it's update time limit.  If there is remaining `lag`,
+/// the `lag` is carried over to the next update cycle and more ticks will run to catch up.  For
+/// large lag spikes, the game may temporarily slow down, but it should catch back up within a few
 /// frames, and the number of ticks ran will stay consistent.
 ///
 /// # Dealing With Choppy Gameplay From Residual Lag
 ///
-/// If the lag is not cleared all the way to 0, the frame will be rendering the game between two 
+/// If the lag is not cleared all the way to 0, the frame will be rendering the game between two
 /// updates.  This can happen when there is no clean way to divide the frame rate by the tick rate.
 /// This can lead to visibly choppy, and "laggy" feeling gameplay, especially at lower tickrates.
 /// To solve this problem, the renderer can interpolate between the previous state, and the current

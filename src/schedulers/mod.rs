@@ -1,12 +1,12 @@
 //! Provides flexible timing controls for the [Engine].
 //!
-//! A scheduler is responsible for determining if and when the [Engine] should run various 
-//! operations.  This includes when to run [State] updates, render frames, and run various engine 
-//! stages.  Wolf Engine has two kinds of scheduler, [UpdateScheduler] to control game logic, and 
-//! [RenderScheduler] to control rendering.  Refer to the respective trait's documentation for 
+//! A scheduler is responsible for determining if and when the [Engine] should run various
+//! operations.  This includes when to run [State] updates, render frames, and run various engine
+//! stages.  Wolf Engine has two kinds of scheduler, [UpdateScheduler] to control game logic, and
+//! [RenderScheduler] to control rendering.  Refer to the respective trait's documentation for
 //! specific details.
 //!
-//! The scheduler traits make it easy to change the behavior of the [Engine] to suit your game's 
+//! The scheduler traits make it easy to change the behavior of the [Engine] to suit your game's
 //! needs. Different implementations may provide different behavior and additional features, so you
 //! should refer to implementation docs for specific details.
 //!
@@ -15,13 +15,13 @@
 //!
 //! # Examples
 //!
-//! Alternative schedulers can be provided to the [Engine] at startup using 
+//! Alternative schedulers can be provided to the [Engine] at startup using
 //! [EngineBuilder::with_update_scheduler()] and [EngineBuilder::with_render_scheduler()].
 //!
 //! ```
 //! # use wolf_engine::*;
 //! # use wolf_engine::schedulers::*;
-//! # 
+//! #
 //! # let update_scheduler = FixedUpdateScheduler::default();
 //! # let render_scheduler = SimpleRenderScheduler;
 //! #

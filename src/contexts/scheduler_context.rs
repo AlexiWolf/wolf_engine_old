@@ -3,7 +3,7 @@ use crate::Subcontext;
 /// Provides a way for a [scheduler](crate::schedulers) to report basic data.  
 ///
 /// The scheduler context allows a[scheduler](crate::schedulers) to update information
-/// such as number of ticks and frames that have been run. 
+/// such as number of ticks and frames that have been run.
 ///
 /// # Examples
 ///
@@ -34,8 +34,8 @@ use crate::Subcontext;
 ///
 /// ## Updating Stored Information
 ///
-/// The expectation is that only [schedulers](crate::schedulers) will be updating the context, so 
-/// **you should avoid calling these functions unless you are implementing a custom 
+/// The expectation is that only [schedulers](crate::schedulers) will be updating the context, so
+/// **you should avoid calling these functions unless you are implementing a custom
 /// [scheduler](crate::schedulers),** otherwise the engine or the game may misbehave.
 ///
 /// ```
