@@ -2,6 +2,7 @@ use std::fmt::{Display, Formatter};
 use std::time::{Duration, Instant};
 
 use crate::contexts::SchedulerContext;
+use crate::schedulers::UpdateScheduler;
 use crate::*;
 
 use log::trace;
@@ -9,44 +10,44 @@ use log::trace;
 /// Represents the number of ticks in a second (tps.)
 pub type TickRate = f64;
 
-/// Provides a [Scheduler] with consistent fixed-time-step updates, and variable
-/// rendering.
+/// Provides an [UpdateScheduler] with consistent, framerate-independent, fixed time steps.
 ///
-/// # Frame-rate Independence
+/// Based on [Fix Your Timestep](https://www.gafferongames.com/post/fix_your_timestep/).
 ///
-/// No matter what frame-rate the game is running at, the gameplay will stay consistent.
-/// The loop will always perform the same number of ticks for a given period of game time,
-/// and the time-step for each tick will always be the same. This is achieved by adjusting
-/// the number of ticks in response to how far the game has fallen behind where it should
-/// be.
+/// No matter what framerate the game is running at, the game will run a consistent speed.
+/// The scheduler will always perform the same number of ticks for a given period of game time,
+/// and the timestep for each tick will always be the same. This is achieved by adjusting
+/// the number of ticks in response to how much real time has passed between the last update, and
+/// the current update.
 ///
-/// How far behind the game is is called `lag`.  The game is ticked forward until the
-/// `lag` is less than the time-step, or until the real update time has exceeded the
-/// update time limit.
+/// The amount of real time between the last update and the current update is called the `lag`.  
+/// The game is stepped forward in consistent timesteps until the `lag` is less than the timestep,
+/// or the real update time has exceeded the update time limit.  For example, assuming a tickrate
+/// of 120 ticks / sec, you can expect the following behavior:
 ///
-/// This results in the following behavior.
+/// - 4 x 8ms ticks per frame at 30 fps.
+/// - 2 x 8ms ticks per frame at 60 fps.
+/// - 1 x 8ms ticks per frame at 120 fps.
+/// - 1 x 8ms tick every 2 frames at 240 fps.
 ///
-/// - At 120 tps and 30 fps, the loop runs 4 x 8ms ticks per frame.
-/// - At 120 tps and 60 fps, the loop runs 2 x 8ms ticks per frame.
-/// - At 120 tps and 120 fps, the loop runs 1 x 8ms ticks per frame.
-/// - At 120 tps and 240 fps, the loop runs 1 x 8ms tick every 2 frames.
+/// In practice, the framerate, tick execution speed, and number of ticks ran is unlikely to be
+/// exact.  Sometimes the `lag` will not be cleared all the way to 0, and in other cases, large
+/// lag spikes may cause the game to exceed it's update time limit.  If there is remaining `lag`,
+/// the `lag` is carried over to the next update cycle and more ticks will run to catch up.  For
+/// large lag spikes, the game may temporarily slow down, but it should catch back up within a few
+/// frames, and the number of ticks ran will stay consistent.
 ///
-/// # Dealing With Excess Lag
+/// # Dealing With Choppy Gameplay From Residual Lag
 ///
-/// Sometimes the `lag` will not be cleared all the way to 0.  In other cases, large
-/// lag-spikes may cause the game to exceed it's update time limit.  In these cases, the
-/// remaining `lag` is carried over to the next update call and more ticks will be run to
-/// catch back up.
-///
-/// A side-effect of this system is that sometimes frames will be rendered in between
-/// ticks.  This can result in ugly stuttering.  To mitigate this, the render function
-/// can use the remaining lag to interpolate and smooth the rendered frame between the
-/// current one and the next one.
+/// If the lag is not cleared all the way to 0, the frame will be rendering the game between two
+/// updates.  This can happen when there is no clean way to divide the frame rate by the tick rate.
+/// This can lead to visibly choppy, and "laggy" feeling gameplay, especially at lower tickrates.
+/// To solve this problem, the renderer can interpolate between the previous state, and the current
+/// state to smooth the motion.
 ///
 /// # Examples
 ///
-/// The [FixedUpdateSchedulerBuilder] should be used to build new instances of the
-/// scheduler.
+/// The [FixedUpdateSchedulerBuilder] should be used to build new instances of the scheduler.
 ///
 /// ```
 /// # use wolf_engine::schedulers::FixedUpdateSchedulerBuilder;
@@ -54,24 +55,7 @@ pub type TickRate = f64;
 /// let mut scheduler = FixedUpdateSchedulerBuilder::new()
 ///     .build();
 /// ```
-///
-/// The scheduler can then be used by calling `update` and `render` in a loop. A Game's
-/// [State], along with the [Context] object are passed in.
-///
-/// ```
-/// # use wolf_engine::{EmptyState, Context, Scheduler, schedulers::FixedUpdateSchedulerBuilder};
-/// # let mut scheduler = FixedUpdateSchedulerBuilder::new()
-/// #     .build();
-/// # let mut context = Context::default();
-/// #
-/// # let mut state = EmptyState;
-/// #
-/// loop {
-///     scheduler.update(&mut context, &mut state);
-///     scheduler.render(&mut context, &mut state);
-/// #   break;
-/// }
-/// ```
+/// To run the sheduler, use [UpdateScheduler::update()].
 ///
 pub struct FixedUpdateScheduler {
     tps: TickRate,
@@ -167,18 +151,11 @@ impl FixedUpdateScheduler {
     }
 }
 
-impl Scheduler for FixedUpdateScheduler {
+impl UpdateScheduler for FixedUpdateScheduler {
     fn update(&mut self, context: &mut Context, state: &mut dyn State) {
         self.accumulate_lag();
         self.run_tick_loop(state, context);
         self.update_time = Duration::from_secs(0);
-    }
-
-    fn render(&mut self, context: &mut Context, state: &mut dyn State) {
-        state.render(context);
-        if let Some(mut scheduler_context) = context.borrow_mut::<SchedulerContext>() {
-            scheduler_context.add_frame();
-        }
     }
 }
 
@@ -297,15 +274,6 @@ mod fixed_update_scheduler_tests {
         scheduler.update(&mut context, &mut state);
     }
 
-    #[test]
-    fn should_call_the_render_function() {
-        let (mut scheduler, mut context) = test_scheduler(8, 0);
-        let mut state = MockState::new();
-        state.expect_render().times(1).returning(|_| ());
-
-        scheduler.render(&mut context, &mut state);
-    }
-
     /// Testing minimum ticks because this test is not consistent cross platforms when checking
     /// exact values.  Windows and Mac, for example, tend to spend more time than specified sleeping
     /// which results in the number of updates exceeding that exact value.  THIS BEHAVIOR IS
@@ -329,26 +297,6 @@ mod fixed_update_scheduler_tests {
         assert!(
             scheduler_context.ticks() >= minimum_ticks,
             "The scheduler did not reach the expected number of ticks"
-        )
-    }
-
-    #[test]
-    fn should_count_frames_rendered() {
-        let (mut scheduler, mut context) = test_scheduler(0, 0);
-        let mut state = MockState::new();
-        state.expect_render().times(10).returning(|_| ());
-
-        for _ in 0..10 {
-            scheduler.render(&mut context, &mut state);
-        }
-
-        let scheduler_context = context
-            .borrow::<SchedulerContext>()
-            .expect("no SchedulerContext");
-        assert_eq!(
-            scheduler_context.frames(),
-            10,
-            "The scheduler should have counted 10 frames.",
         )
     }
 

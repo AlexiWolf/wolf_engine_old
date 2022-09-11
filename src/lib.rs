@@ -271,7 +271,7 @@
 //! - Configure [Engine] settings.
 //! - Load [Plugins](Plugin).
 //! - Load [Subcontexts](Subcontext).
-//! - Set a custom [Scheduler].
+//! - Set a custom [scheduler](schedulers).
 //! - Set a custom [MainLoop].
 //!
 //! See the [EngineBuilder's](EngineBuilder) documentation for more information.
@@ -319,7 +319,6 @@ mod engine;
 mod main_loop;
 mod plugin;
 mod plugin_loader;
-mod scheduler;
 mod state;
 mod state_stack;
 mod transition;
@@ -338,7 +337,6 @@ pub use engine::*;
 pub use main_loop::*;
 pub use plugin::*;
 pub use plugin_loader::*;
-pub use scheduler::*;
 pub use state::*;
 pub use state_stack::*;
 pub use transition::*;

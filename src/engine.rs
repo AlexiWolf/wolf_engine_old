@@ -1,7 +1,7 @@
 use std::mem::replace;
 
 use crate::plugins::*;
-use crate::schedulers::FixedUpdateScheduler;
+use crate::schedulers::*;
 use crate::utils::EngineControls;
 use crate::*;
 
@@ -9,7 +9,7 @@ use crate::*;
 ///
 /// The engine is the core of, well, the engine.  It's primary job is to take and run a
 /// set of game [State] objects.  The engine uses a [StateStack] to store all active
-/// [State]s, and a [Scheduler] to control when things are run.
+/// [State]s, and a [Scheduler](schedulers) to control when things are run.
 ///
 /// # Examples
 ///
@@ -71,8 +71,9 @@ use crate::*;
 /// for more details.
 pub struct Engine {
     pub context: Context,
-    pub scheduler: Box<dyn Scheduler>,
     pub state_stack: StateStack,
+    update_scheduler: Box<dyn UpdateScheduler>,
+    render_scheduler: Box<dyn RenderScheduler>,
     main_loop: Box<dyn MainLoop>,
 }
 
@@ -101,8 +102,9 @@ impl Engine {
     fn empty() -> Self {
         Self {
             context: Context::default(),
-            scheduler: Box::from(FixedUpdateScheduler::default()),
             state_stack: StateStack::new(),
+            update_scheduler: Box::from(FixedUpdateScheduler::default()),
+            render_scheduler: Box::from(SimpleRenderScheduler),
             main_loop: Box::from(EmptyMainLoop),
         }
     }
@@ -122,13 +124,13 @@ impl Engine {
 
     /// Runs a complete update of all engine and game state.
     pub fn update(&mut self) {
-        self.scheduler
+        self.update_scheduler
             .update(&mut self.context, &mut self.state_stack);
     }
 
     /// Renders the current frame.
     pub fn render(&mut self) {
-        self.scheduler
+        self.render_scheduler
             .render(&mut self.context, &mut self.state_stack);
     }
 }
@@ -152,12 +154,12 @@ mod wolf_engine_tests {
     fn should_run_the_state() {
         let wolf_engine = Engine::default();
         let mut state = MockState::new();
-        state.expect_setup().times(..).returning(|_| ());
+        state.expect_setup().times(1).returning(|_| ());
         state
             .expect_update()
             .times(1..)
             .returning(|_| Some(TransitionType::Clean));
-        state.expect_render().times(1..).returning(|_| ());
+        state.expect_render().times(..).returning(|_| ());
         state.expect_shutdown().times(1).returning(|_| ());
 
         wolf_engine.run(Box::from(state));
@@ -236,9 +238,15 @@ impl EngineBuilder {
         }
     }
 
-    /// Set a custom [Scheduler] to be used.
-    pub fn with_scheduler(mut self, scheduler: Box<dyn Scheduler>) -> Self {
-        self.engine.scheduler = scheduler;
+    /// Set a custom [UpdateScheduler] to be used.
+    pub fn with_update_scheduler(mut self, scheduler: Box<dyn UpdateScheduler>) -> Self {
+        self.engine.update_scheduler = scheduler;
+        self
+    }
+
+    /// Set a custom [RenderScheduler] to be used.
+    pub fn with_render_scheduler(mut self, scheduler: Box<dyn RenderScheduler>) -> Self {
+        self.engine.render_scheduler = scheduler;
         self
     }
 
@@ -287,18 +295,29 @@ mod engine_builder_tests {
     use super::*;
 
     #[test]
-    fn should_set_custom_scheduler() {
-        let mut scheduler = MockScheduler::new();
+    fn should_set_custom_update_scheduler() {
+        let mut scheduler = MockUpdateScheduler::new();
         scheduler
             .expect_update()
             .times(1..)
             .returning(|context, state_stack| {
                 state_stack.update(context);
             });
-        scheduler.expect_render().times(..).return_const(());
 
         EngineBuilder::new()
-            .with_scheduler(Box::from(scheduler))
+            .with_update_scheduler(Box::from(scheduler))
+            .build()
+            .expect("Failed to build the engine")
+            .run(Box::from(EmptyState));
+    }
+
+    #[test]
+    fn should_set_custom_render_scheduler() {
+        let mut scheduler = MockRenderScheduler::new();
+        scheduler.expect_render().times(1..).return_const(());
+
+        EngineBuilder::new()
+            .with_render_scheduler(Box::from(scheduler))
             .build()
             .expect("Failed to build the engine")
             .run(Box::from(EmptyState));
