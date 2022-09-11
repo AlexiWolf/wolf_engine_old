@@ -17,7 +17,6 @@ anymap = "0.12"
 simple_logger = {version = "1.13", optional = true}
 
 [dev-dependencies]
-lazy_static= "1.4"
 test-case = "1.2"
 mockall = "0.11"
 
