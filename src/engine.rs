@@ -55,12 +55,13 @@ use crate::*;
 ///
 /// # Main Loops
 ///
-/// The engine doesn't run the main loop on it's own.  Instead, it delegates the main loop
-/// to an [MainLoop] implementation.  This helps to make the engine more modular, and
-/// customizable.  A [MainLoop] can be used to change the specific way the engine runs
-/// with ease, and is primarily used to integrate with 3rd party modules that insist
-/// on being control of the main loop (such as Winit.)  See [MainLoop]'s documentation
-/// for more details.
+/// The `Engine` doesn't run on its own.  Instead, it delegates the run behavior to a [MainLoop] 
+/// implementation.  A [MainLoop] is used to customize the way the `Engine` runs, and are most
+/// often used to integrate with other frameworks.  They may, however, be used to change the core
+/// behavior of the `Engine` to better suit a projects needs.
+///
+/// By default, the `Engine` will use a [SimpleMainLoop].  [EngineBuilder::with_main_loop()], or a
+/// [Plugin] can change which [MainLoop] is used.
 pub struct Engine {
     pub context: Context,
     pub state_stack: StateStack,
