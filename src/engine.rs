@@ -76,6 +76,10 @@ impl Engine {
         Self::default()
     }
 
+    pub fn builder() -> EngineBuilder {
+        EngineBuilder::new()
+    }
+
     /// Takes ownership over the engine and runs until the [MainLoop] exits.
     pub fn run(mut self, initial_state: Box<dyn State>) {
         log_startup_information();
