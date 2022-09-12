@@ -288,7 +288,7 @@ impl Default for EngineBuilder {
             plugin_loader: PluginLoader::new(),
         }
         .load_default_plugins()
-        .with_main_loop(Box::from(DefaultMainLoop))
+        .with_main_loop(Box::from(SimpleMainLoop))
     }
 }
 

@@ -60,9 +60,9 @@ pub trait MainLoop {
 ///
 /// This is a minimal reference implementation of [MainLoop].  The main loop will exit when
 /// [Engine::is_running()] returns false.
-pub struct DefaultMainLoop;
+pub struct SimpleMainLoop;
 
-impl MainLoop for DefaultMainLoop {
+impl MainLoop for SimpleMainLoop {
     fn run(&mut self, mut engine: Engine) -> Engine {
         while engine.is_running() {
             engine.start_frame();
