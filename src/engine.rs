@@ -75,7 +75,8 @@ impl Engine {
     pub fn new() -> Self {
         Self::default()
     }
-
+    
+    /// Creates an instance of the [EngineBuilder].
     pub fn builder() -> EngineBuilder {
         EngineBuilder::new()
     }
