@@ -65,6 +65,14 @@ pub struct FixedUpdateScheduler {
     lag: Duration,
 }
 
+impl UpdateScheduler for FixedUpdateScheduler {
+    fn update(&mut self, context: &mut Context, state: &mut dyn State) {
+        self.accumulate_lag();
+        self.run_tick_loop(state, context);
+        self.update_time = Duration::from_secs(0);
+    }
+}
+
 impl FixedUpdateScheduler {
     /// Create a new fixed update scheduler with the default settings.
     pub fn new() -> Self {
@@ -148,14 +156,6 @@ impl FixedUpdateScheduler {
         let tick_start = Instant::now();
         state.update(context);
         tick_start.elapsed()
-    }
-}
-
-impl UpdateScheduler for FixedUpdateScheduler {
-    fn update(&mut self, context: &mut Context, state: &mut dyn State) {
-        self.accumulate_lag();
-        self.run_tick_loop(state, context);
-        self.update_time = Duration::from_secs(0);
     }
 }
 
