@@ -1,4 +1,4 @@
-//! Provides swapable [MainLoop] functions.
+//! Provides swappable [MainLoop] functions.
 
 use crate::*;
 
