@@ -59,6 +59,7 @@ pub type TickRate = f64;
 ///
 pub struct FixedUpdateScheduler {
     tps: TickRate,
+    time_step: Duration,
     max_update_time: Duration,
     update_time: Duration,
     previous_update: Instant,
@@ -70,13 +71,19 @@ impl FixedUpdateScheduler {
     pub fn new() -> Self {
         let now = Instant::now();
         let zero = Duration::from_secs(0);
+        let tps = 120.0;
         Self {
-            tps: 120.0,
+            tps,
+            time_step: Self::time_step(tps),
             max_update_time: Duration::from_millis(100),
             update_time: zero,
             previous_update: now,
             lag: zero,
         }
+    }
+
+    fn time_step(tick_rate: TickRate) -> Duration {
+        Duration::from_millis((1000.0 / tick_rate).round() as u64)
     }
 
     /// Returns the current target [TickRate] of the scheduler.
@@ -101,7 +108,7 @@ impl FixedUpdateScheduler {
     }
 
     fn lag_is_greater_than_time_step(&self) -> bool {
-        self.lag >= self.time_step()
+        self.lag >= self.time_step
     }
 
     fn has_not_exceeded_max_update_time(&self) -> bool {
@@ -119,10 +126,6 @@ impl UpdateScheduler for FixedUpdateScheduler {
 }
 
 impl FixedUpdateScheduler {
-    fn time_step(&self) -> Duration {
-        Duration::from_millis((1000.0 / self.tps).round() as u64)
-    }
-
     fn time_since_last_update(&mut self) -> (Instant, Duration) {
         let current_instant = Instant::now();
         let elapsed_time = current_instant - self.previous_update;
@@ -137,7 +140,7 @@ impl FixedUpdateScheduler {
 
     fn update_timing(&mut self, tick_run_time: Duration) {
         self.update_time += tick_run_time;
-        self.lag -= self.time_step();
+        self.lag -= self.time_step;
     }
 
     fn run_tick_loop(&mut self, state: &mut dyn State, context: &mut Context) {
