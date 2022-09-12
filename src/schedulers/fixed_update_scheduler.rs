@@ -99,6 +99,15 @@ impl FixedUpdateScheduler {
     pub fn can_run_a_tick(&self) -> bool {
         self.lag_is_greater_than_time_step() && self.has_not_exceeded_max_update_time()
     }
+
+    fn lag_is_greater_than_time_step(&self) -> bool {
+        self.lag >= self.time_step()
+    }
+
+    fn has_not_exceeded_max_update_time(&self) -> bool {
+        self.update_time < self.max_update_time
+    }
+
 }
 
 impl UpdateScheduler for FixedUpdateScheduler {
@@ -110,14 +119,6 @@ impl UpdateScheduler for FixedUpdateScheduler {
 }
 
 impl FixedUpdateScheduler {
-    fn lag_is_greater_than_time_step(&self) -> bool {
-        self.lag >= self.time_step()
-    }
-
-    fn has_not_exceeded_max_update_time(&self) -> bool {
-        self.update_time < self.max_update_time
-    }
-
     fn time_step(&self) -> Duration {
         Duration::from_millis((1000.0 / self.tps).round() as u64)
     }
