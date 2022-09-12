@@ -9,8 +9,7 @@ use crate::*;
 ///
 /// The `Engine` holds ownership over all major components such as the [Context], [StateStack], and 
 /// [schedulers].  Its main job is to take and run a set of [State] objects.  It also includes a 
-/// set of helper methods which provide Wolf Engine's default behaviors.  These behaviors can be
-/// used (or overridden) by a [MainLoop].
+/// set of helper methods which provide Wolf Engine's default behaviors.
 ///
 /// # Examples
 ///
