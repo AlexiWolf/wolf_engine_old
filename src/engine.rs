@@ -5,11 +5,12 @@ use crate::schedulers::*;
 use crate::utils::EngineControls;
 use crate::*;
 
-/// Provides the core functionality of the engine.
+/// Provides the core functionality of Wolf Engine.
 ///
-/// The engine is the core of, well, the engine.  It's primary job is to take and run a
-/// set of game [State] objects.  The engine uses a [StateStack] to store all active
-/// [State]s, and a [Scheduler](schedulers) to control when things are run.
+/// The `Engine` holds ownership over all major components such as the [Context], [StateStack], and 
+/// [schedulers].  It's main job is to take and run a set of [State] objects.  It also includes a 
+/// set of helper methods which provide Wolf Engine's default behaviors.  These behaviors can be
+/// used (or overridden) by a [MainLoop].
 ///
 /// # Examples
 ///
