@@ -193,8 +193,8 @@ mod wolf_engine_tests {
     #[test]
     fn should_have_engine_context() {
         let engine = Engine::default();
-
-        let _engine_context = engine.context.borrow::<EngineContext>();
+        let engine_context = engine.context.borrow::<EngineContext>();
+        assert!(engine_context.is_some(), "There is no EngineContext loaded");
     }
 
     #[test]
