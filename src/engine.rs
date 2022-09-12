@@ -41,7 +41,7 @@ use crate::*;
 /// Refer to the [EngineBuilder] documentation for specifics on what it can do.
 ///
 /// Running the engine is the same, no matter if you're using the default instance, or
-/// a customized instance.  Just run [Engine::run()] and pass your game's starting [State]
+/// a customized instance.  Call [Engine::run()] and pass your game's starting [State]
 /// to it.
 ///
 /// ```
