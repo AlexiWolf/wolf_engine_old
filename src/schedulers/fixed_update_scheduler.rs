@@ -199,6 +199,7 @@ impl FixedUpdateSchedulerBuilder {
     /// Set the target [TickRate], or ticks per second of the scheduler.
     pub fn with_tps(mut self, tps: TickRate) -> Self {
         self.scheduler.tps = tps;
+        self.scheduler.time_step = FixedUpdateScheduler::time_step(tps);
         self
     }
 
