@@ -85,16 +85,16 @@ impl Engine {
     pub fn run(mut self, initial_state: Box<dyn State>) {
         log_startup_information();
         self.state_stack.push(initial_state, &mut self.context);
-        let (mut engine, mut main_loop) = self.extract_core_function();
+        let (mut engine, mut main_loop) = self.replace_and_return_owned_main_loop();
         engine = (main_loop).run(engine);
         engine.state_stack.clear(&mut engine.context);
         log_shutdown();
     }
 
-    fn extract_core_function(mut self) -> (Engine, Box<dyn MainLoop>) {
+    fn replace_and_return_owned_main_loop(mut self) -> (Engine, Box<dyn MainLoop>) {
         let mut engine = replace(&mut self, Self::empty());
-        let engine_core = replace(&mut engine.main_loop, Box::from(EmptyMainLoop));
-        (engine, engine_core)
+        let main_loop = replace(&mut engine.main_loop, Box::from(EmptyMainLoop));
+        (engine, main_loop)
     }
 
     fn empty() -> Self {
