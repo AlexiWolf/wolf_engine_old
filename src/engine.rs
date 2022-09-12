@@ -147,10 +147,12 @@ impl Default for Engine {
 mod wolf_engine_tests {
     use crate::contexts::EngineContext;
     use crate::{MockState, TransitionType};
+    use ntest::timeout;
 
     use super::*;
 
     #[test]
+    #[timeout(10)]
     fn should_run_the_state() {
         let wolf_engine = Engine::default();
         let mut state = MockState::new();
@@ -199,6 +201,7 @@ mod wolf_engine_tests {
     }
 
     #[test]
+    #[timeout(10)]
     fn should_stop_running_when_quit_is_called() {
         let engine = Engine::default();
         let mut state = MockState::new();
