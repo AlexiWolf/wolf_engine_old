@@ -354,7 +354,7 @@ mod fixed_update_scheduler_builder_tests {
         let scheduler = FixedUpdateSchedulerBuilder::new().with_tps(60.0).build();
 
         assert_eq!(scheduler.tps(), 60.0);
-        assert_eq!(scheduler.time_step, Duration::from_millis(16.6));
+        assert_eq!(scheduler.time_step, Duration::from_millis(17));
     }
 
     #[test]
