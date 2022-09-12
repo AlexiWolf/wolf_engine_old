@@ -14,40 +14,32 @@ use crate::*;
 ///
 /// # Examples
 ///
-/// If you just want to use the defaults, you can use [Engine::new()].
+/// If you just want to use the defaults, you can use [Engine::new()] or [Engine::default()].
 ///
 /// ```
 /// # use wolf_engine::*;
 /// #
-/// # let my_game_state = EmptyState;
-/// #
-/// let engine = Engine::new();
+/// let new_engine = Engine::new();
+/// // or
+/// let default_engine = Engine::default();
 /// ```
 ///
-/// Using [Engine::default()] does the same thing:
+/// Otherwise, the [EngineBuilder] and [Plugin] system can be used to customize just about every 
+/// aspect of the `Engine`.
 ///
-/// ```
-/// # use wolf_engine::*;
-/// #
-/// # let my_game_state = EmptyState;
-/// #
-/// let engine = Engine::default();
-/// ```
-///
-/// If you don't want to use the default settings, the [EngineBuilder] and [Plugin]
-/// system can be used to customize just about every aspect of the engine.
+/// Create a new [EngineBuilder] by calling [Engine::builder()].
 ///
 /// ```
 /// # use wolf_engine::*;
 /// #
 /// // Add to the Context object here.
-/// let engine = EngineBuilder::new()
+/// let engine = Engine::builder()
 ///     // Customize the engine here.
 ///     .build()
 ///     .expect("Failed to build the Engine");
 /// ```
 ///
-/// You can refer to the [EngineBuilder] documentation for specifics on what it can do.
+/// Refer to the [EngineBuilder] documentation for specifics on what it can do.
 ///
 /// Running the engine is the same, no matter if you're using the default instance, or
 /// a customized instance.  Just run [Engine::run()] and pass your game's starting [State]
