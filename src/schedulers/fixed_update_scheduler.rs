@@ -66,6 +66,14 @@ pub struct FixedUpdateScheduler {
     lag: Duration,
 }
 
+impl UpdateScheduler for FixedUpdateScheduler {
+    fn update(&mut self, context: &mut Context, state: &mut dyn State) {
+        self.accumulate_lag();
+        self.run_tick_loop(state, context);
+        self.update_time = Duration::from_secs(0);
+    }
+}
+
 impl FixedUpdateScheduler {
     /// Create a new fixed update scheduler with the default settings.
     pub fn new() -> Self {
@@ -115,42 +123,26 @@ impl FixedUpdateScheduler {
         self.update_time < self.max_update_time
     }
 
-}
-
-impl UpdateScheduler for FixedUpdateScheduler {
-    fn update(&mut self, context: &mut Context, state: &mut dyn State) {
-        self.accumulate_lag();
-        self.run_tick_loop(state, context);
-        self.update_time = Duration::from_secs(0);
-    }
-}
-
-impl FixedUpdateScheduler {
-    fn time_since_last_update(&mut self) -> (Instant, Duration) {
-        let current_instant = Instant::now();
-        let elapsed_time = current_instant - self.previous_update;
-        (current_instant, elapsed_time)
-    }
-
     fn accumulate_lag(&mut self) {
         let (current_instant, elapsed_time) = self.time_since_last_update();
         self.previous_update = current_instant;
         self.lag += elapsed_time;
     }
 
-    fn update_timing(&mut self, tick_run_time: Duration) {
-        self.update_time += tick_run_time;
-        self.lag -= self.time_step;
+    fn time_since_last_update(&mut self) -> (Instant, Duration) {
+        let current_instant = Instant::now();
+        let elapsed_time = current_instant - self.previous_update;
+        (current_instant, elapsed_time)
     }
 
     fn run_tick_loop(&mut self, state: &mut dyn State, context: &mut Context) {
         while self.can_run_a_tick() {
             trace!("Running Tick: {}", self);
-            self.tick(state, context);
+            self.run_tick(state, context);
         }
     }
 
-    fn tick(&mut self, state: &mut dyn State, context: &mut Context) {
+    fn run_tick(&mut self, state: &mut dyn State, context: &mut Context) {
         let tick_run_time = Self::run_tick_and_track_execution_time(state, context);
         self.update_timing(tick_run_time);
         if let Some(mut scheduler_context) = context.borrow_mut::<SchedulerContext>() {
@@ -162,6 +154,11 @@ impl FixedUpdateScheduler {
         let tick_start = Instant::now();
         state.update(context);
         tick_start.elapsed()
+    }
+    
+    fn update_timing(&mut self, tick_run_time: Duration) {
+        self.update_time += tick_run_time;
+        self.lag -= self.time_step;
     }
 }
 
