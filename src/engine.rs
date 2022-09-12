@@ -71,7 +71,7 @@ pub struct Engine {
 }
 
 impl Engine {
-    /// Creates and instance of the engine with the default settings.
+    /// Creates an instance of the engine with the default settings.
     pub fn new() -> Self {
         Self::default()
     }
