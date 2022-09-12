@@ -65,14 +65,6 @@ pub struct FixedUpdateScheduler {
     lag: Duration,
 }
 
-impl UpdateScheduler for FixedUpdateScheduler {
-    fn update(&mut self, context: &mut Context, state: &mut dyn State) {
-        self.accumulate_lag();
-        self.run_tick_loop(state, context);
-        self.update_time = Duration::from_secs(0);
-    }
-}
-
 impl FixedUpdateScheduler {
     /// Create a new fixed update scheduler with the default settings.
     pub fn new() -> Self {
@@ -107,7 +99,17 @@ impl FixedUpdateScheduler {
     pub fn can_run_a_tick(&self) -> bool {
         self.lag_is_greater_than_time_step() && self.has_not_exceeded_max_update_time()
     }
+}
 
+impl UpdateScheduler for FixedUpdateScheduler {
+    fn update(&mut self, context: &mut Context, state: &mut dyn State) {
+        self.accumulate_lag();
+        self.run_tick_loop(state, context);
+        self.update_time = Duration::from_secs(0);
+    }
+}
+
+impl FixedUpdateScheduler {
     fn lag_is_greater_than_time_step(&self) -> bool {
         self.lag >= self.time_step()
     }
