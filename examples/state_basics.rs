@@ -9,7 +9,7 @@ pub fn main() {
 
     let state = MyState::new("Hello, world!");
 
-    Engine::new().run(Box::from(state));
+    Engine::default().run(Box::from(state));
 }
 
 pub struct MyState {

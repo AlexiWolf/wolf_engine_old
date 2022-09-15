@@ -11,7 +11,7 @@ pub fn main() {
     let game = FizzBuzzState::new();
 
     // Pass your state to the engine.  Have fun!
-    Engine::new().run(Box::from(game));
+    Engine::default().run(Box::from(game));
 }
 
 // Your game is implemented as one or many game states.  A game state stores all the
