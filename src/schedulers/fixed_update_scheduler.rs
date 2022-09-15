@@ -84,6 +84,10 @@ impl UpdateScheduler for FixedUpdateScheduler {
 }
 
 impl FixedUpdateScheduler {
+    pub fn builder() -> FixedUpdateSchedulerBuilder {
+        FixedUpdateSchedulerBuilder::new()
+    }
+
     fn time_step(tick_rate: TickRate) -> Duration {
         Duration::from_millis((1000.0 / tick_rate).round() as u64)
     }
