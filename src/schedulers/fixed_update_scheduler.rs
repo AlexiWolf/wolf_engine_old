@@ -50,13 +50,22 @@ pub type TickRate = f64;
 /// The [FixedUpdateSchedulerBuilder] should be used to build new instances of the scheduler.
 ///
 /// ```
-/// # use wolf_engine::schedulers::FixedUpdateSchedulerBuilder;
+/// # use wolf_engine::schedulers::FixedUpdateScheduler;
 /// #
-/// let mut scheduler = FixedUpdateSchedulerBuilder::new()
+/// let mut scheduler = FixedUpdateScheduler::builder()
+///     // Changes settings.
 ///     .build();
 /// ```
-/// To run the scheduler, use [UpdateScheduler::update()].
 ///
+/// To use the [Default] settings.
+///
+/// ```
+/// # use wolf_engine::schedulers::FixedUpdateScheduler;
+/// #
+/// let mut scheduler = FixedUpdateScheduler::default();
+/// ```
+///
+/// To run the scheduler, use [UpdateScheduler::update()].
 pub struct FixedUpdateScheduler {
     tps: TickRate,
     time_step: Duration,
