@@ -13,12 +13,12 @@ use crate::*;
 ///
 /// # Examples
 ///
-/// If you just want to use the defaults, you can use [Engine::new()] or [Engine::default()].
+/// If you just want to use the defaults, you can use [Engine::default()] or [Engine::default()].
 ///
 /// ```
 /// # use wolf_engine::*;
 /// #
-/// let new_engine = Engine::new();
+/// let new_engine = Engine::default();
 /// // or
 /// let default_engine = Engine::default();
 /// ```
