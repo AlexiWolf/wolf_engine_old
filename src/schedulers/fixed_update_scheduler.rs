@@ -84,21 +84,6 @@ impl UpdateScheduler for FixedUpdateScheduler {
 }
 
 impl FixedUpdateScheduler {
-    /// Create a new fixed update scheduler with the default settings.
-    pub fn new() -> Self {
-        let now = Instant::now();
-        let zero = Duration::from_secs(0);
-        let tps = 120.0;
-        Self {
-            tps,
-            time_step: Self::time_step(tps),
-            max_update_time: Duration::from_millis(100),
-            update_time: zero,
-            previous_update: now,
-            lag: zero,
-        }
-    }
-
     fn time_step(tick_rate: TickRate) -> Duration {
         Duration::from_millis((1000.0 / tick_rate).round() as u64)
     }
@@ -185,7 +170,17 @@ impl Display for FixedUpdateScheduler {
 
 impl Default for FixedUpdateScheduler {
     fn default() -> Self {
-        Self::new()
+        let now = Instant::now();
+        let zero = Duration::from_secs(0);
+        let tps = 120.0;
+        Self {
+            tps,
+            time_step: Self::time_step(tps),
+            max_update_time: Duration::from_millis(100),
+            update_time: zero,
+            previous_update: now,
+            lag: zero,
+        }
     }
 }
 
