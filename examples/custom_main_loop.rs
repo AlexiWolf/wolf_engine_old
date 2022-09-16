@@ -17,6 +17,7 @@ pub fn main() {
 // Main loops offer you a lot of control because they give you full ownership over
 // the running `Engine` instance.  This essentially means you can directly control
 // how the engine runs things.
+#[derive(Debug)]
 pub struct MyMainLoop;
 
 impl MainLoop for MyMainLoop {
