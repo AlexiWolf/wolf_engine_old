@@ -216,6 +216,7 @@ mod wolf_engine_tests {
 /// The two main jobs of the engine builder is to load [Plugin]s and allow users to
 /// customize the [Engine]'s settings.  The engine builder provides direct access to the
 /// [Engine], and it's public types.
+#[derive(Debug)]
 pub struct EngineBuilder {
     pub engine: Engine,
     plugin_loader: PluginLoader,

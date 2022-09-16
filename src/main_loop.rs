@@ -56,6 +56,7 @@ use mockall::automock;
 /// ```
 /// # use wolf_engine::*;
 /// #
+/// #[derive(Debug)]
 /// pub struct CustomMainLoop;
 ///
 /// impl MainLoop for CustomMainLoop {
