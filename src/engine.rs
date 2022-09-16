@@ -62,6 +62,7 @@ use crate::*;
 ///
 /// By default, the `Engine` will use a [SimpleMainLoop].  [EngineBuilder::with_main_loop()], or a
 /// [Plugin] can change which [MainLoop] is used.
+#[derive(Debug)]
 pub struct Engine {
     pub context: Context,
     pub state_stack: StateStack,
