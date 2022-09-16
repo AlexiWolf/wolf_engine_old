@@ -1,3 +1,5 @@
+use std::any::{Any, type_name};
+
 use crate::*;
 
 #[cfg(test)]
@@ -43,7 +45,7 @@ use mockall::automock;
 /// }
 /// ```
 #[cfg_attr(test, automock)]
-pub trait State {
+pub trait State: Any {
     /// Run one-time setup before the state is run.
     ///
     /// There are no specific requirements for this method.  You may use it to do whatever
@@ -126,6 +128,10 @@ pub trait State {
     /// - The [Engine] requests a frame to render,
     /// - and the state is not the topmost state on the [StateStack].
     fn background_render(&mut self, _context: &mut Context) {}
+
+    fn name(&self) -> &'static str {
+        type_name::<Self>()
+    }
 }
 
 /// A no-op state that will close immediately.
