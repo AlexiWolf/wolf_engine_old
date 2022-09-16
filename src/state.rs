@@ -129,6 +129,11 @@ pub trait State: Any {
     /// - and the state is not the topmost state on the [StateStack].
     fn background_render(&mut self, _context: &mut Context) {}
 
+    /// Get the name of the state, mostly for debugging purposes.
+    ///
+    /// By default the [type name](type_name) for the state is used, but there are no specific 
+    /// requirements for what must be returned.  The plugin name may not be  unique and should not 
+    /// be used to uniquely identify a state.
     fn name(&self) -> &'static str {
         type_name::<Self>()
     }
