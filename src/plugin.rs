@@ -1,4 +1,4 @@
-use std::any::{type_name, Any};
+use std::{any::{type_name, Any}, fmt::Debug};
 
 use crate::EngineBuilder;
 
@@ -75,5 +75,11 @@ pub trait Plugin: Any {
     /// unique and should not be used to uniquely identify a plugin.
     fn name(&self) -> &'static str {
         type_name::<Self>()
+    }
+}
+
+impl Debug for dyn Plugin {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct(self.name()).finish()
     }
 }
