@@ -37,6 +37,7 @@
 //! # use wolf_engine::*;
 //! # use wolf_engine::schedulers::*;
 //! #
+//! #[derive(Debug)]
 //! pub struct MySimpleUpdateScheduler;
 //!
 //! impl UpdateScheduler for MySimpleUpdateScheduler {
@@ -45,6 +46,7 @@
 //!     }
 //! }
 //!
+//! #[derive(Debug)]
 //! pub struct MySimpleRenderScheduler;
 //!
 //! impl RenderScheduler for MySimpleRenderScheduler {
