@@ -66,6 +66,7 @@ pub type TickRate = f64;
 /// ```
 ///
 /// To run the scheduler, use [UpdateScheduler::update()].
+#[derive(Debug)]
 pub struct FixedUpdateScheduler {
     tps: TickRate,
     time_step: Duration,
