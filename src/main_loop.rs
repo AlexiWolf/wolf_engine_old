@@ -82,6 +82,7 @@ pub trait MainLoop: Debug {
 ///
 /// This is a minimal reference implementation of [MainLoop] which uses a `while` loop to run the
 /// [Engine].  The main loop will exit when [Engine::is_running()] returns false.
+#[derive(Debug)]
 pub struct SimpleMainLoop;
 
 impl MainLoop for SimpleMainLoop {
