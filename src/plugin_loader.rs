@@ -1,3 +1,5 @@
+use std::fmt::Debug;
+
 use crate::{EngineBuilder, Plugin};
 use log::{debug, error};
 
@@ -61,6 +63,12 @@ impl PluginLoader {
             }
         }
         Ok(engine_builder)
+    }
+}
+
+impl Debug for PluginLoader {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PluginLoader").field("plugins", &self.plugins.len()).finish()
     }
 }
 
