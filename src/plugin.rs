@@ -1,4 +1,5 @@
-use std::{any::{type_name, Any}, fmt::Debug};
+use std::fmt::Debug;
+use std::any::{type_name, Any};
 
 use crate::EngineBuilder;
 
@@ -80,6 +81,9 @@ pub trait Plugin: Any {
 
 impl Debug for dyn Plugin {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct(self.name()).finish()
+        f.debug_struct("Plugin")
+            .field("type_id", &self.type_id())
+            .field("name", &self.name())
+            .finish()
     }
 }
