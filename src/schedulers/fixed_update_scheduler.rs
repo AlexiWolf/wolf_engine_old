@@ -154,7 +154,7 @@ impl FixedUpdateScheduler {
         state.update(context);
         tick_start.elapsed()
     }
-    
+
     fn update_timing(&mut self, tick_run_time: Duration) {
         self.update_time += tick_run_time;
         self.lag -= self.time_step;

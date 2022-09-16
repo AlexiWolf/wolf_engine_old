@@ -7,8 +7,8 @@ use crate::*;
 
 /// Provides the core functionality of Wolf Engine.
 ///
-/// The `Engine` holds ownership over all major components such as the [Context], [StateStack], and 
-/// [schedulers].  Its main job is to take and run a set of [State] objects.  It also includes a 
+/// The `Engine` holds ownership over all major components such as the [Context], [StateStack], and
+/// [schedulers].  Its main job is to take and run a set of [State] objects.  It also includes a
 /// set of helper methods which provide Wolf Engine's default behaviors.
 ///
 /// # Examples
@@ -23,7 +23,7 @@ use crate::*;
 /// let default_engine = Engine::default();
 /// ```
 ///
-/// Otherwise, the [EngineBuilder] and [Plugin] system can be used to customize just about every 
+/// Otherwise, the [EngineBuilder] and [Plugin] system can be used to customize just about every
 /// aspect of the `Engine`.
 ///
 /// Create a new [EngineBuilder] by calling [Engine::builder()].
@@ -55,7 +55,7 @@ use crate::*;
 ///
 /// # Main Loops
 ///
-/// The `Engine` doesn't run on its own.  Instead, it delegates the run behavior to a [MainLoop] 
+/// The `Engine` doesn't run on its own.  Instead, it delegates the run behavior to a [MainLoop]
 /// implementation.  A [MainLoop] is used to customize the way the `Engine` runs, and are most
 /// often used to integrate with other frameworks.  They may, however, be used to change the core
 /// behavior of the `Engine` to better suit a projects needs.

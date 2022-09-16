@@ -9,20 +9,20 @@ use mockall::automock;
 
 /// Provides the main-loop for the [Engine].
 ///
-/// The `MainLoop` loop is responsible for actually running the [Engine], and can directly control 
-/// the specifics of how the [Engine] works.  When [Engine::run()] is called, and after all start-up 
-/// code has completed, [MainLoop::run()] is called and given ownership over the [Engine]. 
+/// The `MainLoop` loop is responsible for actually running the [Engine], and can directly control
+/// the specifics of how the [Engine] works.  When [Engine::run()] is called, and after all start-up
+/// code has completed, [MainLoop::run()] is called and given ownership over the [Engine].
 ///
 /// The main reason for separating the `MainLoop` from the [Engine] to make it easy to change the
-/// [Engine]'s behavior, in a way that is transparent to the user, without requiring the [Engine]'s 
+/// [Engine]'s behavior, in a way that is transparent to the user, without requiring the [Engine]'s
 /// code to be re-written.  The most common reason to change the `MainLoop` is to integrate Wolf
 /// Engine into other frameworks which take control over the program's main loop (Winit's
 /// `EventLoop` for example.)
 ///
-/// **Note:** Keep in mind `MainLoop` implementations are **not required to preserve Wolf Engine's 
-/// default behaviors**, and may make changes to suit their needs.  You should refer to the 
+/// **Note:** Keep in mind `MainLoop` implementations are **not required to preserve Wolf Engine's
+/// default behaviors**, and may make changes to suit their needs.  You should refer to the
 /// implementation's documentation for specific details.
-/// 
+///
 /// By default, Wolf Engine will select [SimpleMainLoop].
 ///
 /// # Examples
@@ -72,7 +72,7 @@ use mockall::automock;
 /// }
 /// ```
 ///
-/// If you want to implement your own behaviors, the process is largely the same except you 
+/// If you want to implement your own behaviors, the process is largely the same except you
 /// will need to work with the [Engine]'s components directly.
 #[cfg_attr(test, automock)]
 pub trait MainLoop: Debug {

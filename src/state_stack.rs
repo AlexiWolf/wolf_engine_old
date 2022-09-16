@@ -1,4 +1,8 @@
-use std::{fmt::{Display, Debug}, iter::Take, slice::IterMut};
+use std::{
+    fmt::{Debug, Display},
+    iter::Take,
+    slice::IterMut,
+};
 
 use crate::{Context, State, Transition, TransitionType};
 
