@@ -1,4 +1,4 @@
-use std::{fmt::Display, iter::Take, slice::IterMut};
+use std::{fmt::{Display, Debug}, iter::Take, slice::IterMut};
 
 use crate::{Context, State, Transition, TransitionType};
 
@@ -189,6 +189,14 @@ impl State for StateStack {
 impl Display for StateStack {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "State Machine: {} states", self.stack.len())
+    }
+}
+
+impl Debug for StateStack {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("StateStack")
+            .field("stack_size", &self.stack.len())
+            .finish()
     }
 }
 
