@@ -77,6 +77,7 @@ use crate::{Context, State, Transition, TransitionType};
 ///
 /// See the [examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples)
 /// for a more complete example how to use [State]s and the state stack.
+#[derive(Debug)]
 pub struct StateStack {
     stack: Vec<Box<dyn State>>,
 }
@@ -193,14 +194,6 @@ impl State for StateStack {
 impl Display for StateStack {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "State Machine: {} states", self.stack.len())
-    }
-}
-
-impl Debug for StateStack {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("StateStack")
-            .field("stack_size", &self.stack.len())
-            .finish()
     }
 }
 
