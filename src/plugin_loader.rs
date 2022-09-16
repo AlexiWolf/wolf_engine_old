@@ -1,5 +1,3 @@
-use std::fmt::Debug;
-
 use crate::{EngineBuilder, Plugin};
 use log::{debug, error};
 
@@ -10,6 +8,7 @@ pub type Plugins = Vec<Box<dyn Plugin>>;
 ///
 /// [Plugin]s are added the the plugin loader, then loaded in the order they were added
 /// when [PluginLoader::load_all()] is called.
+#[derive(Debug)]
 pub struct PluginLoader {
     plugins: Plugins,
 }
@@ -63,12 +62,6 @@ impl PluginLoader {
             }
         }
         Ok(engine_builder)
-    }
-}
-
-impl Debug for PluginLoader {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("PluginLoader").field("plugins", &self.plugins.len()).finish()
     }
 }
 
