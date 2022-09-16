@@ -97,6 +97,7 @@ impl MainLoop for SimpleMainLoop {
 }
 
 #[doc(hidden)]
+#[derive(Debug)]
 pub struct EmptyMainLoop;
 
 impl MainLoop for EmptyMainLoop {
