@@ -1,4 +1,4 @@
-use std::any::{Any, type_name};
+use std::{any::{Any, type_name}, fmt::Debug};
 
 use crate::*;
 
@@ -136,6 +136,15 @@ pub trait State: Any {
     /// be used to uniquely identify a state.
     fn name(&self) -> &'static str {
         type_name::<Self>()
+    }
+}
+
+impl Debug for dyn State {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("dyn State")
+            .field("type_id", &self.type_id())
+            .field("name", &self.name())
+            .finish()
     }
 }
 
