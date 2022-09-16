@@ -1,5 +1,7 @@
 //! Provides interchangeable main-loops for the [Engine].
 
+use std::fmt::Debug;
+
 use crate::*;
 
 #[cfg(test)]
@@ -72,7 +74,7 @@ use mockall::automock;
 /// If you want to implement your own behaviors, the process is largely the same except you 
 /// will need to work with the [Engine]'s components directly.
 #[cfg_attr(test, automock)]
-pub trait MainLoop {
+pub trait MainLoop: Debug {
     fn run(&mut self, engine: Engine) -> Engine;
 }
 
