@@ -190,6 +190,7 @@ impl Default for FixedUpdateScheduler {
 }
 
 /// Builds an instance of [FixedUpdateScheduler].
+#[derive(Debug)]
 pub struct FixedUpdateSchedulerBuilder {
     scheduler: FixedUpdateScheduler,
 }
