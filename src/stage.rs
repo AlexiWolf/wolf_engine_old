@@ -8,9 +8,10 @@ impl StageCallbacks {
 
 #[cfg(test)]
 mod stage_tests {
+    use super::*;
    
     #[test]
-    fn should_create_empty_stage_callback() {
+    fn should_create_empty_stage_callbacks() {
         let stage_callbacks = StageCallbacks::new();
     }
 }
