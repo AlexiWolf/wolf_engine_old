@@ -1,3 +1,7 @@
+use crate::Context;
+
+pub type StageCallback = fn(&mut Context);
+
 #[derive(Default)]
 pub struct StageCallbacks {}
 
