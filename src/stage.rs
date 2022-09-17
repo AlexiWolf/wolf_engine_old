@@ -2,6 +2,10 @@ use crate::Context;
 
 pub type StageCallback = fn(&mut Context);
 
+pub enum Stage {
+
+}
+
 #[derive(Default)]
 pub struct StageCallbacks {
     pre_update : Vec<StageCallback>,
