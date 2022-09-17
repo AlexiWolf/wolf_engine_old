@@ -38,6 +38,8 @@ impl StageCallbacks {
 
 #[cfg(test)]
 mod stage_tests {
+    use test_case::test_case;
+
     use super::*;
    
     #[test]
@@ -56,13 +58,13 @@ mod stage_tests {
     fn should_implement_default() {
         let _stage_callbacks = StageCallbacks::default();
     }
-
-    fn should_add_function_with_correct_callback_group(stage: Stage) -> usize {
+    
+    fn should_add_function_with_correct_callback_group(stage: Stage) {
         let mut stage_callbacks = StageCallbacks::new();
 
         stage_callbacks.push(stage, |_| {});
 
-        stage_callbacks.len(stage)
+        assert_eq!(1, stage_callbacks.len(stage), "The callback was not added to the stage");
     }
 }
 
