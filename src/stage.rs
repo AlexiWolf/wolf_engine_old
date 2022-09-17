@@ -6,7 +6,7 @@ pub type StageCallback = fn(&mut Context);
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum Stage {
-
+    PreUpdate,
 }
 
 #[derive(Default)]
@@ -62,6 +62,11 @@ mod stage_tests {
     }
     
     #[test_case(Stage::PreUpdate)]
+    #[test_case(Stage::Update)]
+    #[test_case(Stage::PostUpdate)]
+    #[test_case(Stage::PreRender)]
+    #[test_case(Stage::Render)]
+    #[test_case(Stage::PostRender)]
     fn should_add_function_with_correct_callback_group(stage: Stage) {
         let mut stage_callbacks = StageCallbacks::new();
 
