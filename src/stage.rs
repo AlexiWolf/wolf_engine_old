@@ -2,6 +2,7 @@ use crate::Context;
 
 pub type StageCallback = fn(&mut Context);
 
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum Stage {
 
 }
