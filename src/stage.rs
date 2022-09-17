@@ -61,6 +61,7 @@ mod stage_tests {
         let _stage_callbacks = StageCallbacks::default();
     }
     
+    #[test_case(Stage::PreUpdate)]
     fn should_add_function_with_correct_callback_group(stage: Stage) {
         let mut stage_callbacks = StageCallbacks::new();
 
