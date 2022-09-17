@@ -1,5 +1,3 @@
-use std::slice::Iter;
-
 use crate::Context;
 
 pub type StageCallback = fn(&mut Context);
@@ -41,8 +39,15 @@ impl StageCallbacks {
             .push(callback);
     }
 
-    pub fn get(&self, stage: Stage) -> Iter<StageCallback> {
-        [].iter()
+    pub fn get(&self, stage: Stage) -> &Vec<StageCallback> {
+        match stage {
+            Stage::PreUpdate => &self.pre_update, 
+            Stage::Update => &self.update,
+            Stage::PostUpdate => &self.post_update,
+            Stage::PreRender => &self.pre_render,
+            Stage::Render => &self.render,
+            Stage::PostRender => &self.post_render,
+        }
     }
 
     fn stage_callbacks_mut(&mut self, stage: Stage) -> &mut Vec<StageCallback> {
