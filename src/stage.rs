@@ -28,9 +28,9 @@ impl StageCallbacks {
         }
     }
 
-    pub fn push(stage: Stage) {}
+    pub fn push(&mut self, stage: Stage) {}
 
-    pub fn len(stage: Stage) {}
+    pub fn len(&mut self, stage: Stage) {}
 }
 
 #[cfg(test)]
@@ -56,7 +56,7 @@ mod stage_tests {
 
     fn should_add_function_with_correct_callback_group(stage: Stage) -> usize {
         let test_callback = |_| {}; 
-        let stage_callbacks = StageCallbacks::new();
+        let mut stage_callbacks = StageCallbacks::new();
         
         stage_callbacks.push(test_callback, stage);
 
