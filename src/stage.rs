@@ -57,10 +57,9 @@ mod stage_tests {
     }
 
     fn should_add_function_with_correct_callback_group(stage: Stage) -> usize {
-        let test_callback = |_| {}; 
         let mut stage_callbacks = StageCallbacks::new();
-        
-        stage_callbacks.push(stage, test_callback);
+
+        stage_callbacks.push(stage, |_| {});
 
         stage_callbacks.len(stage)
     }
