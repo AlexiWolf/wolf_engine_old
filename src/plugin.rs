@@ -81,7 +81,7 @@ pub trait Plugin: Any {
 
 impl Debug for dyn Plugin {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("Plugin")
+        f.debug_struct("dyn Plugin")
             .field("type_id", &self.type_id())
             .field("name", &self.name())
             .finish()
