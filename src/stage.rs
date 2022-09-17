@@ -30,7 +30,7 @@ impl StageCallbacks {
 
     pub fn push(&mut self, stage: Stage) {}
 
-    pub fn len(&mut self, stage: Stage) {}
+    pub fn len(&self, stage: Stage) {}
 }
 
 #[cfg(test)]
@@ -58,7 +58,7 @@ mod stage_tests {
         let test_callback = |_| {}; 
         let mut stage_callbacks = StageCallbacks::new();
         
-        stage_callbacks.push(test_callback, stage);
+        stage_callbacks.push(stage, test_callback);
 
         stage_callbacks.len(stage)
     }
