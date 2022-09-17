@@ -30,7 +30,9 @@ impl StageCallbacks {
 
     pub fn push(&mut self, stage: Stage, callback: StageCallback) {}
 
-    pub fn len(&self, stage: Stage) {}
+    pub fn len(&self, stage: Stage) -> usize {
+        0
+    }
 }
 
 #[cfg(test)]
