@@ -1,3 +1,8 @@
+use std::{
+    any::{type_name, Any},
+    fmt::Debug,
+};
+
 use crate::*;
 
 #[cfg(test)]
@@ -43,7 +48,7 @@ use mockall::automock;
 /// }
 /// ```
 #[cfg_attr(test, automock)]
-pub trait State {
+pub trait State: Any {
     /// Run one-time setup before the state is run.
     ///
     /// There are no specific requirements for this method.  You may use it to do whatever
@@ -126,6 +131,24 @@ pub trait State {
     /// - The [Engine] requests a frame to render,
     /// - and the state is not the topmost state on the [StateStack].
     fn background_render(&mut self, _context: &mut Context) {}
+
+    /// Get the name of the state, mostly for debugging purposes.
+    ///
+    /// By default the [type name](type_name) for the state is used, but there are no specific
+    /// requirements for what must be returned.  The plugin name may not be  unique and should not
+    /// be used to uniquely identify a state.
+    fn name(&self) -> &'static str {
+        type_name::<Self>()
+    }
+}
+
+impl Debug for dyn State {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("dyn State")
+            .field("type_id", &self.type_id())
+            .field("name", &self.name())
+            .finish()
+    }
 }
 
 /// A no-op state that will close immediately.

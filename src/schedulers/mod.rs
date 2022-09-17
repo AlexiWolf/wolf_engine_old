@@ -37,6 +37,7 @@
 //! # use wolf_engine::*;
 //! # use wolf_engine::schedulers::*;
 //! #
+//! #[derive(Debug)]
 //! pub struct MySimpleUpdateScheduler;
 //!
 //! impl UpdateScheduler for MySimpleUpdateScheduler {
@@ -45,6 +46,7 @@
 //!     }
 //! }
 //!
+//! #[derive(Debug)]
 //! pub struct MySimpleRenderScheduler;
 //!
 //! impl RenderScheduler for MySimpleRenderScheduler {
@@ -57,6 +59,8 @@
 mod fixed_update_scheduler;
 mod simple_render_scheduler;
 
+use std::fmt::Debug;
+
 pub use fixed_update_scheduler::*;
 pub use simple_render_scheduler::*;
 
@@ -67,14 +71,14 @@ use mockall::automock;
 
 /// Controls how and when the the game / engine state is updated.
 #[cfg_attr(test, automock)]
-pub trait UpdateScheduler {
+pub trait UpdateScheduler: Debug {
     /// Update the game state.
     fn update(&mut self, context: &mut Context, state: &mut dyn State);
 }
 
 /// Controls how and when a frame should be rendered.
 #[cfg_attr(test, automock)]
-pub trait RenderScheduler {
+pub trait RenderScheduler: Debug {
     /// Render the current frame.
     fn render(&mut self, context: &mut Context, state: &mut dyn State);
 }

@@ -8,6 +8,7 @@ pub type Plugins = Vec<Box<dyn Plugin>>;
 ///
 /// [Plugin]s are added the the plugin loader, then loaded in the order they were added
 /// when [PluginLoader::load_all()] is called.
+#[derive(Debug)]
 pub struct PluginLoader {
     plugins: Plugins,
 }

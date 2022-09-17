@@ -5,51 +5,43 @@ use crate::schedulers::*;
 use crate::utils::EngineControls;
 use crate::*;
 
-/// Provides the core functionality of the engine.
+/// Provides the core functionality of Wolf Engine.
 ///
-/// The engine is the core of, well, the engine.  It's primary job is to take and run a
-/// set of game [State] objects.  The engine uses a [StateStack] to store all active
-/// [State]s, and a [Scheduler](schedulers) to control when things are run.
+/// The `Engine` holds ownership over all major components such as the [Context], [StateStack], and
+/// [schedulers].  Its main job is to take and run a set of [State] objects.  It also includes a
+/// set of helper methods which provide Wolf Engine's default behaviors.
 ///
 /// # Examples
 ///
-/// If you just want to use the defaults, you can use [Engine::new()].
+/// If you just want to use the defaults, you can use [Engine::default()] or [Engine::default()].
 ///
 /// ```
 /// # use wolf_engine::*;
 /// #
-/// # let my_game_state = EmptyState;
-/// #
-/// let engine = Engine::new();
+/// let new_engine = Engine::default();
+/// // or
+/// let default_engine = Engine::default();
 /// ```
 ///
-/// Using [Engine::default()] does the same thing:
+/// Otherwise, the [EngineBuilder] and [Plugin] system can be used to customize just about every
+/// aspect of the `Engine`.
 ///
-/// ```
-/// # use wolf_engine::*;
-/// #
-/// # let my_game_state = EmptyState;
-/// #
-/// let engine = Engine::default();
-/// ```
-///
-/// If you don't want to use the default settings, the [EngineBuilder] and [Plugin]
-/// system can be used to customize just about every aspect of the engine.
+/// Create a new [EngineBuilder] by calling [Engine::builder()].
 ///
 /// ```
 /// # use wolf_engine::*;
 /// #
 /// // Add to the Context object here.
-/// let engine = EngineBuilder::new()
+/// let engine = Engine::builder()
 ///     // Customize the engine here.
 ///     .build()
 ///     .expect("Failed to build the Engine");
 /// ```
 ///
-/// You can refer to the [EngineBuilder] documentation for specifics on what it can do.
+/// Refer to the [EngineBuilder] documentation for specifics on what it can do.
 ///
 /// Running the engine is the same, no matter if you're using the default instance, or
-/// a customized instance.  Just run [Engine::run()] and pass your game's starting [State]
+/// a customized instance.  Call [Engine::run()] and pass your game's starting [State]
 /// to it.
 ///
 /// ```
@@ -63,12 +55,14 @@ use crate::*;
 ///
 /// # Main Loops
 ///
-/// The engine doesn't run the main loop on it's own.  Instead, it delegates the main loop
-/// to an [MainLoop] implementation.  This helps to make the engine more modular, and
-/// customizable.  A [MainLoop] can be used to change the specific way the engine runs
-/// with ease, and is primarily used to integrate with 3rd party modules that insist
-/// on being control of the main loop (such as Winit.)  See [MainLoop]'s documentation
-/// for more details.
+/// The `Engine` doesn't run on its own.  Instead, it delegates the run behavior to a [MainLoop]
+/// implementation.  A [MainLoop] is used to customize the way the `Engine` runs, and are most
+/// often used to integrate with other frameworks.  They may, however, be used to change the core
+/// behavior of the `Engine` to better suit a projects needs.
+///
+/// By default, the `Engine` will use a [SimpleMainLoop].  [EngineBuilder::with_main_loop()], or a
+/// [Plugin] can change which [MainLoop] is used.
+#[derive(Debug)]
 pub struct Engine {
     pub context: Context,
     pub state_stack: StateStack,
@@ -78,25 +72,25 @@ pub struct Engine {
 }
 
 impl Engine {
-    /// Creates and instance of the engine with the default settings.
-    pub fn new() -> Self {
-        Self::default()
+    /// Creates an instance of the [EngineBuilder].
+    pub fn builder() -> EngineBuilder {
+        EngineBuilder::new()
     }
 
     /// Takes ownership over the engine and runs until the [MainLoop] exits.
     pub fn run(mut self, initial_state: Box<dyn State>) {
         log_startup_information();
         self.state_stack.push(initial_state, &mut self.context);
-        let (mut engine, mut main_loop) = self.extract_core_function();
+        let (mut engine, mut main_loop) = self.replace_and_return_owned_main_loop();
         engine = (main_loop).run(engine);
         engine.state_stack.clear(&mut engine.context);
         log_shutdown();
     }
 
-    fn extract_core_function(mut self) -> (Engine, Box<dyn MainLoop>) {
+    fn replace_and_return_owned_main_loop(mut self) -> (Engine, Box<dyn MainLoop>) {
         let mut engine = replace(&mut self, Self::empty());
-        let engine_core = replace(&mut engine.main_loop, Box::from(EmptyMainLoop));
-        (engine, engine_core)
+        let main_loop = replace(&mut engine.main_loop, Box::from(EmptyMainLoop));
+        (engine, main_loop)
     }
 
     fn empty() -> Self {
@@ -147,10 +141,12 @@ impl Default for Engine {
 mod wolf_engine_tests {
     use crate::contexts::EngineContext;
     use crate::{MockState, TransitionType};
+    use ntest::timeout;
 
     use super::*;
 
     #[test]
+    #[timeout(10)]
     fn should_run_the_state() {
         let wolf_engine = Engine::default();
         let mut state = MockState::new();
@@ -193,11 +189,13 @@ mod wolf_engine_tests {
     #[test]
     fn should_have_engine_context() {
         let engine = Engine::default();
+        let engine_context = engine.context.borrow::<EngineContext>();
 
-        let _engine_context = engine.context.borrow::<EngineContext>();
+        assert!(engine_context.is_some(), "There is no EngineContext loaded");
     }
 
     #[test]
+    #[timeout(10)]
     fn should_stop_running_when_quit_is_called() {
         let engine = Engine::default();
         let mut state = MockState::new();
@@ -218,6 +216,7 @@ mod wolf_engine_tests {
 /// The two main jobs of the engine builder is to load [Plugin]s and allow users to
 /// customize the [Engine]'s settings.  The engine builder provides direct access to the
 /// [Engine], and it's public types.
+#[derive(Debug)]
 pub struct EngineBuilder {
     pub engine: Engine,
     plugin_loader: PluginLoader,
@@ -284,17 +283,20 @@ impl Default for EngineBuilder {
             plugin_loader: PluginLoader::new(),
         }
         .load_default_plugins()
-        .with_main_loop(Box::from(DefaultMainLoop))
+        .with_main_loop(Box::from(SimpleMainLoop))
     }
 }
 
 #[cfg(test)]
 mod engine_builder_tests {
+    use ntest::timeout;
+
     use crate::contexts::SchedulerContext;
 
     use super::*;
 
     #[test]
+    #[timeout(10)]
     fn should_set_custom_update_scheduler() {
         let mut scheduler = MockUpdateScheduler::new();
         scheduler
@@ -312,6 +314,7 @@ mod engine_builder_tests {
     }
 
     #[test]
+    #[timeout(10)]
     fn should_set_custom_render_scheduler() {
         let mut scheduler = MockRenderScheduler::new();
         scheduler.expect_render().times(1..).return_const(());
@@ -324,6 +327,7 @@ mod engine_builder_tests {
     }
 
     #[test]
+    #[timeout(10)]
     fn should_set_main_loop() {
         let mut main_loop = MockMainLoop::new();
         main_loop.expect_run().times(1).returning(|engine| engine);

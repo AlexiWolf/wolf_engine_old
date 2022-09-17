@@ -14,7 +14,7 @@
 //! ```
 //!
 //! The [Engine] ships with sensible defaults to help you get up and running as quickly as possible.
-//! For default settings, use [Engine::new()] or [Engine::default()], then run by calling
+//! For default settings, use [Engine::default()] or [Engine::default()], then run by calling
 //! [Engine::run()] and passing your game's starting [State] to it.
 //!
 //! ```
@@ -24,7 +24,7 @@
 //!
 //! # #[allow(clippy::needless_doctest_main)]
 //! pub fn main() {
-//!     Engine::new()
+//!     Engine::default()
 //!         .run(Box::from(MyGameState));
 //! }
 //!

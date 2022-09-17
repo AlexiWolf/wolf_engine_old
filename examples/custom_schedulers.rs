@@ -16,6 +16,7 @@ pub fn main() {
         .run(Box::from(MainState));
 }
 
+#[derive(Debug)]
 pub struct CustomUpdateScheduler;
 
 impl UpdateScheduler for CustomUpdateScheduler {
@@ -25,6 +26,7 @@ impl UpdateScheduler for CustomUpdateScheduler {
     }
 }
 
+#[derive(Debug)]
 pub struct CustomRenderScheduler;
 
 impl RenderScheduler for CustomRenderScheduler {

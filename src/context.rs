@@ -84,6 +84,7 @@ pub trait Subcontext: 'static {}
 /// #   panic!("No subcontext found");
 /// # };
 /// ```
+#[derive(Debug)]
 pub struct Context {
     subcontexts: AnyMap,
 }

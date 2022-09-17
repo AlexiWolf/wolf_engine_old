@@ -1,30 +1,62 @@
-//! Provides swapable [MainLoop] functions.
+//! Provides interchangeable main-loops for the [Engine].
+
+use std::fmt::Debug;
 
 use crate::*;
 
 #[cfg(test)]
 use mockall::automock;
 
-/// Provides a dynamic main loop for the [Engine].
+/// Provides the main-loop for the [Engine].
 ///
-/// Main loops take ownership over the running [Engine] after it is run.   When [Engine::run()] is
-/// called, the main loop behavior is delegated to the main loop implementation provided at
-/// startup.  By default, the [Engine] will use the [DefaultMainLoop].
+/// The `MainLoop` loop is responsible for actually running the [Engine], and can directly control
+/// the specifics of how the [Engine] works.  When [Engine::run()] is called, and after all start-up
+/// code has completed, [MainLoop::run()] is called and given ownership over the [Engine].
 ///
-/// The main reason for separating the main loop from the [Engine] to make it easy to change the
-/// [Engine]'s behavior without needing to rewrite its code.  Using a main loop, you could, for
-/// example:
+/// The main reason for separating the `MainLoop` from the [Engine] to make it easy to change the
+/// [Engine]'s behavior, in a way that is transparent to the user, without requiring the [Engine]'s
+/// code to be re-written.  The most common reason to change the `MainLoop` is to integrate Wolf
+/// Engine into other frameworks which take control over the program's main loop (Winit's
+/// `EventLoop` for example.)
 ///
-/// - Change the behavior of the main loop to better suit your game's needs.
-/// - Integrate with 3rd party frameworks (such as Winit, or SDL).
+/// **Note:** Keep in mind `MainLoop` implementations are **not required to preserve Wolf Engine's
+/// default behaviors**, and may make changes to suit their needs.  You should refer to the
+/// implementation's documentation for specific details.
+///
+/// By default, Wolf Engine will select [SimpleMainLoop].
 ///
 /// # Examples
 ///
-/// To override the engine's main loop behavior, start by implementing this trait for a struct.
+/// Using a different `MainLoop`:
+///
+/// A custom `MainLoop` can be set using
+/// [EngineBuilder::with_main_loop()](crate::EngineBuilder::with_main_loop()) at startup.
 ///
 /// ```
 /// # use wolf_engine::*;
 /// #
+/// # let custom_engine_core = EmptyMainLoop;
+/// #
+/// let engine = EngineBuilder::new()
+///     .with_main_loop(Box::from(custom_engine_core))
+///     .build();
+/// ```
+/// Implementing a custom `MainLoop`:
+///
+/// If you want to preserve the default behaviors, the [Engine] provides a number of helper methods
+/// to make it easy:
+///
+/// - [Engine::is_running()]
+/// - [Engine::start_frame()]
+/// - [Engine::update()]
+/// - [Engine::render()]
+///
+/// Then you implement the `MainLoop` trait for your `MainLoop`.
+///
+/// ```
+/// # use wolf_engine::*;
+/// #
+/// #[derive(Debug)]
 /// pub struct CustomMainLoop;
 ///
 /// impl MainLoop for CustomMainLoop {
@@ -40,29 +72,21 @@ use mockall::automock;
 /// }
 /// ```
 ///
-/// Then set the main loop with [EngineBuilder::with_engine_core()](crate::EngineBuilder) at startup.
-///
-/// ```
-/// # use wolf_engine::*;
-/// #
-/// # let custom_engine_core = EmptyMainLoop;
-/// #
-/// let engine = EngineBuilder::new()
-///     .with_main_loop(Box::from(custom_engine_core))
-///     .build();
-/// ```
+/// If you want to implement your own behaviors, the process is largely the same except you
+/// will need to work with the [Engine]'s components directly.
 #[cfg_attr(test, automock)]
-pub trait MainLoop {
+pub trait MainLoop: Debug {
     fn run(&mut self, engine: Engine) -> Engine;
 }
 
 /// Provides the default main loop behavior.
 ///
-/// This is a minimal reference implementation of [MainLoop].  The main loop will exit when
-/// [Engine::is_running()] returns false.
-pub struct DefaultMainLoop;
+/// This is a minimal reference implementation of [MainLoop] which uses a `while` loop to run the
+/// [Engine].  The main loop will exit when [Engine::is_running()] returns false.
+#[derive(Debug)]
+pub struct SimpleMainLoop;
 
-impl MainLoop for DefaultMainLoop {
+impl MainLoop for SimpleMainLoop {
     fn run(&mut self, mut engine: Engine) -> Engine {
         while engine.is_running() {
             engine.start_frame();
@@ -74,6 +98,7 @@ impl MainLoop for DefaultMainLoop {
 }
 
 #[doc(hidden)]
+#[derive(Debug)]
 pub struct EmptyMainLoop;
 
 impl MainLoop for EmptyMainLoop {

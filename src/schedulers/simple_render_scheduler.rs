@@ -2,6 +2,7 @@ use crate::schedulers::RenderScheduler;
 use crate::*;
 
 /// A simple [RenderScheduler] which immediately runs [State::render()] just once.
+#[derive(Debug)]
 pub struct SimpleRenderScheduler;
 
 impl RenderScheduler for SimpleRenderScheduler {

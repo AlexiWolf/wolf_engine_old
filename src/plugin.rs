@@ -1,4 +1,5 @@
 use std::any::{type_name, Any};
+use std::fmt::Debug;
 
 use crate::EngineBuilder;
 
@@ -68,12 +69,21 @@ pub trait Plugin: Any {
     /// Uses the [EngineBuilder] to configure and extend the [Engine](crate::Engine).
     fn setup(&mut self, engine_builder: EngineBuilder) -> PluginResult;
 
-    /// Get the name of the plugin.
+    /// Get the name of the plugin, mostly for debugging purposes.
     ///
     /// By default the [type name](type_name) for the plugin is used, but there are no
     /// specific requirements for what must be returned.  The plugin name may not be
     /// unique and should not be used to uniquely identify a plugin.
     fn name(&self) -> &'static str {
         type_name::<Self>()
+    }
+}
+
+impl Debug for dyn Plugin {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("dyn Plugin")
+            .field("type_id", &self.type_id())
+            .field("name", &self.name())
+            .finish()
     }
 }

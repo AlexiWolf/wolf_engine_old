@@ -1,4 +1,8 @@
-use std::{fmt::Display, iter::Take, slice::IterMut};
+use std::{
+    fmt::{Debug, Display},
+    iter::Take,
+    slice::IterMut,
+};
 
 use crate::{Context, State, Transition, TransitionType};
 
@@ -73,6 +77,7 @@ use crate::{Context, State, Transition, TransitionType};
 ///
 /// See the [examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples)
 /// for a more complete example how to use [State]s and the state stack.
+#[derive(Debug)]
 pub struct StateStack {
     stack: Vec<Box<dyn State>>,
 }
