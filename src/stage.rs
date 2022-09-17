@@ -27,6 +27,10 @@ impl StageCallbacks {
             post_render: Vec::new(),
         }
     }
+
+    pub fn push(stage: Stage) {}
+
+    pub fn len(stage: Stage) {}
 }
 
 #[cfg(test)]
