@@ -7,6 +7,11 @@ pub type StageCallback = fn(&mut Context);
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum Stage {
     PreUpdate,
+    Update,
+    PostUpdate,
+    PreRender,
+    Render,
+    PostRender,
 }
 
 #[derive(Default)]
