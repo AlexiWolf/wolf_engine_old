@@ -69,7 +69,7 @@ pub trait Plugin: Any {
     /// Uses the [EngineBuilder] to configure and extend the [Engine](crate::Engine).
     fn setup(&mut self, engine_builder: EngineBuilder) -> PluginResult;
 
-    /// Get the name of the plugin.
+    /// Get the name of the plugin, mostly for debugging purposes.
     ///
     /// By default the [type name](type_name) for the plugin is used, but there are no
     /// specific requirements for what must be returned.  The plugin name may not be
