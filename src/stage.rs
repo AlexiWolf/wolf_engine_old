@@ -45,5 +45,14 @@ mod stage_tests {
     fn should_implement_default() {
         let _stage_callbacks = StageCallbacks::default();
     }
+
+    fn should_add_function_with_correct_callback_group(stage: Stage) -> usize {
+        let test_callback = |_| {}; 
+        let stage_callbacks = StageCallbacks::new();
+        
+        stage_callbacks.push(test_callback, stage);
+
+        stage_callbacks.len(stage)
+    }
 }
 
