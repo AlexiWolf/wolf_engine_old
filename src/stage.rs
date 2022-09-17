@@ -1,3 +1,11 @@
+pub struct StageCallbacks {}
+
+impl StageCallbacks {
+    pub fn new() -> Self {
+        Self {}
+    }
+}
+
 #[cfg(test)]
 mod stage_tests {
    
