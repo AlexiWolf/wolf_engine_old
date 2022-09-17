@@ -1,4 +1,7 @@
-use std::{any::{Any, type_name}, fmt::Debug};
+use std::{
+    any::{type_name, Any},
+    fmt::Debug,
+};
 
 use crate::*;
 
@@ -131,8 +134,8 @@ pub trait State: Any {
 
     /// Get the name of the state, mostly for debugging purposes.
     ///
-    /// By default the [type name](type_name) for the state is used, but there are no specific 
-    /// requirements for what must be returned.  The plugin name may not be  unique and should not 
+    /// By default the [type name](type_name) for the state is used, but there are no specific
+    /// requirements for what must be returned.  The plugin name may not be  unique and should not
     /// be used to uniquely identify a state.
     fn name(&self) -> &'static str {
         type_name::<Self>()
