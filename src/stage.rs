@@ -36,10 +36,24 @@ impl StageCallbacks {
         }
     }
 
-    pub fn push(&mut self, stage: Stage, callback: StageCallback) {}
+    pub fn push(&mut self, stage: Stage, callback: StageCallback) {
+        self.stage_callbacks_mut(stage)
+            .push(callback);
+    }
 
     pub fn get(&self, stage: Stage) -> Iter<StageCallback> {
         [].iter()
+    }
+
+    fn stage_callbacks_mut(&mut self, stage: Stage) -> &mut Vec<StageCallback> {
+        match stage {
+            Stage::PreUpdate => &mut self.pre_update, 
+            Stage::Update => &mut self.update,
+            Stage::PostUpdate => &mut self.post_update,
+            Stage::PreRender => &mut self.pre_render,
+            Stage::Render => &mut self.render,
+            Stage::PostRender => &mut self.post_render,
+        }
     }
 }
 
