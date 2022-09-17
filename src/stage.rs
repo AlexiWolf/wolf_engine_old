@@ -64,7 +64,7 @@ mod stage_tests {
 
         stage_callbacks.push(stage, |_| {});
 
-        assert_eq!(1, stage_callbacks.len(stage), "The callback was not added to the stage");
+        assert_eq!(1, stage_callbacks.get(stage).len(), "The callback was not added to the stage");
     }
 }
 
