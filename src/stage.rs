@@ -3,11 +3,25 @@ use crate::Context;
 pub type StageCallback = fn(&mut Context);
 
 #[derive(Default)]
-pub struct StageCallbacks {}
+pub struct StageCallbacks {
+    pre_update : Vec<StageCallback>,
+    update: Vec<StageCallback>,
+    post_update: Vec<StageCallback>,
+    pre_render: Vec<StageCallback>,
+    render: Vec<StageCallback>,
+    post_render: Vec<StageCallback>,
+}
 
 impl StageCallbacks {
     pub fn new() -> Self {
-        Self {}
+        Self {
+            pre_update: Vec::new(),
+            update: Vec::new(),
+            post_update: Vec::new(),
+            pre_render: Vec::new(),
+            render: Vec::new(),
+            post_render: Vec::new(),
+        }
     }
 }
 
