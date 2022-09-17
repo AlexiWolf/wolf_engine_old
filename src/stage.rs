@@ -1,3 +1,5 @@
+use std::slice::Iter;
+
 use crate::Context;
 
 pub type StageCallback = fn(&mut Context);
@@ -31,8 +33,8 @@ impl StageCallbacks {
 
     pub fn push(&mut self, stage: Stage, callback: StageCallback) {}
 
-    pub fn len(&self, stage: Stage) -> usize {
-        0
+    pub fn get(&self, stage: Stage) -> Iter<StageCallback> {
+        [].iter()
     }
 }
 
