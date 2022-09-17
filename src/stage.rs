@@ -14,5 +14,10 @@ mod stage_tests {
     fn should_create_empty_stage_callbacks() {
         let stage_callbacks = StageCallbacks::new();
     }
+
+    #[test]
+    fn should_implement_default() {
+        let _stage_callbacks = StageCallbacks::default();
+    }
 }
 
