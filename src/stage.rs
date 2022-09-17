@@ -28,7 +28,7 @@ impl StageCallbacks {
         }
     }
 
-    pub fn push(&mut self, stage: Stage) {}
+    pub fn push(&mut self, stage: Stage, callback: StageCallback) {}
 
     pub fn len(&self, stage: Stage) {}
 }
