@@ -50,7 +50,7 @@ impl StageCallbacks {
         }
     }
 
-    fn get_mut(&mut self, stage: Stage) -> &mut Vec<StageCallback> {
+    pub fn get_mut(&mut self, stage: Stage) -> &mut Vec<StageCallback> {
         match stage {
             Stage::PreUpdate => &mut self.pre_update, 
             Stage::Update => &mut self.update,
