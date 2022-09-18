@@ -42,11 +42,15 @@
 //!
 //! impl UpdateScheduler for MySimpleUpdateScheduler {
 //!     fn update(
-//!     &mut self,
-//!     context: &mut Context, 
-//!     state: &mut dyn State, 
-//!     stage_callbacks: &mut StageCallbacks) {
+//!         &mut self,
+//!         context: &mut Context, 
+//!         state: &mut dyn State, 
+//!         stage_callbacks: &mut StageCallbacks
+//!     ) {
+//!         stage_callbacks.run(Stage::PreUpdate, context);
+//!         stage_callbacks.run(Stage::Update, context);
 //!         state.update(context);
+//!         stage_callbacks.run(Stage::PostUpdate, context);
 //!     }
 //! }
 //!
@@ -54,8 +58,16 @@
 //! pub struct MySimpleRenderScheduler;
 //!
 //! impl RenderScheduler for MySimpleRenderScheduler {
-//!     fn render(&mut self, context: &mut Context, state: &mut dyn State) {
+//!     fn render(
+//!         &mut self,
+//!         context: &mut Context,
+//!         state: &mut dyn State, 
+//!         stage_callbacks: &mut StageCallbacks
+//!     ) {
+//!         stage_callbacks.run(Stage::PreRender, context);
+//!         stage_callbacks.run(Stage::Render, context);
 //!         state.render(context);
+//!         stage_callbacks.run(Stage::PostRender, context);
 //!     }
 //! }
 //! ```
