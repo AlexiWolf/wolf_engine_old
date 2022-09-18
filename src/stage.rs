@@ -179,7 +179,7 @@ pub mod scheduler_integration_tests {
         push_callback(&mut engine.stage_callbacks, Stage::Render); 
         push_callback(&mut engine.stage_callbacks, Stage::PostRender);
 
-        engine.update();
+        engine.render();
     }
 
     fn test_engine(
