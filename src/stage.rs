@@ -160,9 +160,6 @@ pub mod scheduler_integration_tests {
     use crate::*;
     use crate::schedulers::*;
 
-    use test_case::test_case;
-    
-    #[test_case(FixedUpdateScheduler::default())]
     pub fn should_run_update_stages<U: 'static + UpdateScheduler>(update_scheduler: U) {
         let mut engine = test_engine(
             Box::from(update_scheduler),
