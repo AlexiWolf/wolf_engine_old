@@ -3,7 +3,7 @@ use crate::Context;
 #[cfg(test)]
 use mockall::automock;
 
-pub type StageCallback = fn(&mut Context);
+pub type Callback = fn(&mut Context);
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum Stage {
@@ -17,12 +17,12 @@ pub enum Stage {
 
 #[derive(Default)]
 pub struct StageCallbacks {
-    pre_update : Vec<StageCallback>,
-    update: Vec<StageCallback>,
-    post_update: Vec<StageCallback>,
-    pre_render: Vec<StageCallback>,
-    render: Vec<StageCallback>,
-    post_render: Vec<StageCallback>,
+    pre_update : Vec<Callback>,
+    update: Vec<Callback>,
+    post_update: Vec<Callback>,
+    pre_render: Vec<Callback>,
+    render: Vec<Callback>,
+    post_render: Vec<Callback>,
 }
 
 #[cfg_attr(test, automock)]
@@ -38,7 +38,7 @@ impl StageCallbacks {
         }
     }
 
-    pub fn push(&mut self, stage: Stage, callback: StageCallback) {
+    pub fn push(&mut self, stage: Stage, callback: Callback) {
         self.get_mut(stage)
             .push(callback);
     }
@@ -49,7 +49,7 @@ impl StageCallbacks {
             .for_each(|callback| { (callback)(context); });
     }
 
-    pub fn get(&self, stage: Stage) -> &Vec<StageCallback> {
+    pub fn get(&self, stage: Stage) -> &Vec<Callback> {
         match stage {
             Stage::PreUpdate => &self.pre_update, 
             Stage::Update => &self.update,
@@ -60,7 +60,7 @@ impl StageCallbacks {
         }
     }
 
-    pub fn get_mut(&mut self, stage: Stage) -> &mut Vec<StageCallback> {
+    pub fn get_mut(&mut self, stage: Stage) -> &mut Vec<Callback> {
         match stage {
             Stage::PreUpdate => &mut self.pre_update, 
             Stage::Update => &mut self.update,
