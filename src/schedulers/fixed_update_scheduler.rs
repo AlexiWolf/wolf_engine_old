@@ -331,6 +331,11 @@ mod fixed_update_scheduler_tests {
         }
     }
 
+    #[test]
+    fn should_run_update_stages() {
+        scheduler_integration_tests::should_run_update_stages(test_scheduler(8, 0));
+    }
+
     fn test_scheduler(
         artificial_lag: u64,
         artificial_update_time: u64,
