@@ -26,4 +26,9 @@ mod simple_render_scheduler_tests {
             scheduler.render(&mut context, &mut state);
         }
     }
+
+    #[test]
+    fn should_run_engine_stages() {
+        scheduler_integration_tests::should_run_render_stages(SimpleRenderScheduler); 
+    }
 }
