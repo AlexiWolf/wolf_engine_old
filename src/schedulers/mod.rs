@@ -84,5 +84,5 @@ pub trait UpdateScheduler: Debug {
 #[cfg_attr(test, automock)]
 pub trait RenderScheduler: Debug {
     /// Render the current frame.
-    fn render(&mut self, context: &mut Context, state: &mut dyn State);
+    fn render(&mut self, context: &mut Context, state: &mut dyn State, stage_callbacks: &mut StageCallbacks);
 }

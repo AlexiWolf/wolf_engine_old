@@ -6,7 +6,7 @@ use crate::*;
 pub struct SimpleRenderScheduler;
 
 impl RenderScheduler for SimpleRenderScheduler {
-    fn render(&mut self, context: &mut Context, state: &mut dyn State) {
+    fn render(&mut self, context: &mut Context, state: &mut dyn State, stage_callbacks: &mut StageCallbacks) {
         state.render(context);
     }
 }
@@ -23,7 +23,7 @@ mod simple_render_scheduler_tests {
         state.expect_render().times(5).return_const(());
 
         for _ in 0..5 {
-            scheduler.render(&mut context, &mut state);
+            scheduler.render(&mut context, &mut state, &mut StageCallbacks::new());
         }
     }
 
