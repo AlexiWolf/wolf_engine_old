@@ -174,5 +174,9 @@ pub mod scheduler_integration_tests {
         update_scheduler.update(&mut context, &mut EmptyState, &stage_callbacks);
     }
 
-    fn push_callback(stage_callbacks: &mut StageCallbacks, stage: Stage) {}
+    fn push_callback(stage_callbacks: &mut StageCallbacks, stage: Stage) {
+        let mut callback = MockCallback::new();
+        callback.expect_run().times(1..);
+        stage_callbacks.push(stage, Box::from(callback));
+    }
 }
