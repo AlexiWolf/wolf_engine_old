@@ -43,7 +43,11 @@ impl StageCallbacks {
             .push(callback);
     }
 
-    pub fn run(&self, stage: Stage, context: &mut Context) {}
+    pub fn run(&self, stage: Stage, context: &mut Context) {
+        self.get(stage)
+            .iter()
+            .for_each(|callback| { (callback)(context); });
+    }
 
     pub fn get(&self, stage: Stage) -> &Vec<StageCallback> {
         match stage {
