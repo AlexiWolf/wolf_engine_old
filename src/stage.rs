@@ -115,6 +115,10 @@ mod stage_tests {
         stage_callbacks.push(stage, |context| { context.send_event(1); });
 
         stage_callbacks.run(stage, &mut context);
+        
+        let numbers = context.flush_events::<u32>(); 
+        let number = numbers.iter().next().unwrap();
+        assert_eq!(1, *number);
     }
 }
 
