@@ -144,7 +144,7 @@ mod stage_tests {
     #[test_case(Stage::PostRender)]
     fn should_run_stage_callbacks(stage: Stage) {
         let mut stage_callbacks = StageCallbacks::new();
-        let context = Context::new();
+        let mut context = Context::new();
         let mut callback = MockCallback::new();
         callback.expect_run().once().return_const(());
         stage_callbacks.push(stage, Box::from(callback));
