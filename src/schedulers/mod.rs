@@ -41,7 +41,11 @@
 //! pub struct MySimpleUpdateScheduler;
 //!
 //! impl UpdateScheduler for MySimpleUpdateScheduler {
-//!     fn update(&mut self, context: &mut Context, state: &mut dyn State) {
+//!     fn update(
+//!     &mut self,
+//!     context: &mut Context, 
+//!     state: &mut dyn State, 
+//!     stage_callbacks: &mut StageCallbacks) {
 //!         state.update(context);
 //!     }
 //! }
