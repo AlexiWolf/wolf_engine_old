@@ -89,12 +89,13 @@ impl Debug for StageCallbacks {
 
 #[cfg(test)]
 mod stage_tests {
-    use test_case::test_case;
-
-    use crate::events::{EventQueue, EventControls};
-
     use super::*;
-   
+    use crate::events::*;
+    use crate::schedulers::*;
+
+    use test_case::test_case;
+    use mockall_double::double;
+
     #[test]
     fn should_create_empty_stage_callbacks() {
         let stage_callbacks = StageCallbacks::new();
@@ -150,6 +151,17 @@ mod stage_tests {
         let numbers = context.flush_events::<u32>(); 
         let number = numbers.iter().next().expect("The callback was not run");
         assert_eq!(1, *number);
+    }
+    
+    fn should_run_stages<U: 'static + UpdateScheduler, R: 'static + RenderScheduler>(
+        update_scheduler: U,
+        render_scheduler: R,
+    ) {
+        #[double]
+        use super::StageCallbacks;
+
+        let context = Context::new(); 
+        let mut stage_callbacks = StageCallbacks::new();
     }
 }
 
