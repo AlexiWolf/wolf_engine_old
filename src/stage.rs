@@ -91,10 +91,8 @@ impl Debug for StageCallbacks {
 mod stage_tests {
     use super::*;
     use crate::events::*;
-    use crate::schedulers::*;
 
     use test_case::test_case;
-    use mockall_double::double;
 
     #[test]
     fn should_create_empty_stage_callbacks() {
@@ -153,15 +151,35 @@ mod stage_tests {
         assert_eq!(1, *number);
     }
     
-    fn should_run_stages<U: 'static + UpdateScheduler, R: 'static + RenderScheduler>(
-        update_scheduler: U,
-        render_scheduler: R,
-    ) {
+}
+
+#[cfg(test)]
+pub mod scheduler_integration_tests {
+    use super::*;
+    use crate::schedulers::*;
+
+    use mockall::predicate::{eq, always};
+    use mockall_double::double;
+    use test_case::test_case;
+    
+    #[test_case(FixedUpdateScheduler::default())]
+    pub fn should_run_update_stages<U: 'static + UpdateScheduler>(update_scheduler: U) {
         #[double]
         use super::StageCallbacks;
 
         let context = Context::new(); 
         let mut stage_callbacks = StageCallbacks::new();
+        expect_run(&mut stage_callbacks, Stage::PreUpdate);
+        expect_run(&mut stage_callbacks, Stage::Update);
+        expect_run(&mut stage_callbacks, Stage::PostUpdate);
+
+        update_scheduler.update(&mut context, EmptyState, stage_callbacks);
+    }
+
+    fn expect_run(stage_callbacks: &mut MockStageCallbacks, stage: Stage) {
+        stage_callbacks.expect_run()
+            .with(eq(stage), always())
+            .times(1..)
+            .return_const(());
     }
 }
-
