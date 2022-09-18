@@ -43,6 +43,8 @@ impl StageCallbacks {
             .push(callback);
     }
 
+    pub fn run(&self, stage: Stage, context: &mut Context) {}
+
     pub fn get(&self, stage: Stage) -> &Vec<StageCallback> {
         match stage {
             Stage::PreUpdate => &self.pre_update, 
