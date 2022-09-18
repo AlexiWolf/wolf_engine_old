@@ -77,7 +77,7 @@ pub struct FixedUpdateScheduler {
 }
 
 impl UpdateScheduler for FixedUpdateScheduler {
-    fn update(&mut self, context: &mut Context, state: &mut dyn State) {
+    fn update(&mut self, context: &mut Context, state: &mut dyn State, stage_callbacks: StageCallbacks) {
         self.accumulate_lag();
         self.run_tick_loop(state, context);
         self.update_time = Duration::from_secs(0);
