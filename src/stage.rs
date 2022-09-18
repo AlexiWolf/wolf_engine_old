@@ -127,7 +127,7 @@ mod stage_tests {
         stage_callbacks.run(stage, &mut context);
         
         let numbers = context.flush_events::<u32>(); 
-        let number = numbers.iter().next().unwrap();
+        let number = numbers.iter().next().expect("The callback was not run");
         assert_eq!(1, *number);
     }
 }
