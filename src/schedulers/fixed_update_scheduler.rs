@@ -134,10 +134,13 @@ impl FixedUpdateScheduler {
         (current_instant, elapsed_time)
     }
 
-    fn run_tick_loop(&mut self, state: &mut dyn State, context: &mut Context, stage_callbacks: &StageCallbacks) {
+    fn run_tick_loop(&mut self, state: &mut dyn State, context: &mut Context, stage_callbacks: &mut StageCallbacks) {
         while self.can_run_a_tick() {
             trace!("Running Tick: {}", self);
+            stage_callbacks.run(Stage::PreUpdate, context);
+            stage_callbacks.run(Stage::Update, context);
             self.run_tick(state, context);
+            stage_callbacks.run(Stage::PostUpdate, context);
         }
     }
 
