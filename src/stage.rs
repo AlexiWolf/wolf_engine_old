@@ -195,7 +195,6 @@ pub mod scheduler_integration_tests {
 
     fn push_callback(stage_callbacks: &mut StageCallbacks, stage: Stage) {
         let mut callback = MockCallback::new();
-        callback.expect_run().times(1..);
-        stage_callbacks.push(stage, Box::from(callback));
-    }
+        callback.expect_run().times(1..).return_const(());
+        stage_callbacks.push(stage, Box::from(callback)); }
 }
