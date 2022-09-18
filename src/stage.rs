@@ -95,9 +95,7 @@ impl Debug for StageCallbacks {
 #[cfg(test)]
 mod stage_tests {
     use super::*;
-    use crate::events::*;
 
-    use mockall::predicate::{eq, always};
     use test_case::test_case;
 
     #[test]
@@ -148,7 +146,7 @@ mod stage_tests {
         let mut stage_callbacks = StageCallbacks::new();
         let context = Context::new();
         let mut callback = MockCallback::new();
-        callback.expect_run().with(eq(stage), always()).once().return_const(());
+        callback.expect_run().once().return_const(());
         stage_callbacks.push(stage, Box::from(callback));
 
         stage_callbacks.run(stage, &mut context);
