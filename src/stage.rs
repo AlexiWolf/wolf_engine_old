@@ -155,29 +155,22 @@ mod stage_tests {
 #[cfg(test)]
 pub mod scheduler_integration_tests {
     use super::*;
+    use crate::*;
+    use crate::events::*;
     use crate::schedulers::*;
-    use crate::EmptyState;
 
     use test_case::test_case;
     
     #[test_case(FixedUpdateScheduler::default())]
-    pub fn should_run_update_stages<U: 'static + UpdateScheduler>(update_scheduler: U) {
-        #[double]
-        use super::StageCallbacks;
-
-        let context = Context::new(); 
+    pub fn should_run_update_stages<U: 'static + UpdateScheduler>(mut update_scheduler: U) {
+        let mut context = Context::new(); 
+        context.add(EventQueue::<Stage>::new()).unwrap();
         let mut stage_callbacks = StageCallbacks::new();
-        expect_run(&mut stage_callbacks, Stage::PreUpdate);
-        expect_run(&mut stage_callbacks, Stage::Update);
-        expect_run(&mut stage_callbacks, Stage::PostUpdate);
-
+        push_callback(&mut stage_callbacks, Stage::PreUpdate);
+        push_callback(&mut stage_callbacks, Stage::Update);
+        push_callback(&mut stage_callbacks, Stage::PostUpdate);
         update_scheduler.update(&mut context, &mut EmptyState, &stage_callbacks);
     }
 
-    fn expect_run(stage_callbacks: &mut MockStageCallbacks, stage: Stage) {
-        stage_callbacks.expect_run()
-            .with(eq(stage), always())
-            .times(1..)
-            .return_const(());
-    }
+    fn push_callback(stage_callbacks: &mut StageCallbacks, stage: Stage) {}
 }
