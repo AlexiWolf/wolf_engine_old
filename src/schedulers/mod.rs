@@ -73,7 +73,7 @@ use mockall::automock;
 #[cfg_attr(test, automock)]
 pub trait UpdateScheduler: Debug {
     /// Update the game state.
-    fn update(&mut self, context: &mut Context, state: &mut dyn State);
+    fn update(&mut self, context: &mut Context, state: &mut dyn State, stage_callbacks: StageCallbacks);
 }
 
 /// Controls how and when a frame should be rendered.
