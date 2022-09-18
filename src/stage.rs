@@ -188,6 +188,7 @@ pub mod scheduler_integration_tests {
     ) -> Engine {
         Engine::builder()
             .with_update_scheduler(Box::from(update_scheduler))
+            .with_render_scheduler(Box::from(render_scheduler))
             .build()
             .expect("Failed to build the Engine")
     }
