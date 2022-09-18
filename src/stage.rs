@@ -173,7 +173,7 @@ pub mod scheduler_integration_tests {
         expect_run(&mut stage_callbacks, Stage::Update);
         expect_run(&mut stage_callbacks, Stage::PostUpdate);
 
-        update_scheduler.update(&mut context, EmptyState, stage_callbacks);
+        update_scheduler.update(&mut context, EmptyState, &stage_callbacks);
     }
 
     fn expect_run(stage_callbacks: &mut MockStageCallbacks, stage: Stage) {
