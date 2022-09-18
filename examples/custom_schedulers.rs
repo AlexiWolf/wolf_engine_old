@@ -33,9 +33,12 @@ impl UpdateScheduler for CustomUpdateScheduler {
 pub struct CustomRenderScheduler;
 
 impl RenderScheduler for CustomRenderScheduler {
-    fn render(&mut self, context: &mut Context, state: &mut dyn State) {
+    fn render(&mut self, context: &mut Context, state: &mut dyn State, stage_callbacks: &mut StageCallbacks) {
         info!("Hello from a custom Render Scheduler!");
+        stage_callbacks.run(Stage::PreRender, context);
+        stage_callbacks.run(Stage::Render, context);
         state.render(context);
+        stage_callbacks.run(Stage::PostRender, context);
     }
 }
 
