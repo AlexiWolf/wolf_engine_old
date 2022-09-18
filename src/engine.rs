@@ -302,7 +302,7 @@ mod engine_builder_tests {
         scheduler
             .expect_update()
             .times(1..)
-            .returning(|context, state_stack| {
+            .returning(|context, state_stack, _| {
                 state_stack.update(context);
             });
 
