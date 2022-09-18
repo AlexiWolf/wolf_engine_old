@@ -5,6 +5,7 @@ use crate::Context;
 #[cfg(test)]
 use mockall::automock;
 
+#[cfg_attr(test, automock)]
 pub trait Callback {
     fn run(&mut self, context: &mut Context);
 }
