@@ -121,7 +121,7 @@ impl Engine {
     /// Runs a complete update of all engine and game state.
     pub fn update(&mut self) {
         self.update_scheduler
-            .update(&mut self.context, &mut self.state_stack, &mut StageCallbacks::new());
+            .update(&mut self.context, &mut self.state_stack, &mut self.stage_callbacks); 
     }
 
     /// Renders the current frame.
