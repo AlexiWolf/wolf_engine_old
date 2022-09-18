@@ -6,8 +6,10 @@ use crate::Context;
 use mockall::automock;
 
 pub trait Callback {
-    fn run(context: &mut Context);
+    fn run(&mut self, context: &mut Context);
 }
+
+pub type CallbackQueue = Vec<Box<dyn Callback>>;
 
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
@@ -22,12 +24,12 @@ pub enum Stage {
 
 #[derive(Default)]
 pub struct StageCallbacks {
-    pre_update : Vec<Callback>,
-    update: Vec<Callback>,
-    post_update: Vec<Callback>,
-    pre_render: Vec<Callback>,
-    render: Vec<Callback>,
-    post_render: Vec<Callback>,
+    pre_update : CallbackQueue,
+    update: CallbackQueue,
+    post_update: CallbackQueue,
+    pre_render: CallbackQueue,
+    render: CallbackQueue,
+    post_render: CallbackQueue,
 }
 
 impl StageCallbacks {
@@ -42,18 +44,18 @@ impl StageCallbacks {
         }
     }
 
-    pub fn push(&mut self, stage: Stage, callback: Callback) {
+    pub fn push(&mut self, stage: Stage, callback: Box<dyn Callback>) {
         self.get_mut(stage)
             .push(callback);
     }
 
-    pub fn run(&self, stage: Stage, context: &mut Context) {
-        self.get(stage)
-            .iter()
-            .for_each(|callback| { (callback)(context); });
+    pub fn run(&mut self, stage: Stage, context: &mut Context) {
+        self.get_mut(stage)
+            .iter_mut()
+            .for_each(|callback| { callback.run(context); });
     }
 
-    pub fn get(&self, stage: Stage) -> &Vec<Callback> {
+    pub fn get(&self, stage: Stage) -> &CallbackQueue {
         match stage {
             Stage::PreUpdate => &self.pre_update, 
             Stage::Update => &self.update,
@@ -64,7 +66,7 @@ impl StageCallbacks {
         }
     }
 
-    pub fn get_mut(&mut self, stage: Stage) -> &mut Vec<Callback> {
+    pub fn get_mut(&mut self, stage: Stage) -> &mut CallbackQueue {
         match stage {
             Stage::PreUpdate => &mut self.pre_update, 
             Stage::Update => &mut self.update,
@@ -128,7 +130,7 @@ mod stage_tests {
     fn should_add_function_with_correct_callback_group(stage: Stage) {
         let mut stage_callbacks = StageCallbacks::new();
 
-        stage_callbacks.push(stage, |_| {});
+        stage_callbacks.push(stage, Box::from(|_| {}));
 
         assert_eq!(1, stage_callbacks.get(stage).len(), "The callback was not added to the stage");
         assert_eq!(1, stage_callbacks.get_mut(stage).len(), "The callback was not added to the stage");
@@ -144,7 +146,7 @@ mod stage_tests {
         let mut stage_callbacks = StageCallbacks::new();
         let mut context = Context::new();
         context.add(EventQueue::<u32>::new()).unwrap();
-        stage_callbacks.push(stage, |context| { context.send_event::<u32>(1); });
+        stage_callbacks.push(stage, Box::from(|context| { context.send_event::<u32>(1); }));
 
         stage_callbacks.run(stage, &mut context);
         
