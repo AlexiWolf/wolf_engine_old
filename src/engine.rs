@@ -66,6 +66,7 @@ use crate::*;
 pub struct Engine {
     pub context: Context,
     pub state_stack: StateStack,
+    pub stage_callbacks: StageCallbacks,
     update_scheduler: Box<dyn UpdateScheduler>,
     render_scheduler: Box<dyn RenderScheduler>,
     main_loop: Box<dyn MainLoop>,
@@ -97,6 +98,7 @@ impl Engine {
         Self {
             context: Context::default(),
             state_stack: StateStack::new(),
+            stage_callbacks: StageCallbacks::new(),
             update_scheduler: Box::from(FixedUpdateScheduler::default()),
             render_scheduler: Box::from(SimpleRenderScheduler),
             main_loop: Box::from(EmptyMainLoop),
