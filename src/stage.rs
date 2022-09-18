@@ -164,7 +164,9 @@ pub mod scheduler_integration_tests {
     
     #[test_case(FixedUpdateScheduler::default())]
     pub fn should_run_update_stages<U: 'static + UpdateScheduler>(update_scheduler: U) {
-        let mut engine = test_engine(Box::from(update_scheduler));
+        let mut engine = test_engine(
+            Box::from(update_scheduler),
+            Box::from(SimpleRenderScheduler));
         push_callback(&mut engine.stage_callbacks, Stage::PreUpdate);
         push_callback(&mut engine.stage_callbacks, Stage::Update); 
         push_callback(&mut engine.stage_callbacks, Stage::PostUpdate);
@@ -172,7 +174,21 @@ pub mod scheduler_integration_tests {
         engine.update();
     }
 
-    fn test_engine(update_scheduler: Box<dyn UpdateScheduler>) -> Engine {
+    pub fn should_run_render_stages<R: 'static + RenderScheduler>(render_scheduler: R) {
+        let mut engine = test_engine(
+            Box::from(FixedUpdateScheduler::default()),
+            Box::from(render_scheduler));
+        push_callback(&mut engine.stage_callbacks, Stage::PreRender);
+        push_callback(&mut engine.stage_callbacks, Stage::Render); 
+        push_callback(&mut engine.stage_callbacks, Stage::PostRender);
+
+        engine.update();
+    }
+
+    fn test_engine(
+        update_scheduler: Box<dyn UpdateScheduler>,
+        render_scheduler: Box<dyn RenderScheduler>,
+    ) -> Engine {
         Engine::builder()
             .with_update_scheduler(Box::from(update_scheduler))
             .build()
