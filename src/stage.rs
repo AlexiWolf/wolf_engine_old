@@ -1,5 +1,8 @@
 use crate::Context;
 
+#[cfg(test)]
+use mockall::automock;
+
 pub type StageCallback = fn(&mut Context);
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
@@ -22,6 +25,7 @@ pub struct StageCallbacks {
     post_render: Vec<StageCallback>,
 }
 
+#[cfg_attr(test, automock)]
 impl StageCallbacks {
     pub fn new() -> Self {
         Self {
@@ -66,6 +70,8 @@ impl StageCallbacks {
 mod stage_tests {
     use test_case::test_case;
 
+    use crate::events::{EventQueue, EventControls};
+
     use super::*;
    
     #[test]
@@ -98,6 +104,15 @@ mod stage_tests {
 
         assert_eq!(1, stage_callbacks.get(stage).len(), "The callback was not added to the stage");
         assert_eq!(1, stage_callbacks.get_mut(stage).len(), "The callback was not added to the stage");
+    }
+    
+    fn should_run_stage_callbacks(stage: Stage) {
+        let mut stage_callbacks = StageCallbacks::new();
+        let mut context = Context::new();
+        context.add(EventQueue::<u32>::new()).unwrap();
+        stage_callbacks.push(stage, |context| { context.send_event(1); });
+
+        stage_callbacks.run(stage, &mut context);
     }
 }
 
