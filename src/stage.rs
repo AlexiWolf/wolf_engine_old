@@ -96,6 +96,7 @@ mod stage_tests {
     use super::*;
     use crate::events::*;
 
+    use mockall::predicate::{eq, always};
     use test_case::test_case;
 
     #[test]
@@ -129,8 +130,8 @@ mod stage_tests {
     #[test_case(Stage::PostRender)]
     fn should_add_function_with_correct_callback_group(stage: Stage) {
         let mut stage_callbacks = StageCallbacks::new();
-
-        stage_callbacks.push(stage, Box::from(|_| {}));
+        let callback = MockCallback::new();
+        stage_callbacks.push(stage, Box::from(callback));
 
         assert_eq!(1, stage_callbacks.get(stage).len(), "The callback was not added to the stage");
         assert_eq!(1, stage_callbacks.get_mut(stage).len(), "The callback was not added to the stage");
@@ -144,15 +145,12 @@ mod stage_tests {
     #[test_case(Stage::PostRender)]
     fn should_run_stage_callbacks(stage: Stage) {
         let mut stage_callbacks = StageCallbacks::new();
-        let mut context = Context::new();
-        context.add(EventQueue::<u32>::new()).unwrap();
-        stage_callbacks.push(stage, Box::from(|context| { context.send_event::<u32>(1); }));
+        let context = Context::new();
+        let mut callback = MockCallback::new();
+        callback.expect_run().with(eq(stage), always()).once().return_const(());
+        stage_callbacks.push(stage, Box::from(callback));
 
         stage_callbacks.run(stage, &mut context);
-        
-        let numbers = context.flush_events::<u32>(); 
-        let number = numbers.iter().next().expect("The callback was not run");
-        assert_eq!(1, *number);
     }
     
 }
