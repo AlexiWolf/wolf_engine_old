@@ -158,20 +158,25 @@ mod stage_tests {
 pub mod scheduler_integration_tests {
     use super::*;
     use crate::*;
-    use crate::events::*;
     use crate::schedulers::*;
 
     use test_case::test_case;
     
     #[test_case(FixedUpdateScheduler::default())]
-    pub fn should_run_update_stages<U: 'static + UpdateScheduler>(mut update_scheduler: U) {
-        let mut context = Context::new(); 
-        context.add(EventQueue::<Stage>::new()).unwrap();
-        let mut stage_callbacks = StageCallbacks::new();
-        push_callback(&mut stage_callbacks, Stage::PreUpdate);
-        push_callback(&mut stage_callbacks, Stage::Update); 
-        push_callback(&mut stage_callbacks, Stage::PostUpdate);
-        update_scheduler.update(&mut context, &mut EmptyState, &stage_callbacks);
+    pub fn should_run_update_stages<U: 'static + UpdateScheduler>(update_scheduler: U) {
+        let mut engine = test_engine(Box::from(update_scheduler));
+        push_callback(&mut engine.stage_callbacks, Stage::PreUpdate);
+        push_callback(&mut engine.stage_callbacks, Stage::Update); 
+        push_callback(&mut engine.stage_callbacks, Stage::PostUpdate);
+
+        engine.update();
+    }
+
+    fn test_engine(update_scheduler: Box<dyn UpdateScheduler>) -> Engine {
+        Engine::builder()
+            .with_update_scheduler(Box::from(update_scheduler))
+            .build()
+            .expect("Failed to build the Engine")
     }
 
     fn push_callback(stage_callbacks: &mut StageCallbacks, stage: Stage) {
