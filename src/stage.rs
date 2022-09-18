@@ -96,6 +96,12 @@ mod stage_tests {
     fn should_implement_default() {
         let _stage_callbacks = StageCallbacks::default();
     }
+
+    #[test]
+    fn should_implement_debug() {
+        let stage_callbacks = StageCallbacks::new();
+        println!("{:#?}", stage_callbacks); 
+    }
     
     #[test_case(Stage::PreUpdate)]
     #[test_case(Stage::Update)]
