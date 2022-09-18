@@ -122,7 +122,7 @@ mod stage_tests {
         let mut stage_callbacks = StageCallbacks::new();
         let mut context = Context::new();
         context.add(EventQueue::<u32>::new()).unwrap();
-        stage_callbacks.push(stage, |context| { context.send_event(1); });
+        stage_callbacks.push(stage, |context| { context.send_event::<u32>(1); });
 
         stage_callbacks.run(stage, &mut context);
         
