@@ -276,7 +276,7 @@ mod fixed_update_scheduler_tests {
         });
         scheduler.max_update_time = Duration::from_millis(5);
 
-        scheduler.update(&mut context, &mut state);
+        scheduler.update(&mut context, &mut state, &StageCallbacks::new());
     }
 
     #[test]
@@ -285,7 +285,7 @@ mod fixed_update_scheduler_tests {
         let mut state = MockState::new();
         state.expect_update().times(1..).returning(|_| None);
 
-        scheduler.update(&mut context, &mut state);
+        scheduler.update(&mut context, &mut state, &StageCallbacks::new());
     }
 
     /// Testing minimum ticks because this test is not consistent cross platforms when checking
@@ -303,7 +303,7 @@ mod fixed_update_scheduler_tests {
         state.expect_update().returning(|_| None);
 
         thread::sleep(Duration::from_millis(1000 / fps));
-        scheduler.update(&mut context, &mut state);
+        scheduler.update(&mut context, &mut state, &StageCallbacks::new());
 
         let scheduler_context = context
             .borrow::<SchedulerContext>()
@@ -327,7 +327,7 @@ mod fixed_update_scheduler_tests {
                 "The update time was not reset."
             );
             scheduler.lag = Duration::from_millis(8);
-            scheduler.update(&mut context, &mut state);
+            scheduler.update(&mut context, &mut state, &StageCallbacks::new());
         }
     }
 
