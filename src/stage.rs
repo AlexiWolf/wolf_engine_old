@@ -1,3 +1,5 @@
+use std::fmt::Debug;
+
 use crate::Context;
 
 #[cfg(test)]
@@ -69,6 +71,19 @@ impl StageCallbacks {
             Stage::Render => &mut self.render,
             Stage::PostRender => &mut self.post_render,
         }
+    }
+}
+
+impl Debug for StageCallbacks {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("StageCallbacks")
+            .field("pre_update_callbacks", &self.pre_update.len())
+            .field("update_callbacks", &self.update.len())
+            .field("post_update_callbacks", &self.post_update.len())
+            .field("pre_render_callbacks", &self.pre_render.len())
+            .field("render_callbacks", &self.render.len())
+            .field("post_render_callbacks", &self.post_render.len())
+            .finish()
     }
 }
 
