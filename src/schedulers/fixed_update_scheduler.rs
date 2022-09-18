@@ -333,7 +333,8 @@ mod fixed_update_scheduler_tests {
 
     #[test]
     fn should_run_update_stages() {
-        scheduler_integration_tests::should_run_update_stages(test_scheduler(8, 0));
+        let (scheduler, _) = test_scheduler(8, 0);
+        scheduler_integration_tests::should_run_update_stages(scheduler);
     }
 
     fn test_scheduler(
