@@ -7,7 +7,10 @@ pub struct SimpleRenderScheduler;
 
 impl RenderScheduler for SimpleRenderScheduler {
     fn render(&mut self, context: &mut Context, state: &mut dyn State, stage_callbacks: &mut StageCallbacks) {
+        stage_callbacks.run(Stage::PreRender, context);
+        stage_callbacks.run(Stage::Render, context);
         state.render(context);
+        stage_callbacks.run(Stage::PostRender, context);
     }
 }
 
