@@ -108,6 +108,12 @@ mod stage_tests {
         assert_eq!(1, stage_callbacks.get_mut(stage).len(), "The callback was not added to the stage");
     }
     
+    #[test_case(Stage::PreUpdate)]
+    #[test_case(Stage::Update)]
+    #[test_case(Stage::PostUpdate)]
+    #[test_case(Stage::PreRender)]
+    #[test_case(Stage::Render)]
+    #[test_case(Stage::PostRender)]
     fn should_run_stage_callbacks(stage: Stage) {
         let mut stage_callbacks = StageCallbacks::new();
         let mut context = Context::new();
