@@ -5,7 +5,10 @@ use crate::Context;
 #[cfg(test)]
 use mockall::automock;
 
-pub type Callback = fn(&mut Context);
+pub trait Callback {
+    fn run(context: &mut Context);
+}
+
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum Stage {
@@ -167,8 +170,7 @@ pub mod scheduler_integration_tests {
         context.add(EventQueue::<Stage>::new()).unwrap();
         let mut stage_callbacks = StageCallbacks::new();
         push_callback(&mut stage_callbacks, Stage::PreUpdate);
-        push_callback(&mut stage_callbacks, Stage::Update);
-        push_callback(&mut stage_callbacks, Stage::PostUpdate);
+        push_callback(&mut stage_callbacks, Stage::Update); push_callback(&mut stage_callbacks, Stage::PostUpdate);
         update_scheduler.update(&mut context, &mut EmptyState, &stage_callbacks);
     }
 
