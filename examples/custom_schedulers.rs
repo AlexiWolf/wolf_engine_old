@@ -22,7 +22,10 @@ pub struct CustomUpdateScheduler;
 impl UpdateScheduler for CustomUpdateScheduler {
     fn update(&mut self, context: &mut Context, state: &mut dyn State, stage_callbacks: &mut StageCallbacks) {
         info!("Hello from a custom Update Scheduler!");
+        stage_callbacks.run(Stage::PreUpdate, context);
+        stage_callbacks.run(Stage::Update, context);
         state.update(context);
+        stage_callbacks.run(Stage::PostUpdate, context);
     }
 }
 
