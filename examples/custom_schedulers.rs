@@ -20,7 +20,7 @@ pub fn main() {
 pub struct CustomUpdateScheduler;
 
 impl UpdateScheduler for CustomUpdateScheduler {
-    fn update(&mut self, context: &mut Context, state: &mut dyn State, stage_callbacks: &StageCallbacks) {
+    fn update(&mut self, context: &mut Context, state: &mut dyn State, stage_callbacks: &mut StageCallbacks) {
         info!("Hello from a custom Update Scheduler!");
         state.update(context);
     }
