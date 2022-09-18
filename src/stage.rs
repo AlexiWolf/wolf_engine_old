@@ -27,7 +27,6 @@ pub struct StageCallbacks {
     post_render: Vec<Callback>,
 }
 
-#[cfg_attr(test, automock)]
 impl StageCallbacks {
     pub fn new() -> Self {
         Self {
@@ -159,8 +158,6 @@ pub mod scheduler_integration_tests {
     use crate::schedulers::*;
     use crate::EmptyState;
 
-    use mockall::predicate::{eq, always};
-    use mockall_double::double;
     use test_case::test_case;
     
     #[test_case(FixedUpdateScheduler::default())]
