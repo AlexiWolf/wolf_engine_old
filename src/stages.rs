@@ -94,6 +94,10 @@ impl StageCallbacks {
         self.get_mut(stage)
             .push(callback);
     }
+
+    pub fn push_fn(&mut self, stage: StageType, callback: fn(&mut Context)) {
+
+    }
     
     /// Runs all [Callbacks](Callback) on the specified [Stage].
     pub fn run(&mut self, stage: StageType, context: &mut Context) {
