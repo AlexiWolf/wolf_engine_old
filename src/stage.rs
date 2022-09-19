@@ -5,12 +5,12 @@ use crate::Context;
 #[cfg(test)]
 use mockall::automock;
 
+pub type Stage = Vec<Box<dyn Callback>>;
+
 #[cfg_attr(test, automock)]
 pub trait Callback {
     fn run(&mut self, context: &mut Context);
 }
-
-pub type Stage = Vec<Box<dyn Callback>>;
 
 /// Represents an [Engine] stage.
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
