@@ -1,3 +1,5 @@
+//! Provides an callback and stage system for the [Engine]. 
+
 use std::fmt::Debug;
 
 use crate::Context;
