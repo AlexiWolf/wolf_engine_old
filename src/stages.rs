@@ -17,13 +17,24 @@ pub trait Callback {
     fn run(&self, context: &mut Context);
 }
 
+
+impl<T> Callback for T where T: Fn(&mut Context) {
+    fn run(&self,context: &mut Context) {
+        todo!()
+    }
+}
+
 #[cfg(test)]
 mod callback_tests {
+    use crate::events::EventQueue;
+
     use super::*;
 
     #[test]
     fn should_implement_callback_for_closures() {
-        let stage_callbacks = StageCallbacks::new();
+        let mut stage_callbacks = StageCallbacks::new();
+        let mut context = Context::new();
+        context.add(EventQueue::<i32>::new()).unwrap();
 
         stage_callbacks.push(StageType::Update, Box::from(|_: &mut Context| {})); 
     }
