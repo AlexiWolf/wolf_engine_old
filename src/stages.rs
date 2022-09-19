@@ -20,13 +20,12 @@ pub trait Callback {
 
 impl<T> Callback for T where T: Fn(&mut Context) {
     fn run(&self,context: &mut Context) {
-        todo!()
     }
 }
 
 #[cfg(test)]
 mod callback_tests {
-    use crate::events::EventQueue;
+    use crate::events::{EventQueue, EventControls};
 
     use super::*;
 
@@ -35,8 +34,14 @@ mod callback_tests {
         let mut stage_callbacks = StageCallbacks::new();
         let mut context = Context::new();
         context.add(EventQueue::<i32>::new()).unwrap();
-
+        
         stage_callbacks.push(StageType::Update, Box::from(|_: &mut Context| {})); 
+        stage_callbacks.run(StageType::Update, &mut context);
+
+        context.flush_events::<i32>()
+            .iter()
+            .next()
+            .expect("No event was emitted, so the callback did not run correctly");
     }
 }
 
