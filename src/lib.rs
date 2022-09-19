@@ -319,7 +319,6 @@ mod engine;
 mod main_loop;
 mod plugin;
 mod plugin_loader;
-mod stage;
 mod state;
 mod state_stack;
 mod transition;
@@ -328,6 +327,7 @@ pub mod contexts;
 pub mod events;
 pub mod plugins;
 pub mod schedulers;
+pub mod stages;
 pub mod utils;
 
 #[cfg(feature = "logging")]
@@ -338,7 +338,6 @@ pub use engine::*;
 pub use main_loop::*;
 pub use plugin::*;
 pub use plugin_loader::*;
-pub use stage::*;
 pub use state::*;
 pub use state_stack::*;
 pub use transition::*;
