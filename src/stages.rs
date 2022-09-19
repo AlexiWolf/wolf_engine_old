@@ -96,7 +96,7 @@ impl StageCallbacks {
     }
 
     pub fn push_fn(&mut self, stage: StageType, callback: fn(&mut Context)) {
-
+        self.push(stage, Box::from(callback));
     }
     
     /// Runs all [Callbacks](Callback) on the specified [Stage].
