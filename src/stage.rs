@@ -54,14 +54,7 @@ pub struct StageCallbacks {
 
 impl StageCallbacks {
     pub fn new() -> Self {
-        Self {
-            pre_update: Vec::new(),
-            update: Vec::new(),
-            post_update: Vec::new(),
-            pre_render: Vec::new(),
-            render: Vec::new(),
-            post_render: Vec::new(),
-        }
+        Self::default()
     }
 
     pub fn push(&mut self, stage: StageType, callback: Box<dyn Callback>) {
