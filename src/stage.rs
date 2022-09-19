@@ -8,6 +8,7 @@ use mockall::automock;
 /// A collection of [Callbacks](Callback) to run during a specific [StageType].
 pub type Stage = Vec<Box<dyn Callback>>;
 
+/// Provides a mechanism for running custom [Engine] code during as part of a [Stage]. 
 #[cfg_attr(test, automock)]
 pub trait Callback {
     fn run(&mut self, context: &mut Context);
