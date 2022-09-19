@@ -1,4 +1,4 @@
-//! Provides an callback and stage system for the [Engine]. 
+//! Provides an callback and stage system for the [Engine](crate::Engine). 
 
 use std::fmt::Debug;
 
@@ -10,40 +10,40 @@ use mockall::automock;
 /// A collection of [Callbacks](Callback) to run during a specific [StageType].
 pub type Stage = Vec<Box<dyn Callback>>;
 
-/// Provides a mechanism for running custom [Engine] code as part of a [Stage]. 
+/// Provides a mechanism for running custom [Engine](crate::Engine) code as part of a [Stage]. 
 #[cfg_attr(test, automock)]
 pub trait Callback {
     /// Run the callback.
     fn run(&self, context: &mut Context);
 }
 
-/// Represents an [Engine] stage.
+/// Represents an [Engine](crate::Engine) stage.
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum StageType {
-    /// Runs before the [Update stage](Stage::Update) has started.
+    /// Runs before the [Update stage](StageType::Update) has started.
     PreUpdate,
 
-    /// Runs main [State] and [Engine] update logic.
+    /// Runs main [State](crate::State) and [Engine](crate::Engine) update logic.
     Update,
 
-    /// Runs after the [Update stage](Stage::Update) has finished. 
+    /// Runs after the [Update stage](StageType::Update) has finished. 
     PostUpdate,
    
-    /// Runs before the [Render stage](Stage::Render) has started.
+    /// Runs before the [Render stage](StageType::Render) has started.
     PreRender,
 
-    /// Runs main [State] and [Engine] render logic.
+    /// Runs main [State](crate::State) and [Engine](crate::Engine) render logic.
     Render,
 
-    /// Runs after the [Render stage](Stage::Render) has finished.
+    /// Runs after the [Render stage](StageType::Render) has finished.
     PostRender,
 }
 
-/// Provides a mechanism for running custom [Engine] code across various [StageTypes](StageType).
+/// Provides a mechanism for running custom on the [Enigne](crate::Engine).
 ///
-/// The stage callback system is a way to simply extend the [Engine's](Engine) functionality.
-/// [Callbacks](Callback) are added then ran automatically by the [Engine's](Engine) 
-/// [schedulers](crate::scheduler).  Each [Callback] is added with a specified [StageType], to be 
+/// The stage callback system is a way to simply extend the [Engine's](crate::Engine) functionality.
+/// [Callbacks](Callback) are added then ran automatically by the [Engine's](crate::Engine) 
+/// [schedulers](crate::schedulers).  Each [Callback] is added with a specified [StageType], to be 
 /// ran as part of that [Stage].
 #[derive(Default)]
 pub struct StageCallbacks {

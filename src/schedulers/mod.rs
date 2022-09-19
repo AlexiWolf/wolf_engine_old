@@ -2,8 +2,9 @@
 //!
 //! A scheduler is responsible for determining if and when the [Engine] should run various
 //! operations.  This includes when to run [State] updates, render frames, and run various engine
-//! [Stage]s.  Wolf Engine has two kinds of scheduler, [UpdateScheduler] to control game logic, and
-//! [RenderScheduler] to control rendering.  Refer to the respective trait's documentation for
+//! [stages](crate::stages).  Wolf Engine has two kinds of scheduler, [UpdateScheduler] to control 
+//! game logic, and [RenderScheduler] to control rendering.  Refer to the respective trait's 
+//! documentation for
 //! specific details.
 //!
 //! The scheduler traits make it easy to change the behavior of the [Engine] to suit your game's
