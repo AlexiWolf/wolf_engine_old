@@ -14,7 +14,7 @@ pub type CallbackQueue = Vec<Box<dyn Callback>>;
 
 /// Represents an [Engine] stage.
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
-pub enum Stage {
+pub enum StageType {
     /// Runs before the [Update stage](Stage::Update) has started.
     PreUpdate,
 
@@ -56,36 +56,36 @@ impl StageCallbacks {
         }
     }
 
-    pub fn push(&mut self, stage: Stage, callback: Box<dyn Callback>) {
+    pub fn push(&mut self, stage: StageType, callback: Box<dyn Callback>) {
         self.get_mut(stage)
             .push(callback);
     }
 
-    pub fn run(&mut self, stage: Stage, context: &mut Context) {
+    pub fn run(&mut self, stage: StageType, context: &mut Context) {
         self.get_mut(stage)
             .iter_mut()
             .for_each(|callback| { callback.run(context); });
     }
 
-    pub fn get(&self, stage: Stage) -> &CallbackQueue {
+    pub fn get(&self, stage: StageType) -> &CallbackQueue {
         match stage {
-            Stage::PreUpdate => &self.pre_update, 
-            Stage::Update => &self.update,
-            Stage::PostUpdate => &self.post_update,
-            Stage::PreRender => &self.pre_render,
-            Stage::Render => &self.render,
-            Stage::PostRender => &self.post_render,
+            StageType::PreUpdate => &self.pre_update, 
+            StageType::Update => &self.update,
+            StageType::PostUpdate => &self.post_update,
+            StageType::PreRender => &self.pre_render,
+            StageType::Render => &self.render,
+            StageType::PostRender => &self.post_render,
         }
     }
 
-    pub fn get_mut(&mut self, stage: Stage) -> &mut CallbackQueue {
+    pub fn get_mut(&mut self, stage: StageType) -> &mut CallbackQueue {
         match stage {
-            Stage::PreUpdate => &mut self.pre_update, 
-            Stage::Update => &mut self.update,
-            Stage::PostUpdate => &mut self.post_update,
-            Stage::PreRender => &mut self.pre_render,
-            Stage::Render => &mut self.render,
-            Stage::PostRender => &mut self.post_render,
+            StageType::PreUpdate => &mut self.pre_update, 
+            StageType::Update => &mut self.update,
+            StageType::PostUpdate => &mut self.post_update,
+            StageType::PreRender => &mut self.pre_render,
+            StageType::Render => &mut self.render,
+            StageType::PostRender => &mut self.post_render,
         }
     }
 }
@@ -132,13 +132,13 @@ mod stage_tests {
         println!("{:#?}", stage_callbacks); 
     }
     
-    #[test_case(Stage::PreUpdate)]
-    #[test_case(Stage::Update)]
-    #[test_case(Stage::PostUpdate)]
-    #[test_case(Stage::PreRender)]
-    #[test_case(Stage::Render)]
-    #[test_case(Stage::PostRender)]
-    fn should_add_function_with_correct_callback_group(stage: Stage) {
+    #[test_case(StageType::PreUpdate)]
+    #[test_case(StageType::Update)]
+    #[test_case(StageType::PostUpdate)]
+    #[test_case(StageType::PreRender)]
+    #[test_case(StageType::Render)]
+    #[test_case(StageType::PostRender)]
+    fn should_add_function_with_correct_callback_group(stage: StageType) {
         let mut stage_callbacks = StageCallbacks::new();
         let callback = MockCallback::new();
         stage_callbacks.push(stage, Box::from(callback));
@@ -147,13 +147,13 @@ mod stage_tests {
         assert_eq!(1, stage_callbacks.get_mut(stage).len(), "The callback was not added to the stage");
     }
     
-    #[test_case(Stage::PreUpdate)]
-    #[test_case(Stage::Update)]
-    #[test_case(Stage::PostUpdate)]
-    #[test_case(Stage::PreRender)]
-    #[test_case(Stage::Render)]
-    #[test_case(Stage::PostRender)]
-    fn should_run_stage_callbacks(stage: Stage) {
+    #[test_case(StageType::PreUpdate)]
+    #[test_case(StageType::Update)]
+    #[test_case(StageType::PostUpdate)]
+    #[test_case(StageType::PreRender)]
+    #[test_case(StageType::Render)]
+    #[test_case(StageType::PostRender)]
+    fn should_run_stage_callbacks(stage: StageType) {
         let mut stage_callbacks = StageCallbacks::new();
         let mut context = Context::new();
         let mut callback = MockCallback::new();
@@ -175,9 +175,9 @@ pub mod scheduler_integration_tests {
         let mut engine = test_engine(
             Box::from(update_scheduler),
             Box::from(SimpleRenderScheduler));
-        push_callback(&mut engine.stage_callbacks, Stage::PreUpdate);
-        push_callback(&mut engine.stage_callbacks, Stage::Update); 
-        push_callback(&mut engine.stage_callbacks, Stage::PostUpdate);
+        push_callback(&mut engine.stage_callbacks, StageType::PreUpdate);
+        push_callback(&mut engine.stage_callbacks, StageType::Update); 
+        push_callback(&mut engine.stage_callbacks, StageType::PostUpdate);
 
         engine.update();
     }
@@ -186,9 +186,9 @@ pub mod scheduler_integration_tests {
         let mut engine = test_engine(
             Box::from(FixedUpdateScheduler::default()),
             Box::from(render_scheduler));
-        push_callback(&mut engine.stage_callbacks, Stage::PreRender);
-        push_callback(&mut engine.stage_callbacks, Stage::Render); 
-        push_callback(&mut engine.stage_callbacks, Stage::PostRender);
+        push_callback(&mut engine.stage_callbacks, StageType::PreRender);
+        push_callback(&mut engine.stage_callbacks, StageType::Render); 
+        push_callback(&mut engine.stage_callbacks, StageType::PostRender);
 
         engine.render();
     }
@@ -204,7 +204,7 @@ pub mod scheduler_integration_tests {
             .expect("Failed to build the Engine")
     }
 
-    fn push_callback(stage_callbacks: &mut StageCallbacks, stage: Stage) {
+    fn push_callback(stage_callbacks: &mut StageCallbacks, stage: StageType) {
         let mut callback = MockCallback::new();
         callback.expect_run().times(1..).return_const(());
         stage_callbacks.push(stage, Box::from(callback)); }

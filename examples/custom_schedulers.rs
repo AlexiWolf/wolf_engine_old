@@ -22,10 +22,10 @@ pub struct CustomUpdateScheduler;
 impl UpdateScheduler for CustomUpdateScheduler {
     fn update(&mut self, context: &mut Context, state: &mut dyn State, stage_callbacks: &mut StageCallbacks) {
         info!("Hello from a custom Update Scheduler!");
-        stage_callbacks.run(Stage::PreUpdate, context);
-        stage_callbacks.run(Stage::Update, context);
+        stage_callbacks.run(StageType::PreUpdate, context);
+        stage_callbacks.run(StageType::Update, context);
         state.update(context);
-        stage_callbacks.run(Stage::PostUpdate, context);
+        stage_callbacks.run(StageType::PostUpdate, context);
     }
 }
 
@@ -35,10 +35,10 @@ pub struct CustomRenderScheduler;
 impl RenderScheduler for CustomRenderScheduler {
     fn render(&mut self, context: &mut Context, state: &mut dyn State, stage_callbacks: &mut StageCallbacks) {
         info!("Hello from a custom Render Scheduler!");
-        stage_callbacks.run(Stage::PreRender, context);
-        stage_callbacks.run(Stage::Render, context);
+        stage_callbacks.run(StageType::PreRender, context);
+        stage_callbacks.run(StageType::Render, context);
         state.render(context);
-        stage_callbacks.run(Stage::PostRender, context);
+        stage_callbacks.run(StageType::PostRender, context);
     }
 }
 
