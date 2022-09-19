@@ -17,6 +17,18 @@ pub trait Callback {
     fn run(&self, context: &mut Context);
 }
 
+#[cfg(test)]
+mod callback_tests {
+    use super::*;
+
+    #[test]
+    fn should_implement_callback_for_closures() {
+        let stage_callbacks = StageCallbacks::new();
+
+        stage_callbacks.push(StageType::Update, Box::from(|_: &mut Context| {})); 
+    }
+}
+
 /// Represents an [Engine](crate::Engine) stage.
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum StageType {
