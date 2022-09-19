@@ -12,7 +12,7 @@ pub type Stage = Vec<Box<dyn Callback>>;
 #[cfg_attr(test, automock)]
 pub trait Callback {
     /// Run the callback.
-    fn run(&mut self, context: &mut Context);
+    fn run(&self, context: &mut Context);
 }
 
 /// Represents an [Engine] stage.
@@ -67,8 +67,8 @@ impl StageCallbacks {
     
     /// Runs all [Callbacks](Callback) on the specified [Stage].
     pub fn run(&mut self, stage: StageType, context: &mut Context) {
-        self.get_mut(stage)
-            .iter_mut()
+        self.get(stage)
+            .iter()
             .for_each(|callback| { callback.run(context); });
     }
     
