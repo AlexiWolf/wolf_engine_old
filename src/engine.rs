@@ -1,9 +1,10 @@
 use std::mem::replace;
 
+use crate::*;
 use crate::plugins::*;
 use crate::schedulers::*;
+use crate::stages::*;
 use crate::utils::EngineControls;
-use crate::*;
 
 /// Provides the core functionality of Wolf Engine.
 ///

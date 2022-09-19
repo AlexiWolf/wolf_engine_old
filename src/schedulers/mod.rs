@@ -36,6 +36,7 @@
 //! ```
 //! # use wolf_engine::*;
 //! # use wolf_engine::schedulers::*;
+//! # use wolf_engine::stages::*;
 //! #
 //! #[derive(Debug)]
 //! pub struct MySimpleUpdateScheduler;
@@ -81,6 +82,7 @@ pub use fixed_update_scheduler::*;
 pub use simple_render_scheduler::*;
 
 use crate::*;
+use crate::stages::StageCallbacks;
 
 #[cfg(test)]
 use mockall::automock;

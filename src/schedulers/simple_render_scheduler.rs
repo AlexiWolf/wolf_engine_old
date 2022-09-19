@@ -1,5 +1,6 @@
-use crate::schedulers::RenderScheduler;
 use crate::*;
+use crate::stages::*;
+use crate::schedulers::RenderScheduler;
 
 /// A simple [RenderScheduler] which immediately runs [State::render()] just once.
 #[derive(Debug)]
