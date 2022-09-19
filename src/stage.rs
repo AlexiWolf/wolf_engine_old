@@ -54,21 +54,25 @@ pub struct StageCallbacks {
 }
 
 impl StageCallbacks {
+    /// Creates an empty instance.
     pub fn new() -> Self {
         Self::default()
     }
-
+    
+    /// Adds a [Callback] to the specified [Stage]. 
     pub fn push(&mut self, stage: StageType, callback: Box<dyn Callback>) {
         self.get_mut(stage)
             .push(callback);
     }
-
+    
+    /// Runs all [Callbacks](Callback) on the specified [Stage].
     pub fn run(&mut self, stage: StageType, context: &mut Context) {
         self.get_mut(stage)
             .iter_mut()
             .for_each(|callback| { callback.run(context); });
     }
-
+    
+    /// Returns an immutable reference to the requested [Stage].
     pub fn get(&self, stage: StageType) -> &Stage {
         match stage {
             StageType::PreUpdate => &self.pre_update, 
@@ -79,7 +83,8 @@ impl StageCallbacks {
             StageType::PostRender => &self.post_render,
         }
     }
-
+    
+    /// Returns a mutable reference to the requested [Stage].
     pub fn get_mut(&mut self, stage: StageType) -> &mut Stage {
         match stage {
             StageType::PreUpdate => &mut self.pre_update, 
