@@ -12,14 +12,25 @@ pub trait Callback {
 
 pub type CallbackQueue = Vec<Box<dyn Callback>>;
 
-
+/// Represents an [Engine] stage.
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum Stage {
+    /// Runs before the [Update stage](Stage::Update) has started.
     PreUpdate,
+
+    /// Runs main [State] and [Engine] update logic.
     Update,
+
+    /// Runs after the [Update stage](Stage::Update) has finished. 
     PostUpdate,
+   
+    /// Runs before the [Render stage](Stage::Render) has started.
     PreRender,
+
+    /// Runs main [State] and [Engine] render logic.
     Render,
+
+    /// Runs after the [Render stage](Stage::Render) has finished.
     PostRender,
 }
 
