@@ -35,7 +35,7 @@ mod callback_tests {
         let mut context = Context::new();
         context.add(EventQueue::<i32>::new()).unwrap();
         
-        stage_callbacks.push(StageType::Update, Box::from(|_: &mut Context| {})); 
+        stage_callbacks.push(StageType::Update, |_: &mut Context| {}); 
         stage_callbacks.run(StageType::Update, &mut context);
 
         context.flush_events::<i32>()
