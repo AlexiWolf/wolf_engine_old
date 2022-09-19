@@ -11,6 +11,7 @@ pub type Stage = Vec<Box<dyn Callback>>;
 /// Provides a mechanism for running custom [Engine] code as part of a [Stage]. 
 #[cfg_attr(test, automock)]
 pub trait Callback {
+    /// Run the callback.
     fn run(&mut self, context: &mut Context);
 }
 
