@@ -10,7 +10,7 @@ pub trait Callback {
     fn run(&mut self, context: &mut Context);
 }
 
-pub type CallbackQueue = Vec<Box<dyn Callback>>;
+pub type Stage = Vec<Box<dyn Callback>>;
 
 /// Represents an [Engine] stage.
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
@@ -36,12 +36,12 @@ pub enum StageType {
 
 #[derive(Default)]
 pub struct StageCallbacks {
-    pre_update : CallbackQueue,
-    update: CallbackQueue,
-    post_update: CallbackQueue,
-    pre_render: CallbackQueue,
-    render: CallbackQueue,
-    post_render: CallbackQueue,
+    pre_update : Stage,
+    update: Stage,
+    post_update: Stage,
+    pre_render: Stage,
+    render: Stage,
+    post_render: Stage,
 }
 
 impl StageCallbacks {
@@ -67,7 +67,7 @@ impl StageCallbacks {
             .for_each(|callback| { callback.run(context); });
     }
 
-    pub fn get(&self, stage: StageType) -> &CallbackQueue {
+    pub fn get(&self, stage: StageType) -> &Stage {
         match stage {
             StageType::PreUpdate => &self.pre_update, 
             StageType::Update => &self.update,
@@ -78,7 +78,7 @@ impl StageCallbacks {
         }
     }
 
-    pub fn get_mut(&mut self, stage: StageType) -> &mut CallbackQueue {
+    pub fn get_mut(&mut self, stage: StageType) -> &mut Stage {
         match stage {
             StageType::PreUpdate => &mut self.pre_update, 
             StageType::Update => &mut self.update,
