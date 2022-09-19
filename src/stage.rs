@@ -8,7 +8,7 @@ use mockall::automock;
 /// A collection of [Callbacks](Callback) to run during a specific [StageType].
 pub type Stage = Vec<Box<dyn Callback>>;
 
-/// Provides a mechanism for running custom [Engine] code during as part of a [Stage]. 
+/// Provides a mechanism for running custom [Engine] code as part of a [Stage]. 
 #[cfg_attr(test, automock)]
 pub trait Callback {
     fn run(&mut self, context: &mut Context);
@@ -36,6 +36,12 @@ pub enum StageType {
     PostRender,
 }
 
+/// Provides a mechanism for running custom [Engine] code across various [StageTypes](StageType).
+///
+/// The stage callback system is a way to simply extend the [Engine's](Engine) functionality.
+/// [Callbacks](Callback) are added then ran automatically by the [Engine's](Engine) 
+/// [schedulers](crate::scheduler).  Each [Callback] is added with a specified [StageType], to be 
+/// ran as part of that [Stage].
 #[derive(Default)]
 pub struct StageCallbacks {
     pre_update : Stage,
