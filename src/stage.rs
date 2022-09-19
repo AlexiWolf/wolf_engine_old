@@ -5,6 +5,7 @@ use crate::Context;
 #[cfg(test)]
 use mockall::automock;
 
+/// A collection of [Callbacks](Callback) to run during a specific [StageType].
 pub type Stage = Vec<Box<dyn Callback>>;
 
 #[cfg_attr(test, automock)]
