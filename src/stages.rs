@@ -97,7 +97,8 @@ impl StageCallbacks {
         self.get_mut(stage)
             .push(callback);
     }
-
+    
+    /// Adds a plain [function pointer / closure](fn) to the specified [Stage].
     pub fn push_fn(&mut self, stage: StageType, callback: fn(&mut Context)) {
         self.push(stage, Box::from(callback));
     }
