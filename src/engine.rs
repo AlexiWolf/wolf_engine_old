@@ -274,6 +274,7 @@ impl EngineBuilder {
     }
 
     pub fn with_stage_callback(mut self, stage: StageType, callback: Box<dyn Callback>) -> Self {
+        self.engine.stage_callbacks.push(stage, callback);
         self
     }
 
