@@ -278,6 +278,10 @@ impl EngineBuilder {
         self
     }
 
+    pub fn with_stage_callback_fn(mut self, stage: StageType, callback: fn(&mut Context)) -> Self {
+        self
+    }
+
     fn load_default_plugins(mut self) -> Self {
         self = self.with_plugin(Box::from(CorePlugin));
         self
