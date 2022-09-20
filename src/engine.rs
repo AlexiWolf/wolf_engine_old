@@ -395,4 +395,14 @@ mod engine_builder_tests {
             .borrow::<SchedulerContext>()
             .expect("failed to get SchedulerContext");
     }
+
+    #[test]
+    fn should_add_stage_callbacks() {
+        let engine = Engine::builder()
+            .with_stage_callback(StageType::Update, Box::from(MockCallback::new()))
+            .build()
+            .expect("Failed to build the engine");
+
+        assert_eq!(engine.stage_callbacks.get(StageType::Update).len(), 1);
+    }
 }
