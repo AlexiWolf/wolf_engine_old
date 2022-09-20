@@ -19,7 +19,8 @@ pub trait Callback {
 
 
 impl<T> Callback for T where T: Fn(&mut Context) {
-    fn run(&self,context: &mut Context) {
+    fn run(&self, context: &mut Context) {
+        self(context);
     }
 }
 
