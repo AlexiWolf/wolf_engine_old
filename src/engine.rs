@@ -410,4 +410,14 @@ mod engine_builder_tests {
 
         assert_eq!(engine.stage_callbacks.get(StageType::Update).len(), 1);
     }
+
+    #[test]
+    fn should_add_stage_callback_fns() {
+        let engine = Engine::builder()
+            .with_stage_callback_fn(StageType::Update, |_| {})
+            .build()
+            .expect("Failed to build the engine");
+
+        assert_eq!(engine.stage_callbacks.get(StageType::Update).len(), 1);
+    }
 }
