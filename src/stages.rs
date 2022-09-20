@@ -1,4 +1,32 @@
 //! Provides an callback and stage system for the [Engine](crate::Engine). 
+//!
+//! The stage callback system is used by the [Engine] to allow custom code to be added with ease.  
+//! This is done using a set of [callbacks](Callback) that run at various [stages](StageType).  The
+//! stage callback system is intended to allow [Plugins](crate::Plugin) to add custom code to the
+//! [Engine]. [Callbacks] can be used for various things.  For example, implementing automatic 
+//! processing of inputs, creating windows, drawing debug menus, ext.
+//!
+//! # Examples
+//!
+//! A callback is any type which implements the [Callback] trait.  
+//!
+//! ```
+//! # use wolf_engine::*;
+//! # use wolf_engine::stages::StageType;
+//! #
+//! struct MyClosure;
+//!
+//! impl stages::Closure for MyClosure {
+//!     fn run(context: &mut Context) {
+//!         // Do something cool.
+//!     }
+//! }
+//!
+//! Engine::builder()
+//!     .with_stage_callback(StageType::Update, Box::from(MyClosure))
+//!     .build()
+//!     .unwrap();
+//! ```
 
 use std::fmt::Debug;
 
