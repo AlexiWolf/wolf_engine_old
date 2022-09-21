@@ -1,29 +1,47 @@
 //! Provides an callback and stage system for the [Engine](crate::Engine). 
 //!
-//! The stage callback system is used by the [Engine] to allow custom code to be added with ease.  
-//! This is done using a set of [callbacks](Callback) that run at various [stages](StageType).  The
-//! stage callback system is intended to allow [Plugins](crate::Plugin) to add custom code to the
-//! [Engine]. [Callbacks] can be used for various things.  For example, implementing automatic 
-//! processing of inputs, creating windows, drawing debug menus, ext.
+//! The stage callback system is used by the [Engine](crate::Engine) to allow custom code to be 
+//! added with ease.  This is done using a set of [callbacks](Callback) that run at various [stages
+//! ](StageType).  The stage callback system is intended to allow [Plugins](crate::Plugin) to add 
+//! custom code to the [Engine](crate::Engine). [Callbacks](Callback) can be used for various 
+//! things.  For example, implementing automatic processing of inputs, creating windows, drawing 
+//! debug menus, ext.
 //!
 //! # Examples
-//!
-//! A callback is any type which implements the [Callback] trait.  
+//! 
+//! Simple [function pointers](fn) can be used as a [Callback], because an implementation is
+//! provided for any [Fn] which takes a `&mut Context` as an argument and returns `()`.  Using a 
+//! [function pointer](fn) is the recommended way to implement stage callbacks.
 //!
 //! ```
 //! # use wolf_engine::*;
 //! # use wolf_engine::stages::StageType;
 //! #
-//! struct MyClosure;
+//! Engine::builder()
+//!     .with_stage_callback_fn(StageType::Update, |context| {
+//!         // Do something cool.
+//!     })
+//!     .build()
+//!     .unwrap();
+//! ```
 //!
-//! impl stages::Closure for MyClosure {
-//!     fn run(context: &mut Context) {
+//! A callback can be any type which implements the [Callback] trait, so you can manually implement 
+//! it for your own types if needed.
+//!
+//! ```
+//! # use wolf_engine::*;
+//! # use wolf_engine::stages::StageType;
+//! #
+//! struct MyCallback;
+//!
+//! impl wolf_engine::stages::Callback for MyCallback {
+//!     fn run(&self, context: &mut Context) {
 //!         // Do something cool.
 //!     }
 //! }
 //!
 //! Engine::builder()
-//!     .with_stage_callback(StageType::Update, Box::from(MyClosure))
+//!     .with_stage_callback(StageType::Update, Box::from(MyCallback))
 //!     .build()
 //!     .unwrap();
 //! ```
