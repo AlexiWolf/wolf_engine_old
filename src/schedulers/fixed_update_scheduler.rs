@@ -1,10 +1,10 @@
 use std::fmt::{Display, Formatter};
 use std::time::{Duration, Instant};
 
-use crate::*;
-use crate::stages::*;
 use crate::contexts::SchedulerContext;
 use crate::schedulers::UpdateScheduler;
+use crate::stages::*;
+use crate::*;
 
 use log::trace;
 
@@ -78,7 +78,12 @@ pub struct FixedUpdateScheduler {
 }
 
 impl UpdateScheduler for FixedUpdateScheduler {
-    fn update(&mut self, context: &mut Context, state: &mut dyn State, stage_callbacks: &mut StageCallbacks) {
+    fn update(
+        &mut self,
+        context: &mut Context,
+        state: &mut dyn State,
+        stage_callbacks: &mut StageCallbacks,
+    ) {
         self.accumulate_lag();
         self.run_tick_loop(state, context, stage_callbacks);
         self.update_time = Duration::from_secs(0);
@@ -135,7 +140,12 @@ impl FixedUpdateScheduler {
         (current_instant, elapsed_time)
     }
 
-    fn run_tick_loop(&mut self, state: &mut dyn State, context: &mut Context, stage_callbacks: &mut StageCallbacks) {
+    fn run_tick_loop(
+        &mut self,
+        state: &mut dyn State,
+        context: &mut Context,
+        stage_callbacks: &mut StageCallbacks,
+    ) {
         while self.can_run_a_tick() {
             trace!("Running Tick: {}", self);
             stage_callbacks.run(StageType::PreUpdate, context);

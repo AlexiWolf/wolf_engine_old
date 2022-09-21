@@ -1,10 +1,10 @@
 use std::mem::replace;
 
-use crate::*;
 use crate::plugins::*;
 use crate::schedulers::*;
 use crate::stages::*;
 use crate::utils::EngineControls;
+use crate::*;
 
 /// Provides the core functionality of Wolf Engine.
 ///
@@ -121,14 +121,20 @@ impl Engine {
 
     /// Runs a complete update of all engine and game state.
     pub fn update(&mut self) {
-        self.update_scheduler
-            .update(&mut self.context, &mut self.state_stack, &mut self.stage_callbacks); 
+        self.update_scheduler.update(
+            &mut self.context,
+            &mut self.state_stack,
+            &mut self.stage_callbacks,
+        );
     }
 
     /// Renders the current frame.
     pub fn render(&mut self) {
-        self.render_scheduler
-            .render(&mut self.context, &mut self.state_stack, &mut self.stage_callbacks);
+        self.render_scheduler.render(
+            &mut self.context,
+            &mut self.state_stack,
+            &mut self.stage_callbacks,
+        );
     }
 }
 
@@ -272,13 +278,13 @@ impl EngineBuilder {
         self.engine.context.add(subcontext).unwrap();
         self
     }
-    
+
     /// Adds a [Callback] to the specified [Stage].
     pub fn with_stage_callback(mut self, stage: StageType, callback: Box<dyn Callback>) -> Self {
         self.engine.stage_callbacks.push(stage, callback);
         self
     }
-    
+
     /// Adds a [function pointer / closure](fn) to the specified [Stage].
     pub fn with_stage_callback_fn(mut self, stage: StageType, callback: fn(&mut Context)) -> Self {
         self.engine.stage_callbacks.push_fn(stage, callback);

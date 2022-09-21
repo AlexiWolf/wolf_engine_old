@@ -2,8 +2,8 @@
 //!
 //! A scheduler is responsible for determining if and when the [Engine] should run various
 //! operations.  This includes when to run [State] updates, render frames, and run various engine
-//! [stages](crate::stages).  Wolf Engine has two kinds of scheduler, [UpdateScheduler] to control 
-//! game logic, and [RenderScheduler] to control rendering.  Refer to the respective trait's 
+//! [stages](crate::stages).  Wolf Engine has two kinds of scheduler, [UpdateScheduler] to control
+//! game logic, and [RenderScheduler] to control rendering.  Refer to the respective trait's
 //! documentation for
 //! specific details.
 //!
@@ -45,8 +45,8 @@
 //! impl UpdateScheduler for MySimpleUpdateScheduler {
 //!     fn update(
 //!         &mut self,
-//!         context: &mut Context, 
-//!         state: &mut dyn State, 
+//!         context: &mut Context,
+//!         state: &mut dyn State,
 //!         stage_callbacks: &mut StageCallbacks
 //!     ) {
 //!         stage_callbacks.run(StageType::PreUpdate, context);
@@ -63,7 +63,7 @@
 //!     fn render(
 //!         &mut self,
 //!         context: &mut Context,
-//!         state: &mut dyn State, 
+//!         state: &mut dyn State,
 //!         stage_callbacks: &mut StageCallbacks
 //!     ) {
 //!         stage_callbacks.run(StageType::PreRender, context);
@@ -82,8 +82,8 @@ use std::fmt::Debug;
 pub use fixed_update_scheduler::*;
 pub use simple_render_scheduler::*;
 
-use crate::*;
 use crate::stages::StageCallbacks;
+use crate::*;
 
 #[cfg(test)]
 use mockall::automock;
@@ -92,12 +92,22 @@ use mockall::automock;
 #[cfg_attr(test, automock)]
 pub trait UpdateScheduler: Debug {
     /// Update the game state.
-    fn update(&mut self, context: &mut Context, state: &mut dyn State, stage_callbacks: &mut StageCallbacks);
+    fn update(
+        &mut self,
+        context: &mut Context,
+        state: &mut dyn State,
+        stage_callbacks: &mut StageCallbacks,
+    );
 }
 
 /// Controls how and when a frame should be rendered.
 #[cfg_attr(test, automock)]
 pub trait RenderScheduler: Debug {
     /// Render the current frame.
-    fn render(&mut self, context: &mut Context, state: &mut dyn State, stage_callbacks: &mut StageCallbacks);
+    fn render(
+        &mut self,
+        context: &mut Context,
+        state: &mut dyn State,
+        stage_callbacks: &mut StageCallbacks,
+    );
 }
