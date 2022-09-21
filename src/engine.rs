@@ -272,12 +272,14 @@ impl EngineBuilder {
         self.engine.context.add(subcontext).unwrap();
         self
     }
-
+    
+    /// Adds a [Callback] to the specified [Stage].
     pub fn with_stage_callback(mut self, stage: StageType, callback: Box<dyn Callback>) -> Self {
         self.engine.stage_callbacks.push(stage, callback);
         self
     }
-
+    
+    /// Adds a [function pointer / closure](fn) to the specified [Stage].
     pub fn with_stage_callback_fn(mut self, stage: StageType, callback: fn(&mut Context)) -> Self {
         self.engine.stage_callbacks.push_fn(stage, callback);
         self
