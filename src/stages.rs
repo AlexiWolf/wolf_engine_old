@@ -119,7 +119,7 @@ pub enum StageType {
     PostRender,
 }
 
-/// Provides a mechanism for running custom on the [Enigne](crate::Engine).
+/// Provides a mechanism for running custom on the [Engine](crate::Engine).
 ///
 /// The stage callback system is a way to simply extend the [Engine's](crate::Engine) functionality.
 /// [Callbacks](Callback) are added then ran automatically by the [Engine's](crate::Engine)
