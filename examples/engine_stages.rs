@@ -1,5 +1,5 @@
-use wolf_engine::*;
 use wolf_engine::stages::*;
+use wolf_engine::*;
 
 pub fn main() {
     logging::initialize_logging(log::LevelFilter::Debug);
@@ -19,7 +19,7 @@ pub fn increment_by_1(context: &mut Context) {
 pub struct MainState;
 
 impl State for MainState {
-    fn update(&mut self,context: &mut Context) -> Transition {
+    fn update(&mut self, context: &mut Context) -> Transition {
         let subcontext = context.borrow::<ExampleContext>().unwrap();
         log::info!("{}", subcontext.number);
         if subcontext.number >= 10 {
