@@ -2,8 +2,9 @@
 //!
 //! A scheduler is responsible for determining if and when the [Engine] should run various
 //! operations.  This includes when to run [State] updates, render frames, and run various engine
-//! stages.  Wolf Engine has two kinds of scheduler, [UpdateScheduler] to control game logic, and
-//! [RenderScheduler] to control rendering.  Refer to the respective trait's documentation for
+//! [stages](crate::stages).  Wolf Engine has two kinds of scheduler, [UpdateScheduler] to control
+//! game logic, and [RenderScheduler] to control rendering.  Refer to the respective trait's
+//! documentation for
 //! specific details.
 //!
 //! The scheduler traits make it easy to change the behavior of the [Engine] to suit your game's
@@ -36,13 +37,22 @@
 //! ```
 //! # use wolf_engine::*;
 //! # use wolf_engine::schedulers::*;
+//! # use wolf_engine::stages::*;
 //! #
 //! #[derive(Debug)]
 //! pub struct MySimpleUpdateScheduler;
 //!
 //! impl UpdateScheduler for MySimpleUpdateScheduler {
-//!     fn update(&mut self, context: &mut Context, state: &mut dyn State) {
+//!     fn update(
+//!         &mut self,
+//!         context: &mut Context,
+//!         state: &mut dyn State,
+//!         stage_callbacks: &mut StageCallbacks
+//!     ) {
+//!         stage_callbacks.run(StageType::PreUpdate, context);
+//!         stage_callbacks.run(StageType::Update, context);
 //!         state.update(context);
+//!         stage_callbacks.run(StageType::PostUpdate, context);
 //!     }
 //! }
 //!
@@ -50,8 +60,16 @@
 //! pub struct MySimpleRenderScheduler;
 //!
 //! impl RenderScheduler for MySimpleRenderScheduler {
-//!     fn render(&mut self, context: &mut Context, state: &mut dyn State) {
+//!     fn render(
+//!         &mut self,
+//!         context: &mut Context,
+//!         state: &mut dyn State,
+//!         stage_callbacks: &mut StageCallbacks
+//!     ) {
+//!         stage_callbacks.run(StageType::PreRender, context);
+//!         stage_callbacks.run(StageType::Render, context);
 //!         state.render(context);
+//!         stage_callbacks.run(StageType::PostRender, context);
 //!     }
 //! }
 //! ```
@@ -64,6 +82,7 @@ use std::fmt::Debug;
 pub use fixed_update_scheduler::*;
 pub use simple_render_scheduler::*;
 
+use crate::stages::StageCallbacks;
 use crate::*;
 
 #[cfg(test)]
@@ -73,12 +92,22 @@ use mockall::automock;
 #[cfg_attr(test, automock)]
 pub trait UpdateScheduler: Debug {
     /// Update the game state.
-    fn update(&mut self, context: &mut Context, state: &mut dyn State);
+    fn update(
+        &mut self,
+        context: &mut Context,
+        state: &mut dyn State,
+        stage_callbacks: &mut StageCallbacks,
+    );
 }
 
 /// Controls how and when a frame should be rendered.
 #[cfg_attr(test, automock)]
 pub trait RenderScheduler: Debug {
     /// Render the current frame.
-    fn render(&mut self, context: &mut Context, state: &mut dyn State);
+    fn render(
+        &mut self,
+        context: &mut Context,
+        state: &mut dyn State,
+        stage_callbacks: &mut StageCallbacks,
+    );
 }

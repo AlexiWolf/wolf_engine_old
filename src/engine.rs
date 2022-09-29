@@ -2,6 +2,7 @@ use std::mem::replace;
 
 use crate::plugins::*;
 use crate::schedulers::*;
+use crate::stages::*;
 use crate::utils::EngineControls;
 use crate::*;
 
@@ -66,6 +67,7 @@ use crate::*;
 pub struct Engine {
     pub context: Context,
     pub state_stack: StateStack,
+    pub stage_callbacks: StageCallbacks,
     update_scheduler: Box<dyn UpdateScheduler>,
     render_scheduler: Box<dyn RenderScheduler>,
     main_loop: Box<dyn MainLoop>,
@@ -97,6 +99,7 @@ impl Engine {
         Self {
             context: Context::default(),
             state_stack: StateStack::new(),
+            stage_callbacks: StageCallbacks::new(),
             update_scheduler: Box::from(FixedUpdateScheduler::default()),
             render_scheduler: Box::from(SimpleRenderScheduler),
             main_loop: Box::from(EmptyMainLoop),
@@ -118,14 +121,20 @@ impl Engine {
 
     /// Runs a complete update of all engine and game state.
     pub fn update(&mut self) {
-        self.update_scheduler
-            .update(&mut self.context, &mut self.state_stack);
+        self.update_scheduler.update(
+            &mut self.context,
+            &mut self.state_stack,
+            &mut self.stage_callbacks,
+        );
     }
 
     /// Renders the current frame.
     pub fn render(&mut self) {
-        self.render_scheduler
-            .render(&mut self.context, &mut self.state_stack);
+        self.render_scheduler.render(
+            &mut self.context,
+            &mut self.state_stack,
+            &mut self.stage_callbacks,
+        );
     }
 }
 
@@ -146,7 +155,7 @@ mod wolf_engine_tests {
     use super::*;
 
     #[test]
-    #[timeout(10)]
+    #[timeout(100)]
     fn should_run_the_state() {
         let wolf_engine = Engine::default();
         let mut state = MockState::new();
@@ -195,7 +204,7 @@ mod wolf_engine_tests {
     }
 
     #[test]
-    #[timeout(10)]
+    #[timeout(100)]
     fn should_stop_running_when_quit_is_called() {
         let engine = Engine::default();
         let mut state = MockState::new();
@@ -270,6 +279,18 @@ impl EngineBuilder {
         self
     }
 
+    /// Adds a [Callback] to the specified [Stage].
+    pub fn with_stage_callback(mut self, stage: StageType, callback: Box<dyn Callback>) -> Self {
+        self.engine.stage_callbacks.push(stage, callback);
+        self
+    }
+
+    /// Adds a [function pointer / closure](fn) to the specified [Stage].
+    pub fn with_stage_callback_fn(mut self, stage: StageType, callback: fn(&mut Context)) -> Self {
+        self.engine.stage_callbacks.push_fn(stage, callback);
+        self
+    }
+
     fn load_default_plugins(mut self) -> Self {
         self = self.with_plugin(Box::from(CorePlugin));
         self
@@ -296,13 +317,13 @@ mod engine_builder_tests {
     use super::*;
 
     #[test]
-    #[timeout(10)]
+    #[timeout(100)]
     fn should_set_custom_update_scheduler() {
         let mut scheduler = MockUpdateScheduler::new();
         scheduler
             .expect_update()
             .times(1..)
-            .returning(|context, state_stack| {
+            .returning(|context, state_stack, _| {
                 state_stack.update(context);
             });
 
@@ -314,7 +335,7 @@ mod engine_builder_tests {
     }
 
     #[test]
-    #[timeout(10)]
+    #[timeout(100)]
     fn should_set_custom_render_scheduler() {
         let mut scheduler = MockRenderScheduler::new();
         scheduler.expect_render().times(1..).return_const(());
@@ -327,7 +348,7 @@ mod engine_builder_tests {
     }
 
     #[test]
-    #[timeout(10)]
+    #[timeout(100)]
     fn should_set_main_loop() {
         let mut main_loop = MockMainLoop::new();
         main_loop.expect_run().times(1).returning(|engine| engine);
@@ -391,5 +412,25 @@ mod engine_builder_tests {
             .context
             .borrow::<SchedulerContext>()
             .expect("failed to get SchedulerContext");
+    }
+
+    #[test]
+    fn should_add_stage_callbacks() {
+        let engine = Engine::builder()
+            .with_stage_callback(StageType::Update, Box::from(MockCallback::new()))
+            .build()
+            .expect("Failed to build the engine");
+
+        assert_eq!(engine.stage_callbacks.get(StageType::Update).len(), 1);
+    }
+
+    #[test]
+    fn should_add_stage_callback_fns() {
+        let engine = Engine::builder()
+            .with_stage_callback_fn(StageType::Update, |_| {})
+            .build()
+            .expect("Failed to build the engine");
+
+        assert_eq!(engine.stage_callbacks.get(StageType::Update).len(), 1);
     }
 }

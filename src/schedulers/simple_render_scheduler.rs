@@ -1,4 +1,5 @@
 use crate::schedulers::RenderScheduler;
+use crate::stages::*;
 use crate::*;
 
 /// A simple [RenderScheduler] which immediately runs [State::render()] just once.
@@ -6,8 +7,16 @@ use crate::*;
 pub struct SimpleRenderScheduler;
 
 impl RenderScheduler for SimpleRenderScheduler {
-    fn render(&mut self, context: &mut Context, state: &mut dyn State) {
+    fn render(
+        &mut self,
+        context: &mut Context,
+        state: &mut dyn State,
+        stage_callbacks: &mut StageCallbacks,
+    ) {
+        stage_callbacks.run(StageType::PreRender, context);
+        stage_callbacks.run(StageType::Render, context);
         state.render(context);
+        stage_callbacks.run(StageType::PostRender, context);
     }
 }
 
@@ -23,7 +32,12 @@ mod simple_render_scheduler_tests {
         state.expect_render().times(5).return_const(());
 
         for _ in 0..5 {
-            scheduler.render(&mut context, &mut state);
+            scheduler.render(&mut context, &mut state, &mut StageCallbacks::new());
         }
+    }
+
+    #[test]
+    fn should_run_engine_stages() {
+        scheduler_integration_tests::should_run_render_stages(SimpleRenderScheduler);
     }
 }

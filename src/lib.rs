@@ -327,6 +327,7 @@ pub mod contexts;
 pub mod events;
 pub mod plugins;
 pub mod schedulers;
+pub mod stages;
 pub mod utils;
 
 #[cfg(feature = "logging")]

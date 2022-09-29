@@ -1,5 +1,7 @@
 use log::info;
+
 use wolf_engine::schedulers::*;
+use wolf_engine::stages::*;
 use wolf_engine::*;
 
 pub fn main() {
@@ -20,9 +22,17 @@ pub fn main() {
 pub struct CustomUpdateScheduler;
 
 impl UpdateScheduler for CustomUpdateScheduler {
-    fn update(&mut self, context: &mut Context, state: &mut dyn State) {
+    fn update(
+        &mut self,
+        context: &mut Context,
+        state: &mut dyn State,
+        stage_callbacks: &mut StageCallbacks,
+    ) {
         info!("Hello from a custom Update Scheduler!");
+        stage_callbacks.run(StageType::PreUpdate, context);
+        stage_callbacks.run(StageType::Update, context);
         state.update(context);
+        stage_callbacks.run(StageType::PostUpdate, context);
     }
 }
 
@@ -30,9 +40,17 @@ impl UpdateScheduler for CustomUpdateScheduler {
 pub struct CustomRenderScheduler;
 
 impl RenderScheduler for CustomRenderScheduler {
-    fn render(&mut self, context: &mut Context, state: &mut dyn State) {
+    fn render(
+        &mut self,
+        context: &mut Context,
+        state: &mut dyn State,
+        stage_callbacks: &mut StageCallbacks,
+    ) {
         info!("Hello from a custom Render Scheduler!");
+        stage_callbacks.run(StageType::PreRender, context);
+        stage_callbacks.run(StageType::Render, context);
         state.render(context);
+        stage_callbacks.run(StageType::PostRender, context);
     }
 }
 

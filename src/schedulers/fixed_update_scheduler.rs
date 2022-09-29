@@ -3,6 +3,7 @@ use std::time::{Duration, Instant};
 
 use crate::contexts::SchedulerContext;
 use crate::schedulers::UpdateScheduler;
+use crate::stages::*;
 use crate::*;
 
 use log::trace;
@@ -77,9 +78,14 @@ pub struct FixedUpdateScheduler {
 }
 
 impl UpdateScheduler for FixedUpdateScheduler {
-    fn update(&mut self, context: &mut Context, state: &mut dyn State) {
+    fn update(
+        &mut self,
+        context: &mut Context,
+        state: &mut dyn State,
+        stage_callbacks: &mut StageCallbacks,
+    ) {
         self.accumulate_lag();
-        self.run_tick_loop(state, context);
+        self.run_tick_loop(state, context, stage_callbacks);
         self.update_time = Duration::from_secs(0);
     }
 }
@@ -134,10 +140,18 @@ impl FixedUpdateScheduler {
         (current_instant, elapsed_time)
     }
 
-    fn run_tick_loop(&mut self, state: &mut dyn State, context: &mut Context) {
+    fn run_tick_loop(
+        &mut self,
+        state: &mut dyn State,
+        context: &mut Context,
+        stage_callbacks: &mut StageCallbacks,
+    ) {
         while self.can_run_a_tick() {
             trace!("Running Tick: {}", self);
+            stage_callbacks.run(StageType::PreUpdate, context);
+            stage_callbacks.run(StageType::Update, context);
             self.run_tick(state, context);
+            stage_callbacks.run(StageType::PostUpdate, context);
         }
     }
 
@@ -276,7 +290,7 @@ mod fixed_update_scheduler_tests {
         });
         scheduler.max_update_time = Duration::from_millis(5);
 
-        scheduler.update(&mut context, &mut state);
+        scheduler.update(&mut context, &mut state, &mut StageCallbacks::new());
     }
 
     #[test]
@@ -285,7 +299,7 @@ mod fixed_update_scheduler_tests {
         let mut state = MockState::new();
         state.expect_update().times(1..).returning(|_| None);
 
-        scheduler.update(&mut context, &mut state);
+        scheduler.update(&mut context, &mut state, &mut StageCallbacks::new());
     }
 
     /// Testing minimum ticks because this test is not consistent cross platforms when checking
@@ -303,7 +317,7 @@ mod fixed_update_scheduler_tests {
         state.expect_update().returning(|_| None);
 
         thread::sleep(Duration::from_millis(1000 / fps));
-        scheduler.update(&mut context, &mut state);
+        scheduler.update(&mut context, &mut state, &mut StageCallbacks::new());
 
         let scheduler_context = context
             .borrow::<SchedulerContext>()
@@ -327,8 +341,14 @@ mod fixed_update_scheduler_tests {
                 "The update time was not reset."
             );
             scheduler.lag = Duration::from_millis(8);
-            scheduler.update(&mut context, &mut state);
+            scheduler.update(&mut context, &mut state, &mut StageCallbacks::new());
         }
+    }
+
+    #[test]
+    fn should_run_update_stages() {
+        let (scheduler, _) = test_scheduler(8, 0);
+        scheduler_integration_tests::should_run_update_stages(scheduler);
     }
 
     fn test_scheduler(
