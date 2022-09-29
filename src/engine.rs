@@ -155,7 +155,7 @@ mod wolf_engine_tests {
     use super::*;
 
     #[test]
-    #[timeout(10)]
+    #[timeout(100)]
     fn should_run_the_state() {
         let wolf_engine = Engine::default();
         let mut state = MockState::new();
@@ -204,7 +204,7 @@ mod wolf_engine_tests {
     }
 
     #[test]
-    #[timeout(10)]
+    #[timeout(100)]
     fn should_stop_running_when_quit_is_called() {
         let engine = Engine::default();
         let mut state = MockState::new();
@@ -317,7 +317,7 @@ mod engine_builder_tests {
     use super::*;
 
     #[test]
-    #[timeout(10)]
+    #[timeout(100)]
     fn should_set_custom_update_scheduler() {
         let mut scheduler = MockUpdateScheduler::new();
         scheduler
@@ -335,7 +335,7 @@ mod engine_builder_tests {
     }
 
     #[test]
-    #[timeout(10)]
+    #[timeout(100)]
     fn should_set_custom_render_scheduler() {
         let mut scheduler = MockRenderScheduler::new();
         scheduler.expect_render().times(1..).return_const(());
@@ -348,7 +348,7 @@ mod engine_builder_tests {
     }
 
     #[test]
-    #[timeout(10)]
+    #[timeout(100)]
     fn should_set_main_loop() {
         let mut main_loop = MockMainLoop::new();
         main_loop.expect_run().times(1).returning(|engine| engine);
