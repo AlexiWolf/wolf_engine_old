@@ -2,6 +2,7 @@ use wolf_engine::stages::*;
 use wolf_engine::*;
 
 pub fn main() {
+    #[cfg(feature = "logging")]
     logging::initialize_logging(log::LevelFilter::Debug);
     Engine::builder()
         .with_subcontext(ExampleContext::default())
