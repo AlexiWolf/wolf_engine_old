@@ -9,23 +9,8 @@ repository = "https://github.com/AlexiWolf/wolf_engine"
 homepage = "https://github.com/AlexiWolf/wolf_engine"
 
 [dependencies]
-log = "0.4"
-anymap = "0.12"
-
-# Optional Dependencies
-
-simple_logger = {version = "1.13", optional = true}
-
 wolf_engine_core = {path = "wolf_engine_core"}
 wolf_engine_framework = {path = "wolf_engine_framework"}
-
-[dev-dependencies]
-test-case = "1.2"
-mockall = "0.11"
-ntest = "0.8"
-
-[features]
-logging = ["simple_logger"]
 
 [workspace]
 members = ["wolf_engine_*"]
