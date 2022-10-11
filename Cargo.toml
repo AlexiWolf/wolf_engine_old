@@ -16,6 +16,9 @@ anymap = "0.12"
 
 simple_logger = {version = "1.13", optional = true}
 
+wolf_engine_core = {path = "wolf_engine_core"}
+wolf_engine_framework = {path = "wolf_engine_framework"}
+
 [dev-dependencies]
 test-case = "1.2"
 mockall = "0.11"
