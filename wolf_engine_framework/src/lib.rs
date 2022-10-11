@@ -331,7 +331,6 @@ pub mod utils;
 #[cfg(feature = "logging")]
 pub mod logging;
 
-pub use context::*;
 pub use engine::*;
 pub use main_loop::*;
 pub use plugin::*;
