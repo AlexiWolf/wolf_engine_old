@@ -314,7 +314,6 @@
 //! For more detailed examples see the
 //! [Examples Folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples).
 
-mod context;
 mod engine;
 mod main_loop;
 mod plugin;
@@ -323,7 +322,6 @@ mod state;
 mod state_stack;
 mod transition;
 
-pub mod contexts;
 pub mod events;
 pub mod plugins;
 pub mod schedulers;
