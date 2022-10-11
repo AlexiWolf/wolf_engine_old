@@ -32,7 +32,7 @@ pub type PluginError = (&'static str, EngineBuilder);
 /// Plugins are loaded with [EngineBuilder::with_plugin()].
 ///
 /// ```
-/// # use wolf_engine::*;
+/// # use wolf_engine_framework::*;
 /// #
 /// # pub struct MyPlugin;
 /// #
@@ -51,7 +51,7 @@ pub type PluginError = (&'static str, EngineBuilder);
 /// You can create a custom plugin by implementing this trait.
 ///
 /// ```
-/// # use wolf_engine::*;
+/// # use wolf_engine_framework::*;
 /// #
 /// pub struct MyPlugin;
 ///

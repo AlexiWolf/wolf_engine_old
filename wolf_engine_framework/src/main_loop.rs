@@ -33,7 +33,7 @@ use mockall::automock;
 /// [EngineBuilder::with_main_loop()](crate::EngineBuilder::with_main_loop()) at startup.
 ///
 /// ```
-/// # use wolf_engine::*;
+/// # use wolf_engine_framework::*;
 /// #
 /// # let custom_engine_core = EmptyMainLoop;
 /// #
@@ -54,7 +54,7 @@ use mockall::automock;
 /// Then you implement the `MainLoop` trait for your `MainLoop`.
 ///
 /// ```
-/// # use wolf_engine::*;
+/// # use wolf_engine_framework::*;
 /// #
 /// #[derive(Debug)]
 /// pub struct CustomMainLoop;

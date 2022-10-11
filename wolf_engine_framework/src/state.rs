@@ -25,7 +25,7 @@ use mockall::automock;
 /// # Examples
 ///
 /// ```
-/// use wolf_engine::*;
+/// use wolf_engine_framework::*;
 ///
 /// struct MyGame {
 ///     number: u32,

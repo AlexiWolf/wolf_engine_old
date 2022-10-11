@@ -38,7 +38,7 @@ pub trait Subcontext: 'static {}
 /// To create a new context, use [Context::new()];
 ///
 /// ```
-/// # use wolf_engine::Context;
+/// # use wolf_engine_framework::Context;
 /// #
 /// let context = Context::new();
 /// ```
@@ -46,7 +46,7 @@ pub trait Subcontext: 'static {}
 /// Adding a [Subcontext] is done using the [Context::add()] method.
 ///
 /// ```
-/// # use wolf_engine::*;
+/// # use wolf_engine_framework::*;
 /// #
 /// # struct MySubcontext;
 /// # impl Subcontext for MySubcontext {}
@@ -60,7 +60,7 @@ pub trait Subcontext: 'static {}
 /// [Context::borrow_mut()].
 ///
 /// ```
-/// # use wolf_engine::*;
+/// # use wolf_engine_framework::*;
 /// #
 /// # struct MySubcontext;
 /// # impl Subcontext for MySubcontext {}

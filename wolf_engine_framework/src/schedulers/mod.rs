@@ -20,8 +20,8 @@
 //! [EngineBuilder::with_update_scheduler()] and [EngineBuilder::with_render_scheduler()].
 //!
 //! ```
-//! # use wolf_engine::*;
-//! # use wolf_engine::schedulers::*;
+//! # use wolf_engine_framework::*;
+//! # use wolf_engine_framework::schedulers::*;
 //! #
 //! # let update_scheduler = FixedUpdateScheduler::default();
 //! # let render_scheduler = SimpleRenderScheduler;
@@ -35,9 +35,9 @@
 //! Custom schedulers can be created by implementing a scheduler trait.
 //!
 //! ```
-//! # use wolf_engine::*;
-//! # use wolf_engine::schedulers::*;
-//! # use wolf_engine::stages::*;
+//! # use wolf_engine_framework::*;
+//! # use wolf_engine_framework::schedulers::*;
+//! # use wolf_engine_framework::stages::*;
 //! #
 //! #[derive(Debug)]
 //! pub struct MySimpleUpdateScheduler;

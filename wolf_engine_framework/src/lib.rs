@@ -18,9 +18,9 @@
 //! [Engine::run()] and passing your game's starting [State] to it.
 //!
 //! ```
-//! use wolf_engine::*;
+//! use wolf_engine_framework::*;
 //! #
-//! # use wolf_engine::utils::EngineControls;
+//! # use wolf_engine_framework::utils::EngineControls;
 //!
 //! # #[allow(clippy::needless_doctest_main)]
 //! pub fn main() {
@@ -64,7 +64,7 @@
 //! An example of a simple game state:
 //!
 //! ```
-//! # use wolf_engine::*;
+//! # use wolf_engine_framework::*;
 //! #
 //! pub struct MyState {
 //!     counter: u64,
@@ -101,7 +101,7 @@
 //! to control the [StateStack] by pushing and popping [States](State) on the [StateStack].
 //!
 //! ```
-//! # use wolf_engine::*;
+//! # use wolf_engine_framework::*;
 //! #
 //! pub struct StateA {
 //!     pub counter: u32,
@@ -173,7 +173,7 @@
 //! using [Context::borrow()] for immutable access, or [Context::borrow_mut()] for a mutable access:
 //!
 //! ```
-//! # use wolf_engine::*;
+//! # use wolf_engine_framework::*;
 //! #
 //! # pub struct ExampleContext;
 //! #
@@ -206,9 +206,9 @@
 //! the [EngineControls::quit()](crate::utils::EngineControls::quit()) method.
 //!
 //! ```
-//! # use wolf_engine::*;
+//! # use wolf_engine_framework::*;
 //! // First you import the extension trait.
-//! use wolf_engine::utils::EngineControls;
+//! use wolf_engine_framework::utils::EngineControls;
 //!
 //! # // Instancing the Engine because a bare Context won't have an EngineContext loaded by
 //! # // default.  Without an EngineContext, context.quit() will panic.
@@ -223,7 +223,7 @@
 //! extensions to the [Context].  For example:
 //!
 //! ```
-//! # use wolf_engine::*;
+//! # use wolf_engine_framework::*;
 //! #
 //! // First you define your extension trait.
 //! pub trait GreetingExtension {
@@ -258,7 +258,7 @@
 //! The [EngineBuilder] is responsible for configuring the [Engine] in a simple and convenient way.
 //!
 //! ```
-//! # use wolf_engine::*;
+//! # use wolf_engine_framework::*;
 //! #
 //! let engine = EngineBuilder::new()
 //!     // customize the engine.
@@ -292,7 +292,7 @@
 //! [EngineBuilder::build()].
 //!
 //! ```
-//! # use wolf_engine::*;
+//! # use wolf_engine_framework::*;
 //! #
 //! # pub struct ExamplePlugin;
 //! # impl Plugin for ExamplePlugin {

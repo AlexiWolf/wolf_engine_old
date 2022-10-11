@@ -11,8 +11,8 @@ use crate::*;
 /// instead of:
 ///
 /// ```
-/// # use wolf_engine::*;
-/// # use wolf_engine::events::*;
+/// # use wolf_engine_framework::*;
+/// # use wolf_engine_framework::events::*;
 /// #
 /// # let mut context = Context::new();
 /// # let event_queue = EventQueue::<i32>::new();
@@ -29,8 +29,8 @@ use crate::*;
 /// You can instead use the new [Context] methods directly:
 ///
 /// ```
-/// # use wolf_engine::*;
-/// # use wolf_engine::events::*;
+/// # use wolf_engine_framework::*;
+/// # use wolf_engine_framework::events::*;
 /// #
 /// # let mut context = Context::new();
 /// # let event_queue = EventQueue::<i32>::new();
@@ -198,7 +198,7 @@ mod event_controls_context_implementation_tests {
 /// to use, or allow Rust to figure it out based on usage.
 ///
 /// ```
-/// # use wolf_engine::events::EventQueue;
+/// # use wolf_engine_framework::events::EventQueue;
 /// #
 /// # enum EventType { Event };
 /// #
@@ -209,7 +209,7 @@ mod event_controls_context_implementation_tests {
 /// `EventQueue`.
 ///
 /// ```
-/// # use wolf_engine::events::EventQueue;
+/// # use wolf_engine_framework::events::EventQueue;
 /// #
 /// # enum EventType { Event };
 /// #
@@ -222,7 +222,7 @@ mod event_controls_context_implementation_tests {
 /// to send events from code which does not have direct access to the `EventQueue`.
 ///
 /// ```
-/// # use wolf_engine::events::EventQueue;
+/// # use wolf_engine_framework::events::EventQueue;
 /// #
 /// # enum EventType { Event };
 /// #
@@ -240,7 +240,7 @@ mod event_controls_context_implementation_tests {
 /// the queue and return them in a collection which can be iterated over.
 ///
 /// ```
-/// # use wolf_engine::events::EventQueue;
+/// # use wolf_engine_framework::events::EventQueue;
 /// #
 /// # enum EventType { Event };
 /// #
@@ -259,8 +259,8 @@ mod event_controls_context_implementation_tests {
 /// You can add, then access the `EventQueue` same as any other [Subcontext]:
 ///
 /// ```
-/// # use wolf_engine::*;
-/// # use wolf_engine::events::*;
+/// # use wolf_engine_framework::*;
+/// # use wolf_engine_framework::events::*;
 /// #
 /// # let mut context = Context::new();
 /// #
@@ -275,8 +275,8 @@ mod event_controls_context_implementation_tests {
 /// For example:
 ///
 /// ```
-/// # use wolf_engine::*;
-/// # use wolf_engine::events::*;
+/// # use wolf_engine_framework::*;
+/// # use wolf_engine_framework::events::*;
 /// #
 /// # let mut context = Context::new();
 /// # let event_queue = EventQueue::<i32>::new();
@@ -294,8 +294,8 @@ mod event_controls_context_implementation_tests {
 /// [EventControls::try_send_event()] and [EventControls::try_flush_events()] instead.
 ///
 /// ```
-/// # use wolf_engine::*;
-/// # use wolf_engine::events::*;
+/// # use wolf_engine_framework::*;
+/// # use wolf_engine_framework::events::*;
 /// #
 /// # let mut context = Context::new();
 /// # let event_queue = EventQueue::<i32>::new();
@@ -312,8 +312,8 @@ mod event_controls_context_implementation_tests {
 /// It's also possible to get a [Sender] using [EventControls::event_sender()]:
 ///
 /// ```
-/// # use wolf_engine::*;
-/// # use wolf_engine::events::*;
+/// # use wolf_engine_framework::*;
+/// # use wolf_engine_framework::events::*;
 /// #
 /// # let mut context = Context::new();
 /// # let event_queue = EventQueue::<i32>::new();

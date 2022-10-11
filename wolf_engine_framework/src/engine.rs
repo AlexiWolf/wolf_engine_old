@@ -17,7 +17,7 @@ use crate::*;
 /// If you just want to use the defaults, you can use [Engine::default()] or [Engine::default()].
 ///
 /// ```
-/// # use wolf_engine::*;
+/// # use wolf_engine_framework::*;
 /// #
 /// let new_engine = Engine::default();
 /// // or
@@ -30,7 +30,7 @@ use crate::*;
 /// Create a new [EngineBuilder] by calling [Engine::builder()].
 ///
 /// ```
-/// # use wolf_engine::*;
+/// # use wolf_engine_framework::*;
 /// #
 /// // Add to the Context object here.
 /// let engine = Engine::builder()
@@ -46,7 +46,7 @@ use crate::*;
 /// to it.
 ///
 /// ```
-/// # use wolf_engine::*;
+/// # use wolf_engine_framework::*;
 /// #
 /// # let engine = Engine::default();
 /// # let my_game_state = EmptyState;

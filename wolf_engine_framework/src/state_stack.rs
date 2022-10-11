@@ -62,7 +62,7 @@ use crate::{Context, State, Transition, TransitionType};
 /// Running the state stack:
 ///
 /// ```
-/// # use wolf_engine::{StateStack, State, Context};
+/// # use wolf_engine_framework::{StateStack, State, Context};
 /// #
 /// # let mut context = Context::default();
 /// #

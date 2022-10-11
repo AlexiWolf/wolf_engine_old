@@ -51,7 +51,7 @@ pub type TickRate = f64;
 /// The [FixedUpdateSchedulerBuilder] should be used to build new instances of the scheduler.
 ///
 /// ```
-/// # use wolf_engine::schedulers::FixedUpdateScheduler;
+/// # use wolf_engine_framework::schedulers::FixedUpdateScheduler;
 /// #
 /// let mut scheduler = FixedUpdateScheduler::builder()
 ///     // Changes settings.
@@ -61,7 +61,7 @@ pub type TickRate = f64;
 /// To use the [Default] settings.
 ///
 /// ```
-/// # use wolf_engine::schedulers::FixedUpdateScheduler;
+/// # use wolf_engine_framework::schedulers::FixedUpdateScheduler;
 /// #
 /// let mut scheduler = FixedUpdateScheduler::default();
 /// ```
