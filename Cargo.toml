@@ -12,5 +12,10 @@ homepage = "https://github.com/AlexiWolf/wolf_engine"
 wolf_engine_core = {path = "wolf_engine_core"}
 wolf_engine_framework = {path = "wolf_engine_framework"}
 
+[features]
+default = ["framework"]
+framework = ["wolf_engine_framework"]
+logging = ["framework", "wolf_engine_framework/logging"]
+
 [workspace]
 members = ["wolf_engine_*"]
