@@ -6,8 +6,8 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+wolf_engine_core = {path = "../wolf_enigne_core"}
 log = "0.4"
-anymap = "0.12"
 
 # Optional Dependencies
 simple_logger = {version = "1.13", optional = true}
