@@ -1,6 +1,8 @@
 use std::{thread, time::Duration};
 
 use log::*;
+
+use wolf_engine::framework::*;
 use wolf_engine::*;
 
 pub fn main() {

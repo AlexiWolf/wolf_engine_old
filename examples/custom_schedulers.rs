@@ -1,7 +1,8 @@
 use log::info;
 
-use wolf_engine::schedulers::*;
-use wolf_engine::stages::*;
+use wolf_engine::framework::schedulers::*;
+use wolf_engine::framework::stages::*;
+use wolf_engine::framework::*;
 use wolf_engine::*;
 
 pub fn main() {

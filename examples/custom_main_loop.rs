@@ -1,5 +1,6 @@
 use log::*;
-use wolf_engine::*;
+
+use wolf_engine::framework::*;
 
 pub fn main() {
     #[cfg(feature = "logging")]
