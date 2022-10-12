@@ -18,7 +18,8 @@
 //! [Engine::run()] and passing your game's starting [State] to it.
 //!
 //! ```
-//! use wolf_engine_framework::*;
+//! # use wolf_engine_core::*; 
+//! # use wolf_engine_framework::*;
 //! #
 //! # use wolf_engine_framework::utils::EngineControls;
 //!
@@ -64,6 +65,7 @@
 //! An example of a simple game state:
 //!
 //! ```
+//! # use wolf_engine_core::*;
 //! # use wolf_engine_framework::*;
 //! #
 //! pub struct MyState {
@@ -101,6 +103,7 @@
 //! to control the [StateStack] by pushing and popping [States](State) on the [StateStack].
 //!
 //! ```
+//! # use wolf_engine_core::*;
 //! # use wolf_engine_framework::*;
 //! #
 //! pub struct StateA {
@@ -173,6 +176,7 @@
 //! using [Context::borrow()] for immutable access, or [Context::borrow_mut()] for a mutable access:
 //!
 //! ```
+//! # use wolf_engine_core::*;
 //! # use wolf_engine_framework::*;
 //! #
 //! # pub struct ExampleContext;
@@ -223,6 +227,7 @@
 //! extensions to the [Context].  For example:
 //!
 //! ```
+//! # use wolf_engine_core::*;
 //! # use wolf_engine_framework::*;
 //! #
 //! // First you define your extension trait.

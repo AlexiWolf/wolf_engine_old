@@ -10,6 +10,7 @@ use wolf_engine_core::Subcontext;
 /// Accessing the scheduler context.
 ///
 /// ```
+/// # use wolf_engine_core::*;
 /// # use wolf_engine_framework::*;
 /// # use wolf_engine_framework::contexts::*;
 /// #

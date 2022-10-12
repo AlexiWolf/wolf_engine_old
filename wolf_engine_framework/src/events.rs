@@ -11,6 +11,7 @@ use wolf_engine_core::*;
 /// instead of:
 ///
 /// ```
+/// # use wolf_engine_core::*;
 /// # use wolf_engine_framework::*;
 /// # use wolf_engine_framework::events::*;
 /// #
@@ -29,6 +30,7 @@ use wolf_engine_core::*;
 /// You can instead use the new [Context] methods directly:
 ///
 /// ```
+/// # use wolf_engine_core::*;
 /// # use wolf_engine_framework::*;
 /// # use wolf_engine_framework::events::*;
 /// #
@@ -259,6 +261,7 @@ mod event_controls_context_implementation_tests {
 /// You can add, then access the `EventQueue` same as any other [Subcontext]:
 ///
 /// ```
+/// # use wolf_engine_core::*;
 /// # use wolf_engine_framework::*;
 /// # use wolf_engine_framework::events::*;
 /// #
@@ -275,6 +278,7 @@ mod event_controls_context_implementation_tests {
 /// For example:
 ///
 /// ```
+/// # use wolf_engine_core::*;
 /// # use wolf_engine_framework::*;
 /// # use wolf_engine_framework::events::*;
 /// #
@@ -294,6 +298,7 @@ mod event_controls_context_implementation_tests {
 /// [EventControls::try_send_event()] and [EventControls::try_flush_events()] instead.
 ///
 /// ```
+/// # use wolf_engine_core::*;
 /// # use wolf_engine_framework::*;
 /// # use wolf_engine_framework::events::*;
 /// #
@@ -312,6 +317,7 @@ mod event_controls_context_implementation_tests {
 /// It's also possible to get a [Sender] using [EventControls::event_sender()]:
 ///
 /// ```
+/// # use wolf_engine_core::*;
 /// # use wolf_engine_framework::*;
 /// # use wolf_engine_framework::events::*;
 /// #

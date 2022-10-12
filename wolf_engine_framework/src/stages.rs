@@ -29,6 +29,7 @@
 //! it for your own types if needed.
 //!
 //! ```
+//! # use wolf_engine_core::*;
 //! # use wolf_engine_framework::*;
 //! # use wolf_engine_framework::stages::StageType;
 //! #

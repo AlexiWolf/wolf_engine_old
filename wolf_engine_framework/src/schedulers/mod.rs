@@ -35,6 +35,7 @@
 //! Custom schedulers can be created by implementing a scheduler trait.
 //!
 //! ```
+//! # use wolf_engine_core::*;
 //! # use wolf_engine_framework::*;
 //! # use wolf_engine_framework::schedulers::*;
 //! # use wolf_engine_framework::stages::*;

@@ -27,6 +27,7 @@ use mockall::automock;
 /// # Examples
 ///
 /// ```
+/// # use wolf_engine_core::*;
 /// use wolf_engine_framework::*;
 ///
 /// struct MyGame {
