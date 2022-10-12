@@ -2,7 +2,7 @@
 
 use std::sync::mpsc::{channel, Receiver, Sender};
 
-use crate::*;
+use wolf_engine_core::*;
 
 /// Provides a set of convenience methods to aid in working with multiple [EventQueues](EventQueue).
 ///

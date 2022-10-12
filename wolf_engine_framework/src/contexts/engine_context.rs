@@ -1,4 +1,4 @@
-use crate::*;
+use wolf_engine_core::*;
 
 /// Provides game-accessible [Engine] state and controls.
 pub struct EngineContext {

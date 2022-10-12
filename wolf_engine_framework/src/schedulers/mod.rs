@@ -79,11 +79,13 @@ mod simple_render_scheduler;
 
 use std::fmt::Debug;
 
-pub use fixed_update_scheduler::*;
-pub use simple_render_scheduler::*;
+use wolf_engine_core::*;
 
 use crate::stages::StageCallbacks;
 use crate::*;
+
+pub use fixed_update_scheduler::*;
+pub use simple_render_scheduler::*;
 
 #[cfg(test)]
 use mockall::automock;

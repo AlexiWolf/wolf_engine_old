@@ -48,7 +48,7 @@
 
 use std::fmt::Debug;
 
-use crate::Context;
+use wolf_engine_core::Context;
 
 #[cfg(test)]
 use mockall::automock;

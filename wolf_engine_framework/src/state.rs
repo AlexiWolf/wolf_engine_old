@@ -3,6 +3,8 @@ use std::{
     fmt::Debug,
 };
 
+use wolf_engine_core::*;
+
 use crate::*;
 
 #[cfg(test)]

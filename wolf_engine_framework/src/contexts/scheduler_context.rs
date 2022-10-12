@@ -1,4 +1,4 @@
-use crate::Subcontext;
+use wolf_engine_core::Subcontext;
 
 /// Provides a way for a [scheduler](crate::schedulers) to report basic data.  
 ///
