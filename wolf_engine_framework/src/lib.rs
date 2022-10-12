@@ -352,3 +352,13 @@ pub(crate) fn log_startup_information() {
 pub(crate) fn log_shutdown() {
     info!("Engine has stopped.  Goodbye.")
 }
+
+#[cfg(test)]
+use mockall::mock;
+#[cfg(test)]
+mock!{
+    pub Subcontext{}
+    
+    impl wolf_engine_core::Subcontext for Subcontext {}
+}
+
