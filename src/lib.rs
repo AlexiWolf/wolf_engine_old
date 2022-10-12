@@ -4,7 +4,7 @@ pub use wolf_engine_core::*;
 pub use wolf_engine_framework as framework;
 
 #[cfg(feature = "logging")]
-pub use wolf_engine_framework::logging as logging;
+pub use wolf_engine_framework::logging;
 
 pub mod prelude {
     //! Provides the prelude for Wolf Engine.

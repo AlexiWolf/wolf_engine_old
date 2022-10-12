@@ -18,7 +18,7 @@
 //! [Engine::run()] and passing your game's starting [State] to it.
 //!
 //! ```
-//! # use wolf_engine_core::*; 
+//! # use wolf_engine_core::*;
 //! # use wolf_engine_framework::*;
 //! #
 //! # use wolf_engine_framework::utils::EngineControls;
@@ -361,9 +361,8 @@ pub(crate) fn log_shutdown() {
 #[cfg(test)]
 use mockall::mock;
 #[cfg(test)]
-mock!{
+mock! {
     pub Subcontext{}
-    
+
     impl wolf_engine_core::Subcontext for Subcontext {}
 }
-
