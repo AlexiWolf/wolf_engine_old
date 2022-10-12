@@ -247,7 +247,7 @@ impl Default for FixedUpdateSchedulerBuilder {
 #[cfg(test)]
 mod fixed_update_scheduler_tests {
     use super::*;
-    use crate::Context;
+    use wolf_engine_core::Context;
     use crate::MockState;
     use std::thread;
     use test_case::test_case;
