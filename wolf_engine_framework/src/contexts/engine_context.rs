@@ -1,6 +1,6 @@
 use wolf_engine_core::*;
 
-/// Provides game-accessible [Engine] state and controls.
+/// Provides game-accessible [crate::Engine] state and controls.
 pub struct EngineContext {
     /// Indicates if the engine has quit.
     pub has_quit: bool,

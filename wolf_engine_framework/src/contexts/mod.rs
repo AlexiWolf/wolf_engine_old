@@ -1,4 +1,4 @@
-//! Provides built-in [Subcontext](crate::Subcontext) implementations.
+//! Provides built-in [Subcontext](wolf_engine_core::Subcontext) implementations.
 
 mod engine_context;
 mod scheduler_context;
