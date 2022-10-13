@@ -1,3 +1,5 @@
+//! A simple, flexible game framework.
+
 pub use wolf_engine_core::*;
 
 #[cfg(feature = "framework")]
