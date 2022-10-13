@@ -32,7 +32,7 @@ jobs:
         rust-version: ${{ matrix.rust-version }} 
     - name: Run tests
       shell: bash
-      run: cargo test --verbose $OPTIONS --features=logging,$FEATURES
+      run: cargo test --workspace --verbose $OPTIONS --features=$FEATURES
 
   check_code_format:
     name: Check Code Format

@@ -1,5 +1,5 @@
 use log::*;
-use wolf_engine::*;
+use wolf_engine::prelude::*;
 
 pub fn main() {
     // If the "logging" feature is enabled, Wolf Engine includes a default logger for

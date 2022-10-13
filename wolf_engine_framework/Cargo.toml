@@ -1,0 +1,22 @@
+[package]
+name = "wolf_engine_framework"
+version = "0.0.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+wolf_engine_core = {path = "../wolf_engine_core"}
+log = "0.4"
+
+# Optional Dependencies
+simple_logger = {version = "1.13", optional = true}
+
+[dev-dependencies]
+test-case = "1.2"
+mockall = "0.11"
+ntest = "0.8"
+
+[features]
+logging = ["simple_logger"]
+

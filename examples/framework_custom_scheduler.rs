@@ -1,8 +1,8 @@
 use log::info;
 
-use wolf_engine::schedulers::*;
-use wolf_engine::stages::*;
-use wolf_engine::*;
+use wolf_engine::framework::schedulers::*;
+use wolf_engine::framework::stages::*;
+use wolf_engine::prelude::*;
 
 pub fn main() {
     #[cfg(feature = "logging")]

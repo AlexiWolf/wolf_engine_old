@@ -14,8 +14,8 @@
 //! [function pointer](fn) is the recommended way to implement stage callbacks.
 //!
 //! ```
-//! # use wolf_engine::*;
-//! # use wolf_engine::stages::StageType;
+//! # use wolf_engine_framework::*;
+//! # use wolf_engine_framework::stages::StageType;
 //! #
 //! Engine::builder()
 //!     .with_stage_callback_fn(StageType::Update, |context| {
@@ -29,12 +29,13 @@
 //! it for your own types if needed.
 //!
 //! ```
-//! # use wolf_engine::*;
-//! # use wolf_engine::stages::StageType;
+//! # use wolf_engine_core::*;
+//! # use wolf_engine_framework::*;
+//! # use wolf_engine_framework::stages::StageType;
 //! #
 //! struct MyCallback;
 //!
-//! impl wolf_engine::stages::Callback for MyCallback {
+//! impl wolf_engine_framework::stages::Callback for MyCallback {
 //!     fn run(&self, context: &mut Context) {
 //!         // Do something cool.
 //!     }
@@ -48,7 +49,7 @@
 
 use std::fmt::Debug;
 
-use crate::Context;
+use wolf_engine_core::Context;
 
 #[cfg(test)]
 use mockall::automock;
@@ -74,7 +75,7 @@ where
 
 #[cfg(test)]
 mod callback_tests {
-    use crate::events::{EventControls, EventQueue};
+    use wolf_engine_core::events::{EventControls, EventQueue};
 
     use super::*;
 

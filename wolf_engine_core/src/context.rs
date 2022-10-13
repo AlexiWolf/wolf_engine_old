@@ -28,7 +28,7 @@ impl Display for ContextAlreadyExistsError {
 #[cfg_attr(test, automock)]
 pub trait Subcontext: 'static {}
 
-/// Provides a dynamic storage container for global [Engine](crate::Engine) state.
+/// Provides a dynamic storage container for global state.
 ///
 /// This allows for custom [Subcontext] data to be dynamically added, and safely accessed
 /// at run-time.  Context utilizes [AnyMap], and [RwLock]s to implement this behavior.
@@ -38,7 +38,7 @@ pub trait Subcontext: 'static {}
 /// To create a new context, use [Context::new()];
 ///
 /// ```
-/// # use wolf_engine::Context;
+/// # use wolf_engine_core::Context;
 /// #
 /// let context = Context::new();
 /// ```
@@ -46,7 +46,7 @@ pub trait Subcontext: 'static {}
 /// Adding a [Subcontext] is done using the [Context::add()] method.
 ///
 /// ```
-/// # use wolf_engine::*;
+/// # use wolf_engine_core::*;
 /// #
 /// # struct MySubcontext;
 /// # impl Subcontext for MySubcontext {}
@@ -60,7 +60,7 @@ pub trait Subcontext: 'static {}
 /// [Context::borrow_mut()].
 ///
 /// ```
-/// # use wolf_engine::*;
+/// # use wolf_engine_core::*;
 /// #
 /// # struct MySubcontext;
 /// # impl Subcontext for MySubcontext {}

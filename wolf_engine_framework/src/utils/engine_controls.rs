@@ -1,4 +1,7 @@
-use crate::{contexts::EngineContext, *};
+use wolf_engine_core::*;
+
+use crate::contexts::EngineContext;
+use crate::*;
 
 /// An extension trait which provides basic control functions for the [Engine].
 pub trait EngineControls {

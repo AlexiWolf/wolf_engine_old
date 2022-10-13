@@ -3,6 +3,8 @@ use std::{
     fmt::Debug,
 };
 
+use wolf_engine_core::*;
+
 use crate::*;
 
 #[cfg(test)]
@@ -25,7 +27,8 @@ use mockall::automock;
 /// # Examples
 ///
 /// ```
-/// use wolf_engine::*;
+/// # use wolf_engine_core::*;
+/// use wolf_engine_framework::*;
 ///
 /// struct MyGame {
 ///     number: u32,

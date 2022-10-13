@@ -1,4 +1,4 @@
-use crate::Subcontext;
+use wolf_engine_core::Subcontext;
 
 /// Provides a way for a [scheduler](crate::schedulers) to report basic data.  
 ///
@@ -10,8 +10,9 @@ use crate::Subcontext;
 /// Accessing the scheduler context.
 ///
 /// ```
-/// # use wolf_engine::*;
-/// # use wolf_engine::contexts::*;
+/// # use wolf_engine_core::*;
+/// # use wolf_engine_framework::*;
+/// # use wolf_engine_framework::contexts::*;
 /// #
 /// # let scheduler_context = SchedulerContext::new();
 /// # let mut context = Context::new();
@@ -24,7 +25,7 @@ use crate::Subcontext;
 /// Getting tick / frame counts.
 ///
 /// ```
-/// # use wolf_engine::contexts::SchedulerContext;
+/// # use wolf_engine_framework::contexts::SchedulerContext;
 /// #
 /// # let scheduler_context = SchedulerContext::new();
 /// #
@@ -39,7 +40,7 @@ use crate::Subcontext;
 /// [scheduler](crate::schedulers),** otherwise the engine or the game may misbehave.
 ///
 /// ```
-/// # use wolf_engine::contexts::SchedulerContext;
+/// # use wolf_engine_framework::contexts::SchedulerContext;
 /// #
 /// # let mut scheduler_context = SchedulerContext::new();
 /// #

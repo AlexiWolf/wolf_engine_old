@@ -4,7 +4,9 @@ use std::{
     slice::IterMut,
 };
 
-use crate::{Context, State, Transition, TransitionType};
+use wolf_engine_core::*;
+
+use crate::{State, Transition, TransitionType};
 
 /// Provides a stack for storing, managing, and running multiple [State] objects.
 ///
@@ -62,7 +64,8 @@ use crate::{Context, State, Transition, TransitionType};
 /// Running the state stack:
 ///
 /// ```
-/// # use wolf_engine::{StateStack, State, Context};
+/// # use wolf_engine_core::*;
+/// # use wolf_engine_framework::{StateStack, State};
 /// #
 /// # let mut context = Context::default();
 /// #

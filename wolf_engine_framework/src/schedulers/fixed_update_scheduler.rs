@@ -1,6 +1,8 @@
 use std::fmt::{Display, Formatter};
 use std::time::{Duration, Instant};
 
+use wolf_engine_core::*;
+
 use crate::contexts::SchedulerContext;
 use crate::schedulers::UpdateScheduler;
 use crate::stages::*;
@@ -51,7 +53,7 @@ pub type TickRate = f64;
 /// The [FixedUpdateSchedulerBuilder] should be used to build new instances of the scheduler.
 ///
 /// ```
-/// # use wolf_engine::schedulers::FixedUpdateScheduler;
+/// # use wolf_engine_framework::schedulers::FixedUpdateScheduler;
 /// #
 /// let mut scheduler = FixedUpdateScheduler::builder()
 ///     // Changes settings.
@@ -61,7 +63,7 @@ pub type TickRate = f64;
 /// To use the [Default] settings.
 ///
 /// ```
-/// # use wolf_engine::schedulers::FixedUpdateScheduler;
+/// # use wolf_engine_framework::schedulers::FixedUpdateScheduler;
 /// #
 /// let mut scheduler = FixedUpdateScheduler::default();
 /// ```
@@ -245,10 +247,10 @@ impl Default for FixedUpdateSchedulerBuilder {
 #[cfg(test)]
 mod fixed_update_scheduler_tests {
     use super::*;
-    use crate::Context;
     use crate::MockState;
     use std::thread;
     use test_case::test_case;
+    use wolf_engine_core::Context;
 
     #[test_case(800, 0; "with 800 ms of lag")]
     #[test_case(80, 0; "with 80 ms of lag")]
