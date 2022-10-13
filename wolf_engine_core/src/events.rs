@@ -198,7 +198,7 @@ mod event_controls_context_implementation_tests {
 /// to use, or allow Rust to figure it out based on usage.
 ///
 /// ```
-/// # use wolf_engine_framework::events::EventQueue;
+/// # use wolf_engine_core::events::EventQueue;
 /// #
 /// # enum EventType { Event };
 /// #
@@ -209,7 +209,7 @@ mod event_controls_context_implementation_tests {
 /// `EventQueue`.
 ///
 /// ```
-/// # use wolf_engine_framework::events::EventQueue;
+/// # use wolf_engine_core::events::EventQueue;
 /// #
 /// # enum EventType { Event };
 /// #
@@ -222,7 +222,7 @@ mod event_controls_context_implementation_tests {
 /// to send events from code which does not have direct access to the `EventQueue`.
 ///
 /// ```
-/// # use wolf_engine_framework::events::EventQueue;
+/// # use wolf_engine_core::events::EventQueue;
 /// #
 /// # enum EventType { Event };
 /// #
@@ -240,7 +240,7 @@ mod event_controls_context_implementation_tests {
 /// the queue and return them in a collection which can be iterated over.
 ///
 /// ```
-/// # use wolf_engine_framework::events::EventQueue;
+/// # use wolf_engine_core::events::EventQueue;
 /// #
 /// # enum EventType { Event };
 /// #
@@ -260,8 +260,7 @@ mod event_controls_context_implementation_tests {
 ///
 /// ```
 /// # use wolf_engine_core::*;
-/// # use wolf_engine_framework::*;
-/// # use wolf_engine_framework::events::*;
+/// # use wolf_engine_core::events::*;
 /// #
 /// # let mut context = Context::new();
 /// #
@@ -277,8 +276,7 @@ mod event_controls_context_implementation_tests {
 ///
 /// ```
 /// # use wolf_engine_core::*;
-/// # use wolf_engine_framework::*;
-/// # use wolf_engine_framework::events::*;
+/// # use wolf_engine_core::events::*;
 /// #
 /// # let mut context = Context::new();
 /// # let event_queue = EventQueue::<i32>::new();
@@ -297,8 +295,7 @@ mod event_controls_context_implementation_tests {
 ///
 /// ```
 /// # use wolf_engine_core::*;
-/// # use wolf_engine_framework::*;
-/// # use wolf_engine_framework::events::*;
+/// # use wolf_engine_core::events::*;
 /// #
 /// # let mut context = Context::new();
 /// # let event_queue = EventQueue::<i32>::new();
@@ -316,8 +313,7 @@ mod event_controls_context_implementation_tests {
 ///
 /// ```
 /// # use wolf_engine_core::*;
-/// # use wolf_engine_framework::*;
-/// # use wolf_engine_framework::events::*;
+/// # use wolf_engine_core::events::*;
 /// #
 /// # let mut context = Context::new();
 /// # let event_queue = EventQueue::<i32>::new();
