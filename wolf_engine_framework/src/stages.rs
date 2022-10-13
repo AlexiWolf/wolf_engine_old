@@ -75,7 +75,7 @@ where
 
 #[cfg(test)]
 mod callback_tests {
-    use crate::events::{EventControls, EventQueue};
+    use wolf_engine_core::events::{EventControls, EventQueue};
 
     use super::*;
 
