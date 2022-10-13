@@ -1,4 +1,4 @@
-//! Provides a default logging implementation using the [simple_logger] crate.
+//! Provides a default logging implementation using [SimpleLogger].
 
 use log::LevelFilter;
 use simple_logger::SimpleLogger;
