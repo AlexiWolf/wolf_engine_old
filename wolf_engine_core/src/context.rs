@@ -28,7 +28,7 @@ impl Display for ContextAlreadyExistsError {
 #[cfg_attr(test, automock)]
 pub trait Subcontext: 'static {}
 
-/// Provides a dynamic storage container for global [Engine](crate::Engine) state.
+/// Provides a dynamic storage container for global state.
 ///
 /// This allows for custom [Subcontext] data to be dynamically added, and safely accessed
 /// at run-time.  Context utilizes [AnyMap], and [RwLock]s to implement this behavior.
