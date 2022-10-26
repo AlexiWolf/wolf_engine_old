@@ -25,5 +25,7 @@ mod engine_tests {
     #[test]
     fn should_provide_context_accessors() {
         let mut engine = Engine::new(TestData::new());
+
+        assert_eq!(engine.context().message = "Hello, World!");
     }
 }
