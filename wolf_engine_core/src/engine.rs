@@ -44,4 +44,13 @@ mod engine_tests {
         engine.context_mut().message = "New message!".to_string();
         assert_eq!(engine.context().message, "New message!");
     }
+
+    #[test]
+    fn should_take_events() {
+        let engine = Engine::new(TestData::new());
+
+        while let Some(event) = engine.next_event() {
+            
+        }
+    }
 }
