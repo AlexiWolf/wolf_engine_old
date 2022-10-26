@@ -19,10 +19,12 @@ impl<C: Context> Engine<C> {
 mod engine_tests {
     use super::*;
 
-    struct TestData {}
+    struct TestData {
+        message: String,
+    }
 
     impl TestData { 
-        pub fn new() -> Self { Self {} }
+        pub fn new() -> Self { Self { message: "Hello, World!".to_string(), } }
     }
 
     impl Context for TestData {}
@@ -32,5 +34,7 @@ mod engine_tests {
         let mut engine = Engine::new(TestData::new());
 
         assert_eq!(engine.context().message, "Hello, World!");
+        *engine.context_mut().message = "New message!".to_string();
+        assert_eq!(engine.context_mut().message, "New message!");
     }
 }
