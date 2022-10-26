@@ -5,10 +5,9 @@ pub struct Engine<C: Context> {
 }
 
 impl<C: Context> Engine<C> {
-    pub fn new(context: C) -> Self { 
+    pub fn new(context: C) -> Self {
         Self { context }
     }
-
 
     pub fn context(&self) -> &C {
         &self.context
@@ -27,8 +26,12 @@ mod engine_tests {
         message: String,
     }
 
-    impl TestData { 
-        pub fn new() -> Self { Self { message: "Hello, World!".to_string(), } }
+    impl TestData {
+        pub fn new() -> Self {
+            Self {
+                message: "Hello, World!".to_string(),
+            }
+        }
     }
 
     impl Context for TestData {}

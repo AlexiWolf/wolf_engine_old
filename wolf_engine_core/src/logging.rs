@@ -1,4 +1,3 @@
-
 //! Provides a default logging implementation using [SimpleLogger].
 
 use log::LevelFilter;
