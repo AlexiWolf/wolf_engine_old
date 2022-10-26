@@ -13,6 +13,10 @@ impl<C: Context> Engine<C> {
     pub fn context(&self) -> &C {
         &self.context
     }
+
+    pub fn context_mut(&mut self) -> &mut C {
+        &mut self.context
+    }
 }
 
 #[cfg(test)]
@@ -34,7 +38,7 @@ mod engine_tests {
         let mut engine = Engine::new(TestData::new());
 
         assert_eq!(engine.context().message, "Hello, World!");
-        *engine.context_mut().message = "New message!".to_string();
-        assert_eq!(engine.context_mut().message, "New message!");
+        engine.context_mut().message = "New message!".to_string();
+        assert_eq!(engine.context().message, "New message!");
     }
 }
