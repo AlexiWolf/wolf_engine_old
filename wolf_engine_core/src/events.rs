@@ -80,115 +80,9 @@ pub trait EventControls {
     fn event_sender<E: 'static>(&self) -> Option<Sender<E>>;
 }
 
-impl EventControls for Context {
-    fn send_event<E: 'static>(&self, event: E) {
-        let event_queue = self
-            .borrow::<EventQueue<E>>()
-            .expect("There is no EventQueue of the requested type");
-        event_queue.send(event);
-    }
-
-    fn try_send_event<E: 'static>(&self, event: E) -> Result<(), NoEventQueueError> {
-        if let Some(event_queue) = self.borrow::<EventQueue<E>>() {
-            event_queue.send(event);
-            Ok(())
-        } else {
-            Err(NoEventQueueError)
-        }
-    }
-
-    fn flush_events<E: 'static>(&self) -> Vec<E> {
-        let event_queue = self
-            .borrow::<EventQueue<E>>()
-            .expect("There is no EventQueue of the requested type");
-        event_queue.flush()
-    }
-
-    fn try_flush_events<E: 'static>(&self) -> Result<Vec<E>, NoEventQueueError> {
-        if let Some(event_queue) = self.borrow::<EventQueue<E>>() {
-            Ok(event_queue.flush())
-        } else {
-            Err(NoEventQueueError)
-        }
-    }
-
-    fn event_sender<E: 'static>(&self) -> Option<Sender<E>> {
-        self.borrow::<EventQueue<E>>()
-            .map(|event_queue| event_queue.sender())
-    }
-}
-
 /// Provides an error indicating there was no [EventQueue] of a requested type.
 #[derive(Debug)]
 pub struct NoEventQueueError;
-
-#[cfg(test)]
-mod event_controls_context_implementation_tests {
-    use super::*;
-
-    #[test]
-    fn should_send_and_receive_events_through_the_context() {
-        let mut context = Context::new();
-        context.add(EventQueue::<i32>::new()).unwrap();
-
-        context.send_event(10 as i32);
-        let events = context.flush_events::<i32>();
-        let number = events
-            .get(0)
-            .expect("Failed to access the number in the event queue");
-
-        assert_eq!(number, &10);
-    }
-
-    #[test]
-    #[should_panic(expected = "There is no EventQueue of the requested type")]
-    fn should_panic_when_sending_events_if_there_is_no_event_queue() {
-        let context = Context::new();
-        context.send_event(10);
-    }
-
-    #[test]
-    #[should_panic(expected = "There is no EventQueue of the requested type")]
-    fn should_panic_when_flushing_events_if_there_is_no_event_queue() {
-        let context = Context::new();
-        let _events = context.flush_events::<i32>();
-    }
-
-    #[test]
-    fn should_send_and_receive_events_through_try_methods() {
-        let mut context = Context::new();
-        context.add(EventQueue::<i32>::new()).unwrap();
-
-        context
-            .try_send_event(10)
-            .expect("Failed to send the event");
-        let events = context
-            .try_flush_events::<i32>()
-            .expect("Failed to flush events");
-        let number = events
-            .get(0)
-            .expect("Failed to access the number in the event queue");
-
-        assert_eq!(number, &10);
-    }
-
-    #[test]
-    fn should_return_err_from_try_methods_when_there_is_no_event_queue() {
-        let context = Context::new();
-
-        let send_result = context.try_send_event(10);
-        let flush_result = context.try_flush_events::<i32>();
-
-        assert!(
-            send_result.is_err(),
-            "Expected a NoEventQueueError, but was Ok"
-        );
-        assert!(
-            flush_result.is_err(),
-            "Expected a NoEventQueueError, but was Ok"
-        );
-    }
-}
 
 /// Provides a generic, fifo, mpsc event queue based on [std::sync::mpsc].
 ///
@@ -250,83 +144,6 @@ mod event_controls_context_implementation_tests {
 ///     // Handle events here.
 /// }
 /// ```
-///
-/// # [Context] Integrations
-///
-/// The `EventQueue` is designed to be easily used with the [Context].  First, it is marked
-/// as a [Subcontext], allowing you to attach an `EventQueue` directly to the [Context] object.  
-///
-/// You can add, then access the `EventQueue` same as any other [Subcontext]:
-///
-/// ```
-/// # use wolf_engine_core::*;
-/// # use wolf_engine_core::events::*;
-/// #
-/// # let mut context = Context::new();
-/// #
-/// let number_station = EventQueue::<i32>::new();
-/// context.add(number_station);
-///
-/// let _number_station = context.borrow::<EventQueue<i32>>().unwrap();
-/// ```
-///
-/// The [EventControls] trait provides `EventQueue` methods usable directly on the [Context].  
-/// These methods use the data type (`E`) you provide to figure out which `EventQueue` to use.
-/// For example:
-///
-/// ```
-/// # use wolf_engine_core::*;
-/// # use wolf_engine_core::events::*;
-/// #
-/// # let mut context = Context::new();
-/// # let event_queue = EventQueue::<i32>::new();
-/// # context.add(event_queue);
-/// #
-/// context.send_event(123);
-///
-/// for number in context.flush_events::<i32>() {
-///     // Do something cool.
-/// }
-/// ```
-///
-/// **Note:** Because [EventControls::send_event()], and [EventControls::flush_events()] will panic
-/// if an `EventQueue` of type `E` is not present, you may want to use
-/// [EventControls::try_send_event()] and [EventControls::try_flush_events()] instead.
-///
-/// ```
-/// # use wolf_engine_core::*;
-/// # use wolf_engine_core::events::*;
-/// #
-/// # let mut context = Context::new();
-/// # let event_queue = EventQueue::<i32>::new();
-/// # context.add(event_queue);
-/// #
-/// context.try_send_event(123).unwrap();
-///
-/// if let Ok(events) = context.try_flush_events::<i32>() {
-///     for event in events {
-///         // Do something cool.
-///     }
-/// }
-/// ```
-/// It's also possible to get a [Sender] using [EventControls::event_sender()]:
-///
-/// ```
-/// # use wolf_engine_core::*;
-/// # use wolf_engine_core::events::*;
-/// #
-/// # let mut context = Context::new();
-/// # let event_queue = EventQueue::<i32>::new();
-/// # context.add(event_queue);
-/// #
-/// let sender = context.event_sender::<i32>().unwrap();
-/// sender.send(10).unwrap();
-///
-/// if let Ok(events) = context.try_flush_events::<i32>() {
-///     for event in events {
-///         // Do something cool.
-///     }
-/// }
 pub struct EventQueue<E> {
     sender: Sender<E>,
     receiver: Receiver<E>,
@@ -363,8 +180,6 @@ impl<E> Default for EventQueue<E> {
         Self::new()
     }
 }
-
-impl<E: 'static> Subcontext for EventQueue<E> {}
 
 #[cfg(test)]
 mod event_queue_tests {
