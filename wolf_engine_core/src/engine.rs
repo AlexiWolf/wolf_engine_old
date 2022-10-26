@@ -1,5 +1,15 @@
 pub trait Context {}
 
+pub struct Engine<C: Context> {
+    context: C,
+}
+
+impl<C: Context> Engine<C> {
+    pub fn new(context: C) -> Self { 
+        Self { context }
+    }
+}
+
 #[cfg(test)]
 mod engine_tests {
     use super::*;
