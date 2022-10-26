@@ -12,7 +12,6 @@ log = "0.4"
 # Optional Dependencies
 simple_logger = {version = "1.13", optional = true}
 
-
 [dev-dependencies]
 test-case = "1.2"
 mockall = "0.11"
