@@ -11,4 +11,9 @@ mod engine_tests {
     }
 
     impl Context for TestData {}
+
+    #[test]
+    fn should_provide_context_accessors() {
+        let mut engine = Engine::new(TestData::new());
+    }
 }
