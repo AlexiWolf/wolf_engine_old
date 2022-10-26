@@ -8,6 +8,11 @@ impl<C: Context> Engine<C> {
     pub fn new(context: C) -> Self { 
         Self { context }
     }
+
+
+    pub fn context(&self) -> &C {
+        &self.context
+    }
 }
 
 #[cfg(test)]
