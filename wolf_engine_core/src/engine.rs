@@ -35,10 +35,12 @@ impl<C: Context<Event>> Engine<C> {
 
 impl<C: Context<Event>> EventLoop<Event> for Engine<C> {
     fn next_event(&self) -> Option<Event> {
-        None
+        self.context.next_event()
     }
 
-    fn send_event(&self, event: Event) {}
+    fn send_event(&self, event: Event) {
+        self.context.send_event(event)
+    }
 }
 
 #[cfg(test)]
