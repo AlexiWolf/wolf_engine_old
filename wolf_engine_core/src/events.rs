@@ -175,7 +175,7 @@ impl<E> EventQueue<E> {
     }
 }
 
-impl<E> EventLoop for EventQueue<E> {
+impl<E> EventLoop<E> for EventQueue<E> {
     fn next_event(&self) -> Option<E> {
         self.receiver.try_recv().ok()
     }
