@@ -5,4 +5,3 @@ pub enum Event {
     Render,
     EventsCleared,
 }
-

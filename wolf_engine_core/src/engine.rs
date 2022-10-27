@@ -1,7 +1,7 @@
-use std::sync::{Mutex, Arc};
+use std::sync::{Arc, Mutex};
 
-use crate::Context;
 use crate::events::{Event, EventLoop};
+use crate::Context;
 
 pub struct Engine<C: Context<Event>> {
     context: C,
@@ -10,11 +10,14 @@ pub struct Engine<C: Context<Event>> {
 
 impl<C: Context<Event>> Engine<C> {
     pub fn new(context: C) -> Self {
-        Self { context, has_quit: Arc::from(Mutex::from(false)) }
+        Self {
+            context,
+            has_quit: Arc::from(Mutex::from(false)),
+        }
     }
 
     pub fn has_quit(&self) -> bool {
-        *self.has_quit.lock().unwrap() 
+        *self.has_quit.lock().unwrap()
     }
 
     fn set_has_quit(&self, has_quit: bool) {
@@ -39,11 +42,13 @@ impl<C: Context<Event>> EventLoop<Event> for Engine<C> {
                     _ => (),
                 }
                 Some(event)
-            },
-            None => if self.has_quit() {
-                None
-            } else {
-                Some(Event::EventsCleared)
+            }
+            None => {
+                if self.has_quit() {
+                    None
+                } else {
+                    Some(Event::EventsCleared)
+                }
             }
         }
     }
@@ -62,7 +67,7 @@ mod engine_tests {
 
     struct TestData {
         message: String,
-        event_queue: EventQueue<Event>, 
+        event_queue: EventQueue<Event>,
     }
 
     impl TestData {
@@ -102,24 +107,26 @@ mod engine_tests {
         while let Some(event) = engine.next_event() {
             match event {
                 Event::Quit => (),
-                Event::Update => if number < 3 {
-                    number += 1;
-                } else {
-                    engine.send_event(Event::Quit);
-                },
+                Event::Update => {
+                    if number < 3 {
+                        number += 1;
+                    } else {
+                        engine.send_event(Event::Quit);
+                    }
+                }
                 Event::Render => (),
                 Event::EventsCleared => {
                     engine.send_event(Event::Quit);
-                },
+                }
             }
         }
-        
+
         assert!(engine.has_quit());
     }
 
     #[test]
     fn should_emit_events_cleared_when_event_queue_is_empty() {
-        let engine = Engine::new(TestData::new()); 
+        let engine = Engine::new(TestData::new());
 
         assert_eq!(engine.next_event().unwrap(), Event::EventsCleared);
     }
