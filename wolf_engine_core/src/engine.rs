@@ -66,7 +66,12 @@ mod engine_tests {
         let engine = Engine::new(TestData::new());
 
         while let Some(event) = engine.next_event() {
-            
+            match event {
+                Event::Quit => (),
+                Event::Update => (),
+                Event::Render => (),
+                Event::EventsCleared => (),
+            }
         }
     }
 }
