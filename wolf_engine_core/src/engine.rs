@@ -31,25 +31,29 @@ impl<C: Context<Event>> Engine<C> {
     pub fn context_mut(&mut self) -> &mut C {
         &mut self.context
     }
+
+    fn handle_event(&self, event: Event) -> Event {
+        match event {
+            Event::Quit => self.set_has_quit(true),
+            _ => (),
+        }
+        event
+    }
+
+    fn handle_empty_event(&self) -> Option<Event> {
+        if self.has_quit() {
+            None
+        } else {
+            Some(Event::EventsCleared)
+        }
+    }
 }
 
 impl<C: Context<Event>> EventLoop<Event> for Engine<C> {
     fn next_event(&self) -> Option<Event> {
         match self.context.next_event() {
-            Some(event) => {
-                match event {
-                    Event::Quit => self.set_has_quit(true),
-                    _ => (),
-                }
-                Some(event)
-            }
-            None => {
-                if self.has_quit() {
-                    None
-                } else {
-                    Some(Event::EventsCleared)
-                }
-            }
+            Some(event) => Some(self.handle_event(event)),
+            None => self.handle_empty_event(),
         }
     }
 
