@@ -86,8 +86,6 @@ mod engine_tests {
         }
     }
 
-    impl Context<Event> for TestData {}
-
     impl EventLoop<Event> for TestData {
         fn next_event(&self) -> Option<Event> {
             self.event_queue.next_event()
