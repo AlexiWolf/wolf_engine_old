@@ -1,15 +1,7 @@
 use std::sync::{Mutex, Arc};
 
 use crate::Context;
-use crate::events::EventLoop;
-
-#[derive(Debug, PartialEq, Eq)]
-pub enum Event {
-    Quit,
-    Update,
-    Render,
-    EventsCleared,
-}
+use crate::events::{Event, EventLoop};
 
 pub struct Engine<C: Context<Event>> {
     context: C,
