@@ -59,6 +59,8 @@ impl<C: Context<Event>> EventLoop<Event> for Engine<C> {
 
 #[cfg(test)]
 mod engine_tests {
+    use ntest::timeout;
+
     use super::*;
     use crate::events::*;
 
@@ -98,19 +100,27 @@ mod engine_tests {
     }
 
     #[test]
-    fn should_take_events() {
+    #[timeout(100)]
+    fn should_run_and_quit() {
         let engine = Engine::new(TestData::new());
+        let mut number = 0;
 
         while let Some(event) = engine.next_event() {
             match event {
                 Event::Quit => (),
-                Event::Update => (),
+                Event::Update => if number < 3 {
+                    number += 1;
+                } else {
+                    engine.send_event(Event::Quit);
+                },
                 Event::Render => (),
                 Event::EventsCleared => {
                     engine.send_event(Event::Quit);
                 },
             }
         }
+        
+        assert!(engine.has_quit());
     }
 
     #[test]
