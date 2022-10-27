@@ -25,6 +25,10 @@ impl<C: Context<Event>> Engine<C> {
         Self { context, has_quit: Arc::from(Mutex::from(false)) }
     }
 
+    pub fn has_quit(&self) -> bool {
+        *self.has_quit.lock().unwrap() 
+    }
+
     pub fn context(&self) -> &C {
         &self.context
     }
