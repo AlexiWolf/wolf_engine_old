@@ -1,10 +1,14 @@
-pub trait Context {}
+pub trait Context<E>: EventLoop<E> {}
 
-pub struct Engine<C: Context> {
+pub trait EventLoop<E> {
+    fn next_event(&self) -> Option<E>;
+}
+
+pub struct Engine<C: Context<()>> {
     context: C,
 }
 
-impl<C: Context> Engine<C> {
+impl<C: Context<()>> Engine<C> {
     pub fn new(context: C) -> Self {
         Self { context }
     }
@@ -15,6 +19,12 @@ impl<C: Context> Engine<C> {
 
     pub fn context_mut(&mut self) -> &mut C {
         &mut self.context
+    }
+}
+
+impl<C: Context<()>> EventLoop<()> for Engine<C> {
+    fn next_event(&self) -> Option<()> {
+        None
     }
 }
 
@@ -34,7 +44,13 @@ mod engine_tests {
         }
     }
 
-    impl Context for TestData {}
+    impl Context<()> for TestData {}
+
+    impl EventLoop<()> for TestData {
+        fn next_event(&self) -> Option<()> {
+            None
+        }
+    }
 
     #[test]
     fn should_provide_context_accessors() {
