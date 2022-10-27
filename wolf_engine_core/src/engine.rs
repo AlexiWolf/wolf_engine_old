@@ -1,3 +1,5 @@
+use crate::events::*;
+
 #[derive(Debug, PartialEq, Eq)]
 pub enum Event {
     Quit,
@@ -45,12 +47,14 @@ mod engine_tests {
 
     struct TestData {
         message: String,
+        event_queue: EventQueue<Event>, 
     }
 
     impl TestData {
         pub fn new() -> Self {
             Self {
                 message: "Hello, World!".to_string(),
+                event_queue: EventQueue::new(),
             }
         }
     }
@@ -59,10 +63,12 @@ mod engine_tests {
 
     impl EventLoop<Event> for TestData {
         fn next_event(&self) -> Option<Event> {
-            None
+            self.event_queue.next_event()
         }
 
-        fn send_event(&self, event: Event) {}
+        fn send_event(&self, event: Event) {
+            self.event_queue.send(event)
+        }
     }
 
     #[test]
