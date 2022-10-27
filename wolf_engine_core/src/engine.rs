@@ -10,6 +10,8 @@ pub enum Event {
 
 pub trait Context<E>: EventLoop<E> {}
 
+impl<T, E> Context<E> for T where T: EventLoop<E> {}
+
 pub trait EventLoop<E> {
     fn next_event(&self) -> Option<E>;
     fn send_event(&self, event: E);
