@@ -1,5 +1,7 @@
 use std::sync::{Mutex, Arc};
 
+use crate::Context;
+
 #[derive(Debug, PartialEq, Eq)]
 pub enum Event {
     Quit,
@@ -7,10 +9,6 @@ pub enum Event {
     Render,
     EventsCleared,
 }
-
-pub trait Context<E>: EventLoop<E> {}
-
-impl<T, E> Context<E> for T where T: EventLoop<E> {}
 
 pub trait EventLoop<E> {
     fn next_event(&self) -> Option<E>;
