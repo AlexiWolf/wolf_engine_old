@@ -11,11 +11,11 @@ pub trait EventLoop<E> {
     fn next_event(&self) -> Option<E>;
 }
 
-pub struct Engine<C: Context<()>> {
+pub struct Engine<C: Context<Event>> {
     context: C,
 }
 
-impl<C: Context<()>> Engine<C> {
+impl<C: Context<Event>> Engine<C> {
     pub fn new(context: C) -> Self {
         Self { context }
     }
@@ -29,8 +29,8 @@ impl<C: Context<()>> Engine<C> {
     }
 }
 
-impl<C: Context<()>> EventLoop<()> for Engine<C> {
-    fn next_event(&self) -> Option<()> {
+impl<C: Context<Event>> EventLoop<Event> for Engine<C> {
+    fn next_event(&self) -> Option<Event> {
         None
     }
 }
@@ -51,10 +51,10 @@ mod engine_tests {
         }
     }
 
-    impl Context<()> for TestData {}
+    impl Context<Event> for TestData {}
 
-    impl EventLoop<()> for TestData {
-        fn next_event(&self) -> Option<()> {
+    impl EventLoop<Event> for TestData {
+        fn next_event(&self) -> Option<Event> {
             None
         }
     }
