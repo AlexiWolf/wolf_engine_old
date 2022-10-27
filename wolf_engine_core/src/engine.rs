@@ -34,6 +34,8 @@ impl<C: Context<Event>> EventLoop<Event> for Engine<C> {
     fn next_event(&self) -> Option<Event> {
         None
     }
+
+    fn send_event(&self, event: Event) {}
 }
 
 #[cfg(test)]
@@ -58,6 +60,8 @@ mod engine_tests {
         fn next_event(&self) -> Option<Event> {
             None
         }
+
+        fn send_event(&self, event: Event) {}
     }
 
     #[test]
@@ -78,10 +82,7 @@ mod engine_tests {
                 Event::Quit => (),
                 Event::Update => (),
                 Event::Render => (),
-                Event::EventsCleared => {
-                    engine.send_event(Event::Update);
-                    engine.send_event(Event::Render);
-                },
+                Event::EventsCleared => (),
             }
         }
     }
