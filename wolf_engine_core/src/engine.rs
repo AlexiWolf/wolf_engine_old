@@ -29,6 +29,10 @@ impl<C: Context<Event>> Engine<C> {
         *self.has_quit.lock().unwrap() 
     }
 
+    fn set_has_quit(&self, has_quit: bool) {
+        *self.has_quit.lock().unwrap() = has_quit;
+    }
+
     pub fn context(&self) -> &C {
         &self.context
     }
@@ -43,12 +47,12 @@ impl<C: Context<Event>> EventLoop<Event> for Engine<C> {
         match self.context.next_event() {
             Some(event) => {
                 match event {
-                    Event::Quit => *self.has_quit.lock().unwrap() = true,
+                    Event::Quit => self.set_has_quit(true),
                     _ => (),
                 }
                 Some(event)
             },
-            None => if *self.has_quit.lock().unwrap() {
+            None => if self.has_quit() {
                 None
             } else {
                 Some(Event::EventsCleared)
