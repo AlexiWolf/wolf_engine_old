@@ -92,5 +92,7 @@ mod engine_tests {
     #[test]
     fn should_emit_events_cleared_when_event_queue_is_empty() {
         let mut engine = Engine::new(TestData::new()); 
+
+        assert_eq!(engine.next_event().unwrap(), Event::EventsCleared);
     }
 }
