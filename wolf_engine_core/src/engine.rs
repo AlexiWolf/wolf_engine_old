@@ -9,6 +9,7 @@ pub trait Context<E>: EventLoop<E> {}
 
 pub trait EventLoop<E> {
     fn next_event(&self) -> Option<E>;
+    fn send_event(&self, event: E);
 }
 
 pub struct Engine<C: Context<Event>> {
