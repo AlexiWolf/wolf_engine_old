@@ -1,6 +1,7 @@
 use std::sync::{Mutex, Arc};
 
 use crate::Context;
+use crate::events::EventLoop;
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum Event {
@@ -8,11 +9,6 @@ pub enum Event {
     Update,
     Render,
     EventsCleared,
-}
-
-pub trait EventLoop<E> {
-    fn next_event(&self) -> Option<E>;
-    fn send_event(&self, event: E);
 }
 
 pub struct Engine<C: Context<Event>> {

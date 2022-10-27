@@ -1,4 +1,4 @@
-use crate::EventLoop;
+use crate::events::EventLoop;
 
 pub trait Context<E>: EventLoop<E> {}
 

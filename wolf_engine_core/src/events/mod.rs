@@ -2,4 +2,6 @@
 
 mod event_queue;
 pub use event_queue::*;
+mod event_loop;
+pub use event_loop::*;
 
