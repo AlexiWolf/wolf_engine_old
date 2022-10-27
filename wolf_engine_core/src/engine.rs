@@ -67,7 +67,7 @@ mod engine_tests {
         }
 
         fn send_event(&self, event: Event) {
-            self.event_queue.send(event)
+            self.event_queue.send_event(event)
         }
     }
 
