@@ -1,3 +1,10 @@
+pub enum Event {
+    Quit,
+    Update,
+    Render,
+    EventsCleared,
+}
+
 pub trait Context<E>: EventLoop<E> {}
 
 pub trait EventLoop<E> {
