@@ -1,4 +1,4 @@
-use crate::events::*;
+use std::sync::{Mutex, Arc};
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum Event {
@@ -17,11 +17,12 @@ pub trait EventLoop<E> {
 
 pub struct Engine<C: Context<Event>> {
     context: C,
+    has_quit: Arc<Mutex<bool>>,
 }
 
 impl<C: Context<Event>> Engine<C> {
     pub fn new(context: C) -> Self {
-        Self { context }
+        Self { context, has_quit: Arc::from(Mutex::from(false)) }
     }
 
     pub fn context(&self) -> &C {
@@ -35,7 +36,20 @@ impl<C: Context<Event>> Engine<C> {
 
 impl<C: Context<Event>> EventLoop<Event> for Engine<C> {
     fn next_event(&self) -> Option<Event> {
-        self.context.next_event()
+        match self.context.next_event() {
+            Some(event) => {
+                match event {
+                    Event::Quit => *self.has_quit.lock().unwrap() = true,
+                    _ => (),
+                }
+                Some(event)
+            },
+            None => if *self.has_quit.lock().unwrap() {
+                None
+            } else {
+                Some(Event::EventsCleared)
+            }
+        }
     }
 
     fn send_event(&self, event: Event) {
@@ -46,6 +60,7 @@ impl<C: Context<Event>> EventLoop<Event> for Engine<C> {
 #[cfg(test)]
 mod engine_tests {
     use super::*;
+    use crate::events::*;
 
     struct TestData {
         message: String,
