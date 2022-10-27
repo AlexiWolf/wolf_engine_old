@@ -82,7 +82,9 @@ mod engine_tests {
                 Event::Quit => (),
                 Event::Update => (),
                 Event::Render => (),
-                Event::EventsCleared => (),
+                Event::EventsCleared => {
+                    engine.send_event(Event::Quit);
+                },
             }
         }
     }
