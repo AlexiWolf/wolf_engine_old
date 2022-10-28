@@ -16,7 +16,7 @@ use simple_logger::SimpleLogger;
 /// ```
 /// # use log::LevelFilter;
 /// #
-/// wolf_engine::logging::initialize_logging(LevelFilter::Debug);
+/// wolf_engine_core::logging::initialize_logging(LevelFilter::Debug);
 /// ```
 ///
 /// Messages are logged using [log] macros.
