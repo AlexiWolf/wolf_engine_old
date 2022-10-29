@@ -16,6 +16,41 @@ use crate::Context;
 /// 3. If the [`Context`] returns [`None`], and [`Event::Quit`] has not been recived, return 
 ///    [`Event::EventsCleared`].
 /// 4. If the [`Context`] returns [`None`] and [`Event::Quit`] has been recieved, return [`None`].
+///
+/// # Examples
+///
+/// ```
+/// # use wolf_engine_core::*;
+/// # use wolf_engine_core::events::*;
+/// #
+/// // The Engine requires Context data to be created, in this case, we're just using an
+/// // EventQueue.  
+/// let mut engine = Engine::new(EventQueue::new());
+///
+/// // The Engine will continue to return events until it quits.
+/// while let Some(event) = engine.next_event() {
+///     match event {
+///         Event::Quit => {
+///             // Shut down the game.
+///         },
+///         Event::Update => {
+///             // Update the game.
+///
+///             // To shut down the Engine, you must send a quit event.
+///             engine.send_event(Event::Quit);
+///         },
+///         Event::Render => {
+///             // Render the game.
+///         },
+///         Event::EventsCleared => {
+///             // Note: The engine will not emit Update / Render events on its own.
+///             //       You are expected to do this yourself.
+///             engine.send_event(Event::Update);
+///             engine.send_event(Event::Render);
+///         }
+///     }
+/// }
+/// ```
 pub struct Engine<C: Context<Event>> {
     context: C,
     has_quit: bool,
