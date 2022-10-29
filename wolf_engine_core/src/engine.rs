@@ -1,27 +1,21 @@
-use std::sync::{Arc, Mutex};
-
 use crate::events::{Event, EventLoop};
 use crate::Context;
 
 pub struct Engine<C: Context<Event>> {
     context: C,
-    has_quit: Arc<Mutex<bool>>,
+    has_quit: bool,
 }
 
 impl<C: Context<Event>> Engine<C> {
     pub fn new(context: C) -> Self {
         Self {
             context,
-            has_quit: Arc::from(Mutex::from(false)),
+            has_quit: false,
         }
     }
 
     pub fn has_quit(&self) -> bool {
-        *self.has_quit.lock().unwrap()
-    }
-
-    fn set_has_quit(&self, has_quit: bool) {
-        *self.has_quit.lock().unwrap() = has_quit;
+        self.has_quit
     }
 
     pub fn context(&self) -> &C {
@@ -32,16 +26,16 @@ impl<C: Context<Event>> Engine<C> {
         &mut self.context
     }
 
-    fn handle_event(&self, event: Event) -> Event {
+    fn handle_event(&mut self, event: Event) -> Event {
         match event {
-            Event::Quit => self.set_has_quit(true),
+            Event::Quit => self.has_quit = true,
             _ => (),
         }
         event
     }
 
     fn handle_empty_event(&self) -> Option<Event> {
-        if self.has_quit() {
+        if self.has_quit {
             None
         } else {
             Some(Event::EventsCleared)
