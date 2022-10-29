@@ -57,15 +57,6 @@ pub struct Engine<C: Context<Event>> {
 }
 
 impl<C: Context<Event>> Engine<C> {
-
-    /// Create a new engine with the provided [`Context`] data.
-    pub fn new(context: C) -> Self {
-        Self {
-            context,
-            has_quit: false,
-        }
-    }
-    
     /// Return true if the engine has quit.
     ///
     /// The engine will quit when [`Event::Quit`] has been recieved.
