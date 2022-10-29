@@ -57,25 +57,32 @@ pub struct Engine<C: Context<Event>> {
 }
 
 impl<C: Context<Event>> Engine<C> {
+
+    /// Create a new engine with the provided [`Context`] data.
     pub fn new(context: C) -> Self {
         Self {
             context,
             has_quit: false,
         }
     }
-
+    
+    /// Return true if the engine has quit.
+    ///
+    /// The engine will quit when [`Event::Quit`] has been recieved.
     pub fn has_quit(&self) -> bool {
         self.has_quit
     }
-
+    
+    /// Get immutable access to the [`Context`] data.
     pub fn context(&self) -> &C {
         &self.context
     }
-
+    
+    /// Get mutable access to the [`Context`] data.
     pub fn context_mut(&mut self) -> &mut C {
         &mut self.context
     }
-
+    
     fn handle_event(&mut self, event: Event) -> Event {
         match event {
             Event::Quit => self.has_quit = true,
