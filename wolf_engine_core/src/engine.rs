@@ -23,8 +23,6 @@ use crate::Context;
 /// # use wolf_engine_core::*;
 /// # use wolf_engine_core::events::*;
 /// #
-/// // The Engine requires Context data to be created, in this case, we're just using an
-/// // EventQueue.  
 /// let mut engine = Engine::new();
 ///
 /// // The Engine will continue to return events until it quits.
