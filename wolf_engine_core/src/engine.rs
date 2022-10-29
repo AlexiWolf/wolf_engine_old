@@ -62,6 +62,12 @@ impl Engine<EventQueue<Event>> {
     }
 }
 
+impl<C: Context<Event>> From<C> for Engine<C> {
+    fn from(context: C) -> Self {
+        Self { has_quit: false, context }
+    }
+}
+
 impl<C: Context<Event>> Engine<C> {
     /// Return true if the engine has quit.
     ///
