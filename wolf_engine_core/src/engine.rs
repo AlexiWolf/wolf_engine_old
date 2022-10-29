@@ -4,12 +4,12 @@ use crate::Context;
 /// Provides a wrapper around some [`Context`] data with [`EventLoop`] and quit behavior.
 ///
 /// The `Engine` is a small wrapper around the [`Context`] data providing a few useful utilities 
-/// such as an [`EventLoop`] implementation with properly-handled quit behaviors.  The engine is
-/// generic over the [`Context`] data, allowing users to easily extend and modify the engine's
-/// capabilities while keeping a consistent interface.  
+/// such as an [`EventLoop`] implementation with properly-handled quit behaviors.  The provided
+/// [`EventLoop`] implementation is better suited to how the engine is intended to be used The 
+/// engine is generic over the [`Context`] data, allowing users to easily extend and modify the 
+/// engine's capabilities while keeping a consistent interface.  
 ///
-/// In addition, the engine also provides an implementation of [`EventLoop`] which is better 
-/// suited for how the engine is intended to be used.  The algorithm is as follows:
+/// The [`EventLoop`] algorithm:
 ///
 /// 1. Get the latest queued [`Event`] from the [`Context`].
 /// 2. If the [`Context`] returns [`Some`], return the [`Event`].
