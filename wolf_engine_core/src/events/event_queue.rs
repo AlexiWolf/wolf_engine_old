@@ -94,7 +94,7 @@ impl<E> EventQueue<E> {
 }
 
 impl<E> EventLoop<E> for EventQueue<E> {
-    fn next_event(&self) -> Option<E> {
+    fn next_event(&mut self) -> Option<E> {
         self.receiver.try_recv().ok()
     }
 

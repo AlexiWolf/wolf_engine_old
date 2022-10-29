@@ -50,7 +50,7 @@ impl<C: Context<Event>> Engine<C> {
 }
 
 impl<C: Context<Event>> EventLoop<Event> for Engine<C> {
-    fn next_event(&self) -> Option<Event> {
+    fn next_event(&mut self) -> Option<Event> {
         match self.context.next_event() {
             Some(event) => Some(self.handle_event(event)),
             None => self.handle_empty_event(),
@@ -84,7 +84,7 @@ mod engine_tests {
     }
 
     impl EventLoop<Event> for TestData {
-        fn next_event(&self) -> Option<Event> {
+        fn next_event(&mut self) -> Option<Event> {
             self.event_queue.next_event()
         }
 
@@ -105,7 +105,7 @@ mod engine_tests {
     #[test]
     #[timeout(100)]
     fn should_run_and_quit() {
-        let engine = Engine::new(TestData::new());
+        let mut engine = Engine::new(TestData::new());
         let mut number = 0;
 
         while let Some(event) = engine.next_event() {
@@ -130,7 +130,7 @@ mod engine_tests {
 
     #[test]
     fn should_emit_events_cleared_when_event_queue_is_empty() {
-        let engine = Engine::new(TestData::new());
+        let mut engine = Engine::new(TestData::new());
 
         assert_eq!(engine.next_event().unwrap(), Event::EventsCleared);
     }
