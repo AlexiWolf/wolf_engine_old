@@ -1,4 +1,4 @@
-use crate::events::{Event, EventLoop};
+use crate::events::{Event, EventLoop, EventQueue};
 use crate::Context;
 
 /// Provides a wrapper around some [`Context`] data with [`EventLoop`] and quit behavior.
@@ -54,6 +54,12 @@ use crate::Context;
 pub struct Engine<C: Context<Event>> {
     context: C,
     has_quit: bool,
+}
+
+impl Engine<EventQueue<Event>> {
+    pub fn new() -> Self {
+        Self { has_quit: false, context: EventQueue::new() } 
+    }
 }
 
 impl<C: Context<Event>> Engine<C> {
