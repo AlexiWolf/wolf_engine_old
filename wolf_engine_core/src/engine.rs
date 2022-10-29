@@ -25,7 +25,7 @@ use crate::Context;
 /// #
 /// // The Engine requires Context data to be created, in this case, we're just using an
 /// // EventQueue.  
-/// let mut engine = Engine::new(EventQueue::new());
+/// let mut engine = Engine::new();
 ///
 /// // The Engine will continue to return events until it quits.
 /// while let Some(event) = engine.next_event() {
@@ -146,7 +146,7 @@ mod engine_tests {
 
     #[test]
     fn should_provide_context_accessors() {
-        let mut engine = Engine::new(TestData::new());
+        let mut engine = Engine::from(TestData::new());
 
         assert_eq!(engine.context().message, "Hello, World!");
         engine.context_mut().message = "New message!".to_string();
@@ -156,7 +156,7 @@ mod engine_tests {
     #[test]
     #[timeout(100)]
     fn should_run_and_quit() {
-        let mut engine = Engine::new(TestData::new());
+        let mut engine = Engine::from(TestData::new());
         let mut number = 0;
 
         while let Some(event) = engine.next_event() {
@@ -181,7 +181,7 @@ mod engine_tests {
 
     #[test]
     fn should_emit_events_cleared_when_event_queue_is_empty() {
-        let mut engine = Engine::new(TestData::new());
+        let mut engine = Engine::from(TestData::new());
 
         assert_eq!(engine.next_event().unwrap(), Event::EventsCleared);
     }
