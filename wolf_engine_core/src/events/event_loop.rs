@@ -1,4 +1,4 @@
-/// Provides the main event-loop functions used by the [Engine].
+/// Provides the main event-loop functions used by the [`Engine`](crate::Engine).
 pub trait EventLoop<E> {
     /// Returns the next event in the loop.
     fn next_event(&mut self) -> Option<E>;
