@@ -3,17 +3,17 @@ use crate::Context;
 
 /// Provides a wrapper around some [`Context`] data with [`EventLoop`] and quit behavior.
 ///
-/// The `Engine` is a small wrapper around the [`Context`] data providing a few useful utilities 
+/// The `Engine` is a small wrapper around the [`Context`] data providing a few useful utilities
 /// such as an [`EventLoop`] implementation with properly-handled quit behaviors.  The provided
-/// [`EventLoop`] implementation is better suited to how the engine is intended to be used The 
-/// engine is generic over the [`Context`] data, allowing users to easily extend and modify the 
+/// [`EventLoop`] implementation is better suited to how the engine is intended to be used The
+/// engine is generic over the [`Context`] data, allowing users to easily extend and modify the
 /// engine's capabilities while keeping a consistent interface.  
 ///
 /// The [`EventLoop`] algorithm:
 ///
 /// 1. Get the latest queued [`Event`] from the [`Context`].
 /// 2. If the [`Context`] returns [`Some`], return the [`Event`].
-/// 3. If the [`Context`] returns [`None`], and [`Event::Quit`] has not been recived, return 
+/// 3. If the [`Context`] returns [`None`], and [`Event::Quit`] has not been recived, return
 ///    [`Event::EventsCleared`].
 /// 4. If the [`Context`] returns [`None`] and [`Event::Quit`] has been recieved, return [`None`].
 ///
@@ -56,7 +56,10 @@ pub struct Engine<C: Context<Event>> {
 
 impl Engine<EventQueue<Event>> {
     pub fn new() -> Self {
-        Self { has_quit: false, context: EventQueue::new() } 
+        Self {
+            has_quit: false,
+            context: EventQueue::new(),
+        }
     }
 }
 
@@ -68,7 +71,10 @@ impl Default for Engine<EventQueue<Event>> {
 
 impl<C: Context<Event>> From<C> for Engine<C> {
     fn from(context: C) -> Self {
-        Self { has_quit: false, context }
+        Self {
+            has_quit: false,
+            context,
+        }
     }
 }
 
@@ -79,19 +85,21 @@ impl<C: Context<Event>> Engine<C> {
     pub fn has_quit(&self) -> bool {
         self.has_quit
     }
-    
+
     /// Get immutable access to the [`Context`] data.
     pub fn context(&self) -> &C {
         &self.context
     }
-    
+
     /// Get mutable access to the [`Context`] data.
     pub fn context_mut(&mut self) -> &mut C {
         &mut self.context
     }
-    
+
     fn handle_event(&mut self, event: Event) -> Event {
-        if event == Event::Quit { self.has_quit = true; }
+        if event == Event::Quit {
+            self.has_quit = true;
+        }
         event
     }
 

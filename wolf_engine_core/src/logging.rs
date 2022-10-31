@@ -10,7 +10,7 @@ use simple_logger::SimpleLogger;
 ///
 /// # Examples
 ///
-/// To use the default logger, just initialize it by calling this function and providing it with 
+/// To use the default logger, just initialize it by calling this function and providing it with
 /// the desired [LevelFilter].
 ///
 /// ```
