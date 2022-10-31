@@ -25,6 +25,9 @@ pub use wolf_engine_core::logging;
 #[doc(hidden)]
 pub mod prelude {
     pub use super::*;
+
+    pub use wolf_engine_core::prelude::*;
+
     #[cfg(feature = "framework")]
     pub use framework::*;
 }

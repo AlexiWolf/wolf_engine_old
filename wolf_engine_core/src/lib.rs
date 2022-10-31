@@ -14,3 +14,9 @@ pub mod events;
 
 #[cfg(feature = "logging")]
 pub mod logging;
+
+#[doc(hidden)]
+pub mod prelude {
+    pub use super::*;
+    pub use events::EventLoop;
+}
