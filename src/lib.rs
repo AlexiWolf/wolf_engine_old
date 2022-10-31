@@ -2,7 +2,7 @@
 //!
 //! Wolf Engine is devided into two major components:
 //!
-//! - The Framework: [`wolf_engine_framework`].
+//! - The Framework: `wolf_engine_framework`.
 //! - The Core API: [`wolf_engine_core`].
 //!
 //! Refer to each module's documentation for a quickstart guide, and usage examples.  In most 
@@ -11,8 +11,8 @@
 //!
 //! # Features
 //!
-//! - `framework`: Enables the [`framework`](wolf_engine_framework) module (default.)
-//! - `logging`: Enables the built-in [`logging`](wolf_engine_core::logging) framework.
+//! - `framework`: Enables the `wolf_engine_framework` module (default.)
+//! - `logging`: Enables the built-in logging framework.
 
 pub use wolf_engine_core::*;
 
