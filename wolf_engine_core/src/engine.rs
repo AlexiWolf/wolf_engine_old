@@ -60,6 +60,12 @@ impl Engine<EventQueue<Event>> {
     }
 }
 
+impl Default for Engine<EventQueue<Event>> {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl<C: Context<Event>> From<C> for Engine<C> {
     fn from(context: C) -> Self {
         Self { has_quit: false, context }
