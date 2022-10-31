@@ -2,7 +2,7 @@ use std::sync::mpsc::{channel, Receiver, Sender};
 
 use crate::events::EventLoop;
 
-/// Provides a generic, fifo, mpsc event queue based on [std::sync::mpsc].
+/// Provides a generic, fifo, mpsc event queue based on [`std::sync::mpsc`].
 ///
 /// # Examples
 ///
