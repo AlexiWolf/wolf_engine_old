@@ -91,10 +91,7 @@ impl<C: Context<Event>> Engine<C> {
     }
     
     fn handle_event(&mut self, event: Event) -> Event {
-        match event {
-            Event::Quit => self.has_quit = true,
-            _ => (),
-        }
+        if event == Event::Quit { self.has_quit = true; }
         event
     }
 
