@@ -10,11 +10,10 @@ Wolf Engine is a game framework that's designed to be flexible and easy to work 
 **Wolf Engine is in early alpha.** You should expect missing features, bugs, changing APIs, and other spooky stuff 
 until release 1.0.
 
-In addition to being in alpha, I'm still actively learning about game and engine development.  A best-effort is made to 
-ensure things work well, but I'm by no means an expert at this. I fully expect to make mistakes.  Feedback and / or  
-contribution is absolutely welcome, so feel free to create an issue for anything you feel could be done better.
-
 If you wish to contribute, please make sure you have read the [Contribution Guidelines](#Contribution).
+
+Feedback and / or contribution is absolutely welcome, so feel free to create an issue for anything you feel could be 
+done better.
 
 ### Design Goals
 
@@ -25,33 +24,6 @@ If you wish to contribute, please make sure you have read the [Contribution Guid
 - **Light:** Every module except the core module is optional, so if it's not needed it won't be included.
 - **Fast:** Code should strive to run as fast as possible.
 - **Cross-Platform:** Run on as many platforms as possible.
-
-### Features
-
-These are the currently planned features for Wolf Engine.  Not all of them are ready yet, so this check-list is 
-provided to show you what is and is not ready.  
-
-- [x] Core Engine 
-  - [x] Main Loop 
-  - [x] Dynamic Context Data
-  - [x] Schedulers
-  - [x] Game States
-  - [x] State Stack
-  - [x] Plugins
-- [x] Event System 
-  - [x] Event Queue
-  - [x] Custom Events
-- [ ] Input 
-  - [ ] Keyboard / Mouse Input
-  - [ ] Touch / Pen Input
-  - [ ] Gamepad Input
-- [ ] Graphics
-  - [x] BYO Graphics System
-  - [ ] High-level Window System 
-  - [ ] High-level 2D Graphics API
-  - [ ] High-level 3D Graphics API
-- [ ] High-level Audio API
-- [ ] C / C++ Bindings
 
 ### Platform Support 
 
