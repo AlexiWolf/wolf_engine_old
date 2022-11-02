@@ -48,9 +48,8 @@ well supported.
 
 ## Getting Started
 
-[The documentation](https://docs.rs/wolf_engine/latest/wolf_engine/) details some of the basic concepts of the engine,
-while [the quick-start example](https://github.com/AlexiWolf/wolf_engine/blob/main/examples/quickstart.rs) and 
-[the examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) offer practical, and more advanced 
+[The documentation](https://docs.rs/wolf_engine/latest/wolf_engine/) provides an overview of the engine, and its API.
+[The examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) offer practical, and more advanced 
 usage examples.
 
 ## License
