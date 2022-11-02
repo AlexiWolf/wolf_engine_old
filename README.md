@@ -31,21 +31,6 @@ Excellent cross-platform support is one of the main goals of Wolf Engine.  Devel
 and Windows, so those platforms have the best support currently.  By release 1.0, all platforms listed below should be 
 well supported.
 
-#### First-class Support
-
-- **Linux**
-- **Windows**
-
-#### Well Supported 
-
-- **MacOS**
-
-#### Not Tested, but May Work 
-
-- **Android**
-- **IOS**
-- **WASM**
-
 ## Getting Started
 
 [The documentation](https://docs.rs/wolf_engine/latest/wolf_engine/) provides an overview of the engine, and its API.
