@@ -18,7 +18,7 @@ log = "0.4"
 [features]
 default = ["framework"]
 framework = ["wolf_engine_framework"]
-logging = ["framework", "wolf_engine_framework/logging"]
+logging = ["framework", "wolf_engine_core/logging"]
 
 [workspace]
 members = ["wolf_engine_*"]
