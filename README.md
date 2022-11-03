@@ -27,9 +27,27 @@ Before contributing, please make sure you have read the [Contribution Guidelines
 
 ### Platform Support 
 
-Excellent cross-platform support is one of the main goals of Wolf Engine.  Development is happening primarily on Linux
-and Windows, so those platforms have the best support currently.  By release 1.0, all platforms listed below should be 
-well supported.
+Excellent cross-platform support is one of the main goals of Wolf Engine.  The entirety of the engine, with
+`--all-features` enabled, should work on Rust's Teir 1 platforms, plus select Teir 2 platforms.  
+
+The major supported platforms are:
+
+- Windows
+- Linux
+- MacOS 
+- Andriod 
+- IOS
+- WASM
+
+Failure to build / run on these platforms should be treated as a bug.  Please create a bug report if you run into any 
+problems.
+
+#### The Core Module 
+
+The core module is intended to be a highly-portable subset of wolf engine enabling wider platform support, FFI, and 
+support for no-std platforms.  The core module should theoretically be compatibile with any platform Rust itself can 
+run on.  However, for no-std platforms, you will very likely need to provide your own no-std-compatible `Context` 
+data, and `EventLoop` implementationon.
 
 ## Getting Started
 
