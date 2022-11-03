@@ -15,6 +15,12 @@ better.
 
 Before contributing, please make sure you have read the [Contribution Guidelines](#Contribution).
 
+## Getting Started
+
+[The documentation](https://docs.rs/wolf_engine/latest/wolf_engine/) provides an overview of the engine, and its API.
+[The examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) offer practical, and more advanced 
+usage examples.
+
 ### Design Goals
 
 - **Simple:** Offer sensible default options and a clean and simple API.  Always remember to KISS.
@@ -48,12 +54,6 @@ The core module is intended to be a highly-portable subset of wolf engine enabli
 support for no-std platforms.  The core module should theoretically be compatibile with any platform Rust itself can 
 run on.  However, for no-std platforms, you will very likely need to provide your own no-std-compatible `Context` 
 data, and `EventLoop` implementation.
-
-## Getting Started
-
-[The documentation](https://docs.rs/wolf_engine/latest/wolf_engine/) provides an overview of the engine, and its API.
-[The examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) offer practical, and more advanced 
-usage examples.
 
 ## License
 
