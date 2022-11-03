@@ -19,7 +19,7 @@ better. Before contributing, please make sure you have read the [Contribution Gu
 [The examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) offer practical, and more advanced 
 usage examples.
 
-### Design Goals
+## Design Goals
 
 - **Simple:** Offer sensible default options and a clean and simple API.  Always remember to KISS.
 - **Capable:** Build anything from small prototypes and game jams to full-featured production releases.
@@ -29,7 +29,7 @@ usage examples.
 - **Fast:** Code should strive to run as fast as possible.
 - **Cross-Platform:** Run on as many platforms as possible.
 
-### Platform Support 
+## Platform Support 
 
 Excellent cross-platform support is one of the main goals of Wolf Engine.  The entirety of the engine, with
 `--all-features` enabled, should work on Rust's Tier 1 platforms, plus select Tier 2 platforms.  
@@ -46,7 +46,7 @@ The major supported platforms are:
 Failure to build / run on these platforms should be treated as a bug.  Please create a bug report if you run into any 
 problems.
 
-#### The Core Module 
+### The Core Module 
 
 The core module is intended to be a highly-portable subset of wolf engine enabling wider platform support, FFI, and 
 support for no-std platforms.  The core module should theoretically be compatibile with any platform Rust itself can 
