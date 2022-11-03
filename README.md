@@ -11,9 +11,7 @@ Wolf Engine is a game framework that's designed to be flexible and easy to work 
 until release 1.0.
 
 Feedback and / or contribution is absolutely welcome, so feel free to create an issue for anything you feel could be 
-better.
-
-Before contributing, please make sure you have read the [Contribution Guidelines](#Contribution).
+better. Before contributing, please make sure you have read the [Contribution Guidelines](#Contribution).
 
 ## Getting Started
 
