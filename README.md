@@ -43,15 +43,15 @@ The major supported platforms are:
 - IOS
 - WASM
 
-Failure to build / run on these platforms should be treated as a bug.  Please create a bug report if you run into any 
+Failure to build / run on these platforms is considered a bug.  Please create a bug report if you run into any 
 problems.
 
 ### The Core Module 
 
 The core module is intended to be a highly-portable subset of wolf engine enabling wider platform support, FFI, and 
-support for no-std platforms.  The core module should theoretically be compatibile with any platform Rust itself can 
-run on.  However, for no-std platforms, you will very likely need to provide your own no-std-compatible `Context` 
-data, and `EventLoop` implementation.
+support for no-std platforms.  The core module should theoretically run on any platform Rust itself can run on.  
+However, for no-std platforms, you will very likely need to provide your own no-std-compatible `Context` data, and 
+`EventLoop` implementation.
 
 ## License
 
