@@ -36,6 +36,8 @@ Start by adding Wolf Engine as a dependency in your `Cargo.toml` file.
 wolf_engine = "*"
 ```
 
+TODO: Provide a complete installation example.
+
 ### Usage
 
 [The documentation](https://docs.rs/wolf_engine/latest/wolf_engine/) provides an overview of the engine, and its APIs.
