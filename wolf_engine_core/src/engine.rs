@@ -13,9 +13,9 @@ use crate::Context;
 ///
 /// 1. Get the latest queued [`Event`] from the [`Context`].
 /// 2. If the [`Context`] returns [`Some`], return the [`Event`].
-/// 3. If the [`Context`] returns [`None`], and [`Event::Quit`] has not been recived, return
+/// 3. If the [`Context`] returns [`None`], and [`Event::Quit`] has not been received, return
 ///    [`Event::EventsCleared`].
-/// 4. If the [`Context`] returns [`None`] and [`Event::Quit`] has been recieved, return [`None`].
+/// 4. If the [`Context`] returns [`None`] and [`Event::Quit`] has been received, return [`None`].
 ///
 /// # Examples
 ///
@@ -81,7 +81,7 @@ impl<C: Context<Event>> From<C> for Engine<C> {
 impl<C: Context<Event>> Engine<C> {
     /// Return true if the engine has quit.
     ///
-    /// The engine will quit when [`Event::Quit`] has been recieved.
+    /// The engine will quit when [`Event::Quit`] has been received.
     pub fn has_quit(&self) -> bool {
         self.has_quit
     }

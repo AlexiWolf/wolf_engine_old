@@ -1,11 +1,11 @@
 //! A simple, flexible, and easy to use game framework.
 //!
-//! Wolf Engine is devided into two major components:
+//! Wolf Engine is divided into two major components:
 //!
 //! - The Framework: `wolf_engine_framework`.
 //! - The Core API: [`wolf_engine_core`].
 //!
-//! Refer to each module's documentation for a quickstart guide, and usage examples.  In most
+//! Refer to each module's documentation for a quick-start guide, and usage examples.  In most
 //! cases, game projects will want to start with the Framework.  The Core API is mostly used to
 //! build engine extensions, and custom frameworks.
 //!
