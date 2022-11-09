@@ -4,7 +4,7 @@
 [![Crates.io](https://img.shields.io/crates/l/wolf_engine)](https://github.com/AlexiWolf/wolf_engine#license)
 [![Crates.io](https://img.shields.io/crates/v/wolf_engine)](https://crates.io/crates/wolf_engine)
 
-Wolf Engine is a game framework that's designed to be flexible and easy to work with.
+A simple, flexible, and easy-to-use game framework.
 
 ### Project Status
 
@@ -12,7 +12,7 @@ Wolf Engine is a game framework that's designed to be flexible and easy to work 
 until release 1.0.
 
 Feedback and / or contribution is absolutely welcome, so feel free to create an issue for anything you feel could be 
-better. Before contributing, please make sure you have read the [Contribution Guidelines](#Contribution).
+better. Before contributing, please make sure you have read the [Contribution section](#Contribution).
 
 ## Getting Started
 
