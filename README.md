@@ -16,7 +16,7 @@ better. Before contributing, please make sure you have read the [Contribution Gu
 
 ## Getting Started
 
-[The documentation](https://docs.rs/wolf_engine/latest/wolf_engine/) provides an overview of the engine, and its API.
+[The documentation](https://docs.rs/wolf_engine/latest/wolf_engine/) provides an overview of the engine, and its APIs.
 [The examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) offer practical, and more advanced 
 usage examples.
 
