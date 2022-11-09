@@ -33,19 +33,8 @@ usage examples.
 ## Platform Support 
 
 Excellent cross-platform support is one of the main goals of Wolf Engine.  The entirety of the engine, with
-`--all-features` enabled, should work on Rust's Tier 1 platforms, plus select Tier 2 platforms.  
-
-The major supported platforms are:
-
-- Windows
-- Linux
-- MacOS 
-- Android 
-- IOS
-- WASM
-
-Failure to build / run on these platforms is considered a bug.  Please create a bug report if you run into any 
-problems.
+`--all-features` enabled, should work on Desktop (Windows, Linux, MacOS), Mobile (Android, iOS), and WASM. Failure to 
+build / run on these platforms is considered a bug.  Please create a bug report if you run into any problems.
 
 ### The Core Module 
 
