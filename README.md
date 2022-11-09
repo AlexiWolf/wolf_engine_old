@@ -55,12 +55,12 @@ However, for no-std platforms, you will very likely need to provide your own no-
 
 ## License
 
-Wolf Engine is licensed under either
+Wolf Engine is licensed under either:
 
 - [Apache License, Version 2.0](LICENSE-APACHE)
 - [MIT License](LICENSE-MIT)
 
-at your option.
+At your option.
 
 ### Contribution
 
