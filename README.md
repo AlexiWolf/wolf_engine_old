@@ -18,7 +18,7 @@ spooky stuff until release 1.0.
 - [ ] Graphics, audio, and window APIs.
 - [ ] 2d and 3d graphics.
 
-Platform Support 
+## Platform Support 
 
 Excellent cross-platform support is one of the main goals of Wolf Engine.  The entirety of the engine, with
 `--all-features` enabled, should work on Desktop (Windows, Linux, MacOS), Mobile (Android, iOS), and WASM. Failure to 
