@@ -31,23 +31,12 @@ support for no-std platforms.  The core module should theoretically run on any p
 However, for no-std platforms, you will very likely need to provide your own no-std-compatible `Context` data, and 
 `EventLoop` implementation.
 
-# Getting Started
+# Usage
 
-Start by adding Wolf Engine as a dependency in your `Cargo.toml` file.
-
-```TOML
-[dependencies]
-wolf_engine = "*"
-```
-
-TODO: Provide a complete installation example.
-
-### Usage
-
-[The documentation](https://docs.rs/wolf_engine/latest/wolf_engine/) provides an overview of the engine, and its APIs.
-[The examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) offer practical, and more advanced 
-usage examples.
-
+- [The documentation](https://docs.rs/wolf_engine/latest/wolf_engine/) provides an overview of the engine, and its 
+  APIs, and how to use it. Start here.
+- [The examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) provides a range of examples for 
+  various concepts.
 
 # License
 
