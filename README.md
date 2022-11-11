@@ -6,7 +6,10 @@
 
 A simple, flexible, and easy-to-use game framework written in Rust.
 
-- TODO: Write a short description of the engine.  Answer what WE is and why it is built.
+## Status
+
+Wolf Engine is currently in very early development.  You should expect missing features, bugs, changing APIs, and other
+spooky stuff until release 1.0.
 
 ## Features
 
