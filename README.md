@@ -33,8 +33,6 @@ However, for no-std platforms, you will very likely need to provide your own no-
 
 # Getting Started
 
-### Installation
-
 Start by adding Wolf Engine as a dependency in your `Cargo.toml` file.
 
 ```TOML
