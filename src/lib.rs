@@ -1,19 +1,57 @@
 //! A simple, flexible, and easy to use game framework.
-//!
-//! Wolf Engine is divided into two major components:
-//!
-//! - The Framework: `wolf_engine_framework`.
-//! - The Core API: [`wolf_engine_core`].
-//!
-//! Refer to each module's documentation for a quick-start guide, and usage examples.  In most
-//! cases, game projects will want to start with the Framework.  The Core API is mostly used to
-//! build engine extensions, and custom frameworks.
-//!
+//! 
 //! # Features
 //!
 //! - `framework`: Enables the `wolf_engine_framework` module (default.)
 //! - `logging`: Enables the built-in logging framework.
-
+//!
+//! # Getting Started 
+//! 
+//! To use the latest release:
+//!
+//! ```ignore
+//! [dependencies]
+//! wolf_engine = "0.24"
+//! ```
+//!
+//! To use the latest development version:
+//!
+//! ```ignore
+//! wolf_engine = { git = "https://github.com/AlexiWolf/wolf_engine" }
+//! ```
+//!
+//! ## Basic Usage 
+//!  
+//! ```
+//! use wolf_engine::prelude::*;
+//!
+//! let mut engine = Engine::new();
+//!
+//! // The Engine will continue to return events until it quits.
+//! while let Some(event) = engine.next_event() {
+//!     match event {
+//!         Event::Quit => {
+//!             // Shut down the game.
+//!         },
+//!         Event::Update => {
+//!             // Update the game.
+//!
+//!             // To shut down the Engine, you must send a quit event.
+//!             engine.send_event(Event::Quit);
+//!         },
+//!         Event::Render => {
+//!             // Render the game.
+//!         },
+//!         Event::EventsCleared => {
+//!             // Note: The engine will not emit Update / Render events on its own.
+//!             //       You are expected to do this yourself.
+//!             engine.send_event(Event::Update);
+//!             engine.send_event(Event::Render);
+//!         }
+//!     }
+//! }
+//! ```
+//!
 pub use wolf_engine_core::*;
 
 #[cfg(feature = "framework")]
