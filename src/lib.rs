@@ -55,6 +55,7 @@
 pub use wolf_engine_core::*;
 
 #[cfg(feature = "framework")]
+#[doc(hidden)]
 pub use wolf_engine_framework as framework;
 
 #[cfg(feature = "logging")]
