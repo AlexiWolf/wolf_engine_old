@@ -1,97 +1,53 @@
 # Wolf Engine
+
 [![CI](https://github.com/AlexiWolf/wolf_engine/actions/workflows/ci.yml/badge.svg)](https://github.com/AlexiWolf/wolf_engine/actions/workflows/ci.yml)
 [![Crates.io](https://img.shields.io/crates/l/wolf_engine)](https://github.com/AlexiWolf/wolf_engine#license)
 [![Crates.io](https://img.shields.io/crates/v/wolf_engine)](https://crates.io/crates/wolf_engine)
 
-Wolf Engine is a game framework that's designed to be flexible and easy to work with.
+A simple, flexible, and easy-to-use game framework written in Rust.
 
-### Project Status
+## Status
 
-**Wolf Engine is in early alpha.**  The core API is mostly complete, and has started to stabilize somewhat, but it's 
-still unproven *alpha* software.  You should expect missing features, bugs, changing APIs, and other spooky stuff until 
-release 1.0.
+Wolf Engine is currently in very early development.  You should expect missing features, bugs, changing APIs, and other
+spooky stuff until release 1.0.
 
-In addition to being in alpha, I'm still actively learning about game and engine development.  A best-effort is made to 
-ensure things work well, but I'm by no means an expert at this. I fully expect to make mistakes.  Feedback and / or  
-contribution is absolutely welcome, so feel free to create an issue for anything you feel could be done better.
+## Features
 
-If you wish to contribute, please make sure you have read the [Contribution Guidelines](#Contribution).
+- [x] Simple, and flexible core API.
+- [ ] Easy-to-use high-level Framework. 
+- [ ] Graphics, audio, and window APIs.
+- [ ] 2d and 3d graphics.
 
-### Design Goals
+## Platform Support 
 
-- **Simple:** Offer sensible default options and a clean and simple API.  Always remember to KISS.
-- **Capable:** Build anything from small prototypes and game jams to full-featured production releases.
-- **Flexible:** Allow users the freedom to bring their own tools and customize the engine to fit their project's needs.
-- **Stable:** Utilize Rust's powerful type system and good BDD / TDD practices to squash bugs before they appear.
-- **Light:** Every module except the core module is optional, so if it's not needed it won't be included.
-- **Fast:** Code should strive to run as fast as possible.
-- **Cross-Platform:** Run on as many platforms as possible.
+Excellent cross-platform support is one of the main goals of Wolf Engine.  The entirety of the engine, with
+`--all-features` enabled, should work on Desktop (Windows, Linux, MacOS), Mobile (Android, iOS), and WASM. Failure to 
+build / run on these platforms is considered a bug.  Please create a bug report if you run into any problems.
 
-### Features
+### The Core Module 
 
-These are the currently planned features for Wolf Engine.  Not all of them are ready yet, so this check-list is 
-provided to show you what is and is not ready.  
+The core module is intended to be a highly-portable subset of wolf engine enabling wider platform support, FFI, and 
+support for no-std platforms.  The core module should theoretically run on any platform Rust itself can run on.  
+However, for no-std platforms, you will very likely need to provide your own no-std-compatible `Context` data, and 
+`EventLoop` implementation.
 
-- [x] Core Engine 
-  - [x] Main Loop 
-  - [x] Dynamic Context Data
-  - [x] Schedulers
-  - [x] Game States
-  - [x] State Stack
-  - [x] Plugins
-- [x] Event System 
-  - [x] Event Queue
-  - [x] Custom Events
-- [ ] Input 
-  - [ ] Keyboard / Mouse Input
-  - [ ] Touch / Pen Input
-  - [ ] Gamepad Input
-- [ ] Graphics
-  - [x] BYO Graphics System
-  - [ ] High-level Window System 
-  - [ ] High-level 2D Graphics API
-  - [ ] High-level 3D Graphics API
-- [ ] High-level Audio API
-- [ ] C / C++ Bindings
+# Usage
 
-### Platform Support 
+- [The documentation](https://docs.rs/wolf_engine/latest/wolf_engine/) provides an overview of the engine, and its 
+  APIs, and how to use it. Start here.
+- [The examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) provides a range of examples for 
+  various concepts.
 
-Excellent cross-platform support is one of the main goals of Wolf Engine.  Development is happening primarily on Linux
-and Windows, so those platforms have the best support currently.  By release 1.0, all platforms listed below should be 
-well supported.
+# License
 
-#### First-class Support
-
-- **Linux**
-- **Windows**
-
-#### Well Supported 
-
-- **MacOS**
-
-#### Not Tested, but May Work 
-
-- **Android**
-- **IOS**
-- **WASM**
-
-## Getting Started
-
-[The documentation](https://docs.rs/wolf_engine/latest/wolf_engine/) details some of the basic concepts of the engine,
-while [the quick-start example](https://github.com/AlexiWolf/wolf_engine/blob/main/examples/quickstart.rs) and 
-[the examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) offer practical, and more advanced 
-usage examples.
-
-## License
-
-Wolf Engine is licensed under either
+Wolf Engine is licensed under either:
 
 - [Apache License, Version 2.0](LICENSE-APACHE)
 - [MIT License](LICENSE-MIT)
 
-at your option.
+At your option.
 
-### Contribution
+## Contribution
 
 Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work by you, as 
 defined in the Apache-2.0 license, shall be dual licensed as above, without additional terms or conditions.
