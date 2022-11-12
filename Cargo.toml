@@ -7,6 +7,7 @@ edition = "2021"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/AlexiWolf/wolf_engine"
 homepage = "https://github.com/AlexiWolf/wolf_engine"
+keywords = ["wolf-engine", "game", "gamedev"]
 categories = ["game-development", "game-engines"]
 
 [dependencies]
