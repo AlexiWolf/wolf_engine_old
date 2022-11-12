@@ -1,7 +1,11 @@
 [package]
 name = "wolf_engine_framework"
 version = "0.24.1"
+authors = ["AlexiWolf <alexiwolf@pm.me>"]
 edition = "2021"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/AlexiWolf/wolf_engine"
+homepage = "https://github.com/AlexiWolf/wolf_engine"
 keywords = ["wolf-engine", "game", "gamedev"]
 categories = ["game-development", "game-engines"]
 
