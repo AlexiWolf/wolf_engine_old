@@ -1,12 +1,19 @@
 [package]
 name = "wolf_engine_framework"
-version = "0.0.0"
+description = "A complete, \"batteries-included\" framework for Wolf Engine."
+version = "0.24.1"
+authors = ["AlexiWolf <alexiwolf@pm.me>"]
 edition = "2021"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/AlexiWolf/wolf_engine"
+homepage = "https://github.com/AlexiWolf/wolf_engine"
+keywords = ["wolf-engine", "game", "gamedev"]
+categories = ["game-development", "game-engines"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-wolf_engine_core = {path = "../wolf_engine_core"}
+wolf_engine_core = {path = "../wolf_engine_core", version = "0.24.1"}
 log = "0.4"
 
 [dev-dependencies]
