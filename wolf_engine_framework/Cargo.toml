@@ -13,7 +13,7 @@ categories = ["game-development", "game-engines"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-wolf_engine_core = {path = "../wolf_engine_core"}
+wolf_engine_core = {path = "../wolf_engine_core", version = "0.24.1"}
 log = "0.4"
 
 [dev-dependencies]

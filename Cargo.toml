@@ -11,8 +11,8 @@ keywords = ["wolf-engine", "game", "gamedev"]
 categories = ["game-development", "game-engines"]
 
 [dependencies]
-wolf_engine_core = {path = "wolf_engine_core"}
-wolf_engine_framework = {path = "wolf_engine_framework", optional = true}
+wolf_engine_core = {path = "wolf_engine_core", version = "0.24.1"}
+wolf_engine_framework = {path = "wolf_engine_framework", version = "0.24.1", optional = true}
 
 [dev-dependencies]
 log = "0.4"
