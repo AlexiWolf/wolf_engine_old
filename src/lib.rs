@@ -1,12 +1,12 @@
 //! A simple, flexible, and easy to use game framework.
-//! 
+//!
 //! # Features
 //!
 //! - `framework`: Enables the `wolf_engine_framework` module (default.)
 //! - `logging`: Enables the built-in logging framework.
 //!
-//! # Getting Started 
-//! 
+//! # Getting Started
+//!
 //! To use the latest release:
 //!
 //! ```ignore
@@ -20,7 +20,7 @@
 //! wolf_engine = { git = "https://github.com/AlexiWolf/wolf_engine" }
 //! ```
 //!
-//! ## Basic Usage 
+//! ## Basic Usage
 //!  
 //! ```
 //! use wolf_engine::prelude::*;
