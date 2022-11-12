@@ -1,5 +1,6 @@
 [package]
 name = "wolf_engine_core"
+description = "A highly-portable core providing just the basic types, tools, and functions for Wolf Engine."
 version = "0.24.1"
 authors = ["AlexiWolf <alexiwolf@pm.me>"]
 edition = "2021"

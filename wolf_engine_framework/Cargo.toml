@@ -1,5 +1,6 @@
 [package]
 name = "wolf_engine_framework"
+description = "A complete, \"batteries-included\" framework for Wolf Engine."
 version = "0.24.1"
 authors = ["AlexiWolf <alexiwolf@pm.me>"]
 edition = "2021"
