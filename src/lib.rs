@@ -2,7 +2,6 @@
 //!
 //! # Features
 //!
-//! - `framework`: Enables the `wolf_engine_framework` module (default.)
 //! - `logging`: Enables the built-in logging framework.
 //!
 //! # Getting Started
