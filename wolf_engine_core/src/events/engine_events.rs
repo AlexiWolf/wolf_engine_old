@@ -1,4 +1,5 @@
 /// Provides the main events used by the [`Engine`](crate::Engine).
+#[non_exhaustive]
 #[derive(Debug, PartialEq, Eq)]
 pub enum Event {
     /// Emitted when the engine should quit.
