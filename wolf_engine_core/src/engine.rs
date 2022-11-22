@@ -185,6 +185,7 @@ mod engine_tests {
                 Event::EventsCleared => {
                     engine.send_event(Event::Quit);
                 }
+                _ => (),
             }
         }
 
