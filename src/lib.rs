@@ -47,6 +47,7 @@
 //!             engine.send_event(Event::Update);
 //!             engine.send_event(Event::Render);
 //!         }
+//!         _ => (),
 //!     }
 //! }
 //! ```
