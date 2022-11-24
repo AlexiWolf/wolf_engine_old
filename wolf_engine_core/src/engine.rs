@@ -85,13 +85,26 @@ impl<C: Context<Event>> From<C> for Engine<C> {
     }
 }
 
-impl<C: Context<Event>> Engine<C> {
+impl<C: Context<Event>> EngineControls for Engine<C> {
+    fn quit(&self) {
+
+    }
+
     /// Return true if the engine has quit.
     ///
     /// The engine will quit when [`Event::Quit`] has been received.
-    pub fn has_quit(&self) -> bool {
+    fn has_quit(&self) -> bool {
         self.has_quit
     }
+
+    fn update(&self) {
+    }
+
+    fn render(&self) {
+    }
+}
+
+impl<C: Context<Event>> Engine<C> {
 
     /// Get immutable access to the [`Context`] data.
     pub fn context(&self) -> &C {
