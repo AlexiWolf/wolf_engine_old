@@ -178,12 +178,13 @@ mod engine_tests {
                     if number < 3 {
                         number += 1;
                     } else {
-                        engine.send_event(Event::Quit);
+                        engine.quit();
                     }
                 }
                 Event::Render => (),
                 Event::EventsCleared => {
-                    engine.send_event(Event::Update);
+                    engine.update();
+                    engine.render();
                 }
             }
         }
