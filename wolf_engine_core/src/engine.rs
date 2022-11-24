@@ -183,7 +183,7 @@ mod engine_tests {
                 }
                 Event::Render => (),
                 Event::EventsCleared => {
-                    engine.send_event(Event::Quit);
+                    engine.send_event(Event::Update);
                 }
             }
         }
