@@ -3,6 +3,9 @@ use crate::Context;
 
 pub trait EngineControls {
     fn quit(&self);
+    /// Return true if the engine has quit.
+    ///
+    /// The engine will quit when [`Event::Quit`] has been received.
     fn has_quit(&self) -> bool;
     fn update(&self);
     fn render(&self);
@@ -90,9 +93,6 @@ impl<C: Context<Event>> EngineControls for Engine<C> {
         self.send_event(Event::Quit);
     }
 
-    /// Return true if the engine has quit.
-    ///
-    /// The engine will quit when [`Event::Quit`] has been received.
     fn has_quit(&self) -> bool {
         self.has_quit
     }
