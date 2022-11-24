@@ -70,7 +70,7 @@ pub trait EngineControls {
 ///             // Update the game.
 ///
 ///             // To shut down the Engine, you must send a quit event.
-///             engine.send_event(Event::Quit);
+///             engine.quit();
 ///         },
 ///         Event::Render => {
 ///             // Render the game.
@@ -78,8 +78,8 @@ pub trait EngineControls {
 ///         Event::EventsCleared => {
 ///             // Note: The engine will not emit Update / Render events on its own.
 ///             //       You are expected to do this yourself.
-///             engine.send_event(Event::Update);
-///             engine.send_event(Event::Render);
+///             engine.update();
+///             engine.render();
 ///         }
 ///     }
 /// }
