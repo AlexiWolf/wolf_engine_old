@@ -1,6 +1,13 @@
 use crate::events::{Event, EventLoop, EventQueue};
 use crate::Context;
 
+pub trait EngineControls {
+    fn quit(&self);
+    fn has_quit(&self) -> bool;
+    fn update(&self);
+    fn render(&self);
+}
+
 /// Provides a wrapper around some [`Context`] data with [`EventLoop`] and quit behavior.
 ///
 /// The `Engine` is a small wrapper around the [`Context`] data providing a few useful utilities
