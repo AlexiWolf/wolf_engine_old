@@ -191,19 +191,20 @@ mod engine_tests {
     #[timeout(100)]
     fn should_run_and_quit() {
         let mut engine = Engine::from(TestData::new());
-        let mut number = 0;
+        let mut updates = 0;
+        let mut renders = 0;
 
         while let Some(event) = engine.next_event() {
             match event {
                 Event::Quit => (),
                 Event::Update => {
-                    if number < 3 {
-                        number += 1;
+                    if updates < 3 && renders < 3 {
+                        updates += 1;
                     } else {
                         engine.quit();
                     }
                 }
-                Event::Render => (),
+                Event::Render => renders += 1,
                 Event::EventsCleared => {
                     engine.update();
                     engine.render();
