@@ -87,7 +87,7 @@ impl<C: Context<Event>> From<C> for Engine<C> {
 
 impl<C: Context<Event>> EngineControls for Engine<C> {
     fn quit(&self) {
-
+        self.send_event(Event::Quit);
     }
 
     /// Return true if the engine has quit.
@@ -98,9 +98,11 @@ impl<C: Context<Event>> EngineControls for Engine<C> {
     }
 
     fn update(&self) {
+        self.send_event(Event::Update);
     }
 
     fn render(&self) {
+        self.send_event(Event::Render);
     }
 }
 
