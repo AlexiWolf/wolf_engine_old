@@ -1,5 +1,5 @@
 use crate::events::{Event, EventLoop, EventQueue};
-use crate::Context;
+use crate::{Context, EngineControls};
 
 /// Provides a wrapper around some [`Context`] data with [`EventLoop`] and quit behavior.
 ///
@@ -35,7 +35,7 @@ use crate::Context;
 ///             // Update the game.
 ///
 ///             // To shut down the Engine, you must send a quit event.
-///             engine.send_event(Event::Quit);
+///             engine.quit();
 ///         },
 ///         Event::Render => {
 ///             // Render the game.
@@ -43,8 +43,8 @@ use crate::Context;
 ///         Event::EventsCleared => {
 ///             // Note: The engine will not emit Update / Render events on its own.
 ///             //       You are expected to do this yourself.
-///             engine.send_event(Event::Update);
-///             engine.send_event(Event::Render);
+///             engine.update();
+///             engine.render();
 ///         }
 ///     }
 /// }
@@ -78,14 +78,25 @@ impl<C: Context<Event>> From<C> for Engine<C> {
     }
 }
 
-impl<C: Context<Event>> Engine<C> {
-    /// Return true if the engine has quit.
-    ///
-    /// The engine will quit when [`Event::Quit`] has been received.
-    pub fn has_quit(&self) -> bool {
+impl<C: Context<Event>> EngineControls for Engine<C> {
+    fn quit(&self) {
+        self.send_event(Event::Quit);
+    }
+
+    fn has_quit(&self) -> bool {
         self.has_quit
     }
 
+    fn update(&self) {
+        self.send_event(Event::Update);
+    }
+
+    fn render(&self) {
+        self.send_event(Event::Render);
+    }
+}
+
+impl<C: Context<Event>> Engine<C> {
     /// Get immutable access to the [`Context`] data.
     pub fn context(&self) -> &C {
         &self.context
@@ -169,21 +180,23 @@ mod engine_tests {
     #[timeout(100)]
     fn should_run_and_quit() {
         let mut engine = Engine::from(TestData::new());
-        let mut number = 0;
+        let mut updates = 0;
+        let mut renders = 0;
 
         while let Some(event) = engine.next_event() {
             match event {
                 Event::Quit => (),
                 Event::Update => {
-                    if number < 3 {
-                        number += 1;
+                    if updates < 3 && renders < 3 {
+                        updates += 1;
                     } else {
-                        engine.send_event(Event::Quit);
+                        engine.quit();
                     }
                 }
-                Event::Render => (),
+                Event::Render => renders += 1,
                 Event::EventsCleared => {
-                    engine.send_event(Event::Quit);
+                    engine.update();
+                    engine.render();
                 }
             }
         }
