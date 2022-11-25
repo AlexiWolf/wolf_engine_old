@@ -1,5 +1,5 @@
-use crate::{Context, EngineControls};
 use crate::events::{Event, EventLoop, EventQueue};
+use crate::{Context, EngineControls};
 
 /// Provides a wrapper around some [`Context`] data with [`EventLoop`] and quit behavior.
 ///
