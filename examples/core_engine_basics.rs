@@ -7,7 +7,7 @@ pub fn main() {
     while let Some(event) = engine.next_event() {
         match event {
             // Shut down the game.
-            Event::Quit => println!("Quit event recieved.  Goodbye!"),
+            Event::Quit => println!("Quit event received.  Goodbye!"),
             // Update the game.
             Event::Update => {
                 if number == 3 {
@@ -23,7 +23,7 @@ pub fn main() {
             }
             Event::EventsCleared => {
                 // Note: The engine will not emit Update / Render events on it's own.
-                //       You are expectd to do this yourself.
+                //       You are expected to do this yourself.
                 engine.update();
                 engine.render();
             }
