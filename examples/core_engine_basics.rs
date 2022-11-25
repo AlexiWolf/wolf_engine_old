@@ -12,7 +12,7 @@ pub fn main() {
             Event::Update => {
                 if number == 3 {
                     // To shut down the Engine, you must send a quit event.
-                    engine.send_event(Event::Quit);
+                    engine.quit();
                 } else {
                     number += 1;
                 }
@@ -24,8 +24,8 @@ pub fn main() {
             Event::EventsCleared => {
                 // Note: The engine will not emit Update / Render events on it's own.
                 //       You are expectd to do this yourself.
-                engine.send_event(Event::Update);
-                engine.send_event(Event::Render);
+                engine.update();
+                engine.render();
             }
         }
     }
