@@ -132,7 +132,6 @@ impl<C: Context<Event>> EngineControls for Engine<C> {
 }
 
 impl<C: Context<Event>> Engine<C> {
-
     /// Get immutable access to the [`Context`] data.
     pub fn context(&self) -> &C {
         &self.context
