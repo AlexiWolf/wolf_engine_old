@@ -9,6 +9,8 @@ mod context;
 pub use context::*;
 mod engine;
 pub use engine::*;
+mod engine_controls;
+pub use engine_controls::*;
 
 pub mod events;
 
