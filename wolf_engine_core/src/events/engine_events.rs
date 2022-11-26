@@ -13,3 +13,26 @@ pub enum Event {
     /// `EventsCleared` should be emitted only after all other events have been processed.
     EventsCleared,
 }
+
+#[cfg(test)]
+mod event_tests {
+    use super::*;
+
+    #[test]
+    fn should_implement_clone() {
+        let event = Event::Update; 
+        let clone = event.clone();
+        assert_eq!(event, clone);
+    }
+    
+    #[test]
+    fn should_implement_copy() {
+        let event = Event::Update;
+        let copy = copy_test(event);
+        assert_eq!(event, copy);
+    }
+
+    fn copy_test(event: Event) -> Event {
+        event
+    }
+}
