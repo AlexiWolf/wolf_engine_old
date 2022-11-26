@@ -20,11 +20,11 @@ mod event_tests {
 
     #[test]
     fn should_implement_clone() {
-        let event = Event::Update; 
+        let event = Event::Update;
         let clone = event.clone();
         assert_eq!(event, clone);
     }
-    
+
     #[test]
     fn should_implement_copy() {
         let event = Event::Update;
