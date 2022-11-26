@@ -27,6 +27,7 @@ pub fn main() {
                 engine.update();
                 engine.render();
             }
+            _ => (),
         }
     }
 }

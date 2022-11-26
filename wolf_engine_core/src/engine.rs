@@ -46,6 +46,7 @@ use crate::{Context, EngineControls};
 ///             engine.update();
 ///             engine.render();
 ///         }
+///         _ => (),
 ///     }
 /// }
 /// ```
