@@ -87,6 +87,13 @@ mod window_settings_tests {
     }
 
     #[test]
+    fn should_set_fullscreen_mode() {
+        let settings = WindowSettings::new()
+            .with_fullscreen_mode(Some(FullscreenMode::Fullscreen));
+        assert_eq!(settings.fullscreen_mode, Some(FullscreenMode::Fullscreen));
+    }
+
+    #[test]
     fn should_set_fullscreen() {
         let settings = WindowSettings::new()
             .with_fullscreen();
@@ -100,10 +107,4 @@ mod window_settings_tests {
         assert_eq!(settings.fullscreen_mode, Some(FullscreenMode::Borderless));
     }
 
-    #[test]
-    fn should_set_fullscreen_mode() {
-        let settings = WindowSettings::new()
-            .with_fullscreen_mode(Some(FullscreenMode::Fullscreen));
-        assert_eq!(settings.fullscreen_mode, Some(FullscreenMode::Fullscreen));
-    }
 }
