@@ -1,5 +1,13 @@
 pub struct WindowSettings {}
 
+impl Default for WindowSettings {
+    fn default() -> Self {
+        Self {
+
+        }
+    }
+}
+
 #[cfg(test)]
 mod window_settings_tests {
     pub use super::*;
