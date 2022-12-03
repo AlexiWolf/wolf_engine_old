@@ -12,6 +12,10 @@ impl WindowSettings {
     pub fn new() -> Self {
         Self::default()
     }
+
+    pub fn with_title(self, title: &str) -> Self {
+        self
+    }
 }
 
 impl Default for WindowSettings {
