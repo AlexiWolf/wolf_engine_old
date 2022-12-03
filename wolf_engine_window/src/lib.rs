@@ -40,4 +40,11 @@ mod window_settings_tests {
             }
         );
     }
+
+    #[test]
+    fn should_set_title() {
+        let settings = WindowSettings::new()
+            .with_title("Test Title");
+        assert_eq!(settings.title, "Test Title");
+    }
 }
