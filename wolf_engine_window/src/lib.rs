@@ -8,6 +8,12 @@ pub struct WindowSettings {
     pub is_resizable: bool,
 }
 
+impl WindowSettings {
+    pub fn new() -> Self {
+        Self::default()
+    }
+}
+
 impl Default for WindowSettings {
     fn default() -> Self {
         Self {
