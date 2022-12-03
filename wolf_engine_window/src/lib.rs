@@ -72,4 +72,11 @@ mod window_settings_tests {
         assert_eq!(settings.width, 800);
         assert_eq!(settings.height, 600);
     }
+
+    #[test]
+    fn should_set_fullscreen() {
+        let settings = WindowSettings::new()
+            .with_fullscreen();
+        assert_eq!(settings.is_fullscreen, true);
+    }
 }
