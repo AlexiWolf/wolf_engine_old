@@ -23,6 +23,10 @@ impl WindowSettings {
         self.height = size.1;
         self
     }
+
+    pub fn with_fullscreen(mut self) -> Self {
+        self
+    }
 }
 
 impl Default for WindowSettings {
