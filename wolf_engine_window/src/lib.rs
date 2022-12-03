@@ -1,6 +1,7 @@
 #[derive(Debug, PartialEq, Eq)]
 pub enum FullscreenMode {
     Fullscreen,
+    Borderless,
 }
 
 #[derive(Debug, PartialEq, Eq)]
