@@ -86,4 +86,11 @@ mod window_settings_tests {
             .with_fullscreen();
         assert_eq!(settings.fullscreen_mode, Some(FullscreenMode::Fullscreen));
     }
+
+    #[test]
+    fn should_set_to_borderless_fullscreen() {
+        let settings = WindowSettings::new()
+            .with_borderless_fullscreen();
+        assert_eq!(settings.fullscreen_mode, Some(FullscreenMode::Borderless));
+    }
 }
