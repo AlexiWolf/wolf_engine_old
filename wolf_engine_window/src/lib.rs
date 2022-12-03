@@ -40,6 +40,7 @@ impl WindowSettings {
     }
 
     pub fn with_fullscreen_mode(mut self, fullscreen_mode: Option<FullscreenMode>) -> Self {
+        self.fullscreen_mode = fullscreen_mode;
         self
     }
 }
