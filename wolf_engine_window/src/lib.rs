@@ -42,8 +42,8 @@ impl WindowSettings {
         self
     }
 
-    pub fn with_windowed(mut self) -> Self {
-        self
+    pub fn with_windowed(self) -> Self {
+        self.with_fullscreen_mode(None)
     }
 }
 
