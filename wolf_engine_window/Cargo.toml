@@ -1,7 +1,6 @@
 [package]
 name = "wolf_engine_window"
 version = "0.25.0"
-edition = "2021"
 authors = ["AlexiWolf <alexiwolf@pm.me>"]
 edition = "2021"
 license = "MIT OR Apache-2.0"
