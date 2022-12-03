@@ -30,7 +30,7 @@ mod window_settings_tests {
         assert_eq!(
             window_settings,
             WindowSettings {
-                title: "Wolf Engine - Untitled Window",
+                title: "Wolf Engine - Untitled Window".to_string(),
                 width: 1280,
                 height: 720,
                 is_fullscreen: false,
