@@ -124,4 +124,11 @@ mod window_settings_tests {
             .with_windowed();
         assert_eq!(settings.fullscreen_mode, None);
     }
+
+    #[test]
+    fn should_set_to_resizable() {
+        let settings = WindowSettings::new()
+            .with_resizable(false);
+        assert_eq!(settings.is_resizable, false);
+    }
 }
