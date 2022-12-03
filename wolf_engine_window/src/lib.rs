@@ -1,3 +1,4 @@
+#[derive(Debug, PartialEq, Eq)]
 pub struct WindowSettings {
     pub title: String,
     pub width: usize,
