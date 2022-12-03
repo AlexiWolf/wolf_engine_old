@@ -84,6 +84,6 @@ mod window_settings_tests {
     fn should_set_fullscreen() {
         let settings = WindowSettings::new()
             .with_fullscreen();
-        assert_eq!(settings.video_mode, VideoMode::Fullscreen);
+        assert_eq!(settings.video_mode, Some(VideoMode::Fullscreen));
     }
 }
