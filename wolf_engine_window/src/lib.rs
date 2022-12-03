@@ -117,6 +117,10 @@ mod window_settings_tests {
     #[test]
     fn should_set_to_window_mode() {
         let settings = WindowSettings::new()
+            .with_fullscreen();
+        assert_eq!(settings.fullscreen_mode, None);
+
+        let settings = settings
             .with_windowed();
         assert_eq!(settings.fullscreen_mode, None);
     }
