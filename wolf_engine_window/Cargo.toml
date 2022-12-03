@@ -10,4 +10,5 @@ keywords = ["wolf-engine", "game", "gamedev", "gui"]
 categories = ["game-development", "game-engines", "gui"]
 
 [dependencies]
+serde = { version = "1.0", optional = true, features = ["serde_derive"] }
 
