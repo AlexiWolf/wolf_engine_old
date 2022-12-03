@@ -40,7 +40,7 @@ impl Default for WindowSettings {
             title: "Wolf Engine - Untitled Window".to_string(),
             width: 1280,
             height: 720,
-            video_mode: Option<VideoMode>,
+            video_mode: None,
             is_resizable: true,
         }
     }
