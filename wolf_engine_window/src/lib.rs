@@ -56,8 +56,7 @@ mod window_settings_tests {
                 title: "Wolf Engine - Untitled Window".to_string(),
                 width: 1280,
                 height: 720,
-                is_fullscreen: false,
-                is_borderless: false,
+                video_mode: None,
                 is_resizable: true,
             }
         );
