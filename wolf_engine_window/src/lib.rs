@@ -19,6 +19,8 @@ impl WindowSettings {
     }
 
     pub fn with_size(mut self, size: (usize, usize)) -> Self {
+        self.width = size.0;
+        self.height = size.1;
         self
     }
 }
