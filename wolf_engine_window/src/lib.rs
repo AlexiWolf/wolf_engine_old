@@ -47,6 +47,7 @@ impl WindowSettings {
     }
 
     pub fn with_resizable(mut self, is_resizable: bool) -> Self {
+        self.is_resizable = is_resizable;
         self
     }
 }
