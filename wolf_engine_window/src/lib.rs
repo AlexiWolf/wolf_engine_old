@@ -13,7 +13,8 @@ impl WindowSettings {
         Self::default()
     }
 
-    pub fn with_title(self, title: &str) -> Self {
+    pub fn with_title(mut self, title: &str) -> Self {
+        self.title = title.to_string();
         self
     }
 }
