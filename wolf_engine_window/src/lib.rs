@@ -25,6 +25,7 @@ impl WindowSettings {
     }
 
     pub fn with_fullscreen(mut self) -> Self {
+        self.is_fullscreen = true;
         self
     }
 }
