@@ -45,6 +45,10 @@ impl WindowSettings {
     pub fn with_windowed(self) -> Self {
         self.with_fullscreen_mode(None)
     }
+
+    pub fn with_resizable(mut self, is_resizable: bool) -> Self {
+        self
+    }
 }
 
 impl Default for WindowSettings {
