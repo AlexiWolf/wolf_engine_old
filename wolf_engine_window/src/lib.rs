@@ -33,6 +33,10 @@ impl WindowSettings {
         self.fullscreen_mode = Some(FullscreenMode::Fullscreen);
         self
     }
+
+    pub fn with_borderless_fullscreen(mut self) -> Self {
+        self
+    }
 }
 
 impl Default for WindowSettings {
