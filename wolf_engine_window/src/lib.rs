@@ -1,5 +1,5 @@
 #[derive(Debug, PartialEq, Eq)]
-pub enum VideoMode {
+pub enum FullscreenMode {
     Fullscreen,
 }
 
@@ -8,7 +8,7 @@ pub struct WindowSettings {
     pub title: String,
     pub width: usize,
     pub height: usize,
-    pub video_mode: Option<VideoMode>,
+    pub fullscreen_mode: Option<FullscreenMode>,
     pub is_resizable: bool,
 }
 
@@ -29,7 +29,7 @@ impl WindowSettings {
     }
 
     pub fn with_fullscreen(mut self) -> Self {
-        self.video_mode = Some(VideoMode::Fullscreen);
+        self.fullscreen_mode = Some(FullscreenMode::Fullscreen);
         self
     }
 }
@@ -40,7 +40,7 @@ impl Default for WindowSettings {
             title: "Wolf Engine - Untitled Window".to_string(),
             width: 1280,
             height: 720,
-            video_mode: None,
+            fullscreen_mode: None,
             is_resizable: true,
         }
     }
@@ -59,7 +59,7 @@ mod window_settings_tests {
                 title: "Wolf Engine - Untitled Window".to_string(),
                 width: 1280,
                 height: 720,
-                video_mode: None,
+                fullscreen_mode: None,
                 is_resizable: true,
             }
         );
@@ -84,6 +84,6 @@ mod window_settings_tests {
     fn should_set_fullscreen() {
         let settings = WindowSettings::new()
             .with_fullscreen();
-        assert_eq!(settings.video_mode, Some(VideoMode::Fullscreen));
+        assert_eq!(settings.fullscreen_mode, Some(FullscreenMode::Fullscreen));
     }
 }
