@@ -29,14 +29,12 @@ impl WindowSettings {
         self
     }
 
-    pub fn with_fullscreen(mut self) -> Self {
-        self.fullscreen_mode = Some(FullscreenMode::Fullscreen);
-        self
+    pub fn with_fullscreen(self) -> Self {
+        self.with_fullscreen_mode(Some(FullscreenMode::Fullscreen))
     }
 
-    pub fn with_borderless_fullscreen(mut self) -> Self {
-        self.fullscreen_mode = Some(FullscreenMode::Borderless);
-        self
+    pub fn with_borderless_fullscreen(self) -> Self {
+        self.with_fullscreen_mode(Some(FullscreenMode::Borderless))
     }
 
     pub fn with_fullscreen_mode(mut self, fullscreen_mode: Option<FullscreenMode>) -> Self {
