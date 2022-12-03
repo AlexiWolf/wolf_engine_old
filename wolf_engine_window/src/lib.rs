@@ -58,4 +58,12 @@ mod window_settings_tests {
             .with_title("Test Title");
         assert_eq!(settings.title, "Test Title");
     }
+
+    #[test]
+    fn should_set_size() {
+        let settings = WindowSettings::new()
+            .with_size((800, 600));
+        assert_eq!(settings.width, 800);
+        assert_eq!(settings.height, 600);
+    }
 }
