@@ -1,5 +1,7 @@
 #[derive(Debug, PartialEq, Eq)]
-pub enum VideoMode {}
+pub enum VideoMode {
+    Fullscreen,
+}
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct WindowSettings {
