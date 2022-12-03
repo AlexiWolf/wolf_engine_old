@@ -41,6 +41,10 @@ impl WindowSettings {
         self.fullscreen_mode = fullscreen_mode;
         self
     }
+
+    pub fn with_windowed(mut self) -> Self {
+        self
+    }
 }
 
 impl Default for WindowSettings {
@@ -108,5 +112,12 @@ mod window_settings_tests {
         let settings = WindowSettings::new()
             .with_borderless_fullscreen();
         assert_eq!(settings.fullscreen_mode, Some(FullscreenMode::Borderless));
+    }
+
+    #[test]
+    fn should_set_to_window_mode() {
+        let settings = WindowSettings::new()
+            .with_windowed();
+        assert_eq!(settings.fullscreen_mode, None);
     }
 }
