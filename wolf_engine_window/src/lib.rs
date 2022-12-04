@@ -24,22 +24,6 @@ pub trait Window {
     fn set_title(&mut self, title: &str);
 }
 
-#[doc(hidden)]
-pub struct TestWindowBackend;
-
-impl WindowBackend for TestWindowBackend {
-    type Window = TestWindow;
-
-    fn create_window(&mut self, _settings: WindowSettings) -> Result<Self::Window, String> {
-        Ok(TestWindow)
-    }
-}
-
-#[doc(hidden)]
-pub struct TestWindow;
-
-impl Window for TestWindow {}
-
 #[cfg(test)]
 pub mod window_api_tests {
     use super::*;
