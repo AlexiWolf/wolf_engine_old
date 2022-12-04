@@ -54,12 +54,16 @@ pub mod window_api_tests {
         window.expect_height()
             .once()
             .returning(|| 600);
+        window.expect_size()
+            .once()
+            .returning(|| (800, 600));
         window.expect_set_size()
             .once()
             .return_const(());
 
         let _width = window.width();
         let _height = window.height();
+        let _size = window.size();
         window.set_size((800, 600));
     }
 
