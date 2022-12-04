@@ -18,6 +18,10 @@
 mod window_settings;
 pub use window_settings::*;
 
+pub mod prelude {
+    pub use super::*;
+}
+
 pub trait WindowBackend {}
 
 pub trait Window {}
