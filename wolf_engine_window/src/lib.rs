@@ -22,7 +22,11 @@ pub mod prelude {
     pub use super::*;
 }
 
-pub trait WindowBackend {}
+pub trait WindowBackend {
+    type Window: Window;
+
+    fn create_window(&mut self, settings: Settings) -> Self::Window;
+}
 
 pub trait Window {}
 
