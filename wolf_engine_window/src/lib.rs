@@ -22,6 +22,9 @@ pub trait WindowBackend {
 pub trait Window {
     fn title(&self) -> String;
     fn set_title(&mut self, title: &str);
+    fn width(&self) -> usize;
+    fn height(&self) -> usize;
+    fn set_size(&mut self, size: (usize, usize));
 }
 
 #[cfg(test)]
