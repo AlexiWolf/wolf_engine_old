@@ -24,6 +24,7 @@ pub trait Window {
     fn set_title(&mut self, title: &str);
     fn width(&self) -> usize;
     fn height(&self) -> usize;
+    fn size(&self) -> (usize, usize);
     fn set_size(&mut self, size: (usize, usize));
 }
 
@@ -65,6 +66,24 @@ pub mod window_api_tests {
         let _height = window.height();
         let _size = window.size();
         window.set_size((800, 600));
+    }
+
+    #[test]
+    fn should_have_fullscreen_mode_getters_and_setters() {
+        let (mut window, _backend) = mock_window(WindowSettings::default());
+        window.expect_fullscreen_mode()
+            .once()
+            .returning(|| None);
+        window.expect_set_fullscreen_mode()
+            .once()
+            .returnconst(());
+        window.expect_is_fullscreen()
+            .once()
+            .returning(|| false);
+        
+        let _fullscreen_mode = window.fullscreen_mode();
+        let _is_fullscreen = window.is_fullscreen();
+        window.set_fullscreen_mode(Some(FullscreenMode::Fullscreen));
     }
 
     fn mock_window(settings: WindowSettings) -> (MockWindow, MockWindowBackend) {
