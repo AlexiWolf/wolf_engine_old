@@ -38,7 +38,9 @@ impl WindowSettings {
     pub fn new() -> Self {
         Self::default()
     }
+}
 
+impl WindowSettings {
     pub fn with_title(mut self, title: &str) -> Self {
         self.title = title.to_string();
         self
