@@ -6,6 +6,7 @@ pub use window_settings::*;
 
 #[cfg(test)]
 use mockall::automock;
+use winit::window::Fullscreen;
 
 pub mod prelude {
     pub use super::*;
@@ -26,6 +27,10 @@ pub trait Window {
     fn height(&self) -> usize;
     fn size(&self) -> (usize, usize);
     fn set_size(&mut self, size: (usize, usize));
+    fn fullscreen_mode(&self) -> Option<FullscreenMode>;
+    fn set_fullscreen_mode(&mut self, fullscreen_mode: Option<FullscreenMode>);
+    fn is_fullscreen(&self) -> bool;
+
 }
 
 #[cfg(test)]
