@@ -33,7 +33,10 @@ pub trait WindowBackend {
 }
 
 #[cfg_attr(test, automock)]
-pub trait Window {}
+pub trait Window {
+    fn title(&self) -> String;
+    fn set_title(&mut self, title: &str);
+}
 
 #[doc(hidden)]
 pub struct TestWindowBackend;
