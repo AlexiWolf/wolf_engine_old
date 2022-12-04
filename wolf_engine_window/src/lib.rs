@@ -57,11 +57,19 @@ pub mod window_api_tests {
 
     #[test]
     fn should_have_title_setter_and_accessor() {
-        let (window, backend) = mock_window(WindowSettings::default());
+        let (window, _backend) = mock_window(WindowSettings::default());
+        window.expect_title()
+            .once()
+            .returning(|| "Test".to_string());
+        window.expect_set_title()
+            .once();
     }
 
     fn mock_window(settings: WindowSettings) -> (MockWindow, MockWindowBackend) {
         let mut backend = MockWindowBackend::new();
+        backend.expect_create_window()
+            .once()
+            .returning(|_| Ok(MockWindow::new()));
         let window = backend.create_window(settings).unwrap();
         (window, backend) 
     }
