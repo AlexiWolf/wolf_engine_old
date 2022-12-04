@@ -30,12 +30,13 @@ pub mod window_api_tests {
 
     #[test]
     fn should_have_title_setter_and_accessor() {
-        let (window, _backend) = mock_window(WindowSettings::default());
+        let (mut window, _backend) = mock_window(WindowSettings::default());
         window.expect_title()
             .once()
             .returning(|| "Test".to_string());
         window.expect_set_title()
-            .once();
+            .once()
+            .return_const(());
 
         let _title = window.title();
         window.set_title("Hello, World!");
