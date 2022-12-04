@@ -16,3 +16,6 @@
 mod window_settings;
 pub use window_settings::*;
 
+pub trait WindowBackend {}
+
+pub trait Window {}
