@@ -22,6 +22,7 @@ log = "0.4"
 default = ["framework"]
 framework = ["wolf_engine_framework"]
 logging = ["framework", "wolf_engine_core/logging"]
+serde = ["wolf_engine_window/serde"]
 
 [workspace]
 members = ["wolf_engine_*"]
