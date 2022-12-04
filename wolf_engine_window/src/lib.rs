@@ -45,3 +45,19 @@ impl WindowBackend for TestWindowBackend {
 pub struct TestWindow;
 
 impl Window for TestWindow {}
+
+#[cfg(test)]
+pub mod window_api_tests {
+    use super::*;
+
+    #[test]
+    fn should_have_title_setter_and_accessor() {
+        let (window, backend) = mock_window(WindowSettings::default());
+    }
+
+    fn mock_window(settings: WindowSettigs) -> (MockWindow, MockWindowBackend) {
+        let mut backend = MockWindowBackend::new();
+        let window = window_backend.create_window(window_settings);
+        (window, backend) 
+    }
+}
