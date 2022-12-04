@@ -6,7 +6,7 @@
 //! ```
 //! # use wolf_engine_window::prelude::*;
 //! # 
-//! # let window_backend = TestWindowBackend::new();
+//! # let window_backend = TestWindowBackend;
 //! #
 //! let window_settings = WindowSettings::new()
 //!     .with_title("Example Window")
