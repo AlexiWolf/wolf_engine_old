@@ -63,6 +63,9 @@ pub mod window_api_tests {
             .returning(|| "Test".to_string());
         window.expect_set_title()
             .once();
+
+        let _title = window.title();
+        window.set_title("Hello, World!");
     }
 
     fn mock_window(settings: WindowSettings) -> (MockWindow, MockWindowBackend) {
