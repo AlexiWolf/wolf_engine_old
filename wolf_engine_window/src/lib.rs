@@ -60,7 +60,7 @@ pub mod window_api_tests {
         let (window, backend) = mock_window(WindowSettings::default());
     }
 
-    fn mock_window(settings: WindowSettigs) -> (MockWindow, MockWindowBackend) {
+    fn mock_window(settings: WindowSettings) -> (MockWindow, MockWindowBackend) {
         let mut backend = MockWindowBackend::new();
         let window = backend.create_window(settings).unwrap();
         (window, backend) 
