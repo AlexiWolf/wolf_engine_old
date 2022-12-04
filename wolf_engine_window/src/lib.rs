@@ -149,7 +149,11 @@ mod window_settings_serde_implementation_tests {
     fn should_implement_serialize_and_deserialize() {
         let toml_str = r#"
             title = "Hello, world"
+            width = 1920
+            height = 1080
+            is_resizable = true
         "#;
         let window_settings: WindowSettings = toml::from_str(toml_str).unwrap(); 
+        assert_eq!(window_settings.title, "Hello, world");
     }
 }
