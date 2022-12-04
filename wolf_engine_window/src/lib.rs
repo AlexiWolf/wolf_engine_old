@@ -4,6 +4,8 @@
 //! # Examples
 //!
 //! ```
+//! # use wolf_engine_window::prelude::*;
+//! # 
 //! # let window_backend = TestWindowBackend::new();
 //! #
 //! let window_settings = WindowSettings::new()
