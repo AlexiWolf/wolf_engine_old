@@ -1,12 +1,15 @@
+#[cfg(feature = "serde")]
 use serde::{Serialize, Deserialize};
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub enum FullscreenMode {
     Fullscreen,
     Borderless,
 }
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct WindowSettings {
     pub title: String,
     pub width: usize,
