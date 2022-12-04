@@ -42,6 +42,24 @@ pub mod window_api_tests {
         window.set_title("Hello, World!");
     }
 
+    #[test]
+    fn should_have_size_settors_and_getters() {
+        let (mut window, _backend) = mock_window(WindowSettings::default());
+        window.expect_width()
+            .once()
+            .returning(|| 800);
+        window.expect_height()
+            .once()
+            .returning(|| 600);
+        window.expect_set_size()
+            .once()
+            .return_const(());
+
+        let _width = window.width();
+        let _height = window.height();
+        window.set_size((800, 600));
+    }
+
     fn mock_window(settings: WindowSettings) -> (MockWindow, MockWindowBackend) {
         let mut backend = MockWindowBackend::new();
         backend.expect_create_window()
