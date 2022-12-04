@@ -12,3 +12,6 @@ categories = ["game-development", "game-engines", "gui"]
 [dependencies]
 serde = { version = "1.0", optional = true, features = ["serde_derive"] }
 
+[dev-dependencies]
+toml = "0.5"
+
