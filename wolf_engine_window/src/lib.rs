@@ -148,7 +148,7 @@ mod window_settings_serde_implementation_tests {
     #[test]
     fn should_implement_serialize_and_deserialize() {
         let toml_str = r#"
-            title = "Hello, world",
+            title = "Hello, world"
         "#;
         let window_settings: WindowSettings = toml::from_str(toml_str).unwrap(); 
     }
