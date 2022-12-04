@@ -25,7 +25,7 @@ pub mod prelude {
 pub trait WindowBackend {
     type Window: Window;
 
-    fn create_window(&mut self, settings: WindowSettings) -> Self::Window;
+    fn create_window(&mut self, settings: WindowSettings) -> Result<Self::Window, String>;
 }
 
 pub trait Window {}
@@ -36,8 +36,8 @@ pub struct TestWindowBackend;
 impl WindowBackend for TestWindowBackend {
     type Window = TestWindow;
 
-    fn create_window(&mut self, _settings: WindowSettings) -> Self::Window {
-        TestWindow
+    fn create_window(&mut self, _settings: WindowSettings) -> Result<Self::Window, String> {
+        Ok(TestWindow)
     }
 }
 
