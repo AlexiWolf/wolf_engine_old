@@ -18,16 +18,21 @@
 mod window_settings;
 pub use window_settings::*;
 
+#[cfg(test)]
+use mockall::automock;
+
 pub mod prelude {
     pub use super::*;
 }
 
+#[cfg_attr(test, automock(type Window = MockWindow;))]
 pub trait WindowBackend {
     type Window: Window;
 
     fn create_window(&mut self, settings: WindowSettings) -> Result<Self::Window, String>;
 }
 
+#[cfg_attr(test, automock)]
 pub trait Window {}
 
 #[doc(hidden)]
@@ -57,7 +62,7 @@ pub mod window_api_tests {
 
     fn mock_window(settings: WindowSettigs) -> (MockWindow, MockWindowBackend) {
         let mut backend = MockWindowBackend::new();
-        let window = window_backend.create_window(window_settings);
+        let window = backend.create_window(settings).unwrap();
         (window, backend) 
     }
 }
