@@ -19,3 +19,13 @@ pub use window_settings::*;
 pub trait WindowBackend {}
 
 pub trait Window {}
+
+#[doc(hidden)]
+pub struct TestWindowBackend;
+
+impl WindowBackend for TestWindowBackend {}
+
+#[doc(hidden)]
+pub struct TestWindow;
+
+impl Window for TestWindow {}
