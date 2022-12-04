@@ -146,7 +146,7 @@ mod window_settings_serde_implementation_tests {
     use super::*;
 
     #[test]
-    fn should_implement_serialize_and_deserialize() {
+    fn should_implement_deserialize() {
         let toml_str = r#"
             title = "Hello, world"
             width = 1920
@@ -155,5 +155,19 @@ mod window_settings_serde_implementation_tests {
         "#;
         let window_settings: WindowSettings = toml::from_str(toml_str).unwrap(); 
         assert_eq!(window_settings.title, "Hello, world");
+    }
+
+    #[test]
+    fn should_implement_serialize() {
+        let window_settings = WindowSettings::default();
+        let toml_str = toml::to_string(&window_settings).unwrap();
+
+        assert_eq!(
+            toml_str,
+            "title = \"Wolf Engine - Untitled Window\"\n".to_owned()
+            + &"width = 1280\n".to_owned()
+            + &"height = 720\n".to_owned()
+            + &"is_resizable = true\n".to_owned(),
+        );
     }
 }
