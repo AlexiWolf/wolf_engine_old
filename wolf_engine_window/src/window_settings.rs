@@ -11,13 +11,26 @@ pub enum FullscreenMode {
     Borderless,
 }
 
+/// Provides the settings used to create a window.
 #[derive(Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct WindowSettings {
+
+    /// The desired title for the window.
     pub title: String,
+
+    /// The desired width, in pixels, for the window.
     pub width: usize,
+
+    /// The desired height, in pixels, for the window.
     pub height: usize,
+
+    /// The desired fullscreen mode, if any, for the window.
+    ///
+    /// Set to `None` for "windowed" mode.
     pub fullscreen_mode: Option<FullscreenMode>,
+
+    /// A flag indicating if the window should be resizable.
     pub is_resizable: bool,
 }
 
