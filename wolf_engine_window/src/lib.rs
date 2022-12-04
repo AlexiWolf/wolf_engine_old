@@ -1,10 +1,12 @@
-#[derive(Debug, PartialEq, Eq)]
+use serde::{Serialize, Deserialize};
+
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum FullscreenMode {
     Fullscreen,
     Borderless,
 }
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct WindowSettings {
     pub title: String,
     pub width: usize,
