@@ -137,3 +137,14 @@ mod window_settings_tests {
         assert_eq!(settings.is_resizable, false);
     }
 }
+
+#[cfg(test)]
+#[cfg(feature = "serde")]
+mod window_settings_serde_implementation_tests {
+    use super::*;
+
+    #[test]
+    fn should_implement_serialize_and_deserialize() {
+        
+    }
+}
