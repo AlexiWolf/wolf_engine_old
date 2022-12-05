@@ -11,6 +11,16 @@ pub mod prelude {
     pub use super::*;
 }
 
+#[cfg(test)]
+mod window_dimensions_tests {
+    #[test]
+    pub fn should_have_width_and_height() {
+        let dimensions = WindowDimensions::new(800, 600);
+        assert_eq!(dimensions.width, 800);
+        assert_eq!(dimensions.height, 600);
+    }
+}
+
 #[cfg_attr(test, automock(type Window = MockWindow;))]
 pub trait WindowBackend {
     type Window: Window;
