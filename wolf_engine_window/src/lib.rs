@@ -27,6 +27,12 @@ impl WindowDimensions {
     }
 }
 
+impl From<(usize, usize)> for WindowDimensions {
+    fn from(dimensions: (usize, usize)) -> Self {
+        Self::new(dimensions.0.into(), dimensions.1.into())
+    }
+}
+
 #[cfg(test)]
 mod window_dimensions_tests {
     use super::*; 
