@@ -6,7 +6,6 @@ pub use window_settings::*;
 
 #[cfg(test)]
 use mockall::automock;
-use winit::window::Fullscreen;
 
 pub mod prelude {
     pub use super::*;
@@ -81,7 +80,7 @@ pub mod window_api_tests {
             .returning(|| None);
         window.expect_set_fullscreen_mode()
             .once()
-            .returnconst(());
+            .return_const(());
         window.expect_is_fullscreen()
             .once()
             .returning(|| false);
