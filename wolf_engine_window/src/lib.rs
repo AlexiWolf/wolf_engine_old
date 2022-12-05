@@ -11,8 +11,21 @@ pub mod prelude {
     pub use super::*;
 }
 
+pub struct WindowDimensions {
+    pub width: usize,
+    pub height: usize,
+}
+
+impl WindowDimensions {
+    pub fn new(width: usize, height: usize) -> Self {
+        Self { width: 0, height: 0 }
+    }
+}
+
 #[cfg(test)]
 mod window_dimensions_tests {
+    use super::*; 
+
     #[test]
     pub fn should_have_width_and_height() {
         let dimensions = WindowDimensions::new(800, 600);
