@@ -38,6 +38,13 @@ mod window_dimensions_tests {
         assert_eq!(dimensions.height, 600);
     }
 
+    #[test]
+    fn should_convert_from_tuple() {
+        let dimensions: WindowDimensions = (800, 600).into();
+        assert_eq!(dimensions.width, 800);
+        assert_eq!(dimensions.height, 600);
+    }
+
     #[cfg(feature = "serde")]
     #[test]
     fn should_implement_deserialize() {
