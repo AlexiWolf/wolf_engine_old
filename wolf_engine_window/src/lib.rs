@@ -4,6 +4,9 @@
 mod window_settings;
 pub use window_settings::*;
 
+#[cfg(feature = "serde")]
+use serde::{Serialize, Deserialize};
+
 #[cfg(test)]
 use mockall::automock;
 
@@ -11,6 +14,8 @@ pub mod prelude {
     pub use super::*;
 }
 
+#[derive(Debug, Eq, PartialEq, Copy, Clone)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize)]
 pub struct WindowDimensions {
     pub width: usize,
     pub height: usize,
