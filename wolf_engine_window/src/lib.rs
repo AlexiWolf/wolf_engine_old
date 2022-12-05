@@ -32,6 +32,30 @@ mod window_dimensions_tests {
         assert_eq!(dimensions.width, 800);
         assert_eq!(dimensions.height, 600);
     }
+
+    #[cfg(feature = "serde")]
+    #[test]
+    fn should_implement_deserialize() {
+        let toml_str = r#"
+        width = 800
+        height = 600
+        "#;
+        let dimensions: WindowDimensions = toml::from_str(toml_str).unwrap();
+        assert_eq!(window_settings.title, "Hello, world");
+    }
+
+    #[cfg(feature = "serde")]
+    #[test]
+    fn should_implement_serialize() {
+        let dimensions = WindowDimensions::new(1280, 720);
+        let toml_str = toml::to_string(&window_settings).unwrap();
+
+        assert_eq!(
+            toml_str,
+            "width = 1280\n".to_owned()
+                + &"height = 720\n".to_owned()
+        );
+    }
 }
 
 #[cfg_attr(test, automock(type Window = MockWindow;))]
