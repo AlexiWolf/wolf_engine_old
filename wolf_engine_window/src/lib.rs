@@ -46,14 +46,15 @@ mod window_dimensions_tests {
         height = 600
         "#;
         let dimensions: WindowDimensions = toml::from_str(toml_str).unwrap();
-        assert_eq!(window_settings.title, "Hello, world");
+        assert_eq!(dimensions.width, 800);
+        assert_eq!(dimensions.height, 600);
     }
 
     #[cfg(feature = "serde")]
     #[test]
     fn should_implement_serialize() {
         let dimensions = WindowDimensions::new(1280, 720);
-        let toml_str = toml::to_string(&window_settings).unwrap();
+        let toml_str = toml::to_string(&dimensions).unwrap();
 
         assert_eq!(
             toml_str,
