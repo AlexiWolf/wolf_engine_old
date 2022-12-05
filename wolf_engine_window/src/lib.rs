@@ -18,7 +18,7 @@ pub struct WindowDimensions {
 
 impl WindowDimensions {
     pub fn new(width: usize, height: usize) -> Self {
-        Self { width: 0, height: 0 }
+        Self { width, height }
     }
 }
 
