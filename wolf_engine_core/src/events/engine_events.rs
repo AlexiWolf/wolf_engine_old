@@ -1,3 +1,7 @@
+#[non_exhaustive]
+#[derive(Debug, PartialEq, Eq, Clone, Copy)]
+pub enum WindowEvent {}
+
 /// Provides the main events used by the [`Engine`](crate::Engine).
 #[non_exhaustive]
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
@@ -12,6 +16,8 @@ pub enum Event {
     ///
     /// `EventsCleared` should be emitted only after all other events have been processed.
     EventsCleared,
+    
+    WindowEvent(WindowEvent),
 }
 
 #[cfg(test)]
