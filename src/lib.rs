@@ -12,7 +12,7 @@
 //!
 //! ```ignore
 //! [dependencies]
-//! wolf_engine = "0.24"
+//! wolf_engine = "*"
 //! ```
 //!
 //! To use the latest development version:
