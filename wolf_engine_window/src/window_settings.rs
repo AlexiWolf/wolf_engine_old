@@ -47,8 +47,8 @@ impl WindowSettings {
 /// Provides builder-style methods for configuring the window.
 impl WindowSettings {
     /// Set the title of the window.
-    pub fn with_title(mut self, title: &str) -> Self {
-        self.title = title.to_string();
+    pub fn with_title<T: Into<String>>(mut self, title: T) -> Self {
+        self.title = title.into();
         self
     }
 
