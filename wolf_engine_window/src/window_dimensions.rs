@@ -20,7 +20,7 @@ impl WindowDimensions {
 
 impl From<(usize, usize)> for WindowDimensions {
     fn from(dimensions: (usize, usize)) -> Self {
-        Self::new(dimensions.0.into(), dimensions.1.into())
+        Self::new(dimensions.0, dimensions.1)
     }
 }
 
