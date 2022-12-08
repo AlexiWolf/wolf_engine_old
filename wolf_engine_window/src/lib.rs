@@ -8,6 +8,7 @@ pub use window_dimensions::*;
 mod window_settings;
 pub use window_settings::*;
 
+#[doc(hidden)]
 pub mod prelude {
     pub use super::*;
 }
