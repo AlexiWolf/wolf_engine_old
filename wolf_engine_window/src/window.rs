@@ -1,4 +1,4 @@
-use crate::{WindowSettings, FullscreenMode, WindowDimensions};
+use crate::{FullscreenMode, WindowDimensions, WindowSettings};
 
 #[cfg(test)]
 use mockall::automock;
