@@ -87,11 +87,11 @@ pub trait WindowBackend {
 #[cfg_attr(test, automock)]
 pub trait Window {
     fn title(&self) -> String;
-    fn set_title(&mut self, title: &str);
+    fn set_title<T: Into<String> + 'static>(&mut self, title: T);
     fn width(&self) -> usize;
     fn height(&self) -> usize;
-    fn size(&self) -> (usize, usize);
-    fn set_size(&mut self, size: (usize, usize));
+    fn size(&self) -> WindowDimensions;
+    fn set_size<T: Into<WindowDimensions> + 'static>(&mut self, size: T);
     fn fullscreen_mode(&self) -> Option<FullscreenMode>;
     fn set_fullscreen_mode(&mut self, fullscreen_mode: Option<FullscreenMode>);
     fn is_fullscreen(&self) -> bool;
@@ -108,7 +108,7 @@ pub mod window_api_tests {
             .expect_title()
             .once()
             .returning(|| "Test".to_string());
-        window.expect_set_title().once().return_const(());
+        window.expect_set_title::<&str>().once().return_const(());
 
         let _title = window.title();
         window.set_title("Hello, World!");
@@ -119,8 +119,8 @@ pub mod window_api_tests {
         let (mut window, _backend) = mock_window(WindowSettings::default());
         window.expect_width().once().returning(|| 800);
         window.expect_height().once().returning(|| 600);
-        window.expect_size().once().returning(|| (800, 600));
-        window.expect_set_size().once().return_const(());
+        window.expect_size().once().returning(|| WindowDimensions::new(800, 600));
+        window.expect_set_size::<(usize, usize)>().once().return_const(());
 
         let _width = window.width();
         let _height = window.height();
