@@ -5,7 +5,7 @@ mod window_settings;
 pub use window_settings::*;
 
 #[cfg(feature = "serde")]
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 #[cfg(test)]
 use mockall::automock;
@@ -35,7 +35,7 @@ impl From<(usize, usize)> for WindowDimensions {
 
 #[cfg(test)]
 mod window_dimensions_tests {
-    use super::*; 
+    use super::*;
 
     #[test]
     pub fn should_have_width_and_height() {
@@ -71,8 +71,7 @@ mod window_dimensions_tests {
 
         assert_eq!(
             toml_str,
-            "width = 1280\n".to_owned()
-                + &"height = 720\n".to_owned()
+            "width = 1280\n".to_owned() + &"height = 720\n".to_owned()
         );
     }
 }
@@ -119,8 +118,14 @@ pub mod window_api_tests {
         let (mut window, _backend) = mock_window(WindowSettings::default());
         window.expect_width().once().returning(|| 800);
         window.expect_height().once().returning(|| 600);
-        window.expect_size().once().returning(|| WindowDimensions::new(800, 600));
-        window.expect_set_size::<(usize, usize)>().once().return_const(());
+        window
+            .expect_size()
+            .once()
+            .returning(|| WindowDimensions::new(800, 600));
+        window
+            .expect_set_size::<(usize, usize)>()
+            .once()
+            .return_const(());
 
         let _width = window.width();
         let _height = window.height();
