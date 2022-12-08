@@ -1,6 +1,8 @@
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
+use crate::WindowDimensions;
+
 /// Represents the fullscreen mode.
 #[derive(Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
@@ -51,9 +53,10 @@ impl WindowSettings {
     }
 
     /// Set the size, in pixels, of the window.
-    pub fn with_size(mut self, size: (usize, usize)) -> Self {
-        self.width = size.0;
-        self.height = size.1;
+    pub fn with_size<T: Into<WindowDimensions>>(mut self, size: T) -> Self {
+        let dimensions: WindowDimensions = size.into();
+        self.width = dimensions.width;
+        self.height = dimensions.height;
         self
     }
 
