@@ -9,8 +9,6 @@ pub use window_settings::*;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
-#[cfg(test)]
-use mockall::automock;
 
 pub mod prelude {
     pub use super::*;

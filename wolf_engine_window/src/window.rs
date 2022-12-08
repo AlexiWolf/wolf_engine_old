@@ -1,11 +1,7 @@
 use crate::{WindowSettings, FullscreenMode, WindowDimensions};
 
-#[cfg(feature = "serde")]
-use serde::{Deserialize, Serialize};
-
 #[cfg(test)]
 use mockall::automock;
-
 
 #[cfg_attr(test, automock(type Window = MockWindow;))]
 pub trait WindowBackend {
