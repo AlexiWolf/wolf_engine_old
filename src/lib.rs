@@ -1,8 +1,10 @@
 //! A simple, flexible, and easy to use game framework.
 //!
 //! # Features
-//!
+//! 
 //! - `logging`: Enables the built-in logging framework.
+//! - `serde`: Enables serde support for some types.
+//! - `window`: Enables Wolf Engine's window API.
 //!
 //! # Getting Started
 //!
