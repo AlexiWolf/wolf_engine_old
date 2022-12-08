@@ -8,7 +8,7 @@
 //!
 //! # Getting Started
 //!
-//! To use the latest release:
+//! To use the latest release version:
 //!
 //! ```ignore
 //! [dependencies]
