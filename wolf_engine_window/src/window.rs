@@ -16,6 +16,20 @@ pub trait WindowBackend {
     fn create_window(&mut self, settings: WindowSettings) -> Result<Self::Window, String>;
 }
 
+/// Provides a high-level, back-end agnostic window API. 
+///
+/// # Examples
+///
+/// A new window is created by passing [`WindowSettings`] to a [`WindowBackend`].
+///
+/// ```
+/// # use wolf_engine_window::prelude::*;
+/// #
+/// # let window_backend = TestWindowBackend::new();
+/// #
+/// let window_settings = WindowSettings::default();
+/// let window = window_backend.create_window(window_settings).unwrap();
+/// ```
 #[cfg_attr(test, automock)]
 pub trait Window {
     fn title(&self) -> String;
