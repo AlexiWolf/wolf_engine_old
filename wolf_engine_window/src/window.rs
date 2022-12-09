@@ -3,10 +3,16 @@ use crate::{FullscreenMode, WindowDimensions, WindowSettings};
 #[cfg(test)]
 use mockall::automock;
 
+/// Provides a high-level API for creating, and working with [Windows](Window).
 #[cfg_attr(test, automock(type Window = MockWindow;))]
 pub trait WindowBackend {
+    
+    /// The [Window] type used by this window implementation.
     type Window: Window;
-
+    
+    /// Create a window with the provided settings.
+    ///
+    /// Returns a [`Result`] containing a [`Window`], or a message explaining what went wrong.
     fn create_window(&mut self, settings: WindowSettings) -> Result<Self::Window, String>;
 }
 
