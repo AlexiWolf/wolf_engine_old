@@ -1,3 +1,11 @@
+use std::sync::{Arc, Mutex};
+
+use lazy_static::lazy_static;
+
+lazy_static! {
+    static ref NEXT_ID: Arc<Mutex<usize>> = Arc::from(Mutex::from(0));
+}
+
 #[derive(Debug, PartialEq, Eq, Copy, Clone)]
 pub struct WindowId {}
 
