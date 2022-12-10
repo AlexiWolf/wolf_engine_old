@@ -1,12 +1,12 @@
 use crate::{FullscreenMode, WindowDimensions, WindowSettings};
 
-use raw_window_handle::HasRawWindowHandle;
+use raw_window_handle::{HasRawWindowHandle, HasRawDisplayHandle};
 
 #[cfg(test)]
 use mockall::{mock, automock};
 
 #[cfg(test)]
-use raw_window_handle::RawWindowHandle;
+use raw_window_handle::{RawWindowHandle, RawDisplayHandle};
 
 /// Provides a high-level API for creating, and working with [`Windows`](Window).
 #[cfg_attr(test, automock(type Window = MockWindow;))]
@@ -141,6 +141,15 @@ pub mod window_api_tests {
             .once()
             .returning(|| RawWindowHandle::Web(WebWindowHandle::empty()));
         let _handle = window.raw_window_handle();
+    }
+
+    #[test]
+    fn should_implement_raw_display_handle() {
+        let (mut window, _backend) = mock_window(WindowSettings::default());
+        window.expect_raw_display_handle()
+            .once()
+            .returning(|| RawDisplayHandle::Web(WebDisplayHandle::empty()));
+        let _handle = window.raw_display_handle();
     }
 
     fn mock_window(settings: WindowSettings) -> (MockWindow, MockWindowBackend) {
