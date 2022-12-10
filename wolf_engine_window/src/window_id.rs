@@ -1,3 +1,4 @@
+#[derive(Debug, PartialEq, Eq, Copy, Clone)]
 pub struct WindowId {}
 
 impl WindowId {
