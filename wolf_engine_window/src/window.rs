@@ -21,15 +21,6 @@ pub trait WindowBackend {
 /// # Examples
 ///
 /// A new window is created by passing [`WindowSettings`] to a [`WindowBackend`].
-///
-/// ```
-/// # use wolf_engine_window::prelude::*;
-/// #
-/// # let window_backend = TestWindowBackend::new();
-/// #
-/// let window_settings = WindowSettings::default();
-/// let window = window_backend.create_window(window_settings).unwrap();
-/// ```
 #[cfg_attr(test, automock)]
 pub trait Window {
     fn title(&self) -> String;
