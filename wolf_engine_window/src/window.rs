@@ -83,6 +83,14 @@ pub mod window_api_tests {
         window.set_fullscreen_mode(Some(FullscreenMode::Fullscreen));
     }
 
+    #[test]
+    fn should_implement_raw_window_handle() {
+        let (mut window, _backend) = mock_window(WindowSettings::default());
+        window.expect_raw_window_handle()
+            .once()
+            .returning(|| RawWindowHandle::Web(WebWindowHandle::empty()));
+    }
+
     fn mock_window(settings: WindowSettings) -> (MockWindow, MockWindowBackend) {
         let mut backend = MockWindowBackend::new();
         backend
