@@ -26,7 +26,7 @@ pub trait WindowBackend {
 /// # Examples
 ///
 /// A new window is created by passing [`WindowSettings`] to a [`WindowBackend`].
-pub trait Window: HasRawWindowHandle {
+pub trait Window: HasRawWindowHandle + HasRawDisplayHandle {
 
     /// Return the window's title.
     fn title(&self) -> String;
