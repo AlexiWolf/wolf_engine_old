@@ -27,14 +27,37 @@ pub trait WindowBackend {
 ///
 /// A new window is created by passing [`WindowSettings`] to a [`WindowBackend`].
 pub trait Window: HasRawWindowHandle {
+
+    /// Return the window's title.
     fn title(&self) -> String;
+    
+    /// Set the window's title.
     fn set_title<T: Into<String> + 'static>(&mut self, title: T);
+
+    /// Return the window's width, in pixels.
     fn width(&self) -> usize;
+
+    /// Return the window's height, in pixels.
     fn height(&self) -> usize;
+
+    /// Return the window's size.
     fn size(&self) -> WindowDimensions;
+
+    /// Set the window's size.
     fn set_size<T: Into<WindowDimensions> + 'static>(&mut self, size: T);
+
+    /// Return the window's [`FullscreenMode`] if there is one.
     fn fullscreen_mode(&self) -> Option<FullscreenMode>;
+
+    /// Set the window's [`FullscreenMode`].
+    ///
+    /// Setting this value to `None` for "windowed" mode.
     fn set_fullscreen_mode(&mut self, fullscreen_mode: Option<FullscreenMode>);
+
+    /// Return `true` if the window is in fullscreen mode.
+    ///
+    /// If the [`FullscreenMode`] is [`Some`], `true` is returned.
+    /// If [`None`], then `false` is returned.
     fn is_fullscreen(&self) -> bool;
 }
 
