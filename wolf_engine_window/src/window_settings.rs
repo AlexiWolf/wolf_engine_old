@@ -166,13 +166,8 @@ mod window_settings_tests {
         let settings = WindowSettings::new().with_resizable(false);
         assert_eq!(settings.is_resizable, false);
     }
-}
-
-#[cfg(test)]
-#[cfg(feature = "serde")]
-mod window_settings_serde_implementation_tests {
-    use super::*;
-
+    
+    #[cfg(feature = "serde")]
     #[test]
     fn should_implement_deserialize() {
         let toml_str = r#"
@@ -185,6 +180,7 @@ mod window_settings_serde_implementation_tests {
         assert_eq!(window_settings.title, "Hello, world");
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     fn should_implement_serialize() {
         let window_settings = WindowSettings::default();
