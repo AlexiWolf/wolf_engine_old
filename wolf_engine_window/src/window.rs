@@ -1,5 +1,7 @@
 use crate::{FullscreenMode, WindowDimensions, WindowSettings};
 
+use raw_window_handle::HasRawWindowHandle;
+
 #[cfg(test)]
 use mockall::automock;
 
@@ -22,7 +24,7 @@ pub trait WindowBackend {
 ///
 /// A new window is created by passing [`WindowSettings`] to a [`WindowBackend`].
 #[cfg_attr(test, automock)]
-pub trait Window {
+pub trait Window: HasRawWindowHandle {
     fn title(&self) -> String;
     fn set_title<T: Into<String> + 'static>(&mut self, title: T);
     fn width(&self) -> usize;
@@ -37,6 +39,8 @@ pub trait Window {
 #[cfg(test)]
 pub mod window_api_tests {
     use super::*;
+    
+    use raw_window_handle::{RawWindowHandle, WebWindowHandle};
 
     #[test]
     fn should_have_title_setter_and_accessor() {
@@ -89,6 +93,9 @@ pub mod window_api_tests {
         window.expect_raw_window_handle()
             .once()
             .returning(|| RawWindowHandle::Web(WebWindowHandle::empty()));
+        unsafe {
+            let handle = window.raw_window_handle();
+        }
     }
 
     fn mock_window(settings: WindowSettings) -> (MockWindow, MockWindowBackend) {
