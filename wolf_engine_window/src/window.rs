@@ -91,7 +91,7 @@ mock! {
 pub mod window_api_tests {
     use super::*;
     
-    use raw_window_handle::{RawWindowHandle, WebWindowHandle};
+    use raw_window_handle::{WebWindowHandle, WebDisplayHandle};
 
     #[test]
     fn should_have_title_setter_and_accessor() {
