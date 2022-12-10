@@ -60,8 +60,6 @@ pub use wolf_engine_core::*;
 #[cfg(feature = "framework")]
 pub mod framework {
     //! Provides a high-level, "batteries-included" framework.
-    //!
-    //! [See more](wolf_engine_framework).
     pub use wolf_engine_framework::*;
 }
 
