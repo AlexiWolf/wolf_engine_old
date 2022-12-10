@@ -8,6 +8,8 @@ mod window;
 pub use window::*;
 mod window_dimensions;
 pub use window_dimensions::*;
+mod window_id;
+pub use window_id::*;
 mod window_settings;
 pub use window_settings::*;
 
