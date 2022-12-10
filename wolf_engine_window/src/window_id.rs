@@ -6,12 +6,22 @@ lazy_static! {
     static ref NEXT_ID: Arc<Mutex<usize>> = Arc::from(Mutex::from(0));
 }
 
+fn read_and_incrament_next_id() -> usize {
+    let id = *NEXT_ID.lock().unwrap();
+    *NEXT_ID.lock().unwrap() = id + 1;
+    id
+}
+
 #[derive(Debug, PartialEq, Eq, Copy, Clone)]
-pub struct WindowId {}
+pub struct WindowId {
+    id: usize,
+}
 
 impl WindowId {
     pub fn new() -> Self {
-        Self {}
+        Self {
+            id: read_and_incrament_next_id(),
+        }
     }
 }
 
