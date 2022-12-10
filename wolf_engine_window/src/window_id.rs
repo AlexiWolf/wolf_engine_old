@@ -5,3 +5,16 @@ impl WindowId {
         Self {}
     }
 }
+
+#[cfg(test)]
+mod window_id_tests {
+    use super::*;
+
+    #[test]
+    fn should_be_unique() {
+        let a = WindowId::new();
+        let b = WindowId::new();
+
+        assert_ne!(a, b);
+    }
+}
