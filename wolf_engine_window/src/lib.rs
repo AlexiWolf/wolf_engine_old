@@ -1,5 +1,8 @@
 //! Provides a high-level, back-end agnostic window API for [Wolf
 //! Engine](https://docs.rs/wolf_engine/latest).
+//!
+//! See [wolf_engine::window](https://docs.rs/wolf_engine/latest/wolf_engine/window/index.html/) 
+//! for more details.
 
 mod window;
 pub use window::*;

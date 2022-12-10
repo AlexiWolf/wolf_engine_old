@@ -5,14 +5,21 @@ pub mod prelude {
     pub use super::*;
 }
 
+/// Represents the size of a window, in pixels.
 #[derive(Debug, Eq, PartialEq, Copy, Clone)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct WindowDimensions {
+
+    /// The width of a window, in pixels.
     pub width: usize,
+
+    /// The height of a window, in pixels.
     pub height: usize,
 }
 
 impl WindowDimensions {
+
+    /// Create a new set of dimensions from the provide pixel values.
     pub fn new(width: usize, height: usize) -> Self {
         Self { width, height }
     }
