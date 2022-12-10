@@ -3,7 +3,10 @@ use crate::{FullscreenMode, WindowDimensions, WindowSettings};
 use raw_window_handle::HasRawWindowHandle;
 
 #[cfg(test)]
-use mockall::automock;
+use mockall::{mock, automock};
+
+#[cfg(test)]
+use raw_window_handle::RawWindowHandle;
 
 /// Provides a high-level API for creating, and working with [`Windows`](Window).
 #[cfg_attr(test, automock(type Window = MockWindow;))]
@@ -23,7 +26,6 @@ pub trait WindowBackend {
 /// # Examples
 ///
 /// A new window is created by passing [`WindowSettings`] to a [`WindowBackend`].
-#[cfg_attr(test, automock)]
 pub trait Window: HasRawWindowHandle {
     fn title(&self) -> String;
     fn set_title<T: Into<String> + 'static>(&mut self, title: T);
@@ -35,6 +37,28 @@ pub trait Window: HasRawWindowHandle {
     fn set_fullscreen_mode(&mut self, fullscreen_mode: Option<FullscreenMode>);
     fn is_fullscreen(&self) -> bool;
 }
+
+#[cfg(test)]
+mock! {
+    pub Window {} 
+
+    impl Window for Window {
+        fn title(&self) -> String;
+        fn set_title<T: Into<String> + 'static>(&mut self, title: T);
+        fn width(&self) -> usize;
+        fn height(&self) -> usize;
+        fn size(&self) -> WindowDimensions;
+        fn set_size<T: Into<WindowDimensions> + 'static>(&mut self, size: T);
+        fn fullscreen_mode(&self) -> Option<FullscreenMode>;
+        fn set_fullscreen_mode(&mut self, fullscreen_mode: Option<FullscreenMode>);
+        fn is_fullscreen(&self) -> bool;
+    }
+
+    unsafe impl HasRawWindowHandle for Window {
+        fn raw_window_handle(&self) -> RawWindowHandle;
+    }
+}
+
 
 #[cfg(test)]
 pub mod window_api_tests {
