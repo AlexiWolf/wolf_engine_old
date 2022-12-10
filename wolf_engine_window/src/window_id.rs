@@ -36,4 +36,13 @@ mod window_id_tests {
 
         assert_ne!(a, b);
     }
+
+    #[test]
+    fn should_be_equal_to_self() {
+        let original = WindowId::new();
+        let clone = original.clone();
+
+        assert_eq!(original, clone);
+    }
+    
 }
