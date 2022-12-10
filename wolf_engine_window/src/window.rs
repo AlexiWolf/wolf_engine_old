@@ -94,6 +94,14 @@ pub mod window_api_tests {
     use raw_window_handle::{WebWindowHandle, WebDisplayHandle};
 
     #[test]
+    fn should_have_id_getter() {
+        let (mut window, _backend) = mock_window(WindowSettings::default());
+        window.expect_id().once().returning(WindowId::new());
+
+        let _id = window.id();
+    }
+
+    #[test]
     fn should_have_title_setter_and_accessor() {
         let (mut window, _backend) = mock_window(WindowSettings::default());
         window
