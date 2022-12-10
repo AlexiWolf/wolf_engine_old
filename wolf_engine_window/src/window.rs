@@ -117,9 +117,7 @@ pub mod window_api_tests {
         window.expect_raw_window_handle()
             .once()
             .returning(|| RawWindowHandle::Web(WebWindowHandle::empty()));
-        unsafe {
-            let handle = window.raw_window_handle();
-        }
+        let _handle = window.raw_window_handle();
     }
 
     fn mock_window(settings: WindowSettings) -> (MockWindow, MockWindowBackend) {
