@@ -12,6 +12,10 @@ fn read_and_incrament_next_id() -> usize {
     id
 }
 
+/// Provides a unique id for keeping track of a [`Window`].
+///
+/// Each window id is unique, but they can be copied.  Copies of a specific id are always equal to
+/// each other.
 #[derive(Debug, PartialEq, Eq, Copy, Clone)]
 pub struct WindowId {
     id: usize,
