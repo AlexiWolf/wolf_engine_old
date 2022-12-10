@@ -80,6 +80,10 @@ mock! {
     unsafe impl HasRawWindowHandle for Window {
         fn raw_window_handle(&self) -> RawWindowHandle;
     }
+
+    unsafe impl HasRawDisplayHandle for Window {
+        fn raw_display_handle(&self) -> RawDisplayHandle;
+    }
 }
 
 
