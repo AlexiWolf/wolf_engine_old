@@ -100,7 +100,7 @@ pub mod window_api_tests {
     #[test]
     fn should_have_id_getter() {
         let (mut window, _backend) = mock_window(WindowSettings::default());
-        window.expect_id().once().returning(WindowId::new());
+        window.expect_id().once().returning(|| WindowId::new());
 
         let _id = window.id();
     }
