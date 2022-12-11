@@ -1,3 +1,4 @@
+/// Provides the events used by the window API.
 #[non_exhaustive]
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum WindowEvent {}
@@ -17,6 +18,7 @@ pub enum Event {
     /// `EventsCleared` should be emitted only after all other events have been processed.
     EventsCleared,
     
+    /// Contains [`WindowEvent`] emitted by the window system.
     WindowEvent(WindowEvent),
 }
 

@@ -12,7 +12,7 @@ fn read_and_incrament_next_id() -> usize {
     id
 }
 
-/// Provides a unique id for keeping track of a [`Window`].
+/// Provides a unique id for keeping track of a [`Window`](crate::Window).
 #[derive(Debug, PartialEq, Eq, Copy, Clone)]
 pub struct WindowId {
     id: usize,
