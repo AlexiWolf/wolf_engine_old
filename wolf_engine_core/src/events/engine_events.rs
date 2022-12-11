@@ -18,7 +18,7 @@ pub enum Event {
     /// `EventsCleared` should be emitted only after all other events have been processed.
     EventsCleared,
     
-    /// Contains [`WindowEvent`] emitted by the window system.
+    /// A [`WindowEvent`] emitted by the window system.
     WindowEvent(WindowEvent),
 }
 
