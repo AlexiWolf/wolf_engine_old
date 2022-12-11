@@ -1,7 +1,7 @@
 //! A simple, flexible, and easy to use game framework.
 //!
 //! # Features
-//! 
+//!
 //! - `framework`: Enables the high-level, "batteries included" framework.
 //! - `logging`: Enables the built-in logging framework.
 //! - `serde`: Enables serde support for some types.
@@ -68,7 +68,7 @@ pub use wolf_engine_core::logging;
 
 #[cfg(feature = "window")]
 pub mod window {
-    //! Provides a high-level, back-end agnostic window API. 
+    //! Provides a high-level, back-end agnostic window API.
     pub use wolf_engine_window::*;
 }
 

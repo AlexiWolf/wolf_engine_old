@@ -45,5 +45,4 @@ mod window_id_tests {
 
         assert_eq!(original, clone);
     }
-    
 }

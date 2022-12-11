@@ -9,7 +9,6 @@ pub mod prelude {
 #[derive(Debug, Eq, PartialEq, Copy, Clone)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct WindowDimensions {
-
     /// The width of a window, in pixels.
     pub width: usize,
 
@@ -18,7 +17,6 @@ pub struct WindowDimensions {
 }
 
 impl WindowDimensions {
-
     /// Create a new set of dimensions from the provide pixel values.
     pub fn new(width: usize, height: usize) -> Self {
         Self { width, height }

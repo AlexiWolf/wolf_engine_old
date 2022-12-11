@@ -1,39 +1,37 @@
 use crate::*;
 
-use raw_window_handle::{HasRawWindowHandle, HasRawDisplayHandle};
+use raw_window_handle::{HasRawDisplayHandle, HasRawWindowHandle};
 
 #[cfg(test)]
-use mockall::{mock, automock};
+use mockall::{automock, mock};
 
 #[cfg(test)]
-use raw_window_handle::{RawWindowHandle, RawDisplayHandle};
+use raw_window_handle::{RawDisplayHandle, RawWindowHandle};
 
 /// Provides a high-level API for creating, and working with [`Windows`](Window).
 #[cfg_attr(test, automock(type Window = MockWindow;))]
 pub trait WindowBackend {
-    
     /// The [`Window`] type used by this window implementation.
     type Window: Window;
-    
+
     /// Create a window with the provided settings.
     ///
     /// Returns a [`Result`] containing a [`Window`], or a message explaining what went wrong.
     fn create_window(&mut self, settings: WindowSettings) -> Result<Self::Window, String>;
 }
 
-/// Provides a high-level, back-end agnostic window API. 
+/// Provides a high-level, back-end agnostic window API.
 ///
 /// # Examples
 ///
 /// A new window is created by passing [`WindowSettings`] to a [`WindowBackend`].
 pub trait Window: HasRawWindowHandle + HasRawDisplayHandle {
-
     /// Return the window's unique id.
     fn id(&self) -> WindowId;
 
     /// Return the window's title.
     fn title(&self) -> String;
-    
+
     /// Set the window's title.
     fn set_title<T: Into<String> + 'static>(&mut self, title: T);
 
@@ -66,7 +64,7 @@ pub trait Window: HasRawWindowHandle + HasRawDisplayHandle {
 
 #[cfg(test)]
 mock! {
-    pub Window {} 
+    pub Window {}
 
     impl Window for Window {
         fn id(&self) -> WindowId;
@@ -90,12 +88,11 @@ mock! {
     }
 }
 
-
 #[cfg(test)]
 pub mod window_api_tests {
     use super::*;
-    
-    use raw_window_handle::{WebWindowHandle, WebDisplayHandle};
+
+    use raw_window_handle::{WebDisplayHandle, WebWindowHandle};
 
     #[test]
     fn should_have_id_getter() {
@@ -153,7 +150,8 @@ pub mod window_api_tests {
     #[test]
     fn should_implement_raw_window_handle() {
         let (mut window, _backend) = mock_window(WindowSettings::default());
-        window.expect_raw_window_handle()
+        window
+            .expect_raw_window_handle()
             .once()
             .returning(|| RawWindowHandle::Web(WebWindowHandle::empty()));
         let _handle = window.raw_window_handle();
@@ -162,7 +160,8 @@ pub mod window_api_tests {
     #[test]
     fn should_implement_raw_display_handle() {
         let (mut window, _backend) = mock_window(WindowSettings::default());
-        window.expect_raw_display_handle()
+        window
+            .expect_raw_display_handle()
             .once()
             .returning(|| RawDisplayHandle::Web(WebDisplayHandle::empty()));
         let _handle = window.raw_display_handle();

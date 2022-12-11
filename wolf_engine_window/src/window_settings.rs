@@ -166,7 +166,7 @@ mod window_settings_tests {
         let settings = WindowSettings::new().with_resizable(false);
         assert_eq!(settings.is_resizable, false);
     }
-    
+
     #[cfg(feature = "serde")]
     #[test]
     fn should_implement_deserialize() {
