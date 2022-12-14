@@ -7,7 +7,6 @@ pub enum WindowEvent {}
 #[non_exhaustive]
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum Event {
-
     /// Emitted when the engine should quit.
     Quit,
 
