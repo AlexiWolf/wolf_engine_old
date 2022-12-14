@@ -13,12 +13,15 @@ fn read_and_incrament_next_id() -> usize {
 }
 
 /// Provides a unique id for keeping track of a [`Window`](crate::Window).
+///
+/// All new window IDs are guaranteed to be unique.  A window ID is only equal to copies of itself.
 #[derive(Debug, PartialEq, Eq, Copy, Clone)]
 pub struct WindowId {
     id: usize,
 }
 
 impl WindowId {
+    /// Create a new, unique window id.
     pub fn new() -> Self {
         Self {
             id: read_and_incrament_next_id(),
