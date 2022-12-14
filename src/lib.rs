@@ -2,15 +2,18 @@
 //!
 //! # Features
 //!
+//! - `framework`: Enables the high-level, "batteries included" framework.
 //! - `logging`: Enables the built-in logging framework.
+//! - `serde`: Enables serde support for some types.
+//! - `window`: Enables Wolf Engine's window API.
 //!
 //! # Getting Started
 //!
-//! To use the latest release:
+//! To use the latest release version:
 //!
 //! ```ignore
 //! [dependencies]
-//! wolf_engine = "0.24"
+//! wolf_engine = "*"
 //! ```
 //!
 //! To use the latest development version:
@@ -55,11 +58,19 @@
 pub use wolf_engine_core::*;
 
 #[cfg(feature = "framework")]
-#[doc(hidden)]
-pub use wolf_engine_framework as framework;
+pub mod framework {
+    //! Provides a high-level, "batteries-included" framework.
+    pub use wolf_engine_framework::*;
+}
 
 #[cfg(feature = "logging")]
 pub use wolf_engine_core::logging;
+
+#[cfg(feature = "window")]
+pub mod window {
+    //! Provides a high-level, back-end agnostic window API.
+    pub use wolf_engine_window::*;
+}
 
 #[doc(hidden)]
 pub mod prelude {

@@ -199,6 +199,7 @@ mod engine_tests {
                     engine.update();
                     engine.render();
                 }
+                _ => (),
             }
         }
 
