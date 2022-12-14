@@ -29,6 +29,12 @@ impl WindowId {
     }
 }
 
+impl Default for WindowId {
+    fn default() -> Self {
+        Self::new()
+    } 
+}
+
 #[cfg(test)]
 mod window_id_tests {
     use super::*;
