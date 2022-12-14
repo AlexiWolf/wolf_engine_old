@@ -1,6 +1,6 @@
 [package]
 name = "wolf_engine_window"
-version = "0.25.0"
+version = "0.26.0"
 authors = ["AlexiWolf <alexiwolf@pm.me>"]
 edition = "2021"
 license = "MIT OR Apache-2.0"
@@ -10,6 +10,7 @@ keywords = ["wolf-engine", "game", "gamedev", "gui"]
 categories = ["game-development", "game-engines", "gui"]
 
 [dependencies]
+wolf_engine_core = {path = "../wolf_engine_core", version = "0.26.0"}
 raw-window-handle = "0.5"
 lazy_static = "1.4"
 
