@@ -50,36 +50,39 @@ use crate::{Context, EngineControls};
 ///     }
 /// }
 /// ```
-pub struct Engine<D> {
+pub struct Engine<D, E: EventLoop<Event>> {
     context: Context<D>,
+    event_loop: E,
     has_quit: bool,
 }
 
-impl Engine<EventQueue<Event>> {
+impl<D> Engine<D, EventQueue<Event>> {
     pub fn new() -> Self {
         Self {
+            context: Context::from(()), 
+            event_loop: EventQueue::new(),
             has_quit: false,
-            context: EventQueue::new(),
         }
     }
 }
 
-impl Default for Engine<EventQueue<Event>> {
+impl Default for Engine<(), EventQueue<Event>> {
     fn default() -> Self {
         Self::new()
     }
 }
 
-impl<D> From<D> for Engine<D> {
+impl<D> From<D> for Engine<D, EventQueue<Event>> {
     fn from(context: Context<D>) -> Self {
         Self {
-            has_quit: false,
             context,
+            event_loop: EventQueue::new(),
+            has_quit: false,
         }
     }
 }
 
-impl<D> EngineControls for Engine<D> {
+impl<D, E: EventLoop<Event>> EngineControls for Engine<D, E> {
     fn quit(&self) {
         self.send_event(Event::Quit);
     }
@@ -97,14 +100,14 @@ impl<D> EngineControls for Engine<D> {
     }
 }
 
-impl<D> Engine<D> {
+impl<D, E: EventLoop<Event>> Engine<D, E> {
     /// Get immutable access to the [`Context`] data.
-    pub fn context(&self) -> &C {
+    pub fn context(&self) -> &Context<D> {
         &self.context
     }
 
     /// Get mutable access to the [`Context`] data.
-    pub fn context_mut(&mut self) -> &mut C {
+    pub fn context_mut(&mut self) -> &mut Context<D> {
         &mut self.context
     }
 
@@ -124,7 +127,7 @@ impl<D> Engine<D> {
     }
 }
 
-impl<D> EventLoop<Event> for Engine<D> {
+impl<D, E: EventLoop<Event>> EventLoop<Event> for Engine<D, E> {
     fn next_event(&mut self) -> Option<Event> {
         match self.context.next_event() {
             Some(event) => Some(self.handle_event(event)),
