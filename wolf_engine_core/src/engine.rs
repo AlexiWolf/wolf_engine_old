@@ -129,14 +129,14 @@ impl<D, E: EventLoop<Event>> Engine<D, E> {
 
 impl<D, E: EventLoop<Event>> EventLoop<Event> for Engine<D, E> {
     fn next_event(&mut self) -> Option<Event> {
-        match self.context.next_event() {
+        match self.event_loop.next_event() {
             Some(event) => Some(self.handle_event(event)),
             None => self.handle_empty_event(),
         }
     }
 
     fn send_event(&self, event: Event) {
-        self.context.send_event(event)
+        self.event_loop.send_event(event)
     }
 }
 
