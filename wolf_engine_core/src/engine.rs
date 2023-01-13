@@ -149,25 +149,13 @@ mod engine_tests {
 
     struct TestData {
         message: String,
-        event_queue: EventQueue<Event>,
     }
 
     impl TestData {
         pub fn new() -> Self {
             Self {
                 message: "Hello, World!".to_string(),
-                event_queue: EventQueue::new(),
             }
-        }
-    }
-
-    impl EventLoop<Event> for TestData {
-        fn next_event(&mut self) -> Option<Event> {
-            self.event_queue.next_event()
-        }
-
-        fn send_event(&self, event: Event) {
-            self.event_queue.send_event(event)
         }
     }
 
@@ -175,9 +163,9 @@ mod engine_tests {
     fn should_provide_context_accessors() {
         let mut engine = Engine::from(TestData::new());
 
-        assert_eq!(engine.context().message, "Hello, World!");
-        engine.context_mut().message = "New message!".to_string();
-        assert_eq!(engine.context().message, "New message!");
+        assert_eq!(engine.context().data.message, "Hello, World!");
+        engine.context_mut().data.message = "New message!".to_string();
+        assert_eq!(engine.context().data.message, "New message!");
     }
 
     #[test]
