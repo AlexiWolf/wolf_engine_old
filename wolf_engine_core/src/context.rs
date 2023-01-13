@@ -1,14 +1,9 @@
-use crate::events::EventLoop;
+pub struct Context<D> {
+    pub data: D,
+}
 
-/// A marker trait indicating which types can be used as context-data on the
-/// [`Engine`](crate::Engine).
-///
-/// Thit trait is automatically implemented for all types meeting the type constraints, so you
-/// don't normally need to implement it yourself.
-///
-/// To be used as a context, a type needs to:
-///
-/// - Implement [`EventLoop`].
-pub trait Context<E>: EventLoop<E> {}
-
-impl<T, E> Context<E> for T where T: EventLoop<E> {}
+impl<D> From<D> for Context<D> {
+    fn from(data: D) -> Self {
+        Self { data }
+    }
+}
