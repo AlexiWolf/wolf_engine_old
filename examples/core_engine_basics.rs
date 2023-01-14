@@ -25,10 +25,12 @@ pub fn process_event(event: Event, context: &mut Context<GameData>) {
                 context.data.number += 1;
             }
         }
+        Event::Render => println!("{}", context.data.number),
         Event::EventsCleared => {
             // Note: The engine will not emit Update / Render events on it's own.
             //       You are expected to do this yourself.
             context.update();
+            context.render();
         }
         _ => (),
     }
