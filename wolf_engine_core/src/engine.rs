@@ -53,7 +53,6 @@ use crate::{Context, EngineControls};
 pub struct Engine<D, E: EventLoop<Event>> {
     context: Context<D>,
     event_loop: E,
-    has_quit: bool,
 }
 
 impl Engine<(), EventQueue<Event>> {
@@ -61,7 +60,6 @@ impl Engine<(), EventQueue<Event>> {
         Self {
             context: Context::from(()), 
             event_loop: EventQueue::new(),
-            has_quit: false,
         }
     }
 }
@@ -77,7 +75,6 @@ impl<D> From<D> for Engine<D, EventQueue<Event>> {
         Self {
             context: Context::from(data),
             event_loop: EventQueue::new(),
-            has_quit: false,
         }
     }
 }

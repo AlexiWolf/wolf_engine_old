@@ -2,11 +2,15 @@ use crate::EngineControls;
 
 pub struct Context<D> {
     pub data: D,
+    pub(crate) has_quit: bool,
 }
 
 impl<D> From<D> for Context<D> {
     fn from(data: D) -> Self {
-        Self { data }
+        Self { 
+            data,
+            has_quit: false,
+        }
     }
 }
 
@@ -15,7 +19,7 @@ impl<D> EngineControls for Context<D> {
     }
 
     fn has_quit(&self) -> bool {
-        false
+        self.has_quit
     }
 
     fn update(&self) {
