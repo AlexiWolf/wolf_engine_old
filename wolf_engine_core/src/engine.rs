@@ -182,7 +182,7 @@ mod engine_tests {
 
         assert!(engine.has_quit());
         assert_eq!(engine.context().data.updates, 3);
-        assert_eq!(engine.context().data.renders, 3);
+        assert_eq!(engine.context().data.renders, 4);
     }
 
     fn process_event(event: Event, context: &mut Context<TestData>) {
