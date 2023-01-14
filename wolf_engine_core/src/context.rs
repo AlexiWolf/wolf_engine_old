@@ -2,14 +2,14 @@ use std::sync::mpsc::Sender;
 
 use crate::{EngineControls, prelude::Event};
 
-pub struct Context<'a, D> {
+pub struct Context<D> {
     pub data: D,
-    event_sender: &'a Sender<Event>,
+    event_sender: Sender<Event>,
     has_quit: bool,
 }
 
-impl<'a, D> Context<'a, D> {
-    pub fn new(event_sender: &Sender<Event>, data: D) -> Self {
+impl<D> Context<D> {
+    pub fn new(event_sender: Sender<Event>, data: D) -> Self {
         Self {
             data,
             event_sender,
@@ -22,7 +22,7 @@ impl<'a, D> Context<'a, D> {
     }
 }
 
-impl<'a, D> EngineControls for Context<'a, D> {
+impl<D> EngineControls for Context<D> {
     fn quit(&self) {
         
     }

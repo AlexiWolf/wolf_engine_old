@@ -59,7 +59,7 @@ impl Engine<(), EventQueue<Event>> {
     pub fn new() -> Self {
         let event_loop = EventQueue::new();
         Self {
-            context: Context::new(&event_loop.sender(), ()), 
+            context: Context::new(event_loop.sender(), ()), 
             event_loop,
         }
     }
@@ -75,7 +75,7 @@ impl<D> From<D> for Engine<D, EventQueue<Event>> {
     fn from(data: D) -> Self {
         let event_loop = EventQueue::new();
         Self {
-            context: Context::new(&event_loop.sender(), data),
+            context: Context::new(event_loop.sender(), data),
             event_loop,
         }
     }
