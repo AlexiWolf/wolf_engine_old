@@ -149,12 +149,16 @@ mod engine_tests {
 
     struct TestData {
         message: String,
+        updates: i32,
+        renders: i32,
     }
 
     impl TestData {
         pub fn new() -> Self {
             Self {
                 message: "Hello, World!".to_string(),
+                updates: 0,
+                renders: 0,
             }
         }
     }
@@ -172,33 +176,31 @@ mod engine_tests {
     #[timeout(100)]
     fn should_run_and_quit() {
         let mut engine = Engine::from(TestData::new());
-        let mut updates = 0;
-        let mut renders = 0;
-
-        fn process_event(context: &mut Context<TestData>) {
-            match event {
-                Event::Quit => (),
-                Event::Update => {
-                    if context.data.updates < 3 && context.data.renders < 3 {
-                        context.data.updates += 1;
-                    } else {
-                        context.quit();
-                    }
-                }
-                Event::Render => context.data.renders += 1,
-                Event::EventsCleared => {
-                    context.update();
-                    context.render();
-                }
-                _ => (),
-            }
-        }
 
         while let Some(event) = engine.next_event() {
-            process_event(engine.context_mut());
+            process_event(event, engine.context_mut());
         }
 
         assert!(engine.has_quit());
+    }
+
+    fn process_event(event: Event, context: &mut Context<TestData>) {
+        match event {
+            Event::Quit => (),
+            Event::Update => {
+                if context.data.updates < 3 && context.data.renders < 3 {
+                    context.data.updates += 1;
+                } else {
+                    context.quit();
+                }
+            }
+            Event::Render => context.data.renders += 1,
+            Event::EventsCleared => {
+                context.update();
+                context.render();
+            }
+            _ => (),
+        }
     }
 
     #[test]
