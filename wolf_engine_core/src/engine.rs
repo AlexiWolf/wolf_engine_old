@@ -110,13 +110,13 @@ impl<D, E: EventLoop<Event>> Engine<D, E> {
 
     fn handle_event(&mut self, event: Event) -> Event {
         if event == Event::Quit {
-            self.has_quit = true;
+            self.context.set_has_quit(true);
         }
         event
     }
 
     fn handle_empty_event(&self) -> Option<Event> {
-        if self.has_quit {
+        if self.context.has_quit() {
             None
         } else {
             Some(Event::EventsCleared)
