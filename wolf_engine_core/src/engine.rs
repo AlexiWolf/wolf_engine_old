@@ -73,9 +73,9 @@ impl Default for Engine<(), EventQueue<Event>> {
 }
 
 impl<D> From<D> for Engine<D, EventQueue<Event>> {
-    fn from(context: Context<D>) -> Self {
+    fn from(data: D) -> Self {
         Self {
-            context,
+            context: Context::from(data),
             event_loop: EventQueue::new(),
             has_quit: false,
         }
