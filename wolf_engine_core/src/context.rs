@@ -36,5 +36,6 @@ impl<D> EngineControls for Context<D> {
     }
 
     fn render(&self) {
+        self.event_sender.send(Event::Render).ok();
     }
 }
