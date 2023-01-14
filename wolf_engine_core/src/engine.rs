@@ -84,19 +84,19 @@ impl<D> From<D> for Engine<D, EventQueue<Event>> {
 
 impl<D, E: EventLoop<Event>> EngineControls for Engine<D, E> {
     fn quit(&self) {
-        self.send_event(Event::Quit);
+        self.context.quit()
     }
 
     fn has_quit(&self) -> bool {
-        self.has_quit
+        self.context.has_quit()
     }
 
     fn update(&self) {
-        self.send_event(Event::Update);
+        self.context.send_event(Event::Update);
     }
 
     fn render(&self) {
-        self.send_event(Event::Render);
+        self.context.send_event(Event::Render);
     }
 }
 
