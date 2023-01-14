@@ -89,11 +89,11 @@ impl<D, E: EventLoop<Event>> EngineControls for Engine<D, E> {
     }
 
     fn update(&self) {
-        self.context.send_event(Event::Update);
+        self.send_event(Event::Update);
     }
 
     fn render(&self) {
-        self.context.send_event(Event::Render);
+        self.send_event(Event::Render);
     }
 }
 
