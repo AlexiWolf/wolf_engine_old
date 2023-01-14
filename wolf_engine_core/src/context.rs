@@ -24,7 +24,7 @@ impl<D> Context<D> {
 
 impl<D> EngineControls for Context<D> {
     fn quit(&self) {
-        
+        self.event_sender.send(Event::Quit).ok();        
     }
 
     fn has_quit(&self) -> bool {
@@ -32,6 +32,7 @@ impl<D> EngineControls for Context<D> {
     }
 
     fn update(&self) {
+        self.event_sender.send(Event::Update).ok();
     }
 
     fn render(&self) {
