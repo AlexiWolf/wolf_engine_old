@@ -56,7 +56,7 @@ pub struct Engine<D, E: EventLoop<Event>> {
     has_quit: bool,
 }
 
-impl<D> Engine<D, EventQueue<Event>> {
+impl Engine<(), EventQueue<Event>> {
     pub fn new() -> Self {
         Self {
             context: Context::from(()), 
