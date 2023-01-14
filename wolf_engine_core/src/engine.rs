@@ -57,9 +57,10 @@ pub struct Engine<D, E: EventLoop<Event>> {
 
 impl Engine<(), EventQueue<Event>> {
     pub fn new() -> Self {
+        let event_loop = EventQueue::new();
         Self {
-            context: Context::from(()), 
-            event_loop: EventQueue::new(),
+            context: Context::new(&event_loop.sender(), ()), 
+            event_loop,
         }
     }
 }
@@ -72,9 +73,10 @@ impl Default for Engine<(), EventQueue<Event>> {
 
 impl<D> From<D> for Engine<D, EventQueue<Event>> {
     fn from(data: D) -> Self {
+        let event_loop = EventQueue::new();
         Self {
-            context: Context::from(data),
-            event_loop: EventQueue::new(),
+            context: Context::new(&event_loop.sender(), data),
+            event_loop,
         }
     }
 }
