@@ -175,23 +175,27 @@ mod engine_tests {
         let mut updates = 0;
         let mut renders = 0;
 
-        while let Some(event) = engine.next_event() {
+        fn process_event(context: &mut Context<TestData>) {
             match event {
                 Event::Quit => (),
                 Event::Update => {
-                    if updates < 3 && renders < 3 {
-                        updates += 1;
+                    if context.data.updates < 3 && context.data.renders < 3 {
+                        context.data.updates += 1;
                     } else {
-                        engine.quit();
+                        context.quit();
                     }
                 }
-                Event::Render => renders += 1,
+                Event::Render => context.data.renders += 1,
                 Event::EventsCleared => {
-                    engine.update();
-                    engine.render();
+                    context.update();
+                    context.render();
                 }
                 _ => (),
             }
+        }
+
+        while let Some(event) = engine.next_event() {
+            process_event(engine.context_mut());
         }
 
         assert!(engine.has_quit());
