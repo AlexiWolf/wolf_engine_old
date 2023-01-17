@@ -11,6 +11,6 @@ pub trait EventLoop<E> {
     fn sender(&self) -> Arc<dyn EventSender<E>>;
 }
 
-pub trait EventSender<E> {
+pub trait EventSender<E>: Send + Sync {
     fn send(&self, event: E) -> Result<(), String>;
 }
