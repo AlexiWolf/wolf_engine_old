@@ -108,12 +108,20 @@ impl<E> Default for EventQueue<E> {
     }
 }
 
-pub struct EventQueueSender<E> {
+struct EventQueueSender<E> {
     inner: Sender<E>,
 }
 
 unsafe impl<E> Send for EventQueueSender<E> {}
 unsafe impl<E> Sync for EventQueueSender<E> {}
+
+impl<E> From<Sender<E>> for EventQueueSender<E> {
+    fn from(sender: Sender<E>) -> Self {
+        Self {
+            inner: sender,
+        }
+    }
+}
 
 impl<E> EventSender<E> for EventQueueSender<E> {
     fn send(&self, event: E) -> Result<(), String> {
