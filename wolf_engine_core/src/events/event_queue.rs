@@ -108,6 +108,23 @@ impl<E> Default for EventQueue<E> {
     }
 }
 
+pub struct EventQueueSender<E> {
+    inner: Sender<E>,
+}
+
+unsafe impl<E> Send for EventQueueSender<E> {}
+unsafe impl<E> Sync for EventQueueSender<E> {}
+
+impl<E> EventSender<E> for EventQueueSender<E> {
+    fn send(&self, event: E) -> Result<(), String> {
+        match self.inner.send(event) {
+            Ok(_) => Ok(()), 
+            Err(error) => Err(error.to_string()), 
+        }
+    }
+}
+
+
 #[cfg(test)]
 mod event_queue_tests {
     use std::thread;
