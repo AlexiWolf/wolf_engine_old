@@ -1,6 +1,8 @@
-use std::sync::mpsc::{channel, Receiver, Sender};
+use std::sync::{mpsc::{channel, Receiver, Sender}, Arc};
 
 use crate::events::EventLoop;
+
+use super::EventSender;
 
 /// Provides a generic, FIFO, MPSC event queue based on [`std::sync::mpsc`].
 ///
@@ -101,6 +103,11 @@ impl<E> EventLoop<E> for EventQueue<E> {
     fn send_event(&self, event: E) {
         self.send(event)
     }
+
+    fn sender(&self) -> Arc<dyn EventSender<E>> {
+        todo!()
+    }
+
 }
 
 impl<E> Default for EventQueue<E> {

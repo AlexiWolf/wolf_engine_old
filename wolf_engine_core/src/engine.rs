@@ -1,4 +1,6 @@
-use crate::events::{Event, EventLoop, EventQueue};
+use std::sync::Arc;
+
+use crate::events::{Event, EventLoop, EventQueue, EventSender};
 use crate::{Context, EngineControls};
 
 /// Provides a wrapper around some [`Context`] data with [`EventLoop`] and quit behavior.
@@ -137,6 +139,12 @@ impl<D, E: EventLoop<Event>> EventLoop<Event> for Engine<D, E> {
     fn send_event(&self, event: Event) {
         self.event_loop.send_event(event)
     }
+
+    fn sender(&self) -> Arc<dyn EventSender<Event>> {
+        todo!()
+    }
+
+
 }
 
 #[cfg(test)]
