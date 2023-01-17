@@ -1,6 +1,10 @@
 use std::sync::Arc;
 
-use crate::{EngineControls, prelude::{Event, EventLoop}, events::EventSender};
+use crate::{
+    events::EventSender,
+    prelude::{Event, EventLoop},
+    EngineControls,
+};
 
 pub struct Context<D> {
     pub data: D,
@@ -24,7 +28,7 @@ impl<D> Context<D> {
 
 impl<D> EngineControls for Context<D> {
     fn quit(&self) {
-        self.event_sender.send(Event::Quit).ok();        
+        self.event_sender.send(Event::Quit).ok();
     }
 
     fn has_quit(&self) -> bool {

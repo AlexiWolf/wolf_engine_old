@@ -1,4 +1,7 @@
-use std::sync::{mpsc::{channel, Receiver, Sender}, Arc};
+use std::sync::{
+    mpsc::{channel, Receiver, Sender},
+    Arc,
+};
 
 use crate::events::EventLoop;
 
@@ -99,7 +102,6 @@ impl<E: 'static> EventLoop<E> for EventQueue<E> {
     fn sender(&self) -> Arc<dyn EventSender<E>> {
         Arc::from(EventQueueSender::from(self.sender.clone()))
     }
-
 }
 
 impl<E> Default for EventQueue<E> {
@@ -117,21 +119,18 @@ unsafe impl<E> Sync for EventQueueSender<E> {}
 
 impl<E> From<Sender<E>> for EventQueueSender<E> {
     fn from(sender: Sender<E>) -> Self {
-        Self {
-            inner: sender,
-        }
+        Self { inner: sender }
     }
 }
 
 impl<E> EventSender<E> for EventQueueSender<E> {
     fn send(&self, event: E) -> Result<(), String> {
         match self.inner.send(event) {
-            Ok(_) => Ok(()), 
-            Err(error) => Err(error.to_string()), 
+            Ok(_) => Ok(()),
+            Err(error) => Err(error.to_string()),
         }
     }
 }
-
 
 #[cfg(test)]
 mod event_queue_tests {

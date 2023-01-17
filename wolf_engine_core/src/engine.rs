@@ -61,7 +61,7 @@ impl Engine<(), EventQueue<Event>> {
     pub fn new() -> Self {
         let event_loop = EventQueue::new();
         Self {
-            context: Context::new(&event_loop, ()), 
+            context: Context::new(&event_loop, ()),
             event_loop,
         }
     }
@@ -143,8 +143,6 @@ impl<D, E: EventLoop<Event>> EventLoop<Event> for Engine<D, E> {
     fn sender(&self) -> Arc<dyn EventSender<Event>> {
         self.event_loop.sender()
     }
-
-
 }
 
 #[cfg(test)]
