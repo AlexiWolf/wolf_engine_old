@@ -87,7 +87,7 @@ impl<E> EventQueue<E> {
     }
 }
 
-impl<E> EventLoop<E> for EventQueue<E> {
+impl<E: 'static> EventLoop<E> for EventQueue<E> {
     fn next_event(&mut self) -> Option<E> {
         self.receiver.try_recv().ok()
     }
@@ -97,7 +97,7 @@ impl<E> EventLoop<E> for EventQueue<E> {
     }
 
     fn sender(&self) -> Arc<dyn EventSender<E>> {
-        todo!()
+        Arc::from(EventQueueSender::from(self.sender.clone()))
     }
 
 }
