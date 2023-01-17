@@ -141,7 +141,7 @@ impl<D, E: EventLoop<Event>> EventLoop<Event> for Engine<D, E> {
     }
 
     fn sender(&self) -> Arc<dyn EventSender<Event>> {
-        todo!()
+        self.event_loop.sender()
     }
 
 
