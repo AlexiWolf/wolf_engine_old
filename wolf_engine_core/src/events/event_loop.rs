@@ -12,5 +12,5 @@ pub trait EventLoop<E> {
 }
 
 pub trait EventSender<E> {
-    fn send(&self, event: E);
+    fn send(&self, event: E) -> Result<(), String>;
 }
