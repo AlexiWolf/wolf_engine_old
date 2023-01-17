@@ -1,18 +1,18 @@
-use std::sync::mpsc::Sender;
+use std::sync::Arc;
 
-use crate::{EngineControls, prelude::Event};
+use crate::{EngineControls, prelude::{Event, EventLoop}, events::EventSender};
 
 pub struct Context<D> {
     pub data: D,
-    event_sender: Sender<Event>,
+    event_sender: Arc<dyn EventSender<Event>>,
     has_quit: bool,
 }
 
 impl<D> Context<D> {
-    pub fn new(event_sender: Sender<Event>, data: D) -> Self {
+    pub fn new(event_loop: &dyn EventLoop<Event>, data: D) -> Self {
         Self {
             data,
-            event_sender,
+            event_sender: event_loop.sender(),
             has_quit: false,
         }
     }
