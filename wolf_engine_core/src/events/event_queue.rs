@@ -81,14 +81,6 @@ impl<E> EventQueue<E> {
         self.sender.send(event).unwrap();
     }
 
-    /// Creates a new [Sender] from the event queue.
-    ///
-    /// A [Sender] can be created and moved to code to send events across threads, or to send
-    /// events without direct access to the event queue.
-    pub fn sender(&self) -> Sender<E> {
-        self.sender.clone()
-    }
-
     /// Clears all events off the queue and returns them in a collection which can be iterated over.
     pub fn flush(&self) -> Vec<E> {
         self.receiver.try_iter().collect()
