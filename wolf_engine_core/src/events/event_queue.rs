@@ -155,15 +155,18 @@ mod event_queue_tests {
         let sender = event_queue.sender();
 
         sender.send(0).unwrap();
+        let thread_sender = sender.clone();
         thread::spawn(move || {
-            sender.send(1).unwrap();
+            thread_sender.send(1).unwrap();
         })
         .join()
         .unwrap();
+        sender.send(2).unwrap();
 
         let events = event_queue.flush();
-        assert_eq!(events.get(0).unwrap(), &0);
-        assert_eq!(events.get(1).unwrap(), &1);
+        assert_eq!(*events.get(0).unwrap(), 0);
+        assert_eq!(*events.get(1).unwrap(), 1);
+        assert_eq!(*events.get(2).unwrap(), 2);
     }
 
     #[test]
