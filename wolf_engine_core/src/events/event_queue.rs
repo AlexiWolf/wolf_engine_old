@@ -1,11 +1,7 @@
-use std::sync::{
-    mpsc::{channel, Receiver, Sender},
-    Arc,
-};
+use std::sync::mpsc::*;
+use std::sync::Arc;
 
-use crate::events::EventLoop;
-
-use super::EventSender;
+use crate::events::*;
 
 /// Provides a generic, FIFO, MPSC event queue based on [`std::sync::mpsc`].
 ///

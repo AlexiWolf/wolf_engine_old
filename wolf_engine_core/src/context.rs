@@ -1,10 +1,7 @@
 use std::sync::Arc;
 
-use crate::{
-    events::EventSender,
-    prelude::{Event, EventLoop},
-    EngineControls,
-};
+use crate::events::*;
+use crate::prelude::*;
 
 pub struct Context<D> {
     pub data: D,

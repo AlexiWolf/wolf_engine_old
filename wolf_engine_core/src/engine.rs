@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
-use crate::events::{Event, EventLoop, EventQueue, EventSender};
-use crate::{Context, EngineControls};
+use crate::events::*;
+use crate::prelude::*;
 
 /// Provides a wrapper around some [`Context`] data with [`EventLoop`] and quit behavior.
 ///
