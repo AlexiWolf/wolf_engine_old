@@ -150,7 +150,6 @@ mod engine_tests {
     use ntest::timeout;
 
     use super::*;
-    use crate::events::*;
 
     struct TestData {
         message: String,
