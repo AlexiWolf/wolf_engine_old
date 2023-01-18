@@ -26,8 +26,8 @@ build / run on these platforms is considered a bug.  Please create a bug report 
 
 # Usage
 
-- [The documentation](https://docs.rs/wolf_engine/latest/wolf_engine/) provides an overview of the engine, and its 
-  APIs, and how to use it. Start here.
+- [The documentation](https://docs.rs/wolf_engine/latest/wolf_engine/) provides an overview of the engine, its APIs, 
+  and how to use them. Start here.
 - [The examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) provides a range of examples for 
   various concepts.
 
