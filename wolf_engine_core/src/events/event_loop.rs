@@ -7,7 +7,8 @@ pub trait EventLoop<E> {
 
     /// Send an event into the loop.
     fn send_event(&self, event: E);
-
+    
+    /// Create a new [`EventSender`] from this `EventLoop`.
     fn sender(&self) -> Arc<dyn EventSender<E>>;
 }
 
