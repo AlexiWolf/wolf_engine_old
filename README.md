@@ -24,17 +24,10 @@ Excellent cross-platform support is one of the main goals of Wolf Engine.  The e
 `--all-features` enabled, should work on Desktop (Windows, Linux, MacOS), Mobile (Android, iOS), and WASM. Failure to 
 build / run on these platforms is considered a bug.  Please create a bug report if you run into any problems.
 
-### The Core Module 
-
-The core module is intended to be a highly-portable subset of wolf engine enabling wider platform support, FFI, and 
-support for no-std platforms.  The core module should theoretically run on any platform Rust itself can run on.  
-However, for no-std platforms, you will very likely need to provide your own no-std-compatible `Context` data, and 
-`EventLoop` implementation.
-
 # Usage
 
-- [The documentation](https://docs.rs/wolf_engine/latest/wolf_engine/) provides an overview of the engine, and its 
-  APIs, and how to use it. Start here.
+- [The documentation](https://docs.rs/wolf_engine/latest/wolf_engine/) provides an overview of the engine, its APIs, 
+  and how to use them. Start here.
 - [The examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) provides a range of examples for 
   various concepts.
 
