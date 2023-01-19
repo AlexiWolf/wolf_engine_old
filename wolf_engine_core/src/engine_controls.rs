@@ -23,11 +23,11 @@ pub trait EngineControls {
 
     /// Check if the engine has quit.
     ///
-    /// Returns `true` if the [`Engine`](crate::Engine) has shut down.  Typically after 
+    /// Returns `true` if the [`Engine`](crate::Engine) has shut down.  Typically after
     /// [`EngineControls::quit()`] has been called, but the [`Engine`](crate::Engine) may shut down
     /// on through other means too.  
     ///
-    /// This function may not return `true` immediately after [`EngineControls::quit()`] because 
+    /// This function may not return `true` immediately after [`EngineControls::quit()`] because
     /// the [`Engine`](crate::Engine) may need time to process the request.
     fn has_quit(&self) -> bool;
 
