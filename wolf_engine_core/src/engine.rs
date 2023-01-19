@@ -29,6 +29,7 @@ use crate::prelude::*;
 ///
 /// // The Engine will continue to return events until it quits.
 /// while let Some(event) = engine.next_event() {
+///     let context = engine.context_mut();
 ///     match event {
 ///         Event::Quit => {
 ///             // Shut down the game.
@@ -37,7 +38,7 @@ use crate::prelude::*;
 ///             // Update the game.
 ///
 ///             // To shut down the Engine, you must send a quit event.
-///             engine.quit();
+///             context.quit();
 ///         },
 ///         Event::Render => {
 ///             // Render the game.
@@ -45,8 +46,8 @@ use crate::prelude::*;
 ///         Event::EventsCleared => {
 ///             // Note: The engine will not emit Update / Render events on its own.
 ///             //       You are expected to do this yourself.
-///             engine.update();
-///             engine.render();
+///             context.update();
+///             context.render();
 ///         }
 ///         _ => (),
 ///     }
