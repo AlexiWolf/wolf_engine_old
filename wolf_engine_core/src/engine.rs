@@ -3,21 +3,7 @@ use std::sync::Arc;
 use crate::events::*;
 use crate::prelude::*;
 
-/// Provides a wrapper around some [`Context`] data with [`EventLoop`] and quit behavior.
-///
-/// The `Engine` is a small wrapper around the [`Context`] data providing a few useful utilities
-/// such as an [`EventLoop`] implementation with properly-handled quit behaviors.  The provided
-/// [`EventLoop`] implementation is better suited to how the engine is intended to be used The
-/// engine is generic over the [`Context`] data, allowing users to easily extend and modify the
-/// engine's capabilities while keeping a consistent interface.  
-///
-/// The [`EventLoop`] algorithm:
-///
-/// 1. Get the latest queued [`Event`] from the [`Context`].
-/// 2. If the [`Context`] returns [`Some`], return the [`Event`].
-/// 3. If the [`Context`] returns [`None`], and [`Event::Quit`] has not been received, return
-///    [`Event::EventsCleared`].
-/// 4. If the [`Context`] returns [`None`] and [`Event::Quit`] has been received, return [`None`].
+/// TODO: Update Engine docs. 
 ///
 /// # Examples
 ///
