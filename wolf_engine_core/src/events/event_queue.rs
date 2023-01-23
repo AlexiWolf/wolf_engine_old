@@ -35,7 +35,7 @@ use crate::events::*;
 /// to send events from code which does not have direct access to the `EventQueue`.
 ///
 /// ```
-/// # use wolf_engine_core::events::{EventQueue, EventLoop};
+/// # use wolf_engine_core::events::*;
 /// #
 /// # enum EventType { Event };
 /// #
