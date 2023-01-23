@@ -94,7 +94,11 @@ impl<E: 'static> EventLoop<E> for EventQueue<E> {
     fn send_event(&self, event: E) {
         self.send(event)
     }
+}
 
+
+
+impl<E: 'static> HasEventSender<E> for EventQueue<E> {
     fn sender(&self) -> Arc<dyn EventSender<E>> {
         Arc::from(EventQueueSender::from(self.sender.clone()))
     }
