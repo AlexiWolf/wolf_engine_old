@@ -1,13 +1,16 @@
 use std::sync::Arc;
 
 /// Provides the main event-loop functions used by the [`Engine`](crate::Engine).
-pub trait EventLoop<E> {
+pub trait EventLoop<E>: HasEventSender<E> {
     /// Returns the next event in the loop.
     fn next_event(&mut self) -> Option<E>;
 
     /// Send an event into the loop.
     fn send_event(&self, event: E);
+}
 
+/// A type from which an [EventSender] can be created.
+pub trait HasEventSender<E> {
     /// Create a new [`EventSender`] from this `EventLoop`.
     fn sender(&self) -> Arc<dyn EventSender<E>>;
 }
