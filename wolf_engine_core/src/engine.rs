@@ -140,7 +140,9 @@ impl<D, E: EventLoop<Event>> EventLoop<Event> for Engine<D, E> {
     fn send_event(&self, event: Event) {
         self.event_loop.send_event(event)
     }
+}
 
+impl<D, E: EventLoop<Event>> HasEventSender<Event> for Engine<D, E> {
     fn sender(&self) -> Arc<dyn EventSender<Event>> {
         self.event_loop.sender()
     }
