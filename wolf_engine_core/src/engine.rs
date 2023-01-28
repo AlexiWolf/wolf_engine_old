@@ -3,7 +3,7 @@ use std::sync::Arc;
 use crate::events::*;
 use crate::prelude::*;
 
-/// TODO: Update Engine docs. 
+/// TODO: Update Engine docs.
 ///
 /// # Examples
 ///
