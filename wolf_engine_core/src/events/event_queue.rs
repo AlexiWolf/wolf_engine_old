@@ -1,6 +1,7 @@
-use std::sync::mpsc::{channel, Receiver, Sender};
+use std::sync::mpsc::*;
+use std::sync::Arc;
 
-use crate::events::EventLoop;
+use crate::events::*;
 
 /// Provides a generic, FIFO, MPSC event queue based on [`std::sync::mpsc`].
 ///
@@ -34,7 +35,7 @@ use crate::events::EventLoop;
 /// to send events from code which does not have direct access to the `EventQueue`.
 ///
 /// ```
-/// # use wolf_engine_core::events::EventQueue;
+/// # use wolf_engine_core::events::*;
 /// #
 /// # enum EventType { Event };
 /// #
@@ -79,21 +80,13 @@ impl<E> EventQueue<E> {
         self.sender.send(event).unwrap();
     }
 
-    /// Creates a new [Sender] from the event queue.
-    ///
-    /// A [Sender] can be created and moved to code to send events across threads, or to send
-    /// events without direct access to the event queue.
-    pub fn sender(&self) -> Sender<E> {
-        self.sender.clone()
-    }
-
     /// Clears all events off the queue and returns them in a collection which can be iterated over.
     pub fn flush(&self) -> Vec<E> {
         self.receiver.try_iter().collect()
     }
 }
 
-impl<E> EventLoop<E> for EventQueue<E> {
+impl<E: 'static> EventLoop<E> for EventQueue<E> {
     fn next_event(&mut self) -> Option<E> {
         self.receiver.try_recv().ok()
     }
@@ -103,9 +96,37 @@ impl<E> EventLoop<E> for EventQueue<E> {
     }
 }
 
+impl<E: 'static> HasEventSender<E> for EventQueue<E> {
+    fn sender(&self) -> Arc<dyn EventSender<E>> {
+        Arc::from(EventQueueSender::from(self.sender.clone()))
+    }
+}
+
 impl<E> Default for EventQueue<E> {
     fn default() -> Self {
         Self::new()
+    }
+}
+
+struct EventQueueSender<E> {
+    inner: Sender<E>,
+}
+
+unsafe impl<E> Send for EventQueueSender<E> {}
+unsafe impl<E> Sync for EventQueueSender<E> {}
+
+impl<E> From<Sender<E>> for EventQueueSender<E> {
+    fn from(sender: Sender<E>) -> Self {
+        Self { inner: sender }
+    }
+}
+
+impl<E> EventSender<E> for EventQueueSender<E> {
+    fn send(&self, event: E) -> Result<(), String> {
+        match self.inner.send(event) {
+            Ok(_) => Ok(()),
+            Err(error) => Err(error.to_string()),
+        }
     }
 }
 
@@ -131,15 +152,18 @@ mod event_queue_tests {
         let sender = event_queue.sender();
 
         sender.send(0).unwrap();
+        let thread_sender = sender.clone();
         thread::spawn(move || {
-            sender.send(1).unwrap();
+            thread_sender.send(1).unwrap();
         })
         .join()
         .unwrap();
+        sender.send(2).unwrap();
 
         let events = event_queue.flush();
-        assert_eq!(events.get(0).unwrap(), &0);
-        assert_eq!(events.get(1).unwrap(), &1);
+        assert_eq!(*events.get(0).unwrap(), 0);
+        assert_eq!(*events.get(1).unwrap(), 1);
+        assert_eq!(*events.get(2).unwrap(), 2);
     }
 
     #[test]

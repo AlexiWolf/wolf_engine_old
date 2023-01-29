@@ -1,21 +1,9 @@
-use crate::events::{Event, EventLoop, EventQueue};
-use crate::{Context, EngineControls};
+use std::sync::Arc;
 
-/// Provides a wrapper around some [`Context`] data with [`EventLoop`] and quit behavior.
-///
-/// The `Engine` is a small wrapper around the [`Context`] data providing a few useful utilities
-/// such as an [`EventLoop`] implementation with properly-handled quit behaviors.  The provided
-/// [`EventLoop`] implementation is better suited to how the engine is intended to be used The
-/// engine is generic over the [`Context`] data, allowing users to easily extend and modify the
-/// engine's capabilities while keeping a consistent interface.  
-///
-/// The [`EventLoop`] algorithm:
-///
-/// 1. Get the latest queued [`Event`] from the [`Context`].
-/// 2. If the [`Context`] returns [`Some`], return the [`Event`].
-/// 3. If the [`Context`] returns [`None`], and [`Event::Quit`] has not been received, return
-///    [`Event::EventsCleared`].
-/// 4. If the [`Context`] returns [`None`] and [`Event::Quit`] has been received, return [`None`].
+use crate::events::*;
+use crate::prelude::*;
+
+/// TODO: Update Engine docs.
 ///
 /// # Examples
 ///
@@ -27,6 +15,7 @@ use crate::{Context, EngineControls};
 ///
 /// // The Engine will continue to return events until it quits.
 /// while let Some(event) = engine.next_event() {
+///     let context = engine.context_mut();
 ///     match event {
 ///         Event::Quit => {
 ///             // Shut down the game.
@@ -35,7 +24,7 @@ use crate::{Context, EngineControls};
 ///             // Update the game.
 ///
 ///             // To shut down the Engine, you must send a quit event.
-///             engine.quit();
+///             context.quit();
 ///         },
 ///         Event::Render => {
 ///             // Render the game.
@@ -43,49 +32,51 @@ use crate::{Context, EngineControls};
 ///         Event::EventsCleared => {
 ///             // Note: The engine will not emit Update / Render events on its own.
 ///             //       You are expected to do this yourself.
-///             engine.update();
-///             engine.render();
+///             context.update();
+///             context.render();
 ///         }
 ///         _ => (),
 ///     }
 /// }
 /// ```
-pub struct Engine<C: Context<Event>> {
-    context: C,
-    has_quit: bool,
+pub struct Engine<D, E: EventLoop<Event>> {
+    context: Context<D>,
+    event_loop: E,
 }
 
-impl Engine<EventQueue<Event>> {
+impl Engine<(), EventQueue<Event>> {
     pub fn new() -> Self {
+        let event_loop = EventQueue::new();
         Self {
-            has_quit: false,
-            context: EventQueue::new(),
+            context: Context::new(&event_loop, ()),
+            event_loop,
         }
     }
 }
 
-impl Default for Engine<EventQueue<Event>> {
+impl Default for Engine<(), EventQueue<Event>> {
     fn default() -> Self {
         Self::new()
     }
 }
 
-impl<C: Context<Event>> From<C> for Engine<C> {
-    fn from(context: C) -> Self {
+impl<D> From<D> for Engine<D, EventQueue<Event>> {
+    fn from(data: D) -> Self {
+        let event_loop = EventQueue::new();
         Self {
-            has_quit: false,
-            context,
+            context: Context::new(&event_loop, data),
+            event_loop,
         }
     }
 }
 
-impl<C: Context<Event>> EngineControls for Engine<C> {
+impl<D, E: EventLoop<Event>> EngineControls for Engine<D, E> {
     fn quit(&self) {
-        self.send_event(Event::Quit);
+        self.context.quit()
     }
 
     fn has_quit(&self) -> bool {
-        self.has_quit
+        self.context.has_quit()
     }
 
     fn update(&self) {
@@ -97,26 +88,26 @@ impl<C: Context<Event>> EngineControls for Engine<C> {
     }
 }
 
-impl<C: Context<Event>> Engine<C> {
+impl<D, E: EventLoop<Event>> Engine<D, E> {
     /// Get immutable access to the [`Context`] data.
-    pub fn context(&self) -> &C {
+    pub fn context(&self) -> &Context<D> {
         &self.context
     }
 
     /// Get mutable access to the [`Context`] data.
-    pub fn context_mut(&mut self) -> &mut C {
+    pub fn context_mut(&mut self) -> &mut Context<D> {
         &mut self.context
     }
 
     fn handle_event(&mut self, event: Event) -> Event {
         if event == Event::Quit {
-            self.has_quit = true;
+            self.context.set_has_quit(true);
         }
         event
     }
 
     fn handle_empty_event(&self) -> Option<Event> {
-        if self.has_quit {
+        if self.context.has_quit() {
             None
         } else {
             Some(Event::EventsCleared)
@@ -124,16 +115,22 @@ impl<C: Context<Event>> Engine<C> {
     }
 }
 
-impl<C: Context<Event>> EventLoop<Event> for Engine<C> {
+impl<D, E: EventLoop<Event>> EventLoop<Event> for Engine<D, E> {
     fn next_event(&mut self) -> Option<Event> {
-        match self.context.next_event() {
+        match self.event_loop.next_event() {
             Some(event) => Some(self.handle_event(event)),
             None => self.handle_empty_event(),
         }
     }
 
     fn send_event(&self, event: Event) {
-        self.context.send_event(event)
+        self.event_loop.send_event(event)
+    }
+}
+
+impl<D, E: EventLoop<Event>> HasEventSender<Event> for Engine<D, E> {
+    fn sender(&self) -> Arc<dyn EventSender<Event>> {
+        self.event_loop.sender()
     }
 }
 
@@ -142,29 +139,20 @@ mod engine_tests {
     use ntest::timeout;
 
     use super::*;
-    use crate::events::*;
 
     struct TestData {
         message: String,
-        event_queue: EventQueue<Event>,
+        updates: i32,
+        renders: i32,
     }
 
     impl TestData {
         pub fn new() -> Self {
             Self {
                 message: "Hello, World!".to_string(),
-                event_queue: EventQueue::new(),
+                updates: 0,
+                renders: 0,
             }
-        }
-    }
-
-    impl EventLoop<Event> for TestData {
-        fn next_event(&mut self) -> Option<Event> {
-            self.event_queue.next_event()
-        }
-
-        fn send_event(&self, event: Event) {
-            self.event_queue.send_event(event)
         }
     }
 
@@ -172,38 +160,42 @@ mod engine_tests {
     fn should_provide_context_accessors() {
         let mut engine = Engine::from(TestData::new());
 
-        assert_eq!(engine.context().message, "Hello, World!");
-        engine.context_mut().message = "New message!".to_string();
-        assert_eq!(engine.context().message, "New message!");
+        assert_eq!(engine.context().data.message, "Hello, World!");
+        engine.context_mut().data.message = "New message!".to_string();
+        assert_eq!(engine.context().data.message, "New message!");
     }
 
     #[test]
     #[timeout(100)]
     fn should_run_and_quit() {
         let mut engine = Engine::from(TestData::new());
-        let mut updates = 0;
-        let mut renders = 0;
 
         while let Some(event) = engine.next_event() {
-            match event {
-                Event::Quit => (),
-                Event::Update => {
-                    if updates < 3 && renders < 3 {
-                        updates += 1;
-                    } else {
-                        engine.quit();
-                    }
-                }
-                Event::Render => renders += 1,
-                Event::EventsCleared => {
-                    engine.update();
-                    engine.render();
-                }
-                _ => (),
-            }
+            process_event(event, engine.context_mut());
         }
 
         assert!(engine.has_quit());
+        assert_eq!(engine.context().data.updates, 3);
+        assert_eq!(engine.context().data.renders, 4);
+    }
+
+    fn process_event(event: Event, context: &mut Context<TestData>) {
+        match event {
+            Event::Quit => (),
+            Event::Update => {
+                if context.data.updates < 3 && context.data.renders < 3 {
+                    context.data.updates += 1;
+                } else {
+                    context.quit();
+                }
+            }
+            Event::Render => context.data.renders += 1,
+            Event::EventsCleared => {
+                context.update();
+                context.render();
+            }
+            _ => (),
+        }
     }
 
     #[test]
