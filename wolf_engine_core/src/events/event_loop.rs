@@ -4,9 +4,6 @@ use std::sync::Arc;
 pub trait EventLoop<E>: HasEventSenderProxy<E> {
     /// Returns the next event in the loop.
     fn next_event(&mut self) -> Option<E>;
-
-    /// Send an event into the loop.
-    fn send_event(&self, event: E);
 }
 
 /// A type from which an [EventSender] can be created.
