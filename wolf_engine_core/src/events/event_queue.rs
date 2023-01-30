@@ -133,7 +133,7 @@ mod event_queue_tests {
 
     #[test]
     pub fn should_send_and_receive_events() {
-        let event_queue = EventQueue::new();
+        let mut event_queue = EventQueue::new();
 
         event_queue.send_event(0);
 
@@ -142,7 +142,7 @@ mod event_queue_tests {
 
     #[test]
     pub fn should_send_events_through_a_sender() {
-        let event_queue = EventQueue::new();
+        let mut event_queue = EventQueue::new();
         let sender = event_queue.event_sender();
 
         sender.send_event(0).unwrap();
@@ -161,7 +161,7 @@ mod event_queue_tests {
 
     #[test]
     pub fn should_flush_empty_list_if_there_are_no_events() {
-        let event_queue = EventQueue::<i32>::new();
+        let mut event_queue = EventQueue::<i32>::new();
 
         assert!(event_queue.next_event().is_none());
     }
