@@ -136,9 +136,8 @@ mod event_queue_tests {
         let event_queue = EventQueue::new();
 
         event_queue.send_event(0);
-        let events = event_queue.flush();
 
-        assert_eq!(events.get(0).expect("No event in the queue"), &0);
+        assert_eq!(event_queue.next_event().expect("No event in the queue"), 0);
     }
 
     #[test]
@@ -155,17 +154,16 @@ mod event_queue_tests {
         .unwrap();
         sender.send_event(2).unwrap();
 
-        let events = event_queue.flush();
-        assert_eq!(*events.get(0).unwrap(), 0);
-        assert_eq!(*events.get(1).unwrap(), 1);
-        assert_eq!(*events.get(2).unwrap(), 2);
+        assert_eq!(event_queue.next_event().expect("No event in the queue."), 0);
+        assert_eq!(event_queue.next_event().expect("No event in the queue."), 1);
+        assert_eq!(event_queue.next_event().expect("No event in the queue."), 2);
     }
 
     #[test]
     pub fn should_flush_empty_list_if_there_are_no_events() {
         let event_queue = EventQueue::<i32>::new();
 
-        assert!(event_queue.flush().is_empty());
+        assert!(event_queue.next_event().is_none());
     }
 
     #[test]
