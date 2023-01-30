@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use crate::events:j:wa:*;
+use crate::events::*;
 use crate::events::EventSender;
 use crate::prelude::*;
 
