@@ -22,12 +22,12 @@ use crate::events::*;
 /// `EventQueue`.
 ///
 /// ```
-/// # use wolf_engine_core::events::EventQueue;
+/// # use wolf_engine_core::events::*;
 /// #
 /// # enum EventType { Event };
 /// #
 /// let event_queue = EventQueue::new();
-/// event_queue.send(EventType::Event);
+/// event_queue.send_event(EventType::Event);
 /// ```
 ///
 /// The `EventQueue` itself cannot be sent across threads, so if you need to send events across
@@ -43,7 +43,7 @@ use crate::events::*;
 /// let event_sender = event_queue.sender();
 ///
 /// std::thread::spawn(move || {
-///     event_sender.send(EventType::Event).unwrap();
+///     event_sender.send_event(EventType::Event).unwrap();
 /// })
 /// # .join()
 /// # .unwrap();
