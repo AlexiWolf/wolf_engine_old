@@ -3,5 +3,3 @@ pub trait EventSender<E> {
 }
 
 pub trait EventSenderProxy<E>: EventSender<E> + Send + Sync {}
-
-impl<T, E> EventSenderProxy<E> for T where T: EventSender<E> + Clone + Send + Sync {}
