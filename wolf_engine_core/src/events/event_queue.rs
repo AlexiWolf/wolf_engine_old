@@ -135,7 +135,7 @@ mod event_queue_tests {
     pub fn should_send_and_receive_events() {
         let mut event_queue = EventQueue::new();
 
-        event_queue.send_event(0);
+        event_queue.send_event(0).unwrap();
 
         assert_eq!(event_queue.next_event().expect("No event in the queue"), 0);
     }
