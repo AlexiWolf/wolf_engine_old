@@ -73,16 +73,6 @@ impl<E> EventQueue<E> {
         let (sender, receiver) = channel();
         Self { sender, receiver }
     }
-
-    /// Send an event to the event queue.
-    pub fn send_event(&self, event: E) {
-        self.sender.send(event).unwrap();
-    }
-
-    /// Clears all events off the queue and returns them in a collection which can be iterated over.
-    pub fn flush(&self) -> Vec<E> {
-        self.receiver.try_iter().collect()
-    }
 }
 
 impl<E: 'static> EventLoop<E> for EventQueue<E> {
