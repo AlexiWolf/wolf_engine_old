@@ -136,7 +136,7 @@ mod event_queue_tests {
     pub fn should_send_and_receive_events() {
         let event_queue = EventQueue::new();
 
-        event_queue.send(0);
+        event_queue.send_event(0);
         let events = event_queue.flush();
 
         assert_eq!(events.get(0).expect("No event in the queue"), &0);
@@ -147,14 +147,14 @@ mod event_queue_tests {
         let event_queue = EventQueue::new();
         let sender = event_queue.sender();
 
-        sender.send(0).unwrap();
+        sender.send_event(0).unwrap();
         let thread_sender = sender.clone();
         thread::spawn(move || {
-            thread_sender.send(1).unwrap();
+            thread_sender.send_event(1).unwrap();
         })
         .join()
         .unwrap();
-        sender.send(2).unwrap();
+        sender.send_event(2).unwrap();
 
         let events = event_queue.flush();
         assert_eq!(*events.get(0).unwrap(), 0);
