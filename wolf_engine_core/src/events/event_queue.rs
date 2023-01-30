@@ -76,7 +76,7 @@ impl<E> EventQueue<E> {
     }
 
     /// Send an event to the event queue.
-    pub fn send(&self, event: E) {
+    pub fn send_event(&self, event: E) {
         self.sender.send(event).unwrap();
     }
 
@@ -118,7 +118,7 @@ impl<E> From<Sender<E>> for EventQueueSenderProxy<E> {
 }
 
 impl<E> EventSenderProxy<E> for EventQueueSenderProxy<E> {
-    fn send(&self, event: E) -> Result<(), String> {
+    fn send_event(&self, event: E) -> Result<(), String> {
         match self.inner.send(event) {
             Ok(_) => Ok(()),
             Err(error) => Err(error.to_string()),

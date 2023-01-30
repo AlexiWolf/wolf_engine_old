@@ -1,5 +1,5 @@
 pub trait EventSender<E> {
-    fn send(&self, event: E) -> Result<(), String>;
+    fn send_event(&self, event: E) -> Result<(), String>;
 }
 
 pub trait EventSenderProxy<E>: EventSender<E> + Send + Sync {}

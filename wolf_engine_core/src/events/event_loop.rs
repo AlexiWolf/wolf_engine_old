@@ -24,5 +24,5 @@ pub trait EventSenderProxy<E>: Send + Sync {
     /// This method will return [`Ok`] if the event is sent successfully.  An [`Err`] normally
     /// means the [`EventLoop`] has been dropped, or is no longer reachable for any reason.  The
     /// error message should provide more details.
-    fn send(&self, event: E) -> Result<(), String>;
+    fn send_event(&self, event: E) -> Result<(), String>;
 }
