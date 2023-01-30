@@ -90,10 +90,6 @@ impl<E: 'static> EventLoop<E> for EventQueue<E> {
     fn next_event(&mut self) -> Option<E> {
         self.receiver.try_recv().ok()
     }
-
-    fn send_event(&self, event: E) {
-        self.send(event)
-    }
 }
 
 impl<E: 'static> HasEventSenderProxy<E> for EventQueue<E> {
