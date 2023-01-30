@@ -12,7 +12,7 @@ pub trait EventLoop<E>: HasEventSenderProxy<E> {
 /// A type from which an [EventSender] can be created.
 pub trait HasEventSenderProxy<E> {
     /// Create a new [`EventSender`] from this `EventLoop`.
-    fn sender(&self) -> Arc<dyn EventSender<E>>;
+    fn sender(&self) -> Arc<dyn EventSenderProxy<E>>;
 }
 
 /// A thread-safe proxy for sending events to the associated [`EventLoop`].
@@ -21,7 +21,7 @@ pub trait HasEventSenderProxy<E> {
 /// event senders associated with it.  An `EventSender` is valid as long as the connected
 /// [`EventLoop`] hasn't been dropped.  The `EventSender` can be cloned, and passed around freely,
 /// even across thread boundaries.
-pub trait EventSender<E>: Send + Sync {
+pub trait EventSenderProxy<E>: Send + Sync {
     /// Send an event to the associated [`EventLoop`].
     ///
     /// This method will return [`Ok`] if the event is sent successfully.  An [`Err`] normally

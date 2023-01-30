@@ -128,8 +128,8 @@ impl<D, E: EventLoop<Event>> EventLoop<Event> for Engine<D, E> {
     }
 }
 
-impl<D, E: EventLoop<Event>> HasEventSender<Event> for Engine<D, E> {
-    fn sender(&self) -> Arc<dyn EventSender<Event>> {
+impl<D, E: EventLoop<Event>> HasEventSenderProxy<Event> for Engine<D, E> {
+    fn sender(&self) -> Arc<dyn EventSenderProxy<Event>> {
         self.event_loop.sender()
     }
 }
