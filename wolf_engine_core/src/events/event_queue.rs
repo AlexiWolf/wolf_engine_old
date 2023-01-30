@@ -7,8 +7,7 @@ use crate::events::*;
 ///
 /// # Examples
 ///
-/// To create an `EventQueue`, use [EventQueue::new()].  You must specify the event type you wish
-/// to use, or allow Rust to figure it out based on usage.
+/// To create an `EventQueue`, use [`EventQueue::new()`]. 
 ///
 /// ```
 /// # use wolf_engine_core::events::EventQueue;
@@ -18,8 +17,8 @@ use crate::events::*;
 /// let event_queue = EventQueue::<EventType>::new();
 /// ```
 ///
-/// Events can be sent directly through [EventQueue::send()] if you have direct access to the
-/// `EventQueue`.
+/// The `EventQueue` implements [`EventSender`], so you can send events with
+/// [`EventSender::send_event()`] if you have direct access to the `EventQueue`.
 ///
 /// ```
 /// # use wolf_engine_core::events::*;
@@ -30,9 +29,10 @@ use crate::events::*;
 /// event_queue.send_event(EventType::Event);
 /// ```
 ///
-/// The `EventQueue` itself cannot be sent across threads, so if you need to send events across
-/// threads, you must create a [Sender] using [EventQueue::sender()].  A [Sender] can also be used
-/// to send events from code which does not have direct access to the `EventQueue`.
+/// The `EventQueue` itself cannot be sent across threads, so you you must create a 
+/// [`EventSenderProxy`] using [`HasEventSenderProxy::event_sender()`] to listen to events on other
+/// threads.  An [`EventSenderProxy`] can also be used to send events from code which does not 
+/// have direct access to the `EventQueue`.
 ///
 /// ```
 /// # use wolf_engine_core::events::*;
@@ -41,7 +41,6 @@ use crate::events::*;
 /// #
 /// let event_queue = EventQueue::new();
 /// let event_sender = event_queue.event_sender();
-///
 /// std::thread::spawn(move || {
 ///     event_sender.send_event(EventType::Event).unwrap();
 /// })
