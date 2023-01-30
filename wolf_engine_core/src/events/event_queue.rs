@@ -81,6 +81,15 @@ impl<E: 'static> EventLoop<E> for EventQueue<E> {
     }
 }
 
+impl<E: 'static> EventSender<E> for EventQueue<E> {
+    fn send_event(&self, event: E) -> Result<(), String> {
+        match self.sender.send(event) {
+            Ok(_) => Ok(()),
+            Err(error) => Err(error.to_string()),
+        }
+    }
+}
+
 impl<E: 'static> HasEventSenderProxy<E> for EventQueue<E> {
     fn event_sender(&self) -> Arc<dyn EventSenderProxy<E>> {
         Arc::from(EventQueueSenderProxy::from(self.sender.clone()))
