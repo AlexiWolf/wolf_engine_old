@@ -21,7 +21,7 @@ use crate::prelude::*;
 pub struct Context<D> {
     /// The user-facing engine data.  Normally things like subsystems.
     pub data: D,
-    event_sender: Arc<dyn EventSender<Event>>,
+    event_sender: Arc<dyn EventSenderProxy<Event>>,
     has_quit: bool,
 }
 
