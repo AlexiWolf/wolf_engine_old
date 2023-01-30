@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use crate::events::*;
+use crate::events:j:wa:*;
 use crate::prelude::*;
 
 /// TODO: Update Engine docs.
@@ -121,10 +121,6 @@ impl<D, E: EventLoop<Event>> EventLoop<Event> for Engine<D, E> {
             Some(event) => Some(self.handle_event(event)),
             None => self.handle_empty_event(),
         }
-    }
-
-    fn send_event(&self, event: Event) {
-        self.event_loop.send_event(event)
     }
 }
 
