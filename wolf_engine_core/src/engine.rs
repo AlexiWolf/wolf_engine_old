@@ -127,7 +127,7 @@ impl<D, E: EventLoop<Event>> EventLoop<Event> for Engine<D, E> {
 
 impl<D, E: EventLoop<Event>> EventSender<Event> for Engine<D, E> {
     fn send_event(&self, event: Event) -> Result<(), String> {
-        self.context.send_event()
+        self.context.send_event(event)
     }
 }
 
