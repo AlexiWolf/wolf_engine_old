@@ -117,7 +117,7 @@ impl<E> From<Sender<E>> for EventQueueSenderProxy<E> {
     }
 }
 
-impl<E> EventSenderProxy<E> for EventQueueSenderProxy<E> {
+impl<E> EventSender<E> for EventQueueSenderProxy<E> {
     fn send_event(&self, event: E) -> Result<(), String> {
         match self.inner.send(event) {
             Ok(_) => Ok(()),
