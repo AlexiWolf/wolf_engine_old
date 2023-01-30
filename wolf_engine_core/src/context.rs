@@ -30,7 +30,7 @@ impl<D> Context<D> {
     pub fn new(event_loop: &dyn EventLoop<Event>, data: D) -> Self {
         Self {
             data,
-            event_sender: event_loop.sender(),
+            event_sender: event_loop.event_sender(),
             has_quit: false,
         }
     }

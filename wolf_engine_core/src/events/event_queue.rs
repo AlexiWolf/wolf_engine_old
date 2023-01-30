@@ -40,7 +40,7 @@ use crate::events::*;
 /// # enum EventType { Event };
 /// #
 /// let event_queue = EventQueue::new();
-/// let event_sender = event_queue.sender();
+/// let event_sender = event_queue.event_sender();
 ///
 /// std::thread::spawn(move || {
 ///     event_sender.send_event(EventType::Event).unwrap();
@@ -93,7 +93,7 @@ impl<E: 'static> EventLoop<E> for EventQueue<E> {
 }
 
 impl<E: 'static> HasEventSenderProxy<E> for EventQueue<E> {
-    fn sender(&self) -> Arc<dyn EventSenderProxy<E>> {
+    fn event_sender(&self) -> Arc<dyn EventSenderProxy<E>> {
         Arc::from(EventQueueSenderProxy::from(self.sender.clone()))
     }
 }
@@ -146,7 +146,7 @@ mod event_queue_tests {
     #[test]
     pub fn should_send_events_through_a_sender() {
         let event_queue = EventQueue::new();
-        let sender = event_queue.sender();
+        let sender = event_queue.event_sender();
 
         sender.send_event(0).unwrap();
         let thread_sender = sender.clone();

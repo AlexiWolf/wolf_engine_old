@@ -11,5 +11,5 @@ pub trait EventLoop<E>: HasEventSenderProxy<E> {
 /// A type from which an [EventSender] can be created.
 pub trait HasEventSenderProxy<E> {
     /// Create a new [`EventSender`] from this `EventLoop`.
-    fn sender(&self) -> Arc<dyn EventSenderProxy<E>>;
+    fn event_sender(&self) -> Arc<dyn EventSenderProxy<E>>;
 }
