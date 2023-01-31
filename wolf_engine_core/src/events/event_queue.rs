@@ -52,13 +52,13 @@ use crate::events::*;
 /// the queue and return them in a collection which can be iterated over.
 ///
 /// ```
-/// # use wolf_engine_core::events::EventQueue;
+/// # use wolf_engine_core::events::*;
 /// #
 /// # enum EventType { Event };
 /// #
-/// # let event_queue = EventQueue::<i32>::new();
+/// # let mut event_queue = EventQueue::<i32>::new();
 /// #
-/// for event in event_queue.flush() {
+/// while let Some(event) = event_queue.next_event() {
 ///     // Handle events here.
 /// }
 /// ```
