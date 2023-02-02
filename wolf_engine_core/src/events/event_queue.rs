@@ -48,8 +48,7 @@ use crate::events::*;
 /// # .unwrap();
 /// ```
 ///
-/// Queued events can be accessed by calling [EventQueue::flush()] this will clear all events from
-/// the queue and return them in a collection which can be iterated over.
+/// Queued events can be accessed by calling [`EventLoop::next_event()`].
 ///
 /// ```
 /// # use wolf_engine_core::events::*;

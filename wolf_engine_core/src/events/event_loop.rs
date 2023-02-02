@@ -8,8 +8,8 @@ pub trait EventLoop<E>: HasEventSenderProxy<E> {
     fn next_event(&mut self) -> Option<E>;
 }
 
-/// A type from which an [EventSender] can be created.
+/// A type from which an [`EventSender`](super::EventSender) can be created.
 pub trait HasEventSenderProxy<E> {
-    /// Create a new [`EventSender`] from this `EventLoop`.
+    /// Create a new [`EventSender`](super::EventSender) from this `EventLoop`.
     fn event_sender(&self) -> Arc<dyn EventSenderProxy<E>>;
 }
