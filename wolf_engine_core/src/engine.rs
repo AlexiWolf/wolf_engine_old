@@ -125,12 +125,6 @@ impl<D, E: EventQueue<Event>> EventQueue<Event> for Engine<D, E> {
     }
 }
 
-impl<D, E: EventQueue<Event>> EventSender<Event> for Engine<D, E> {
-    fn send_event(&self, event: Event) -> Result<(), String> {
-        self.context.send_event(event)
-    }
-}
-
 impl<D, E: EventQueue<Event>> HasEventSender<Event> for Engine<D, E> {
     fn event_sender(&self) -> Arc<dyn EventSender<Event>> {
         self.event_loop.event_sender()
