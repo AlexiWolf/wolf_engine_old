@@ -8,9 +8,10 @@
 /// # let engine = Engine::default();
 /// #
 /// // Instead of using the EventLoop directly...
-/// engine.send_event(Event::Update);
-/// engine.send_event(Event::Render);
-/// engine.send_event(Event::Quit);
+/// let event_sender = engine.event_sender();
+/// event_sender.send_event(Event::Update);
+/// event_sender.send_event(Event::Render);
+/// event_sender.send_event(Event::Quit);
 ///
 /// // Use EngineControl methods.
 /// engine.update();
