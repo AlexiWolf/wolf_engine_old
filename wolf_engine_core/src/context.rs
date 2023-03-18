@@ -60,3 +60,9 @@ impl<D> EngineControls for Context<D> {
         self.event_sender.send_event(Event::Render).ok();
     }
 }
+
+impl<D> HasEventSender<Event> for Context<D> {
+    fn event_sender(&self) -> Arc<dyn EventSender<Event>> {
+        self.event_sender.clone()
+    }
+}
