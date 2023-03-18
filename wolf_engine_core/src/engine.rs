@@ -81,11 +81,13 @@ impl<D, E: EventQueue<Event>> EngineControls for Engine<D, E> {
     }
 
     fn update(&self) {
-        self.send_event(Event::Update).ok();
+        self.context.event_sender()
+            .send_event(Event::Update).ok();
     }
 
     fn render(&self) {
-        self.send_event(Event::Render).ok();
+        self.context.event_sender()
+            .send_event(Event::Render).ok();
     }
 }
 
