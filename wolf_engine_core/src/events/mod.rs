@@ -2,8 +2,8 @@
 
 mod event_queue;
 pub use event_queue::*;
-mod event_loop;
-pub use event_loop::*;
+mod mpsc_event_queue;
+pub use mpsc_event_queue::*;
 mod engine_events;
 pub use engine_events::*;
 mod event_sender;
