@@ -4,49 +4,6 @@ use std::sync::Arc;
 use crate::events::*;
 
 /// Provides a MPSC [`EventQueue`] implementation based on [`std::sync::mpsc`].
-///
-/// # Examples
-///
-/// To create an `MpscEventQueue`, use [`MpscEventQueue::new()`]. 
-///
-/// ```
-/// # use wolf_engine_core::events::MpscEventQueue;
-/// #
-/// # enum EventType { Event };
-/// #
-/// let event_queue = MpscEventQueue::<EventType>::new();
-/// ```
-///
-/// `MpscEventQueue` itself cannot be sent across threads, so you you must create a 
-/// [`EventSenderProxy`] in order to send events across threads. An [`EventSenderProxy`].
-///
-/// ```
-/// # use wolf_engine_core::events::*;
-/// #
-/// # enum EventType { Event };
-/// #
-/// let event_queue = MpscEventQueue::new();
-/// let event_sender = event_queue.event_sender();
-/// std::thread::spawn(move || {
-///     event_sender.send_event(EventType::Event).unwrap();
-/// })
-/// # .join()
-/// # .unwrap();
-/// ```
-///
-/// Queued events can be accessed by calling [`EventQueue::next_event()`].
-///
-/// ```
-/// # use wolf_engine_core::events::*;
-/// #
-/// # enum EventType { Event };
-/// #
-/// # let mut event_queue = MpscEventQueue::<i32>::new();
-/// #
-/// while let Some(event) = event_queue.next_event() {
-///     // Handle events here.
-/// }
-/// ```
 pub struct MpscEventQueue<E> {
     sender: Sender<E>,
     receiver: Receiver<E>,
