@@ -110,14 +110,15 @@ mod event_queue_tests {
     #[test]
     pub fn should_send_and_receive_events() {
         let mut event_queue = MpscEventQueue::new();
+        let event_sender = event_queue.event_sender();
 
-        event_queue.send_event(0).unwrap();
+        event_sender.send_event(0).unwrap();
 
         assert_eq!(event_queue.next_event().expect("No event in the queue"), 0);
     }
 
     #[test]
-    pub fn should_send_events_through_a_sender() {
+    pub fn should_send_events_and_receive_events_across_threads() {
         let mut event_queue = MpscEventQueue::new();
         let sender = event_queue.event_sender();
 
