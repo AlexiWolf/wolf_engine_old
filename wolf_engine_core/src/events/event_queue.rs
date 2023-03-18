@@ -21,9 +21,6 @@ pub trait HasEventSenderProxy<E> {
 ///
 /// In cases where you need to send events across threads, or you need to skirt around borrowing
 /// rules, using an [`EventSenderProxy`] may be needed.
-pub trait EventSender<E> {
+pub trait EventSender<E>: Send + Sync {
     fn send_event(&self, event: E) -> Result<(), String>;
 }
-
-/// A thread-safe link to an [`EventSender`].
-pub trait EventSenderProxy<E>: EventSender<E> + Send + Sync {}
