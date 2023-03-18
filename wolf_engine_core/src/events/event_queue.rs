@@ -16,11 +16,7 @@ pub trait HasEventSender<E> {
     fn event_sender(&self) -> Arc<dyn EventSender<E>>;
 }
 
-/// A type which can send events.  Most commonly used to send events back to an 
-/// [`EventQueue`].
-///
-/// In cases where you need to send events across threads, or you need to skirt around borrowing
-/// rules, using an [`EventSenderProxy`] may be needed.
+/// A thread-safe link to an `EventQueue` for sending events.
 pub trait EventSender<E>: Send + Sync {
     fn send_event(&self, event: E) -> Result<(), String>;
 }
