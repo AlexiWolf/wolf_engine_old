@@ -40,7 +40,7 @@ use crate::prelude::*;
 ///     }
 /// }
 /// ```
-pub struct Engine<D, E: EventLoop<Event>> {
+pub struct Engine<D, E: EventQueue<Event>> {
     context: Context<D>,
     event_loop: E,
 }
@@ -71,7 +71,7 @@ impl<D> From<D> for Engine<D, MpscEventQueue<Event>> {
     }
 }
 
-impl<D, E: EventLoop<Event>> EngineControls for Engine<D, E> {
+impl<D, E: EventQueue<Event>> EngineControls for Engine<D, E> {
     fn quit(&self) {
         self.context.quit()
     }
@@ -89,7 +89,7 @@ impl<D, E: EventLoop<Event>> EngineControls for Engine<D, E> {
     }
 }
 
-impl<D, E: EventLoop<Event>> Engine<D, E> {
+impl<D, E: EventQueue<Event>> Engine<D, E> {
     /// Get immutable access to the [`Context`] data.
     pub fn context(&self) -> &Context<D> {
         &self.context
@@ -116,7 +116,7 @@ impl<D, E: EventLoop<Event>> Engine<D, E> {
     }
 }
 
-impl<D, E: EventLoop<Event>> EventLoop<Event> for Engine<D, E> {
+impl<D, E: EventQueue<Event>> EventQueue<Event> for Engine<D, E> {
     fn next_event(&mut self) -> Option<Event> {
         match self.event_loop.next_event() {
             Some(event) => Some(self.handle_event(event)),
@@ -125,13 +125,13 @@ impl<D, E: EventLoop<Event>> EventLoop<Event> for Engine<D, E> {
     }
 }
 
-impl<D, E: EventLoop<Event>> EventSender<Event> for Engine<D, E> {
+impl<D, E: EventQueue<Event>> EventSender<Event> for Engine<D, E> {
     fn send_event(&self, event: Event) -> Result<(), String> {
         self.context.send_event(event)
     }
 }
 
-impl<D, E: EventLoop<Event>> HasEventSenderProxy<Event> for Engine<D, E> {
+impl<D, E: EventQueue<Event>> HasEventSenderProxy<Event> for Engine<D, E> {
     fn event_sender(&self) -> Arc<dyn EventSenderProxy<Event>> {
         self.event_loop.event_sender()
     }

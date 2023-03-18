@@ -27,7 +27,7 @@ pub struct Context<D> {
 
 impl<D> Context<D> {
     /// Create a new `Context` from the provided [`EventLoop`] and data.
-    pub fn new(event_loop: &dyn EventLoop<Event>, data: D) -> Self {
+    pub fn new(event_loop: &dyn EventQueue<Event>, data: D) -> Self {
         Self {
             data,
             event_sender: event_loop.event_sender(),

@@ -7,7 +7,7 @@ use super::EventSenderProxy;
 /// The `EventQueue` uses a split receiver / sender design, similar to [`std::sync::mpsc::channel`] 
 /// where events are sent in by an associated [`EventSender`](super::EventSender) or 
 /// [`EventSenderProxy`].  The order of incoming events is always preserved.
-pub trait EventLoop<E>: HasEventSenderProxy<E> {
+pub trait EventQueue<E>: HasEventSenderProxy<E> {
     /// Returns the next event in the queue.
     fn next_event(&mut self) -> Option<E>;
 }

@@ -74,7 +74,7 @@ impl<E> MpscEventQueue<E> {
     }
 }
 
-impl<E: 'static> EventLoop<E> for MpscEventQueue<E> {
+impl<E: 'static> EventQueue<E> for MpscEventQueue<E> {
     fn next_event(&mut self) -> Option<E> {
         self.receiver.try_recv().ok()
     }
