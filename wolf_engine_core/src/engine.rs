@@ -45,9 +45,9 @@ pub struct Engine<D, E: EventLoop<Event>> {
     event_loop: E,
 }
 
-impl Engine<(), EventQueue<Event>> {
+impl Engine<(), MpscEventQueue<Event>> {
     pub fn new() -> Self {
-        let event_loop = EventQueue::new();
+        let event_loop = MpscEventQueue::new();
         Self {
             context: Context::new(&event_loop, ()),
             event_loop,
@@ -55,15 +55,15 @@ impl Engine<(), EventQueue<Event>> {
     }
 }
 
-impl Default for Engine<(), EventQueue<Event>> {
+impl Default for Engine<(), MpscEventQueue<Event>> {
     fn default() -> Self {
         Self::new()
     }
 }
 
-impl<D> From<D> for Engine<D, EventQueue<Event>> {
+impl<D> From<D> for Engine<D, MpscEventQueue<Event>> {
     fn from(data: D) -> Self {
-        let event_loop = EventQueue::new();
+        let event_loop = MpscEventQueue::new();
         Self {
             context: Context::new(&event_loop, data),
             event_loop,

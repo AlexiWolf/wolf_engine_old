@@ -7,17 +7,17 @@ use crate::events::*;
 ///
 /// # Examples
 ///
-/// To create an `EventQueue`, use [`EventQueue::new()`]. 
+/// To create an `MpscEventQueue`, use [`MpscEventQueue::new()`]. 
 ///
 /// ```
-/// # use wolf_engine_core::events::EventQueue;
+/// # use wolf_engine_core::events::MpscEventQueue;
 /// #
 /// # enum EventType { Event };
 /// #
-/// let event_queue = EventQueue::<EventType>::new();
+/// let event_queue = MpscEventQueue::<EventType>::new();
 /// ```
 ///
-/// The `EventQueue` implements [`EventSender`], so you can send events with
+/// The `MpscEventQueue` implements [`EventSender`], so you can send events with
 /// [`EventSender::send_event()`] if you have direct access to the `EventQueue`.
 ///
 /// ```
@@ -25,7 +25,7 @@ use crate::events::*;
 /// #
 /// # enum EventType { Event };
 /// #
-/// let event_queue = EventQueue::new();
+/// let event_queue = MpscEventQueue::new();
 /// event_queue.send_event(EventType::Event);
 /// ```
 ///
@@ -39,7 +39,7 @@ use crate::events::*;
 /// #
 /// # enum EventType { Event };
 /// #
-/// let event_queue = EventQueue::new();
+/// let event_queue = MpscEventQueue::new();
 /// let event_sender = event_queue.event_sender();
 /// std::thread::spawn(move || {
 ///     event_sender.send_event(EventType::Event).unwrap();
@@ -55,18 +55,18 @@ use crate::events::*;
 /// #
 /// # enum EventType { Event };
 /// #
-/// # let mut event_queue = EventQueue::<i32>::new();
+/// # let mut event_queue = MpscEventQueue::<i32>::new();
 /// #
 /// while let Some(event) = event_queue.next_event() {
 ///     // Handle events here.
 /// }
 /// ```
-pub struct EventQueue<E> {
+pub struct MpscEventQueue<E> {
     sender: Sender<E>,
     receiver: Receiver<E>,
 }
 
-impl<E> EventQueue<E> {
+impl<E> MpscEventQueue<E> {
     /// Creates a new event queue.
     pub fn new() -> Self {
         let (sender, receiver) = channel();
@@ -74,13 +74,13 @@ impl<E> EventQueue<E> {
     }
 }
 
-impl<E: 'static> EventLoop<E> for EventQueue<E> {
+impl<E: 'static> EventLoop<E> for MpscEventQueue<E> {
     fn next_event(&mut self) -> Option<E> {
         self.receiver.try_recv().ok()
     }
 }
 
-impl<E: 'static> EventSender<E> for EventQueue<E> {
+impl<E: 'static> EventSender<E> for MpscEventQueue<E> {
     fn send_event(&self, event: E) -> Result<(), String> {
         match self.sender.send(event) {
             Ok(_) => Ok(()),
@@ -89,33 +89,33 @@ impl<E: 'static> EventSender<E> for EventQueue<E> {
     }
 }
 
-impl<E: 'static> HasEventSenderProxy<E> for EventQueue<E> {
+impl<E: 'static> HasEventSenderProxy<E> for MpscEventQueue<E> {
     fn event_sender(&self) -> Arc<dyn EventSenderProxy<E>> {
-        Arc::from(EventQueueSenderProxy::from(self.sender.clone()))
+        Arc::from(MpscEventQueueSenderProxy::from(self.sender.clone()))
     }
 }
 
-impl<E> Default for EventQueue<E> {
+impl<E> Default for MpscEventQueue<E> {
     fn default() -> Self {
         Self::new()
     }
 }
 
-struct EventQueueSenderProxy<E> {
+struct MpscEventQueueSenderProxy<E> {
     inner: Sender<E>,
 }
 
-unsafe impl<E> Send for EventQueueSenderProxy<E> {}
-unsafe impl<E> Sync for EventQueueSenderProxy<E> {}
+unsafe impl<E> Send for MpscEventQueueSenderProxy<E> {}
+unsafe impl<E> Sync for MpscEventQueueSenderProxy<E> {}
 
-impl<E> From<Sender<E>> for EventQueueSenderProxy<E> {
+impl<E> From<Sender<E>> for MpscEventQueueSenderProxy<E> {
     fn from(sender: Sender<E>) -> Self {
         Self { inner: sender }
     }
 }
 
-impl<E> EventSenderProxy<E> for EventQueueSenderProxy<E> {}
-impl<E> EventSender<E> for EventQueueSenderProxy<E> {
+impl<E> EventSenderProxy<E> for MpscEventQueueSenderProxy<E> {}
+impl<E> EventSender<E> for MpscEventQueueSenderProxy<E> {
     fn send_event(&self, event: E) -> Result<(), String> {
         match self.inner.send(event) {
             Ok(_) => Ok(()),
@@ -132,7 +132,7 @@ mod event_queue_tests {
 
     #[test]
     pub fn should_send_and_receive_events() {
-        let mut event_queue = EventQueue::new();
+        let mut event_queue = MpscEventQueue::new();
 
         event_queue.send_event(0).unwrap();
 
@@ -141,7 +141,7 @@ mod event_queue_tests {
 
     #[test]
     pub fn should_send_events_through_a_sender() {
-        let mut event_queue = EventQueue::new();
+        let mut event_queue = MpscEventQueue::new();
         let sender = event_queue.event_sender();
 
         sender.send_event(0).unwrap();
@@ -160,13 +160,13 @@ mod event_queue_tests {
 
     #[test]
     pub fn should_flush_empty_list_if_there_are_no_events() {
-        let mut event_queue = EventQueue::<i32>::new();
+        let mut event_queue = MpscEventQueue::<i32>::new();
 
         assert!(event_queue.next_event().is_none());
     }
 
     #[test]
     pub fn should_implement_default_trait() {
-        let _event_queue = EventQueue::<i32>::default();
+        let _event_queue = MpscEventQueue::<i32>::default();
     }
 }
