@@ -17,7 +17,7 @@ pub trait HasEventSenderProxy<E> {
 }
 
 /// A type which can send events.  Most commonly used to send events back to an 
-/// [`EventLoop`](super::EventLoop).
+/// [`EventQueue`].
 ///
 /// In cases where you need to send events across threads, or you need to skirt around borrowing
 /// rules, using an [`EventSenderProxy`] may be needed.

@@ -29,10 +29,8 @@ use crate::events::*;
 /// event_queue.send_event(EventType::Event);
 /// ```
 ///
-/// The `EventQueue` itself cannot be sent across threads, so you you must create a 
-/// [`EventSenderProxy`] using [`HasEventSenderProxy::event_sender()`] to listen to events on other
-/// threads.  An [`EventSenderProxy`] can also be used to send events from code which does not 
-/// have direct access to the `EventQueue`.
+/// `MpscEventQueue` itself cannot be sent across threads, so you you must create a 
+/// [`EventSenderProxy`] in order to send events across threads. An [`EventSenderProxy`].
 ///
 /// ```
 /// # use wolf_engine_core::events::*;
@@ -48,7 +46,7 @@ use crate::events::*;
 /// # .unwrap();
 /// ```
 ///
-/// Queued events can be accessed by calling [`EventLoop::next_event()`].
+/// Queued events can be accessed by calling [`EventQueue::next_event()`].
 ///
 /// ```
 /// # use wolf_engine_core::events::*;
