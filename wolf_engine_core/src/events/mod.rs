@@ -6,5 +6,3 @@ mod mpsc_event_queue;
 pub use mpsc_event_queue::*;
 mod engine_events;
 pub use engine_events::*;
-mod event_sender;
-pub use event_sender::*;

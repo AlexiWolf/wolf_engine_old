@@ -1,7 +1,5 @@
 use std::sync::Arc;
 
-use super::EventSenderProxy;
-
 /// A generic, FIFO event queue.
 ///
 /// The `EventQueue` uses a split receiver / sender design, similar to [`std::sync::mpsc::channel`] 
