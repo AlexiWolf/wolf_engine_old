@@ -17,18 +17,6 @@ use crate::events::*;
 /// let event_queue = MpscEventQueue::<EventType>::new();
 /// ```
 ///
-/// The `MpscEventQueue` implements [`EventSender`], so you can send events with
-/// [`EventSender::send_event()`] if you have direct access to the `EventQueue`.
-///
-/// ```
-/// # use wolf_engine_core::events::*;
-/// #
-/// # enum EventType { Event };
-/// #
-/// let event_queue = MpscEventQueue::new();
-/// event_queue.send_event(EventType::Event);
-/// ```
-///
 /// `MpscEventQueue` itself cannot be sent across threads, so you you must create a 
 /// [`EventSenderProxy`] in order to send events across threads. An [`EventSenderProxy`].
 ///
