@@ -3,7 +3,7 @@ use std::sync::Arc;
 
 use crate::events::*;
 
-/// Provides a generic, FIFO, MPSC event queue based on [`std::sync::mpsc`].
+/// Provides a MPSC [`EventQueue] implementation based on [`std::sync::mpsc`].
 ///
 /// # Examples
 ///
