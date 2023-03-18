@@ -60,9 +60,3 @@ impl<D> EngineControls for Context<D> {
         self.event_sender.send_event(Event::Render).ok();
     }
 }
-
-impl<D> EventSender<Event> for Context<D> {
-    fn send_event(&self, event: Event) -> Result<(), String> {
-        self.event_sender.send_event(event)
-    }
-}
