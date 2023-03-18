@@ -67,8 +67,8 @@ impl<E: 'static> EventQueue<E> for MpscEventQueue<E> {
 }
 
 impl<E: 'static> HasEventSenderProxy<E> for MpscEventQueue<E> {
-    fn event_sender(&self) -> Arc<dyn EventSenderProxy<E>> {
-        Arc::from(MpscEventQueueSenderProxy::from(self.sender.clone()))
+    fn event_sender(&self) -> Arc<dyn EventSender<E>> {
+        Arc::from(MpscEventQueueSender::from(self.sender.clone()))
     }
 }
 
@@ -78,21 +78,20 @@ impl<E> Default for MpscEventQueue<E> {
     }
 }
 
-struct MpscEventQueueSenderProxy<E> {
+struct MpscEventQueueSender<E> {
     inner: Sender<E>,
 }
 
-unsafe impl<E> Send for MpscEventQueueSenderProxy<E> {}
-unsafe impl<E> Sync for MpscEventQueueSenderProxy<E> {}
+unsafe impl<E> Send for MpscEventQueueSender<E> {}
+unsafe impl<E> Sync for MpscEventQueueSender<E> {}
 
-impl<E> From<Sender<E>> for MpscEventQueueSenderProxy<E> {
+impl<E> From<Sender<E>> for MpscEventQueueSender<E> {
     fn from(sender: Sender<E>) -> Self {
         Self { inner: sender }
     }
 }
 
-impl<E> EventSenderProxy<E> for MpscEventQueueSenderProxy<E> {}
-impl<E> EventSender<E> for MpscEventQueueSenderProxy<E> {
+impl<E> EventSender<E> for MpscEventQueueSender<E> {
     fn send_event(&self, event: E) -> Result<(), String> {
         match self.inner.send(event) {
             Ok(_) => Ok(()),

@@ -13,7 +13,7 @@ pub trait EventQueue<E>: HasEventSenderProxy<E> {
 /// A type from which an [`EventSenderProxy`](super::EventSenderProxy) can be created.
 pub trait HasEventSenderProxy<E> {
     /// Create a new [`EventSenderProxy`](super::EventSenderProxy).
-    fn event_sender(&self) -> Arc<dyn EventSenderProxy<E>>;
+    fn event_sender(&self) -> Arc<dyn EventSender<E>>;
 }
 
 /// A type which can send events.  Most commonly used to send events back to an 
