@@ -2,12 +2,12 @@ use std::sync::Arc;
 
 /// A generic, FIFO event queue.
 ///
-/// The `EventQueue` uses a split receiver / sender design, similar to [`std::sync::mpsc::channel`] 
-/// where events are sent in by an associated [`EventSender`].  The order of incoming events is 
+/// The `EventQueue` uses a split receiver / sender design, similar to [`std::sync::mpsc::channel`]
+/// where events are sent in by an associated [`EventSender`].  The order of incoming events is
 /// always preserved.
 ///
 /// # Examples
-/// 
+///
 /// Iterating over all events using a `while let` loop.
 ///
 /// ```
@@ -18,7 +18,7 @@ use std::sync::Arc;
 ///     // Do something cool.
 /// }
 /// ```
-/// 
+///
 /// Sending an event through an [`EventSender`].
 ///
 /// ```

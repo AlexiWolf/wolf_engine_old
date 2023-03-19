@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
-use crate::events::*;
 use crate::events::EventSender;
+use crate::events::*;
 use crate::prelude::*;
 
 /// TODO: Update Engine docs.
@@ -81,13 +81,11 @@ impl<D, E: EventQueue<Event>> EngineControls for Engine<D, E> {
     }
 
     fn update(&self) {
-        self.context.event_sender()
-            .send_event(Event::Update).ok();
+        self.context.event_sender().send_event(Event::Update).ok();
     }
 
     fn render(&self) {
-        self.context.event_sender()
-            .send_event(Event::Render).ok();
+        self.context.event_sender().send_event(Event::Render).ok();
     }
 }
 
