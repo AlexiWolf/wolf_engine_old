@@ -20,5 +20,5 @@ pub mod logging;
 #[doc(hidden)]
 pub mod prelude {
     pub use super::*;
-    pub use events::{Event, EventLoop};
+    pub use events::*;
 }

@@ -28,6 +28,7 @@
 //! use wolf_engine::prelude::*;
 //!
 //! let mut engine = Engine::new();
+//! let event_sender = engine.event_sender();
 //!
 //! // The Engine will continue to return events until it quits.
 //! while let Some(event) = engine.next_event() {
@@ -39,7 +40,7 @@
 //!             // Update the game.
 //!
 //!             // To shut down the Engine, you must send a quit event.
-//!             engine.send_event(Event::Quit);
+//!             event_sender.send_event(Event::Quit);
 //!         },
 //!         Event::Render => {
 //!             // Render the game.
@@ -47,8 +48,8 @@
 //!         Event::EventsCleared => {
 //!             // Note: The engine will not emit Update / Render events on its own.
 //!             //       You are expected to do this yourself.
-//!             engine.send_event(Event::Update);
-//!             engine.send_event(Event::Render);
+//!             event_sender.send_event(Event::Update);
+//!             event_sender.send_event(Event::Render);
 //!         }
 //!         _ => (),
 //!     }

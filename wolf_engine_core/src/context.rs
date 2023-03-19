@@ -14,7 +14,7 @@ use crate::prelude::*;
 /// Why not just use the [`Engine`] directly?
 ///
 /// The [`Engine`] has some components which are not intended to be made accessible to the game.
-/// For example, the [`EventLoop`], which uses a Multi-Producer Single-Consumer (`mpsc`) model by
+/// For example, the [`EventQueue`], which uses a Multi-Producer Single-Consumer (`mpsc`) model by
 /// default, could not be used by a game without breaking the [`Engine`].  In some cases, it
 /// may be impractical, or impossible, either due to borrowing rules, or general complexity of the
 /// [`Engine`] type, to borrow the whole [`Engine`].
@@ -26,11 +26,11 @@ pub struct Context<D> {
 }
 
 impl<D> Context<D> {
-    /// Create a new `Context` from the provided [`EventLoop`] and data.
-    pub fn new(event_loop: &dyn EventLoop<Event>, data: D) -> Self {
+    /// Create a new `Context` from the provided [`EventQueue`] and data.
+    pub fn new(event_loop: &dyn EventQueue<Event>, data: D) -> Self {
         Self {
             data,
-            event_sender: event_loop.sender(),
+            event_sender: event_loop.event_sender(),
             has_quit: false,
         }
     }
@@ -45,7 +45,7 @@ impl<D> Context<D> {
 
 impl<D> EngineControls for Context<D> {
     fn quit(&self) {
-        self.event_sender.send(Event::Quit).ok();
+        self.event_sender.send_event(Event::Quit).ok();
     }
 
     fn has_quit(&self) -> bool {
@@ -53,10 +53,16 @@ impl<D> EngineControls for Context<D> {
     }
 
     fn update(&self) {
-        self.event_sender.send(Event::Update).ok();
+        self.event_sender.send_event(Event::Update).ok();
     }
 
     fn render(&self) {
-        self.event_sender.send(Event::Render).ok();
+        self.event_sender.send_event(Event::Render).ok();
+    }
+}
+
+impl<D> HasEventSender<Event> for Context<D> {
+    fn event_sender(&self) -> Arc<dyn EventSender<Event>> {
+        self.event_sender.clone()
     }
 }

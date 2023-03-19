@@ -1,5 +1,6 @@
 use std::sync::Arc;
 
+use crate::events::EventSender;
 use crate::events::*;
 use crate::prelude::*;
 
@@ -39,14 +40,14 @@ use crate::prelude::*;
 ///     }
 /// }
 /// ```
-pub struct Engine<D, E: EventLoop<Event>> {
+pub struct Engine<D, E: EventQueue<Event>> {
     context: Context<D>,
     event_loop: E,
 }
 
-impl Engine<(), EventQueue<Event>> {
+impl Engine<(), MpscEventQueue<Event>> {
     pub fn new() -> Self {
-        let event_loop = EventQueue::new();
+        let event_loop = MpscEventQueue::new();
         Self {
             context: Context::new(&event_loop, ()),
             event_loop,
@@ -54,15 +55,15 @@ impl Engine<(), EventQueue<Event>> {
     }
 }
 
-impl Default for Engine<(), EventQueue<Event>> {
+impl Default for Engine<(), MpscEventQueue<Event>> {
     fn default() -> Self {
         Self::new()
     }
 }
 
-impl<D> From<D> for Engine<D, EventQueue<Event>> {
+impl<D> From<D> for Engine<D, MpscEventQueue<Event>> {
     fn from(data: D) -> Self {
-        let event_loop = EventQueue::new();
+        let event_loop = MpscEventQueue::new();
         Self {
             context: Context::new(&event_loop, data),
             event_loop,
@@ -70,7 +71,7 @@ impl<D> From<D> for Engine<D, EventQueue<Event>> {
     }
 }
 
-impl<D, E: EventLoop<Event>> EngineControls for Engine<D, E> {
+impl<D, E: EventQueue<Event>> EngineControls for Engine<D, E> {
     fn quit(&self) {
         self.context.quit()
     }
@@ -80,15 +81,15 @@ impl<D, E: EventLoop<Event>> EngineControls for Engine<D, E> {
     }
 
     fn update(&self) {
-        self.send_event(Event::Update);
+        self.context.event_sender().send_event(Event::Update).ok();
     }
 
     fn render(&self) {
-        self.send_event(Event::Render);
+        self.context.event_sender().send_event(Event::Render).ok();
     }
 }
 
-impl<D, E: EventLoop<Event>> Engine<D, E> {
+impl<D, E: EventQueue<Event>> Engine<D, E> {
     /// Get immutable access to the [`Context`] data.
     pub fn context(&self) -> &Context<D> {
         &self.context
@@ -115,22 +116,18 @@ impl<D, E: EventLoop<Event>> Engine<D, E> {
     }
 }
 
-impl<D, E: EventLoop<Event>> EventLoop<Event> for Engine<D, E> {
+impl<D, E: EventQueue<Event>> EventQueue<Event> for Engine<D, E> {
     fn next_event(&mut self) -> Option<Event> {
         match self.event_loop.next_event() {
             Some(event) => Some(self.handle_event(event)),
             None => self.handle_empty_event(),
         }
     }
-
-    fn send_event(&self, event: Event) {
-        self.event_loop.send_event(event)
-    }
 }
 
-impl<D, E: EventLoop<Event>> HasEventSender<Event> for Engine<D, E> {
-    fn sender(&self) -> Arc<dyn EventSender<Event>> {
-        self.event_loop.sender()
+impl<D, E: EventQueue<Event>> HasEventSender<Event> for Engine<D, E> {
+    fn event_sender(&self) -> Arc<dyn EventSender<Event>> {
+        self.event_loop.event_sender()
     }
 }
 
