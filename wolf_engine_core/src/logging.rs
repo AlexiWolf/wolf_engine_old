@@ -2,6 +2,7 @@
 
 use simple_logger::SimpleLogger;
 
+/// Indicates the verbosity of the log system.
 pub enum LogLevel {
     Trace,
     Debug,
