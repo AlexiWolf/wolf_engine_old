@@ -1,7 +1,10 @@
 //! Provides a default logging implementation using [`SimpleLogger`].
 
-use log::LevelFilter;
 use simple_logger::SimpleLogger;
+
+pub enum LogLevel {
+    Debug,
+}
 
 /// Initializes the logging system with a pre-configured [SimpleLogger] instance.
 ///
@@ -25,7 +28,7 @@ use simple_logger::SimpleLogger;
 /// #
 /// info!("Hello, world!");
 /// ```
-pub fn initialize_logging(log_level: LevelFilter) {
+pub fn initialize_logging(log_level: LogLevel) {
     SimpleLogger::new()
         .with_colors(true)
         .with_level(log_level)
