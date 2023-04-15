@@ -11,12 +11,11 @@ use simple_logger::SimpleLogger;
 /// # Examples
 ///
 /// To use the default logger, just initialize it by calling this function and providing it with
-/// the desired [LevelFilter].
+/// the desired [LogLevel].
 ///
 /// ```
-/// # use log::LevelFilter;
-/// #
-/// wolf_engine_core::logging::initialize_logging(LevelFilter::Debug);
+/// # use wolf_engine_core::logging:LogLevel;
+/// wolf_engine_core::logging::initialize_logging(LogLevel::Debug);
 /// ```
 ///
 /// Messages are logged using [log] macros.
