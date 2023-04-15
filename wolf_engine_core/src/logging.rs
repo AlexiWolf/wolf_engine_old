@@ -4,12 +4,14 @@ use simple_logger::SimpleLogger;
 
 pub enum LogLevel {
     Debug,
+    Info,
 }
 
 impl Into<log::LevelFilter> for LogLevel {
     fn into(self) -> log::LevelFilter {
         match self {
             Self::Debug => log::LevelFilter::Debug,
+            Self::Info => log::LevelFilter::Info,
         }
     }
 }
