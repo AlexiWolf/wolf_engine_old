@@ -27,7 +27,7 @@ impl Into<log::LevelFilter> for LogLevel {
 /// the desired [LogLevel].
 ///
 /// ```
-/// # use wolf_engine_core::logging:LogLevel;
+/// # use wolf_engine_core::logging::LogLevel;
 /// wolf_engine_core::logging::initialize_logging(LogLevel::Debug);
 /// ```
 ///
