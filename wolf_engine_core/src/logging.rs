@@ -3,15 +3,23 @@
 use simple_logger::SimpleLogger;
 
 pub enum LogLevel {
+    Trace,
     Debug,
     Info,
+    Warn,
+    Error,
+    Off,
 }
 
 impl Into<log::LevelFilter> for LogLevel {
     fn into(self) -> log::LevelFilter {
         match self {
+            Self::Trace => log::LevelFilter::Trace,
             Self::Debug => log::LevelFilter::Debug,
             Self::Info => log::LevelFilter::Info,
+            Self::Warn => log::LevelFilter::Warn,
+            Self::Error => log::LevelFilter::Error,
+            Self::Off => log::LevelFilter::Off,
         }
     }
 }
@@ -28,7 +36,6 @@ impl Into<log::LevelFilter> for LogLevel {
 ///
 /// ```
 /// # use wolf_engine_core::logging::LogLevel;
-/// wolf_engine_core::logging::initialize_logging(LogLevel::Debug);
 /// ```
 ///
 /// Messages are logged using [log] macros.
@@ -46,3 +53,4 @@ pub fn initialize_logging(log_level: LogLevel) {
         .init()
         .expect("Failed to initialize the logger");
 }
+
