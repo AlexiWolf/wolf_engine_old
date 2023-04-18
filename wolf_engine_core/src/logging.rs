@@ -4,11 +4,23 @@ use simple_logger::SimpleLogger;
 
 /// Indicates the verbosity of the log system.
 pub enum LogLevel {
+
+    /// Log all messages.
     Trace,
+
+    /// Log debug messages.
     Debug,
+    
+    /// Log info messages.
     Info,
+    
+    /// Log warning messages.
     Warn,
+
+    /// Log error messages.
     Error,
+    
+    /// Disable log messages.
     Off,
 }
 
