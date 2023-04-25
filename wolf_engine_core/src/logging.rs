@@ -23,15 +23,15 @@ pub enum LogLevel {
     Off,
 }
 
-impl Into<log::LevelFilter> for LogLevel {
-    fn into(self) -> log::LevelFilter {
-        match self {
-            Self::Trace => log::LevelFilter::Trace,
-            Self::Debug => log::LevelFilter::Debug,
-            Self::Info => log::LevelFilter::Info,
-            Self::Warn => log::LevelFilter::Warn,
-            Self::Error => log::LevelFilter::Error,
-            Self::Off => log::LevelFilter::Off,
+impl From<LogLevel> for log::LevelFilter {
+    fn from(value: LogLevel) -> Self {
+        match value {
+            LogLevel::Trace => log::LevelFilter::Trace,
+            LogLevel::Debug => log::LevelFilter::Debug,
+            LogLevel::Info => log::LevelFilter::Info,
+            LogLevel::Warn => log::LevelFilter::Warn,
+            LogLevel::Error => log::LevelFilter::Error,
+            LogLevel::Off => log::LevelFilter::Off,
         }
     }
 }
