@@ -27,3 +27,7 @@ serde = ["wolf_engine_window/serde"]
 
 [workspace]
 members = ["wolf_engine_*"]
+
+[[example]]
+name = "logging"
+required-features = ["logging"]
