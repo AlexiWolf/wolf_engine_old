@@ -22,39 +22,12 @@
 //! wolf_engine = { git = "https://github.com/AlexiWolf/wolf_engine" }
 //! ```
 //!
-//! ## Basic Usage
-//!  
-//! ```
-//! use wolf_engine::prelude::*;
+//! # Usage
 //!
-//! let mut engine = Engine::new();
-//! let event_sender = engine.event_sender();
+//! If you're just getting started, or you're just making a game, you should use the
+//! [Framework API](wolf_engine_framework).  
 //!
-//! // The Engine will continue to return events until it quits.
-//! while let Some(event) = engine.next_event() {
-//!     match event {
-//!         Event::Quit => {
-//!             // Shut down the game.
-//!         },
-//!         Event::Update => {
-//!             // Update the game.
-//!
-//!             // To shut down the Engine, you must send a quit event.
-//!             event_sender.send_event(Event::Quit);
-//!         },
-//!         Event::Render => {
-//!             // Render the game.
-//!         },
-//!         Event::EventsCleared => {
-//!             // Note: The engine will not emit Update / Render events on its own.
-//!             //       You are expected to do this yourself.
-//!             event_sender.send_event(Event::Update);
-//!             event_sender.send_event(Event::Render);
-//!         }
-//!         _ => (),
-//!     }
-//! }
-//! ```
+//! If you're an advanced user, you can also use the [Core API](wolf_engine_core) directly.
 //!
 pub use wolf_engine_core::*;
 
