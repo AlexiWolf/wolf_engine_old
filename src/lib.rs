@@ -29,7 +29,7 @@
 //!
 //! If you're an advanced user, you can also use the [Core API](wolf_engine_core) directly.
 //!
-pub use wolf_engine_core::*;
+pub use wolf_engine_core::prelude::*;
 
 #[cfg(feature = "framework")]
 pub mod framework {
@@ -49,8 +49,6 @@ pub mod window {
 #[doc(hidden)]
 pub mod prelude {
     pub use super::*;
-
-    pub use wolf_engine_core::prelude::*;
 
     #[cfg(feature = "framework")]
     pub use framework::*;
