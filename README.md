@@ -36,7 +36,7 @@ changing APIs, and other spooky stuff until release 1.0.
 - [ ] Graphics, audio, and window APIs.
 - [ ] 2d and 3d graphics.
 
-# License
+## License
 
 Wolf Engine is licensed under either:
 
