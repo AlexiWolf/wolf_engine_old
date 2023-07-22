@@ -40,6 +40,23 @@ features, bugs, changing APIs, and other spooky stuff until release 1.0.
       [Fix Your Timestep!](https://www.gafferongames.com/post/fix_your_timestep/).
 - [ ] Hot-reloading, to help speed up game development.
 
+## Quick-Start Guide
+
+### Install
+
+In your project directory, run:
+
+```
+cargo add wolf_engine
+```
+
+To add the latest release to your project.
+
+### Basic Usage
+
+See the [documentation](https://docs.rs/wolf_engine/latest), or the 
+[Quick-Start example](examples/basic_usage.rs), for basic usage examples.
+
 ## License
 
 Wolf Engine is licensed under either:
