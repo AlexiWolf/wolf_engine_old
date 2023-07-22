@@ -27,7 +27,7 @@ Usage documentation, and interactive examples can be found on
 ### Status
 
 Wolf Engine is currently in very early development.  You should expect missing
-features, bugs, changing APIs, and other spooky stuff until release 1.0.under 
+features, bugs, changing APIs, and other spooky stuff until release 1.0.
 
 ## Features
 
