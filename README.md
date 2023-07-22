@@ -8,12 +8,12 @@
 
 <!--toc:start-->
 - [Wolf Engine](#wolf-engine)
-  - [Table of Contents](#table-of-contents)
-  - [Introduction](#introduction)
-  - [Status](#status)
-  - [Features](#features)
-  - [License](#license)
-  - [Contribution](#contribution)
+- [Table of Contents](#table-of-contents)
+- [Introduction](#introduction)
+- [Status](#status)
+- [Features](#features)
+- [License](#license)
+- [Contribution](#contribution)
 <!--toc:end-->
 
 ## Introduction 
@@ -21,21 +21,21 @@
 A simple, and flexible game framework written in Rust.
 
 Usage documentation, and interactive examples can be found on 
-[docs.rs](https://docs.rs/wolf_engine/latest/), and in the [examples/](examples/) 
-directory.
+[docs.rs](https://docs.rs/wolf_engine/latest/), and in the 
+[examples/](examples/) directory.
 
 ## Status
 
-Wolf Engine is currently in very early development.  You should expect missing features, bugs, 
-changing APIs, and other spooky stuff until release 1.0.
+Wolf Engine is currently in very early development.  You should expect missing
+features, bugs, changing APIs, and other spooky stuff until release 1.0.
 
 ## Features
 
 - [ ] Hardware-accelerated 2D, and 3D graphics.
 - [ ] Back-end agnostic input events, and input state provided by 
-      [Input Helper](https://crates.io/crates/input_helper/)
-- [ ] High-level [Framework](https://docs.rs/wolf_engine_framework/latest/) providing many
-      convenient features.
+[Input Helper](https://crates.io/crates/input_helper/)
+- [ ] High-level [Framework](https://docs.rs/wolf_engine_framework/latest/)
+      providing many convenient features.
 - [ ] Fixed updates, inspired by 
       [Fix Your Timestep!](https://www.gafferongames.com/post/fix_your_timestep/).
 - [ ] Hot-reloading, to help speed up game development.
@@ -51,6 +51,9 @@ At your option.
 
 ## Contribution
 
-Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work by you, as 
-defined in the Apache-2.0 license, shall be dual licensed as above, without additional terms or conditions.
+Unless you explicitly state otherwise, any contribution intentionally
+submitted for inclusion in the work by you, as defined in the Apache-2.0 
+license, shall be dual licensed as above, without additional terms or 
+conditions.
+
 
