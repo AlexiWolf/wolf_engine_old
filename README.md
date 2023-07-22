@@ -1,3 +1,4 @@
+
 # Wolf Engine
 
 [![CI](https://github.com/AlexiWolf/wolf_engine/actions/workflows/ci.yml/badge.svg)](https://github.com/AlexiWolf/wolf_engine/actions/workflows/ci.yml)
@@ -5,6 +6,18 @@
 [![Crates.io](https://img.shields.io/crates/v/wolf_engine)](https://crates.io/crates/wolf_engine)
 
 A simple, flexible, and easy-to-use game framework written in Rust.
+
+# Table of Contents 
+
+<!--toc:start-->
+- [Wolf Engine](#wolf-engine)
+  - [Status](#status)
+  - [Features](#features)
+  - [Platform Support](#platform-support)
+- [Usage](#usage)
+- [License](#license)
+  - [Contribution](#contribution)
+<!--toc:end-->
 
 ## Status
 
