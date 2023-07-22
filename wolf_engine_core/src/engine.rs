@@ -4,6 +4,20 @@ use crate::events::EventSender;
 use crate::events::*;
 use crate::prelude::*;
 
+// TODO: Re-structure the `Engine` type into separate, and more focused 
+// `EventLoop`, and `Context` types.
+//
+// # Examples
+//
+// ```
+// let (event_loop, context) = wolf_engine::init(());
+//
+// // or to use custom data types 
+//
+// let (event_loop, context) = wolf_engine::init(context_data);
+// ```
+//
+
 /// Provides the main event-loop for Wolf Engine.
 ///
 /// # Examples
