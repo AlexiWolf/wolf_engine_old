@@ -18,7 +18,7 @@
 
 ## Introduction 
 
-A simple, flexible, and easy-to-use game framework written in Rust.
+A simple, and flexible game framework written in Rust.
 
 ## Status
 
