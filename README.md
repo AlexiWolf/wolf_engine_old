@@ -8,12 +8,12 @@
 
 <!--toc:start-->
 - [Wolf Engine](#wolf-engine)
-- [Table of Contents](#table-of-contents)
-- [Introduction](#introduction)
-- [Status](#status)
-- [Features](#features)
-- [License](#license)
-- [Contribution](#contribution)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Status](#status)
+  - [Features](#features)
+  - [License](#license)
+  - [Contribution](#contribution)
 <!--toc:end-->
 
 ## Introduction 
