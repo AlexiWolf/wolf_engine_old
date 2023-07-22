@@ -12,6 +12,10 @@
   - [Introduction](#introduction)
     - [Status](#status)
     - [Features](#features)
+  - [Quick-Start Guide](#quick-start-guide)
+    - [Install](#install)
+    - [Crate Features](#crate-features)
+    - [Basic Usage](#basic-usage)
   - [License](#license)
   - [Contribution](#contribution)
 <!--toc:end-->
