@@ -27,13 +27,13 @@ Usage documentation, and interactive examples can be found on
 ### Status
 
 Wolf Engine is currently in very early development.  You should expect missing
-features, bugs, changing APIs, and other spooky stuff until release 1.0.
+features, bugs, changing APIs, and other spooky stuff until release 1.0.under 
 
 ## Features
 
 - [ ] Hardware-accelerated 2D, and 3D graphics.
 - [ ] Back-end agnostic input events, and input state provided by 
-[Input Helper](https://crates.io/crates/input_helper/)
+      [Input Helper](https://crates.io/crates/input_helper/).
 - [ ] High-level [Framework](https://docs.rs/wolf_engine_framework/latest/)
       providing many convenient features.
 - [ ] Fixed updates, inspired by 
