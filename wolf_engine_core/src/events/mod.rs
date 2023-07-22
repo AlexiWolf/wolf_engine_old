@@ -31,6 +31,15 @@
 //! let event_queue = MpscEventQueue::<EventType>::new();
 //! ```
 //!
+//! As noted above, you can use any custom data you'd like when creating an Event Queue. 
+//! For example, numbers!
+//! ```
+//! # use wolf_engine_core::events::*;
+//! #
+//! let event_queue = MpscEventQueue::<u32>::new();
+//! event_queue.event_sender().send_event(123);
+//! ```
+//!
 //! ## Sending Events
 //!
 //! When we want to send an event to an [`EventQueue`], we use an [`EventSender`].  An event 
