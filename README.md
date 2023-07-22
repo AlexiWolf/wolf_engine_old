@@ -31,10 +31,7 @@ changing APIs, and other spooky stuff until release 1.0.
 
 ## Features
 
-- [x] Simple, and flexible core API.
-- [ ] Easy-to-use high-level Framework. 
-- [ ] Graphics, audio, and window APIs.
-- [ ] 2d and 3d graphics.
+- 2D, and 3D graphics.
 
 ## License
 
