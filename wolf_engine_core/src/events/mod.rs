@@ -1,10 +1,11 @@
 //! Provides an event system for the engine.
 //!
-//! Wolf Engine uses a MPSC event system based on the sender / receiver model found in 
-//! [std::sync::mpsc::channel] (actually, [MpscEventQueue] is built with the std channel API.)
-//! This module provides traits which wrap up the channel-like functionality into a nicer API, so
-//! other types, like the [Engine](wolf_engine_core::Engine), and
-//! [Context](wolf_engine_core::Context), can have Event Queue functionality.
+//! This module uses a [FIFO](https://en.wikipedia.org/wiki/FIFO_(computing_and_electronics)) 
+//! (First-in, First-out), MPSC (Multi-Producer, Single-Consumer) event system based on the 
+//! sender / receiver model found in [std::sync::mpsc::channel] (actually, [MpscEventQueue] is 
+//! built on the std channel API.) This module provides traits which wrap up the channel-like 
+//! functionality into a nicer API, so other types, like the [Engine](wolf_engine_core::Engine), 
+//! and [Context](wolf_engine_core::Context), can have Event Queue functionality.
 //!
 //! It's important to note, [`EventQueue`] is **not just for events.**  It's actually a generic 
 //! message-passing system masquerading as an event system.  It's capable of using any data type 
@@ -16,13 +17,10 @@
 //! All event queues use the same API, so the following examples should work for any type 
 //! implementing the [`EventQueue`] traits.  
 //!
-//! For example: The [`Engine`](wolf_engine_core::Engine) is an event queue, and can be used 
-//! just the same.
-//!
 //! ## Create an Event Queue
 //!
-//! [`MpscEventQueue`] is the main [`EventQueue`] implementation used by the engine, and it's 
-//! simple to set up, so we will use it in our examples.
+//! [`MpscEventQueue`] is the main [`EventQueue`] implementation used by the engine, and since 
+//! it's simple to set up, we will use it in our examples.
 //!
 //! ```
 //! # use wolf_engine_core::events::*;
@@ -33,6 +31,7 @@
 //!
 //! As noted above, you can use any custom data you'd like when creating an Event Queue. 
 //! For example, numbers!
+//!
 //! ```
 //! # use wolf_engine_core::events::*;
 //! #
@@ -42,13 +41,13 @@
 //!
 //! ## Handling Events
 //!
-//! An [`EventQueue`] will collect incoming events, until they are ready to be processed.  The
-//! order of incoming events is always preserved, and they come out in the same order they came
-//! in (FIFO, remember.) 
+//! An [`EventQueue`] will collect incoming events, and store them until they are ready to be 
+//! processed.  The order of incoming events is always preserved, and they come out in the same 
+//! order they came in.  (FIFO, remember?) 
 //!
 //! Queued events are queried in a loop.  Querying events requires you have mutable access to the
-//! Event Queue, as the Single-Consumer model requires only *one* event consumer.  By requiring
-//! mutable access, we can use Rust's type system to enforce this requirement.
+//! Event Queue, as the Single-Consumer model can only have *one* event consumer.  By requiring
+//! mutable access, we can use Rust's type system better enforce this restriction 
 //!
 //! ```
 //! # use wolf_engine_core::events::*;
@@ -57,7 +56,7 @@
 //! #
 //! while let Some(event) = event_queue.next_event() {
 //!     match event {
-//!         EventType::Event => (), // Handle event
+//!         EventType::Event => (), // Handle the event.
 //!     }
 //! }
 //! ```
@@ -74,15 +73,14 @@
 //! # let event_queue = MpscEventQueue::<EventType>::new();
 //! #
 //! let event_sender = event_queue.event_sender();
-//! event_sender.send_event(EventType::Event);
+//! event_sender.send_event(EventType::Event); // Event is sent back to the EventQueue.
 //! ```
 //!
 //! ### Cloning, and Transferring Ownership of an `EventSender` 
 //!
-//! The main use-case is enabling events to be sent from code that otherwise does not have access 
-//! to the event queue.  Event Senders are extremely useful because they can be freely, and safely 
-//! cloned, and their ownership moved to other code that needs to send events.
-//!
+//! Event Senders are extremely useful because they can be freely, and safely cloned, and their 
+//! ownership moved to other code that needs to send events.  This enables sending events from 
+//! code that otherwise does not have access to the Event Queue.
 //!
 //! ```
 //! # use wolf_engine_core::events::*;
@@ -120,7 +118,7 @@
 //! # enum EventType { Event };
 //! # let event_queue = MpscEventQueue::<EventType>::new();
 //! #
-//! // This event sender stays on the main thread.
+//! // This EventSender stays on the main thread with the EventQueue.
 //! let event_sender = event_queue.event_sender();
 //! event_sender.send_event(EventType::Event);
 //!
@@ -134,7 +132,7 @@
 //! ### Sending Events Directly to the `EventQueue`
 //!
 //! Some [`EventQueue`] implementations may, themselves, also implement [`EventSender`], to allow
-//! events to be sent directly.  Assuming you have access to the EventQueue, that is.
+//! events to be sent directly, without needing to crate an Event Sender.  
 //!
 //! ```
 //! # use wolf_engine_core::events::*;
@@ -146,8 +144,6 @@
 //! # let event_queue = real_event_queue.event_sender(); // >;3 
 //! #
 //! event_queue.send_event(EventType::Event);
-//! ```
-//!
 
 mod event_queue;
 pub use event_queue::*;
