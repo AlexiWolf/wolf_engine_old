@@ -3,7 +3,12 @@ use std::sync::Arc;
 
 use crate::events::*;
 
-/// Provides a MPSC [`EventQueue`] implementation based on [`std::sync::mpsc`].
+/// Provides an [`EventQueue`] implementation based on [`std::sync::mpsc`].
+///
+/// This type is used entirely through the [`EventQueue`] trait interfaces.
+///
+/// A complete guide, with examples, on how use type can be found in the main 
+/// [`events module`](crate::events) documentation.
 pub struct MpscEventQueue<E> {
     sender: Sender<E>,
     receiver: Receiver<E>,
