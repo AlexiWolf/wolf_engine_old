@@ -4,7 +4,7 @@
 [![Crates.io](https://img.shields.io/crates/l/wolf_engine)](https://github.com/AlexiWolf/wolf_engine#license)
 [![Crates.io](https://img.shields.io/crates/v/wolf_engine)](https://crates.io/crates/wolf_engine)
 
-# Table of Contents 
+## Table of Contents 
 
 <!--toc:start-->
 - [Wolf Engine](#wolf-engine)
