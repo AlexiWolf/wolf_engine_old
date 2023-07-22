@@ -31,7 +31,12 @@ changing APIs, and other spooky stuff until release 1.0.
 
 ## Features
 
-- 2D, and 3D graphics.
+- [ ] Hardware-accelerated 2D, and 3D graphics.
+- [ ] High-level [Framework](https://docs.rs/wolf_engine_framework/latest) providing many
+      convenient features.
+- [ ] Fixed updates, inspired by 
+      [Fix Your Timestep!](https://www.gafferongames.com/post/fix_your_timestep/).
+- [ ] Hot-reloading, to help speed up game development.
 
 ## License
 
