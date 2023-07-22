@@ -49,6 +49,19 @@
 //! Queued events are queried in a loop.  Querying events requires you have mutable access to the
 //! Event Queue, as the Single-Consumer model requires only *one* event consumer.  By requiring
 //! mutable access, we can use Rust's type system to enforce this requirement.
+//!
+//! ```
+//! # use wolf_engine_core::events::*;
+//! # enum EventType { Event };
+//! # let mut event_queue = MpscEventQueue::<EventType>::new();
+//! #
+//! while let Some(event) = event_queue.next_event() {
+//!     match event {
+//!         EventType::Event => (), // Handle event
+//!     }
+//! }
+//! ```
+//!
 //! ## Sending Events
 //!
 //! When we want to send an event to an [`EventQueue`], we use an [`EventSender`].  An event 
