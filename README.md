@@ -55,7 +55,7 @@ To add the latest release to your project.
 ### Basic Usage
 
 See the [documentation](https://docs.rs/wolf_engine/latest), or the 
-[Quick-Start example](examples/basic_usage.rs), for basic usage examples.
+[Quick-Start example](examples/core_engine_basics.rs), for basic usage examples.
 
 ## License
 
