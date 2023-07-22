@@ -20,6 +20,10 @@
 
 A simple, and flexible game framework written in Rust.
 
+Usage documentation, and interactive examples can be found on 
+[docs.rs](https://docs.rs/wolf_engine/latest/wolf_engine/), and in the [examples/](examples/) 
+directory.
+
 ## Status
 
 Wolf Engine is currently in very early development.  You should expect missing features, bugs, changing APIs, and other
