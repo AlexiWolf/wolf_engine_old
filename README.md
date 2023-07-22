@@ -8,11 +8,11 @@
 
 <!--toc:start-->
 - [Wolf Engine](#wolf-engine)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
   - [Status](#status)
   - [Features](#features)
-  - [Platform Support](#platform-support)
-- [Usage](#usage)
-- [License](#license)
+  - [License](#license)
   - [Contribution](#contribution)
 <!--toc:end-->
 
