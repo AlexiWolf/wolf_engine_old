@@ -1,4 +1,8 @@
 //! Provides an event system for the engine.
+//!
+//! Wolf Engine uses a MPSC event system based on the sender / receiver model found in 
+//! [std::sync::mpsc::channel]. 
+//!
 
 mod event_queue;
 pub use event_queue::*;
