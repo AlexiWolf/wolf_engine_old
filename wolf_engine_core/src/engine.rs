@@ -4,7 +4,7 @@ use crate::events::EventSender;
 use crate::events::*;
 use crate::prelude::*;
 
-/// TODO: Update Engine docs.
+/// Provides the main event-loop for Wolf Engine.
 ///
 /// # Examples
 ///
