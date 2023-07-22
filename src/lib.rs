@@ -1,6 +1,6 @@
 //! A simple, flexible, and easy to use game framework.
 //!
-//! # Features
+//! ## Features
 //!
 //! - `framework`: Enables the high-level, "batteries included" framework.
 //! - `logging`: Enables the built-in logging framework.
@@ -22,13 +22,28 @@
 //! wolf_engine = { git = "https://github.com/AlexiWolf/wolf_engine" }
 //! ```
 //!
-//! # Usage
+//! ## Concepts
 //!
-//! If you're just getting started, or you're just making a game, you should use the
-//! [Framework API](wolf_engine_framework).  
+//! A small list of things you should understand when working with Wolf Engine.  Think of this as 
+//! sort of a quick-start guide to ["groking"](https://en.wikipedia.org/wiki/Grok) the engine.
 //!
-//! If you're an advanced user, you can also use the [Core API](wolf_engine_core) directly.
+//! ### Getting Started
+//! 
+//! - If you're just getting started, you should look at the 
+//!   [`framework` module](wolf_engine_framework).  
 //!
+//! It includes a beginner-friendly guide to actually getting something happening on screen.  
+//!
+//! ### Going Deeper
+//!
+//! - The [`core` module](wolf_engine_core) has a nice overview of the base engine types.
+//! - The [`events` module](events) contains the [`EventQueue` API](events::EventQueue), which is
+//!   the base upon which the rest of the engine is built.
+//!
+//! ## Examples
+//!
+//! There are plenty of functional examples in the 
+//! [examples/ directory](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) in the repo.
 pub use wolf_engine_core::prelude::*;
 
 #[cfg(feature = "framework")]
