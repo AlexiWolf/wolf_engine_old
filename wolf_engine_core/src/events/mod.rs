@@ -10,7 +10,7 @@
 //! It's important to note, [`EventQueue`] is **not just for events.**  It's actually a generic 
 //! message-passing system masquerading as an event system.  It's capable of using any data type 
 //! you want to use.  You can absolutely use Event Queues in your game to send any random messages
-//! around your game.
+//! around.
 //!
 //! # Examples
 //!
