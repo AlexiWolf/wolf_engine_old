@@ -52,6 +52,14 @@ cargo add wolf_engine
 
 To add the latest release to your project.
 
+### Crate Features
+
+- `framework`: Enable the high-level framework (enabled by default.)
+- `logging`: Enable built-in logging implementation.
+- `serde`: Enable [Serde](https://crates.io.crates/serde) support for some 
+           types. 
+- `window`: Enable Wolf Engine's high-level window API.
+
 ### Basic Usage
 
 See the [documentation](https://docs.rs/wolf_engine/latest), or the 
