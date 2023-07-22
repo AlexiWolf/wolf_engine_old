@@ -11,7 +11,7 @@
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
     - [Status](#status)
-  - [Features](#features)
+    - [Features](#features)
   - [License](#license)
   - [Contribution](#contribution)
 <!--toc:end-->
@@ -29,7 +29,7 @@ Usage documentation, and interactive examples can be found on
 Wolf Engine is currently in very early development.  You should expect missing
 features, bugs, changing APIs, and other spooky stuff until release 1.0.
 
-## Features
+### Features
 
 - [ ] Hardware-accelerated 2D, and 3D graphics.
 - [ ] Back-end agnostic input events, and input state provided by 
