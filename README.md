@@ -21,7 +21,7 @@
 A simple, and flexible game framework written in Rust.
 
 Usage documentation, and interactive examples can be found on 
-[docs.rs](https://docs.rs/wolf_engine/latest/wolf_engine/), and in the [examples/](examples/) 
+[docs.rs](https://docs.rs/wolf_engine/latest/), and in the [examples/](examples/) 
 directory.
 
 ## Status
@@ -32,7 +32,7 @@ changing APIs, and other spooky stuff until release 1.0.
 ## Features
 
 - [ ] Hardware-accelerated 2D, and 3D graphics.
-- [ ] High-level [Framework](https://docs.rs/wolf_engine_framework/latest) providing many
+- [ ] High-level [Framework](https://docs.rs/wolf_engine_framework/latest/) providing many
       convenient features.
 - [ ] Fixed updates, inspired by 
       [Fix Your Timestep!](https://www.gafferongames.com/post/fix_your_timestep/).
