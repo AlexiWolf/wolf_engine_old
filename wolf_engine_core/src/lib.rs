@@ -1,9 +1,13 @@
 //! Provides common tools, types, and functions for the engine.
 //!
-//! The core module provides all the common components likely to be used by most projects.  It
-//! provides some basic functionality, such as a main event-loop, but it is generally expected
-//! users will implement their own architecture when using the core API.  The Core API is
-//! re-exported by the main `wolf_engine` crate.
+//! The Core API provides all the parts likely to be (re)used by other parts of the engine.  It is 
+//! mostly intended for those building, or making extensions to Wolf Engine, but there are some 
+//! tools for end-users as well.
+//!
+//! # Getting Started
+//!
+//! TODO: Flesh out the docs into a useful guide to the core API.  This will be done after
+//! currently-planned overhauls are made.
 
 mod context;
 pub use context::*;
