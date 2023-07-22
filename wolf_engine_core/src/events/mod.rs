@@ -23,7 +23,7 @@
 //! let event_queue = MpscEventQueue::<EventType>::new();
 //! ```
 //!
-//! ## Sending events to an `EventQueue` using its `EventSender`
+//! ## Sending Events
 //!
 //! When we want to send an event to an [`EventQueue`], we use an [`EventSender`].  An event 
 //! sender is like a tunnel, through which you can send data, and it will pop out on the other 
