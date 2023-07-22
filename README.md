@@ -33,7 +33,7 @@ changing APIs, and other spooky stuff until release 1.0.
 
 - [ ] Hardware-accelerated 2D, and 3D graphics.
 - [ ] Back-end agnostic input events, and input state provided by 
-      [Input Helper](https://crates.io/input_helper/)
+      [Input Helper](https://crates.io/crates/input_helper/)
 - [ ] High-level [Framework](https://docs.rs/wolf_engine_framework/latest/) providing many
       convenient features.
 - [ ] Fixed updates, inspired by 
