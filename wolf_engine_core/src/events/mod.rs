@@ -40,6 +40,15 @@
 //! event_queue.event_sender().send_event(123);
 //! ```
 //!
+//! ## Handling Events
+//!
+//! An [`EventQueue`] will collect incoming events, until they are ready to be processed.  The
+//! order of incoming events is always preserved, and they come out in the same order they came
+//! in (FIFO, remember.) 
+//!
+//! Queued events are queried in a loop.  Querying events requires you have mutable access to the
+//! Event Queue, as the Single-Consumer model requires only *one* event consumer.  By requiring
+//! mutable access, we can use Rust's type system to enforce this requirement.
 //! ## Sending Events
 //!
 //! When we want to send an event to an [`EventQueue`], we use an [`EventSender`].  An event 
