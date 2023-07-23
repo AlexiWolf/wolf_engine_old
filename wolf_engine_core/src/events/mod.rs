@@ -4,8 +4,8 @@
 //! (First-in, First-out), MPSC (Multi-Producer, Single-Consumer) event system based on the 
 //! sender / receiver model found in [std::sync::mpsc::channel] (actually, [MpscEventQueue] is 
 //! built on the std channel API.) This module provides traits which wrap up the channel-like 
-//! functionality into a nicer API, so other types, like the [Engine](wolf_engine_core::Engine), 
-//! and [Context](wolf_engine_core::Context), can have Event Queue functionality.
+//! functionality into a nicer API, so other types, like the [Engine](crate::Engine), 
+//! and [Context](crate::Context), can have Event Queue functionality.
 //!
 //! It's important to note, [`EventQueue`] is **not just for events.**  It's actually a generic 
 //! message-passing system masquerading as an event system.  It's capable of using any data type 
