@@ -1,12 +1,5 @@
 //! A simple, flexible, and easy to use game framework.
 //!
-//! ## Features
-//!
-//! - `framework`: Enables the high-level, "batteries included" framework.
-//! - `logging`: Enables the built-in logging framework.
-//! - `serde`: Enables serde support for some types.
-//! - `window`: Enables Wolf Engine's window API.
-//!
 //! # Getting Started
 //!
 //! To use the latest release version:
@@ -22,19 +15,27 @@
 //! wolf_engine = { git = "https://github.com/AlexiWolf/wolf_engine" }
 //! ```
 //!
+//! ### Crate Features
+//! 
+//! - `framework`: Enable the high-level framework (enabled by default.)
+//! - `logging`: Enable built-in logging implementation.
+//! - `serde`: Enable [Serde](https://crates.io.crates/serde) support for some 
+//!            types. 
+//! - `window`: Enable Wolf Engine's high-level window API.
+//!
 //! ## Concepts
 //!
 //! A small list of things you should understand when working with Wolf Engine.  Think of this as 
 //! sort of a quick-start guide to ["groking"](https://en.wikipedia.org/wiki/Grok) the engine.
 //!
-//! ### Getting Started
+//! ### The Basics 
 //! 
 //! - If you're just getting started, you should look at the 
 //!   [`framework` module](wolf_engine_framework).  
 //!
 //! It includes a beginner-friendly guide to actually getting something happening on screen.  
 //!
-//! ### Going Deeper
+//! ### Going Deeper 
 //!
 //! - The [`core` module](wolf_engine_core) has a nice overview of the base engine types.
 //! - The [`events` module](events) contains the [`EventQueue` API](events::EventQueue), which is

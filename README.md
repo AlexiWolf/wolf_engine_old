@@ -48,10 +48,17 @@ features, bugs, changing APIs, and other spooky stuff until release 1.0.
 
 ### Install
 
-In your project directory, run:
+To use the latest release version:
 
 ```
-cargo add wolf_engine
+[dependencies]
+wolf_engine = "*"
+```
+
+To use the latest development version:
+
+```
+wolf_engine = { git = "https://github.com/AlexiWolf/wolf_engine" }
 ```
 
 To add the latest release to your project.
