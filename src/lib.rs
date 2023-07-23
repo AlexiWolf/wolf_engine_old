@@ -41,10 +41,11 @@
 //! - The [`events` module](events) contains the [`EventQueue` API](events::EventQueue), which is
 //!   the base upon which the rest of the engine is built.
 //!
-//! ## Examples
+//! ### Examples
 //!
-//! There are plenty of functional examples in the 
-//! [examples/ directory](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) in the repo.
+//! - There are plenty of functional examples in the 
+//!   [examples/ directory](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) in the 
+//!   repo.
 pub use wolf_engine_core::prelude::*;
 
 #[cfg(feature = "framework")]
