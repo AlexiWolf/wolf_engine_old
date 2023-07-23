@@ -4,34 +4,80 @@
 [![Crates.io](https://img.shields.io/crates/l/wolf_engine)](https://github.com/AlexiWolf/wolf_engine#license)
 [![Crates.io](https://img.shields.io/crates/v/wolf_engine)](https://crates.io/crates/wolf_engine)
 
-A simple, flexible, and easy-to-use game framework written in Rust.
+## Table of Contents 
 
-## Status
+<!--toc:start-->
+- [Wolf Engine](#wolf-engine)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+    - [Status](#status)
+    - [Features](#features)
+  - [Quick-Start Guide](#quick-start-guide)
+    - [Install](#install)
+    - [Crate Features](#crate-features)
+    - [Basic Usage](#basic-usage)
+  - [License](#license)
+  - [Contribution](#contribution)
+<!--toc:end-->
 
-Wolf Engine is currently in very early development.  You should expect missing features, bugs, changing APIs, and other
-spooky stuff until release 1.0.
+## Introduction 
 
-## Features
+A simple, and flexible game framework written in Rust.
 
-- [x] Simple, and flexible core API.
-- [ ] Easy-to-use high-level Framework. 
-- [ ] Graphics, audio, and window APIs.
-- [ ] 2d and 3d graphics.
+Usage documentation, and interactive examples can be found on 
+[docs.rs](https://docs.rs/wolf_engine/latest/), and in the 
+[examples/](examples/) directory.
 
-## Platform Support 
+### Status
 
-Excellent cross-platform support is one of the main goals of Wolf Engine.  The entirety of the engine, with
-`--all-features` enabled, should work on Desktop (Windows, Linux, MacOS), Mobile (Android, iOS), and WASM. Failure to 
-build / run on these platforms is considered a bug.  Please create a bug report if you run into any problems.
+Wolf Engine is currently in very early development.  You should expect missing
+features, bugs, changing APIs, and other spooky stuff until release 1.0.
 
-# Usage
+### Features
 
-- [The documentation](https://docs.rs/wolf_engine/latest/wolf_engine/) provides an overview of the engine, its APIs, 
-  and how to use them. Start here.
-- [The examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) provides a range of examples for 
-  various concepts.
+- [ ] Hardware-accelerated 2D, and 3D graphics.
+- [ ] Back-end agnostic input events, and input state provided by 
+      [Input Helper](https://crates.io/crates/input_helper/).
+- [ ] High-level [Framework](https://docs.rs/wolf_engine_framework/latest/)
+      providing many convenient features.
+- [ ] Fixed updates, inspired by 
+      [Fix Your Timestep!](https://www.gafferongames.com/post/fix_your_timestep/).
+- [ ] Hot-reloading, to help speed up game development.
 
-# License
+## Quick-Start Guide
+
+### Install
+
+To use the latest release version:
+
+```
+[dependencies]
+wolf_engine = "*"
+```
+
+To use the latest development version:
+
+```
+wolf_engine = { git = "https://github.com/AlexiWolf/wolf_engine" }
+```
+
+To add the latest release to your project.
+
+### Crate Features
+
+- `framework`: Enable the high-level framework (enabled by default.)
+- `logging`: Enable built-in logging implementation.
+- `serde`: Enable [Serde](https://crates.io.crates/serde) support for some 
+           types. 
+- `window`: Enable Wolf Engine's high-level window API.
+
+### Basic Usage
+
+See the [documentation](https://docs.rs/wolf_engine/latest), or the 
+[Quick-Start example](examples/core_engine_basics.rs), for basic usage 
+examples.
+
+## License
 
 Wolf Engine is licensed under either:
 
@@ -42,6 +88,9 @@ At your option.
 
 ## Contribution
 
-Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work by you, as 
-defined in the Apache-2.0 license, shall be dual licensed as above, without additional terms or conditions.
+Unless you explicitly state otherwise, any contribution intentionally
+submitted for inclusion in the work by you, as defined in the Apache-2.0 
+license, shall be dual licensed as above, without additional terms or 
+conditions.
+
 

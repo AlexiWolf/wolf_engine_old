@@ -3,7 +3,7 @@
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum WindowEvent {}
 
-/// Provides the main events used by the [`Engine`](crate::Engine).
+/// Provides the main events used by Wolf Engine.
 #[non_exhaustive]
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum Event {
