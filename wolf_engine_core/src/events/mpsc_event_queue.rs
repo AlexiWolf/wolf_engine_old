@@ -7,7 +7,7 @@ use crate::events::*;
 ///
 /// This type is used entirely through the [`EventQueue`] trait interfaces.
 ///
-/// A complete guide, with examples, on how use type can be found in the main 
+/// A complete guide, with examples, on how use type can be found in the main
 /// [`events module`](crate::events) documentation.
 pub struct MpscEventQueue<E> {
     sender: Sender<E>,

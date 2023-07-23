@@ -1,7 +1,7 @@
 //! Provides common tools, types, and functions for the engine.
 //!
-//! The Core API provides all the parts likely to be (re)used by other parts of the engine.  It is 
-//! mostly intended for those building, or making extensions to Wolf Engine, but there are some 
+//! The Core API provides all the parts likely to be (re)used by other parts of the engine.  It is
+//! mostly intended for those building, or making extensions to Wolf Engine, but there are some
 //! tools for end-users as well.
 //!
 //! # Getting Started
