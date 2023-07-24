@@ -11,7 +11,7 @@ pub struct Engine {
 }
 
 impl Engine {
-    pub fn new<D>() -> (Self, Context<D>) {
+    pub fn new() -> (Self, Context<()>) {
         let event_loop = MpscEventQueue::new();
         let event_loop = Self { event_loop, };
         let context = Context::new(&event_loop, ());
@@ -22,15 +22,6 @@ impl Engine {
 impl Default for Engine {
     fn default() -> Self {
         Self::new()
-    }
-}
-
-impl<D> From<D> for Engine {
-    fn from(data: D) -> Self {
-        let event_loop = MpscEventQueue::new();
-        Self {
-            event_loop,
-        }
     }
 }
 
