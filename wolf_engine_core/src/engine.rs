@@ -10,33 +10,31 @@ pub struct Engine {
     event_loop: MpscEventQueue<Event>,
 }
 
-impl Engine<()> {
+impl Engine {
     pub fn new() -> Self {
         let event_loop = MpscEventQueue::new();
         Self {
-            context: Context::new(&event_loop, ()),
             event_loop,
         }
     }
 }
 
-impl Default for Engine<()> {
+impl Default for Engine {
     fn default() -> Self {
         Self::new()
     }
 }
 
-impl<D> From<D> for Engine<D> {
+impl<D> From<D> for Engine {
     fn from(data: D) -> Self {
         let event_loop = MpscEventQueue::new();
         Self {
-            context: Context::new(&event_loop, data),
             event_loop,
         }
     }
 }
 
-impl<D> EngineControls for Engine<D> {
+impl EngineControls for Engine {
     fn quit(&self) {
         self.context.quit()
     }
@@ -54,7 +52,7 @@ impl<D> EngineControls for Engine<D> {
     }
 }
 
-impl<D> Engine<D> {
+impl Engine {
     /// Get immutable access to the [`Context`] data.
     pub fn context(&self) -> &Context<D> {
         &self.context
@@ -81,7 +79,7 @@ impl<D> Engine<D> {
     }
 }
 
-impl<D> EventQueue<Event> for Engine<D> {
+impl EventQueue<Event> for Engine {
     fn next_event(&mut self) -> Option<Event> {
         match self.event_loop.next_event() {
             Some(event) => Some(self.handle_event(event)),
@@ -90,7 +88,7 @@ impl<D> EventQueue<Event> for Engine<D> {
     }
 }
 
-impl<D> HasEventSender<Event> for Engine<D> {
+impl HasEventSender<Event> for Engine {
     fn event_sender(&self) -> Arc<dyn EventSender<Event>> {
         self.event_loop.event_sender()
     }
