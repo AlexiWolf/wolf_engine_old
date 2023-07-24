@@ -92,7 +92,7 @@ mod engine_tests {
             process_event(event, &mut context);
         }
 
-        assert!(context.has_quit());
+        assert!(engine.has_quit);
         assert_eq!(context.data.updates, 3);
         assert_eq!(context.data.renders, 4);
     }
