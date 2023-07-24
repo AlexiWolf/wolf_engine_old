@@ -51,7 +51,7 @@ impl HasEventSender<Event> for EventLoop {
 mod event_loop_tests {
     use ntest::timeout;
 
-    use super::*;
+    use crate::prelude::*;
 
     struct TestData {
         message: String,
