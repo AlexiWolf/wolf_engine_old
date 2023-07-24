@@ -11,11 +11,11 @@ pub struct Engine {
 }
 
 impl Engine {
-    pub fn new() -> Self {
+    pub fn new<D>() -> (Self, Context<D>) {
         let event_loop = MpscEventQueue::new();
-        Self {
-            event_loop,
-        }
+        let event_loop = Self { event_loop, };
+        let context = Context::new(&event_loop, ());
+        (event_loop, context)
     }
 }
 
