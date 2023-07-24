@@ -22,7 +22,6 @@ pub struct Context<D> {
     /// The user-facing engine data.  Normally things like subsystems.
     pub data: D,
     event_sender: Arc<dyn EventSender<Event>>,
-    has_quit: bool,
 }
 
 impl<D> Context<D> {
@@ -31,15 +30,7 @@ impl<D> Context<D> {
         Self {
             data,
             event_sender: event_loop.event_sender(),
-            has_quit: false,
         }
-    }
-
-    /// Set the `has_quit` flag.
-    ///
-    /// In most cases, this function should only be called by the [`Engine`].
-    pub(crate) fn set_has_quit(&mut self, has_quit: bool) {
-        self.has_quit = has_quit;
     }
 }
 
