@@ -1,6 +1,6 @@
 //! Provides common tools, types, and functions for the engine.
 //!
-//! The Core API provides all the parts likely to be (re)used by other parts of the engine.  It is
+//! The Core API provides all the parts likely to be (re)used by other parts of the event_loop.  It is
 //! mostly intended for those building, or making extensions to Wolf Engine, but there are some
 //! tools for end-users as well.
 //!
@@ -11,8 +11,8 @@
 
 mod context;
 pub use context::*;
-mod engine;
-pub use engine::*;
+mod event_loop;
+pub use event_loop::*;
 
 pub mod events;
 
