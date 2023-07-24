@@ -34,24 +34,6 @@ impl<D> From<D> for Engine {
     }
 }
 
-impl EngineControls for Engine {
-    fn quit(&self) {
-        self.context.quit()
-    }
-
-    fn has_quit(&self) -> bool {
-        self.context.has_quit()
-    }
-
-    fn update(&self) {
-        self.context.event_sender().send_event(Event::Update).ok();
-    }
-
-    fn render(&self) {
-        self.context.event_sender().send_event(Event::Render).ok();
-    }
-}
-
 impl Engine {
     /// Get immutable access to the [`Context`] data.
     pub fn context(&self) -> &Context<D> {
