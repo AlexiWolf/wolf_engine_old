@@ -6,54 +6,6 @@ use crate::prelude::*;
 
 // TODO: Re-structure the `Engine` type into separate, and more focused
 // `EventLoop`, and `Context` types.
-//
-// # Examples
-//
-// ```
-// let (event_loop, context) = wolf_engine::init(());
-//
-// // or to use custom data types
-//
-// let (event_loop, context) = wolf_engine::init(context_data);
-// ```
-//
-
-/// Provides the main event-loop for Wolf Engine.
-///
-/// # Examples
-///
-/// ```
-/// # use wolf_engine_core::*;
-/// # use wolf_engine_core::events::*;
-/// #
-/// let mut engine = Engine::new();
-///
-/// // The Engine will continue to return events until it quits.
-/// while let Some(event) = engine.next_event() {
-///     let context = engine.context_mut();
-///     match event {
-///         Event::Quit => {
-///             // Shut down the game.
-///         },
-///         Event::Update => {
-///             // Update the game.
-///
-///             // To shut down the Engine, you must send a quit event.
-///             context.quit();
-///         },
-///         Event::Render => {
-///             // Render the game.
-///         },
-///         Event::EventsCleared => {
-///             // Note: The engine will not emit Update / Render events on its own.
-///             //       You are expected to do this yourself.
-///             context.update();
-///             context.render();
-///         }
-///         _ => (),
-///     }
-/// }
-/// ```
 pub struct Engine<D> {
     context: Context<D>,
     event_loop: MpscEventQueue<Event>,
