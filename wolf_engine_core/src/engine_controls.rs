@@ -5,18 +5,18 @@
 /// ```
 /// # use wolf_engine_core::prelude::*;
 /// #
-/// # let engine = Engine::default();
+/// # let (engine, context) = Engine::new(());
 /// #
 /// // Instead of using the EventLoop directly...
-/// let event_sender = engine.event_sender();
+/// let event_sender = context.event_sender();
 /// event_sender.send_event(Event::Update);
 /// event_sender.send_event(Event::Render);
 /// event_sender.send_event(Event::Quit);
 ///
 /// // Use EngineControl methods.
-/// engine.update();
-/// engine.render();
-/// engine.quit();
+/// context.update();
+/// context.render();
+/// context.quit();
 /// ```
 pub trait EngineControls {
     /// Shutdown the engine.
