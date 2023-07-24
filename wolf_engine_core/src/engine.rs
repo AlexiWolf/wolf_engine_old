@@ -19,12 +19,6 @@ impl Engine {
     }
 }
 
-impl Default for Engine {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl Engine {
     /// Get immutable access to the [`Context`] data.
     pub fn context(&self) -> &Context<D> {
