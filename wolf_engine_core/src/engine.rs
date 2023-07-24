@@ -169,7 +169,7 @@ mod engine_tests {
 
     #[test]
     fn should_provide_context_accessors() {
-        let mut engine = Engine::from(TestData::new());
+        let (mut engine, mut context) = Engine::from(TestData::new());
 
         assert_eq!(engine.context().data.message, "Hello, World!");
         engine.context_mut().data.message = "New message!".to_string();
