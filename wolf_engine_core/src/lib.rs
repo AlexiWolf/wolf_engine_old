@@ -24,3 +24,7 @@ pub mod prelude {
     pub use super::*;
     pub use events::*;
 }
+
+pub fn init<D>(data: D) -> (EventLoop, Context<D>) {
+    EventLoop::new(data)
+}
