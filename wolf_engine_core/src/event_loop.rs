@@ -10,7 +10,10 @@ pub struct EventLoop {
 impl EventLoop {
     pub fn new() -> Self {
         let event_queue = MpscEventQueue::new();
-        Self { event_queue, has_quit: false }
+        Self {
+            event_queue,
+            has_quit: false,
+        }
     }
 }
 
@@ -114,9 +117,17 @@ mod event_loop_tests {
     fn should_emit_events_cleared_when_event_queue_is_empty() {
         let (mut event_loop, context) = crate::init(());
 
-        context.event_sender().send_event(Event::Update).ok(); 
+        context.event_sender().send_event(Event::Update).ok();
 
-        assert_eq!(event_loop.next_event().unwrap(), Event::Update, "The event-loop did not emit the previously sent Update event.");
-        assert_eq!(event_loop.next_event().unwrap(), Event::EventsCleared, "The event-loop did not emit the expected EventsCleared event.");
+        assert_eq!(
+            event_loop.next_event().unwrap(),
+            Event::Update,
+            "The event-loop did not emit the previously sent Update event."
+        );
+        assert_eq!(
+            event_loop.next_event().unwrap(),
+            Event::EventsCleared,
+            "The event-loop did not emit the expected EventsCleared event."
+        );
     }
 }
