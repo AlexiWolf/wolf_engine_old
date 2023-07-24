@@ -6,12 +6,12 @@ use crate::prelude::*;
 
 // TODO: Re-structure the `Engine` type into separate, and more focused
 // `EventLoop`, and `Context` types.
-pub struct Engine {
+pub struct EventLoop {
     event_queue: MpscEventQueue<Event>,
     has_quit: bool,
 }
 
-impl Engine {
+impl EventLoop {
     pub fn new<D>(data: D) -> (Self, Context<D>) {
         let event_queue = MpscEventQueue::new();
         let event_loop = Self { event_queue, has_quit: false };
@@ -20,7 +20,7 @@ impl Engine {
     }
 }
 
-impl Engine {
+impl EventLoop {
     fn handle_event(&mut self, event: Event) -> Event {
         if event == Event::Quit {
             self.has_quit = true;
@@ -37,7 +37,7 @@ impl Engine {
     }
 }
 
-impl EventQueue<Event> for Engine {
+impl EventQueue<Event> for EventLoop {
     fn next_event(&mut self) -> Option<Event> {
         match self.event_queue.next_event() {
             Some(event) => Some(self.handle_event(event)),
@@ -46,7 +46,7 @@ impl EventQueue<Event> for Engine {
     }
 }
 
-impl HasEventSender<Event> for Engine {
+impl HasEventSender<Event> for EventLoop {
     fn event_sender(&self) -> Arc<dyn EventSender<Event>> {
         self.event_queue.event_sender()
     }
@@ -76,7 +76,7 @@ mod engine_tests {
 
     #[test]
     fn should_provide_context_accessors() {
-        let (mut engine, mut context) = Engine::new(TestData::new());
+        let (mut engine, mut context) = EventLoop::new(TestData::new());
 
         assert_eq!(context.data.message, "Hello, World!");
         context.data.message = "New message!".to_string();
@@ -86,7 +86,7 @@ mod engine_tests {
     #[test]
     #[timeout(100)]
     fn should_run_and_quit() {
-        let (mut engine, mut context) = Engine::new(TestData::new());
+        let (mut engine, mut context) = EventLoop::new(TestData::new());
 
         while let Some(event) = engine.next_event() {
             process_event(event, &mut context);
@@ -118,7 +118,7 @@ mod engine_tests {
 
     #[test]
     fn should_emit_events_cleared_when_event_queue_is_empty() {
-        let (mut engine, _context) = Engine::new(TestData::new());
+        let (mut engine, _context) = EventLoop::new(TestData::new());
 
         assert_eq!(engine.next_event().unwrap(), Event::EventsCleared);
     }
