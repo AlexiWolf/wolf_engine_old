@@ -5,9 +5,9 @@ pub struct GameData {
 }
 
 pub fn main() {
-    let (mut engine, mut context)= wolf_engine::init(GameData { number: 0 });
+    let (mut event_loop, mut context) = wolf_engine::init(GameData { number: 0 });
 
-    while let Some(event) = engine.next_event() {
+    while let Some(event) = event_loop.next_event() {
         process_event(event, &mut context);
     }
 }
