@@ -20,16 +20,6 @@ impl Engine {
 }
 
 impl Engine {
-    /// Get immutable access to the [`Context`] data.
-    pub fn context(&self) -> &Context<D> {
-        &self.context
-    }
-
-    /// Get mutable access to the [`Context`] data.
-    pub fn context_mut(&mut self) -> &mut Context<D> {
-        &mut self.context
-    }
-
     fn handle_event(&mut self, event: Event) -> Event {
         if event == Event::Quit {
             self.context.set_has_quit(true);
