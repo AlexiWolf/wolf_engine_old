@@ -74,7 +74,7 @@ mod event_loop_tests {
 
     #[test]
     fn should_provide_context_accessors() {
-        let (mut event_loop, mut context) = EventLoop::new(TestData::new());
+        let (mut event_loop, mut context) = crate::init(TestData::new());
 
         assert_eq!(context.data.message, "Hello, World!");
         context.data.message = "New message!".to_string();
@@ -84,7 +84,7 @@ mod event_loop_tests {
     #[test]
     #[timeout(100)]
     fn should_run_and_quit() {
-        let (mut event_loop, mut context) = EventLoop::new(TestData::new());
+        let (mut event_loop, mut context) = crate::init(TestData::new());
 
         while let Some(event) = event_loop.next_event() {
             process_event(event, &mut context);
@@ -116,7 +116,7 @@ mod event_loop_tests {
 
     #[test]
     fn should_emit_events_cleared_when_event_queue_is_empty() {
-        let (mut event_loop, _context) = EventLoop::new(TestData::new());
+        let (mut event_loop, _context) = crate::init(TestData::new());
 
         assert_eq!(event_loop.next_event().unwrap(), Event::EventsCleared);
     }
