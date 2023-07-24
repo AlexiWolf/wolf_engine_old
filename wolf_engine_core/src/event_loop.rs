@@ -2,7 +2,6 @@ use std::sync::Arc;
 
 use crate::events::EventSender;
 use crate::events::*;
-use crate::prelude::*;
 
 pub struct EventLoop {
     event_queue: MpscEventQueue<Event>,
