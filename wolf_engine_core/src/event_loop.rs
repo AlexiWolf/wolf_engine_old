@@ -112,8 +112,11 @@ mod event_loop_tests {
 
     #[test]
     fn should_emit_events_cleared_when_event_queue_is_empty() {
-        let (mut event_loop, _) = crate::init(());
+        let (mut event_loop, context) = crate::init(());
 
-        assert_eq!(event_loop.next_event().unwrap(), Event::EventsCleared);
+        context.event_sender().send_event(Event::Update).ok(); 
+
+        assert_eq!(event_loop.next_event().unwrap(), Event::Update, "The event-loop did not emit the previously sent Update event.");
+        assert_eq!(event_loop.next_event().unwrap(), Event::EventsCleared, "The event-loop did not emit the expected EventsCleared event.");
     }
 }
