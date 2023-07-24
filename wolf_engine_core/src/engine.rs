@@ -7,13 +7,13 @@ use crate::prelude::*;
 // TODO: Re-structure the `Engine` type into separate, and more focused
 // `EventLoop`, and `Context` types.
 pub struct Engine {
-    event_loop: MpscEventQueue<Event>,
+    event_queue: MpscEventQueue<Event>,
 }
 
 impl Engine {
     pub fn new() -> (Self, Context<()>) {
-        let event_loop = MpscEventQueue::new();
-        let event_loop = Self { event_loop, };
+        let event_queue = MpscEventQueue::new();
+        let event_loop = Self { event_queue, };
         let context = Context::new(&event_loop, ());
         (event_loop, context)
     }
@@ -48,7 +48,7 @@ impl Engine {
 
 impl EventQueue<Event> for Engine {
     fn next_event(&mut self) -> Option<Event> {
-        match self.event_loop.next_event() {
+        match self.event_queue.next_event() {
             Some(event) => Some(self.handle_event(event)),
             None => self.handle_empty_event(),
         }
@@ -57,7 +57,7 @@ impl EventQueue<Event> for Engine {
 
 impl HasEventSender<Event> for Engine {
     fn event_sender(&self) -> Arc<dyn EventSender<Event>> {
-        self.event_loop.event_sender()
+        self.event_queue.event_sender()
     }
 }
 
