@@ -32,18 +32,16 @@ impl<D> Context<D> {
             event_sender: event_queue.event_sender(),
         }
     }
-}
 
-impl<D> EngineControls for Context<D> {
-    fn quit(&self) {
+    pub fn quit(&self) {
         self.event_sender.send_event(Event::Quit).ok();
     }
 
-    fn update(&self) {
+    pub fn update(&self) {
         self.event_sender.send_event(Event::Update).ok();
     }
 
-    fn render(&self) {
+    pub fn render(&self) {
         self.event_sender.send_event(Event::Render).ok();
     }
 }
