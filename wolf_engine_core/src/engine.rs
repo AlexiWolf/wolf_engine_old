@@ -6,8 +6,7 @@ use crate::prelude::*;
 
 // TODO: Re-structure the `Engine` type into separate, and more focused
 // `EventLoop`, and `Context` types.
-pub struct Engine<D> {
-    context: Context<D>,
+pub struct Engine {
     event_loop: MpscEventQueue<Event>,
 }
 
