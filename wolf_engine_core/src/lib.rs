@@ -26,5 +26,7 @@ pub mod prelude {
 }
 
 pub fn init<D>(data: D) -> (EventLoop, Context<D>) {
-    EventLoop::new(data)
+    let event_loop = EventLoop::new();
+    let context = Context::new(&event_loop, data); 
+    (event_loop, context)
 }
