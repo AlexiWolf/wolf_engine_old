@@ -8,12 +8,13 @@ use crate::prelude::*;
 // `EventLoop`, and `Context` types.
 pub struct Engine {
     event_queue: MpscEventQueue<Event>,
+    has_quit: bool,
 }
 
 impl Engine {
     pub fn new() -> (Self, Context<()>) {
         let event_queue = MpscEventQueue::new();
-        let event_loop = Self { event_queue, };
+        let event_loop = Self { event_queue, has_quit: false };
         let context = Context::new(&event_loop, ());
         (event_loop, context)
     }
@@ -22,13 +23,13 @@ impl Engine {
 impl Engine {
     fn handle_event(&mut self, event: Event) -> Event {
         if event == Event::Quit {
-            self.context.set_has_quit(true);
+            self.has_quit = true;
         }
         event
     }
 
     fn handle_empty_event(&self) -> Option<Event> {
-        if self.context.has_quit() {
+        if self.has_quit {
             None
         } else {
             Some(Event::EventsCleared)
