@@ -5,10 +5,10 @@ pub struct GameData {
 }
 
 pub fn main() {
-    let mut engine = Engine::from(GameData { number: 0 });
+    let (mut engine, mut context)= Engine::new(GameData { number: 0 });
 
     while let Some(event) = engine.next_event() {
-        process_event(event, engine.context_mut());
+        process_event(event, &mut context);
     }
 }
 
