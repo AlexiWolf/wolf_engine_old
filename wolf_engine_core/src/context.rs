@@ -48,10 +48,6 @@ impl<D> EngineControls for Context<D> {
         self.event_sender.send_event(Event::Quit).ok();
     }
 
-    fn has_quit(&self) -> bool {
-        self.has_quit
-    }
-
     fn update(&self) {
         self.event_sender.send_event(Event::Update).ok();
     }
