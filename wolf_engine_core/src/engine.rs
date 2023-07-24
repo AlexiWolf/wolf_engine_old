@@ -76,7 +76,7 @@ mod engine_tests {
 
     #[test]
     fn should_provide_context_accessors() {
-        let (mut engine, mut context) = Engine::from(TestData::new());
+        let (mut engine, mut context) = Engine::new(TestData::new());
 
         assert_eq!(context.data.message, "Hello, World!");
         context.data.message = "New message!".to_string();
@@ -86,7 +86,7 @@ mod engine_tests {
     #[test]
     #[timeout(100)]
     fn should_run_and_quit() {
-        let (mut engine, mut context) = Engine::from(TestData::new());
+        let (mut engine, mut context) = Engine::new(TestData::new());
 
         while let Some(event) = engine.next_event() {
             process_event(event, &mut context);
@@ -118,7 +118,7 @@ mod engine_tests {
 
     #[test]
     fn should_emit_events_cleared_when_event_queue_is_empty() {
-        let (mut engine, _context) = Engine::from(TestData::new());
+        let (mut engine, _context) = Engine::new(TestData::new());
 
         assert_eq!(engine.next_event().unwrap(), Event::EventsCleared);
     }
