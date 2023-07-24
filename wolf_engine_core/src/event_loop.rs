@@ -1,6 +1,5 @@
 use std::sync::Arc;
 
-use crate::events::EventSender;
 use crate::events::*;
 
 pub struct EventLoop {
