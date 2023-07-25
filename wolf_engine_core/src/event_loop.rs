@@ -56,7 +56,6 @@ mod event_loop_tests {
     use crate::prelude::*;
 
     struct TestData {
-        message: String,
         updates: i32,
         renders: i32,
     }
@@ -64,7 +63,6 @@ mod event_loop_tests {
     impl TestData {
         pub fn new() -> Self {
             Self {
-                message: "Hello, World!".to_string(),
                 updates: 0,
                 renders: 0,
             }
