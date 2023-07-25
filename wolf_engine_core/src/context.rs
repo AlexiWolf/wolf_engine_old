@@ -1,7 +1,6 @@
 use std::sync::Arc;
 
 use crate::events::*;
-use crate::prelude::*;
 
 /// Provides safe, and controlled access to the user-facing parts of the [Engine].
 ///
