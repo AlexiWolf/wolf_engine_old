@@ -17,6 +17,13 @@ use crate::events::*;
 /// to create one *before* trying to use any of the rest of the API.  You can initialize a Context, 
 /// along with its associated [`EventLoop`](crate::EventLoop), by calling 
 /// [`wolf_engine::init()`](crate::init()).
+///
+/// TODO: Complete the Context docs.
+///
+/// - [] Make sure to explain custom data.
+/// - [] Provide some example code.
+/// - [] Revise the intro paragraphs.
+///   - I think they're a little awkward, ATM.
 pub struct Context<D> {
     /// The user-facing engine data.  Normally things like subsystems.
     pub data: D,
