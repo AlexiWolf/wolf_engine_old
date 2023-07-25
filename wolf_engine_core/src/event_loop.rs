@@ -9,7 +9,7 @@ pub struct EventLoop {
 }
 
 impl EventLoop {
-    pub fn new() -> Self {
+    pub(crate) fn new() -> Self {
         let event_queue = MpscEventQueue::new();
         Self {
             event_queue,
