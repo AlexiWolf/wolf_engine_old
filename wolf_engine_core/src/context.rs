@@ -49,13 +49,6 @@ use crate::events::*;
 /// // Initialize the engine with your custom data.
 /// let (mut event_loop, mut context) = wolf_engine::init(CustomContextData::new());
 /// ```
-///
-/// TODO: Complete the Context docs.
-///
-/// - [] Make sure to explain custom data.
-/// - [] Provide some example code.
-/// - [] Revise the intro paragraphs.
-///   - I think they're a little awkward, ATM.
 pub struct Context<D> {
     /// The user-facing engine data.  Normally things like subsystems.
     pub data: D,
