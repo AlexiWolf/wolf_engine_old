@@ -7,6 +7,14 @@ use crate::events::*;
 /// Under the hood, Wolf Engine consists of two main parts: The `EventLoop` (You are here!), and the 
 /// [`Context`](crate::Context`).  Together, these two parts make up what we refer to as 
 /// "the engine."
+/// 
+/// The Event-Loop is a specialized type of [`EventQueue`].  Unlike a typical Event-Queue, the 
+/// Event-Loop will continually emit events for as long as the engine is running, even if there 
+/// are no events currently in the queue.  
+///
+/// When there are no queued events to emit, [`Event::EventsCleared`] is returned instead, so long 
+/// as the engine is running.  When [`Event::Quit`] is received, the Event-Loop will trigger a 
+/// shutdown of the engine.  Only after a shutdown, will the Event-Loop stop emitting events.
 pub struct EventLoop {
     event_queue: MpscEventQueue<Event>,
     has_quit: bool,
