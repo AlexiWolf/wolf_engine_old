@@ -24,6 +24,18 @@ use crate::events::*;
 /// let (mut event_loop, mut context) = wolf_engine::init(data);
 /// ```
 ///
+/// # Context Data
+///
+/// It's possible to extend the engine with custom functionality by using Context Data.  
+///
+/// Context data can be any type, and is provided to [`wolf_engine::init()`](crate::init()) at 
+/// startup.  This data is mostly intended to be *engine data* such as sub-systems, however, 
+/// there are no specific requirements around what the data is used for.  
+///
+/// If most cases, context data is only useful to those writing extensions for Wolf Engine, or for
+/// those who are building their own framework on top of Wolf Engine's Core API.  Users of the  
+/// `framework` feature will use the Context data provided by the framework.
+///
 /// TODO: Complete the Context docs.
 ///
 /// - [] Make sure to explain custom data.
