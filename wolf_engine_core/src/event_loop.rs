@@ -16,9 +16,7 @@ impl EventLoop {
             has_quit: false,
         }
     }
-}
 
-impl EventLoop {
     fn handle_event(&mut self, event: Event) -> Event {
         if event == Event::Quit {
             self.has_quit = true;
