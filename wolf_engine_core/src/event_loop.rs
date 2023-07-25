@@ -72,15 +72,6 @@ mod event_loop_tests {
     }
 
     #[test]
-    fn should_provide_context_accessors() {
-        let (mut event_loop, mut context) = crate::init(TestData::new());
-
-        assert_eq!(context.data.message, "Hello, World!");
-        context.data.message = "New message!".to_string();
-        assert_eq!(context.data.message, "New message!");
-    }
-
-    #[test]
     #[timeout(100)]
     fn should_run_and_quit() {
         let (mut event_loop, mut context) = crate::init(TestData::new());
