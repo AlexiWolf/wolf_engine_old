@@ -31,8 +31,8 @@ use crate::events::*;
 /// there are no specific requirements around what the data is used for.  
 ///
 /// If most cases, context data is only useful to those writing extensions for Wolf Engine, or for
-/// those who are building their own framework on top of Wolf Engine's Core API.  Users of the  
-/// `framework` feature will use the Context data provided by the framework.
+/// those who are building their own framework on top of Wolf Engine's Core API.  Users of 
+/// the `framework` feature will use the Context data provided by the framework.
 ///
 /// ```
 /// # use wolf_engine_core as wolf_engine;
