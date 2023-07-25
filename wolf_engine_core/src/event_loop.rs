@@ -15,6 +15,16 @@ use crate::events::*;
 /// When there are no queued events to emit, [`Event::EventsCleared`] is returned instead, so long 
 /// as the engine is running.  When [`Event::Quit`] is received, the Event-Loop will trigger a 
 /// shutdown of the engine.  Only after a shutdown, will the Event-Loop stop emitting events.
+///
+/// # Creating an `EventLoop` 
+///
+/// You can initialize an Event-Loop , along with its associated [`Context`](crate::Context), by 
+/// calling [`wolf_engine::init()`](crate::init()).
+///
+/// ```
+/// # use wolf_engine_core as wolf_engine;
+/// let (mut event_loop, mut context) = wolf_engine::init(());
+/// ```
 pub struct EventLoop {
     event_queue: MpscEventQueue<Event>,
     has_quit: bool,
