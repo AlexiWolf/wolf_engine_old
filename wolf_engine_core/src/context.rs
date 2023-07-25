@@ -17,6 +17,11 @@ use crate::events::*;
 /// to create one *before* trying to use any of the rest of the API.  You can initialize a Context, 
 /// along with its associated [`EventLoop`](crate::EventLoop), by calling [`wolf_engine::init()`](crate::init()).
 ///
+/// ```
+/// # use wolf_engine_core as wolf_engine;
+/// let (mut event_loop, mut context) = wolf_engine::init(());
+/// ```
+///
 /// # Context Data
 ///
 /// It's possible to extend the engine with custom functionality by using Context Data.  
