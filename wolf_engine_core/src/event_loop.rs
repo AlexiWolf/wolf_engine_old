@@ -2,7 +2,11 @@ use std::sync::Arc;
 
 use crate::events::*;
 
-/// TODO: Write Event-Loop documentation.
+/// Provides a way to retrieve events from the [`Context`](crate::Context).
+///
+/// Under the hood, Wolf Engine consists of two main parts: The `EventLoop` (You are here!), and the 
+/// [`Context`](crate::Context`).  Together, these two parts make up what we refer to as 
+/// "the engine."
 pub struct EventLoop {
     event_queue: MpscEventQueue<Event>,
     has_quit: bool,
