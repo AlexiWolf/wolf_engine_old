@@ -2,7 +2,21 @@ use std::sync::Arc;
 
 use crate::events::*;
 
-/// TODO: Rework Context documentation.
+/// Provides a container for Wolf Engine's user-facing data. 
+///
+/// Under the hood, Wolf Engine consists of two main parts: The `Context` (You are here!), and the 
+/// [`EventLoop`](crate::EventLoop`).  Together, these two parts make up what we refer to as 
+/// "the engine."
+///
+/// The Context owns all engine data, sub-systems, and the link to the Event-Loop through which 
+/// all events are sent.  As far as the end-user is concerned, the Context *is* the engine.
+/// 
+/// # Creating a `Context` 
+///
+/// A good chunk of Wolf Engine's API depends on the Context.  As such, you will very likely need 
+/// to create one *before* trying to use any of the rest of the API.  You can initialize a Context, 
+/// along with its associated [`EventLoop`](crate::EventLoop), by calling 
+/// [`wolf_engine::init()`](crate::init()).
 pub struct Context<D> {
     /// The user-facing engine data.  Normally things like subsystems.
     pub data: D,
