@@ -17,13 +17,6 @@ use crate::events::*;
 /// to create one *before* trying to use any of the rest of the API.  You can initialize a Context, 
 /// along with its associated [`EventLoop`](crate::EventLoop), by calling [`wolf_engine::init()`](crate::init()).
 ///
-/// ```
-/// # use wolf_engine_core as wolf_engine;
-/// # let data = 0;
-/// #
-/// let (mut event_loop, mut context) = wolf_engine::init(data);
-/// ```
-///
 /// # Context Data
 ///
 /// It's possible to extend the engine with custom functionality by using Context Data.  
@@ -35,6 +28,22 @@ use crate::events::*;
 /// If most cases, context data is only useful to those writing extensions for Wolf Engine, or for
 /// those who are building their own framework on top of Wolf Engine's Core API.  Users of the  
 /// `framework` feature will use the Context data provided by the framework.
+///
+/// ```
+/// # use wolf_engine_core as wolf_engine;
+/// #
+/// // Create a type for your custom data.
+/// struct CustomContextData {
+///     // Custom sub-system data goes here.
+/// }
+/// #
+/// # impl CustomContextData {
+/// #   pub fn new() -> Self { Self {} }
+/// # }
+/// 
+/// // Initialize the engine with your custom data.
+/// let (mut event_loop, mut context) = wolf_engine::init(CustomContextData::new());
+/// ```
 ///
 /// TODO: Complete the Context docs.
 ///
