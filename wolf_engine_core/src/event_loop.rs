@@ -25,6 +25,25 @@ use crate::events::*;
 /// # use wolf_engine_core as wolf_engine;
 /// let (mut event_loop, mut context) = wolf_engine::init(());
 /// ```
+///
+/// # Responding to Events
+///
+/// Events are queried using the [`EventQueue` API](crate::events::EventQueue) .
+///
+/// ```
+/// # use wolf_engine_core as wolf_engine;
+/// # use wolf_engine::prelude::*;
+/// #
+/// # let (mut event_loop, mut context) = wolf_engine::init(());
+/// #
+/// while let Some(event) = event_loop.next_event() {
+///     match event {
+///         // Process events.
+/// #       _ => (),
+///     }
+/// #   break;
+/// }
+/// ```
 pub struct EventLoop {
     event_queue: MpscEventQueue<Event>,
     has_quit: bool,
