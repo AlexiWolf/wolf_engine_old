@@ -10,8 +10,10 @@ use crate::events::*;
 ///
 /// The Context owns all engine data, sub-systems, and the link to the Event-Loop through which 
 /// all events are sent.  As far as the end-user is concerned, the Context *is* the engine.
-/// 
-/// # Creating a `Context` 
+///
+/// # Examples
+///
+/// ## Creating a `Context` 
 ///
 /// A good chunk of Wolf Engine's API depends on the Context.  As such, you will very likely need 
 /// to create one *before* trying to use any of the rest of the API.  You can initialize a Context, 
@@ -22,7 +24,7 @@ use crate::events::*;
 /// let (mut event_loop, mut context) = wolf_engine::init(());
 /// ```
 ///
-/// # Context Data
+/// ## Context Data
 ///
 /// It's possible to extend the engine with custom functionality by using Context Data.  
 ///
