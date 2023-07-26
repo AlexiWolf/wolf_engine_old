@@ -4,23 +4,23 @@ use crate::events::*;
 
 /// Provides a way to retrieve events from the [`Context`](crate::Context).
 ///
-/// Under the hood, Wolf Engine consists of two main parts: The `EventLoop` (You are here!), and the 
-/// [`Context`](crate::Context`).  Together, these two parts make up what we refer to as 
+/// Under the hood, Wolf Engine consists of two main parts: The `EventLoop` (You are here!), and the
+/// [`Context`](crate::Context`).  Together, these two parts make up what we refer to as
 /// "the engine."
-/// 
-/// The Event-Loop is a specialized type of [`EventQueue`].  Unlike a typical Event-Queue, the 
-/// Event-Loop will continually emit events for as long as the engine is running, even if there 
+///
+/// The Event-Loop is a specialized type of [`EventQueue`].  Unlike a typical Event-Queue, the
+/// Event-Loop will continually emit events for as long as the engine is running, even if there
 /// are no events currently in the queue.  
 ///
-/// When there are no queued events to emit, [`Event::EventsCleared`] is returned instead, so long 
-/// as the engine is running.  When [`Event::Quit`] is received, the Event-Loop will trigger a 
+/// When there are no queued events to emit, [`Event::EventsCleared`] is returned instead, so long
+/// as the engine is running.  When [`Event::Quit`] is received, the Event-Loop will trigger a
 /// shutdown of the engine.  Only after a shutdown, will the Event-Loop stop emitting events.
 ///
 /// # Examples
 ///
-/// ## Creating an `EventLoop` 
+/// ## Creating an `EventLoop`
 ///
-/// You can initialize an Event-Loop , along with its associated [`Context`](crate::Context), by 
+/// You can initialize an Event-Loop , along with its associated [`Context`](crate::Context), by
 /// calling [`wolf_engine::init()`](crate::init()).
 ///
 /// ```

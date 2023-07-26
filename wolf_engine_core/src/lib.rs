@@ -39,7 +39,7 @@ pub mod prelude {
 /// // Start by initializing the EventLoop, and Context.
 /// // In this case, we are not using any Context data, so `()` is used.
 /// let (mut event_loop, mut context) = wolf_engine::init(());
-/// 
+///
 /// // Then, you can use the EventLoop to run your game's main-loop.
 /// while let Some(event) = event_loop.next_event() {
 ///     // Do something cool!
