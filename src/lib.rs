@@ -18,6 +18,8 @@
 //!
 //! # Getting Started
 //!
+//! Add Wolf Engine to your project's `Cargo.toml` file.
+//!
 //! To use the latest release version:
 //!
 //! ```ignore
