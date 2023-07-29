@@ -31,7 +31,6 @@
 //! wolf_engine = { git = "https://github.com/AlexiWolf/wolf_engine" }
 //! ```
 //!
-//! ### Crate Features
 //! ## Crate Features
 //!
 //! - `framework`: Enable the high-level framework (enabled by default.)
