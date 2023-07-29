@@ -15,8 +15,11 @@
 //! }
 //! 
 //! pub fn main() {
+//!     // Start by initializing the engine's Event-Loop, and Context.
 //!     let (mut event_loop, mut context) = wolf_engine::init(GameData { number: 0 });
-//! 
+//!     
+//!     // The Event-Loop will continue to return events, every call, until a Quit event is sent,
+//!     // only then, will the Event-Loop will return None.
 //!     while let Some(event) = event_loop.next_event() {
 //!         process_event(event, &mut context);
 //!     }
