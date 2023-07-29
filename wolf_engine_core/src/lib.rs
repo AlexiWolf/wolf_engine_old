@@ -6,6 +6,16 @@
 //!
 //! # Getting Started
 //!
+//! While it's possible to build games using the `core` module alone, this isn't recommended
+//! unless you *really* know what you're doing, or you want to build your own, game-specific,
+//! engine.
+//!
+//! The core module really doesn't do a lot on it's own.  It's closer to a collection of basic 
+//! tools than it is an actual game framework.  As such, you're expected to write your own
+//! main-loop, and respond to events entirely on your own.
+//!
+//! Here's an example of a basic main-loop:
+//!
 //! ```
 //! # use wolf_engine_core as wolf_engine;
 //! use wolf_engine::prelude::*;
