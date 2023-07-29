@@ -62,6 +62,14 @@
 //!     }
 //! }
 //! ```
+//!
+//! You can use this example as a jumping-off point for your game.  Most of Wolf Engine's libraries
+//! are built against `core`, so you can very likely pull in other modules and start using them
+//! without to much trouble.
+//!
+//! You can also look in the 
+//! [examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) for additional
+//! examples.
 
 mod context;
 pub use context::*;
