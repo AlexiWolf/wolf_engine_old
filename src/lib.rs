@@ -9,11 +9,11 @@
 //! ### The Basics
 //!
 //! - If you're just getting started, you should look at the
-//!   [`framework` module](wolf_engine_framework).  It includes a beginner-friendly guide to 
+//!   [`framework` module](wolf_engine_framework).  It includes a beginner-friendly guide to
 //!   actually getting something happening on screen.  
 //! - The [`events` module](events) contains the [`EventQueue` API](events::EventQueue), which is
 //!   the base upon which the rest of the engine is built.
-//! - The [`core` module](wolf_engine_core) contains the base engine types.  It's very important 
+//! - The [`core` module](wolf_engine_core) contains the base engine types.  It's very important
 //!   to understand if you plan to contribute to the engine, or build your own extensions.
 //!
 //! # Getting Started

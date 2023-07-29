@@ -10,7 +10,7 @@
 //! unless you *really* know what you're doing, or you want to build your own, game-specific,
 //! engine.
 //!
-//! The core module really doesn't do a lot on it's own.  It's closer to a collection of basic 
+//! The core module really doesn't do a lot on it's own.  It's closer to a collection of basic
 //! tools than it is an actual game framework.  As such, you're expected to write your own
 //! main-loop, and respond to events entirely on your own.
 //!
@@ -19,11 +19,11 @@
 //! ```
 //! # use wolf_engine_core as wolf_engine;
 //! use wolf_engine::prelude::*;
-//! 
+//!
 //! pub struct GameData {
 //!     pub number: i32,
 //! }
-//! 
+//!
 //! pub fn main() {
 //!     // Start by initializing the engine's Event-Loop, and Context.
 //!     let (mut event_loop, mut context) = wolf_engine::init(GameData { number: 0 });
@@ -34,7 +34,7 @@
 //!         process_event(event, &mut context);
 //!     }
 //! }
-//! 
+//!
 //! pub fn process_event(event: Event, context: &mut Context<GameData>) {
 //!     match event {
 //!         // Indicates there are no more events on the queue, or, essentially, the end of the
@@ -67,7 +67,7 @@
 //! are built against `core`, so you can very likely pull in other modules and start using them
 //! without to much trouble.
 //!
-//! You can also look in the 
+//! You can also look in the
 //! [examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) for additional
 //! examples.
 
