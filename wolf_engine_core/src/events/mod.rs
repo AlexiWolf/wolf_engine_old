@@ -2,9 +2,9 @@
 //!
 //! This module uses a [FIFO](https://en.wikipedia.org/wiki/FIFO_(computing_and_electronics))
 //! (First-in, First-out), MPSC (Multi-Producer, Single-Consumer) event system based on the
-//! sender / receiver model found in [std::sync::mpsc::channel] (actually, [MpscEventQueue] is
-//! built on the std channel API.) This module provides traits which wrap up the channel-like
-//! functionality into a nicer API, so other types, like the [Engine](crate::Engine),
+//! sender / receiver model found in [std::sync::mpsc] (actually, [MpscEventQueue] is
+//! built on the mpsc API.) This module provides traits which wrap up the channel-like
+//! functionality into a nicer API, so other types, like the [EventLoop](crate::EventLoop),
 //! and [Context](crate::Context), can have Event Queue functionality.
 //!
 //! It's important to note, [`EventQueue`] is **not just for events.**  It's actually a generic
