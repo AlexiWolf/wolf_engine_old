@@ -27,9 +27,15 @@
 //! 
 //! pub fn process_event(event: Event, context: &mut Context<GameData>) {
 //!     match event {
-//!         // Shut down the game.
-//!         Event::Quit => println!("Quit event received.  Goodbye!"),
-//!         // Update the game.
+//!         // Indicates there are no more events on the queue, or, essentially, the end of the
+//!         // current frame.
+//!         Event::EventsCleared => {
+//!             // Note: The engine will not emit Update / Render events on it's own.
+//!             //       You are expected to do this yourself.
+//!             context.update();
+//!             context.render();
+//!         }
+//!         // Update the game's state.
 //!         Event::Update => {
 //!             if context.data.number == 3 {
 //!                 // To shut down the Engine, you must send a quit event.
@@ -38,13 +44,10 @@
 //!                 context.data.number += 1;
 //!             }
 //!         }
+//!         // Render, or display the game's state.
 //!         Event::Render => println!("{}", context.data.number),
-//!         Event::EventsCleared => {
-//!             // Note: The engine will not emit Update / Render events on it's own.
-//!             //       You are expected to do this yourself.
-//!             context.update();
-//!             context.render();
-//!         }
+//!         // Shut down the game.
+//!         Event::Quit => println!("Quit event received.  Goodbye!"),
 //!         _ => (),
 //!     }
 //! }
