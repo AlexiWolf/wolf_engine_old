@@ -1,46 +1,20 @@
-<!-- Include a quick summary of the changes made in this PR. -->
-
-A short description of what was changed.
-
-# Change Type 
-
-See [Semantic Versioning](https://semver.org/) for more information.
-
-<!-- Select one (Delete the rest): -->
-
-- Non-Code
-- Patch
-- Minor
-- Major
+A short summary of what was changed, and, if possible, an explanation why.
 
 # Changes Made
 
-<!-- Planned changes should be done as a checklist, and changes marked off when completed. -->
+All notable changes introduced by this PR should be documented here.
 
-- [ ] Added `a`. 
-- [ ] Updated `b`.
-- [ ] Changed `c`.
-- [ ] Removed `d`.
-- [ ] Fixed `e`.
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+- Changed / Added / Removed / Fixed `xyz`.
 
 # Merge Checklist
 
-This is the standard checklist of tasks that **MUST** be completed before a PR can be accepted.
+This is the standard checklist of tasks that **MUST** be completed before a PR
+can be accepted.
 
-- [ ] Feature Completeness
-  - [ ] All planned changes have been completed.
-  - [ ] New behaviors are covered by tests.
-- [ ] Code Quality
-  - [ ] The codebase has been cleaned up and refactored.
-  - [ ] The codebase is formatted correctly (run `cargo fmt`.)
-  - [ ] All compiler warnings have been resolved.
-  - [ ] All Clippy warnings have been resolved (run `cargo clippy`.)
-- [ ] Documentation
-  - [ ] The documentation has been updated.
-  - [ ] Relevant examples have been provided in `/examples`.
-  - [ ] All doctests / examples are passing.
-  - [ ] All documentation warnings / errors have been resolved.
-- [ ] Merge
-  - [ ] The feature branch has been brought up to date with the main branch (`fetch origin/main && merge origin/main`.)
-  - [ ] The version number has been bumped.
-  - [ ] I understand and agree to the contribution guidelines.
+- [ ] New behaviors are covered by tests, and / or examples.
+- [ ] The documentation has been updated (if applicable.)
+- [ ] The version number has been bumped (if applicable.)
+- [ ] The feature branch is up to date with `main`. 
