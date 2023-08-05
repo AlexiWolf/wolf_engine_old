@@ -87,6 +87,7 @@ pub mod prelude {
     pub use events::*;
 }
 
+/// Represents the [`EventLoop`]-[`Context`] pair that makes up "the engine."
 pub type Engine<D> = (EventLoop, Context<D>);
 
 /// Initializes a new instance of the [`EventLoop`], and its associated [`Context`], with the
