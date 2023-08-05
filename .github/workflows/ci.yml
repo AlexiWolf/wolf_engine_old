@@ -21,29 +21,25 @@ jobs:
     env:
       RUST_BACKTRACE: 1
       CARGO_TERM_COLOR: always
-      FEATURES: ${{ format(',{0}', matrix.platform.features ) }}
-      OPTIONS: ${{ matrix.platform.options }}
     runs-on: ${{ matrix.platform.os }}
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup Rust
-      uses: ATiltedTree/setup-rust@v1
+    - uses: actions/checkout@v3
+    - uses: actions-rust-lang/setup-rust-toolchain@v1
       with:
-        rust-version: ${{ matrix.rust-version }} 
-    - name: Run tests
+        toolchain: stable 
+    - name: Test Workspace on ${{ matrix.platform.os }} 
       shell: bash
-      run: cargo test --workspace --verbose $OPTIONS --features=$FEATURES
+      run: cargo test --workspace --verbose --all-features  
 
   check_code_format:
     name: Check Code Format
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v2
-      - name: Setup Rust
-        uses: ATiltedTree/setup-rust@v1
+      - uses: actions/checkout@v3
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
-          rust-version: stable 
+          toolchain: stable 
+          components: rustfmt 
       - name: Check Code Format
         shell: bash
         run: cargo fmt --check 
@@ -52,12 +48,11 @@ jobs:
     name: Check Clippy Warnings
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v2
-      - name: Setup Rust
-        uses: ATiltedTree/setup-rust@v1
+      - uses: actions/checkout@v3
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
-          rust-version: stable 
+          toolchain: stable 
+          components: clippy
       - name: Check Code Format
         shell: bash
         run: cargo clippy --all-features -- --deny warnings 
