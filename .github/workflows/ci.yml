@@ -25,7 +25,10 @@ jobs:
       OPTIONS: ${{ matrix.platform.options }}
     runs-on: ${{ matrix.platform.os }}
     steps:
+    - uses: actions-rust-lang/setup-rust-toolchain@v1
     - name: Test Workspace on ${{ matrix.platform.os }} 
+      with:
+        toolchain: stable 
       shell: bash
       run: cargo test --workspace --verbose $OPTIONS --features=$FEATURES
 
@@ -35,10 +38,10 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
-      - name: Setup Rust
-        uses: ATiltedTree/setup-rust@v1
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
-          rust-version: stable 
+          toolchain: stable 
+          components: rustfmt 
       - name: Check Code Format
         shell: bash
         run: cargo fmt --check 
@@ -49,10 +52,10 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
-      - name: Setup Rust
-        uses: ATiltedTree/setup-rust@v1
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
-          rust-version: stable 
+          toolchain: stable 
+          components: clippy
       - name: Check Code Format
         shell: bash
         run: cargo clippy --all-features -- --deny warnings 
