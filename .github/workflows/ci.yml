@@ -21,8 +21,6 @@ jobs:
     env:
       RUST_BACKTRACE: 1
       CARGO_TERM_COLOR: always
-      FEATURES: ${{ format(',{0}', matrix.platform.features ) }}
-      OPTIONS: ${{ matrix.platform.options }}
     runs-on: ${{ matrix.platform.os }}
     steps:
     - uses: actions/checkout@v3
@@ -31,7 +29,7 @@ jobs:
         toolchain: stable 
     - name: Test Workspace on ${{ matrix.platform.os }} 
       shell: bash
-      run: cargo test --workspace --verbose $OPTIONS --features=$FEATURES
+      run: cargo test --workspace --verbose --all-features  
 
   check_code_format:
     name: Check Code Format
