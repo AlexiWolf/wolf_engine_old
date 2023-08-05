@@ -25,7 +25,7 @@ jobs:
       OPTIONS: ${{ matrix.platform.options }}
     runs-on: ${{ matrix.platform.os }}
     steps:
-    - name: Run tests
+    - name: Test Workspace on ${{ matrix.platform.os }} 
       shell: bash
       run: cargo test --workspace --verbose $OPTIONS --features=$FEATURES
 
