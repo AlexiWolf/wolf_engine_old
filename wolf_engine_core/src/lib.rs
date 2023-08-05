@@ -124,7 +124,7 @@ pub type Engine<D> = (EventLoop, Context<D>);
 /// # use wolf_engine::prelude::*;
 /// let (mut event_loop, mut context) = wolf_engine::init(SomeCustomDataType {});
 /// ```
-pub fn init<D>(data: D) -> (EventLoop, Context<D>) {
+pub fn init<D>(data: D) -> Engine<D> {
     let event_loop = EventLoop::new();
     let context = Context::new(&event_loop, data);
     (event_loop, context)
