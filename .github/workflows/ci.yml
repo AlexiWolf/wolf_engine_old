@@ -26,9 +26,9 @@ jobs:
     runs-on: ${{ matrix.platform.os }}
     steps:
     - uses: actions-rust-lang/setup-rust-toolchain@v1
-    - name: Test Workspace on ${{ matrix.platform.os }} 
       with:
         toolchain: stable 
+    - name: Test Workspace on ${{ matrix.platform.os }} 
       shell: bash
       run: cargo test --workspace --verbose $OPTIONS --features=$FEATURES
 
