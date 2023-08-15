@@ -99,14 +99,12 @@ mod event_loop_tests {
 
     struct TestData {
         updates: i32,
-        renders: i32,
     }
 
     impl TestData {
         pub fn new() -> Self {
             Self {
                 updates: 0,
-                renders: 0,
             }
         }
     }
@@ -122,7 +120,6 @@ mod event_loop_tests {
 
         assert!(event_loop.has_quit);
         assert_eq!(context.data.updates, 3);
-        assert_eq!(context.data.renders, 3);
     }
 
     fn process_event(event: Event, context: &mut Context<TestData>) {
