@@ -18,7 +18,6 @@ pub fn process_event(event: Event, context: &mut Context<GameData>) {
             update(context);
             display(context);
         }
-        // Shut down the game.
         Event::Quit => println!("Quit event received.  Goodbye!"),
         _ => (),
     }
