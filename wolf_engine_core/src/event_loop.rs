@@ -128,37 +128,19 @@ mod event_loop_tests {
     fn process_event(event: Event, context: &mut Context<TestData>) {
         match event {
             Event::Quit => (),
-            Event::Update => {
-                if context.data.updates < 3 && context.data.renders < 3 {
-                    context.data.updates += 1;
-                } else {
-                    context.quit();
-                }
-            }
-            Event::Render => context.data.renders += 1,
-            Event::EventsCleared => {
-                context.update();
-                context.render();
-            }
+            Event::EventsCleared => {}
             _ => (),
         }
     }
+}
 
-    #[test]
-    fn should_emit_events_cleared_when_event_queue_is_empty() {
-        let (mut event_loop, context) = crate::init(());
+#[test]
+fn should_emit_events_cleared_when_event_queue_is_empty() {
+    let (mut event_loop, context) = crate::init(());
 
-        context.event_sender().send_event(Event::Update).ok();
-
-        assert_eq!(
-            event_loop.next_event().unwrap(),
-            Event::Update,
-            "The event-loop did not emit the previously sent Update event."
-        );
-        assert_eq!(
-            event_loop.next_event().unwrap(),
-            Event::EventsCleared,
-            "The event-loop did not emit the expected EventsCleared event."
-        );
-    }
+    assert_eq!(
+        event_loop.next_event().unwrap(),
+        Event::EventsCleared,
+        "The event-loop did not emit the expected EventsCleared event."
+    );
 }
