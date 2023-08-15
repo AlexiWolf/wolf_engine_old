@@ -122,13 +122,19 @@ mod event_loop_tests {
 
         assert!(event_loop.has_quit);
         assert_eq!(context.data.updates, 3);
-        assert_eq!(context.data.renders, 4);
+        assert_eq!(context.data.renders, 3);
     }
 
     fn process_event(event: Event, context: &mut Context<TestData>) {
         match event {
             Event::Quit => (),
-            Event::EventsCleared => {}
+            Event::EventsCleared => {
+                if context.data.updates == 3 {
+                    context.quit();
+                } else {
+                    context.data.updates += 1;
+                }
+            }
             _ => (),
         }
     }
