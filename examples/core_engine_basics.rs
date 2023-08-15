@@ -14,24 +14,24 @@ pub fn main() {
 
 pub fn process_event(event: Event, context: &mut Context<GameData>) {
     match event {
+        Event::EventsCleared => {
+            update(context);
+            display(context);
+        }
         // Shut down the game.
         Event::Quit => println!("Quit event received.  Goodbye!"),
-        Event::EventsCleared => {
-            // Update the game.
-            {
-                if context.data.number == 3 {
-                    // To shut down the Engine, you must send a quit event.
-                    context.quit();
-                } else {
-                    context.data.number += 1;
-                }
-            }
-
-            // Display the game.
-            {
-                println!("{}", context.data.number);
-            }
-        }
         _ => (),
     }
+}
+
+pub fn update(context: &mut Context<GameData>) {
+    if context.data.number == 3 {
+        context.quit();
+    } else {
+        context.data.number += 1;
+    }
+}
+
+pub fn display(context: &mut Context<GameData>) {
+    println!("{}", context.data.number);
 }
