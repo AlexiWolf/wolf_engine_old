@@ -152,4 +152,3 @@ fn should_emit_events_cleared_when_event_queue_is_empty() {
         "The event-loop did not emit the expected EventsCleared event."
     );
 }
-}
