@@ -103,9 +103,7 @@ mod event_loop_tests {
 
     impl TestData {
         pub fn new() -> Self {
-            Self {
-                updates: 0,
-            }
+            Self { updates: 0 }
         }
     }
 
