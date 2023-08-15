@@ -69,14 +69,6 @@ impl<D> Context<D> {
     pub fn quit(&self) {
         self.event_sender.send_event(Event::Quit).ok();
     }
-
-    pub fn update(&self) {
-        self.event_sender.send_event(Event::Update).ok();
-    }
-
-    pub fn render(&self) {
-        self.event_sender.send_event(Event::Render).ok();
-    }
 }
 
 impl<D> HasEventSender<Event> for Context<D> {

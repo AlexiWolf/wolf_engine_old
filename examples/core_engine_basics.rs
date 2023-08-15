@@ -14,24 +14,23 @@ pub fn main() {
 
 pub fn process_event(event: Event, context: &mut Context<GameData>) {
     match event {
-        // Shut down the game.
-        Event::Quit => println!("Quit event received.  Goodbye!"),
-        // Update the game.
-        Event::Update => {
-            if context.data.number == 3 {
-                // To shut down the Engine, you must send a quit event.
-                context.quit();
-            } else {
-                context.data.number += 1;
-            }
-        }
-        Event::Render => println!("{}", context.data.number),
         Event::EventsCleared => {
-            // Note: The engine will not emit Update / Render events on it's own.
-            //       You are expected to do this yourself.
-            context.update();
-            context.render();
+            update(context);
+            display(context);
         }
+        Event::Quit => println!("Quit event received.  Goodbye!"),
         _ => (),
     }
+}
+
+pub fn update(context: &mut Context<GameData>) {
+    if context.data.number == 3 {
+        context.quit();
+    } else {
+        context.data.number += 1;
+    }
+}
+
+pub fn display(context: &mut Context<GameData>) {
+    println!("{}", context.data.number);
 }

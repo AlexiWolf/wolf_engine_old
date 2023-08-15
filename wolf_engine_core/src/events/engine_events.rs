@@ -10,12 +10,6 @@ pub enum Event {
     /// Emitted when the engine should quit.
     Quit,
 
-    /// Indicates the engine should update game logic.
-    Update,
-
-    /// Indicates the engine should render the game.
-    Render,
-
     /// Indicates the end of a frame.
     ///
     /// `EventsCleared` should be emitted only after all other events have been processed.
@@ -23,6 +17,10 @@ pub enum Event {
 
     /// A [`WindowEvent`] emitted by the window system.
     WindowEvent(WindowEvent),
+
+    #[cfg(test)]
+    /// A test event only used by unit tests.
+    Test,
 }
 
 #[cfg(test)]
@@ -31,14 +29,14 @@ mod event_tests {
 
     #[test]
     fn should_implement_clone() {
-        let event = Event::Update;
+        let event = Event::EventsCleared;
         let clone = event.clone();
         assert_eq!(event, clone);
     }
 
     #[test]
     fn should_implement_copy() {
-        let event = Event::Update;
+        let event = Event::EventsCleared;
         let copy = copy_test(event);
         assert_eq!(event, copy);
     }
