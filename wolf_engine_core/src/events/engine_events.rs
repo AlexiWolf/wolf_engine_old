@@ -44,4 +44,9 @@ mod event_tests {
     fn copy_test(event: Event) -> Event {
         event
     }
+
+    #[test]
+    fn should_support_user_defined_events() {
+        let _event = Event::UserDefined("custom_event");
+    }
 }
