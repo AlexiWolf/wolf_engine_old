@@ -31,14 +31,14 @@ mod event_tests {
 
     #[test]
     fn should_implement_clone() {
-        let event = Event::EventsCleared;
+        let event: Event<()> = Event::EventsCleared;
         let clone = event.clone();
         assert_eq!(event, clone);
     }
 
     #[test]
     fn should_implement_copy() {
-        let event = Event::EventsCleared;
+        let event: Event<()> = Event::EventsCleared;
         let copy = copy_test(event);
         assert_eq!(event, copy);
     }
