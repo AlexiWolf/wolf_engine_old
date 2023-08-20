@@ -6,7 +6,7 @@ pub enum WindowEvent {}
 /// Provides the main events used by Wolf Engine.
 #[non_exhaustive]
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
-pub enum Event {
+pub enum Event<E> {
     /// Emitted when the engine should quit.
     Quit,
 
