@@ -17,6 +17,8 @@ pub enum Event<E> {
 
     /// A [`WindowEvent`] emitted by the window system.
     WindowEvent(WindowEvent),
+    
+    UserDefined(E),
 
     #[cfg(test)]
     /// A test event only used by unit tests.
