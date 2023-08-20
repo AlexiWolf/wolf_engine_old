@@ -17,7 +17,7 @@ pub enum Event<E> {
 
     /// A [`WindowEvent`] emitted by the window system.
     WindowEvent(WindowEvent),
-    
+
     UserDefined(E),
 
     #[cfg(test)]
@@ -43,7 +43,7 @@ mod event_tests {
         assert_eq!(event, copy);
     }
 
-    fn copy_test(event: Event) -> Event {
+    fn copy_test<E>(event: Event<E>) -> Event<E> {
         event
     }
 
