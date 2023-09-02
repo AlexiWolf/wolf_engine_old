@@ -26,9 +26,6 @@ pub trait WindowBackend {
 ///
 /// A new window is created by passing [`WindowSettings`] to a [`WindowBackend`].
 pub trait Window: HasRawWindowHandle + HasRawDisplayHandle {
-    /// Return the window's unique id.
-    fn id(&self) -> WindowId;
-
     /// Return the window's title.
     fn title(&self) -> String;
 
@@ -67,7 +64,6 @@ mock! {
     pub Window {}
 
     impl Window for Window {
-        fn id(&self) -> WindowId;
         fn title(&self) -> String;
         fn set_title<T: Into<String> + 'static>(&mut self, title: T);
         fn width(&self) -> usize;
@@ -93,14 +89,6 @@ pub mod window_api_tests {
     use super::*;
 
     use raw_window_handle::{WebDisplayHandle, WebWindowHandle};
-
-    #[test]
-    fn should_have_id_getter() {
-        let (mut window, _backend) = mock_window(WindowSettings::default());
-        window.expect_id().once().returning(|| WindowId::new());
-
-        let _id = window.id();
-    }
 
     #[test]
     fn should_have_title_setter_and_accessor() {
