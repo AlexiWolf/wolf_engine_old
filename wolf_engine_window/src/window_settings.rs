@@ -2,7 +2,7 @@
 use serde::{Deserialize, Serialize};
 
 /// Provides the settings used to create a window.
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Default, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct WindowSettings {}
 
@@ -16,9 +16,3 @@ impl WindowSettings {
 }
 
 impl WindowSettings {}
-
-impl Default for WindowSettings {
-    fn default() -> Self {
-        Self {}
-    }
-}
