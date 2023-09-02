@@ -10,21 +10,21 @@ pub mod prelude {
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct WindowDimensions {
     /// The width of a window, in pixels.
-    pub width: usize,
+    pub width: u32,
 
     /// The height of a window, in pixels.
-    pub height: usize,
+    pub height: u32,
 }
 
 impl WindowDimensions {
     /// Create a new set of dimensions from the provide pixel values.
-    pub fn new(width: usize, height: usize) -> Self {
+    pub fn new(width: u32, height: u32) -> Self {
         Self { width, height }
     }
 }
 
-impl From<(usize, usize)> for WindowDimensions {
-    fn from(dimensions: (usize, usize)) -> Self {
+impl From<(u32, u32)> for WindowDimensions {
+    fn from(dimensions: (u32, u32)) -> Self {
         Self::new(dimensions.0, dimensions.1)
     }
 }
