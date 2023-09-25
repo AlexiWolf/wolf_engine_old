@@ -58,5 +58,7 @@ mod context_tests {
 
         context.add_resource(TestResource("Hello, World!"));
         let resource = context.resource::<TestResource>().expect("Resource doesn't exist");
+
+        assert_eq!(resource.0, "Hello, World!");
     }
 }
