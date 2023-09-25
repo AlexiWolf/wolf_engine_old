@@ -20,13 +20,9 @@
 //! # use wolf_engine_core as wolf_engine;
 //! use wolf_engine::prelude::*;
 //!
-//! pub struct GameData {
-//!     pub number: i32,
-//! }
-//!
 //! pub fn main() {
 //!     // Start by initializing the engine's Event-Loop, and Context.
-//!     let (mut event_loop, mut context) = wolf_engine::init::<GameData, ()>(GameData { number: 0 });
+//!     let (mut event_loop, mut context) = wolf_engine::init::<()>();
 //!     
 //!     // The Event-Loop will continue to return events, every call, until a Quit event is sent,
 //!     // only then, will the Event-Loop will return None.
@@ -35,17 +31,13 @@
 //!     }
 //! }
 //!
-//! pub fn process_event(event: Event<()>, context: &mut Context<GameData, ()>) {
+//! pub fn process_event(event: Event<()>, context: &mut Context<()>) {
 //!     match event {
 //!         // Indicates there are no more events on the queue, or, essentially, the end of the
-//!         // current frame.  You should put most of your game logic here.
+//!         // current frame.  
 //!         Event::EventsCleared => {
-//!             if context.data.number == 3 {
-//!                 context.quit();
-//!             } else {
-//!                 context.data.number += 1;
-//!             }
-//!             println!("{}", context.data.number);
+//!             // You should put most of your game logic here.
+//!             context.quit(); 
 //!         }
 //!         // Shut down the game.
 //!         Event::Quit => println!("Quit event received.  Goodbye!"),
@@ -96,7 +88,7 @@ pub type Engine<E> = (EventLoop<E>, Context<E>);
 ///
 /// // Start by initializing the EventLoop, and Context.
 /// // In this case, we are not using any Context data, so `()` is used.
-/// let (mut event_loop, mut context) = wolf_engine::init::<(), ()>(());
+/// let (mut event_loop, mut context) = wolf_engine::init::<()>();
 ///
 /// // Then, you can use the EventLoop to run your game's main-loop.
 /// while let Some(event) = event_loop.next_event() {
@@ -115,7 +107,7 @@ pub type Engine<E> = (EventLoop<E>, Context<E>);
 /// # pub struct SomeCustomDataType {};
 /// #
 /// # use wolf_engine::prelude::*;
-/// let (mut event_loop, mut context) = wolf_engine::init::<SomeCustomDataType, ()>(SomeCustomDataType {});
+/// let (mut event_loop, mut context) = wolf_engine::init::<()>();
 /// ```
 pub fn init<E: UserEvent>() -> Engine<E> {
     let event_loop = EventLoop::new();
