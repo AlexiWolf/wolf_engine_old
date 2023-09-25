@@ -22,6 +22,10 @@ impl<E: UserEvent> Context<E> {
         }
     }
 
+    pub fn add_resource<T>(&mut self, resource: T) {
+        
+    }
+
     pub fn quit(&self) {
         self.event_sender.send_event(Event::Quit).ok();
     }
