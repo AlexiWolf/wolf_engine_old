@@ -21,7 +21,7 @@ use crate::events::*;
 ///
 /// ```
 /// # use wolf_engine_core as wolf_engine;
-/// let (mut event_loop, mut context) = wolf_engine::init::<(), ()>(());
+/// let (mut event_loop, mut context) = wolf_engine::init::<()>(());
 /// ```
 ///
 /// ## Context Data
@@ -49,13 +49,13 @@ use crate::events::*;
 /// # }
 ///
 /// // Initialize the engine with your custom data.
-/// let (mut event_loop, mut context) = wolf_engine::init::<CustomContextData, ()>(CustomContextData::new());
+/// let (mut event_loop, mut context) = wolf_engine::init::<()>(CustomContextData::new());
 /// ```
-pub struct Context<D, E: UserEvent> {
+pub struct Context<E: UserEvent> {
     event_sender: Arc<dyn EventSender<Event<E>>>,
 }
 
-impl<D, E: UserEvent> Context<D, E> {
+impl<E: UserEvent> Context<E> {
     /// Create a new `Context` from the provided [`EventQueue`] and data.
     pub(crate) fn new(event_queue: &dyn EventQueue<Event<E>>) -> Self {
         Self {
@@ -68,7 +68,7 @@ impl<D, E: UserEvent> Context<D, E> {
     }
 }
 
-impl<D, E: UserEvent> HasEventSender<Event<E>> for Context<D, E> {
+impl<E: UserEvent> HasEventSender<Event<E>> for Context<E> {
     fn event_sender(&self) -> Arc<dyn EventSender<Event<E>>> {
         self.event_sender.clone()
     }
