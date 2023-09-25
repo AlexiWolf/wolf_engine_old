@@ -21,7 +21,7 @@ use crate::events::*;
 ///
 /// ```
 /// # use wolf_engine_core as wolf_engine;
-/// let (mut event_loop, mut context) = wolf_engine::init::<()>(());
+/// let (mut event_loop, mut context) = wolf_engine::init::<()>();
 /// ```
 ///
 /// ## Context Data
