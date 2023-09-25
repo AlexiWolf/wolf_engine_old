@@ -119,6 +119,6 @@ pub type Engine<E> = (EventLoop<E>, Context<E>);
 /// ```
 pub fn init<E: UserEvent>() -> Engine<E> {
     let event_loop = EventLoop::new();
-    let context = Context::new(&event_loop, data);
+    let context = Context::new(&event_loop);
     (event_loop, context)
 }
