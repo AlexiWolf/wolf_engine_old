@@ -48,7 +48,7 @@ mod context_tests {
         struct TestResource(&'static str);
 
         let event_loop = EventLoop::<()>::new();
-        let context = Context::new(&event_loop);
+        let mut context = Context::new(&event_loop);
 
         context.add_resource(TestResource("Hello, World!"));
     }
