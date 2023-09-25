@@ -111,23 +111,24 @@ mod event_loop_tests {
     #[timeout(100)]
     fn should_run_and_quit() {
         let (mut event_loop, mut context) = crate::init::<()>();
+        let mut updates = 0;
 
         while let Some(event) = event_loop.next_event() {
-            process_event(event, &mut context);
+            process_event(event, &mut context, &mut updates);
         }
 
         assert!(event_loop.has_quit);
-        assert_eq!(context.data.updates, 3);
+        assert_eq!(updates, 3);
     }
 
-    fn process_event<E: UserEvent>(event: Event<E>, context: &mut Context<E>) {
+    fn process_event<E: UserEvent>(event: Event<E>, context: &mut Context<E>, updates: &mut i32) {
         match event {
             Event::Quit => (),
             Event::EventsCleared => {
-                if context.data.updates == 3 {
+                if *updates == 3 {
                     context.quit();
                 } else {
-                    context.data.updates += 1;
+                    *updates += 1;
                 }
             }
             _ => (),
