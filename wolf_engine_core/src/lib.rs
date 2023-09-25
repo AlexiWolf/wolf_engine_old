@@ -78,6 +78,8 @@ pub mod prelude {
     pub use events::*;
 }
 
+use events::UserEvent;
+
 /// Represents the [`EventLoop`]-[`Context`] pair that makes up "the engine."
 pub type Engine<D,E> = (EventLoop<E>, Context<D,E>);
 
@@ -115,7 +117,7 @@ pub type Engine<D,E> = (EventLoop<E>, Context<D,E>);
 /// # use wolf_engine::prelude::*;
 /// let (mut event_loop, mut context) = wolf_engine::init(SomeCustomDataType {});
 /// ```
-pub fn init<D,E>(data: D) -> Engine<D,E> {
+pub fn init<D,E: UserEvent>(data: D) -> Engine<D,E> {
     let event_loop = EventLoop::new();
     let context = Context::new(&event_loop, data);
     (event_loop, context)

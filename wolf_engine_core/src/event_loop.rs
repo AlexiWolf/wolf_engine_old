@@ -46,12 +46,12 @@ use crate::events::*;
 /// #   break;
 /// }
 /// ```
-pub struct EventLoop<E> {
+pub struct EventLoop<E: UserEvent> {
     event_queue: MpscEventQueue<Event<E>>,
     has_quit: bool,
 }
 
-impl<E> EventLoop<E> {
+impl<E: UserEvent> EventLoop<E> {
     pub(crate) fn new() -> Self {
         let event_queue = MpscEventQueue::new();
         Self {
@@ -76,7 +76,7 @@ impl<E> EventLoop<E> {
     }
 }
 
-impl<E> EventQueue<Event<E>> for EventLoop<E> {
+impl<E: UserEvent> EventQueue<Event<E>> for EventLoop<E> {
     fn next_event(&mut self) -> Option<Event<E>> {
         match self.event_queue.next_event() {
             Some(event) => Some(self.handle_event(event)),
@@ -85,7 +85,7 @@ impl<E> EventQueue<Event<E>> for EventLoop<E> {
     }
 }
 
-impl<E> HasEventSender<Event<E>> for EventLoop<E> {
+impl<E: UserEvent> HasEventSender<Event<E>> for EventLoop<E> {
     fn event_sender(&self) -> Arc<dyn EventSender<Event<E>>> {
         self.event_queue.event_sender()
     }
@@ -120,7 +120,7 @@ mod event_loop_tests {
         assert_eq!(context.data.updates, 3);
     }
 
-    fn process_event<E>(event: Event<E>, context: &mut Context<TestData,E>) {
+    fn process_event<E: UserEvent>(event: Event<E>, context: &mut Context<TestData,E>) {
         match event {
             Event::Quit => (),
             Event::EventsCleared => {
