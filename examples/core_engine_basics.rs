@@ -12,7 +12,7 @@ pub fn main() {
     }
 }
 
-pub fn process_event(event: Event, context: &mut Context<GameData>) {
+pub fn process_event(event: Event<()>, context: &mut Context<GameData, ()>) {
     match event {
         Event::EventsCleared => {
             update(context);
@@ -23,7 +23,7 @@ pub fn process_event(event: Event, context: &mut Context<GameData>) {
     }
 }
 
-pub fn update(context: &mut Context<GameData>) {
+pub fn update(context: &mut Context<GameData, ()>) {
     if context.data.number == 3 {
         context.quit();
     } else {
@@ -31,6 +31,6 @@ pub fn update(context: &mut Context<GameData>) {
     }
 }
 
-pub fn display(context: &mut Context<GameData>) {
+pub fn display(context: &mut Context<GameData, ()>) {
     println!("{}", context.data.number);
 }
