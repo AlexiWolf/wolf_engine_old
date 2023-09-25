@@ -76,3 +76,16 @@ impl<D, E: UserEvent> HasEventSender<Event<E>> for Context<D, E> {
         self.event_sender.clone()
     }
 }
+
+#[cfg(test)]
+mod context_tests {
+    use crate::EventLoop;
+
+    use super::*;
+
+    #[test]
+    fn should_add_and_access_resources() {
+        let event_loop = EventLoop::<()>::new();
+        let context = Context::new(&event_loop);
+    }
+}
