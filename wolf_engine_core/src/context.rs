@@ -52,16 +52,13 @@ use crate::events::*;
 /// let (mut event_loop, mut context) = wolf_engine::init::<CustomContextData, ()>(CustomContextData::new());
 /// ```
 pub struct Context<D, E: UserEvent> {
-    /// The user-facing engine data.  Normally things like subsystems.
-    pub data: D,
     event_sender: Arc<dyn EventSender<Event<E>>>,
 }
 
 impl<D, E: UserEvent> Context<D, E> {
     /// Create a new `Context` from the provided [`EventQueue`] and data.
-    pub(crate) fn new(event_queue: &dyn EventQueue<Event<E>>, data: D) -> Self {
+    pub(crate) fn new(event_queue: &dyn EventQueue<Event<E>>) -> Self {
         Self {
-            data,
             event_sender: event_queue.event_sender(),
         }
     }
