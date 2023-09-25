@@ -79,7 +79,7 @@ pub mod prelude {
 }
 
 /// Represents the [`EventLoop`]-[`Context`] pair that makes up "the engine."
-pub type Engine<D> = (EventLoop, Context<D>);
+pub type Engine<D,E> = (EventLoop<E>, Context<D,E>);
 
 /// Initializes a new instance of the [`EventLoop`], and its associated [`Context`], with the
 /// provided data.
@@ -115,7 +115,7 @@ pub type Engine<D> = (EventLoop, Context<D>);
 /// # use wolf_engine::prelude::*;
 /// let (mut event_loop, mut context) = wolf_engine::init(SomeCustomDataType {});
 /// ```
-pub fn init<D>(data: D) -> Engine<D> {
+pub fn init<D,E>(data: D) -> Engine<D,E> {
     let event_loop = EventLoop::new();
     let context = Context::new(&event_loop, data);
     (event_loop, context)

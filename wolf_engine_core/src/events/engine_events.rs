@@ -6,7 +6,7 @@ pub enum WindowEvent {}
 /// Provides the main events used by Wolf Engine.
 #[non_exhaustive]
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
-pub enum Event {
+pub enum Event<E> {
     /// Emitted when the engine should quit.
     Quit,
 
@@ -17,6 +17,8 @@ pub enum Event {
 
     /// A [`WindowEvent`] emitted by the window system.
     WindowEvent(WindowEvent),
+
+    UserDefined(E),
 
     #[cfg(test)]
     /// A test event only used by unit tests.
@@ -29,19 +31,24 @@ mod event_tests {
 
     #[test]
     fn should_implement_clone() {
-        let event = Event::EventsCleared;
+        let event: Event<()> = Event::EventsCleared;
         let clone = event.clone();
         assert_eq!(event, clone);
     }
 
     #[test]
     fn should_implement_copy() {
-        let event = Event::EventsCleared;
+        let event: Event<()> = Event::EventsCleared;
         let copy = copy_test(event);
         assert_eq!(event, copy);
     }
 
-    fn copy_test(event: Event) -> Event {
+    fn copy_test<E>(event: Event<E>) -> Event<E> {
         event
+    }
+
+    #[test]
+    fn should_support_user_defined_events() {
+        let _event = Event::UserDefined("custom_event");
     }
 }

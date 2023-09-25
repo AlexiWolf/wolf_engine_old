@@ -46,12 +46,12 @@ use crate::events::*;
 /// #   break;
 /// }
 /// ```
-pub struct EventLoop {
-    event_queue: MpscEventQueue<Event>,
+pub struct EventLoop<E> {
+    event_queue: MpscEventQueue<Event<E>>,
     has_quit: bool,
 }
 
-impl EventLoop {
+impl<E> EventLoop<E> {
     pub(crate) fn new() -> Self {
         let event_queue = MpscEventQueue::new();
         Self {
@@ -60,14 +60,14 @@ impl EventLoop {
         }
     }
 
-    fn handle_event(&mut self, event: Event) -> Event {
+    fn handle_event(&mut self, event: Event<E>) -> Event<E> {
         if event == Event::Quit {
             self.has_quit = true;
         }
         event
     }
 
-    fn handle_empty_event(&self) -> Option<Event> {
+    fn handle_empty_event(&self) -> Option<Event<E>> {
         if self.has_quit {
             None
         } else {
@@ -76,8 +76,8 @@ impl EventLoop {
     }
 }
 
-impl EventQueue<Event> for EventLoop {
-    fn next_event(&mut self) -> Option<Event> {
+impl<E> EventQueue<Event<E>> for EventLoop<E> {
+    fn next_event(&mut self) -> Option<Event<E>> {
         match self.event_queue.next_event() {
             Some(event) => Some(self.handle_event(event)),
             None => self.handle_empty_event(),
@@ -85,8 +85,8 @@ impl EventQueue<Event> for EventLoop {
     }
 }
 
-impl HasEventSender<Event> for EventLoop {
-    fn event_sender(&self) -> Arc<dyn EventSender<Event>> {
+impl<E> HasEventSender<Event<E>> for EventLoop<E> {
+    fn event_sender(&self) -> Arc<dyn EventSender<Event<E>>> {
         self.event_queue.event_sender()
     }
 }
@@ -120,7 +120,7 @@ mod event_loop_tests {
         assert_eq!(context.data.updates, 3);
     }
 
-    fn process_event(event: Event, context: &mut Context<TestData>) {
+    fn process_event<E>(event: Event<E>, context: &mut Context<TestData,E>) {
         match event {
             Event::Quit => (),
             Event::EventsCleared => {
