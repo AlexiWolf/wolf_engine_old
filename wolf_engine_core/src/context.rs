@@ -72,6 +72,9 @@ mod context_tests {
 
     #[test]
     fn should_mutate_resources() {
+        let (_, mut context) = test_init();
 
+        context.add_resource(TestResource("Hello, World!"));
+        let mut resource = context.resource_mut::<TestResource>().expect("Resource doesn't exist");
     }
 }
