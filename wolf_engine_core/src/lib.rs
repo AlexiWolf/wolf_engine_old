@@ -26,7 +26,7 @@
 //!
 //! pub fn main() {
 //!     // Start by initializing the engine's Event-Loop, and Context.
-//!     let (mut event_loop, mut context) = wolf_engine::init(GameData { number: 0 });
+//!     let (mut event_loop, mut context) = wolf_engine::init::<GameData, ()>(GameData { number: 0 });
 //!     
 //!     // The Event-Loop will continue to return events, every call, until a Quit event is sent,
 //!     // only then, will the Event-Loop will return None.
@@ -35,7 +35,7 @@
 //!     }
 //! }
 //!
-//! pub fn process_event(event: Event, context: &mut Context<GameData>) {
+//! pub fn process_event(event: Event<()>, context: &mut Context<GameData, ()>) {
 //!     match event {
 //!         // Indicates there are no more events on the queue, or, essentially, the end of the
 //!         // current frame.  You should put most of your game logic here.
@@ -78,8 +78,10 @@ pub mod prelude {
     pub use events::*;
 }
 
+use events::UserEvent;
+
 /// Represents the [`EventLoop`]-[`Context`] pair that makes up "the engine."
-pub type Engine<D> = (EventLoop, Context<D>);
+pub type Engine<D, E> = (EventLoop<E>, Context<D, E>);
 
 /// Initializes a new instance of the [`EventLoop`], and its associated [`Context`], with the
 /// provided data.
@@ -94,7 +96,7 @@ pub type Engine<D> = (EventLoop, Context<D>);
 ///
 /// // Start by initializing the EventLoop, and Context.
 /// // In this case, we are not using any Context data, so `()` is used.
-/// let (mut event_loop, mut context) = wolf_engine::init(());
+/// let (mut event_loop, mut context) = wolf_engine::init::<(), ()>(());
 ///
 /// // Then, you can use the EventLoop to run your game's main-loop.
 /// while let Some(event) = event_loop.next_event() {
@@ -113,9 +115,9 @@ pub type Engine<D> = (EventLoop, Context<D>);
 /// # pub struct SomeCustomDataType {};
 /// #
 /// # use wolf_engine::prelude::*;
-/// let (mut event_loop, mut context) = wolf_engine::init(SomeCustomDataType {});
+/// let (mut event_loop, mut context) = wolf_engine::init::<SomeCustomDataType, ()>(SomeCustomDataType {});
 /// ```
-pub fn init<D>(data: D) -> Engine<D> {
+pub fn init<D, E: UserEvent>(data: D) -> Engine<D, E> {
     let event_loop = EventLoop::new();
     let context = Context::new(&event_loop, data);
     (event_loop, context)

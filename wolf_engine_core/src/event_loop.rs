@@ -25,7 +25,7 @@ use crate::events::*;
 ///
 /// ```
 /// # use wolf_engine_core as wolf_engine;
-/// let (mut event_loop, mut context) = wolf_engine::init(());
+/// let (mut event_loop, mut context) = wolf_engine::init::<(), ()>(());
 /// ```
 ///
 /// ## Responding to Events
@@ -36,7 +36,7 @@ use crate::events::*;
 /// # use wolf_engine_core as wolf_engine;
 /// # use wolf_engine::prelude::*;
 /// #
-/// # let (mut event_loop, mut context) = wolf_engine::init(());
+/// # let (mut event_loop, mut context) = wolf_engine::init::<(), ()>(());
 /// #
 /// while let Some(event) = event_loop.next_event() {
 ///     match event {
@@ -46,12 +46,12 @@ use crate::events::*;
 /// #   break;
 /// }
 /// ```
-pub struct EventLoop {
-    event_queue: MpscEventQueue<Event>,
+pub struct EventLoop<E: UserEvent> {
+    event_queue: MpscEventQueue<Event<E>>,
     has_quit: bool,
 }
 
-impl EventLoop {
+impl<E: UserEvent> EventLoop<E> {
     pub(crate) fn new() -> Self {
         let event_queue = MpscEventQueue::new();
         Self {
@@ -60,14 +60,14 @@ impl EventLoop {
         }
     }
 
-    fn handle_event(&mut self, event: Event) -> Event {
+    fn handle_event(&mut self, event: Event<E>) -> Event<E> {
         if event == Event::Quit {
             self.has_quit = true;
         }
         event
     }
 
-    fn handle_empty_event(&self) -> Option<Event> {
+    fn handle_empty_event(&self) -> Option<Event<E>> {
         if self.has_quit {
             None
         } else {
@@ -76,8 +76,8 @@ impl EventLoop {
     }
 }
 
-impl EventQueue<Event> for EventLoop {
-    fn next_event(&mut self) -> Option<Event> {
+impl<E: UserEvent> EventQueue<Event<E>> for EventLoop<E> {
+    fn next_event(&mut self) -> Option<Event<E>> {
         match self.event_queue.next_event() {
             Some(event) => Some(self.handle_event(event)),
             None => self.handle_empty_event(),
@@ -85,8 +85,8 @@ impl EventQueue<Event> for EventLoop {
     }
 }
 
-impl HasEventSender<Event> for EventLoop {
-    fn event_sender(&self) -> Arc<dyn EventSender<Event>> {
+impl<E: UserEvent> HasEventSender<Event<E>> for EventLoop<E> {
+    fn event_sender(&self) -> Arc<dyn EventSender<Event<E>>> {
         self.event_queue.event_sender()
     }
 }
@@ -110,7 +110,7 @@ mod event_loop_tests {
     #[test]
     #[timeout(100)]
     fn should_run_and_quit() {
-        let (mut event_loop, mut context) = crate::init(TestData::new());
+        let (mut event_loop, mut context) = crate::init::<TestData, ()>(TestData::new());
 
         while let Some(event) = event_loop.next_event() {
             process_event(event, &mut context);
@@ -120,7 +120,7 @@ mod event_loop_tests {
         assert_eq!(context.data.updates, 3);
     }
 
-    fn process_event(event: Event, context: &mut Context<TestData>) {
+    fn process_event<E: UserEvent>(event: Event<E>, context: &mut Context<TestData, E>) {
         match event {
             Event::Quit => (),
             Event::EventsCleared => {
@@ -137,12 +137,15 @@ mod event_loop_tests {
 
 #[test]
 fn should_emit_events_cleared_when_event_queue_is_empty() {
-    let (mut event_loop, context) = crate::init(());
+    let (mut event_loop, context) = crate::init::<(), ()>(());
 
-    context.event_sender().send_event(Event::Test).ok();
+    context
+        .event_sender()
+        .send_event(Event::UserDefined(()))
+        .ok();
     assert_eq!(
         event_loop.next_event().unwrap(),
-        Event::Test,
+        Event::UserDefined(()),
         "The event-loop did not emit the expected Test event."
     );
 
