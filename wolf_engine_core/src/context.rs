@@ -50,6 +50,6 @@ mod context_tests {
         let mut context = Context::new(&event_loop);
 
         context.add_resource(TestResource("Hello, World!"));
-        let resource = context.resource().expect("Resource doesn't exist");
+        let resource = context.resource::<TestResource>().expect("Resource doesn't exist");
     }
 }
