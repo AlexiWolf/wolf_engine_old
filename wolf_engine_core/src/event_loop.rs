@@ -139,10 +139,10 @@ mod event_loop_tests {
 fn should_emit_events_cleared_when_event_queue_is_empty() {
     let (mut event_loop, context) = crate::init::<(), ()>(());
 
-    context.event_sender().send_event(Event::Test).ok();
+    context.event_sender().send_event(Event::UserDefined(())).ok();
     assert_eq!(
         event_loop.next_event().unwrap(),
-        Event::Test,
+        Event::UserDefined(()),
         "The event-loop did not emit the expected Test event."
     );
 
