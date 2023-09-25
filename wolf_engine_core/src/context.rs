@@ -46,10 +46,10 @@ mod context_tests {
     #[test]
     fn should_add_and_access_resources() {
         struct TestResource(&'static str);
-
         let event_loop = EventLoop::<()>::new();
         let mut context = Context::new(&event_loop);
 
         context.add_resource(TestResource("Hello, World!"));
+        let resource = context.resource().expect("Resource doesn't exist");
     }
 }
