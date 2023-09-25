@@ -5,6 +5,8 @@ pub enum WindowEvent {}
 
 pub trait UserEvent {}
 
+impl<T> UserEvent for T {}
+
 /// Provides the main events used by Wolf Engine.
 #[non_exhaustive]
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
