@@ -18,18 +18,6 @@ use crate::events::*;
 ///
 /// # Examples
 ///
-/// ## Creating an `EventLoop`
-///
-/// You can initialize an Event-Loop , along with its associated [`Context`](crate::Context), by
-/// calling [`wolf_engine::init()`](crate::init()).
-///
-/// ```
-/// # use wolf_engine_core as wolf_engine;
-/// let (mut event_loop, mut context) = wolf_engine::init::<(), ()>(());
-/// ```
-///
-/// ## Responding to Events
-///
 /// Events are queried using the [`EventQueue` API](crate::events::EventQueue) .
 ///
 /// ```
