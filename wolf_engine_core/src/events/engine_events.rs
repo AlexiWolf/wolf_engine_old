@@ -23,10 +23,6 @@ pub enum Event<E: UserEvent> {
     WindowEvent(WindowEvent),
 
     UserDefined(E),
-
-    #[cfg(test)]
-    /// A test event only used by unit tests.
-    Test,
 }
 
 #[cfg(test)]
