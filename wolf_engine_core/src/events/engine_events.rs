@@ -3,10 +3,12 @@
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum WindowEvent {}
 
+pub trait UserEvent {}
+
 /// Provides the main events used by Wolf Engine.
 #[non_exhaustive]
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
-pub enum Event<E> {
+pub enum Event<E: UserEvent> {
     /// Emitted when the engine should quit.
     Quit,
 
