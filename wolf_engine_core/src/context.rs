@@ -21,7 +21,7 @@ use crate::events::*;
 ///
 /// ```
 /// # use wolf_engine_core as wolf_engine;
-/// let (mut event_loop, mut context) = wolf_engine::init(());
+/// let (mut event_loop, mut context) = wolf_engine::init::<(), ()>(());
 /// ```
 ///
 /// ## Context Data
@@ -49,7 +49,7 @@ use crate::events::*;
 /// # }
 ///
 /// // Initialize the engine with your custom data.
-/// let (mut event_loop, mut context) = wolf_engine::init(CustomContextData::new());
+/// let (mut event_loop, mut context) = wolf_engine::init::<CustomContextData, ()>(CustomContextData::new());
 /// ```
 pub struct Context<D,E: UserEvent> {
     /// The user-facing engine data.  Normally things like subsystems.
