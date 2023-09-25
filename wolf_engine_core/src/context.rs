@@ -51,16 +51,27 @@ mod context_tests {
     use crate::EventLoop;
 
     use super::*;
+        
+    struct TestResource(&'static str);
+
+    pub fn test_init() -> (EventLoop<()>, Context<()>) {
+        let event_loop = EventLoop::<()>::new();
+        let mut context = Context::new(&event_loop);
+        (event_loop, context)
+    }
 
     #[test]
     fn should_add_and_access_resources() {
-        struct TestResource(&'static str);
-        let event_loop = EventLoop::<()>::new();
-        let mut context = Context::new(&event_loop);
+        let (_, mut context) = test_init();
 
         context.add_resource(TestResource("Hello, World!"));
         let resource = context.resource::<TestResource>().expect("Resource doesn't exist");
 
         assert_eq!(resource.0, "Hello, World!");
+    }
+
+    #[test]
+    fn should_mutate_resources() {
+
     }
 }
