@@ -12,6 +12,7 @@ use crate::ecs::*;
 /// The Context owns all engine data, sub-systems, and the link to the Event-Loop through which
 /// all events are sent.  As far as the end-user is concerned, the Context *is* the engine.
 pub struct Context<E: UserEvent> {
+    resources: Resources,
     event_sender: Arc<dyn EventSender<Event<E>>>,
 }
 
@@ -19,12 +20,13 @@ impl<E: UserEvent> Context<E> {
     /// Create a new `Context` from the provided [`EventQueue`] and data.
     pub(crate) fn new(event_queue: &dyn EventQueue<Event<E>>) -> Self {
         Self {
+            resources: Resources::default(),
             event_sender: event_queue.event_sender(),
         }
     }
 
-    pub fn add_resource<T>(&mut self, resource: T) {
-        
+    pub fn add_resource<T: 'static>(&mut self, resource: T) {
+        self.resources.insert(resource);  
     }
 
     pub fn resource<T>(&self) -> Option<T> {

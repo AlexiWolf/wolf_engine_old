@@ -59,7 +59,11 @@ pub use context::*;
 mod event_loop;
 pub use event_loop::*;
 
+pub mod ecs {
+    pub use legion::*;
+}
 pub mod events;
+
 
 #[cfg(feature = "logging")]
 pub mod logging;
