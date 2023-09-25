@@ -1,5 +1,7 @@
 use std::sync::Arc;
 
+use atomic_refcell::AtomicRef;
+
 use crate::events::*;
 use crate::ecs::*;
 
@@ -29,8 +31,8 @@ impl<E: UserEvent> Context<E> {
         self.resources.insert(resource);  
     }
 
-    pub fn resource<T>(&self) -> Option<T> {
-        None
+    pub fn resource<T: 'static>(&self) -> Option<AtomicRef<T>> {
+        self.resources.get::<T>()
     }
 
     pub fn quit(&self) {
