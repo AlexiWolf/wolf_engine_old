@@ -43,5 +43,9 @@ mod context_tests {
     fn should_add_and_access_resources() {
         let event_loop = EventLoop::<()>::new();
         let context = Context::new(&event_loop);
+
+        struct TestResource(&'static str);
+
+        context.add_resource(TestResource("Hello, World!"));
     }
 }
