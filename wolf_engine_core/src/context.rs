@@ -26,6 +26,10 @@ impl<E: UserEvent> Context<E> {
         
     }
 
+    pub fn resource<T>(&self) -> Option<T> {
+        None
+    }
+
     pub fn quit(&self) {
         self.event_sender.send_event(Event::Quit).ok();
     }
