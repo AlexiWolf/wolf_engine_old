@@ -45,7 +45,7 @@ mod event_tests {
         assert_eq!(event, copy);
     }
 
-    fn copy_test<E>(event: Event<E>) -> Event<E> {
+    fn copy_test<E: UserEvent>(event: Event<E>) -> Event<E> {
         event
     }
 
