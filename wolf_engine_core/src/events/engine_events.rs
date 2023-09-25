@@ -3,9 +3,9 @@
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum WindowEvent {}
 
-pub trait UserEvent: PartialEq + 'static {}
+pub trait UserEvent: PartialEq + Clone + Copy + 'static {}
 
-impl<T> UserEvent for T where T: PartialEq + 'static {}
+impl<T> UserEvent for T where T: PartialEq + Clone + Copy + 'static {}
 
 /// Provides the main events used by Wolf Engine.
 #[non_exhaustive]
