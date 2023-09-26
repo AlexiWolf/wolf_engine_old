@@ -88,4 +88,13 @@ mod context_tests {
         let resource = context.resource::<TestResource>().expect("Resource doesn't exist");
         assert_eq!(resource.0, "Hello, changed World!");
     }
+
+    #[test]
+    fn should_remove_resource() {
+        let (_, mut context) = test_init();
+        context.add_resource(TestResource("Hello, World!"));
+
+        assert!(context.resource::<TestResource>().is_some());
+        context.remove_resource::<TestResource>();
+    }
 }
