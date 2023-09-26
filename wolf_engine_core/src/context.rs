@@ -63,23 +63,31 @@ impl<E: UserEvent> HasEventSender<Event<E>> for Context<E> {
     }
 }
 
-#[cfg(test)]
-mod context_resource_tests {
-    use crate::EventLoop;
 
+#[cfg(test)]
+mod test_fixtures {
     use super::*;
 
-    struct TestResource(&'static str);
+    use crate::EventLoop;
 
-    pub fn test_init() -> (EventLoop<()>, Context<()>) {
+    pub struct TestResource(pub &'static str);
+
+    pub fn init() -> (EventLoop<()>, Context<()>) {
         let event_loop = EventLoop::<()>::new();
         let context = Context::new(&event_loop);
         (event_loop, context)
     }
+}
+
+#[cfg(test)]
+mod context_resource_tests {
+    use super::*;
+    use test_fixtures::TestResource;
+
 
     #[test]
     fn should_have_resources_accessors() {
-        let (_, mut context) = test_init();
+        let (_, mut context) = test_fixtures::init();
         { 
             let _resources = context.resources(); 
         }
@@ -90,7 +98,7 @@ mod context_resource_tests {
 
     #[test]
     fn should_add_resource() {
-        let (_, mut context) = test_init();
+        let (_, mut context) = test_fixtures::init();
 
         context.insert_resource(TestResource("Hello, World!"));
         let resource = context
@@ -102,7 +110,7 @@ mod context_resource_tests {
 
     #[test]
     fn should_mutate_resource() {
-        let (_, mut context) = test_init();
+        let (_, mut context) = test_fixtures::init();
         context.insert_resource(TestResource("Hello, World!"));
 
         {
@@ -120,7 +128,7 @@ mod context_resource_tests {
 
     #[test]
     fn should_remove_resource() {
-        let (_, mut context) = test_init();
+        let (_, mut context) = test_fixtures::init();
 
         context.insert_resource(TestResource("Hello, World!"));
         assert!(context.resource::<TestResource>().is_some());
