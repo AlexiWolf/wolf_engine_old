@@ -99,7 +99,8 @@ mod context_tests {
         context.add_resource(TestResource("Hello, World!"));
 
         assert!(context.resource::<TestResource>().is_some());
-        context.remove_resource::<TestResource>();
+        let resource = context.remove_resource::<TestResource>();
+        assert!(resource.is_some());
         assert!(context.resource::<TestResource>().is_none());
     }
 }
