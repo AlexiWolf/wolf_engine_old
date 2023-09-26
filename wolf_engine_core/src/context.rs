@@ -36,7 +36,7 @@ impl<E: UserEvent> Context<E> {
         self.resources.get::<T>()
     }
 
-    pub fn resource_mut<T: 'static>(&mut self) -> Option<AtomicRefMut<T>> {
+    pub fn resource_mut<T: 'static>(&self) -> Option<AtomicRefMut<T>> {
         self.resources.get_mut()
     }
 
