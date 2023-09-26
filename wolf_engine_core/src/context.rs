@@ -33,7 +33,7 @@ impl<E: UserEvent> Context<E> {
     }
 
     pub fn remove_resource<T: 'static>(&mut self) {
-
+        self.resources.remove::<T>();
     }
 
     pub fn resource<T: 'static>(&self) -> Option<AtomicRef<T>> {
