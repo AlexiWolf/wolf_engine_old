@@ -27,7 +27,7 @@ impl<E: UserEvent> Context<E> {
             event_sender: event_queue.event_sender(),
         }
     }
-
+    
     pub fn add_resource<T: 'static>(&mut self, resource: T) {
         self.resources.insert(resource);
     }
