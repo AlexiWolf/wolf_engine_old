@@ -61,7 +61,7 @@ mod context_tests {
 
     pub fn test_init() -> (EventLoop<()>, Context<()>) {
         let event_loop = EventLoop::<()>::new();
-        let mut context = Context::new(&event_loop);
+        let context = Context::new(&event_loop);
         (event_loop, context)
     }
 
