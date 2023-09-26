@@ -85,6 +85,12 @@ pub struct EngineBuidler<E: UserEvent> {
 }
 
 impl<E: UserEvent> EngineBuidler<E> {
+    pub(crate) fn new() -> Self {
+        Self {
+            _event_type: PhantomData::default(),
+        }
+    }
+
     pub fn build(self) -> Engine<E> {
         todo!()
     }
