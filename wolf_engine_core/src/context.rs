@@ -31,11 +31,11 @@ impl<E: UserEvent> Context<E> {
     }
 
     pub fn world(&self) -> &World {
-
+        &self.world
     }
 
-    pub fn world_mut(&self) -> &mut World {
-
+    pub fn world_mut(&mut self) -> &mut World {
+        &mut self.world
     }
 
     pub fn resources(&self) -> &Resources {
