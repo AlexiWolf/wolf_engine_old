@@ -117,3 +117,14 @@ pub fn init<E: UserEvent>() -> Engine<E> {
     let context = Context::new(&event_loop);
     (event_loop, context)
 }
+
+#[cfg(test)]
+mod init_tests {
+    use super::*;
+
+    #[test]
+    fn should_use_builder_pattern() {
+        let (_event_loop, context) = crate::init()
+            .build();
+    }
+}
