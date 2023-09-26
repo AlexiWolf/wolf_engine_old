@@ -24,6 +24,7 @@ impl<E: UserEvent> Context<E> {
     /// Create a new `Context` from the provided [`EventQueue`] and data.
     pub(crate) fn new(event_queue: &dyn EventQueue<Event<E>>) -> Self {
         Self {
+            world: World::default(),
             resources: Resources::default(),
             event_sender: event_queue.event_sender(),
         }
