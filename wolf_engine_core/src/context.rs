@@ -32,6 +32,10 @@ impl<E: UserEvent> Context<E> {
         self.resources.insert(resource);  
     }
 
+    pub fn remove_resource<T: 'static>(&mut self) {
+
+    }
+
     pub fn resource<T: 'static>(&self) -> Option<AtomicRef<T>> {
         self.resources.get::<T>()
     }
