@@ -70,7 +70,7 @@ mod context_tests {
     }
 
     #[test]
-    fn should_add_and_access_resource() {
+    fn should_add_resource() {
         let (_, mut context) = test_init();
 
         context.insert_resource(TestResource("Hello, World!"));
