@@ -100,5 +100,6 @@ mod context_tests {
 
         assert!(context.resource::<TestResource>().is_some());
         context.remove_resource::<TestResource>();
+        assert!(context.resource::<TestResource>().is_none());
     }
 }
