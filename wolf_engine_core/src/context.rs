@@ -64,7 +64,7 @@ impl<E: UserEvent> HasEventSender<Event<E>> for Context<E> {
 }
 
 #[cfg(test)]
-mod context_tests {
+mod context_resource_tests {
     use crate::EventLoop;
 
     use super::*;
