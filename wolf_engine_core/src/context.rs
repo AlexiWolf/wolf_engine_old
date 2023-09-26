@@ -15,6 +15,7 @@ use crate::events::*;
 /// The Context owns all engine data, sub-systems, and the link to the Event-Loop through which
 /// all events are sent.  As far as the end-user is concerned, the Context *is* the engine.
 pub struct Context<E: UserEvent> {
+    world: World,
     resources: Resources,
     event_sender: Arc<dyn EventSender<Event<E>>>,
 }
