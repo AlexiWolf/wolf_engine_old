@@ -28,6 +28,10 @@ impl<E: UserEvent> Context<E> {
         }
     }
 
+    pub fn resources(&self) -> &Resources {
+        &self.resources 
+    }
+
     pub fn insert_resource<T: 'static>(&mut self, resource: T) {
         self.resources.insert(resource);
     }
