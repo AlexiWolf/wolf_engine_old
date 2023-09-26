@@ -37,7 +37,7 @@
 //!         // current frame.  
 //!         Event::EventsCleared => {
 //!             // You should put most of your game logic here.
-//!             context.quit(); 
+//!             context.quit();
 //!         }
 //!         // Shut down the game.
 //!         Event::Quit => println!("Quit event received.  Goodbye!"),
@@ -63,7 +63,6 @@ pub mod ecs {
     pub use legion::*;
 }
 pub mod events;
-
 
 #[cfg(feature = "logging")]
 pub mod logging;

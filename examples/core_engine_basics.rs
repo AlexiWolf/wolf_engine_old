@@ -17,4 +17,3 @@ pub fn process_event(event: Event<()>, context: &mut Context<()>) {
         _ => (),
     }
 }
-

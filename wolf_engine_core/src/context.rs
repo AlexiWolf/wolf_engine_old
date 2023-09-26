@@ -3,8 +3,8 @@ use std::sync::Arc;
 use atomic_refcell::AtomicRef;
 use atomic_refcell::AtomicRefMut;
 
-use crate::events::*;
 use crate::ecs::*;
+use crate::events::*;
 
 /// Provides a container for Wolf Engine's user-facing data.
 ///
@@ -29,7 +29,7 @@ impl<E: UserEvent> Context<E> {
     }
 
     pub fn add_resource<T: 'static>(&mut self, resource: T) {
-        self.resources.insert(resource);  
+        self.resources.insert(resource);
     }
 
     pub fn remove_resource<T: 'static>(&mut self) -> Option<T> {
@@ -60,7 +60,7 @@ mod context_tests {
     use crate::EventLoop;
 
     use super::*;
-        
+
     struct TestResource(&'static str);
 
     pub fn test_init() -> (EventLoop<()>, Context<()>) {
@@ -74,7 +74,9 @@ mod context_tests {
         let (_, mut context) = test_init();
 
         context.add_resource(TestResource("Hello, World!"));
-        let resource = context.resource::<TestResource>().expect("Resource doesn't exist");
+        let resource = context
+            .resource::<TestResource>()
+            .expect("Resource doesn't exist");
 
         assert_eq!(resource.0, "Hello, World!");
     }
@@ -83,22 +85,27 @@ mod context_tests {
     fn should_mutate_resources() {
         let (_, mut context) = test_init();
         context.add_resource(TestResource("Hello, World!"));
-        
+
         {
-            let mut resource = context.resource_mut::<TestResource>().expect("Resource doesn't exist");
+            let mut resource = context
+                .resource_mut::<TestResource>()
+                .expect("Resource doesn't exist");
             resource.0 = "Hello, changed World!";
         }
 
-        let resource = context.resource::<TestResource>().expect("Resource doesn't exist");
+        let resource = context
+            .resource::<TestResource>()
+            .expect("Resource doesn't exist");
         assert_eq!(resource.0, "Hello, changed World!");
     }
 
     #[test]
     fn should_remove_resource() {
         let (_, mut context) = test_init();
-        context.add_resource(TestResource("Hello, World!"));
 
+        context.add_resource(TestResource("Hello, World!"));
         assert!(context.resource::<TestResource>().is_some());
+
         let resource = context.remove_resource::<TestResource>();
         assert!(resource.is_some());
         assert!(context.resource::<TestResource>().is_none());
