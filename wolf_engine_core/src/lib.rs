@@ -55,6 +55,8 @@
 //! examples.
 
 mod context;
+use std::marker::PhantomData;
+
 pub use context::*;
 mod event_loop;
 pub use event_loop::*;
@@ -78,10 +80,15 @@ use events::UserEvent;
 /// Represents the [`EventLoop`]-[`Context`] pair that makes up "the engine."
 pub type Engine<E> = (EventLoop<E>, Context<E>);
 
-pub struct EngineBuidler<E> {
-
+pub struct EngineBuidler<E: UserEvent> {
+    _event_type: PhantomData<E>,
 }
 
+impl<E: UserEvent> EngineBuidler<E> {
+    pub fn build(self) -> Engine<E> {
+        todo!()
+    }
+}
 
 /// Initializes a new instance of the [`EventLoop`], and its associated [`Context`], with the
 /// provided data.
