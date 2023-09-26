@@ -80,10 +80,25 @@ mod test_fixtures {
 }
 
 #[cfg(test)]
+mod context_world_tests {
+    use super::*;
+   
+    #[test]
+    fn should_have_world_accessors() {
+        let (_, mut context) = test_fixtures::init();
+        { 
+            let _world = context.world(); 
+        }
+        {
+            let _world = context.world_mut();
+        }
+    }
+}
+
+#[cfg(test)]
 mod context_resource_tests {
     use super::*;
     use test_fixtures::TestResource;
-
 
     #[test]
     fn should_have_resources_accessors() {
