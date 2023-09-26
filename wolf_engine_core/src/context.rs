@@ -14,6 +14,7 @@ use crate::events::*;
 pub struct Context<E: UserEvent> {
     world: World,
     resources: Resources,
+    schedule: Schedule,
     event_sender: Arc<dyn EventSender<Event<E>>>,
 }
 
@@ -23,6 +24,7 @@ impl<E: UserEvent> Context<E> {
         Self {
             world: World::default(),
             resources: Resources::default(),
+            schedule: Schedule::builder().build(),
             event_sender: event_queue.event_sender(),
         }
     }
@@ -41,6 +43,14 @@ impl<E: UserEvent> Context<E> {
 
     pub fn resources_mut(&mut self) -> &mut Resources {
         &mut self.resources
+    }
+
+    pub fn schedule(&self) -> &Schedule {
+        &self.schedule
+    }
+
+    pub fn schedule_mut(&mut self) -> &mut Schedule {
+        &mut self.schedule 
     }
 
     pub fn quit(&self) {
