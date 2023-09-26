@@ -27,8 +27,8 @@ impl<E: UserEvent> Context<E> {
             event_sender: event_queue.event_sender(),
         }
     }
-    
-    pub fn add_resource<T: 'static>(&mut self, resource: T) {
+
+    pub fn insert_resource<T: 'static>(&mut self, resource: T) {
         self.resources.insert(resource);
     }
 
@@ -70,10 +70,10 @@ mod context_tests {
     }
 
     #[test]
-    fn should_add_and_access_resources() {
+    fn should_add_and_access_resource() {
         let (_, mut context) = test_init();
 
-        context.add_resource(TestResource("Hello, World!"));
+        context.insert_resource(TestResource("Hello, World!"));
         let resource = context
             .resource::<TestResource>()
             .expect("Resource doesn't exist");
@@ -82,9 +82,9 @@ mod context_tests {
     }
 
     #[test]
-    fn should_mutate_resources() {
+    fn should_mutate_resource() {
         let (_, mut context) = test_init();
-        context.add_resource(TestResource("Hello, World!"));
+        context.insert_resource(TestResource("Hello, World!"));
 
         {
             let mut resource = context
@@ -103,7 +103,7 @@ mod context_tests {
     fn should_remove_resource() {
         let (_, mut context) = test_init();
 
-        context.add_resource(TestResource("Hello, World!"));
+        context.insert_resource(TestResource("Hello, World!"));
         assert!(context.resource::<TestResource>().is_some());
 
         let resource = context.remove_resource::<TestResource>();
