@@ -78,6 +78,11 @@ use events::UserEvent;
 /// Represents the [`EventLoop`]-[`Context`] pair that makes up "the engine."
 pub type Engine<E> = (EventLoop<E>, Context<E>);
 
+pub struct EngineBuidler<E> {
+
+}
+
+
 /// Initializes a new instance of the [`EventLoop`], and its associated [`Context`], with the
 /// provided data.
 ///
@@ -112,7 +117,7 @@ pub type Engine<E> = (EventLoop<E>, Context<E>);
 /// # use wolf_engine::prelude::*;
 /// let (mut event_loop, mut context) = wolf_engine::init::<()>();
 /// ```
-pub fn init<E: UserEvent>() -> Engine<E> {
+pub fn init<E: UserEvent>() -> EngineBuidler<E> {
     let event_loop = EventLoop::new();
     let context = Context::new(&event_loop);
     (event_loop, context)
