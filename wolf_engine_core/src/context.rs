@@ -76,7 +76,12 @@ mod context_tests {
     #[test]
     fn should_have_resources_accessor() {
         let (_, mut context) = test_init();
-        let resources = context.resources();
+        { 
+            let _resources = context.resources(); 
+        }
+        {
+            let _mut_resources = context.resources_mut();
+        }
     }
 
     #[test]
