@@ -125,9 +125,7 @@ impl<E: UserEvent> EngineBuidler<E> {
 /// let (mut event_loop, mut context) = wolf_engine::init::<()>();
 /// ```
 pub fn init<E: UserEvent>() -> EngineBuidler<E> {
-    let event_loop = EventLoop::new();
-    let context = Context::new(&event_loop);
-    (event_loop, context)
+    EngineBuidler::new()
 }
 
 #[cfg(test)]
