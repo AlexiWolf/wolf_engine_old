@@ -28,6 +28,14 @@ impl<E: UserEvent> Context<E> {
         }
     }
 
+    pub fn world(&self) -> &World {
+
+    }
+
+    pub fn world_mut(&self) -> &mut World {
+
+    }
+
     pub fn resources(&self) -> &Resources {
         &self.resources 
     }
