@@ -1,7 +1,7 @@
 use wolf_engine::prelude::*;
 
 pub fn main() {
-    let (mut event_loop, mut context) = wolf_engine::init();
+    let (mut event_loop, mut context) = wolf_engine::init().build();
 
     while let Some(event) = event_loop.next_event() {
         process_event(event, &mut context);
