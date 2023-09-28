@@ -80,6 +80,11 @@ impl ContextBuilder {
         self
     }
 
+    pub fn with_schedule(mut self, schedule: Schedule) -> Self {
+        self.schedule = schedule;
+        self
+    }
+
     pub fn build<E: UserEvent>(self, event_loop: &EventLoop<E>) -> Context<E> {
         todo!()
     }
