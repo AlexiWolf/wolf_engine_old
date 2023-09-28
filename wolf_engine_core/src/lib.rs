@@ -162,6 +162,7 @@ mod init_tests {
                 resources.insert(0);
             })
             .with_systems(|systems| {
+                systems.add_thread_local_fn(|_, _| {});
             })
 
             .build();
