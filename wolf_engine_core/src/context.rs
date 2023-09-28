@@ -1,5 +1,6 @@
 use std::sync::Arc;
 
+use crate::EventLoop;
 use crate::ecs::*;
 use crate::events::*;
 
@@ -20,8 +21,8 @@ pub struct Context<E: UserEvent> {
 
 impl<E: UserEvent> Context<E> {
     /// Create a new `Context` from the provided [`EventQueue`] and data.
-    pub(crate) fn builder() -> ContextBuilder<E> {
-        ContextBuilder::<E>::new()
+    pub(crate) fn builder() -> ContextBuilder {
+        ContextBuilder::new()
     }
 
     pub fn world(&self) -> &World {
@@ -73,6 +74,10 @@ impl ContextBuilder {
             schedule: Schedule::builder().build(), 
         }
     }
+
+    pub fn build<E: UserEvent>(self, event_loop: &EventLoop<E>) -> Context<E> {
+        todo!()
+    }
 }
 
 #[cfg(test)]
@@ -83,8 +88,8 @@ mod context_tests {
 
     pub fn init() -> (EventLoop<()>, Context<()>) {
         let event_loop = EventLoop::<()>::new();
-        let context = Context::builder()
-            .build(&event_loop)
+        let context = Context::<()>::builder()
+            .build(&event_loop);
         (event_loop, context)
     }
 
