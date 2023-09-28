@@ -86,7 +86,12 @@ impl ContextBuilder {
     }
 
     pub fn build<E: UserEvent>(self, event_loop: &EventLoop<E>) -> Context<E> {
-        todo!()
+        Context {
+            world: self.world, 
+            resources: self.resources, 
+            schedule: self.schedule, 
+            event_sender: event_loop.event_sender(), 
+        }
     }
 }
 
