@@ -154,6 +154,8 @@ mod init_tests {
             .with_resources(|resources| {
                 resources.insert(0);
             })
+            .with_systems(|systems| {
+            }
             .build();
     }
 }
