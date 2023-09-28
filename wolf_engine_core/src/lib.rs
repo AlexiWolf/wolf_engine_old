@@ -143,6 +143,9 @@ mod init_tests {
     #[test]
     fn should_use_builder_pattern() {
         let (_event_loop, context) = crate::init::<()>()
+            .with_resources(|resources| {
+                
+            })
             .build();
     }
 }
