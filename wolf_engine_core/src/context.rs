@@ -72,7 +72,8 @@ mod context_tests {
 
     pub fn init() -> (EventLoop<()>, Context<()>) {
         let event_loop = EventLoop::<()>::new();
-        let context = Context::new(&event_loop, Resources::default(), Schedule::builder().build(), World::default());
+        let context = Context::builder()
+            .build(&event_loop)
         (event_loop, context)
     }
 
