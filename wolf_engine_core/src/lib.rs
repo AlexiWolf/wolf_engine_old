@@ -22,7 +22,7 @@
 //!
 //! pub fn main() {
 //!     // Start by initializing the engine's Event-Loop, and Context.
-//!     let (mut event_loop, mut context) = wolf_engine::init::<()>();
+//!     let (mut event_loop, mut context) = wolf_engine::init::<()>().build();
 //!     
 //!     // The Event-Loop will continue to return events, every call, until a Quit event is sent,
 //!     // only then, will the Event-Loop will return None.
@@ -111,7 +111,7 @@ impl<E: UserEvent> EngineBuidler<E> {
 ///
 /// // Start by initializing the EventLoop, and Context.
 /// // In this case, we are not using any Context data, so `()` is used.
-/// let (mut event_loop, mut context) = wolf_engine::init::<()>();
+/// let (mut event_loop, mut context) = wolf_engine::init::<()>().build();
 ///
 /// // Then, you can use the EventLoop to run your game's main-loop.
 /// while let Some(event) = event_loop.next_event() {
@@ -130,7 +130,7 @@ impl<E: UserEvent> EngineBuidler<E> {
 /// # pub struct SomeCustomDataType {};
 /// #
 /// # use wolf_engine::prelude::*;
-/// let (mut event_loop, mut context) = wolf_engine::init::<()>();
+/// let (mut event_loop, mut context) = wolf_engine::init::<()>().build();
 /// ```
 pub fn init<E: UserEvent>() -> EngineBuidler<E> {
     EngineBuidler::new()
