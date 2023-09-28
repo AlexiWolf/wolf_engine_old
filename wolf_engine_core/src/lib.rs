@@ -106,16 +106,6 @@ impl<E: UserEvent> EngineBuidler<E> {
     }
 }
 
-pub struct ResourceBundle {
-    resources: Vec<Box<dyn Resource>>,
-}
-
-impl ResourceBundle {
-    pub fn new() -> Self {
-        Self { resources: Vec::new() }
-    }
-}
-
 /// Initializes a new instance of the [`EventLoop`], and its associated [`Context`], with the
 /// provided data.
 ///
