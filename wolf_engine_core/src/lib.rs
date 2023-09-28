@@ -109,12 +109,10 @@ impl<E: UserEvent> EngineBuidler<E> {
 
     pub fn build(mut self) -> Engine<E> {
         let event_loop = EventLoop::new();
-        let context = Context::new(
-            &event_loop, 
-            self.resources, 
-            self.schedule_builder.build(),
-            World::default(), 
-        );
+        let context = Context::<E>::builder()
+            .with_resources(self.resources)
+            .with_schedule(self.schedule_builder.build())
+            .build(&event_loop);
         (event_loop, context)
     }
 }
