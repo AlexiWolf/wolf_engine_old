@@ -76,25 +76,25 @@ pub mod prelude {
 }
 
 use events::UserEvent;
-use legion::systems::Resource;
+use legion::{systems::Resource, Resources};
 
 /// Represents the [`EventLoop`]-[`Context`] pair that makes up "the engine."
 pub type Engine<E> = (EventLoop<E>, Context<E>);
 
 pub struct EngineBuidler<E: UserEvent> {
-    resources: ResourceBundle,
+    resources: Resources,
     _event_type: PhantomData<E>,
 }
 
 impl<E: UserEvent> EngineBuidler<E> {
     pub(crate) fn new() -> Self {
         Self {
-            resources: ResourceBundle::new(),
+            resources: Resources::default(),
             _event_type: PhantomData::default(),
         }
     }
 
-    pub fn with_resources(mut self, function: fn(&mut ResourceBundle)) -> Self {
+    pub fn with_resources(mut self, function: fn(&mut Resources)) -> Self {
         (function)(&mut self.resources);
         self
     }
