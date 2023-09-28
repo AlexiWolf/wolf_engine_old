@@ -163,5 +163,7 @@ mod init_tests {
                 systems.add_thread_local_fn(|_, _| {});
             })
             .build();
+
+        assert!(context.resources().get::<i32>().is_some());
     }
 }
