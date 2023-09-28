@@ -85,16 +85,6 @@ mod event_loop_tests {
 
     use crate::prelude::*;
 
-    struct TestData {
-        updates: i32,
-    }
-
-    impl TestData {
-        pub fn new() -> Self {
-            Self { updates: 0 }
-        }
-    }
-
     #[test]
     #[timeout(100)]
     fn should_run_and_quit() {

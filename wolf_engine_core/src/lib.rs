@@ -77,7 +77,6 @@ pub mod prelude {
 
 use ecs::*;
 use events::UserEvent;
-use prelude::events::HasEventSender;
 
 /// Represents the [`EventLoop`]-[`Context`] pair that makes up "the engine."
 pub type Engine<E> = (EventLoop<E>, Context<E>);
