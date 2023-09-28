@@ -20,13 +20,8 @@ pub struct Context<E: UserEvent> {
 
 impl<E: UserEvent> Context<E> {
     /// Create a new `Context` from the provided [`EventQueue`] and data.
-    pub(crate) fn new(event_queue: &dyn EventQueue<Event<E>>, resources: Resources, schedule: Schedule, world: World) -> Self {
-        Self {
-            world,
-            resources,
-            schedule,
-            event_sender: event_queue.event_sender(),
-        }
+    pub(crate) fn builder() -> ContextBuilder<E> {
+        ContextBuilder::<E>::new()
     }
 
     pub fn world(&self) -> &World {
