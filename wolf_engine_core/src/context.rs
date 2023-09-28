@@ -75,6 +75,11 @@ impl ContextBuilder {
         }
     }
 
+    pub fn with_resources(mut self, resources: Resources) -> Self {
+        self.resources = resources; 
+        self
+    }
+
     pub fn build<E: UserEvent>(self, event_loop: &EventLoop<E>) -> Context<E> {
         todo!()
     }
