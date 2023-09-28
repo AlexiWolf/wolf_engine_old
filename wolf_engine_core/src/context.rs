@@ -1,8 +1,8 @@
 use std::sync::Arc;
 
-use crate::EventLoop;
 use crate::ecs::*;
 use crate::events::*;
+use crate::EventLoop;
 
 /// Provides a container for Wolf Engine's user-facing data.
 ///
@@ -34,7 +34,7 @@ impl<E: UserEvent> Context<E> {
     }
 
     pub fn resources(&self) -> &Resources {
-        &self.resources 
+        &self.resources
     }
 
     pub fn resources_mut(&mut self) -> &mut Resources {
@@ -46,7 +46,7 @@ impl<E: UserEvent> Context<E> {
     }
 
     pub fn schedule_mut(&mut self) -> &mut Schedule {
-        &mut self.schedule 
+        &mut self.schedule
     }
 
     pub fn quit(&self) {
@@ -71,12 +71,12 @@ impl ContextBuilder {
         Self {
             world: Default::default(),
             resources: Default::default(),
-            schedule: Schedule::builder().build(), 
+            schedule: Schedule::builder().build(),
         }
     }
 
     pub fn with_resources(mut self, resources: Resources) -> Self {
-        self.resources = resources; 
+        self.resources = resources;
         self
     }
 
@@ -87,10 +87,10 @@ impl ContextBuilder {
 
     pub fn build<E: UserEvent>(self, event_loop: &EventLoop<E>) -> Context<E> {
         Context {
-            world: self.world, 
-            resources: self.resources, 
-            schedule: self.schedule, 
-            event_sender: event_loop.event_sender(), 
+            world: self.world,
+            resources: self.resources,
+            schedule: self.schedule,
+            event_sender: event_loop.event_sender(),
         }
     }
 }
@@ -103,16 +103,15 @@ mod context_tests {
 
     pub fn init() -> (EventLoop<()>, Context<()>) {
         let event_loop = EventLoop::<()>::new();
-        let context = Context::<()>::builder()
-            .build(&event_loop);
+        let context = Context::<()>::builder().build(&event_loop);
         (event_loop, context)
     }
 
     #[test]
     fn should_have_world_accessors() {
         let (_, mut context) = init();
-        { 
-            let _world = context.world(); 
+        {
+            let _world = context.world();
         }
         {
             let _world_mut = context.world_mut();
@@ -122,8 +121,8 @@ mod context_tests {
     #[test]
     fn should_have_resources_accessors() {
         let (_, mut context) = init();
-        { 
-            let _resources = context.resources(); 
+        {
+            let _resources = context.resources();
         }
         {
             let _mut_resources = context.resources_mut();
@@ -133,8 +132,8 @@ mod context_tests {
     #[test]
     fn should_have_schedule_accessors() {
         let (_, mut context) = init();
-        { 
-            let _schedule = context.schedule(); 
+        {
+            let _schedule = context.schedule();
         }
         {
             let _schedule = context.schedule_mut();
