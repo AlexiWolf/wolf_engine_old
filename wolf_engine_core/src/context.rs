@@ -60,7 +60,7 @@ impl<E: UserEvent> HasEventSender<Event<E>> for Context<E> {
     }
 }
 
-pub struct ContextBuilder {
+pub(crate) struct ContextBuilder {
     world: World,
     resources: Resources,
     schedule: Schedule,
