@@ -59,6 +59,22 @@ impl<E: UserEvent> HasEventSender<Event<E>> for Context<E> {
     }
 }
 
+pub struct ContextBuilder {
+    world: World,
+    resources: Resources,
+    schedule: Schedule,
+}
+
+impl ContextBuilder {
+    pub(crate) fn new() -> Self {
+        Self {
+            world: Default::default(),
+            resources: Default::default(),
+            schedule: Schedule::builder().build(), 
+        }
+    }
+}
+
 #[cfg(test)]
 mod context_tests {
     use super::*;
