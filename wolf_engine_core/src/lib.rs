@@ -76,13 +76,14 @@ pub mod prelude {
 }
 
 use events::UserEvent;
-use legion::{systems::Resource, Resources};
+use ecs::*;
 
 /// Represents the [`EventLoop`]-[`Context`] pair that makes up "the engine."
 pub type Engine<E> = (EventLoop<E>, Context<E>);
 
 pub struct EngineBuidler<E: UserEvent> {
     resources: Resources,
+    schedule_builder: ecs::systems::Builder,
     _event_type: PhantomData<E>,
 }
 
@@ -90,12 +91,18 @@ impl<E: UserEvent> EngineBuidler<E> {
     pub(crate) fn new() -> Self {
         Self {
             resources: Resources::default(),
+            schedule_builder: Schedule::builder(),
             _event_type: PhantomData::default(),
         }
     }
 
     pub fn with_resources(mut self, function: fn(&mut Resources)) -> Self {
         (function)(&mut self.resources);
+        self
+    }
+
+    pub fn with_systems(mut self, function: fn(&mut ecs::systems::Builder)) -> Self {
+        (function)(&mut self.schedule_builder);
         self
     }
 
@@ -155,7 +162,8 @@ mod init_tests {
                 resources.insert(0);
             })
             .with_systems(|systems| {
-            }
+            })
+
             .build();
     }
 }
