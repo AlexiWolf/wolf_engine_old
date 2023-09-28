@@ -92,7 +92,9 @@ impl<E: UserEvent> EngineBuidler<E> {
     }
 
     pub fn build(self) -> Engine<E> {
-        todo!()
+        let event_loop = EventLoop::new();
+        let context = Context::new(&event_loop);
+        (event_loop, context)
     }
 }
 
