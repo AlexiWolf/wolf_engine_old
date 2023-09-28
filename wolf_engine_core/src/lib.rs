@@ -77,6 +77,7 @@ pub mod prelude {
 
 use events::UserEvent;
 use ecs::*;
+use prelude::events::HasEventSender;
 
 /// Represents the [`EventLoop`]-[`Context`] pair that makes up "the engine."
 pub type Engine<E> = (EventLoop<E>, Context<E>);
@@ -106,9 +107,14 @@ impl<E: UserEvent> EngineBuidler<E> {
         self
     }
 
-    pub fn build(self) -> Engine<E> {
+    pub fn build(mut self) -> Engine<E> {
         let event_loop = EventLoop::new();
-        let context = Context::new(&event_loop);
+        let context = Context {
+            world: World::default(), 
+            resources: self.resources, 
+            schedule: self.schedule_builder.build(),
+            event_sender: event_loop.event_sender(),
+        };
         (event_loop, context)
     }
 }

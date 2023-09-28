@@ -20,11 +20,11 @@ pub struct Context<E: UserEvent> {
 
 impl<E: UserEvent> Context<E> {
     /// Create a new `Context` from the provided [`EventQueue`] and data.
-    pub(crate) fn new(event_queue: &dyn EventQueue<Event<E>>) -> Self {
+    pub(crate) fn new(event_queue: &dyn EventQueue<Event<E>>, resources: Resources, schedule: Schedule, world: World) -> Self {
         Self {
-            world: World::default(),
-            resources: Resources::default(),
-            schedule: Schedule::builder().build(),
+            world,
+            resources,
+            schedule,
             event_sender: event_queue.event_sender(),
         }
     }
@@ -72,7 +72,7 @@ mod context_tests {
 
     pub fn init() -> (EventLoop<()>, Context<()>) {
         let event_loop = EventLoop::<()>::new();
-        let context = Context::new(&event_loop);
+        let context = Context::new(&event_loop, Resources::default(), Schedule::builder().build());
         (event_loop, context)
     }
 
