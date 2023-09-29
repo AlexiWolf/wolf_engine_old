@@ -99,17 +99,9 @@ impl ContextBuilder {
 mod context_tests {
     use super::*;
 
-    use crate::EventLoop;
-
-    pub fn init() -> (EventLoop<()>, Context<()>) {
-        let event_loop = EventLoop::<()>::new();
-        let context = Context::<()>::builder().build(&event_loop);
-        (event_loop, context)
-    }
-
     #[test]
     fn should_have_accessors() {
-        let (_, mut context) = init();
+        let (_, mut context) = crate::init::<()>().build();
         {
             let _world = context.world();
             let _resources = context.resources();
