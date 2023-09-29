@@ -108,34 +108,16 @@ mod context_tests {
     }
 
     #[test]
-    fn should_have_world_accessors() {
+    fn should_have_accessors() {
         let (_, mut context) = init();
         {
             let _world = context.world();
-        }
-        {
-            let _world_mut = context.world_mut();
-        }
-    }
-
-    #[test]
-    fn should_have_resources_accessors() {
-        let (_, mut context) = init();
-        {
             let _resources = context.resources();
-        }
-        {
-            let _mut_resources = context.resources_mut();
-        }
-    }
-
-    #[test]
-    fn should_have_schedule_accessors() {
-        let (_, mut context) = init();
-        {
             let _schedule = context.schedule();
         }
         {
+            let _world_mut = context.world_mut();
+            let _mut_resources = context.resources_mut();
             let _schedule = context.schedule_mut();
         }
     }
