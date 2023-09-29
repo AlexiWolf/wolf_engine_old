@@ -98,6 +98,22 @@ impl ContextBuilder {
 #[cfg(test)]
 mod context_tests {
     #[test]
+    fn should_run_ecs_tick() {
+        let (_, mut context) = crate::init::<()>()
+            .with_resources(|resources| {
+                resources.insert(0);
+            })
+            .with_systems(|schedule| {
+                schedule.add_thread_local_fn(|_, resources| {
+                    *resources.get_mut::<i32>().unwrap() += 1;
+                });
+            })
+            .build();
+
+        context.execute();
+    }
+
+    #[test]
     fn should_have_accessors() {
         let (_, mut context) = crate::init::<()>().build();
         {
