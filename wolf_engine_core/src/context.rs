@@ -115,6 +115,8 @@ mod context_tests {
             .build();
 
         context.execute();
+
+        assert_eq!(*context.resources().get::<i32>().unwrap(), 1);
     }
 
     #[test]
