@@ -97,8 +97,6 @@ impl ContextBuilder {
 
 #[cfg(test)]
 mod context_tests {
-    use super::*;
-
     #[test]
     fn should_have_accessors() {
         let (_, mut context) = crate::init::<()>().build();
