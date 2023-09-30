@@ -69,7 +69,18 @@ pub mod ecs {
     }
 
     impl ResourcesBuilder {
+        pub fn insert<T: systems::Resource + 'static>(&mut self, resource: T) -> &mut Self {
+            self.resources.insert(resource);
+            self
+        }
+    }
 
+    impl Default for ResourcesBuilder {
+        fn default() -> Self {
+            Self {
+                resources: Resources::default(),
+            }
+        }
     }
 }
 pub mod events;
