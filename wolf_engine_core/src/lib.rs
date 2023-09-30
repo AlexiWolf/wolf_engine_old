@@ -61,11 +61,14 @@ pub use context::*;
 mod event_loop;
 pub use event_loop::*;
 
+/// Provides an Entity-Component-System based on [Legion](::legion).
 pub mod ecs {
     pub use legion::*;
-
+    
+    /// A, more clearly-named, alias to [`systems::Builder`].
     pub type ScheduleBuidler = legion::systems::Builder;
     
+    /// Provides a builder-pattern for creating [`Resources`].
     #[derive(Default)]
     pub struct ResourcesBuilder {
         resources: Resources,
