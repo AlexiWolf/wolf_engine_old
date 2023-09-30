@@ -105,7 +105,7 @@ mod context_tests {
     fn should_run_ecs_tick() {
         let (_, mut context) = crate::init::<()>()
             .with_resources(|resources| {
-                resources.insert(0);
+                resources.add_resource(0);
             })
             .with_systems(|schedule| {
                 schedule.add_thread_local_fn(|_, resources| {

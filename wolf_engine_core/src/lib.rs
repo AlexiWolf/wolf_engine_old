@@ -69,7 +69,7 @@ pub mod ecs {
     }
 
     impl ResourcesBuilder {
-        pub fn insert<T: systems::Resource + 'static>(&mut self, resource: T) -> &mut Self {
+        pub fn add_resource<T: systems::Resource + 'static>(&mut self, resource: T) -> &mut Self {
             self.resources.insert(resource);
             self
         }
@@ -184,8 +184,8 @@ mod init_tests {
         let (_event_loop, _context) = crate::init::<()>()
             .with_resources(|resources| {
                 resources
-                    .insert(0)
-                    .insert(true);
+                    .add_resource(0)
+                    .add_resource(true);
             })
             .with_systems(|systems| {
                 systems
