@@ -13,8 +13,8 @@ use crate::events::*;
 /// are no events currently in the queue.  
 ///
 /// When there are no queued events to emit, [`Event::EventsCleared`] is returned instead, so long
-/// as the engine is running.  When [`Event::Quit`] is received, the Event-Loop will trigger a
-/// shutdown of the engine.  Only after a shutdown, will the Event-Loop stop emitting events.
+/// as the engine is running.  When [`Event::Quit`] is received, the event loop will return `None`
+/// after the queue is cleared.
 ///
 /// # Examples
 ///
