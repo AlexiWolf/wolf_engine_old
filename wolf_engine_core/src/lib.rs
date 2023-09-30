@@ -189,9 +189,16 @@ mod init_tests {
             })
             .with_systems(|systems| {
                 systems
-                    .add_thread_local_fn(|_, _| {})
+                    .add_system(test_system())
+                    .add_thread_local(test_system())
+                    .flush()
                     .add_thread_local_fn(|_, _| {});
             })
             .build();
+    }
+
+    #[crate::ecs::system]
+    fn test() {
+        println!("Hello, world!");
     }
 }
