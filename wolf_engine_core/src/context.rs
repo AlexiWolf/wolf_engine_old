@@ -146,12 +146,14 @@ mod context_tests {
         {
             let _world = context.world();
             let _resources = context.resources();
-            let _schedule = context.update_schedule();
+            let _update_schedule = context.update_schedule();
+            let _render_schedule = context.render_schedule();
         }
         {
             let _world_mut = context.world_mut();
             let _mut_resources = context.resources_mut();
-            let _schedule = context.update_schedule_mut();
+            let _update_schedule = context.update_schedule_mut();
+            let _render_schedule = context.render_schedule_mut();
         }
     }
 }
