@@ -108,8 +108,8 @@ pub type Engine<E> = (EventLoop<E>, Context<E>);
 
 pub struct EngineBuidler<E: UserEvent> {
     resources: ResourcesBuilder,
-    update_schedule_builder: ScheduleBuidler, 
-    render_schedule_builder: ScheduleBuidler, 
+    update_schedule_builder: ScheduleBuidler,
+    render_schedule_builder: ScheduleBuidler,
     _event_type: PhantomData<E>,
 }
 
@@ -192,9 +192,7 @@ mod init_tests {
     fn should_use_builder_pattern() {
         let (_event_loop, _context) = crate::init::<()>()
             .with_resources(|resources| {
-                resources
-                    .add_resource(0)
-                    .add_resource(true);
+                resources.add_resource(0).add_resource(true);
             })
             .with_update_schedule(|schedule| {
                 schedule
