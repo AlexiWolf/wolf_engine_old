@@ -25,7 +25,7 @@ impl<E: UserEvent> Context<E> {
         ContextBuilder::new()
     }
 
-    pub fn execute(&mut self) {
+    pub fn run_update(&mut self) {
         self.schedule.execute(&mut self.world, &mut self.resources);
     }
 
@@ -114,7 +114,7 @@ mod context_tests {
             })
             .build();
 
-        context.execute();
+        context.run_update();
 
         assert_eq!(*context.resources().get::<i32>().unwrap(), 1);
     }
