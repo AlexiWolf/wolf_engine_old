@@ -73,6 +73,10 @@ pub mod ecs {
             self.resources.insert(resource);
             self
         }
+
+        pub fn build(self) -> Resources {
+            self.resources
+        }
     }
 
     impl Default for ResourcesBuilder {
@@ -128,7 +132,7 @@ impl<E: UserEvent> EngineBuidler<E> {
     pub fn build(mut self) -> Engine<E> {
         let event_loop = EventLoop::new();
         let context = Context::<E>::builder()
-            .with_resources(self.resources)
+            .with_resources(self.resources.build())
             .with_schedule(self.schedule_builder.build())
             .build(&event_loop);
         (event_loop, context)
