@@ -106,7 +106,7 @@ impl ContextBuilder {
             world: self.world,
             resources: self.resources,
             update_schedule: self.update_schedule,
-            render_schedule: self.update_schedule,
+            render_schedule: self.render_schedule,
             event_sender: event_loop.event_sender(),
         }
     }
