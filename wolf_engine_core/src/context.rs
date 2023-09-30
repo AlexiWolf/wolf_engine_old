@@ -6,12 +6,11 @@ use crate::EventLoop;
 
 /// Provides a container for Wolf Engine's user-facing data.
 ///
-/// Under the hood, Wolf Engine consists of two main parts: The `Context` (You are here!), and the
+/// Wolf Engine consists of two main parts: The `Context` (You are here!), and the 
 /// [`EventLoop`](crate::EventLoop`).  Together, these two parts make up what we refer to as
-/// "the engine."
+/// ["the engine"](crate::Engine).
 ///
-/// The Context owns all engine data, sub-systems, and the link to the Event-Loop through which
-/// all events are sent.  As far as the end-user is concerned, the Context *is* the engine.
+/// The Context owns all engine data, including resources, system schedules, and the game world. 
 pub struct Context<E: UserEvent> {
     world: World,
     resources: Resources,
