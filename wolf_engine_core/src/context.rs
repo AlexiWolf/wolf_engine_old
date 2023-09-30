@@ -122,11 +122,13 @@ mod context_tests {
                 schedule.add_system(add_1_system());
             })
             .build();
-
+        
+        assert_eq!(*context.resources().get::<i32>().unwrap(), 0);
         context.run_update();
-        context.render();
-
         assert_eq!(*context.resources().get::<i32>().unwrap(), 1);
+        context.render();
+        assert_eq!(*context.resources().get::<i32>().unwrap(), 2);
+
     }
 
     #[test]
