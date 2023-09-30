@@ -15,7 +15,8 @@ use crate::EventLoop;
 pub struct Context<E: UserEvent> {
     world: World,
     resources: Resources,
-    schedule: Schedule,
+    update_schedule: Schedule,
+    render_schedule: Schedule,
     event_sender: Arc<dyn EventSender<Event<E>>>,
 }
 
@@ -26,7 +27,7 @@ impl<E: UserEvent> Context<E> {
     }
 
     pub fn run_update(&mut self) {
-        self.schedule.execute(&mut self.world, &mut self.resources);
+        self.update_schedule.execute(&mut self.world, &mut self.resources);
     }
 
     pub fn render(&mut self) {
@@ -50,11 +51,11 @@ impl<E: UserEvent> Context<E> {
     }
 
     pub fn schedule(&self) -> &Schedule {
-        &self.schedule
+        &self.update_schedule
     }
 
     pub fn schedule_mut(&mut self) -> &mut Schedule {
-        &mut self.schedule
+        &mut self.update_schedule
     }
 
     pub fn quit(&self) {
@@ -104,7 +105,8 @@ impl ContextBuilder {
         Context {
             world: self.world,
             resources: self.resources,
-            schedule: self.update_schedule,
+            update_schedule: self.update_schedule,
+            render_schedule: self.update_schedule,
             event_sender: event_loop.event_sender(),
         }
     }
