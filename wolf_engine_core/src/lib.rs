@@ -65,7 +65,8 @@ pub mod ecs {
     pub use legion::*;
 
     pub type ScheduleBuidler = legion::systems::Builder;
-
+    
+    #[derive(Default)]
     pub struct ResourcesBuilder {
         resources: Resources,
     }
@@ -78,14 +79,6 @@ pub mod ecs {
 
         pub fn build(self) -> Resources {
             self.resources
-        }
-    }
-
-    impl Default for ResourcesBuilder {
-        fn default() -> Self {
-            Self {
-                resources: Resources::default(),
-            }
         }
     }
 }
