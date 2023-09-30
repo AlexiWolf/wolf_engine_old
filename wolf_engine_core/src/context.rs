@@ -29,6 +29,10 @@ impl<E: UserEvent> Context<E> {
         self.schedule.execute(&mut self.world, &mut self.resources);
     }
 
+    pub fn render(&mut self) {
+
+    }
+
     pub fn world(&self) -> &World {
         &self.world
     }
