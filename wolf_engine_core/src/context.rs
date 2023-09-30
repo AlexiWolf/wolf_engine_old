@@ -103,18 +103,24 @@ impl ContextBuilder {
 mod context_tests {
     #[test]
     fn should_run_ecs_tick() {
+        #[crate::ecs::system]
+        fn add_1(#[resource] number: &mut i32) {
+            *number += 1;
+        }
         let (_, mut context) = crate::init::<()>()
             .with_resources(|resources| {
                 resources.add_resource(0);
             })
             .with_update_schedule(|schedule| {
-                schedule.add_thread_local_fn(|_, resources| {
-                    *resources.get_mut::<i32>().unwrap() += 1;
-                });
+                schedule.add_system(add_1_system());
+            })
+            .with_render_schedule(|schedule| {
+                schedule.add_system(add_1_system());
             })
             .build();
 
         context.run_update();
+        context.render();
 
         assert_eq!(*context.resources().get::<i32>().unwrap(), 1);
     }
