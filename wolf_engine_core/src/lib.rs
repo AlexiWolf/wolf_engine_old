@@ -90,7 +90,7 @@ use events::UserEvent;
 pub type Engine<E> = (EventLoop<E>, Context<E>);
 
 pub struct EngineBuidler<E: UserEvent> {
-    resources: Resources,
+    resources: ResourcesBuilder,
     schedule_builder: ecs::systems::Builder,
     _event_type: PhantomData<E>,
 }
@@ -98,13 +98,13 @@ pub struct EngineBuidler<E: UserEvent> {
 impl<E: UserEvent> EngineBuidler<E> {
     pub(crate) fn new() -> Self {
         Self {
-            resources: Resources::default(),
+            resources: ResourcesBuilder::default(),
             schedule_builder: Schedule::builder(),
             _event_type: PhantomData::default(),
         }
     }
 
-    pub fn with_resources(mut self, function: fn(&mut Resources)) -> Self {
+    pub fn with_resources(mut self, function: fn(&mut ResourcesBuilder)) -> Self {
         (function)(&mut self.resources);
         self
     }
