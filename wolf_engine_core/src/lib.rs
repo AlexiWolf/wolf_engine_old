@@ -64,6 +64,8 @@ pub use event_loop::*;
 pub mod ecs {
     pub use legion::*;
 
+    pub type ScheduleBuidler = legion::systems::Builder;
+
     pub struct ResourcesBuilder {
         resources: Resources,
     }
@@ -106,7 +108,7 @@ pub type Engine<E> = (EventLoop<E>, Context<E>);
 
 pub struct EngineBuidler<E: UserEvent> {
     resources: ResourcesBuilder,
-    schedule_builder: ecs::systems::Builder,
+    schedule_builder: ScheduleBuidler, 
     _event_type: PhantomData<E>,
 }
 
@@ -124,7 +126,7 @@ impl<E: UserEvent> EngineBuidler<E> {
         self
     }
 
-    pub fn with_systems(mut self, function: fn(&mut ecs::systems::Builder)) -> Self {
+    pub fn with_systems(mut self, function: fn(&mut ScheduleBuidler)) -> Self {
         (function)(&mut self.schedule_builder);
         self
     }
