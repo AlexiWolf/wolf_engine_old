@@ -134,7 +134,7 @@ impl<E: UserEvent> EngineBuidler<E> {
     }
 
     pub fn with_render_schedule(mut self, function: fn(&mut ScheduleBuidler)) -> Self {
-        (function)(&mut self.update_schedule_builder);
+        (function)(&mut self.render_schedule_builder);
         self
     }
 
