@@ -107,7 +107,7 @@ mod context_tests {
             .with_resources(|resources| {
                 resources.add_resource(0);
             })
-            .with_schedule(|schedule| {
+            .with_update_schedule(|schedule| {
                 schedule.add_thread_local_fn(|_, resources| {
                     *resources.get_mut::<i32>().unwrap() += 1;
                 });
