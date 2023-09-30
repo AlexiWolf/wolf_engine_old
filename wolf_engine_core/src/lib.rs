@@ -126,7 +126,7 @@ impl<E: UserEvent> EngineBuidler<E> {
         self
     }
 
-    pub fn with_systems(mut self, function: fn(&mut ScheduleBuidler)) -> Self {
+    pub fn with_schedule(mut self, function: fn(&mut ScheduleBuidler)) -> Self {
         (function)(&mut self.schedule_builder);
         self
     }
@@ -189,8 +189,8 @@ mod init_tests {
                     .add_resource(0)
                     .add_resource(true);
             })
-            .with_systems(|systems| {
-                systems
+            .with_schedule(|schedule| {
+                schedule
                     .add_system(test_system())
                     .add_thread_local(test_system())
                     .flush()
