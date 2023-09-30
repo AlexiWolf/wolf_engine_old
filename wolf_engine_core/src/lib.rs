@@ -64,10 +64,10 @@ pub use event_loop::*;
 /// Provides an Entity-Component-System based on [Legion](::legion).
 pub mod ecs {
     pub use legion::*;
-    
+
     /// A, more clearly-named, alias to [`systems::Builder`].
     pub type ScheduleBuidler = legion::systems::Builder;
-    
+
     /// Provides a builder-pattern for creating [`Resources`].
     #[derive(Default)]
     pub struct ResourcesBuilder {
@@ -76,7 +76,7 @@ pub mod ecs {
 
     impl ResourcesBuilder {
         /// Inserts the provide instance of `T` into the [`Resources`].
-        /// 
+        ///
         /// If the provided type has previously been added, the existing instance is silently
         /// overwritten.
         ///
@@ -85,7 +85,7 @@ pub mod ecs {
             self.resources.insert(resource);
             self
         }
-        
+
         /// Consumes the builder, and returns the [`Resources`] from it.
         pub fn build(self) -> Resources {
             self.resources
