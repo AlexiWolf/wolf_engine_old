@@ -71,7 +71,8 @@ impl<E: UserEvent> HasEventSender<Event<E>> for Context<E> {
 pub(crate) struct ContextBuilder {
     world: World,
     resources: Resources,
-    schedule: Schedule,
+    update_schedule: Schedule,
+    render_schedule: Schedule,
 }
 
 impl ContextBuilder {
@@ -79,7 +80,8 @@ impl ContextBuilder {
         Self {
             world: Default::default(),
             resources: Default::default(),
-            schedule: Schedule::builder().build(),
+            update_schedule: Schedule::builder().build(),
+            render_schedule: Schedule::builder().build(),
         }
     }
 
@@ -88,8 +90,13 @@ impl ContextBuilder {
         self
     }
 
-    pub fn with_schedule(mut self, schedule: Schedule) -> Self {
-        self.schedule = schedule;
+    pub fn with_update_schedule(mut self, schedule: Schedule) -> Self {
+        self.update_schedule = schedule;
+        self
+    }
+
+    pub fn with_render_schedule(mut self, schedule: Schedule) -> Self {
+        self.render_schedule = schedule;
         self
     }
 
@@ -97,7 +104,7 @@ impl ContextBuilder {
         Context {
             world: self.world,
             resources: self.resources,
-            schedule: self.schedule,
+            schedule: self.update_schedule,
             event_sender: event_loop.event_sender(),
         }
     }
