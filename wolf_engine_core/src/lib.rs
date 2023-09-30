@@ -108,7 +108,8 @@ pub type Engine<E> = (EventLoop<E>, Context<E>);
 
 pub struct EngineBuidler<E: UserEvent> {
     resources: ResourcesBuilder,
-    schedule_builder: ScheduleBuidler, 
+    update_schedule_builder: ScheduleBuidler, 
+    render_schedule_builder: ScheduleBuidler, 
     _event_type: PhantomData<E>,
 }
 
@@ -116,7 +117,8 @@ impl<E: UserEvent> EngineBuidler<E> {
     pub(crate) fn new() -> Self {
         Self {
             resources: ResourcesBuilder::default(),
-            schedule_builder: Schedule::builder(),
+            update_schedule_builder: Schedule::builder(),
+            render_schedule_builder: Schedule::builder(),
             _event_type: PhantomData::default(),
         }
     }
@@ -127,7 +129,12 @@ impl<E: UserEvent> EngineBuidler<E> {
     }
 
     pub fn with_update_schedule(mut self, function: fn(&mut ScheduleBuidler)) -> Self {
-        (function)(&mut self.schedule_builder);
+        (function)(&mut self.update_schedule_builder);
+        self
+    }
+
+    pub fn with_render_schedule(mut self, function: fn(&mut ScheduleBuidler)) -> Self {
+        (function)(&mut self.update_schedule_builder);
         self
     }
 
@@ -135,7 +142,7 @@ impl<E: UserEvent> EngineBuidler<E> {
         let event_loop = EventLoop::new();
         let context = Context::<E>::builder()
             .with_resources(self.resources.build())
-            .with_schedule(self.schedule_builder.build())
+            .with_schedule(self.update_schedule_builder.build())
             .build(&event_loop);
         (event_loop, context)
     }
