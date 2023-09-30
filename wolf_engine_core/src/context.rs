@@ -26,7 +26,7 @@ impl<E: UserEvent> Context<E> {
         ContextBuilder::new()
     }
 
-    pub fn run_update(&mut self) {
+    pub fn update(&mut self) {
         self.update_schedule.execute(&mut self.world, &mut self.resources);
     }
 
@@ -50,11 +50,11 @@ impl<E: UserEvent> Context<E> {
         &mut self.resources
     }
 
-    pub fn schedule(&self) -> &Schedule {
+    pub fn update_schedule(&self) -> &Schedule {
         &self.update_schedule
     }
 
-    pub fn schedule_mut(&mut self) -> &mut Schedule {
+    pub fn update_schedule_mut(&mut self) -> &mut Schedule {
         &mut self.update_schedule
     }
 
@@ -133,7 +133,7 @@ mod context_tests {
             .build();
         
         assert_eq!(*context.resources().get::<i32>().unwrap(), 0);
-        context.run_update();
+        context.update();
         assert_eq!(*context.resources().get::<i32>().unwrap(), 1);
         context.render();
         assert_eq!(*context.resources().get::<i32>().unwrap(), 2);
@@ -146,12 +146,12 @@ mod context_tests {
         {
             let _world = context.world();
             let _resources = context.resources();
-            let _schedule = context.schedule();
+            let _schedule = context.update_schedule();
         }
         {
             let _world_mut = context.world_mut();
             let _mut_resources = context.resources_mut();
-            let _schedule = context.schedule_mut();
+            let _schedule = context.update_schedule_mut();
         }
     }
 }
