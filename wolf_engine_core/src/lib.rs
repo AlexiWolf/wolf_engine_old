@@ -196,6 +196,13 @@ mod init_tests {
                     .flush()
                     .add_thread_local_fn(|_, _| {});
             })
+            .with_render_schedule(|schedule| {
+                schedule
+                    .add_system(test_system())
+                    .add_thread_local(test_system())
+                    .flush()
+                    .add_thread_local_fn(|_, _| {});
+            })
             .build();
     }
 
