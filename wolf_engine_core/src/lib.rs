@@ -63,6 +63,14 @@ pub use event_loop::*;
 
 pub mod ecs {
     pub use legion::*;
+
+    pub struct ResourcesBuilder {
+        resources: Resources,
+    }
+
+    impl ResourcesBuilder {
+
+    }
 }
 pub mod events;
 
