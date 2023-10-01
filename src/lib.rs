@@ -1,6 +1,6 @@
 //! A simple, flexible game framework. 
 //!
-//! ## Usage 
+//! ## Getting Started 
 //! 
 //! - The [`framework` module](wolf_engine_framework), and [`core` module](wolf_engine_core) docs
 //!   have some helpful quick-start examples you can follow to quickly jump-start your project.
