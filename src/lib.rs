@@ -25,11 +25,13 @@
 //! - `window`: Enable Wolf Engine's high-level window API.
 //!
 //! ## Usage Examples
+//! 
 //! - The [`framework` module](wolf_engine_framework), and [`core` module](wolf_engine_core) docs
 //!   have some helpful quick-start examples you can follow to quickly jump-start your project.
 //! - There are plenty of functional examples in the
 //!   [examples/ directory](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) in the
 //!   repo.
+
 pub use wolf_engine_core::prelude::*;
 
 #[cfg(feature = "framework")]
