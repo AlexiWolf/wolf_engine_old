@@ -1,20 +1,4 @@
-//! A simple, flexible, and easy to use game framework.
-//!
-//!
-//! ## Concepts
-//!
-//! A small list of things you should understand when working with Wolf Engine.  Think of this as
-//! sort of a quick-start guide to ["groking"](https://en.wikipedia.org/wiki/Grok) the engine.
-//!
-//! ### The Basics
-//!
-//! - If you're just getting started, you should look at the
-//!   [`framework` module](wolf_engine_framework).  It includes a beginner-friendly guide to
-//!   actually getting something happening on screen.  
-//! - The [`events` module](events) contains the [`EventQueue` API](events::EventQueue), which is
-//!   the base upon which the rest of the engine is built.
-//! - The [`core` module](wolf_engine_core) contains the base engine types.  It's very important
-//!   to understand if you plan to contribute to the engine, or build your own extensions.
+//! A simple, flexible game framework. 
 //!
 //! # Getting Started
 //!
