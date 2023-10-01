@@ -26,3 +26,4 @@ ntest = "0.8"
 
 [features]
 logging = ["simple_logger"]
+serde = ["legion/serde"]

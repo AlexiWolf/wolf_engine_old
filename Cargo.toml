@@ -23,7 +23,7 @@ default = ["framework"]
 framework = ["wolf_engine_framework"]
 logging = ["framework", "wolf_engine_core/logging"]
 window = ["wolf_engine_window"]
-serde = ["wolf_engine_window/serde"]
+serde = ["wolf_engine_core/serde", "wolf_engine_window/serde"]
 
 [workspace]
 members = ["wolf_engine_*"]
