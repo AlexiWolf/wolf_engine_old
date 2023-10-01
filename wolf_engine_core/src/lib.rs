@@ -161,25 +161,6 @@ impl<E: UserEvent> EngineBuidler<E> {
 
 /// Initializes a new instance of the [`EventLoop`], and its associated [`Context`], with the
 /// provided data.
-///
-/// #  Examples
-///
-/// ```
-/// # use wolf_engine_core as wolf_engine;
-/// #
-/// // The prelude brings in commonly needed types, and traits.
-/// use wolf_engine::prelude::*;
-///
-/// // Start by initializing the EventLoop, and Context.
-/// // In this case, we are not using any Context data, so `()` is used.
-/// let (mut event_loop, mut context) = wolf_engine::init::<()>().build();
-///
-/// // Then, you can use the EventLoop to run your game's main-loop.
-/// while let Some(event) = event_loop.next_event() {
-///     // Do something cool!
-/// #   break;
-/// }
-/// ```
 pub fn init<E: UserEvent>() -> EngineBuidler<E> {
     EngineBuidler::new()
 }
