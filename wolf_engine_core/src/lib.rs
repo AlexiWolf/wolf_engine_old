@@ -180,19 +180,6 @@ impl<E: UserEvent> EngineBuidler<E> {
 /// #   break;
 /// }
 /// ```
-///
-/// ## Custom Context Data
-///  
-/// The [`Context`] documentation has more detailed information about context data.  It's a good
-/// place to start, if you're interested in customizing the engine.
-///
-/// ```
-/// # use wolf_engine_core as wolf_engine;
-/// # pub struct SomeCustomDataType {};
-/// #
-/// # use wolf_engine::prelude::*;
-/// let (mut event_loop, mut context) = wolf_engine::init::<()>().build();
-/// ```
 pub fn init<E: UserEvent>() -> EngineBuidler<E> {
     EngineBuidler::new()
 }
