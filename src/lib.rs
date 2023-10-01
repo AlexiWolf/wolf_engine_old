@@ -1,22 +1,5 @@
 //! A simple, flexible game framework. 
 //!
-//! # Getting Started
-//!
-//! Add Wolf Engine to your project's `Cargo.toml` file.
-//!
-//! To use the latest release version:
-//!
-//! ```ignore
-//! [dependencies]
-//! wolf_engine = "*"
-//! ```
-//!
-//! To use the latest development version:
-//!
-//! ```ignore
-//! wolf_engine = { git = "https://github.com/AlexiWolf/wolf_engine" }
-//! ```
-//!
 //! ## Usage 
 //! 
 //! - The [`framework` module](wolf_engine_framework), and [`core` module](wolf_engine_core) docs
