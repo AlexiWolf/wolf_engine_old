@@ -159,8 +159,7 @@ impl<E: UserEvent> EngineBuidler<E> {
     }
 }
 
-/// Initializes a new instance of the [`EventLoop`], and its associated [`Context`], with the
-/// provided data.
+/// Initializes a new instance of the [`Engine`].
 pub fn init<E: UserEvent>() -> EngineBuidler<E> {
     EngineBuidler::new()
 }
