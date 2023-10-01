@@ -22,7 +22,7 @@
 //! - The [`framework` module](wolf_engine_framework), and [`core` module](wolf_engine_core) docs
 //!   have some helpful quick-start examples you can follow to quickly jump-start your project.
 //! - There are plenty of functional examples in the
-//!   [examples/ directory](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) in the
+//!   [examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) in the
 //!   repo.
 //!
 //! ## Crate Features
