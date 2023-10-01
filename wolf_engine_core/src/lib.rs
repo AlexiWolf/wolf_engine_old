@@ -1,28 +1,37 @@
-//! Provides common tools, types, and functions for the engine.
-//!
-//! The Core API provides all the parts likely to be (re)used by other parts of the engine.  It
-//! is mostly intended for those building, or making extensions to Wolf Engine, but there are some
-//! tools for end-users as well.
+//! Provides common tools, types, and functions used by the engine.
 //!
 //! # Getting Started
 //!
-//! While it's possible to build games using the `core` module alone, this isn't recommended
-//! unless you *really* know what you're doing, or you want to build your own, game-specific,
-//! engine.
-//!
-//! The core module really doesn't do a lot on it's own.  It's closer to a collection of basic
-//! tools than it is an actual game framework.  As such, you're expected to write your own
-//! main-loop, and respond to events entirely on your own.
-//!
-//! Here's an example of a basic main-loop:
+//! When using the Core API, you are responsible for the main-loop, and responding to events.
 //!
 //! ```
 //! # use wolf_engine_core as wolf_engine;
 //! use wolf_engine::prelude::*;
+//! #
+//! # struct SomeResource;
+//! #
+//! # #[wolf_engine::ecs::system]
+//! # fn example() {}
 //!
 //! pub fn main() {
 //!     // Start by initializing the engine's Event-Loop, and Context.
-//!     let (mut event_loop, mut context) = wolf_engine::init::<()>().build();
+//!     let (mut event_loop, mut context) = wolf_engine::init::<()>()
+//!         .with_resources(|resources| {
+//!             // Here is where you add Resources, or custom data to the engine.
+//!             // These resources are available to systems, and from the Context at run-time.
+//!             resources.add_resource(SomeResource);
+//!         })
+//!         .with_update_schedule(|schedule| {
+//!             // Here is where you build up the Update schedule.
+//!             // This schedule is ran when you call Context::update().
+//!             schedule.add_system(example_system());
+//!         })
+//!         .with_render_schedule(|schedule| {
+//!             // Here is where you build up the Render schedule.
+//!             // This schedule is ran when you call Context::render().
+//!             schedule.add_system(example_system());
+//!         })
+//!         .build();
 //!     
 //!     // The Event-Loop will continue to return events, every call, until a Quit event is sent,
 //!     // only then, will the Event-Loop will return None.
@@ -37,7 +46,9 @@
 //!         // current frame.  
 //!         Event::EventsCleared => {
 //!             // You should put most of your game logic here.
-//!             context.quit();
+//!             context.update();
+//!             context.render();
+//! #           context.quit();
 //!         }
 //!         // Shut down the game.
 //!         Event::Quit => println!("Quit event received.  Goodbye!"),
@@ -45,10 +56,6 @@
 //!     }
 //! }
 //! ```
-//!
-//! You can use this example as a jumping-off point for your game.  Most of Wolf Engine's libraries
-//! are built against `core`, so you can very likely pull in other modules and start using them
-//! without to much trouble.
 //!
 //! You can also look in the
 //! [examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) for additional
@@ -64,10 +71,10 @@ pub use event_loop::*;
 /// Provides an Entity-Component-System based on [Legion](::legion).
 pub mod ecs {
     pub use legion::*;
-
+    
     /// A, more clearly-named, alias to [`systems::Builder`].
     pub type ScheduleBuidler = legion::systems::Builder;
-
+    
     /// Provides a builder-pattern for creating [`Resources`].
     #[derive(Default)]
     pub struct ResourcesBuilder {
@@ -76,7 +83,7 @@ pub mod ecs {
 
     impl ResourcesBuilder {
         /// Inserts the provide instance of `T` into the [`Resources`].
-        ///
+        /// 
         /// If the provided type has previously been added, the existing instance is silently
         /// overwritten.
         ///
@@ -85,7 +92,7 @@ pub mod ecs {
             self.resources.insert(resource);
             self
         }
-
+        
         /// Consumes the builder, and returns the [`Resources`] from it.
         pub fn build(self) -> Resources {
             self.resources
