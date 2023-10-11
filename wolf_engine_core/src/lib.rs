@@ -116,14 +116,14 @@ use events::UserEvent;
 /// Represents the [`EventLoop`]-[`Context`] pair that makes up "the engine."
 pub type Engine<E> = (EventLoop<E>, Context<E>);
 
-pub struct EngineBuidler<E: UserEvent> {
+pub struct EngineBuilder<E: UserEvent> {
     resources: ResourcesBuilder,
     update_schedule_builder: ScheduleBuidler,
     render_schedule_builder: ScheduleBuidler,
     _event_type: PhantomData<E>,
 }
 
-impl<E: UserEvent> EngineBuidler<E> {
+impl<E: UserEvent> EngineBuilder<E> {
     pub(crate) fn new() -> Self {
         Self {
             resources: ResourcesBuilder::default(),
@@ -160,8 +160,8 @@ impl<E: UserEvent> EngineBuidler<E> {
 }
 
 /// Creates a new [`EngineBuilder`] to set up the [`Engine`].
-pub fn init<E: UserEvent>() -> EngineBuidler<E> {
-    EngineBuidler::new()
+pub fn init<E: UserEvent>() -> EngineBuilder<E> {
+    EngineBuilder::new()
 }
 
 #[cfg(test)]
