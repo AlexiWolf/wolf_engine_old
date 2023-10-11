@@ -116,6 +116,7 @@ use events::UserEvent;
 /// Represents the [`EventLoop`]-[`Context`] pair that makes up "the engine."
 pub type Engine<E> = (EventLoop<E>, Context<E>);
 
+/// Provides a common interface for configuring the [`Engine`].
 pub struct EngineBuilder<E: UserEvent> {
     resources: ResourcesBuilder,
     update_schedule_builder: ScheduleBuidler,
@@ -132,22 +133,26 @@ impl<E: UserEvent> EngineBuilder<E> {
             _event_type: PhantomData::default(),
         }
     }
-
+    
+    /// Add resources to the [`Engine`]. 
     pub fn with_resources(mut self, function: fn(&mut ResourcesBuilder)) -> Self {
         (function)(&mut self.resources);
         self
     }
-
+    
+    /// Add systems to be run while updating.
     pub fn with_update_schedule(mut self, function: fn(&mut ScheduleBuidler)) -> Self {
         (function)(&mut self.update_schedule_builder);
         self
     }
 
+    /// Add systems to be run while rendering. 
     pub fn with_render_schedule(mut self, function: fn(&mut ScheduleBuidler)) -> Self {
         (function)(&mut self.render_schedule_builder);
         self
     }
-
+    
+    /// Consume the builder, and return the [`Engine`] created from it.
     pub fn build(mut self) -> Engine<E> {
         let event_loop = EventLoop::new();
         let context = Context::<E>::builder()
