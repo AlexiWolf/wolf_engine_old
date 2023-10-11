@@ -159,7 +159,7 @@ impl<E: UserEvent> EngineBuidler<E> {
     }
 }
 
-/// Initializes a new instance of the [`Engine`].
+/// Creates a new [`EngineBuilder`] to set up the [`Engine`].
 pub fn init<E: UserEvent>() -> EngineBuidler<E> {
     EngineBuidler::new()
 }
