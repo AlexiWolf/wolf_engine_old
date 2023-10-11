@@ -71,6 +71,7 @@ pub use event_loop::*;
 /// Provides an Entity-Component-System based on [Legion](::legion).
 pub mod ecs {
     pub use legion::*;
+    pub use wolf_engine_codegen::system;
 
     /// A, more clearly-named, alias to [`systems::Builder`].
     pub type ScheduleBuidler = legion::systems::Builder;
