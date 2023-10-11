@@ -171,7 +171,7 @@ pub fn init<E: UserEvent>() -> EngineBuilder<E> {
 
 #[cfg(test)]
 mod init_tests {
-    use crate::events::EventSender;
+    use crate::events::{EventSender, EngineEventSender};
 
     #[test]
     fn should_use_builder_pattern() {
@@ -199,7 +199,7 @@ mod init_tests {
     #[test]
     fn should_add_event_sender_resource() {
         let (_event_loop, context) = crate::init::<()>().build();
-        let event_sender = context.resources().get_mut::<EngineEventSender>()
+        let event_sender = context.resources().get_mut::<EngineEventSender<()>>()
             .expect("No event sender was added.");
     }
 
