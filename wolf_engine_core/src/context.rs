@@ -6,11 +6,11 @@ use crate::EventLoop;
 
 /// Provides a container for Wolf Engine's user-facing data.
 ///
-/// Wolf Engine consists of two main parts: The `Context` (You are here!), and the 
+/// Wolf Engine consists of two main parts: The `Context` (You are here!), and the
 /// [`EventLoop`](crate::EventLoop`).  Together, these two parts make up what we refer to as
 /// ["the engine"](crate::Engine).
 ///
-/// The Context owns all engine data, including resources, system schedules, and the game world. 
+/// The Context owns all engine data, including resources, system schedules, and the game world.
 pub struct Context<E: UserEvent> {
     world: World,
     resources: Resources,
@@ -30,13 +30,13 @@ impl<E: UserEvent> Context<E> {
         self.update_schedule
             .execute(&mut self.world, &mut self.resources);
     }
-    
+
     /// Runs a single iteration of the Render Schedule.
     pub fn render(&mut self) {
         self.render_schedule
             .execute(&mut self.world, &mut self.resources);
     }
-    
+
     /// Returns an immutable reference to the world.
     pub fn world(&self) -> &World {
         &self.world
@@ -51,12 +51,12 @@ impl<E: UserEvent> Context<E> {
     pub fn resources(&self) -> &Resources {
         &self.resources
     }
-    
+
     /// Returns a mutable reference to engine resources.
     pub fn resources_mut(&mut self) -> &mut Resources {
         &mut self.resources
     }
-    
+
     /// Returns an immutable reference to the update schedule.
     pub fn update_schedule(&self) -> &Schedule {
         &self.update_schedule
@@ -76,8 +76,8 @@ impl<E: UserEvent> Context<E> {
     pub fn render_schedule_mut(&mut self) -> &mut Schedule {
         &mut self.render_schedule
     }
-    
-    /// Sends a [Quit Event](Event::Quit) to trigger an engine shutdown. 
+
+    /// Sends a [Quit Event](Event::Quit) to trigger an engine shutdown.
     pub fn quit(&self) {
         self.event_sender.send_event(Event::Quit).ok();
     }

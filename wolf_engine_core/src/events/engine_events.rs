@@ -28,7 +28,7 @@ pub enum Event<E: UserEvent> {
 
     /// A [`WindowEvent`] emitted by the window system.
     WindowEvent(WindowEvent),
-    
+
     /// A user-defined event.  Can be any type that implements [`UserEvent`].
     UserDefined(E),
 }

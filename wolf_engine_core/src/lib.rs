@@ -71,10 +71,10 @@ pub use event_loop::*;
 /// Provides an Entity-Component-System based on [Legion](::legion).
 pub mod ecs {
     pub use legion::*;
-    
+
     /// A, more clearly-named, alias to [`systems::Builder`].
     pub type ScheduleBuidler = legion::systems::Builder;
-    
+
     /// Provides a builder-pattern for creating [`Resources`].
     #[derive(Default)]
     pub struct ResourcesBuilder {
@@ -83,7 +83,7 @@ pub mod ecs {
 
     impl ResourcesBuilder {
         /// Inserts the provide instance of `T` into the [`Resources`].
-        /// 
+        ///
         /// If the provided type has previously been added, the existing instance is silently
         /// overwritten.
         ///
@@ -92,7 +92,7 @@ pub mod ecs {
             self.resources.insert(resource);
             self
         }
-        
+
         /// Consumes the builder, and returns the [`Resources`] from it.
         pub fn build(self) -> Resources {
             self.resources
@@ -134,25 +134,25 @@ impl<E: UserEvent> EngineBuilder<E> {
             _event_type: PhantomData::default(),
         }
     }
-    
-    /// Add resources to the [`Engine`]. 
+
+    /// Add resources to the [`Engine`].
     pub fn with_resources(mut self, function: fn(&mut ResourcesBuilder)) -> Self {
         (function)(&mut self.resources);
         self
     }
-    
+
     /// Add systems to be run while updating.
     pub fn with_update_schedule(mut self, function: fn(&mut ScheduleBuidler)) -> Self {
         (function)(&mut self.update_schedule_builder);
         self
     }
 
-    /// Add systems to be run while rendering. 
+    /// Add systems to be run while rendering.
     pub fn with_render_schedule(mut self, function: fn(&mut ScheduleBuidler)) -> Self {
         (function)(&mut self.render_schedule_builder);
         self
     }
-    
+
     /// Consume the builder, and return the [`Engine`] created from it.
     pub fn build(mut self) -> Engine<E> {
         let event_loop = EventLoop::new();
@@ -173,7 +173,7 @@ pub fn init<E: UserEvent>() -> EngineBuilder<E> {
 
 #[cfg(test)]
 mod init_tests {
-    use crate::events::{EventSender, EngineEventSender, EventQueue};
+    use crate::events::{EngineEventSender, EventQueue, EventSender};
 
     #[test]
     fn should_use_builder_pattern() {
@@ -201,7 +201,9 @@ mod init_tests {
     #[test]
     fn should_add_event_sender_resource() {
         let (_event_loop, context) = crate::init::<()>().build();
-        let _event_sender = context.resources().get_mut::<EngineEventSender<()>>()
+        let _event_sender = context
+            .resources()
+            .get_mut::<EngineEventSender<()>>()
             .expect("No event sender was added.");
     }
 
