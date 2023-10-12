@@ -14,7 +14,7 @@ categories = ["game-development", "game-engines"]
 
 [dependencies]
 wolf_engine_codegen = {path = "../wolf_engine_codegen", version = "0.26.0"}
-legion = {version = "0.4.0", default-featues = false}
+legion = {version = "0.4.0", default-features = false, features = ["codegen"]}
 log = "0.4"
 
 # Optional Dependencies
