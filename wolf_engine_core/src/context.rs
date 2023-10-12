@@ -136,7 +136,7 @@ impl ContextBuilder {
 mod context_tests {
     #[test]
     fn should_run_ecs_tick() {
-        #[crate::ecs::system]
+        #[legion::system]
         fn add_1(#[resource] number: &mut i32) {
             *number += 1;
         }

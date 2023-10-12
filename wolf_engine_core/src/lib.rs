@@ -10,7 +10,7 @@
 //! #
 //! # struct SomeResource;
 //! #
-//! # #[wolf_engine::ecs::system]
+//! # #[legion::system]
 //! # fn example() {}
 //!
 //! pub fn main() {
@@ -208,7 +208,7 @@ mod init_tests {
             .expect("No event sender was added.");
     }
 
-    #[crate::ecs::system]
+    #[legion::system]
     fn test() {
         println!("Hello, world!");
     }
