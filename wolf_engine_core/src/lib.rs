@@ -174,7 +174,7 @@ pub fn init<E: UserEvent>() -> EngineBuilder<E> {
 
 #[cfg(test)]
 mod init_tests {
-    use crate::events::{EngineEventSender, EventQueue, EventSender};
+    use crate::events::EngineEventSender;
 
     #[test]
     fn should_use_builder_pattern() {
