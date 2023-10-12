@@ -31,5 +31,9 @@ extended_tuple_impls = ["wolf_engine_core/extended_tuple_impls"]
 members = ["wolf_engine_*"]
 
 [[example]]
+name = "minimal_hello_world"
+required-features = ["logging"]
+
+[[example]]
 name = "logging"
 required-features = ["logging"]
