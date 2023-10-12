@@ -13,6 +13,8 @@ categories = ["game-development", "game-engines"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+wolf_engine_codegen = {path = "../wolf_engine_codegen", version = "0.26.0"}
+legion = {version = "0.4.0", default-features = false, features = ["codegen"]}
 log = "0.4"
 
 # Optional Dependencies
@@ -24,4 +26,8 @@ mockall = "0.11"
 ntest = "0.8"
 
 [features]
+default = ["parallel"]
 logging = ["simple_logger"]
+serde = ["legion/serialize"]
+parallel = ["legion/parallel"]
+extended_tuple_impls = ["legion/extended-tuple-impls"]

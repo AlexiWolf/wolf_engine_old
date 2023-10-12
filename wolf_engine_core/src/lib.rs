@@ -1,32 +1,37 @@
-//! Provides common tools, types, and functions for the engine.
-//!
-//! The Core API provides all the parts likely to be (re)used by other parts of the engine.  It
-//! is mostly intended for those building, or making extensions to Wolf Engine, but there are some
-//! tools for end-users as well.
+//! Provides common tools, types, and functions used by the engine.
 //!
 //! # Getting Started
 //!
-//! While it's possible to build games using the `core` module alone, this isn't recommended
-//! unless you *really* know what you're doing, or you want to build your own, game-specific,
-//! engine.
-//!
-//! The core module really doesn't do a lot on it's own.  It's closer to a collection of basic
-//! tools than it is an actual game framework.  As such, you're expected to write your own
-//! main-loop, and respond to events entirely on your own.
-//!
-//! Here's an example of a basic main-loop:
+//! When using the Core API, you are responsible for the main-loop, and responding to events.
 //!
 //! ```
 //! # use wolf_engine_core as wolf_engine;
 //! use wolf_engine::prelude::*;
-//!
-//! pub struct GameData {
-//!     pub number: i32,
-//! }
+//! #
+//! # struct SomeResource;
+//! #
+//! # #[legion::system]
+//! # fn example() {}
 //!
 //! pub fn main() {
 //!     // Start by initializing the engine's Event-Loop, and Context.
-//!     let (mut event_loop, mut context) = wolf_engine::init::<GameData, ()>(GameData { number: 0 });
+//!     let (mut event_loop, mut context) = wolf_engine::init::<()>()
+//!         .with_resources(|resources| {
+//!             // Here is where you add Resources, or custom data to the engine.
+//!             // These resources are available to systems, and from the Context at run-time.
+//!             resources.add_resource(SomeResource);
+//!         })
+//!         .with_update_schedule(|schedule| {
+//!             // Here is where you build up the Update schedule.
+//!             // This schedule is ran when you call Context::update().
+//!             schedule.add_system(example_system());
+//!         })
+//!         .with_render_schedule(|schedule| {
+//!             // Here is where you build up the Render schedule.
+//!             // This schedule is ran when you call Context::render().
+//!             schedule.add_system(example_system());
+//!         })
+//!         .build();
 //!     
 //!     // The Event-Loop will continue to return events, every call, until a Quit event is sent,
 //!     // only then, will the Event-Loop will return None.
@@ -35,17 +40,15 @@
 //!     }
 //! }
 //!
-//! pub fn process_event(event: Event<()>, context: &mut Context<GameData, ()>) {
+//! pub fn process_event(event: Event<()>, context: &mut Context<()>) {
 //!     match event {
 //!         // Indicates there are no more events on the queue, or, essentially, the end of the
-//!         // current frame.  You should put most of your game logic here.
+//!         // current frame.  
 //!         Event::EventsCleared => {
-//!             if context.data.number == 3 {
-//!                 context.quit();
-//!             } else {
-//!                 context.data.number += 1;
-//!             }
-//!             println!("{}", context.data.number);
+//!             // You should put most of your game logic here.
+//!             context.update();
+//!             context.render();
+//! #           context.quit();
 //!         }
 //!         // Shut down the game.
 //!         Event::Quit => println!("Quit event received.  Goodbye!"),
@@ -54,19 +57,49 @@
 //! }
 //! ```
 //!
-//! You can use this example as a jumping-off point for your game.  Most of Wolf Engine's libraries
-//! are built against `core`, so you can very likely pull in other modules and start using them
-//! without to much trouble.
-//!
 //! You can also look in the
 //! [examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) for additional
 //! examples.
 
 mod context;
+use std::marker::PhantomData;
+
 pub use context::*;
 mod event_loop;
 pub use event_loop::*;
 
+/// Provides an Entity-Component-System based on [Legion](::legion).
+pub mod ecs {
+    pub use legion::*;
+    pub use wolf_engine_codegen::system;
+
+    /// A, more clearly-named, alias to [`systems::Builder`].
+    pub type ScheduleBuidler = legion::systems::Builder;
+
+    /// Provides a builder-pattern for creating [`Resources`].
+    #[derive(Default)]
+    pub struct ResourcesBuilder {
+        resources: Resources,
+    }
+
+    impl ResourcesBuilder {
+        /// Inserts the provide instance of `T` into the [`Resources`].
+        ///
+        /// If the provided type has previously been added, the existing instance is silently
+        /// overwritten.
+        ///
+        /// This function is functionally-identical to calling [`Resources::insert()`].
+        pub fn add_resource<T: systems::Resource + 'static>(&mut self, resource: T) -> &mut Self {
+            self.resources.insert(resource);
+            self
+        }
+
+        /// Consumes the builder, and returns the [`Resources`] from it.
+        pub fn build(self) -> Resources {
+            self.resources
+        }
+    }
+}
 pub mod events;
 
 #[cfg(feature = "logging")]
@@ -78,47 +111,105 @@ pub mod prelude {
     pub use events::*;
 }
 
+use ecs::*;
 use events::UserEvent;
+use prelude::events::HasEventSender;
 
 /// Represents the [`EventLoop`]-[`Context`] pair that makes up "the engine."
-pub type Engine<D, E> = (EventLoop<E>, Context<D, E>);
+pub type Engine<E> = (EventLoop<E>, Context<E>);
 
-/// Initializes a new instance of the [`EventLoop`], and its associated [`Context`], with the
-/// provided data.
-///
-/// #  Examples
-///
-/// ```
-/// # use wolf_engine_core as wolf_engine;
-/// #
-/// // The prelude brings in commonly needed types, and traits.
-/// use wolf_engine::prelude::*;
-///
-/// // Start by initializing the EventLoop, and Context.
-/// // In this case, we are not using any Context data, so `()` is used.
-/// let (mut event_loop, mut context) = wolf_engine::init::<(), ()>(());
-///
-/// // Then, you can use the EventLoop to run your game's main-loop.
-/// while let Some(event) = event_loop.next_event() {
-///     // Do something cool!
-/// #   break;
-/// }
-/// ```
-///
-/// ## Custom Context Data
-///  
-/// The [`Context`] documentation has more detailed information about context data.  It's a good
-/// place to start, if you're interested in customizing the engine.
-///
-/// ```
-/// # use wolf_engine_core as wolf_engine;
-/// # pub struct SomeCustomDataType {};
-/// #
-/// # use wolf_engine::prelude::*;
-/// let (mut event_loop, mut context) = wolf_engine::init::<SomeCustomDataType, ()>(SomeCustomDataType {});
-/// ```
-pub fn init<D, E: UserEvent>(data: D) -> Engine<D, E> {
-    let event_loop = EventLoop::new();
-    let context = Context::new(&event_loop, data);
-    (event_loop, context)
+/// Provides a common interface for configuring the [`Engine`].
+pub struct EngineBuilder<E: UserEvent> {
+    resources: ResourcesBuilder,
+    update_schedule_builder: ScheduleBuidler,
+    render_schedule_builder: ScheduleBuidler,
+    _event_type: PhantomData<E>,
+}
+
+impl<E: UserEvent> EngineBuilder<E> {
+    pub(crate) fn new() -> Self {
+        Self {
+            resources: ResourcesBuilder::default(),
+            update_schedule_builder: Schedule::builder(),
+            render_schedule_builder: Schedule::builder(),
+            _event_type: PhantomData,
+        }
+    }
+
+    /// Add resources to the [`Engine`].
+    pub fn with_resources(mut self, function: fn(&mut ResourcesBuilder)) -> Self {
+        (function)(&mut self.resources);
+        self
+    }
+
+    /// Add systems to be run while updating.
+    pub fn with_update_schedule(mut self, function: fn(&mut ScheduleBuidler)) -> Self {
+        (function)(&mut self.update_schedule_builder);
+        self
+    }
+
+    /// Add systems to be run while rendering.
+    pub fn with_render_schedule(mut self, function: fn(&mut ScheduleBuidler)) -> Self {
+        (function)(&mut self.render_schedule_builder);
+        self
+    }
+
+    /// Consume the builder, and return the [`Engine`] created from it.
+    pub fn build(mut self) -> Engine<E> {
+        let event_loop = EventLoop::new();
+        self.resources.add_resource(event_loop.event_sender());
+        let context = Context::<E>::builder()
+            .with_resources(self.resources.build())
+            .with_update_schedule(self.update_schedule_builder.build())
+            .with_render_schedule(self.render_schedule_builder.build())
+            .build(&event_loop);
+        (event_loop, context)
+    }
+}
+
+/// Creates a new [`EngineBuilder`] to set up the [`Engine`].
+pub fn init<E: UserEvent>() -> EngineBuilder<E> {
+    EngineBuilder::new()
+}
+
+#[cfg(test)]
+mod init_tests {
+    use crate::events::EngineEventSender;
+
+    #[test]
+    fn should_use_builder_pattern() {
+        let (_event_loop, _context) = crate::init::<()>()
+            .with_resources(|resources| {
+                resources.add_resource(0).add_resource(true);
+            })
+            .with_update_schedule(|schedule| {
+                schedule
+                    .add_system(test_system())
+                    .add_thread_local(test_system())
+                    .flush()
+                    .add_thread_local_fn(|_, _| {});
+            })
+            .with_render_schedule(|schedule| {
+                schedule
+                    .add_system(test_system())
+                    .add_thread_local(test_system())
+                    .flush()
+                    .add_thread_local_fn(|_, _| {});
+            })
+            .build();
+    }
+
+    #[test]
+    fn should_add_event_sender_resource() {
+        let (_event_loop, context) = crate::init::<()>().build();
+        let _event_sender = context
+            .resources()
+            .get_mut::<EngineEventSender<()>>()
+            .expect("No event sender was added.");
+    }
+
+    #[legion::system]
+    fn test() {
+        println!("Hello, world!");
+    }
 }

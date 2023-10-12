@@ -13,22 +13,10 @@ use crate::events::*;
 /// are no events currently in the queue.  
 ///
 /// When there are no queued events to emit, [`Event::EventsCleared`] is returned instead, so long
-/// as the engine is running.  When [`Event::Quit`] is received, the Event-Loop will trigger a
-/// shutdown of the engine.  Only after a shutdown, will the Event-Loop stop emitting events.
+/// as the engine is running.  When [`Event::Quit`] is received, the event loop will return `None`
+/// after the queue is cleared.
 ///
 /// # Examples
-///
-/// ## Creating an `EventLoop`
-///
-/// You can initialize an Event-Loop , along with its associated [`Context`](crate::Context), by
-/// calling [`wolf_engine::init()`](crate::init()).
-///
-/// ```
-/// # use wolf_engine_core as wolf_engine;
-/// let (mut event_loop, mut context) = wolf_engine::init::<(), ()>(());
-/// ```
-///
-/// ## Responding to Events
 ///
 /// Events are queried using the [`EventQueue` API](crate::events::EventQueue) .
 ///
@@ -36,7 +24,7 @@ use crate::events::*;
 /// # use wolf_engine_core as wolf_engine;
 /// # use wolf_engine::prelude::*;
 /// #
-/// # let (mut event_loop, mut context) = wolf_engine::init::<(), ()>(());
+/// # let (mut event_loop, mut context) = wolf_engine::init::<()>().build();
 /// #
 /// while let Some(event) = event_loop.next_event() {
 ///     match event {
@@ -97,37 +85,28 @@ mod event_loop_tests {
 
     use crate::prelude::*;
 
-    struct TestData {
-        updates: i32,
-    }
-
-    impl TestData {
-        pub fn new() -> Self {
-            Self { updates: 0 }
-        }
-    }
-
     #[test]
     #[timeout(100)]
     fn should_run_and_quit() {
-        let (mut event_loop, mut context) = crate::init::<TestData, ()>(TestData::new());
+        let (mut event_loop, mut context) = crate::init::<()>().build();
+        let mut updates = 0;
 
         while let Some(event) = event_loop.next_event() {
-            process_event(event, &mut context);
+            process_event(event, &mut context, &mut updates);
         }
 
         assert!(event_loop.has_quit);
-        assert_eq!(context.data.updates, 3);
+        assert_eq!(updates, 3);
     }
 
-    fn process_event<E: UserEvent>(event: Event<E>, context: &mut Context<TestData, E>) {
+    fn process_event<E: UserEvent>(event: Event<E>, context: &mut Context<E>, updates: &mut i32) {
         match event {
             Event::Quit => (),
             Event::EventsCleared => {
-                if context.data.updates == 3 {
+                if *updates == 3 {
                     context.quit();
                 } else {
-                    context.data.updates += 1;
+                    *updates += 1;
                 }
             }
             _ => (),
@@ -137,7 +116,7 @@ mod event_loop_tests {
 
 #[test]
 fn should_emit_events_cleared_when_event_queue_is_empty() {
-    let (mut event_loop, context) = crate::init::<(), ()>(());
+    let (mut event_loop, context) = crate::init::<()>().build();
 
     context
         .event_sender()

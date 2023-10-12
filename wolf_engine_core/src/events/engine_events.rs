@@ -1,8 +1,15 @@
+use std::sync::Arc;
+
+use super::EventSender;
+
 /// Provides the events used by the window API.
 #[non_exhaustive]
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum WindowEvent {}
 
+pub type EngineEventSender<E> = Arc<dyn EventSender<Event<E>>>;
+
+/// A user-defined [`Event`] type.
 pub trait UserEvent: PartialEq + Clone + Copy + 'static {}
 
 impl<T> UserEvent for T where T: PartialEq + Clone + Copy + 'static {}
@@ -22,6 +29,7 @@ pub enum Event<E: UserEvent> {
     /// A [`WindowEvent`] emitted by the window system.
     WindowEvent(WindowEvent),
 
+    /// A user-defined event.  Can be any type that implements [`UserEvent`].
     UserDefined(E),
 }
 
