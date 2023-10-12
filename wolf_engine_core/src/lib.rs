@@ -132,7 +132,7 @@ impl<E: UserEvent> EngineBuilder<E> {
             resources: ResourcesBuilder::default(),
             update_schedule_builder: Schedule::builder(),
             render_schedule_builder: Schedule::builder(),
-            _event_type: PhantomData::default(),
+            _event_type: PhantomData,
         }
     }
 
