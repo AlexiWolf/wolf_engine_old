@@ -27,8 +27,9 @@ pub fn main() {
             resources.add_resource(Message("Hello, World!"));
         })
         .with_update_schedule(|schedule| {
-            schedule.add_thread_local(log_message_system());
-            schedule.add_thread_local(quit_after_3_updates_system(0));
+            schedule
+                .add_thread_local(log_message_system())
+                .add_thread_local(quit_after_3_updates_system(1));
         })
         .build();
 
