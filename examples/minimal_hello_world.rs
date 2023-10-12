@@ -7,13 +7,28 @@ fn log_message(#[resource] message: &Message) {
     log::info!("{}", message.0);
 }
 
+#[wolf_engine::ecs::system]
+fn quit_after_3_updates(
+    #[state] updates: &mut u32,
+    #[resource] event_sender: &EngineEventSender<()>,
+) {
+    if *updates == 3 {
+        event_sender.send_event(Event::Quit).ok();
+    } else {
+        *updates += 1;
+    }
+}
+
 pub fn main() {
+    logging::initialize_logging(logging::LogLevel::Info);
+
     let (mut event_loop, mut context) = wolf_engine::init()
         .with_resources(|resources| {
             resources.add_resource(Message("Hello, World!"));
         })
         .with_update_schedule(|schedule| {
-            schedule.add_thread_local(log_message_system()); 
+            schedule.add_thread_local(log_message_system());
+            schedule.add_thread_local(quit_after_3_updates_system(0));
         })
         .build();
 
@@ -26,9 +41,8 @@ pub fn process_event(event: Event<()>, context: &mut Context<()>) {
     match event {
         Event::EventsCleared => {
             context.update();
-            context.quit();
         }
-        Event::Quit => println!("Quit event received.  Goodbye!"),
+        Event::Quit => log::info!("Quit event received.  Goodbye!"),
         _ => (),
     }
 }
