@@ -7,7 +7,7 @@ use super::EventSender;
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum WindowEvent {}
 
-/// An alias to the main [`EventSender`] type associated with the [`EventLoop`](crate::EventLoop). 
+/// An alias to the main [`EventSender`] type associated with the [`EventLoop`](crate::EventLoop).
 pub type MainEventSender<E> = Arc<dyn EventSender<Event<E>>>;
 
 /// A user-defined [`Event`] type.
