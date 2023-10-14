@@ -10,7 +10,7 @@ fn log_message(#[resource] message: &Message) {
 #[wolf_engine::ecs::system]
 fn quit_after_3_updates(
     #[state] updates: &mut u32,
-    #[resource] event_sender: &EngineEventSender<()>,
+    #[resource] event_sender: &MainEventSender<()>,
 ) {
     if *updates == 3 {
         event_sender.send_event(Event::Quit).ok();
