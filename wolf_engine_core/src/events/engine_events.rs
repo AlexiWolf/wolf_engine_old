@@ -7,6 +7,8 @@ use super::EventSender;
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum WindowEvent {}
 
+/// An alias to the main [`EventSender`] associated with the current [`EventLoop`].  To make it
+/// easier to access.
 pub type MainEventSender<E> = Arc<dyn EventSender<Event<E>>>;
 
 /// A user-defined [`Event`] type.
