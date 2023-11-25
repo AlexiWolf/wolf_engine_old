@@ -8,11 +8,15 @@
 use wolf_engine_core::EngineBuilder;
 use wolf_engine_core::events::UserEvent;
 
+pub struct FrameworkBuilder {}
+
 pub fn init<E: UserEvent>() -> EngineBuilder<E> {
     wolf_engine_core::init()
 }
 
 pub mod plugins {
+    use crate::FrameworkBuilder; 
+
     pub trait Plugin {
         fn load(&mut self, builder: &mut FrameworkBuilder) -> PluginResult;
     }
