@@ -30,8 +30,8 @@ pub fn main() {
         .build();
 
     let mut schedule = Schedule::builder()
-        .add_thread_local(log_message_system())
-        .add_thread_local(quit_after_3_updates_system(1))
+        .add_system(log_message_system())
+        .add_system(quit_after_3_updates_system(1))
         .build();
 
     while let Some(event) = event_loop.next_event() {
