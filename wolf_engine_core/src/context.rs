@@ -91,6 +91,8 @@ impl ContextBuilder {
 
 #[cfg(test)]
 mod context_tests {
+    use legion::Schedule;
+
     #[test]
     fn should_run_ecs_tick() {
         #[legion::system]
@@ -103,10 +105,14 @@ mod context_tests {
             })
             .build();
 
+        let mut schedule = Schedule::builder()
+            .add_system(add_1_system())
+            .build();
+
         assert_eq!(*context.resources().get::<i32>().unwrap(), 0);
-        context.update();
+        context.run_schedule(&mut schedule);
         assert_eq!(*context.resources().get::<i32>().unwrap(), 1);
-        context.render();
+        context.run_schedule(&mut schedule);
         assert_eq!(*context.resources().get::<i32>().unwrap(), 2);
     }
 
