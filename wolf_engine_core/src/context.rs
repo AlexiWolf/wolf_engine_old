@@ -14,8 +14,6 @@ use crate::EventLoop;
 pub struct Context<E: UserEvent> {
     world: World,
     resources: Resources,
-    update_schedule: Schedule,
-    render_schedule: Schedule,
     event_sender: Arc<dyn EventSender<Event<E>>>,
 }
 
@@ -25,16 +23,8 @@ impl<E: UserEvent> Context<E> {
         ContextBuilder::new()
     }
 
-    /// Runs a single iteration of the Update Schedule.
-    pub fn update(&mut self) {
-        self.update_schedule
-            .execute(&mut self.world, &mut self.resources);
-    }
-
-    /// Runs a single iteration of the Render Schedule.
-    pub fn render(&mut self) {
-        self.render_schedule
-            .execute(&mut self.world, &mut self.resources);
+    pub fn run_schedule(&mut self, schedule: &mut Schedule) {
+        schedule.execute(&mut self.world, &mut self.resources);
     }
 
     /// Returns an immutable reference to the world.
@@ -57,26 +47,6 @@ impl<E: UserEvent> Context<E> {
         &mut self.resources
     }
 
-    /// Returns an immutable reference to the update schedule.
-    pub fn update_schedule(&self) -> &Schedule {
-        &self.update_schedule
-    }
-
-    /// Returns a mutable reference to the update schedule.
-    pub fn update_schedule_mut(&mut self) -> &mut Schedule {
-        &mut self.update_schedule
-    }
-
-    /// Returns an immutable reference to the render schedule.
-    pub fn render_schedule(&self) -> &Schedule {
-        &self.render_schedule
-    }
-
-    /// Returns a mutable reference to the render schedule.
-    pub fn render_schedule_mut(&mut self) -> &mut Schedule {
-        &mut self.render_schedule
-    }
-
     /// Sends a [Quit Event](Event::Quit) to trigger an engine shutdown.
     pub fn quit(&self) {
         self.event_sender.send_event(Event::Quit).ok();
@@ -92,8 +62,6 @@ impl<E: UserEvent> HasEventSender<Event<E>> for Context<E> {
 pub(crate) struct ContextBuilder {
     world: World,
     resources: Resources,
-    update_schedule: Schedule,
-    render_schedule: Schedule,
 }
 
 impl ContextBuilder {
@@ -101,8 +69,6 @@ impl ContextBuilder {
         Self {
             world: Default::default(),
             resources: Default::default(),
-            update_schedule: Schedule::builder().build(),
-            render_schedule: Schedule::builder().build(),
         }
     }
 
@@ -111,22 +77,10 @@ impl ContextBuilder {
         self
     }
 
-    pub fn with_update_schedule(mut self, schedule: Schedule) -> Self {
-        self.update_schedule = schedule;
-        self
-    }
-
-    pub fn with_render_schedule(mut self, schedule: Schedule) -> Self {
-        self.render_schedule = schedule;
-        self
-    }
-
     pub fn build<E: UserEvent>(self, event_loop: &EventLoop<E>) -> Context<E> {
         Context {
             world: self.world,
             resources: self.resources,
-            update_schedule: self.update_schedule,
-            render_schedule: self.render_schedule,
             event_sender: event_loop.event_sender(),
         }
     }
@@ -134,6 +88,8 @@ impl ContextBuilder {
 
 #[cfg(test)]
 mod context_tests {
+    use legion::Schedule;
+
     #[test]
     fn should_run_ecs_tick() {
         #[legion::system]
@@ -144,18 +100,14 @@ mod context_tests {
             .with_resources(|resources| {
                 resources.add_resource(0);
             })
-            .with_update_schedule(|schedule| {
-                schedule.add_system(add_1_system());
-            })
-            .with_render_schedule(|schedule| {
-                schedule.add_system(add_1_system());
-            })
             .build();
 
+        let mut schedule = Schedule::builder().add_system(add_1_system()).build();
+
         assert_eq!(*context.resources().get::<i32>().unwrap(), 0);
-        context.update();
+        context.run_schedule(&mut schedule);
         assert_eq!(*context.resources().get::<i32>().unwrap(), 1);
-        context.render();
+        context.run_schedule(&mut schedule);
         assert_eq!(*context.resources().get::<i32>().unwrap(), 2);
     }
 
@@ -165,14 +117,10 @@ mod context_tests {
         {
             let _world = context.world();
             let _resources = context.resources();
-            let _update_schedule = context.update_schedule();
-            let _render_schedule = context.render_schedule();
         }
         {
             let _world_mut = context.world_mut();
             let _mut_resources = context.resources_mut();
-            let _update_schedule = context.update_schedule_mut();
-            let _render_schedule = context.render_schedule_mut();
         }
     }
 }

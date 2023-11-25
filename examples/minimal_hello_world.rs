@@ -26,22 +26,22 @@ pub fn main() {
         .with_resources(|resources| {
             resources.add_resource(Message("Hello, World!"));
         })
-        .with_update_schedule(|schedule| {
-            schedule
-                .add_thread_local(log_message_system())
-                .add_thread_local(quit_after_3_updates_system(1));
-        })
+        .build();
+
+    let mut schedule = Schedule::builder()
+        .add_thread_local(log_message_system())
+        .add_thread_local(quit_after_3_updates_system(1))
         .build();
 
     while let Some(event) = event_loop.next_event() {
-        process_event(event, &mut context);
+        process_event(event, &mut context, &mut schedule);
     }
 }
 
-pub fn process_event(event: Event<()>, context: &mut Context<()>) {
+pub fn process_event(event: Event<()>, context: &mut Context<()>, schedule: &mut Schedule) {
     match event {
         Event::EventsCleared => {
-            context.update();
+            context.run_schedule(schedule);
         }
         Event::Quit => log::info!("Quit event received.  Goodbye!"),
         _ => (),

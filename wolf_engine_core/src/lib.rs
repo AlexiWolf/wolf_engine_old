@@ -21,33 +21,30 @@
 //!             // These resources are available to systems, and from the Context at run-time.
 //!             resources.add_resource(SomeResource);
 //!         })
-//!         .with_update_schedule(|schedule| {
-//!             // Here is where you build up the Update schedule.
-//!             // This schedule is ran when you call Context::update().
-//!             schedule.add_system(example_system());
-//!         })
-//!         .with_render_schedule(|schedule| {
-//!             // Here is where you build up the Render schedule.
-//!             // This schedule is ran when you call Context::render().
-//!             schedule.add_system(example_system());
-//!         })
+//!         .build();
+//!
+//!     let mut schedule = Schedule::builder()
+//!         .add_system(example_system())
 //!         .build();
 //!     
 //!     // The Event-Loop will continue to return events, every call, until a Quit event is sent,
 //!     // only then, will the Event-Loop will return None.
 //!     while let Some(event) = event_loop.next_event() {
-//!         process_event(event, &mut context);
+//!         process_event(event, &mut context, &mut schedule);
 //!     }
 //! }
 //!
-//! pub fn process_event(event: Event<()>, context: &mut Context<()>) {
+//! pub fn process_event(event: Event<()>, context: &mut Context<()>, schedule: &mut Schedule) {
 //!     match event {
 //!         // Indicates there are no more events on the queue, or, essentially, the end of the
 //!         // current frame.  
 //!         Event::EventsCleared => {
 //!             // You should put most of your game logic here.
-//!             context.update();
-//!             context.render();
+//!
+//!             // You can run ECS schedules through the Context.
+//!             context.run_schedule(schedule);
+//!
+//!             // To close the game.
 //! #           context.quit();
 //!         }
 //!         // Shut down the game.
@@ -73,8 +70,11 @@ pub mod ecs {
     pub use legion::*;
     pub use wolf_engine_codegen::system;
 
-    /// A, more clearly-named, alias to [`systems::Builder`].
-    pub type ScheduleBuidler = legion::systems::Builder;
+    #[doc(hidden)]
+    pub mod prelude {
+        pub use super::system;
+        pub use super::Schedule;
+    }
 
     /// Provides a builder-pattern for creating [`Resources`].
     #[derive(Default)]
@@ -87,8 +87,7 @@ pub mod ecs {
         ///
         /// If the provided type has previously been added, the existing instance is silently
         /// overwritten.
-        ///
-        /// This function is functionally-identical to calling [`Resources::insert()`].
+        /// This function is functionally-identical to calling [`Resources::insert()`]. pub fn add_resource<T: systems::Resource + 'static>(&mut self, resource: T) -> &mut Self {
         pub fn add_resource<T: systems::Resource + 'static>(&mut self, resource: T) -> &mut Self {
             self.resources.insert(resource);
             self
@@ -108,6 +107,7 @@ pub mod logging;
 #[doc(hidden)]
 pub mod prelude {
     pub use super::*;
+    pub use ecs::prelude::*;
     pub use events::*;
 }
 
@@ -121,8 +121,6 @@ pub type Engine<E> = (EventLoop<E>, Context<E>);
 /// Provides a common interface for configuring the [`Engine`].
 pub struct EngineBuilder<E: UserEvent> {
     resources: ResourcesBuilder,
-    update_schedule_builder: ScheduleBuidler,
-    render_schedule_builder: ScheduleBuidler,
     _event_type: PhantomData<E>,
 }
 
@@ -130,8 +128,6 @@ impl<E: UserEvent> EngineBuilder<E> {
     pub(crate) fn new() -> Self {
         Self {
             resources: ResourcesBuilder::default(),
-            update_schedule_builder: Schedule::builder(),
-            render_schedule_builder: Schedule::builder(),
             _event_type: PhantomData,
         }
     }
@@ -142,26 +138,12 @@ impl<E: UserEvent> EngineBuilder<E> {
         self
     }
 
-    /// Add systems to be run while updating.
-    pub fn with_update_schedule(mut self, function: fn(&mut ScheduleBuidler)) -> Self {
-        (function)(&mut self.update_schedule_builder);
-        self
-    }
-
-    /// Add systems to be run while rendering.
-    pub fn with_render_schedule(mut self, function: fn(&mut ScheduleBuidler)) -> Self {
-        (function)(&mut self.render_schedule_builder);
-        self
-    }
-
     /// Consume the builder, and return the [`Engine`] created from it.
     pub fn build(mut self) -> Engine<E> {
         let event_loop = EventLoop::new();
         self.resources.add_resource(event_loop.event_sender());
         let context = Context::<E>::builder()
             .with_resources(self.resources.build())
-            .with_update_schedule(self.update_schedule_builder.build())
-            .with_render_schedule(self.render_schedule_builder.build())
             .build(&event_loop);
         (event_loop, context)
     }
@@ -181,20 +163,6 @@ mod init_tests {
         let (_event_loop, _context) = crate::init::<()>()
             .with_resources(|resources| {
                 resources.add_resource(0).add_resource(true);
-            })
-            .with_update_schedule(|schedule| {
-                schedule
-                    .add_system(test_system())
-                    .add_thread_local(test_system())
-                    .flush()
-                    .add_thread_local_fn(|_, _| {});
-            })
-            .with_render_schedule(|schedule| {
-                schedule
-                    .add_system(test_system())
-                    .add_thread_local(test_system())
-                    .flush()
-                    .add_thread_local_fn(|_, _| {});
             })
             .build();
     }
