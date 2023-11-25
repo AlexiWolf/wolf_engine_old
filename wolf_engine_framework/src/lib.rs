@@ -11,7 +11,7 @@ use wolf_engine_core::events::UserEvent;
 
 pub struct FrameworkBuilder<E: UserEvent> {
     inner: EngineBuilder<E>,
-    plugins: Vec<Box<dyn Plugin>>,
+    plugins: Vec<Box<dyn Plugin<E>>>,
 }
 
 impl<E: UserEvent> FrameworkBuilder<E> {
@@ -22,7 +22,7 @@ impl<E: UserEvent> FrameworkBuilder<E> {
         }
     }
 
-    pub fn with_plugin<P: Plugin>(mut self, plugin: P) -> Self {
+    pub fn with_plugin<P: Plugin<E> + 'static>(mut self, plugin: P) -> Self {
         self.plugins.push(Box::from(plugin));  
         self
     }
@@ -38,20 +38,32 @@ pub mod plugins {
     
     pub type PluginResult = Result<(), String>;
 
-    pub trait Plugin {
-        fn load<E: UserEvent>(&mut self, builder: &mut FrameworkBuilder<E>) -> PluginResult;
+    pub trait Plugin<E: UserEvent> {
+        fn load(&mut self, builder: &mut FrameworkBuilder<E>) -> PluginResult;
     }
 }
 
 #[cfg(test)]
 mod framework_tests {
+    use std::marker::PhantomData;
+
     use super::*;
     use super::plugins::*;
 
-    pub struct TestPlugin;
+    pub struct TestPlugin<E: UserEvent> {
+        _phantom: PhantomData<E>,
+    }
 
-    impl Plugin for TestPlugin {
-        fn load<E: UserEvent>(&mut self, builder: &mut FrameworkBuilder<E>) -> PluginResult {
+    impl<E: UserEvent> TestPlugin<E> {
+        pub fn new() -> Self {
+            Self {
+                _phantom: PhantomData::default(), 
+            }
+        }
+    }
+
+    impl<E: UserEvent> Plugin<E> for TestPlugin<E> {
+        fn load(&mut self, builder: &mut FrameworkBuilder<E>) -> PluginResult {
             Ok(())
         }
     }
@@ -59,7 +71,7 @@ mod framework_tests {
     #[test]
     fn should_extend_default_init() {
         let _engine = crate::init::<()>()
-            .with_plugin(TestPlugin)
+            .with_plugin(TestPlugin::new())
             .build();
     }
 }
