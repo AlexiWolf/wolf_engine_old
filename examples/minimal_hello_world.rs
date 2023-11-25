@@ -1,5 +1,4 @@
 use wolf_engine::prelude::*;
-use wolf_engine::ecs::Schedule;
 
 pub struct Message(&'static str);
 
