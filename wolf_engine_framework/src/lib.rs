@@ -28,8 +28,7 @@ impl<E: UserEvent> FrameworkBuilder<E> {
         self
     }
 
-    pub fn with_resources(mut self, function: fn(&mut ResourcesBuilder)) -> Self {
-        self.inner = self.inner.with_resources(function);
+    pub fn with_resource<T>(mut self, resource: T)-> Self {
         self
     }
 
@@ -84,9 +83,7 @@ pub mod plugins {
         impl<E: UserEvent> Plugin<E> for TestPlugin<E> {
             fn load(&mut self, builder: FrameworkBuilder<E>) -> PluginResult<E> {
                 Ok(
-                    builder.with_resources(|resources| {
-                        resources.add_resource(TestResource);
-                    })
+                    builder.with_resource(TestResource)
                 )
             }
         }
