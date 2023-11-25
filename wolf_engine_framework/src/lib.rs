@@ -12,6 +12,11 @@ pub fn init<E: UserEvent>() -> EngineBuilder<E> {
     wolf_engine_core::init()
 }
 
+pub mod plugins {
+    pub trait Plugin {
+
+    }
+}
 
 #[cfg(test)]
 mod framework_tests {
