@@ -6,6 +6,7 @@
 //! state-stack architecture.
 
 use plugins::Plugin;
+use wolf_engine_core::ecs::ResourcesBuilder;
 use wolf_engine_core::{EngineBuilder, Engine};
 use wolf_engine_core::events::UserEvent;
 
@@ -27,8 +28,12 @@ impl<E: UserEvent> FrameworkBuilder<E> {
         self
     }
 
+    pub fn with_resources(mut self, function: fn(&mut ResourcesBuilder)) -> Self {
+        self.inner = self.inner.with_resources(function);
+        self
+    }
+
     pub fn build(self) -> Engine<E> {
-         
         self.inner.build() 
     }
 }
