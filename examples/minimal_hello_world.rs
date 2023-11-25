@@ -42,7 +42,7 @@ pub fn main() {
 pub fn process_event(event: Event<()>, context: &mut Context<()>, schedule: &mut Schedule) {
     match event {
         Event::EventsCleared => {
-            context.update();
+            context.run_schedule(schedule);
         }
         Event::Quit => log::info!("Quit event received.  Goodbye!"),
         _ => (),
