@@ -22,20 +22,29 @@
 //!             resources.add_resource(SomeResource);
 //!         })
 //!         .build();
+//!
+//!     let mut schedule = Schedule::builder()
+//!         .add_system(example_system())
+//!         .build()
 //!     
 //!     // The Event-Loop will continue to return events, every call, until a Quit event is sent,
 //!     // only then, will the Event-Loop will return None.
 //!     while let Some(event) = event_loop.next_event() {
-//!         process_event(event, &mut context);
+//!         process_event(event, &mut context, &mut schedule);
 //!     }
 //! }
 //!
-//! pub fn process_event(event: Event<()>, context: &mut Context<()>) {
+//! pub fn process_event(event: Event<()>, context: &mut Context<()>, schedule: &mut Schedule) {
 //!     match event {
 //!         // Indicates there are no more events on the queue, or, essentially, the end of the
 //!         // current frame.  
 //!         Event::EventsCleared => {
 //!             // You should put most of your game logic here.
+//!
+//!             // You can run ECS schedules through the Context.
+//!             context.run_schedule(schedule);
+//!
+//!             // To close the game.
 //! #           context.quit();
 //!         }
 //!         // Shut down the game.
