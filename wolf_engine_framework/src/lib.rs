@@ -5,11 +5,19 @@
 //! more on building your game.  The framework includes a plugin system, and game state /
 //! state-stack architecture.
 
+use wolf_engine_core::EngineBuilder;
+use wolf_engine_core::events::UserEvent;
+
+pub fn init<E: UserEvent>() -> EngineBuilder<E> {
+    wolf_engine_core::init()
+}
+
 #[cfg(test)]
 mod framework_tests {
+
     #[test]
     fn should_extend_default_init() {
-        let engine = crate::init()
+        let _engine = crate::init::<()>()
             .build();
     }
 }
