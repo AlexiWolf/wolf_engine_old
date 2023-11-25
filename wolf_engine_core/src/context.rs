@@ -111,16 +111,6 @@ impl ContextBuilder {
         self
     }
 
-    pub fn with_update_schedule(mut self, schedule: Schedule) -> Self {
-        self.update_schedule = schedule;
-        self
-    }
-
-    pub fn with_render_schedule(mut self, schedule: Schedule) -> Self {
-        self.render_schedule = schedule;
-        self
-    }
-
     pub fn build<E: UserEvent>(self, event_loop: &EventLoop<E>) -> Context<E> {
         Context {
             world: self.world,
