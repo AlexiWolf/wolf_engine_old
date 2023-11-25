@@ -5,11 +5,11 @@
 //! more on building your game.  The framework includes a plugin system, and game state /
 //! state-stack architecture.
 
-pub mod plugins {
-
-
-    #[cfg(test)]
-    mod plugin_tests {
-        
+#[cfg(test)]
+mod framework_tests {
+    #[test]
+    fn should_extend_default_init() {
+        let engine = crate::init()
+            .build();
     }
 }
