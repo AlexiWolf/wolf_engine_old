@@ -14,8 +14,6 @@ use crate::EventLoop;
 pub struct Context<E: UserEvent> {
     world: World,
     resources: Resources,
-    update_schedule: Schedule,
-    render_schedule: Schedule,
     event_sender: Arc<dyn EventSender<Event<E>>>,
 }
 
@@ -57,26 +55,6 @@ impl<E: UserEvent> Context<E> {
         &mut self.resources
     }
 
-    /// Returns an immutable reference to the update schedule.
-    pub fn update_schedule(&self) -> &Schedule {
-        &self.update_schedule
-    }
-
-    /// Returns a mutable reference to the update schedule.
-    pub fn update_schedule_mut(&mut self) -> &mut Schedule {
-        &mut self.update_schedule
-    }
-
-    /// Returns an immutable reference to the render schedule.
-    pub fn render_schedule(&self) -> &Schedule {
-        &self.render_schedule
-    }
-
-    /// Returns a mutable reference to the render schedule.
-    pub fn render_schedule_mut(&mut self) -> &mut Schedule {
-        &mut self.render_schedule
-    }
-
     /// Sends a [Quit Event](Event::Quit) to trigger an engine shutdown.
     pub fn quit(&self) {
         self.event_sender.send_event(Event::Quit).ok();
@@ -92,8 +70,6 @@ impl<E: UserEvent> HasEventSender<Event<E>> for Context<E> {
 pub(crate) struct ContextBuilder {
     world: World,
     resources: Resources,
-    update_schedule: Schedule,
-    render_schedule: Schedule,
 }
 
 impl ContextBuilder {
@@ -101,8 +77,6 @@ impl ContextBuilder {
         Self {
             world: Default::default(),
             resources: Default::default(),
-            update_schedule: Schedule::builder().build(),
-            render_schedule: Schedule::builder().build(),
         }
     }
 
@@ -115,8 +89,6 @@ impl ContextBuilder {
         Context {
             world: self.world,
             resources: self.resources,
-            update_schedule: self.update_schedule,
-            render_schedule: self.render_schedule,
             event_sender: event_loop.event_sender(),
         }
     }
