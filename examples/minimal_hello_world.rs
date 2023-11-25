@@ -26,12 +26,12 @@ pub fn main() {
         .with_resources(|resources| {
             resources.add_resource(Message("Hello, World!"));
         })
-        .with_update_schedule(|schedule| {
-            schedule
-                .add_thread_local(log_message_system())
-                .add_thread_local(quit_after_3_updates_system(1));
-        })
         .build();
+
+    let mut schedule = wolf_engine::ecs::Schedule::builder();
+    schedule
+        .add_thread_local(log_message_system())
+        .add_thread_local(quit_after_3_updates_system(1));
 
     while let Some(event) = event_loop.next_event() {
         process_event(event, &mut context);
