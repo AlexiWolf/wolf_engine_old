@@ -15,9 +15,16 @@ pub fn init<E: UserEvent>() -> EngineBuilder<E> {
 #[cfg(test)]
 mod framework_tests {
 
+    pub struct TestPlugin;
+
+    impl Plugin for TestPlugin {
+        
+    }
+
     #[test]
     fn should_extend_default_init() {
         let _engine = crate::init::<()>()
+            .with_plugin(TestPlugin)
             .build();
     }
 }
