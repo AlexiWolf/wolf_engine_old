@@ -16,6 +16,8 @@ pub fn init<E: UserEvent>() -> EngineBuilder<E> {
 
 pub mod plugins {
     use crate::FrameworkBuilder; 
+    
+    pub type PluginResult = Result<(), String>;
 
     pub trait Plugin {
         fn load(&mut self, builder: &mut FrameworkBuilder) -> PluginResult;
@@ -24,6 +26,7 @@ pub mod plugins {
 
 #[cfg(test)]
 mod framework_tests {
+    use super::*;
     use super::plugins::*;
 
     pub struct TestPlugin;
