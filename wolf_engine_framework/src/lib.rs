@@ -7,11 +7,13 @@
 
 use plugins::Plugin;
 use wolf_engine_core::ecs::ResourcesBuilder;
+use wolf_engine_core::ecs::systems::Resource;
 use wolf_engine_core::{EngineBuilder, Engine};
 use wolf_engine_core::events::UserEvent;
 
 pub struct FrameworkBuilder<E: UserEvent> {
     inner: EngineBuilder<E>,
+    resource_builder: ResourcesBuilder,
     plugins: Vec<Box<dyn Plugin<E>>>,
 }
 
@@ -20,6 +22,7 @@ impl<E: UserEvent> FrameworkBuilder<E> {
         Self {
             inner: engine_builder,
             plugins: Vec::new(),
+            resource_builder: ResourcesBuilder::default(),
         }
     }
 
@@ -28,7 +31,8 @@ impl<E: UserEvent> FrameworkBuilder<E> {
         self
     }
 
-    pub fn with_resource<T>(mut self, resource: T)-> Self {
+    pub fn with_resource<T: Resource + 'static>(mut self, resource: T)-> Self {
+        self.resource_builder.add_resource(resource);
         self
     }
 

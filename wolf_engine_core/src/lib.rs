@@ -74,6 +74,7 @@ pub mod ecs {
     pub mod prelude {
         pub use super::system;
         pub use super::Schedule;
+        pub use super::ResourcesBuilder;
     }
 
     /// Provides a builder-pattern for creating [`Resources`].
@@ -133,8 +134,8 @@ impl<E: UserEvent> EngineBuilder<E> {
     }
 
     /// Add resources to the [`Engine`].
-    pub fn with_resources(mut self, function: fn(&mut ResourcesBuilder)) -> Self {
-        (function)(&mut self.resources);
+    pub fn with_resources(mut self, resources: ResourcesBuilder) -> Self {
+        self.resources = resources;
         self
     }
 
@@ -156,14 +157,15 @@ pub fn init<E: UserEvent>() -> EngineBuilder<E> {
 
 #[cfg(test)]
 mod init_tests {
-    use crate::events::MainEventSender;
+    use crate::{events::MainEventSender, ecs::ResourcesBuilder};
 
     #[test]
     fn should_use_builder_pattern() {
+        let mut resources = ResourcesBuilder::default();
+        resources.add_resource(0).add_resource(true);
+
         let (_event_loop, _context) = crate::init::<()>()
-            .with_resources(|resources| {
-                resources.add_resource(0).add_resource(true);
-            })
+            .with_resources(resources)
             .build();
     }
 

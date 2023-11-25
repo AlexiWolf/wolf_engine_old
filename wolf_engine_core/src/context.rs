@@ -90,16 +90,18 @@ impl ContextBuilder {
 mod context_tests {
     use legion::Schedule;
 
+    use crate::ecs::ResourcesBuilder;
+
     #[test]
     fn should_run_ecs_tick() {
         #[legion::system]
         fn add_1(#[resource] number: &mut i32) {
             *number += 1;
         }
+        let mut resources = ResourcesBuilder::default();
+        resources.add_resource(0);
         let (_, mut context) = crate::init::<()>()
-            .with_resources(|resources| {
-                resources.add_resource(0);
-            })
+            .with_resources(resources)
             .build();
 
         let mut schedule = Schedule::builder().add_system(add_1_system()).build();

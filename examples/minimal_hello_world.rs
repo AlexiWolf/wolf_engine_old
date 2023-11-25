@@ -21,11 +21,12 @@ fn quit_after_3_updates(
 
 pub fn main() {
     logging::initialize_logging(logging::LogLevel::Info);
+    
+    let mut resources = ResourcesBuilder::default();
+    resources.add_resource(Message("Hello, World!"));
 
     let (mut event_loop, mut context) = wolf_engine::init()
-        .with_resources(|resources| {
-            resources.add_resource(Message("Hello, World!"));
-        })
+        .with_resources(resources)
         .build();
 
     let mut schedule = Schedule::builder()
