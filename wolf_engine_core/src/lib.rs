@@ -25,7 +25,7 @@
 //!
 //!     let mut schedule = Schedule::builder()
 //!         .add_system(example_system())
-//!         .build()
+//!         .build();
 //!     
 //!     // The Event-Loop will continue to return events, every call, until a Quit event is sent,
 //!     // only then, will the Event-Loop will return None.
@@ -69,6 +69,12 @@ pub use event_loop::*;
 pub mod ecs {
     pub use legion::*;
     pub use wolf_engine_codegen::system;
+    
+    #[doc(hidden)]
+    pub mod prelude {
+        pub use super::Schedule;
+        pub use super::system;
+    }
 
     /// A, more clearly-named, alias to [`systems::Builder`].
     pub type ScheduleBuidler = legion::systems::Builder;
@@ -105,6 +111,7 @@ pub mod logging;
 pub mod prelude {
     pub use super::*;
     pub use events::*;
+    pub use ecs::prelude::*;
 }
 
 use ecs::*;
