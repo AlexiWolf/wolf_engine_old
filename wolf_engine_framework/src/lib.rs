@@ -8,7 +8,11 @@
 use wolf_engine_core::EngineBuilder;
 use wolf_engine_core::events::UserEvent;
 
-pub struct FrameworkBuilder {}
+pub struct FrameworkBuilder<E: UserEvent> {}
+
+impl<E: UserEvent> FrameworkBuilder<E> {
+
+}
 
 pub fn init<E: UserEvent>() -> EngineBuilder<E> {
     wolf_engine_core::init()
