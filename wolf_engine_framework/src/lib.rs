@@ -35,7 +35,7 @@ impl<E: UserEvent> FrameworkBuilder<E> {
     }
 
     pub fn build(mut self) -> Engine<E> {
-        let plugins = std::mem::replace(&mut self.plugins, Vec::new());
+        let plugins = std::mem::take(&mut self.plugins);
 
         for mut plugin in plugins {
             self = plugin.load(self).expect("Failed to load plugin");
