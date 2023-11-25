@@ -69,11 +69,11 @@ pub use event_loop::*;
 pub mod ecs {
     pub use legion::*;
     pub use wolf_engine_codegen::system;
-    
+
     #[doc(hidden)]
     pub mod prelude {
-        pub use super::Schedule;
         pub use super::system;
+        pub use super::Schedule;
     }
 
     /// Provides a builder-pattern for creating [`Resources`].
@@ -107,8 +107,8 @@ pub mod logging;
 #[doc(hidden)]
 pub mod prelude {
     pub use super::*;
-    pub use events::*;
     pub use ecs::prelude::*;
+    pub use events::*;
 }
 
 use ecs::*;

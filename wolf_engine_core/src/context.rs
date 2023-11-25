@@ -102,9 +102,7 @@ mod context_tests {
             })
             .build();
 
-        let mut schedule = Schedule::builder()
-            .add_system(add_1_system())
-            .build();
+        let mut schedule = Schedule::builder().add_system(add_1_system()).build();
 
         assert_eq!(*context.resources().get::<i32>().unwrap(), 0);
         context.run_schedule(&mut schedule);
