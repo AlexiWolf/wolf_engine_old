@@ -5,18 +5,26 @@
 //! more on building your game.  The framework includes a plugin system, and game state /
 //! state-stack architecture.
 
+use plugins::Plugin;
 use wolf_engine_core::EngineBuilder;
 use wolf_engine_core::events::UserEvent;
 
 pub struct FrameworkBuilder<E: UserEvent> {
     inner: EngineBuilder<E>,
+    plugins: Vec<Box<dyn Plugin>>,
 }
 
 impl<E: UserEvent> FrameworkBuilder<E> {
     pub(crate) fn new(engine_builder: EngineBuilder<E>) -> Self {
         Self {
             inner: engine_builder,
+            plugins: Vec::new(),
         }
+    }
+
+    pub fn with_plugin<P: Plugin>(mut self, plugin: P) -> Self {
+        self.plugins.push(Box::from(plugin));  
+        self
     }
 }
 
