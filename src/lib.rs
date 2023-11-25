@@ -41,7 +41,4 @@ pub mod prelude {
     pub use super::*;
 
     pub use ecs::prelude::*;
-
-    #[cfg(feature = "framework")]
-    pub use framework;
 }
