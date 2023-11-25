@@ -57,49 +57,61 @@ pub mod plugins {
     pub trait Plugin<E: UserEvent> {
         fn load(&mut self, builder: FrameworkBuilder<E>) -> PluginResult<E>;
     }
+
+    #[cfg(test)]
+    mod plugin_loader_tests {
+        use super::*;
+        use crate::FrameworkBuilder;
+
+        use std::marker::PhantomData;
+
+        use wolf_engine_core::events::UserEvent;
+
+        pub struct TestResource;
+
+        pub struct TestPlugin<E: UserEvent> {
+            _phantom: PhantomData<E>,
+        }
+
+        impl<E: UserEvent> TestPlugin<E> {
+            pub fn new() -> Self {
+                Self {
+                    _phantom: PhantomData::default(), 
+                }
+            }
+        }
+
+        impl<E: UserEvent> Plugin<E> for TestPlugin<E> {
+            fn load(&mut self, builder: FrameworkBuilder<E>) -> PluginResult<E> {
+                Ok(
+                    builder.with_resources(|resources| {
+                        resources.add_resource(TestResource);
+                    })
+                )
+            }
+        }
+
+        #[test]
+        fn should_load_plugins() {
+            let (_event_loop, context) = crate::init::<()>()
+                .with_plugin(TestPlugin::new())
+                .build();
+            assert!(context.resources().get::<TestResource>().is_some(), "Resource insertion failed");
+        }
+    }
 }
 
 #[cfg(test)]
 mod framework_tests {
-    use std::marker::PhantomData;
-
-    use super::*;
-    use super::plugins::*;
-    
-    pub struct TestResourceA;
-    pub struct TestResourceB;
-
-    pub struct TestPlugin<E: UserEvent> {
-        _phantom: PhantomData<E>,
-    }
-
-    impl<E: UserEvent> TestPlugin<E> {
-        pub fn new() -> Self {
-            Self {
-                _phantom: PhantomData::default(), 
-            }
-        }
-    }
-
-    impl<E: UserEvent> Plugin<E> for TestPlugin<E> {
-        fn load(&mut self, builder: FrameworkBuilder<E>) -> PluginResult<E> {
-            Ok(
-                builder.with_resources(|resources| {
-                    resources.add_resource(TestResourceB);
-                })
-            )
-        }
-    }
+    pub struct TestResource;
 
     #[test]
     fn should_extend_default_init() {
         let (_event_loop, context) = crate::init::<()>()
             .with_resources(|resources| {
-                resources.add_resource(TestResourceA);
+                resources.add_resource(TestResource);
             })
-            .with_plugin(TestPlugin::new())
             .build();
-        assert!(context.resources().get::<TestResourceA>().is_some(), "Resource insertion failed");
-        assert!(context.resources().get::<TestResourceB>().is_some(), "Plugin init failed");
+        assert!(context.resources().get::<TestResource>().is_some(), "Resource insertion failed");
     }
 }
