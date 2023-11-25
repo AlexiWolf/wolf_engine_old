@@ -76,9 +76,6 @@ pub mod ecs {
         pub use super::system;
     }
 
-    /// A, more clearly-named, alias to [`systems::Builder`].
-    pub type ScheduleBuidler = legion::systems::Builder;
-
     /// Provides a builder-pattern for creating [`Resources`].
     #[derive(Default)]
     pub struct ResourcesBuilder {
