@@ -4,4 +4,12 @@
 //! makes several decisions, and handles a lot of the heavy lifting for you, so you can focus
 //! more on building your game.  The framework includes a plugin system, and game state /
 //! state-stack architecture.
-//!
+
+pub mod plugins {
+
+
+    #[cfg(test)]
+    mod plugin_tests {
+        
+    }
+}
