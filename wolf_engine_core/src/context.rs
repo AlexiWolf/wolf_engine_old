@@ -144,12 +144,6 @@ mod context_tests {
             .with_resources(|resources| {
                 resources.add_resource(0);
             })
-            .with_update_schedule(|schedule| {
-                schedule.add_system(add_1_system());
-            })
-            .with_render_schedule(|schedule| {
-                schedule.add_system(add_1_system());
-            })
             .build();
 
         assert_eq!(*context.resources().get::<i32>().unwrap(), 0);
