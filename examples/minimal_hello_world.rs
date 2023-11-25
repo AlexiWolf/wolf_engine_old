@@ -1,4 +1,5 @@
 use wolf_engine::prelude::*;
+use wolf_engine::ecs::Schedule;
 
 pub struct Message(&'static str);
 
@@ -28,7 +29,7 @@ pub fn main() {
         })
         .build();
 
-    let mut schedule = wolf_engine::ecs::Schedule::builder();
+    let mut schedule = Schedule::builder();
     schedule
         .add_thread_local(log_message_system())
         .add_thread_local(quit_after_3_updates_system(1));
