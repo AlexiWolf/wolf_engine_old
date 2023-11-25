@@ -14,7 +14,7 @@ pub fn init<E: UserEvent>() -> EngineBuilder<E> {
 
 pub mod plugins {
     pub trait Plugin {
-
+        fn load(&mut self, builder: &mut FrameworkBuilder) -> PluginResult;
     }
 }
 
@@ -25,7 +25,9 @@ mod framework_tests {
     pub struct TestPlugin;
 
     impl Plugin for TestPlugin {
-        
+        fn load(&mut self, builder: &mut FrameworkBuilder) -> PluginResult {
+            Ok(())
+        }
     }
 
     #[test]
