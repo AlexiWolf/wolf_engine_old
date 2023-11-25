@@ -14,13 +14,16 @@
 //! # fn example() {}
 //!
 //! pub fn main() {
-//!     // Start by initializing the engine's Event-Loop, and Context.
+//!     // Start by setting up Resources, or custom data for the engine.
+//!     // These resources are available to systems, and from the Context at run-time.
+//!     // This step is optional.
+//!     let mut resources = ResourcesBuilder::default();
+//!     resources.add_resource(SomeResource);
+//!
+//!     // Then initalize the EventLoop, and Context.
+//!     // Resources, and other settings can also be set up from here.
 //!     let (mut event_loop, mut context) = wolf_engine::init::<()>()
-//!         .with_resources(|resources| {
-//!             // Here is where you add Resources, or custom data to the engine.
-//!             // These resources are available to systems, and from the Context at run-time.
-//!             resources.add_resource(SomeResource);
-//!         })
+//!         .with_resources(resources)
 //!         .build();
 //!
 //!     let mut schedule = Schedule::builder()
