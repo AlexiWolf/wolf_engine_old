@@ -23,6 +23,10 @@ impl<E: UserEvent> Context<E> {
         ContextBuilder::new()
     }
 
+    pub fn run_schedule(&mut self, schedule: &mut Schedule) {
+        schedule.execute(&mut self.world, &mut self.resources);
+    }
+
     pub fn update(&mut self) {
     }
 
