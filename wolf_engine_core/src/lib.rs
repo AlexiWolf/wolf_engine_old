@@ -21,16 +21,6 @@
 //!             // These resources are available to systems, and from the Context at run-time.
 //!             resources.add_resource(SomeResource);
 //!         })
-//!         .with_update_schedule(|schedule| {
-//!             // Here is where you build up the Update schedule.
-//!             // This schedule is ran when you call Context::update().
-//!             schedule.add_system(example_system());
-//!         })
-//!         .with_render_schedule(|schedule| {
-//!             // Here is where you build up the Render schedule.
-//!             // This schedule is ran when you call Context::render().
-//!             schedule.add_system(example_system());
-//!         })
 //!         .build();
 //!     
 //!     // The Event-Loop will continue to return events, every call, until a Quit event is sent,
@@ -85,9 +75,7 @@ pub mod ecs {
         ///
         /// If the provided type has previously been added, the existing instance is silently
         /// overwritten.
-        ///
-        /// This function is functionally-identical to calling [`Resources::insert()`].
-        pub fn add_resource<T: systems::Resource + 'static>(&mut self, resource: T) -> &mut Self {
+        /// This function is functionally-identical to calling [`Resources::insert()`]. pub fn add_resource<T: systems::Resource + 'static>(&mut self, resource: T) -> &mut Self {
             self.resources.insert(resource);
             self
         }
@@ -177,20 +165,6 @@ mod init_tests {
         let (_event_loop, _context) = crate::init::<()>()
             .with_resources(|resources| {
                 resources.add_resource(0).add_resource(true);
-            })
-            .with_update_schedule(|schedule| {
-                schedule
-                    .add_system(test_system())
-                    .add_thread_local(test_system())
-                    .flush()
-                    .add_thread_local_fn(|_, _| {});
-            })
-            .with_render_schedule(|schedule| {
-                schedule
-                    .add_system(test_system())
-                    .add_thread_local(test_system())
-                    .flush()
-                    .add_thread_local_fn(|_, _| {});
             })
             .build();
     }
