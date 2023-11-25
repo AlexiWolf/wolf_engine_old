@@ -12,8 +12,10 @@ pub fn init<E: UserEvent>() -> EngineBuilder<E> {
     wolf_engine_core::init()
 }
 
+
 #[cfg(test)]
 mod framework_tests {
+    use super::plugins::*;
 
     pub struct TestPlugin;
 
