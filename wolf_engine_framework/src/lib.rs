@@ -60,7 +60,8 @@ mod framework_tests {
     use super::*;
     use super::plugins::*;
     
-    pub struct TestResource;
+    pub struct TestResourceA;
+    pub struct TestResourceB;
 
     pub struct TestPlugin<E: UserEvent> {
         _phantom: PhantomData<E>,
@@ -78,7 +79,7 @@ mod framework_tests {
         fn load(&mut self, builder: FrameworkBuilder<E>) -> PluginResult<E> {
             Ok(
                 builder.with_resources(|resources| {
-                    resources.add_resource(TestResource);
+                    resources.add_resource(TestResourceB);
                 })
             )
         }
@@ -86,8 +87,13 @@ mod framework_tests {
 
     #[test]
     fn should_extend_default_init() {
-        let _engine = crate::init::<()>()
+        let (_event_loop, context) = crate::init::<()>()
+            .with_resources(|resources| {
+                resources.add_resource(TestResourceA);
+            })
             .with_plugin(TestPlugin::new())
             .build();
+        assert!(context.resources().get::<TestResourceA>().is_some(), "Resource insertion failed");
+        assert!(context.resources().get::<TestResourceB>().is_some(), "Plugin init failed");
     }
 }
