@@ -12,7 +12,6 @@ use wolf_engine_core::{EngineBuilder, Engine};
 use wolf_engine_core::events::UserEvent;
 
 pub struct FrameworkBuilder<E: UserEvent> {
-    inner: EngineBuilder<E>,
     resource_builder: ResourcesBuilder,
     plugins: Vec<Box<dyn Plugin<E>>>,
 }
@@ -20,7 +19,6 @@ pub struct FrameworkBuilder<E: UserEvent> {
 impl<E: UserEvent> FrameworkBuilder<E> {
     pub(crate) fn new(engine_builder: EngineBuilder<E>) -> Self {
         Self {
-            inner: engine_builder,
             plugins: Vec::new(),
             resource_builder: ResourcesBuilder::default(),
         }
@@ -42,8 +40,10 @@ impl<E: UserEvent> FrameworkBuilder<E> {
         for mut plugin in plugins {
             self = plugin.load(self).expect("Failed to load plugin");
         }
-
-        self.inner.build() 
+        
+        wolf_engine_core::init()
+            .with_resources(self.resource_builder)
+            .build()
     }
 }
 
