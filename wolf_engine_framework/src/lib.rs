@@ -20,11 +20,12 @@ pub fn init<E: UserEvent>() -> EngineBuilder<E> {
 
 pub mod plugins {
     use crate::FrameworkBuilder; 
+    use wolf_engine_core::events::UserEvent;
     
     pub type PluginResult = Result<(), String>;
 
     pub trait Plugin {
-        fn load(&mut self, builder: &mut FrameworkBuilder) -> PluginResult;
+        fn load<E: UserEvent>(&mut self, builder: &mut FrameworkBuilder<E>) -> PluginResult;
     }
 }
 
@@ -36,7 +37,7 @@ mod framework_tests {
     pub struct TestPlugin;
 
     impl Plugin for TestPlugin {
-        fn load(&mut self, builder: &mut FrameworkBuilder) -> PluginResult {
+        fn load<E: UserEvent>(&mut self, builder: &mut FrameworkBuilder<E>) -> PluginResult {
             Ok(())
         }
     }
