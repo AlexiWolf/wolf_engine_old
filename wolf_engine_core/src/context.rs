@@ -27,13 +27,6 @@ impl<E: UserEvent> Context<E> {
         schedule.execute(&mut self.world, &mut self.resources);
     }
 
-    pub fn update(&mut self) {
-    }
-
-    /// Runs a single iteration of the Render Schedule.
-    pub fn render(&mut self) {
-    }
-
     /// Returns an immutable reference to the world.
     pub fn world(&self) -> &World {
         &self.world

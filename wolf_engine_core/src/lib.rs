@@ -46,8 +46,6 @@
 //!         // current frame.  
 //!         Event::EventsCleared => {
 //!             // You should put most of your game logic here.
-//!             context.update();
-//!             context.render();
 //! #           context.quit();
 //!         }
 //!         // Shut down the game.
