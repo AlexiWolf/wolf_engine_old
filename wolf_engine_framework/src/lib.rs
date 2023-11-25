@@ -13,11 +13,15 @@ pub struct FrameworkBuilder<E: UserEvent> {
 }
 
 impl<E: UserEvent> FrameworkBuilder<E> {
-
+    pub(crate) fn new(engine_builder: EngineBuilder<E>) -> Self {
+        Self {
+            inner: engine_builder,
+        }
+    }
 }
 
-pub fn init<E: UserEvent>() -> EngineBuilder<E> {
-    wolf_engine_core::init()
+pub fn init<E: UserEvent>() -> FrameworkBuilder<E> {
+    FrameworkBuilder::<E>::new(wolf_engine_core::init())
 }
 
 pub mod plugins {
