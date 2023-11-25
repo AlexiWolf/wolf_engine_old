@@ -108,9 +108,7 @@ mod framework_tests {
     #[test]
     fn should_extend_default_init() {
         let (_event_loop, context) = crate::init::<()>()
-            .with_resources(|resources| {
-                resources.add_resource(TestResource);
-            })
+            .with_resource(TestResource)
             .build();
         assert!(context.resources().get::<TestResource>().is_some(), "Resource insertion failed");
     }
