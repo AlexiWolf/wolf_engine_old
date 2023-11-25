@@ -23,16 +23,11 @@ impl<E: UserEvent> Context<E> {
         ContextBuilder::new()
     }
 
-    /// Runs a single iteration of the Update Schedule.
     pub fn update(&mut self) {
-        self.update_schedule
-            .execute(&mut self.world, &mut self.resources);
     }
 
     /// Runs a single iteration of the Render Schedule.
     pub fn render(&mut self) {
-        self.render_schedule
-            .execute(&mut self.world, &mut self.resources);
     }
 
     /// Returns an immutable reference to the world.

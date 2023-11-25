@@ -160,8 +160,6 @@ impl<E: UserEvent> EngineBuilder<E> {
         self.resources.add_resource(event_loop.event_sender());
         let context = Context::<E>::builder()
             .with_resources(self.resources.build())
-            .with_update_schedule(self.update_schedule_builder.build())
-            .with_render_schedule(self.render_schedule_builder.build())
             .build(&event_loop);
         (event_loop, context)
     }
