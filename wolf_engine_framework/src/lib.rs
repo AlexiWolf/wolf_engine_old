@@ -46,10 +46,10 @@ pub mod plugins {
     use crate::FrameworkBuilder; 
     use wolf_engine_core::events::UserEvent;
     
-    pub type PluginResult = Result<(), String>;
+    pub type PluginResult<E> = Result<FrameworkBuilder<E>, String>;
 
     pub trait Plugin<E: UserEvent> {
-        fn load(&mut self, builder: &mut FrameworkBuilder<E>) -> PluginResult;
+        fn load(&mut self, builder: FrameworkBuilder<E>) -> PluginResult<E>;
     }
 }
 
@@ -75,11 +75,12 @@ mod framework_tests {
     }
 
     impl<E: UserEvent> Plugin<E> for TestPlugin<E> {
-        fn load(&mut self, builder: &mut FrameworkBuilder<E>) -> PluginResult {
-            builder.with_resources(|resources| {
-                resources.add_resource(TestResource);
-            });
-            Ok(())
+        fn load(&mut self, builder: FrameworkBuilder<E>) -> PluginResult<E> {
+            Ok(
+                builder.with_resources(|resources| {
+                    resources.add_resource(TestResource);
+                })
+            )
         }
     }
 
