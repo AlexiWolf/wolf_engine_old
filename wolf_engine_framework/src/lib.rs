@@ -6,7 +6,7 @@
 //! state-stack architecture.
 
 use plugins::Plugin;
-use wolf_engine_core::EngineBuilder;
+use wolf_engine_core::{EngineBuilder, Engine};
 use wolf_engine_core::events::UserEvent;
 
 pub struct FrameworkBuilder<E: UserEvent> {
@@ -25,6 +25,11 @@ impl<E: UserEvent> FrameworkBuilder<E> {
     pub fn with_plugin<P: Plugin<E> + 'static>(mut self, plugin: P) -> Self {
         self.plugins.push(Box::from(plugin));  
         self
+    }
+
+    pub fn build(self) -> Engine<E> {
+         
+        self.inner.build() 
     }
 }
 
@@ -49,6 +54,8 @@ mod framework_tests {
 
     use super::*;
     use super::plugins::*;
+    
+    pub struct TestResource;
 
     pub struct TestPlugin<E: UserEvent> {
         _phantom: PhantomData<E>,
@@ -64,6 +71,9 @@ mod framework_tests {
 
     impl<E: UserEvent> Plugin<E> for TestPlugin<E> {
         fn load(&mut self, builder: &mut FrameworkBuilder<E>) -> PluginResult {
+            builder.with_resources(|resources| {
+                resources.add_resource(TestResource);
+            });
             Ok(())
         }
     }
