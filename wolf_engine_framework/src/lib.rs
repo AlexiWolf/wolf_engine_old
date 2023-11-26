@@ -8,7 +8,7 @@
 use plugins::Plugin;
 use wolf_engine_core::ecs::ResourcesBuilder;
 use wolf_engine_core::ecs::systems::Resource;
-use wolf_engine_core::{EngineBuilder, Engine};
+use wolf_engine_core::Engine;
 use wolf_engine_core::events::UserEvent;
 
 pub struct FrameworkBuilder<E: UserEvent> {
