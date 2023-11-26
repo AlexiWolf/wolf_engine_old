@@ -18,11 +18,6 @@ pub struct Context<E: UserEvent> {
 }
 
 impl<E: UserEvent> Context<E> {
-    /// Create a new `Context` from the provided [`EventQueue`] and data.
-    pub(crate) fn builder() -> ContextBuilder {
-        ContextBuilder::new()
-    }
-
     pub fn run_schedule(&mut self, schedule: &mut Schedule) {
         schedule.execute(&mut self.world, &mut self.resources);
     }
@@ -56,33 +51,6 @@ impl<E: UserEvent> Context<E> {
 impl<E: UserEvent> HasEventSender<Event<E>> for Context<E> {
     fn event_sender(&self) -> Arc<dyn EventSender<Event<E>>> {
         self.event_sender.clone()
-    }
-}
-
-pub(crate) struct ContextBuilder {
-    world: World,
-    resources: Resources,
-}
-
-impl ContextBuilder {
-    pub(crate) fn new() -> Self {
-        Self {
-            world: Default::default(),
-            resources: Default::default(),
-        }
-    }
-
-    pub fn with_resources(mut self, resources: Resources) -> Self {
-        self.resources = resources;
-        self
-    }
-
-    pub fn build<E: UserEvent>(self, event_loop: &EventLoop<E>) -> Context<E> {
-        Context {
-            world: self.world,
-            resources: self.resources,
-            event_sender: event_loop.event_sender(),
-        }
     }
 }
 
