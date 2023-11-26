@@ -1,4 +1,4 @@
-use crate::FrameworkBuilder; 
+use crate::FrameworkBuilder;
 
 use wolf_engine_core::events::UserEvent;
 
@@ -25,24 +25,23 @@ mod plugin_loader_tests {
     impl<E: UserEvent> TestPlugin<E> {
         pub fn new() -> Self {
             Self {
-                _event_type: PhantomData, 
+                _event_type: PhantomData,
             }
         }
     }
 
     impl<E: UserEvent> Plugin<E> for TestPlugin<E> {
         fn load(&mut self, builder: FrameworkBuilder<E>) -> PluginResult<E> {
-            Ok(
-                builder.with_resource(TestResource)
-            )
+            Ok(builder.with_resource(TestResource))
         }
     }
 
     #[test]
     fn should_load_plugins() {
-        let (_event_loop, context) = crate::init::<()>()
-            .with_plugin(TestPlugin::new())
-            .build();
-        assert!(context.resources().get::<TestResource>().is_some(), "Resource insertion failed");
+        let (_event_loop, context) = crate::init::<()>().with_plugin(TestPlugin::new()).build();
+        assert!(
+            context.resources().get::<TestResource>().is_some(),
+            "Resource insertion failed"
+        );
     }
 }

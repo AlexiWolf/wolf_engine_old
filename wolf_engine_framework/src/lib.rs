@@ -9,10 +9,10 @@ pub mod plugins;
 
 use plugins::Plugin;
 
-use wolf_engine_core::Engine;
-use wolf_engine_core::ecs::ResourcesBuilder;
 use wolf_engine_core::ecs::systems::Resource;
+use wolf_engine_core::ecs::ResourcesBuilder;
 use wolf_engine_core::events::UserEvent;
+use wolf_engine_core::Engine;
 
 pub struct FrameworkBuilder<E: UserEvent> {
     resource_builder: ResourcesBuilder,
@@ -28,11 +28,11 @@ impl<E: UserEvent> FrameworkBuilder<E> {
     }
 
     pub fn with_plugin<P: Plugin<E> + 'static>(mut self, plugin: P) -> Self {
-        self.plugins.push(Box::from(plugin));  
+        self.plugins.push(Box::from(plugin));
         self
     }
 
-    pub fn with_resource<T: Resource + 'static>(mut self, resource: T)-> Self {
+    pub fn with_resource<T: Resource + 'static>(mut self, resource: T) -> Self {
         self.resource_builder.add_resource(resource);
         self
     }
@@ -43,7 +43,7 @@ impl<E: UserEvent> FrameworkBuilder<E> {
         for mut plugin in plugins {
             self = plugin.load(self).expect("Failed to load plugin");
         }
-        
+
         wolf_engine_core::init()
             .with_resources(self.resource_builder)
             .build()
@@ -65,7 +65,13 @@ mod framework_init_tests {
             .with_resource(TestResourceA)
             .with_resource(TestResourceB)
             .build();
-        assert!(context.resources().get::<TestResourceA>().is_some(), "Resource insertion failed");
-        assert!(context.resources().get::<TestResourceB>().is_some(), "Resource insertion failed");
+        assert!(
+            context.resources().get::<TestResourceA>().is_some(),
+            "Resource insertion failed"
+        );
+        assert!(
+            context.resources().get::<TestResourceB>().is_some(),
+            "Resource insertion failed"
+        );
     }
 }

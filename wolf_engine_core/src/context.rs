@@ -67,9 +67,7 @@ mod context_tests {
         }
         let mut resources = ResourcesBuilder::default();
         resources.add_resource(0);
-        let (_, mut context) = crate::init::<()>()
-            .with_resources(resources)
-            .build();
+        let (_, mut context) = crate::init::<()>().with_resources(resources).build();
 
         let mut schedule = Schedule::builder().add_system(add_1_system()).build();
 
