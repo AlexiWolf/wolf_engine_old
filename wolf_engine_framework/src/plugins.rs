@@ -25,7 +25,7 @@ mod plugin_loader_tests {
     impl<E: UserEvent> TestPlugin<E> {
         pub fn new() -> Self {
             Self {
-                _phantom: PhantomData::default(), 
+                _phantom: PhantomData, 
             }
         }
     }
