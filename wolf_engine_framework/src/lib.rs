@@ -55,7 +55,7 @@ pub fn init<E: UserEvent>() -> FrameworkBuilder<E> {
 }
 
 #[cfg(test)]
-mod framework_tests {
+mod framework_init_tests {
     pub struct TestResource;
 
     #[test]
