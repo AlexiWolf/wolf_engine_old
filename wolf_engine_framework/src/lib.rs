@@ -56,13 +56,16 @@ pub fn init<E: UserEvent>() -> FrameworkBuilder<E> {
 
 #[cfg(test)]
 mod framework_init_tests {
-    pub struct TestResource;
+    pub struct TestResourceA;
+    pub struct TestResourceB;
 
     #[test]
     fn should_add_resources() {
         let (_event_loop, context) = crate::init::<()>()
-            .with_resource(TestResource)
+            .with_resource(TestResourceA)
+            .with_resource(TestResourceB)
             .build();
-        assert!(context.resources().get::<TestResource>().is_some(), "Resource insertion failed");
+        assert!(context.resources().get::<TestResourceA>().is_some(), "Resource insertion failed");
+        assert!(context.resources().get::<TestResourceB>().is_some(), "Resource insertion failed");
     }
 }
