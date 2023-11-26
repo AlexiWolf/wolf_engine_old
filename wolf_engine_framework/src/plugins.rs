@@ -5,6 +5,7 @@ use wolf_engine_core::events::UserEvent;
 pub type PluginResult = Result<(), String>;
 
 pub trait Plugin<E: UserEvent> {
+    fn name(&self) -> &str;
     fn load(&mut self, builder: &mut FrameworkBuilder<E>) -> PluginResult;
 }
 
@@ -59,6 +60,10 @@ mod plugin_loader_tests {
         fn load(&mut self, builder: &mut FrameworkBuilder<E>) -> PluginResult {
             builder.with_resource(TestResource);
             Ok(())
+        }
+
+        fn name(&self) -> &str {
+            "Test Plugin"
         }
     }
 
