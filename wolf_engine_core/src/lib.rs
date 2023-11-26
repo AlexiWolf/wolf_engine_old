@@ -169,7 +169,9 @@ mod init_tests {
         let mut resources = ResourcesBuilder::default();
         resources.add_resource(0).add_resource(true);
 
-        let (_event_loop, _context) = crate::init::<()>().with_resources(resources).build();
+        let (_event_loop, context) = crate::init::<()>().with_resources(resources).build();
+
+        assert!(context.resources().get::<i32>().is_some(), "The resources were not used");
     }
 
     #[test]
