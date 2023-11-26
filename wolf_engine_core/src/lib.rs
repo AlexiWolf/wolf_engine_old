@@ -175,7 +175,7 @@ mod init_tests {
     }
 
     #[test]
-    fn should_add_event_sender_resource() {
+    fn should_add_event_sender_resource_by_default() {
         let (_event_loop, context) = crate::init::<()>().build();
         let _event_sender = context
             .resources()
