@@ -29,11 +29,13 @@ impl<E: UserEvent> PluginLoder<E> {
             match plugin.load(builder) {
                 Ok(_) => (),
                 Err(error) => {
-                    return Err(format!(
+                    let error_message = format!(
                         "Error loading Plugin ({}): {}",
                         plugin.name(),
                         error
-                    ))
+                    );
+                    log::error!("{}", error_message);
+                    return Err(error);
                 }
             }
         }
@@ -52,12 +54,14 @@ mod plugin_loader_tests {
     pub struct TestResource;
 
     pub struct TestPlugin<E: UserEvent> {
+        should_fail: bool,
         _event_type: PhantomData<E>,
     }
 
     impl<E: UserEvent> TestPlugin<E> {
-        pub fn new() -> Self {
+        pub fn new(should_fail: bool) -> Self {
             Self {
+                should_fail,
                 _event_type: PhantomData,
             }
         }
@@ -66,7 +70,11 @@ mod plugin_loader_tests {
     impl<E: UserEvent> Plugin<E> for TestPlugin<E> {
         fn load(&mut self, builder: &mut FrameworkBuilder<E>) -> PluginResult {
             builder.with_resource(TestResource);
-            Ok(())
+            if self.should_fail {
+                Err("Nah, I don't really feel like it.  Why don't you ask me later?".to_string())
+            } else {
+                Ok(())
+            }
         }
 
         fn name(&self) -> &str {
@@ -77,7 +85,19 @@ mod plugin_loader_tests {
     #[test]
     fn should_load_plugins() {
         let (_event_loop, context) = crate::init::<()>()
-            .with_plugin(TestPlugin::new())
+            .with_plugin(TestPlugin::new(false))
+            .build()
+            .unwrap();
+        assert!(
+            context.resources().get::<TestResource>().is_some(),
+            "Resource insertion failed"
+        );
+    }
+
+    #[test]
+    fn should_handle_plugin_failures() {
+        let (_event_loop, context) = crate::init::<()>()
+            .with_plugin(TestPlugin::new(true))
             .build()
             .unwrap();
         assert!(
