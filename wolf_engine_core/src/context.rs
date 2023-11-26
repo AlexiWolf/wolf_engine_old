@@ -12,9 +12,9 @@ use crate::EventLoop;
 ///
 /// The Context owns all engine data, including resources, system schedules, and the game world.
 pub struct Context<E: UserEvent> {
-    world: World,
-    resources: Resources,
-    event_sender: Arc<dyn EventSender<Event<E>>>,
+    pub(crate) world: World,
+    pub(crate) resources: Resources,
+    pub(crate) event_sender: Arc<dyn EventSender<Event<E>>>,
 }
 
 impl<E: UserEvent> Context<E> {
