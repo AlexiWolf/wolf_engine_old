@@ -29,9 +29,9 @@ impl<E: UserEvent> FrameworkBuilder<E> {
     }
 
     pub fn build(mut self) -> Engine<E> {
-        let plugin_loader = std::mem::take(&mut self.plugin_loader);
+        let mut plugin_loader = std::mem::replace(&mut self.plugin_loader, PluginLoder::new());
 
-        self = plugin_loader.load_plugins(self);
+        self = plugin_loader.load_plugins(self).expect("Failed to load plugins");
 
         wolf_engine_core::init()
             .with_resources(self.resource_builder)
