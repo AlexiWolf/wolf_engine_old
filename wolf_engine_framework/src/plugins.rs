@@ -1,5 +1,5 @@
-
 use crate::FrameworkBuilder; 
+
 use wolf_engine_core::events::UserEvent;
 
 pub type PluginResult<E> = Result<FrameworkBuilder<E>, String>;
