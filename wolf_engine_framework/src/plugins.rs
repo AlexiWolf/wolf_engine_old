@@ -2,7 +2,7 @@ use crate::FrameworkBuilder;
 
 use wolf_engine_core::events::UserEvent;
 
-pub type PluginResult<E> = Result<FrameworkBuilder<E>, (FrameworkBuilder<E>, String)>;
+pub type PluginResult<E> = Result<FrameworkBuilder<E>, String>;
 
 pub trait Plugin<E: UserEvent> {
     fn load(&mut self, builder: FrameworkBuilder<E>) -> PluginResult<E>;
