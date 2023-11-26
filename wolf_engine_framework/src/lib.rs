@@ -17,7 +17,7 @@ pub struct FrameworkBuilder<E: UserEvent> {
 }
 
 impl<E: UserEvent> FrameworkBuilder<E> {
-    pub(crate) fn new(engine_builder: EngineBuilder<E>) -> Self {
+    pub(crate) fn new() -> Self {
         Self {
             plugins: Vec::new(),
             resource_builder: ResourcesBuilder::default(),
@@ -48,7 +48,7 @@ impl<E: UserEvent> FrameworkBuilder<E> {
 }
 
 pub fn init<E: UserEvent>() -> FrameworkBuilder<E> {
-    FrameworkBuilder::<E>::new(wolf_engine_core::init())
+    FrameworkBuilder::<E>::new()
 }
 
 pub mod plugins {
