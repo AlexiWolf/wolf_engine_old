@@ -27,7 +27,7 @@ impl<E: UserEvent> PluginLoder<E> {
             match plugin.load(builder) {
                 Ok(_) => (),
                 Err(error) => 
-                    return Err(format!("Error loading Plugin ({}): ", plugin.name(), error)),
+                    return Err(format!("Error loading Plugin ({}): {}", plugin.name(), error)),
             }
         }
         Ok(())
