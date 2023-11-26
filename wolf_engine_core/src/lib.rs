@@ -146,9 +146,11 @@ impl<E: UserEvent> EngineBuilder<E> {
     pub fn build(mut self) -> Engine<E> {
         let event_loop = EventLoop::new();
         self.resources.add_resource(event_loop.event_sender());
-        let context = Context::<E>::builder()
-            .with_resources(self.resources.build())
-            .build(&event_loop);
+        let context = Context {
+            world: World::default(),
+            resources: self.resources.build(),
+            event_sender: event_loop.event_sender(),
+        };
         (event_loop, context)
     }
 }
