@@ -61,9 +61,8 @@
 //! [examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) for additional
 //! examples.
 
-mod context;
-use std::marker::PhantomData;
 
+mod context;
 pub use context::*;
 mod event_loop;
 pub use event_loop::*;
@@ -81,9 +80,10 @@ pub mod prelude {
     pub use events::*;
 }
 
-use ecs::*;
-use events::UserEvent;
-use prelude::events::HasEventSender;
+use std::marker::PhantomData;
+
+use ecs::{ResourcesBuilder, World};
+use events::{UserEvent, HasEventSender};
 
 /// Represents the [`EventLoop`]-[`Context`] pair that makes up "the engine."
 pub type Engine<E> = (EventLoop<E>, Context<E>);
