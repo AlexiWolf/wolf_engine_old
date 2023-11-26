@@ -6,7 +6,8 @@
 //!
 //! ```
 //! # use wolf_engine_core as wolf_engine;
-//! use wolf_engine::prelude::*;
+//! # use wolf_engine::prelude::*;
+//! # use wolf_engine::ecs::{Schedule, ResourcesBuilder};
 //! #
 //! # struct SomeResource;
 //! #
@@ -77,7 +78,6 @@ pub mod logging;
 #[doc(hidden)]
 pub mod prelude {
     pub use super::*;
-    pub use ecs::prelude::*;
     pub use events::*;
 }
 
