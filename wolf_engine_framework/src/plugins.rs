@@ -11,7 +11,6 @@ pub trait Plugin<E: UserEvent> {
 #[cfg(test)]
 mod plugin_loader_tests {
     use super::*;
-    use crate::FrameworkBuilder;
 
     use std::marker::PhantomData;
 
