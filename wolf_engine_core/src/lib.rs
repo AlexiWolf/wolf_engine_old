@@ -61,13 +61,13 @@
 //! [examples folder](https://github.com/AlexiWolf/wolf_engine/tree/main/examples) for additional
 //! examples.
 
-
 mod context;
 pub use context::*;
 mod event_loop;
 pub use event_loop::*;
 mod engine_builder;
 pub use engine_builder::*;
+use prelude::UserEvent;
 
 pub mod ecs;
 pub mod events;
@@ -80,47 +80,6 @@ pub mod prelude {
     pub use super::*;
     pub use ecs::prelude::*;
     pub use events::*;
-}
-
-use std::marker::PhantomData;
-
-use ecs::{ResourcesBuilder, World};
-use events::{UserEvent, HasEventSender};
-
-/// Represents the [`EventLoop`]-[`Context`] pair that makes up "the engine."
-pub type Engine<E> = (EventLoop<E>, Context<E>);
-
-/// Provides a common interface for configuring the [`Engine`].
-pub struct EngineBuilder<E: UserEvent> {
-    resources: ResourcesBuilder,
-    _event_type: PhantomData<E>,
-}
-
-impl<E: UserEvent> EngineBuilder<E> {
-    pub(crate) fn new() -> Self {
-        Self {
-            resources: ResourcesBuilder::default(),
-            _event_type: PhantomData,
-        }
-    }
-
-    /// Add resources to the [`Engine`].
-    pub fn with_resources(mut self, resources: ResourcesBuilder) -> Self {
-        self.resources = resources;
-        self
-    }
-
-    /// Consume the builder, and return the [`Engine`] created from it.
-    pub fn build(mut self) -> Engine<E> {
-        let event_loop = EventLoop::new();
-        self.resources.add_resource(event_loop.event_sender());
-        let context = Context {
-            world: World::default(),
-            resources: self.resources.build(),
-            event_sender: event_loop.event_sender(),
-        };
-        (event_loop, context)
-    }
 }
 
 /// Creates a new [`EngineBuilder`] to set up the [`Engine`].
@@ -139,7 +98,10 @@ mod init_tests {
 
         let (_event_loop, context) = crate::init::<()>().with_resources(resources).build();
 
-        assert!(context.resources().get::<i32>().is_some(), "The resources were not used");
+        assert!(
+            context.resources().get::<i32>().is_some(),
+            "The resources were not used"
+        );
     }
 
     #[test]
