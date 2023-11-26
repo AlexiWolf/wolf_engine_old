@@ -67,7 +67,6 @@ mod event_loop;
 pub use event_loop::*;
 mod engine_builder;
 pub use engine_builder::*;
-use prelude::UserEvent;
 
 pub mod ecs;
 pub mod events;
@@ -81,6 +80,8 @@ pub mod prelude {
     pub use ecs::prelude::*;
     pub use events::*;
 }
+
+use crate::prelude::UserEvent;
 
 /// Creates a new [`EngineBuilder`] to set up the [`Engine`].
 pub fn init<E: UserEvent>() -> EngineBuilder<E> {
