@@ -59,7 +59,7 @@ mod framework_init_tests {
     pub struct TestResource;
 
     #[test]
-    fn should_extend_default_init() {
+    fn should_add_resources() {
         let (_event_loop, context) = crate::init::<()>()
             .with_resource(TestResource)
             .build();
