@@ -182,9 +182,4 @@ mod init_tests {
             .get_mut::<MainEventSender<()>>()
             .expect("No event sender was added.");
     }
-
-    #[legion::system]
-    fn test() {
-        println!("Hello, world!");
-    }
 }
