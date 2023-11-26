@@ -2,23 +2,6 @@ use wolf_engine::prelude::*;
 
 pub struct Message(&'static str);
 
-#[wolf_engine::ecs::system]
-fn log_message(#[resource] message: &Message) {
-    log::info!("{}", message.0);
-}
-
-#[wolf_engine::ecs::system]
-fn quit_after_3_updates(
-    #[state] updates: &mut u32,
-    #[resource] event_sender: &MainEventSender<()>,
-) {
-    if *updates == 3 {
-        event_sender.send_event(Event::Quit).ok();
-    } else {
-        *updates += 1;
-    }
-}
-
 pub fn main() {
     logging::initialize_logging(logging::LogLevel::Info);
 
@@ -45,3 +28,21 @@ pub fn process_event(event: Event<()>, context: &mut Context<()>, schedule: &mut
         _ => (),
     }
 }
+
+#[wolf_engine::ecs::system]
+fn log_message(#[resource] message: &Message) {
+    log::info!("{}", message.0);
+}
+
+#[wolf_engine::ecs::system]
+fn quit_after_3_updates(
+    #[state] updates: &mut u32,
+    #[resource] event_sender: &MainEventSender<()>,
+) {
+    if *updates == 3 {
+        event_sender.send_event(Event::Quit).ok();
+    } else {
+        *updates += 1;
+    }
+}
+
