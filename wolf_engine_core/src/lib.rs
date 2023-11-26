@@ -165,7 +165,7 @@ mod init_tests {
     use crate::{ecs::ResourcesBuilder, events::MainEventSender};
 
     #[test]
-    fn should_use_builder_pattern() {
+    fn should_add_resources() {
         let mut resources = ResourcesBuilder::default();
         resources.add_resource(0).add_resource(true);
 
