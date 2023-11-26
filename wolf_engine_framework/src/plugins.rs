@@ -20,6 +20,10 @@ impl<E: UserEvent> PluginLoder<E> {
     pub fn add_plugin(&mut self, plugin: Box<dyn Plugin<E> + 'static>) {
         
     }
+
+    pub fn load_plugins(&mut self, builder: FrameworkBuilder<E>) -> PluginResult<E> {
+        Ok(builder)
+    }
 }
 
 #[cfg(test)]
