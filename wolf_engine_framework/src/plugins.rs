@@ -19,13 +19,13 @@ mod plugin_loader_tests {
     pub struct TestResource;
 
     pub struct TestPlugin<E: UserEvent> {
-        _phantom: PhantomData<E>,
+        _event_type: PhantomData<E>,
     }
 
     impl<E: UserEvent> TestPlugin<E> {
         pub fn new() -> Self {
             Self {
-                _phantom: PhantomData, 
+                _event_type: PhantomData, 
             }
         }
     }
