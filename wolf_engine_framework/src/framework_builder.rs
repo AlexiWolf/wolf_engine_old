@@ -1,4 +1,4 @@
-use crate::plugins::Plugin;
+use crate::plugins::{Plugin, PluginLoder};
 
 use wolf_engine_core::ecs::systems::Resource;
 use wolf_engine_core::ecs::ResourcesBuilder;
@@ -7,19 +7,19 @@ use wolf_engine_core::Engine;
 
 pub struct FrameworkBuilder<E: UserEvent> {
     resource_builder: ResourcesBuilder,
-    plugins: Vec<Box<dyn Plugin<E>>>,
+    plugin_loader: PluginLoder<E>,
 }
 
 impl<E: UserEvent> FrameworkBuilder<E> {
     pub(crate) fn new() -> Self {
         Self {
-            plugins: Vec::new(),
             resource_builder: ResourcesBuilder::default(),
+            plugin_loader: PluginLoder::new(), 
         }
     }
 
     pub fn with_plugin<P: Plugin<E> + 'static>(mut self, plugin: P) -> Self {
-        self.plugins.push(Box::from(plugin));
+        self.plugin_loader.add_plugin(Box::from(plugin));
         self
     }
 
@@ -29,11 +29,9 @@ impl<E: UserEvent> FrameworkBuilder<E> {
     }
 
     pub fn build(mut self) -> Engine<E> {
-        let plugins = std::mem::take(&mut self.plugins);
+        let plugin_loader = std::mem::take(&mut self.plugin_loader);
 
-        for mut plugin in plugins {
-            self = plugin.load(self).expect("Failed to load plugin");
-        }
+        self = plugin_loader.load_plugins(self);
 
         wolf_engine_core::init()
             .with_resources(self.resource_builder)
