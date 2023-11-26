@@ -18,10 +18,13 @@ impl<E: UserEvent> PluginLoder<E> {
     }
 
     pub fn add_plugin(&mut self, plugin: Box<dyn Plugin<E> + 'static>) {
-        
+        self.plugins.push(plugin); 
     }
 
-    pub fn load_plugins(&mut self, builder: FrameworkBuilder<E>) -> PluginResult<E> {
+    pub fn load_plugins(&mut self, mut builder: FrameworkBuilder<E>) -> PluginResult<E> {
+        for plugin in &mut self.plugins {
+            builder = plugin.load(builder).expect("Failed to load plugin");
+        }
         Ok(builder)
     }
 }
