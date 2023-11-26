@@ -23,7 +23,11 @@ impl<E: UserEvent> PluginLoder<E> {
 
     pub fn load_plugins(&mut self, builder: &mut FrameworkBuilder<E>) -> PluginResult {
         for plugin in &mut self.plugins {
-            plugin.load(builder).expect("Failed to load plugin");
+            match plugin.load(builder) {
+                Ok(_) => (),
+                Err(error) => 
+                    return Err(format!("Error loading Plugin ({}): ", plugin.name(), error)),
+            }
         }
         Ok(())
     }
