@@ -9,7 +9,6 @@ pub fn main() {
         .with_resource(Message("Hello, World!"))
         .build()
         .unwrap();
-        
 
     let mut schedule = Schedule::builder()
         .add_system(log_message_system())
@@ -47,4 +46,3 @@ fn quit_after_3_updates(
         *updates += 1;
     }
 }
-

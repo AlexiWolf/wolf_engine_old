@@ -15,19 +15,26 @@ pub(crate) struct PluginLoder<E: UserEvent> {
 
 impl<E: UserEvent> PluginLoder<E> {
     pub fn new() -> Self {
-        Self { plugins: Vec::new() }
+        Self {
+            plugins: Vec::new(),
+        }
     }
 
     pub fn add_plugin(&mut self, plugin: Box<dyn Plugin<E> + 'static>) {
-        self.plugins.push(plugin); 
+        self.plugins.push(plugin);
     }
 
     pub fn load_plugins(&mut self, builder: &mut FrameworkBuilder<E>) -> PluginResult {
         for plugin in &mut self.plugins {
             match plugin.load(builder) {
                 Ok(_) => (),
-                Err(error) => 
-                    return Err(format!("Error loading Plugin ({}): {}", plugin.name(), error)),
+                Err(error) => {
+                    return Err(format!(
+                        "Error loading Plugin ({}): {}",
+                        plugin.name(),
+                        error
+                    ))
+                }
             }
         }
         Ok(())

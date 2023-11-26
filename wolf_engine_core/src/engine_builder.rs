@@ -1,8 +1,7 @@
 use std::marker::PhantomData;
 
+use crate::ecs::{ResourcesBuilder, World};
 use crate::prelude::*;
-use crate::ecs::{World, ResourcesBuilder};
-
 
 /// Represents the [`EventLoop`]-[`Context`] pair that makes up "the engine."
 pub type Engine<E> = (EventLoop<E>, Context<E>);

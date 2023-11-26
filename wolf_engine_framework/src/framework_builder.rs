@@ -14,7 +14,7 @@ impl<E: UserEvent> FrameworkBuilder<E> {
     pub(crate) fn new() -> Self {
         Self {
             resource_builder: ResourcesBuilder::default(),
-            plugin_loader: PluginLoder::new(), 
+            plugin_loader: PluginLoder::new(),
         }
     }
 
@@ -33,14 +33,10 @@ impl<E: UserEvent> FrameworkBuilder<E> {
         match plugin_loader.load_plugins(self) {
             Ok(_) => (),
             Err(error) => return Err(error),
-        } 
-
+        }
         let resource_builder = std::mem::take(&mut self.resource_builder);
-
-        Ok(
-            wolf_engine_core::init()
-                .with_resources(resource_builder)
-                .build()
-        )
+        Ok(wolf_engine_core::init()
+            .with_resources(resource_builder)
+            .build())
     }
 }
