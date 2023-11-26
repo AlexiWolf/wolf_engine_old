@@ -26,7 +26,8 @@ mod framework_init_tests {
         let (_event_loop, context) = crate::init::<()>()
             .with_resource(TestResourceA)
             .with_resource(TestResourceB)
-            .build();
+            .build()
+            .unwrap();
         assert!(
             context.resources().get::<TestResourceA>().is_some(),
             "Resource insertion failed"

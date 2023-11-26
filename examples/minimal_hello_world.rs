@@ -7,7 +7,9 @@ pub fn main() {
 
     let (mut event_loop, mut context) = wolf_engine::framework::init()
         .with_resource(Message("Hello, World!"))
-        .build();
+        .build()
+        .unwrap();
+        
 
     let mut schedule = Schedule::builder()
         .add_system(log_message_system())

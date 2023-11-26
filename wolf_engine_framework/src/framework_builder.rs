@@ -28,13 +28,19 @@ impl<E: UserEvent> FrameworkBuilder<E> {
         self
     }
 
-    pub fn build(&mut self) -> Engine<E> {
+    pub fn build(&mut self) -> Result<Engine<E>, String> {
         let mut plugin_loader = std::mem::replace(&mut self.plugin_loader, PluginLoder::new());
-        plugin_loader.load_plugins(self).expect("Failed to load plugins");
+        match plugin_loader.load_plugins(self) {
+            Ok(_) => (),
+            Err(error) => return Err(error),
+        } 
 
         let resource_builder = std::mem::take(&mut self.resource_builder);
-        wolf_engine_core::init()
-            .with_resources(resource_builder)
-            .build()
+
+        Ok(
+            wolf_engine_core::init()
+                .with_resources(resource_builder)
+                .build()
+        )
     }
 }
