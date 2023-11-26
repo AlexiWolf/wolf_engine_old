@@ -9,7 +9,7 @@ use crate::events::*;
 /// [`EventLoop`](crate::EventLoop`).  Together, these two parts make up what we refer to as
 /// ["the engine"](crate::Engine).
 ///
-/// The Context owns all engine data, including resources, system schedules, and the game world.
+/// The Context owns all engine data, including resources, and the game world.
 pub struct Context<E: UserEvent> {
     pub(crate) world: World,
     pub(crate) resources: Resources,
