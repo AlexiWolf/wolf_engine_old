@@ -8,6 +8,20 @@ pub trait Plugin<E: UserEvent> {
     fn load(&mut self, builder: FrameworkBuilder<E>) -> PluginResult<E>;
 }
 
+pub(crate) struct PluginLoder<E: UserEvent> {
+    plugins: Vec<Box<dyn Plugin<E>>>,
+}
+
+impl<E: UserEvent> PluginLoder<E> {
+    pub fn new() -> Self {
+        Self { plugins: Vec::new() }
+    }
+
+    pub fn add_plugin(&mut self, plugin: Box<dyn Plugin<E> + 'static>) {
+        
+    }
+}
+
 #[cfg(test)]
 mod plugin_loader_tests {
     use super::*;
