@@ -96,13 +96,9 @@ mod plugin_loader_tests {
 
     #[test]
     fn should_handle_plugin_failures() {
-        let (_event_loop, context) = crate::init::<()>()
+        let result = crate::init::<()>()
             .with_plugin(TestPlugin::new(true))
-            .build()
-            .unwrap();
-        assert!(
-            context.resources().get::<TestResource>().is_some(),
-            "Resource insertion failed"
-        );
+            .build();
+        assert!(result.is_err(), "The build should have failed");
     }
 }
