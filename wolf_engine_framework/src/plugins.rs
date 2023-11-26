@@ -2,10 +2,10 @@ use crate::FrameworkBuilder;
 
 use wolf_engine_core::events::UserEvent;
 
-pub type PluginResult<E> = Result<FrameworkBuilder<E>, String>;
+pub type PluginResult = Result<(), String>;
 
 pub trait Plugin<E: UserEvent> {
-    fn load(&mut self, builder: FrameworkBuilder<E>) -> PluginResult<E>;
+    fn load(&mut self, builder: &mut FrameworkBuilder<E>) -> PluginResult;
 }
 
 pub(crate) struct PluginLoder<E: UserEvent> {
@@ -21,11 +21,11 @@ impl<E: UserEvent> PluginLoder<E> {
         self.plugins.push(plugin); 
     }
 
-    pub fn load_plugins(&mut self, mut builder: FrameworkBuilder<E>) -> PluginResult<E> {
+    pub fn load_plugins(&mut self, builder: &mut FrameworkBuilder<E>) -> PluginResult {
         for plugin in &mut self.plugins {
-            builder = plugin.load(builder).expect("Failed to load plugin");
+            plugin.load(builder).expect("Failed to load plugin");
         }
-        Ok(builder)
+        Ok(())
     }
 }
 
@@ -52,8 +52,9 @@ mod plugin_loader_tests {
     }
 
     impl<E: UserEvent> Plugin<E> for TestPlugin<E> {
-        fn load(&mut self, builder: FrameworkBuilder<E>) -> PluginResult<E> {
-            Ok(builder.with_resource(TestResource))
+        fn load(&mut self, builder: &mut FrameworkBuilder<E>) -> PluginResult {
+            builder.with_resource(TestResource);
+            Ok(())
         }
     }
 

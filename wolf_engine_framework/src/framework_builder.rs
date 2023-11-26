@@ -18,23 +18,23 @@ impl<E: UserEvent> FrameworkBuilder<E> {
         }
     }
 
-    pub fn with_plugin<P: Plugin<E> + 'static>(mut self, plugin: P) -> Self {
+    pub fn with_plugin<P: Plugin<E> + 'static>(&mut self, plugin: P) -> &mut Self {
         self.plugin_loader.add_plugin(Box::from(plugin));
         self
     }
 
-    pub fn with_resource<T: Resource + 'static>(mut self, resource: T) -> Self {
+    pub fn with_resource<T: Resource + 'static>(&mut self, resource: T) -> &mut Self {
         self.resource_builder.add_resource(resource);
         self
     }
 
-    pub fn build(mut self) -> Engine<E> {
+    pub fn build(&mut self) -> Engine<E> {
         let mut plugin_loader = std::mem::replace(&mut self.plugin_loader, PluginLoder::new());
+        plugin_loader.load_plugins(self).expect("Failed to load plugins");
 
-        self = plugin_loader.load_plugins(self).expect("Failed to load plugins");
-
+        let resource_builder = std::mem::take(&mut self.resource_builder);
         wolf_engine_core::init()
-            .with_resources(self.resource_builder)
+            .with_resources(resource_builder)
             .build()
     }
 }
