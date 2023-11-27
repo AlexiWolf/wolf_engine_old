@@ -9,11 +9,11 @@ pub trait Plugin<E: UserEvent> {
     fn load(&mut self, builder: &mut FrameworkBuilder<E>) -> PluginResult;
 }
 
-pub(crate) struct PluginLoder<E: UserEvent> {
+pub(crate) struct PluginLoader<E: UserEvent> {
     plugins: Vec<Box<dyn Plugin<E>>>,
 }
 
-impl<E: UserEvent> PluginLoder<E> {
+impl<E: UserEvent> PluginLoader<E> {
     pub fn new() -> Self {
         Self {
             plugins: Vec::new(),
