@@ -23,7 +23,7 @@ impl<E: UserEvent> FrameworkBuilder<E> {
         self
     }
 
-    pub fn with_resource<T: Resource + 'static>(&mut self, resource: T) -> &mut Self {
+    pub fn with_resource<T: Resource>(&mut self, resource: T) -> &mut Self {
         self.resources.insert(resource);
         self
     }
