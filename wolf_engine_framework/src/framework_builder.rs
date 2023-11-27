@@ -34,9 +34,9 @@ impl<E: UserEvent> FrameworkBuilder<E> {
             Ok(_) => (),
             Err(error) => return Err(error),
         }
-        let resource_builder = std::mem::take(&mut self.resources);
+        let resources = std::mem::take(&mut self.resources);
         Ok(wolf_engine_core::init()
-            .with_resources(resource_builder)
+            .with_resources(resources)
             .build())
     }
 }
