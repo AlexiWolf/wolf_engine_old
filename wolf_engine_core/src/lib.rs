@@ -83,7 +83,7 @@ pub mod prelude {
 
 use crate::prelude::UserEvent;
 
-/// Creates a new [`EngineBuilder`] to set up the [`Engine`].
+/// Initializes Wolf Engine using the [`EngineBuilder`]. 
 pub fn init<E: UserEvent>() -> EngineBuilder<E> {
     EngineBuilder::new()
 }
