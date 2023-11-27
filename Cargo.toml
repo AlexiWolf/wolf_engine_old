@@ -37,3 +37,7 @@ required-features = ["logging"]
 [[example]]
 name = "logging"
 required-features = ["logging"]
+
+[[example]]
+name = "plugins"
+required-features = ["framework"]
