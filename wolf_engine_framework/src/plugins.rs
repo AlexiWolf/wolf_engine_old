@@ -1,3 +1,5 @@
+//! Provides a plugin system for the engine.
+
 use crate::FrameworkBuilder;
 
 use wolf_engine_core::events::UserEvent;
