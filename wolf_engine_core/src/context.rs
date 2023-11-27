@@ -55,9 +55,7 @@ impl<E: UserEvent> HasEventSender<Event<E>> for Context<E> {
 
 #[cfg(test)]
 mod context_tests {
-    use legion::Schedule;
-
-    use crate::ecs::Resources;
+    use crate::ecs::{Resources, Schedule};
 
     #[test]
     fn should_run_ecs_tick() {
