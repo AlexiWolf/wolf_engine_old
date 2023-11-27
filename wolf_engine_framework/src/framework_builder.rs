@@ -1,19 +1,19 @@
 use crate::plugins::{Plugin, PluginLoder};
 
 use wolf_engine_core::ecs::systems::Resource;
-use wolf_engine_core::ecs::ResourcesBuilder;
+use wolf_engine_core::ecs::Resources;
 use wolf_engine_core::events::UserEvent;
 use wolf_engine_core::Engine;
 
 pub struct FrameworkBuilder<E: UserEvent> {
-    resource_builder: ResourcesBuilder,
+    resources: Resources,
     plugin_loader: PluginLoder<E>,
 }
 
 impl<E: UserEvent> FrameworkBuilder<E> {
     pub(crate) fn new() -> Self {
         Self {
-            resource_builder: ResourcesBuilder::default(),
+            resources: Resources::default(),
             plugin_loader: PluginLoder::new(),
         }
     }
@@ -24,7 +24,7 @@ impl<E: UserEvent> FrameworkBuilder<E> {
     }
 
     pub fn with_resource<T: Resource + 'static>(&mut self, resource: T) -> &mut Self {
-        self.resource_builder.add_resource(resource);
+        self.resources.insert(resource);
         self
     }
 
@@ -34,7 +34,7 @@ impl<E: UserEvent> FrameworkBuilder<E> {
             Ok(_) => (),
             Err(error) => return Err(error),
         }
-        let resource_builder = std::mem::take(&mut self.resource_builder);
+        let resource_builder = std::mem::take(&mut self.resources);
         Ok(wolf_engine_core::init()
             .with_resources(resource_builder)
             .build())

@@ -7,7 +7,7 @@
 //! ```
 //! # use wolf_engine_core as wolf_engine;
 //! # use wolf_engine::prelude::*;
-//! # use wolf_engine::ecs::{Schedule, ResourcesBuilder};
+//! # use wolf_engine::ecs::{Schedule, Resources};
 //! #
 //! # struct SomeResource;
 //! #
@@ -18,8 +18,8 @@
 //!     // Start by setting up Resources, or custom data for the engine.
 //!     // These resources are available to systems, and from the Context at run-time.
 //!     // This step is optional.
-//!     let mut resources = ResourcesBuilder::default();
-//!     resources.add_resource(SomeResource);
+//!     let mut resources = Resources::default();
+//!     resources.insert(SomeResource);
 //!
 //!     // Then initalize the EventLoop, and Context.
 //!     // Resources, and other settings can also be set up from here.
@@ -90,12 +90,13 @@ pub fn init<E: UserEvent>() -> EngineBuilder<E> {
 
 #[cfg(test)]
 mod init_tests {
-    use crate::{ecs::ResourcesBuilder, events::MainEventSender};
+    use crate::ecs::Resources; 
+    use crate::events::MainEventSender;
 
     #[test]
     fn should_add_resources() {
-        let mut resources = ResourcesBuilder::default();
-        resources.add_resource(0).add_resource(true);
+        let mut resources = Resources::default();
+        resources.insert(0);
 
         let (_event_loop, context) = crate::init::<()>().with_resources(resources).build();
 
