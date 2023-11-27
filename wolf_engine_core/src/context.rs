@@ -2,7 +2,6 @@ use std::sync::Arc;
 
 use crate::ecs::*;
 use crate::events::*;
-use crate::EventLoop;
 
 /// Provides a container for Wolf Engine's user-facing data.
 ///
@@ -10,19 +9,14 @@ use crate::EventLoop;
 /// [`EventLoop`](crate::EventLoop`).  Together, these two parts make up what we refer to as
 /// ["the engine"](crate::Engine).
 ///
-/// The Context owns all engine data, including resources, system schedules, and the game world.
+/// The Context owns all engine data, including resources, and the game world.
 pub struct Context<E: UserEvent> {
-    world: World,
-    resources: Resources,
-    event_sender: Arc<dyn EventSender<Event<E>>>,
+    pub(crate) world: World,
+    pub(crate) resources: Resources,
+    pub(crate) event_sender: Arc<dyn EventSender<Event<E>>>,
 }
 
 impl<E: UserEvent> Context<E> {
-    /// Create a new `Context` from the provided [`EventQueue`] and data.
-    pub(crate) fn builder() -> ContextBuilder {
-        ContextBuilder::new()
-    }
-
     pub fn run_schedule(&mut self, schedule: &mut Schedule) {
         schedule.execute(&mut self.world, &mut self.resources);
     }
@@ -59,36 +53,9 @@ impl<E: UserEvent> HasEventSender<Event<E>> for Context<E> {
     }
 }
 
-pub(crate) struct ContextBuilder {
-    world: World,
-    resources: Resources,
-}
-
-impl ContextBuilder {
-    pub(crate) fn new() -> Self {
-        Self {
-            world: Default::default(),
-            resources: Default::default(),
-        }
-    }
-
-    pub fn with_resources(mut self, resources: Resources) -> Self {
-        self.resources = resources;
-        self
-    }
-
-    pub fn build<E: UserEvent>(self, event_loop: &EventLoop<E>) -> Context<E> {
-        Context {
-            world: self.world,
-            resources: self.resources,
-            event_sender: event_loop.event_sender(),
-        }
-    }
-}
-
 #[cfg(test)]
 mod context_tests {
-    use legion::Schedule;
+    use crate::ecs::{Resources, Schedule};
 
     #[test]
     fn should_run_ecs_tick() {
@@ -96,11 +63,9 @@ mod context_tests {
         fn add_1(#[resource] number: &mut i32) {
             *number += 1;
         }
-        let (_, mut context) = crate::init::<()>()
-            .with_resources(|resources| {
-                resources.add_resource(0);
-            })
-            .build();
+        let mut resources = Resources::default();
+        resources.insert(0);
+        let (_, mut context) = crate::init::<()>().with_resources(resources).build();
 
         let mut schedule = Schedule::builder().add_system(add_1_system()).build();
 
