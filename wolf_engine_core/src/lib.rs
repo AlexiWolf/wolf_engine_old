@@ -83,14 +83,14 @@ pub mod prelude {
 
 use crate::prelude::UserEvent;
 
-/// Initializes Wolf Engine using the [`EngineBuilder`]. 
+/// Initializes Wolf Engine using the [`EngineBuilder`].
 pub fn init<E: UserEvent>() -> EngineBuilder<E> {
     EngineBuilder::new()
 }
 
 #[cfg(test)]
 mod init_tests {
-    use crate::ecs::Resources; 
+    use crate::ecs::Resources;
     use crate::events::MainEventSender;
 
     #[test]

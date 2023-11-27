@@ -32,7 +32,7 @@ impl<E: UserEvent> EngineBuilder<E> {
         self.resources.insert(event_loop.event_sender());
         let context = Context {
             world: World::default(),
-            resources: self.resources, 
+            resources: self.resources,
             event_sender: event_loop.event_sender(),
         };
         (event_loop, context)

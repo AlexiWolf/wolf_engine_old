@@ -46,11 +46,8 @@ impl<E: UserEvent> PluginLoader<E> {
             match plugin.load(builder) {
                 Ok(_) => (),
                 Err(error) => {
-                    let error_message = format!(
-                        "Error loading Plugin ({}): {}",
-                        plugin.name(),
-                        error
-                    );
+                    let error_message =
+                        format!("Error loading Plugin ({}): {}", plugin.name(), error);
                     log::error!("{}", error_message);
                     return Err(error);
                 }

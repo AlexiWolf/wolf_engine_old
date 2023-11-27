@@ -21,7 +21,7 @@ impl<E: UserEvent> FrameworkBuilder<E> {
             plugin_loader: PluginLoader::new(),
         }
     }
-    
+
     /// Adds a [`Plugin`] to the engine.
     ///
     /// **Note:** Plugins are loaded when [`FrameworkBuilder::build()`] is called.
@@ -29,7 +29,7 @@ impl<E: UserEvent> FrameworkBuilder<E> {
         self.plugin_loader.add_plugin(Box::from(plugin));
         self
     }
-    
+
     /// Adds a [`Resource`] of type `T` to the engine's [`Resources`].
     ///
     /// **Note:** If a provided type is already in the store, it will be silently overwritten. This
@@ -38,7 +38,7 @@ impl<E: UserEvent> FrameworkBuilder<E> {
         self.resources.insert(resource);
         self
     }
-    
+
     /// Creates a new instance of [`Engine`] from the builder.
     pub fn build(&mut self) -> Result<Engine<E>, String> {
         let mut plugin_loader = std::mem::replace(&mut self.plugin_loader, PluginLoader::new());
@@ -47,8 +47,6 @@ impl<E: UserEvent> FrameworkBuilder<E> {
             Err(error) => return Err(error),
         }
         let resources = std::mem::take(&mut self.resources);
-        Ok(wolf_engine_core::init()
-            .with_resources(resources)
-            .build())
+        Ok(wolf_engine_core::init().with_resources(resources).build())
     }
 }

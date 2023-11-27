@@ -1,8 +1,8 @@
 use std::marker::PhantomData;
 
-use wolf_engine::prelude::*;
-use wolf_engine::framework::FrameworkBuilder;
 use wolf_engine::framework::plugins::*;
+use wolf_engine::framework::FrameworkBuilder;
+use wolf_engine::prelude::*;
 
 // Just a test resource used by our plugin.
 pub struct MyResource(String);
@@ -40,11 +40,9 @@ pub fn main() {
         .with_plugin(MyPlugin::new()) // Plugins are added at startup.
         .build()
         .unwrap();
-    
+
     // Resources added by plugins can be accessed just like any other resource.
-    let plugin_resource = context.resources()
-        .get::<MyResource>()
-        .unwrap();
+    let plugin_resource = context.resources().get::<MyResource>().unwrap();
 
     println!("{}", plugin_resource.0);
 }
