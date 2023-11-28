@@ -40,8 +40,14 @@ mod framework_init_tests {
     }
 }
 
+pub(crate) struct MainLoopResource {
+     
+}
+
 #[cfg(test)]
 mod framework_runner_test {
+    use super::*;
+
     #[test]
     fn should_add_main_loop_resource() {
         let (_event_loop, context) = crate::init::<()>()
