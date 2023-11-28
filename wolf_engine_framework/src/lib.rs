@@ -21,6 +21,10 @@ pub fn init<E: UserEvent>() -> FrameworkBuilder<E> {
     builder
 }
 
+pub fn run<E: UserEvent>(mut engine: Engine<E>) {
+    
+}
+
 #[cfg(test)]
 mod framework_init_tests {
     pub struct TestResourceA;
