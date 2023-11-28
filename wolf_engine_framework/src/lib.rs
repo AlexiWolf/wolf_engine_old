@@ -115,4 +115,13 @@ mod framework_runner_test {
 
         crate::run(engine);
     }
+
+    #[test]
+    #[should_panic]
+    fn should_panic_without_main_loop() {
+        let engine = wolf_engine_core::init::<()>()
+            .build();
+
+        crate::run(engine);
+    }
 }
