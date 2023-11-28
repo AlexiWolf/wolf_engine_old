@@ -48,18 +48,18 @@ pub(crate) struct MainLoopResource<E: UserEvent> {
     inner: Box<dyn MainLoop<E>>,
 }
 
-impl<E: UserEvent> MainLoop<E> for MainLoopResource<E> {
-    fn run(self, engine: Engine<E>) {
-        todo!()
+impl<E: UserEvent> MainLoopResource<E> {
+    pub fn extract(self) -> Box<dyn MainLoop<E>> {
+        self.inner 
     }
 }
 
 pub trait MainLoop<E: UserEvent> {
-    fn run(self, engine: Engine<E>);
+    fn run(&mut self, engine: Engine<E>);
 }
 
-impl<E: UserEvent, T> MainLoop<E> for T where T: FnOnce(Engine<E>) {
-    fn run(self, engine: Engine<E>) {
+impl<E: UserEvent, T> MainLoop<E> for T where T: FnMut(Engine<E>) {
+    fn run(&mut self, engine: Engine<E>) {
         (self)(engine)
     }
 }
@@ -87,9 +87,10 @@ mod framework_runner_test {
             .build()
             .unwrap();
 
-        let main_loop = context.resources_mut()
+        let mut main_loop = context.resources_mut()
             .remove::<MainLoopResource<()>>()
-            .expect("No MainLoopResource");
+            .expect("No MainLoopResource")
+            .extract();
 
         main_loop.run((event_loop, context));
     }
