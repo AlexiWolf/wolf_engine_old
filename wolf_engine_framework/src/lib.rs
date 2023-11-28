@@ -16,7 +16,7 @@ use wolf_engine_core::{events::UserEvent, Engine};
 pub fn init<E: UserEvent>() -> FrameworkBuilder<E> {
     let mut builder = FrameworkBuilder::<E>::new();
     builder.with_resource(MainLoopResource::<E> {
-        inner: Box::from(|_engine| {}),
+        inner: Box::from(main_loop),
     });
     builder
 }
@@ -31,6 +31,10 @@ pub fn run<E: UserEvent>(engine: Engine<E>) {
         .extract();
 
     main_loop.run((event_loop, context));
+}
+
+pub(crate) fn main_loop<E: UserEvent>(engine: Engine<E>) {
+
 }
 
 #[cfg(test)]
