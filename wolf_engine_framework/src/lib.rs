@@ -26,7 +26,8 @@ pub fn run<E: UserEvent>(engine: Engine<E>) {
 
     let mut main_loop = context.resources_mut()
         .remove::<MainLoopResource<E>>()
-        .expect("No main loop.  Make sure you used `framework::init()` to set up the Engine")
+        .expect(
+            "No main loop.  Make sure you used `wolf_engine::framework::init()` to set up the Engine")
         .extract();
 
     main_loop.run((event_loop, context));
