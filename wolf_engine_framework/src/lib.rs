@@ -22,7 +22,7 @@ pub fn init<E: UserEvent>() -> FrameworkBuilder<E> {
 }
 
 pub fn run<E: UserEvent>(engine: Engine<E>) {
-    let (event_loop, mut context) = engine;  
+    let (event_loop, mut context) = engine;
 
     let mut main_loop = context.resources_mut()
         .remove::<MainLoopResource<E>>()
@@ -33,9 +33,7 @@ pub fn run<E: UserEvent>(engine: Engine<E>) {
     main_loop.run((event_loop, context));
 }
 
-pub(crate) fn main_loop<E: UserEvent>(engine: Engine<E>) {
-
-}
+pub(crate) fn main_loop<E: UserEvent>(engine: Engine<E>) {}
 
 #[cfg(test)]
 mod framework_init_tests {
@@ -70,7 +68,7 @@ impl<E: UserEvent> MainLoopResource<E> {
     }
 
     pub fn extract(self) -> Box<dyn MainLoop<E>> {
-        self.inner 
+        self.inner
     }
 }
 
@@ -79,7 +77,10 @@ pub trait MainLoop<E: UserEvent> {
     fn run(&mut self, engine: Engine<E>);
 }
 
-impl<E: UserEvent, T> MainLoop<E> for T where T: FnMut(Engine<E>) {
+impl<E: UserEvent, T> MainLoop<E> for T
+where
+    T: FnMut(Engine<E>),
+{
     fn run(&mut self, engine: Engine<E>) {
         (self)(engine)
     }
@@ -91,9 +92,7 @@ mod framework_runner_test {
 
     #[test]
     fn should_add_main_loop_resource() {
-        let (_event_loop, context) = crate::init::<()>()
-            .build()
-            .unwrap();
+        let (_event_loop, context) = crate::init::<()>().build().unwrap();
 
         assert!(
             context.resources().get::<MainLoopResource<()>>().is_some(),
@@ -104,9 +103,7 @@ mod framework_runner_test {
     #[test]
     fn should_add_custom_main_loop() {
         let mut mock_main_loop = MockMainLoop::new();
-        mock_main_loop.expect_run()
-            .once()
-            .return_const(());
+        mock_main_loop.expect_run().once().return_const(());
 
         let engine = crate::init::<()>()
             .with_main_loop(mock_main_loop)
@@ -119,8 +116,7 @@ mod framework_runner_test {
     #[test]
     #[should_panic]
     fn should_panic_without_main_loop() {
-        let engine = wolf_engine_core::init::<()>()
-            .build();
+        let engine = wolf_engine_core::init::<()>().build();
 
         crate::run(engine);
     }
