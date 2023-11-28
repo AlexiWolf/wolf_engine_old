@@ -39,3 +39,18 @@ mod framework_init_tests {
         );
     }
 }
+
+#[cfg(test)]
+mod framework_runner_test {
+    #[test]
+    fn should_add_main_loop_resource() {
+        let (_event_loop, context) = crate::init::<()>()
+            .build()
+            .unwrap();
+
+        assert!(
+            context.resources().get::<MainLoop>().is_some(),
+            "Main loop resource was not inserted"
+        );
+    }
+}
