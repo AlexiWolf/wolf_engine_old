@@ -58,6 +58,7 @@ impl<E: UserEvent> MainLoopResource<E> {
     }
 }
 
+#[cfg_attr(test, mockall::automock)]
 pub trait MainLoop<E: UserEvent> {
     fn run(&mut self, engine: Engine<E>);
 }
