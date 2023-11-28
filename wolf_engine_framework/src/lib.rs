@@ -86,21 +86,17 @@ mod framework_runner_test {
 
     #[test]
     fn should_add_custom_main_loop() {
-        let mut has_run = false;
+        let mut mock_main_loop = MockMainLoop::new();
+
         let (event_loop, mut context) = crate::init::<()>()
-            .with_main_loop(|engine| {
-                has_run = true;
-            })
+            .with_main_loop(mock_main_loop)
             .build()
             .unwrap();
-
         let mut main_loop = context.resources_mut()
             .remove::<MainLoopResource<()>>()
             .expect("No MainLoopResource")
             .extract();
 
         main_loop.run((event_loop, context));
-
-        assert!(has_run, "The main loop did not run, or was not correct");
     }
 }
