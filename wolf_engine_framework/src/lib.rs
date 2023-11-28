@@ -88,6 +88,9 @@ mod framework_runner_test {
     #[test]
     fn should_add_custom_main_loop() {
         let mut mock_main_loop = MockMainLoop::new();
+        mock_main_loop.expect_run()
+            .once()
+            .return_const(());
 
         let (event_loop, mut context) = crate::init::<()>()
             .with_main_loop(mock_main_loop)
