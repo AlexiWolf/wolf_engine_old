@@ -40,7 +40,7 @@ impl<E: UserEvent> FrameworkBuilder<E> {
         self
     }
 
-    pub fn with_main_loop<T: MainLoop>(&mut self, main_loop: T) -> &mut Self {
+    pub fn with_main_loop<T: MainLoop<E>>(&mut self, main_loop: T) -> &mut Self {
         self
     }
 
