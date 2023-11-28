@@ -15,9 +15,7 @@ use wolf_engine_core::{events::UserEvent, Engine};
 /// Initializes Wolf Engine using the [`FrameworkBuilder`].
 pub fn init<E: UserEvent>() -> FrameworkBuilder<E> {
     let mut builder = FrameworkBuilder::<E>::new();
-    builder.with_resource(MainLoopResource::<E> {
-        inner: Box::from(main_loop),
-    });
+    builder.with_resource(MainLoopResource::<E>::new(main_loop));
     builder
 }
 
@@ -72,6 +70,13 @@ pub(crate) struct MainLoopResource<E: UserEvent> {
 }
 
 impl<E: UserEvent> MainLoopResource<E> {
+    /// Creates a new resource from the provided [`MainLoop`].
+    pub fn new<L: MainLoop<E> + 'static>(main_loop: L) -> Self {
+        Self {
+            inner: Box::from(main_loop),
+        }
+    }
+
     /// Sets the inner [`MainLoop`].
     pub fn set_main_loop(&mut self, main_loop: Box<dyn MainLoop<E>>) {
         self.inner = main_loop;
