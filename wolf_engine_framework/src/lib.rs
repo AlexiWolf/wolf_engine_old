@@ -40,7 +40,9 @@ pub fn run<E: UserEvent>(engine: Engine<E>) {
 }
 
 /// The default [`MainLoop`] implementation.
-pub(crate) fn main_loop<E: UserEvent>(engine: Engine<E>) {}
+pub(crate) fn main_loop<E: UserEvent>(_engine: Engine<E>) {
+    todo!("Will be implemented with the Scene system.")
+}
 
 #[cfg(test)]
 mod framework_init_tests {
