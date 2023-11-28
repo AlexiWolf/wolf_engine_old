@@ -22,7 +22,14 @@ pub fn init<E: UserEvent>() -> FrameworkBuilder<E> {
 }
 
 pub fn run<E: UserEvent>(mut engine: Engine<E>) {
-    
+    let (event_loop, mut context) = engine;  
+
+    let mut main_loop = context.resources_mut()
+        .remove::<MainLoopResource<E>>()
+        .expect("No main loop.  Make sure you used `framework::init()` to set up the Engine")
+        .extract();
+
+    main_loop.run((event_loop, context));
 }
 
 #[cfg(test)]
