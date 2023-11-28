@@ -49,7 +49,7 @@ mod framework_runner_test {
             .unwrap();
 
         assert!(
-            context.resources().get::<MainLoop>().is_some(),
+            context.resources().get::<MainLoopResource>().is_some(),
             "Main loop resource was not inserted"
         );
     }
