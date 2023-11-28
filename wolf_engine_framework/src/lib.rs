@@ -21,6 +21,12 @@ pub fn init<E: UserEvent>() -> FrameworkBuilder<E> {
     builder
 }
 
+/// Runs the [`Engine`].
+///
+/// # Panics
+///
+/// This function expects you to use the Framework's [wolf_enigne::framework::init()](init)
+/// function to create the [`Engine`], otherwise, this function will panic.
 pub fn run<E: UserEvent>(engine: Engine<E>) {
     let (event_loop, mut context) = engine;
 
@@ -33,6 +39,7 @@ pub fn run<E: UserEvent>(engine: Engine<E>) {
     main_loop.run((event_loop, context));
 }
 
+/// The default [`MainLoop`] implementation.
 pub(crate) fn main_loop<E: UserEvent>(engine: Engine<E>) {}
 
 #[cfg(test)]
@@ -58,22 +65,28 @@ mod framework_init_tests {
     }
 }
 
+/// Provides a wrapper around some [`MainLoop`] implementation, making it possible to access it as
+/// a [`Resource`] at run-time.
 pub(crate) struct MainLoopResource<E: UserEvent> {
     inner: Box<dyn MainLoop<E>>,
 }
 
 impl<E: UserEvent> MainLoopResource<E> {
+    /// Sets the inner [`MainLoop`].
     pub fn set_main_loop(&mut self, main_loop: Box<dyn MainLoop<E>>) {
         self.inner = main_loop;
     }
-
+    
+    /// Consumes the resource, and returns a pointer to underlying [`MainLoop`].
     pub fn extract(self) -> Box<dyn MainLoop<E>> {
         self.inner
     }
 }
 
+/// An implementation of the engine's main-loop.
 #[cfg_attr(test, mockall::automock)]
 pub trait MainLoop<E: UserEvent> {
+    /// Runs the main-loop until the engine quits.
     fn run(&mut self, engine: Engine<E>);
 }
 
