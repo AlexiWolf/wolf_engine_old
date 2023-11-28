@@ -21,29 +21,6 @@ pub fn init<E: UserEvent>() -> FrameworkBuilder<E> {
     builder
 }
 
-/// Runs the [`Engine`].
-///
-/// # Panics
-///
-/// This function expects you to use the Framework's [wolf_enigne::framework::init()](init)
-/// function to create the [`Engine`], otherwise, this function will panic.
-pub fn run<E: UserEvent>(engine: Engine<E>) {
-    let (event_loop, mut context) = engine;
-
-    let mut main_loop = context.resources_mut()
-        .remove::<MainLoopResource<E>>()
-        .expect(
-            "No main loop.  Make sure you used `wolf_engine::framework::init()` to set up the Engine")
-        .extract();
-
-    main_loop.run((event_loop, context));
-}
-
-/// The default [`MainLoop`] implementation.
-pub(crate) fn main_loop<E: UserEvent>(_engine: Engine<E>) {
-    todo!("Will be implemented with the Scene system.")
-}
-
 #[cfg(test)]
 mod framework_init_tests {
     pub struct TestResourceA;
@@ -65,6 +42,29 @@ mod framework_init_tests {
             "Resource insertion failed"
         );
     }
+}
+
+/// Runs the [`Engine`].
+///
+/// # Panics
+///
+/// This function expects you to use the Framework's [wolf_enigne::framework::init()](init)
+/// function to create the [`Engine`], otherwise, this function will panic.
+pub fn run<E: UserEvent>(engine: Engine<E>) {
+    let (event_loop, mut context) = engine;
+
+    let mut main_loop = context.resources_mut()
+        .remove::<MainLoopResource<E>>()
+        .expect(
+            "No main loop.  Make sure you used `wolf_engine::framework::init()` to set up the Engine")
+        .extract();
+
+    main_loop.run((event_loop, context));
+}
+
+/// The default [`MainLoop`] implementation.
+pub(crate) fn main_loop<E: UserEvent>(_engine: Engine<E>) {
+    todo!("Will be implemented with the Scene system.")
 }
 
 #[cfg(test)]
