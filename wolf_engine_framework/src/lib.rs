@@ -46,8 +46,12 @@ pub(crate) struct MainLoopResource {
      
 }
 
-pub trait MainLoop {
-    
+pub trait MainLoop<E: UserEvent> {
+     
+}
+
+impl<E: UserEvent, T> MainLoop<E> for T where T: FnOnce(Engine<E>) {
+
 }
 
 #[cfg(test)]
