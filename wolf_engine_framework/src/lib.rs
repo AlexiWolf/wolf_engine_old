@@ -72,9 +72,15 @@ mod framework_runner_test {
 
     #[test]
     fn should_add_custom_main_loop() {
-        let (_event_loop, context) = crate::init::<()>()
+        let (event_loop, context) = crate::init::<()>()
             .with_main_loop(|engine| {})
             .build()
             .unwrap();
+
+        let main_loop = context.resources_mut()
+            .remove::<MainLoopResource>()
+            .expect("No MainLoopResource");
+
+        main_loop.run((event_loop, context));
     }
 }
