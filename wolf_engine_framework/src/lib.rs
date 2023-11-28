@@ -46,6 +46,10 @@ pub(crate) struct MainLoopResource {
      
 }
 
+pub trait MainLoop {
+    
+}
+
 #[cfg(test)]
 mod framework_runner_test {
     use super::*;
