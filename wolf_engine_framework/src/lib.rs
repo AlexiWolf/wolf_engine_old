@@ -61,4 +61,12 @@ mod framework_runner_test {
             "Main loop resource was not inserted"
         );
     }
+
+    #[test]
+    fn should_add_custom_main_loop() {
+        let (_event_loop, context) = crate::init::<()>()
+            .with_main_loop(|engine| {})
+            .build()
+            .unwrap();
+    }
 }
