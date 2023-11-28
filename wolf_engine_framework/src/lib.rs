@@ -14,7 +14,9 @@ use wolf_engine_core::events::UserEvent;
 
 /// Initializes Wolf Engine using the [`FrameworkBuilder`].
 pub fn init<E: UserEvent>() -> FrameworkBuilder<E> {
-    FrameworkBuilder::<E>::new()
+    let mut builder = FrameworkBuilder::<E>::new();
+    builder.with_resource(MainLoopResource{});
+    builder
 }
 
 #[cfg(test)]
