@@ -82,8 +82,11 @@ mod framework_runner_test {
 
     #[test]
     fn should_add_custom_main_loop() {
+        let mut has_run = false;
         let (event_loop, mut context) = crate::init::<()>()
-            .with_main_loop(|engine| {})
+            .with_main_loop(|engine| {
+                has_run = true;
+            })
             .build()
             .unwrap();
 
@@ -93,5 +96,7 @@ mod framework_runner_test {
             .extract();
 
         main_loop.run((event_loop, context));
+
+        assert!(has_run, "The main loop did not run, or was not correct");
     }
 }
