@@ -39,6 +39,10 @@ impl<E: UserEvent> FrameworkBuilder<E> {
         self
     }
 
+    pub fn with_main_loop<T: MainLoop>(&mut self, main_loop: T) -> &mut Self {
+    
+    }
+
     /// Creates a new instance of [`Engine`] from the builder.
     pub fn build(&mut self) -> Result<Engine<E>, String> {
         let mut plugin_loader = std::mem::replace(&mut self.plugin_loader, PluginLoader::new());
