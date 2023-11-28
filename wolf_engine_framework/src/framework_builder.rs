@@ -1,3 +1,4 @@
+use crate::MainLoop;
 use crate::plugins::{Plugin, PluginLoader};
 
 use wolf_engine_core::ecs::systems::Resource;
@@ -40,7 +41,7 @@ impl<E: UserEvent> FrameworkBuilder<E> {
     }
 
     pub fn with_main_loop<T: MainLoop>(&mut self, main_loop: T) -> &mut Self {
-    
+        self
     }
 
     /// Creates a new instance of [`Engine`] from the builder.
