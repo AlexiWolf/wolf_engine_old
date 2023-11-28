@@ -46,6 +46,12 @@ pub(crate) struct MainLoopResource {
      
 }
 
+impl<E: UserEvent> MainLoop<E> for MainLoopResource {
+    fn run(self, engine: Engine<E>) {
+        todo!()
+    }
+}
+
 pub trait MainLoop<E: UserEvent> {
     fn run(self, engine: Engine<E>);
 }
