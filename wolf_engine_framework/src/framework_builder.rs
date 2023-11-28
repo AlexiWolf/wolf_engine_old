@@ -1,4 +1,4 @@
-use crate::MainLoop;
+use crate::{MainLoop, MainLoopResource};
 use crate::plugins::{Plugin, PluginLoader};
 
 use wolf_engine_core::ecs::systems::Resource;
@@ -40,7 +40,10 @@ impl<E: UserEvent> FrameworkBuilder<E> {
         self
     }
 
-    pub fn with_main_loop<T: MainLoop<E>>(&mut self, main_loop: T) -> &mut Self {
+    pub fn with_main_loop<T: MainLoop<E> + 'static>(&mut self, main_loop: T) -> &mut Self {
+        self.resources.get_mut::<MainLoopResource<E>>()
+            .expect("No MainLoop resource.  This is a bug.")
+            .set_main_loop(Box::from(main_loop));
         self
     }
 
