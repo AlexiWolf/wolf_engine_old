@@ -92,15 +92,11 @@ mod framework_runner_test {
             .once()
             .return_const(());
 
-        let (event_loop, mut context) = crate::init::<()>()
+        let engine = crate::init::<()>()
             .with_main_loop(mock_main_loop)
             .build()
             .unwrap();
-        let mut main_loop = context.resources_mut()
-            .remove::<MainLoopResource<()>>()
-            .expect("No MainLoopResource")
-            .extract();
 
-        main_loop.run((event_loop, context));
+        crate::run(engine);
     }
 }
