@@ -21,7 +21,7 @@ pub fn init<E: UserEvent>() -> FrameworkBuilder<E> {
     builder
 }
 
-pub fn run<E: UserEvent>(mut engine: Engine<E>) {
+pub fn run<E: UserEvent>(engine: Engine<E>) {
     let (event_loop, mut context) = engine;  
 
     let mut main_loop = context.resources_mut()
