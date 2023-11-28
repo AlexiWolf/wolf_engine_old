@@ -15,7 +15,9 @@ use wolf_engine_core::{events::UserEvent, Engine};
 /// Initializes Wolf Engine using the [`FrameworkBuilder`].
 pub fn init<E: UserEvent>() -> FrameworkBuilder<E> {
     let mut builder = FrameworkBuilder::<E>::new();
-    builder.with_resource(MainLoopResource{});
+    builder.with_resource(MainLoopResource::<E> {
+        inner: Box::from(|_engine| {}),
+    });
     builder
 }
 
@@ -42,11 +44,11 @@ mod framework_init_tests {
     }
 }
 
-pub(crate) struct MainLoopResource {
-     
+pub(crate) struct MainLoopResource<E: UserEvent> {
+    inner: Box<dyn MainLoop<E>>,
 }
 
-impl<E: UserEvent> MainLoop<E> for MainLoopResource {
+impl<E: UserEvent> MainLoop<E> for MainLoopResource<E> {
     fn run(self, engine: Engine<E>) {
         todo!()
     }
@@ -73,7 +75,7 @@ mod framework_runner_test {
             .unwrap();
 
         assert!(
-            context.resources().get::<MainLoopResource>().is_some(),
+            context.resources().get::<MainLoopResource<()>>().is_some(),
             "Main loop resource was not inserted"
         );
     }
@@ -86,7 +88,7 @@ mod framework_runner_test {
             .unwrap();
 
         let main_loop = context.resources_mut()
-            .remove::<MainLoopResource>()
+            .remove::<MainLoopResource<()>>()
             .expect("No MainLoopResource");
 
         main_loop.run((event_loop, context));
