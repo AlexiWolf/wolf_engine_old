@@ -1,4 +1,5 @@
 use crate::plugins::{Plugin, PluginLoader};
+use crate::{MainLoop, MainLoopResource};
 
 use wolf_engine_core::ecs::systems::Resource;
 use wolf_engine_core::ecs::Resources;
@@ -36,6 +37,14 @@ impl<E: UserEvent> FrameworkBuilder<E> {
     /// behavior is consistent with [`Resources::insert()`].
     pub fn with_resource<T: Resource>(&mut self, resource: T) -> &mut Self {
         self.resources.insert(resource);
+        self
+    }
+
+    pub fn with_main_loop<T: MainLoop<E> + 'static>(&mut self, main_loop: T) -> &mut Self {
+        self.resources
+            .get_mut::<MainLoopResource<E>>()
+            .expect("No MainLoop resource.  This is a bug.")
+            .set_main_loop(Box::from(main_loop));
         self
     }
 
