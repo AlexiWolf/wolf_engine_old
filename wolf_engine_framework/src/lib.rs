@@ -12,7 +12,8 @@ pub use main_loop::*;
 
 pub mod plugins;
 
-use wolf_engine_core::{events::UserEvent, Engine};
+use wolf_engine_core::events::UserEvent;
+use wolf_engine_core::Engine;
 
 /// Initializes Wolf Engine using the [`FrameworkBuilder`].
 pub fn init<E: UserEvent>() -> FrameworkBuilder<E> {
