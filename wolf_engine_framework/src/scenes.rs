@@ -51,6 +51,17 @@ impl<E: UserEvent> Stage<E> {
             }
         }
     }
+
+    fn run_background_renders(&mut self, context: &mut Context<E>) {
+        let stack_size = self.stack.len();
+        if stack_size > 1 {
+            for i in 0..stack_size - 1 {
+                self.stack.get_mut(i)
+                    .unwrap()
+                    .background_render(context);
+            }
+        }
+    }
 }
 
 impl<E: UserEvent> Scene<E> for Stage<E> {
@@ -63,6 +74,7 @@ impl<E: UserEvent> Scene<E> for Stage<E> {
     }
 
     fn render(&mut self,context: &mut Context<E>) {
+        self.run_background_renders(context);
         match self.stack.last_mut() {
             Some(scene) => scene.render(context),
             None => (),
