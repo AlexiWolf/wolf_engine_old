@@ -47,6 +47,12 @@ impl<E: UserEvent> Stage<E> {
         }
     }
 
+    pub fn clear(&mut self, context: &mut Context<E>) {
+        for _ in 0..self.stack.len() {
+            let _ = self.pop(context);
+        }
+    }
+
     fn run_background_updates(&mut self, context: &mut Context<E>) {
         let stack_size = self.stack.len();
         if stack_size > 1 {
@@ -77,7 +83,10 @@ impl<E: UserEvent> Scene<E> for Stage<E> {
             Some(scene) => match scene.update(context) {
                 Some(scene_change) => match scene_change {
                     SceneChange::Push(new_scene) => self.push(context, new_scene),
-                    SceneChange::CleanPush(_) => (),
+                    SceneChange::CleanPush(new_scene) => {
+                        self.clear(context);
+                        self.push(context, new_scene);
+                    }
                     SceneChange::Pop => { let _ = self.pop(context); },
                 },
                 None => (),
