@@ -43,6 +43,14 @@ impl<E: UserEvent> Stage<E> {
 
 impl<E: UserEvent> Scene<E> for Stage<E> {
     fn update(&mut self, context: &mut Context<E>) {
+        let stack_size = self.stack.len();
+        if stack_size > 1 {
+            for i in 0..stack_size - 1 {
+                let scene = self.stack.get_mut(i)
+                    .unwrap()
+                    .background_update(context);
+            }
+        }
         self.stack.last_mut()
             .unwrap()
             .update(context)
@@ -99,7 +107,6 @@ mod stage_tests {
         active_scene.expect_render()
             .once()
             .return_const(());
-
     
         stage.push(&mut context, Box::from(background_scene));
         stage.push(&mut context, Box::from(active_scene));
