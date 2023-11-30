@@ -4,6 +4,7 @@ use wolf_engine_core::Context;
 #[cfg_attr(test, mockall::automock)]
 pub trait Scene<E: UserEvent> {
     fn update(&mut self, context: &mut Context<E>);
+    fn render(&mut self, context: &mut Context<E>);
 }
 
 pub type SceneBox<E> = Box<dyn Scene<E>>;
@@ -33,6 +34,10 @@ impl<E: UserEvent> Scene<E> for Stage<E> {
         self.stack.last_mut()
             .unwrap()
             .update(context)
+    }
+
+    fn render(&mut self,context: &mut Context<E>) {
+        
     }
 }
 
@@ -68,5 +73,6 @@ mod scene_tests {
 
         stage.push(Box::from(scene));
         stage.update(&mut context);
+        stage.render(&mut context);
     }
 }
