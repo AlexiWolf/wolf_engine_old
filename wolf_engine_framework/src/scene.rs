@@ -43,4 +43,15 @@ mod scene_tests {
         
        assert!(scene.is_some(), "No scene was returned."); 
     }
+
+    #[test]
+    fn should_delegate_to_scenes() {
+        let (_event_loop, context) = wolf_engine_core::init::<()>().build();
+        let mut stage = Stage::<()>::new();
+
+        let mut scene = MockScene::new();
+        scene.expect_update()
+            .once()
+            .return_const(());
+    }
 }
