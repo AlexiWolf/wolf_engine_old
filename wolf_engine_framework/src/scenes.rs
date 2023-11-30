@@ -174,6 +174,7 @@ mod stage_tests {
         scene.expect_update()
             .once()
             .return_once(|_| { Some(SceneChange::Push(Box::from(new_scene))) });
+        stage.push(&mut context, Box::from(scene));
 
         for _ in 0..2 {
             stage.update(&mut context);
