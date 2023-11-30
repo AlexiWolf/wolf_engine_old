@@ -76,6 +76,7 @@ impl<E: UserEvent> Scene<E> for Stage<E> {
             Some(scene) => match scene.update(context) {
                 Some(scene_change) => match scene_change {
                     SceneChange::Push(new_scene) => self.push(context, new_scene),
+                    SceneChange::Pop => { let _ = self.pop(context); },
                 },
                 None => (),
             },
