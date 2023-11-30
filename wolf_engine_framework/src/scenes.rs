@@ -44,7 +44,7 @@ impl<E: UserEvent> Stage<E> {
         let stack_size = self.stack.len();
         if stack_size > 1 {
             for i in 0..stack_size - 1 {
-                let scene = self.stack.get_mut(i)
+                self.stack.get_mut(i)
                     .unwrap()
                     .background_update(context);
             }
