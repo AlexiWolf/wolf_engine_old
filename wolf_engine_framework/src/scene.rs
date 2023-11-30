@@ -33,5 +33,8 @@ mod scene_tests {
         let scene = MockScene::new();
 
         stage.push(Box::from(scene));
+        let scene = stage.pop();
+        
+       assert!(scene.is_some(), "No scene was returned."); 
     }
 }
