@@ -1,6 +1,10 @@
 use wolf_engine_core::events::UserEvent;
 use wolf_engine_core::Context;
 
+pub enum SceneChange {
+
+}
+
 #[allow(unused)]
 #[cfg_attr(test, mockall::automock)]
 pub trait Scene<E: UserEvent> {
