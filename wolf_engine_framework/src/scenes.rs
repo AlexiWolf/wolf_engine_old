@@ -98,9 +98,8 @@ impl<E: UserEvent> Scene<E> for Stage<E> {
 
     fn render(&mut self,context: &mut Context<E>) {
         self.run_background_renders(context);
-        match self.stack.last_mut() {
-            Some(scene) => scene.render(context),
-            None => (),
+        if let Some(scene) = self.stack.last_mut() {
+            scene.render(context);
         }
     }
 }
