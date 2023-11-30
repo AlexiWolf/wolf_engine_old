@@ -149,4 +149,29 @@ mod stage_tests {
         stage.update(&mut context);
         stage.render(&mut context);
     }
+
+    #[test]
+    fn should_handle_scene_change() {
+        let (_event_loop, mut context) = wolf_engine_core::init::<()>().build();
+        let mut stage = Stage::<()>::new();
+
+        let mut new_scene = MockScene::new();
+        new_scene.expect_setup()
+            .once()
+            .return_const(());
+        new_scene.expect_update()
+            .once()
+            .returning(|_| { None });
+        let mut scene = MockScene::<()>::new();
+        scene.expect_setup()
+            .once()
+            .return_const(());
+        scene.expect_update()
+            .once()
+            .return_once(|_| { Some(SceneChange::Push(Box::from(new_scene))) });
+
+        for _ in 0..2 {
+            stage.update(&mut context);
+        }
+    }
 }
