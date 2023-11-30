@@ -55,9 +55,10 @@ impl<E: UserEvent> Stage<E> {
 impl<E: UserEvent> Scene<E> for Stage<E> {
     fn update(&mut self, context: &mut Context<E>) {
         self.run_background_updates(context);
-        self.stack.last_mut()
-            .unwrap()
-            .update(context)
+        match self.stack.last_mut() {
+            Some(scene) => scene.update(context),
+            None => (),
+        }
     }
 
     fn render(&mut self,context: &mut Context<E>) {
