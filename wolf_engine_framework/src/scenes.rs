@@ -44,7 +44,7 @@ impl<E: UserEvent> Scene<E> for Stage<E> {
 }
 
 #[cfg(test)]
-mod scene_tests {
+mod stage_tests {
     use super::*; 
 
     #[test]
