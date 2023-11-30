@@ -28,7 +28,7 @@ impl<E: UserEvent> Stage<E> {
         self.stack.push(scene); 
     }
 
-    pub fn pop(&mut self) -> Option<SceneBox<E>> {
+    pub fn pop(&mut self, context: &mut Context<E>) -> Option<SceneBox<E>> {
         self.stack.pop()
     }
 }
