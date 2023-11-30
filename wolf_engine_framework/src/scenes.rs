@@ -3,6 +3,7 @@ use wolf_engine_core::Context;
 
 pub enum SceneChange<E: UserEvent> {
     Push(SceneBox<E>),
+    Pop,
 }
 
 #[allow(unused)]
