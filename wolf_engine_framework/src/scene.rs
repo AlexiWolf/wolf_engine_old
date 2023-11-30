@@ -5,6 +5,8 @@ pub trait Scene<E: UserEvent> {
 
 }
 
+pub type SceneBox<E: UserEvent> = Box<dyn Scene<E>>;
+
 pub struct Stage<E: UserEvent> {
     stack: Vec<Box<dyn Scene<E>>>, 
 }
@@ -16,11 +18,11 @@ impl<E: UserEvent> Stage<E> {
         }
     }
 
-    pub fn push(&mut self, scene: Box<dyn Scene<E>>) {
+    pub fn push(&mut self, scene: SceneBox<E>) {
         
     }
 
-    pub fn pop(&mut self) -> Option<Box<dyn Scene<E>>> {
+    pub fn pop(&mut self) -> Option<SceneBox<E>> {
         None
     }
 }
