@@ -72,7 +72,12 @@ impl<E: UserEvent> Scene<E> for Stage<E> {
     fn update(&mut self, context: &mut Context<E>) -> Option<SceneChange<E>> {
         self.run_background_updates(context);
         match self.stack.last_mut() {
-            Some(scene) => { scene.update(context); },
+            Some(scene) => match scene.update(context) {
+                Some(scene_change) => match scene_change {
+                    SceneChange::Push(new_scene) => self.push(context, new_scene),
+                },
+                None => (),
+            },
             None => (),
         }
         None
