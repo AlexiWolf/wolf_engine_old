@@ -19,11 +19,11 @@ impl<E: UserEvent> Stage<E> {
     }
 
     pub fn push(&mut self, scene: SceneBox<E>) {
-        
+        self.stack.push(scene); 
     }
 
     pub fn pop(&mut self) -> Option<SceneBox<E>> {
-        None
+        self.stack.pop()
     }
 }
 
