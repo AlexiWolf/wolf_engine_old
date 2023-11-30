@@ -3,6 +3,8 @@ use wolf_engine_core::Context;
 
 #[cfg_attr(test, mockall::automock)]
 pub trait Scene<E: UserEvent> {
+    #[allow(unused)]
+    fn setup(&mut self, context: &mut Context<E>) {}
     fn update(&mut self, context: &mut Context<E>);
     fn render(&mut self, context: &mut Context<E>);
 }
