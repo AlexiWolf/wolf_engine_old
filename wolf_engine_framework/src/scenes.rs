@@ -20,7 +20,7 @@ impl<E: UserEvent> Stage<E> {
         }
     }
 
-    pub fn push(&mut self, scene: SceneBox<E>) {
+    pub fn push(&mut self, context: &mut Context<E>, scene: SceneBox<E>) {
         self.stack.push(scene); 
     }
 
