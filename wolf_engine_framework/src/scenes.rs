@@ -62,6 +62,9 @@ mod scene_tests {
         scene.expect_update()
             .once()
             .return_const(());
+        scene.expect_render()
+            .once()
+            .return_const(());
 
         stage.push(Box::from(scene));
         stage.update(&mut context);
