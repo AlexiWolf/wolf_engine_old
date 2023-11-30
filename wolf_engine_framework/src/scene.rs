@@ -56,6 +56,6 @@ mod scene_tests {
             .return_const(());
 
         stage.push(Box::from(scene));
-        stage.update(&mut Context);
+        stage.update(&mut context);
     }
 }
