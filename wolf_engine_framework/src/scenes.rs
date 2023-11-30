@@ -235,5 +235,7 @@ mod stage_tests {
         for _ in 0..2 {
             stage.update(&mut context);
         }
+
+        assert_eq!(stage.stack.len(), 1, "There should only be 1 scene on the stack.")
     }
 }
