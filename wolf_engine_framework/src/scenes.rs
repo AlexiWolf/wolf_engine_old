@@ -183,4 +183,24 @@ mod stage_tests {
             stage.update(&mut context);
         }
     }
+
+    #[test]
+    fn should_handle_pop_scene_change() {
+        let (_event_loop, mut context) = wolf_engine_core::init::<()>().build();
+        let mut stage = Stage::<()>::new();
+
+        let mut scene = MockScene::<()>::new();
+        scene.expect_setup()
+            .once()
+            .return_const(());
+        scene.expect_update()
+            .once()
+            .return_once(|_| { Some(SceneChange::Pop) });
+        scene.expect_shutdown()
+            .once()
+            .return_const(());
+        stage.push(&mut context, Box::from(scene));
+
+        stage.update(&mut context);
+    }
 }
