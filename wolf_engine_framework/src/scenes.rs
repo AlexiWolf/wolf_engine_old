@@ -39,16 +39,20 @@ impl<E: UserEvent> Stage<E> {
             None => None, 
         }
     }
-}
 
-impl<E: UserEvent> Scene<E> for Stage<E> {
-    fn update(&mut self, context: &mut Context<E>) {
+    fn run_background_updates(&mut self, context: &mut Context<E>) {
         let stack_size = self.stack.len();
         for i in 0..stack_size - 1 {
             let scene = self.stack.get_mut(i)
                 .unwrap()
                 .background_update(context);
         }
+    }
+}
+
+impl<E: UserEvent> Scene<E> for Stage<E> {
+    fn update(&mut self, context: &mut Context<E>) {
+        self.run_background_updates(context);
         self.stack.last_mut()
             .unwrap()
             .update(context)
