@@ -32,7 +32,7 @@ mod scene_tests {
     use super::*; 
 
     #[test]
-    fn should_add_scene_to_stage() {
+    fn should_push_and_pop_scenes() {
         let (_event_loop, context) = wolf_engine_core::init::<()>()
             .build();
         let mut stage = Stage::<()>::new();
