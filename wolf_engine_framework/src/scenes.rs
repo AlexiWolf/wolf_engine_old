@@ -42,10 +42,12 @@ impl<E: UserEvent> Stage<E> {
 
     fn run_background_updates(&mut self, context: &mut Context<E>) {
         let stack_size = self.stack.len();
-        for i in 0..stack_size - 1 {
-            let scene = self.stack.get_mut(i)
-                .unwrap()
-                .background_update(context);
+        if stack_size > 1 {
+            for i in 0..stack_size - 1 {
+                let scene = self.stack.get_mut(i)
+                    .unwrap()
+                    .background_update(context);
+            }
         }
     }
 }
