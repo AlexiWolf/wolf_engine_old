@@ -29,7 +29,13 @@ impl<E: UserEvent> Stage<E> {
     }
 
     pub fn pop(&mut self, context: &mut Context<E>) -> Option<SceneBox<E>> {
-        self.stack.pop()
+        match self.stack.pop() {
+            Some(mut scene) => {
+                scene.shutdown(context);
+                Some(scene)
+            },
+            None => None, 
+        }
     }
 }
 
