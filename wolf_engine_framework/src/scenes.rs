@@ -100,6 +100,8 @@ mod stage_tests {
             .once()
             .return_const(());
 
+    
+        stage.push(&mut context, Box::from(background_scene));
         stage.push(&mut context, Box::from(active_scene));
         stage.update(&mut context);
         stage.render(&mut context);
