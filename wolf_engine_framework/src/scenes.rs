@@ -130,7 +130,7 @@ mod stage_tests {
             .return_const(());
         active_scene.expect_update()
             .once()
-            .return_const(None);
+            .returning(|_| { None });
         active_scene.expect_render()
             .once()
             .return_const(());
