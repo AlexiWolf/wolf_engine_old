@@ -80,19 +80,26 @@ mod stage_tests {
     fn should_delegate_to_scenes() {
         let (_event_loop, mut context) = wolf_engine_core::init::<()>().build();
         let mut stage = Stage::<()>::new();
+        
+        let mut background_scene = MockScene::<()>::new();
+        background_scene.expect_setup()
+            .once()
+            .return_const(());
+        background_scene.expect_background_update()
+            .once()
+            .return_const(());
+        let mut active_scene = MockScene::<()>::new();
+        active_scene.expect_setup()
+            .once()
+            .return_const(());
+        active_scene.expect_update()
+            .once()
+            .return_const(());
+        active_scene.expect_render()
+            .once()
+            .return_const(());
 
-        let mut scene = MockScene::<()>::new();
-        scene.expect_setup()
-            .once()
-            .return_const(());
-        scene.expect_update()
-            .once()
-            .return_const(());
-        scene.expect_render()
-            .once()
-            .return_const(());
-
-        stage.push(&mut context, Box::from(scene));
+        stage.push(&mut context, Box::from(active_scene));
         stage.update(&mut context);
         stage.render(&mut context);
     }
