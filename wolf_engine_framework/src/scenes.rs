@@ -49,8 +49,6 @@ mod scene_tests {
 
     #[test]
     fn should_push_and_pop_scenes() {
-        let _engine = wolf_engine_core::init::<()>()
-            .build();
         let mut stage = Stage::<()>::new();
         let scene = MockScene::new();
 
