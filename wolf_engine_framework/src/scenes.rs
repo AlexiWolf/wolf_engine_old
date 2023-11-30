@@ -115,4 +115,13 @@ mod stage_tests {
         stage.update(&mut context);
         stage.render(&mut context);
     }
+
+    #[test]
+    fn should_not_panic_on_empty_stack() {
+        let (_event_loop, mut context) = wolf_engine_core::init::<()>().build();
+        let mut stage = Stage::<()>::new();
+
+        stage.update(&mut context);
+        stage.render(&mut context);
+    }
 }
