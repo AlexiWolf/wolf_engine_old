@@ -6,7 +6,7 @@ pub trait Scene<E: UserEvent> {
     fn update(&mut self, context: &mut Context<E>);
 }
 
-pub type SceneBox<E: UserEvent> = Box<dyn Scene<E>>;
+pub type SceneBox<E> = Box<dyn Scene<E>>;
 
 pub struct Stage<E: UserEvent> {
     stack: Vec<Box<dyn Scene<E>>>, 
