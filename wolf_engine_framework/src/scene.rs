@@ -30,7 +30,9 @@ impl<E: UserEvent> Stage<E> {
 
 impl<E: UserEvent> Scene<E> for Stage<E> {
     fn update(&mut self, context: &mut Context<E>) {
-        todo!()
+        self.stack.last_mut()
+            .unwrap()
+            .update(context)
     }
 }
 
