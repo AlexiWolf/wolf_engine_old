@@ -205,4 +205,33 @@ mod stage_tests {
 
         stage.update(&mut context);
     }
+
+    #[test]
+    fn should_handle_clean_pop_scene_chagne() {
+        let (_event_loop, mut context) = wolf_engine_core::init::<()>().build();
+        let mut stage = Stage::<()>::new();
+
+        let mut new_scene = MockScene::new();
+        new_scene.expect_setup()
+            .once()
+            .return_const(());
+        new_scene.expect_update()
+            .once()
+            .returning(|_| { None });
+        let mut first_scene = MockScene::<()>::new();
+        first_scene.expect_setup()
+            .once()
+            .return_const(());
+        first_scene.expect_update()
+            .once()
+            .return_once(|_| { Some(SceneChange::CleanPush(Box::from(new_scene))) });
+        first_scene.expect_background_update()
+            .once()
+            .return_const(());
+        stage.push(&mut context, Box::from(first_scene));
+
+        for _ in 0..2 {
+            stage.update(&mut context);
+        }
+    }
 }
