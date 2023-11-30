@@ -37,7 +37,9 @@ impl<E: UserEvent> Scene<E> for Stage<E> {
     }
 
     fn render(&mut self,context: &mut Context<E>) {
-        
+        self.stack.last_mut()
+            .unwrap()
+            .render(context)
     }
 }
 
