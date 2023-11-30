@@ -19,6 +19,10 @@ impl<E: UserEvent> Stage<E> {
     pub fn push(&mut self, scene: Box<dyn Scene<E>>) {
         
     }
+
+    pub fn pop(&mut self) -> Option<Box<dyn Scene<E>>> {
+        None
+    }
 }
 
 #[cfg(test)]
