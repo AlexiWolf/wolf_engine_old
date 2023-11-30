@@ -44,12 +44,10 @@ impl<E: UserEvent> Stage<E> {
 impl<E: UserEvent> Scene<E> for Stage<E> {
     fn update(&mut self, context: &mut Context<E>) {
         let stack_size = self.stack.len();
-        if stack_size > 1 {
-            for i in 0..stack_size - 1 {
-                let scene = self.stack.get_mut(i)
-                    .unwrap()
-                    .background_update(context);
-            }
+        for i in 0..stack_size - 1 {
+            let scene = self.stack.get_mut(i)
+                .unwrap()
+                .background_update(context);
         }
         self.stack.last_mut()
             .unwrap()
@@ -81,15 +79,15 @@ mod stage_tests {
 
         stage.push(&mut context, Box::from(scene));
         let scene = stage.pop(&mut context);
-        
-       assert!(scene.is_some(), "No scene was returned."); 
+
+        assert!(scene.is_some(), "No scene was returned."); 
     }
 
     #[test]
     fn should_delegate_to_scenes() {
         let (_event_loop, mut context) = wolf_engine_core::init::<()>().build();
         let mut stage = Stage::<()>::new();
-        
+
         let mut background_scene = MockScene::<()>::new();
         background_scene.expect_setup()
             .once()
@@ -107,7 +105,7 @@ mod stage_tests {
         active_scene.expect_render()
             .once()
             .return_const(());
-    
+
         stage.push(&mut context, Box::from(background_scene));
         stage.push(&mut context, Box::from(active_scene));
         stage.update(&mut context);
