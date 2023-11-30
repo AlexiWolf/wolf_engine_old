@@ -58,6 +58,9 @@ mod stage_tests {
         scene.expect_setup()
             .once()
             .return_const(());
+        scene.expect_shutdown()
+            .once()
+            .return_const(());
 
         stage.push(&mut context, Box::from(scene));
         let scene = stage.pop();
