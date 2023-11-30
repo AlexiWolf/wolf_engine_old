@@ -1,8 +1,9 @@
 use wolf_engine_core::events::UserEvent;
+use wolf_engine_core::Context;
 
 #[cfg_attr(test, mockall::automock)]
 pub trait Scene<E: UserEvent> {
-
+    fn update(&mut self, context: &mut Context<E>);
 }
 
 pub type SceneBox<E: UserEvent> = Box<dyn Scene<E>>;
@@ -49,7 +50,7 @@ mod scene_tests {
         let (_event_loop, context) = wolf_engine_core::init::<()>().build();
         let mut stage = Stage::<()>::new();
 
-        let mut scene = MockScene::new();
+        let mut scene = MockScene::<()>::new();
         scene.expect_update()
             .once()
             .return_const(());
