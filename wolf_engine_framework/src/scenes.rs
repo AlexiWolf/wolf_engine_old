@@ -3,6 +3,7 @@ use wolf_engine_core::Context;
 
 pub enum SceneChange<E: UserEvent> {
     Push(SceneBox<E>),
+    CleanPush(SceneBox<E>),
     Pop,
 }
 
@@ -76,6 +77,7 @@ impl<E: UserEvent> Scene<E> for Stage<E> {
             Some(scene) => match scene.update(context) {
                 Some(scene_change) => match scene_change {
                     SceneChange::Push(new_scene) => self.push(context, new_scene),
+                    SceneChange::CleanPush(_) => (),
                     SceneChange::Pop => { let _ = self.pop(context); },
                 },
                 None => (),
