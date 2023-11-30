@@ -9,6 +9,7 @@ pub trait Scene<E: UserEvent> {
 
     fn setup(&mut self, context: &mut Context<E>) {}
     fn shutdown(&mut self, context: &mut Context<E>) {}
+    fn background_update(&mut self, context: &mut Context<E>) {}
 }
 
 pub type SceneBox<E> = Box<dyn Scene<E>>;
