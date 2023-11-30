@@ -27,12 +27,11 @@ mod scene_tests {
 
     #[test]
     fn should_add_scene_to_stage() {
-        let (_event_loop, context) = wolf_engine_core::init()
+        let (_event_loop, context) = wolf_engine_core::init::<()>()
             .build();
+        let mut stage = Stage::<()>::new();
+        let scene = MockScene::new();
 
-        let stage = Stage::new();
-        stage.push(MockScene);
-
-        stage.update(&mut context);
+        stage.push(Box::from(scene));
     }
 }
