@@ -80,9 +80,9 @@ impl<E: UserEvent> Stage<E> {
 impl<E: UserEvent> Scene<E> for Stage<E> {
     fn update(&mut self, context: &mut Context<E>) -> Option<SceneChange<E>> {
         self.run_background_updates(context);
-        match self.stack.last_mut() {
-            Some(scene) => match scene.update(context) {
-                Some(scene_change) => match scene_change {
+        if let Some(scene) = self.stack.last_mut() { 
+            if let Some(scene_change) = scene.update(context) {
+                match scene_change {
                     SceneChange::Push(new_scene) => self.push(context, new_scene),
                     SceneChange::CleanPush(new_scene) => {
                         self.clear(context);
@@ -90,10 +90,8 @@ impl<E: UserEvent> Scene<E> for Stage<E> {
                     }
                     SceneChange::Pop => { let _ = self.pop(context); },
                     SceneChange::Clear => self.clear(context),
-                },
-                None => (),
-            },
-            None => (),
+                }
+            }
         }
         None
     }
@@ -279,7 +277,7 @@ mod stage_tests {
             .once()
             .return_const(());
         stage.push(&mut context, Box::from(first_scene));
-    
+
         for _ in 0..2 {
             stage.update(&mut context);
         }
