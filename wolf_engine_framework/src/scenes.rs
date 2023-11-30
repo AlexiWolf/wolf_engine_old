@@ -49,10 +49,11 @@ mod stage_tests {
 
     #[test]
     fn should_push_and_pop_scenes() {
+        let (_event_loop, mut context) = wolf_engine_core::init::<()>().build();
         let mut stage = Stage::<()>::new();
         let scene = MockScene::new();
 
-        stage.push(Box::from(scene));
+        stage.push(&mut context, Box::from(scene));
         let scene = stage.pop();
         
        assert!(scene.is_some(), "No scene was returned."); 
@@ -74,7 +75,7 @@ mod stage_tests {
             .once()
             .return_const(());
 
-        stage.push(Box::from(scene));
+        stage.push(&mut context, Box::from(scene));
         stage.update(&mut context);
         stage.render(&mut context);
     }
