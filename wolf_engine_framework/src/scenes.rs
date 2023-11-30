@@ -227,7 +227,7 @@ mod stage_tests {
         first_scene.expect_update()
             .once()
             .return_once(|_| { Some(SceneChange::CleanPush(Box::from(new_scene))) });
-        first_scene.expect_background_update()
+        first_scene.expect_shutdown()
             .once()
             .return_const(());
         stage.push(&mut context, Box::from(first_scene));
