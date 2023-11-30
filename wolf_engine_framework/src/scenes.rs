@@ -89,7 +89,7 @@ impl<E: UserEvent> Scene<E> for Stage<E> {
                         self.push(context, new_scene);
                     }
                     SceneChange::Pop => { let _ = self.pop(context); },
-                    SceneChange::Clear => todo!(),
+                    SceneChange::Clear => (),
                 },
                 None => (),
             },
