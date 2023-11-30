@@ -247,4 +247,39 @@ mod stage_tests {
 
         assert_eq!(stage.stack.len(), 1, "There should only be 1 scene on the stack.")
     }
+
+    #[test]
+    fn should_handle_clear_scene_change() {
+        let (_event_loop, mut context) = wolf_engine_core::init::<()>().build();
+        let mut stage = Stage::<()>::new();
+
+        let mut second_scene = MockScene::new();
+        second_scene.expect_setup()
+            .once()
+            .return_const(());
+        second_scene.expect_update()
+            .once()
+            .returning(|_| { Some(SceneChange::Clear) });
+        second_scene.expect_shutdown()
+            .once()
+            .return_const(());
+        let mut first_scene = MockScene::<()>::new();
+        first_scene.expect_setup()
+            .once()
+            .return_const(());
+        first_scene.expect_update()
+            .once()
+            .return_once(|_| { Some(SceneChange::Push(Box::from(second_scene))) });
+        first_scene.expect_background_update()
+            .once()
+            .return_const(());
+        first_scene.expect_shutdown()
+            .once()
+            .return_const(());
+        stage.push(&mut context, Box::from(first_scene));
+
+        stage.update(&mut context);
+
+        assert_eq!(stage.stack.len(), 0, "There should be no scenes left on the stack.")
+    }
 }
