@@ -9,7 +9,7 @@ mod framework_builder;
 pub use framework_builder::*;
 mod main_loop;
 pub use main_loop::*;
-pub mod scene;
+pub mod scenes;
 
 pub mod plugins;
 
