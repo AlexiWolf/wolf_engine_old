@@ -64,14 +64,17 @@ mod stage_tests {
         let mut stage = Stage::<()>::new();
 
         let mut scene = MockScene::<()>::new();
+        scene.expect_setup()
+            .once()
+            .return_const(());
         scene.expect_update()
             .once()
             .return_const(());
         scene.expect_render()
             .once()
             .return_const(());
-        stage.push(Box::from(scene));
 
+        stage.push(Box::from(scene));
         stage.update(&mut context);
         stage.render(&mut context);
     }
