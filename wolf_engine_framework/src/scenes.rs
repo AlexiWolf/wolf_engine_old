@@ -279,8 +279,10 @@ mod stage_tests {
             .once()
             .return_const(());
         stage.push(&mut context, Box::from(first_scene));
-
-        stage.update(&mut context);
+    
+        for _ in 0..2 {
+            stage.update(&mut context);
+        }
 
         assert_eq!(stage.stack.len(), 0, "There should be no scenes left on the stack.")
     }
