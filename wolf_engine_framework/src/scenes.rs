@@ -64,7 +64,7 @@ mod stage_tests {
             .return_const(());
 
         stage.push(&mut context, Box::from(scene));
-        let scene = stage.pop();
+        let scene = stage.pop(&mut context);
         
        assert!(scene.is_some(), "No scene was returned."); 
     }
