@@ -54,7 +54,10 @@ mod stage_tests {
     fn should_push_and_pop_scenes() {
         let (_event_loop, mut context) = wolf_engine_core::init::<()>().build();
         let mut stage = Stage::<()>::new();
-        let scene = MockScene::new();
+        let mut scene = MockScene::new();
+        scene.expect_setup()
+            .once()
+            .return_const(());
 
         stage.push(&mut context, Box::from(scene));
         let scene = stage.pop();
