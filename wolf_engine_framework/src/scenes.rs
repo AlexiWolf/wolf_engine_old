@@ -124,8 +124,7 @@ mod stage_tests {
             .once()
             .return_const(());
 
-        stage.push(&mut context, Box::from(scene));
-        let scene = stage.pop(&mut context);
+        stage.push(&mut context, Box::from(scene)); let scene = stage.pop(&mut context);
 
         assert!(scene.is_some(), "No scene was returned."); 
     }
@@ -158,15 +157,6 @@ mod stage_tests {
 
         stage.push(&mut context, Box::from(background_scene));
         stage.push(&mut context, Box::from(active_scene));
-        stage.update(&mut context);
-        stage.render(&mut context);
-    }
-
-    #[test]
-    fn should_not_panic_on_empty_stack() {
-        let (_event_loop, mut context) = wolf_engine_core::init::<()>().build();
-        let mut stage = Stage::<()>::new();
-
         stage.update(&mut context);
         stage.render(&mut context);
     }
@@ -287,4 +277,14 @@ mod stage_tests {
 
         assert_eq!(stage.stack.len(), 0, "There should be no scenes left on the stack.")
     }
+
+    #[test]
+    fn should_not_panic_on_empty_stack() {
+        let (_event_loop, mut context) = wolf_engine_core::init::<()>().build();
+        let mut stage = Stage::<()>::new();
+
+        stage.update(&mut context);
+        stage.render(&mut context);
+    }
+
 }
