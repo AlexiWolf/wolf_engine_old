@@ -1,8 +1,16 @@
 use wolf_engine_core::events::UserEvent;
 use wolf_engine_core::Context;
 
+/// An alias for a [Boxed](Box), [Scene].  To make for cleaner code.
 pub type SceneBox<E> = Box<dyn Scene<E>>;
 
+/// Holds the main game logic, entities, loaded assets, ext. that make up a game scene.
+///
+/// TODO: Explain how Scenes are used by the engine.
+/// 
+/// # Examples
+///
+/// TODO: Show how to implement a Scene, and how they are used.
 #[allow(unused)]
 #[cfg_attr(test, mockall::automock)]
 pub trait Scene<E: UserEvent> {
@@ -15,6 +23,7 @@ pub trait Scene<E: UserEvent> {
     fn background_render(&mut self, context: &mut Context<E>) {}
 }
 
+/// Represents all scene-change actions [`Stage`] can perform.
 pub enum SceneChange<E: UserEvent> {
     Push(SceneBox<E>),
     CleanPush(SceneBox<E>),
@@ -22,6 +31,14 @@ pub enum SceneChange<E: UserEvent> {
     Clear,
 }
 
+/// Provides a stack-like structure for managing 1, or more [`State`] objects.
+///
+/// TODO: Explain how the stack system works, and why users may want to stack scenes in the first
+/// place.
+/// 
+/// # Examples
+///
+/// TODO: Provide examples on how to use the Stage, and how to control it from an active Scene.
 pub struct Stage<E: UserEvent> {
     stack: Vec<Box<dyn Scene<E>>>, 
 }
