@@ -64,9 +64,6 @@ pub enum SceneChange<E: UserEvent> {
 
 /// Provides a stack-like structure for managing 1, or more [`State`] objects.
 ///
-/// TODO: Explain how the stack system works, and why users may want to stack scenes in the first
-/// place.
-///
 /// The stage consists of a `stack`, on which the currently-loaded Scenes are stored.  Whatever
 /// Scene is on the top of the stack is considered the "active scene", and the rest are considered
 /// "background scenes."  
@@ -87,6 +84,7 @@ pub enum SceneChange<E: UserEvent> {
 ///
 /// This same idea could be carried to other Scenes, such as Inventory Screens, Pause Menus, ext.
 pub struct Stage<E: UserEvent> {
+/// 
     stack: Vec<Box<dyn Scene<E>>>, 
 }
 
