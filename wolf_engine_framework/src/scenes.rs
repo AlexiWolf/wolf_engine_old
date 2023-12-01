@@ -75,11 +75,8 @@ impl<E: UserEvent> Stage<E> {
             }
         }
     }
-}
 
-impl<E: UserEvent> Scene<E> for Stage<E> {
-    fn update(&mut self, context: &mut Context<E>) -> Option<SceneChange<E>> {
-        self.run_background_updates(context);
+    fn run_active_update(&mut self, context: &mut Context<E>) {
         if let Some(scene) = self.stack.last_mut() { 
             if let Some(scene_change) = scene.update(context) {
                 match scene_change {
@@ -93,6 +90,13 @@ impl<E: UserEvent> Scene<E> for Stage<E> {
                 }
             }
         }
+    }
+}
+
+impl<E: UserEvent> Scene<E> for Stage<E> {
+    fn update(&mut self, context: &mut Context<E>) -> Option<SceneChange<E>> {
+        self.run_background_updates(context);
+        self.run_active_update(context);
         None
     }
 
