@@ -14,12 +14,43 @@ pub type SceneBox<E> = Box<dyn Scene<E>>;
 #[allow(unused)]
 #[cfg_attr(test, mockall::automock)]
 pub trait Scene<E: UserEvent> {
-    fn update(&mut self, context: &mut Context<E>) -> Option<SceneChange<E>>;
-    fn render(&mut self, context: &mut Context<E>);
 
+    /// Updates game state, and can send messages the [`Stage`] to change scenes.
+    ///
+    /// This method may be called any number of times per frame, including not at all.
+    fn update(&mut self, context: &mut Context<E>) -> Option<SceneChange<E>>;
+
+    /// Renders the current game state.
+    ///
+    /// This method is called once per frame.
+    fn render(&mut self, context: &mut Context<E>);
+    
+    /// Runs all preliminary setup required for the scene, such as initializing systems, spawning
+    /// entities, loading assets, ext.
+    ///
+    /// This method is called once, when the scene is loaded by the engine.  It will always be 
+    /// called first, before any other methods are called.
     fn setup(&mut self, context: &mut Context<E>) {}
+
+    /// Runs all tear-down operations required by the scene, such as removing resources, despawning
+    /// entities, unloading assets, ext. 
+    ///
+    /// This method is called once, when the scene is unloaded by the engine.  It will always be
+    /// called last, after this, no other methods are called.
     fn shutdown(&mut self, context: &mut Context<E>) {}
+    
+    /// Updates the current state.
+    ///
+    /// Unlike [Scene::update()], this method **cannot** control the [`Stage`].
+    ///
+    /// This method is called when the scene is running in the background, such as when it is not
+    /// the top scene on the [`Stage`].
     fn background_update(&mut self, context: &mut Context<E>) {}
+
+    /// Renders the current game state.
+    ///
+    /// This method is called when the scene is running in the background, such as when it is not
+    /// the top scene on the [`Stage`].
     fn background_render(&mut self, context: &mut Context<E>) {}
 }
 
