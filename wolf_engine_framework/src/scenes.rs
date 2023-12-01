@@ -1,12 +1,7 @@
 use wolf_engine_core::events::UserEvent;
 use wolf_engine_core::Context;
 
-pub enum SceneChange<E: UserEvent> {
-    Push(SceneBox<E>),
-    CleanPush(SceneBox<E>),
-    Pop,
-    Clear,
-}
+pub type SceneBox<E> = Box<dyn Scene<E>>;
 
 #[allow(unused)]
 #[cfg_attr(test, mockall::automock)]
@@ -20,7 +15,12 @@ pub trait Scene<E: UserEvent> {
     fn background_render(&mut self, context: &mut Context<E>) {}
 }
 
-pub type SceneBox<E> = Box<dyn Scene<E>>;
+pub enum SceneChange<E: UserEvent> {
+    Push(SceneBox<E>),
+    CleanPush(SceneBox<E>),
+    Pop,
+    Clear,
+}
 
 pub struct Stage<E: UserEvent> {
     stack: Vec<Box<dyn Scene<E>>>, 
