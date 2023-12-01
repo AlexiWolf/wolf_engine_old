@@ -80,12 +80,15 @@ impl<E: UserEvent> Stage<E> {
             stack: Vec::new(),
         }
     }
-
+    
+    /// Pushes a new [`Scene`] to the top of the stack, and calls its [`Scene::setup()`] method.
     pub fn push(&mut self, context: &mut Context<E>, mut scene: SceneBox<E>) {
         scene.setup(context);
         self.stack.push(scene); 
     }
 
+    /// Removes the [`Scene`] from the top of the stack, calls its [`Scene::shutdown()`] method,
+    /// and returns the popped scene.
     pub fn pop(&mut self, context: &mut Context<E>) -> Option<SceneBox<E>> {
         match self.stack.pop() {
             Some(mut scene) => {
@@ -95,7 +98,8 @@ impl<E: UserEvent> Stage<E> {
             None => None, 
         }
     }
-
+    
+    /// Pops all [`Scene`] objects from the stack.
     pub fn clear(&mut self, context: &mut Context<E>) {
         for _ in 0..self.stack.len() {
             let _ = self.pop(context);
@@ -142,12 +146,22 @@ impl<E: UserEvent> Stage<E> {
 }
 
 impl<E: UserEvent> Scene<E> for Stage<E> {
+    /// Updates the whole [`Scene`] stack.
+    ///
+    /// Updates are run from bottom-to-top order.  Only the top scene has its [`Scene::update()`]
+    /// method called, the rest get a [`Scene::background_update()`] instead.
+    ///
+    /// Unlike a normal [`Scene`], this implementation will always return [`None`].
     fn update(&mut self, context: &mut Context<E>) -> Option<SceneChange<E>> {
         self.run_background_updates(context);
         self.run_active_update(context);
         None
     }
 
+    /// Renders the whole [`Scene`] stack.
+    ///
+    /// Renders are run from bottom-to-top order.  Only the top scene has its [`Scene::render()`]
+    /// method called, the rest get a [`Scene::background_render()`] instead.
     fn render(&mut self,context: &mut Context<E>) {
         self.run_background_renders(context);
         if let Some(scene) = self.stack.last_mut() {
