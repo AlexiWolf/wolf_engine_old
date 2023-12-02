@@ -7,8 +7,8 @@ pub type SceneBox<E> = Box<dyn Scene<E>>;
 /// Holds the main game logic, entities, loaded assets, ext. that make up a game scene.
 ///
 /// # Examples
-///
-/// TODO: Show how to implement a Scene, and how they are used.
+/// 
+/// Detailed usage examples can be found in the examples folder.
 #[allow(unused)]
 #[cfg_attr(test, mockall::automock)]
 pub trait Scene<E: UserEvent> {
