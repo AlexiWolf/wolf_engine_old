@@ -6,8 +6,6 @@ pub type SceneBox<E> = Box<dyn Scene<E>>;
 
 /// Holds the main game logic, entities, loaded assets, ext. that make up a game scene.
 ///
-/// TODO: Explain how Scenes are used by the engine.
-/// 
 /// # Examples
 ///
 /// TODO: Show how to implement a Scene, and how they are used.
