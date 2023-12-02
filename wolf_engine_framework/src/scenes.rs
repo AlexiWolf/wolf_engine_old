@@ -83,6 +83,10 @@ pub enum SceneChange<E: UserEvent> {
 /// 6. The Main Gameplay Scene is regains "active" status, and continues running the game.
 ///
 /// This same idea could be carried to other Scenes, such as Inventory Screens, Pause Menus, ext.
+///
+/// # Examples
+///
+/// Detailed usage examples can be found in the examples folder.
 pub struct Stage<E: UserEvent> {
 /// 
     stack: Vec<Box<dyn Scene<E>>>, 
