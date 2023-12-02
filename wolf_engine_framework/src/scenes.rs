@@ -62,7 +62,7 @@ pub enum SceneChange<E: UserEvent> {
     Clear,
 }
 
-/// Provides a stack-like structure for managing 1, or more [`State`] objects.
+/// Provides a stack-like structure for managing 1, or more [`Scene`] objects.
 ///
 /// The stage consists of a `stack`, on which the currently-loaded Scenes are stored.  Whatever
 /// Scene is on the top of the stack is considered the "active scene", and the rest are considered
@@ -78,7 +78,7 @@ pub enum SceneChange<E: UserEvent> {
 /// 1. Main Gameplay Scene is loaded.  It is "active" and running the game.
 /// 2. User interacts with an NPC, and the Gameplay Scene pushes an NPC Dialog Scene to the top of 
 ///    the stack.
-/// 4. The Dialog Scene becomes the "active" state, and begins receiving input.
+/// 4. The Dialog Scene becomes the "active" Scene, and begins receiving input.
 /// 5. The Dialog Scene runs until the conversation is complete, then it pops itself off the stack.
 /// 6. The Main Gameplay Scene is regains "active" status, and continues running the game.
 ///
