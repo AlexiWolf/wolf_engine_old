@@ -1,3 +1,5 @@
+//! Provides a scene system for the engine.
+
 use wolf_engine_core::events::UserEvent;
 use wolf_engine_core::Context;
 
