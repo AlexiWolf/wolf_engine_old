@@ -4,7 +4,7 @@ use wolf_engine_core::events::UserEvent;
 use wolf_engine_core::Context;
 
 /// An alias for a [Boxed](Box), [Scene].  To make for cleaner code.
-pub type SceneBox<E> = Box<dyn Scene<E>>;
+pub type SceneBox<E> = Box<dyn SceneTrait<E>>;
 
 /// Holds the main game logic, entities, loaded assets, ext. that make up a game scene.
 ///
@@ -13,7 +13,7 @@ pub type SceneBox<E> = Box<dyn Scene<E>>;
 /// Detailed usage examples can be found in the examples folder.
 #[allow(unused)]
 #[cfg_attr(test, mockall::automock)]
-pub trait Scene<E: UserEvent> {
+pub trait SceneTrait<E: UserEvent> {
 
     /// Updates game state, and can send messages the [`Stage`] to change scenes.
     ///
@@ -89,7 +89,7 @@ pub enum SceneChange<E: UserEvent> {
 /// Detailed usage examples can be found in the examples folder.
 pub struct Stage<E: UserEvent> {
 /// 
-    stack: Vec<Box<dyn Scene<E>>>, 
+    stack: Vec<Box<dyn SceneTrait<E>>>, 
 }
 
 impl<E: UserEvent> Stage<E> {
@@ -163,7 +163,7 @@ impl<E: UserEvent> Stage<E> {
     }
 }
 
-impl<E: UserEvent> Scene<E> for Stage<E> {
+impl<E: UserEvent> SceneTrait<E> for Stage<E> {
     /// Updates the whole [`Scene`] stack.
     ///
     /// Updates are run from bottom-to-top order.  Only the top scene has its [`Scene::update()`]
@@ -196,7 +196,7 @@ mod stage_tests {
     fn should_push_and_pop_scenes() {
         let (_event_loop, mut context) = wolf_engine_core::init::<()>().build();
         let mut stage = Stage::<()>::new();
-        let mut scene = MockScene::new();
+        let mut scene = MockSceneTrait::new();
         scene.expect_setup()
             .once()
             .return_const(());
@@ -214,7 +214,7 @@ mod stage_tests {
         let (_event_loop, mut context) = wolf_engine_core::init::<()>().build();
         let mut stage = Stage::<()>::new();
 
-        let mut background_scene = MockScene::<()>::new();
+        let mut background_scene = MockSceneTrait::<()>::new();
         background_scene.expect_setup()
             .once()
             .return_const(());
@@ -224,7 +224,7 @@ mod stage_tests {
         background_scene.expect_background_render()
             .once()
             .return_const(());
-        let mut active_scene = MockScene::<()>::new();
+        let mut active_scene = MockSceneTrait::<()>::new();
         active_scene.expect_setup()
             .once()
             .return_const(());
@@ -246,14 +246,14 @@ mod stage_tests {
         let (_event_loop, mut context) = wolf_engine_core::init::<()>().build();
         let mut stage = Stage::<()>::new();
 
-        let mut new_scene = MockScene::new();
+        let mut new_scene = MockSceneTrait::new();
         new_scene.expect_setup()
             .once()
             .return_const(());
         new_scene.expect_update()
             .once()
             .returning(|_| { None });
-        let mut first_scene = MockScene::<()>::new();
+        let mut first_scene = MockSceneTrait::<()>::new();
         first_scene.expect_setup()
             .once()
             .return_const(());
@@ -275,7 +275,7 @@ mod stage_tests {
         let (_event_loop, mut context) = wolf_engine_core::init::<()>().build();
         let mut stage = Stage::<()>::new();
 
-        let mut scene = MockScene::<()>::new();
+        let mut scene = MockSceneTrait::<()>::new();
         scene.expect_setup()
             .once()
             .return_const(());
@@ -295,14 +295,14 @@ mod stage_tests {
         let (_event_loop, mut context) = wolf_engine_core::init::<()>().build();
         let mut stage = Stage::<()>::new();
 
-        let mut new_scene = MockScene::new();
+        let mut new_scene = MockSceneTrait::new();
         new_scene.expect_setup()
             .once()
             .return_const(());
         new_scene.expect_update()
             .once()
             .returning(|_| { None });
-        let mut first_scene = MockScene::<()>::new();
+        let mut first_scene = MockSceneTrait::<()>::new();
         first_scene.expect_setup()
             .once()
             .return_const(());
@@ -326,7 +326,7 @@ mod stage_tests {
         let (_event_loop, mut context) = wolf_engine_core::init::<()>().build();
         let mut stage = Stage::<()>::new();
 
-        let mut second_scene = MockScene::new();
+        let mut second_scene = MockSceneTrait::new();
         second_scene.expect_setup()
             .once()
             .return_const(());
@@ -336,7 +336,7 @@ mod stage_tests {
         second_scene.expect_shutdown()
             .once()
             .return_const(());
-        let mut first_scene = MockScene::<()>::new();
+        let mut first_scene = MockSceneTrait::<()>::new();
         first_scene.expect_setup()
             .once()
             .return_const(());
