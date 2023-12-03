@@ -203,7 +203,7 @@ mod stage_tests {
         scene.expect_shutdown()
             .once()
             .return_const(());
-        let scene = Scene::<()>::from(Box::from(scene));
+        let scene = Scene::<()>::new_unloaded(Box::from(scene));
 
         stage.push(&mut context, scene); 
         let scene = stage.pop(&mut context);
