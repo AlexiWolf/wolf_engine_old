@@ -243,6 +243,7 @@ mod stage_tests {
         background_scene.expect_background_render()
             .once()
             .return_const(());
+        let background_scene = Scene::<()>::new_unloaded(Box::from(background_scene));
         let mut active_scene = MockSceneTrait::<()>::new();
         active_scene.expect_setup()
             .once()
@@ -253,6 +254,7 @@ mod stage_tests {
         active_scene.expect_render()
             .once()
             .return_const(());
+        let active_scene = Scene::<()>::new_unloaded(Box::from(active_scene));
 
         stage.push(&mut context, Box::from(background_scene));
         stage.push(&mut context, Box::from(active_scene));
@@ -272,6 +274,7 @@ mod stage_tests {
         new_scene.expect_update()
             .once()
             .returning(|_| { None });
+        let new_scene = Scene::<()>::new_unloaded(Box::from(new_scene));
         let mut first_scene = MockSceneTrait::<()>::new();
         first_scene.expect_setup()
             .once()
@@ -282,6 +285,7 @@ mod stage_tests {
         first_scene.expect_background_update()
             .once()
             .return_const(());
+        let first_scene = Scene::<()>::new_unloaded(Box::from(first_scene));
         stage.push(&mut context, Box::from(first_scene));
 
         for _ in 0..2 {
@@ -304,6 +308,7 @@ mod stage_tests {
         scene.expect_shutdown()
             .once()
             .return_const(());
+        let scene = Scene::<()>::new_unloaded(Box::from(scene));
         stage.push(&mut context, Box::from(scene));
 
         stage.update(&mut context);
@@ -321,6 +326,7 @@ mod stage_tests {
         new_scene.expect_update()
             .once()
             .returning(|_| { None });
+        let new_scene = Scene::<()>::new_unloaded(Box::from(new_scene));
         let mut first_scene = MockSceneTrait::<()>::new();
         first_scene.expect_setup()
             .once()
@@ -331,6 +337,7 @@ mod stage_tests {
         first_scene.expect_shutdown()
             .once()
             .return_const(());
+        let first_scene = Scene::<()>::new_unloaded(Box::from(first_scene));
         stage.push(&mut context, Box::from(first_scene));
 
         for _ in 0..2 {
@@ -355,6 +362,7 @@ mod stage_tests {
         second_scene.expect_shutdown()
             .once()
             .return_const(());
+        let second_scene = Scene::<()>::new_unloaded(Box::from(second_scene));
         let mut first_scene = MockSceneTrait::<()>::new();
         first_scene.expect_setup()
             .once()
@@ -368,6 +376,7 @@ mod stage_tests {
         first_scene.expect_shutdown()
             .once()
             .return_const(());
+        let first_scene = Scene::<()>::new_unloaded(Box::from(first_scene));
         stage.push(&mut context, Box::from(first_scene));
 
         for _ in 0..2 {
