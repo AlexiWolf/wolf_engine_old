@@ -74,8 +74,8 @@ pub trait SceneTrait<E: UserEvent> {
 
 /// Represents all scene-change actions [`Stage`] can perform.
 pub enum SceneChange<E: UserEvent> {
-    Push(SceneBox<E>),
-    CleanPush(SceneBox<E>),
+    Push(Scene<E, Unloaded>),
+    CleanPush(Scene<E, Unloaded>),
     Pop,
     Clear,
 }
