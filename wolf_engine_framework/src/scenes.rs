@@ -281,7 +281,7 @@ mod stage_tests {
             .return_const(());
         first_scene.expect_update()
             .once()
-            .return_once(|_| { Some(SceneChange::Push(Box::from(new_scene))) });
+            .return_once(|_| { Some(SceneChange::Push(new_scene)) });
         first_scene.expect_background_update()
             .once()
             .return_const(());
@@ -333,7 +333,7 @@ mod stage_tests {
             .return_const(());
         first_scene.expect_update()
             .once()
-            .return_once(|_| { Some(SceneChange::CleanPush(Box::from(new_scene))) });
+            .return_once(|_| { Some(SceneChange::CleanPush(new_scene)) });
         first_scene.expect_shutdown()
             .once()
             .return_const(());
@@ -369,7 +369,7 @@ mod stage_tests {
             .return_const(());
         first_scene.expect_update()
             .once()
-            .return_once(|_| { Some(SceneChange::Push(Box::from(second_scene))) });
+            .return_once(|_| { Some(SceneChange::Push(second_scene)) });
         first_scene.expect_background_update()
             .once()
             .return_const(());
