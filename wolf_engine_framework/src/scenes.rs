@@ -1,7 +1,25 @@
 //! Provides a scene system for the engine.
 
+use std::marker::PhantomData;
+
 use wolf_engine_core::events::UserEvent;
 use wolf_engine_core::Context;
+
+pub struct Unloaded;
+
+pub struct Scene<E: UserEvent, State = Unloaded> {
+    inner: SceneBox<E>,
+    _state: PhantomData<State>,
+}
+
+impl<E: UserEvent, State> Scene<E, State> {
+    pub fn new_unloaded(inner: SceneBox<E>) -> Self {
+        Self {
+            inner,
+            _state: PhantomData,
+        }
+    }
+}
 
 /// An alias for a [Boxed](Box), [Scene].  To make for cleaner code.
 pub type SceneBox<E> = Box<dyn SceneTrait<E>>;
