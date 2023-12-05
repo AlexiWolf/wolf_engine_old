@@ -29,6 +29,16 @@ impl<E: UserEvent> Scene<E, Unloaded> {
     }
 }
 
+impl<E: UserEvent> Scene<E, Loaded> {
+    fn update(&mut self, context: &mut Context<E>) -> Option<SceneChange<E>> {
+        None
+    }
+    fn render(&mut self, context: &mut Context<E>) {}
+    fn background_update(&mut self, context: &mut Context<E>) {}
+    fn background_render(&mut self, context: &mut Context<E>) {}
+    fn shutdown(&mut self, context: &mut Context<E>) {}
+}
+
 /// An alias for a [Boxed](Box), [Scene].  To make for cleaner code.
 pub type SceneBox<E> = Box<dyn SceneTrait<E>>;
 
