@@ -37,15 +37,19 @@ impl<E: UserEvent> Scene<E, Loaded> {
     fn update(&mut self, context: &mut Context<E>) -> Option<SceneChange<E>> {
         self.inner.update(context)
     }
+
     fn render(&mut self, context: &mut Context<E>) {
         self.inner.render(context)
     }
+
     fn background_update(&mut self, context: &mut Context<E>) {
         self.inner.background_update(context)
     }
+
     fn background_render(&mut self, context: &mut Context<E>) {
         self.inner.background_render(context)
     }
+
     fn shutdown(&mut self, context: &mut Context<E>) {
         self.inner.shutdown(context)
     }
