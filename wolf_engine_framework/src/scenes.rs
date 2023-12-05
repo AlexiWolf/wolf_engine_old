@@ -136,7 +136,7 @@ impl<E: UserEvent> Stage<E> {
     
     /// Pushes a new [`Scene`] to the top of the stack, and calls its [`Scene::setup()`] method.
     pub fn push(&mut self, context: &mut Context<E>, mut scene: Scene<E, Unloaded>) {
-        scene.setup(context);
+        let scene = scene.setup(context);
         self.stack.push(scene); 
     }
 
