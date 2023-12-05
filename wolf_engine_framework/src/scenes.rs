@@ -37,11 +37,11 @@ impl<E: UserEvent> Scene<E, Unloaded> {
 impl<E: UserEvent> Scene<E, Loaded> {
     delegate! {
         to self.inner {
-            fn update(&mut self, context: &mut Context<E>) -> Option<SceneChange<E>>;
-            fn render(&mut self, context: &mut Context<E>);
-            fn background_update(&mut self, context: &mut Context<E>);
-            fn background_render(&mut self, context: &mut Context<E>);
-            fn shutdown(mut self, context: &mut Context<E>);
+            pub fn update(&mut self, context: &mut Context<E>) -> Option<SceneChange<E>>;
+            pub fn render(&mut self, context: &mut Context<E>);
+            pub fn background_update(&mut self, context: &mut Context<E>);
+            pub fn background_render(&mut self, context: &mut Context<E>);
+            pub fn shutdown(mut self, context: &mut Context<E>);
         }
     }
 }
