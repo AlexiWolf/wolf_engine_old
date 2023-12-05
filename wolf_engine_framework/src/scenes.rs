@@ -19,6 +19,10 @@ impl<E: UserEvent, State> Scene<E, State> {
             _state: PhantomData,
         }
     }
+
+    pub fn setup(self, context: &mut Context<E>) -> Self {
+        todo!()
+    }
 }
 
 /// An alias for a [Boxed](Box), [Scene].  To make for cleaner code.
@@ -256,8 +260,8 @@ mod stage_tests {
             .return_const(());
         let active_scene = Scene::<()>::new_unloaded(Box::from(active_scene));
 
-        stage.push(&mut context, Box::from(background_scene));
-        stage.push(&mut context, Box::from(active_scene));
+        stage.push(&mut context, background_scene);
+        stage.push(&mut context, active_scene);
         stage.update(&mut context);
         stage.render(&mut context);
     }
@@ -281,12 +285,12 @@ mod stage_tests {
             .return_const(());
         first_scene.expect_update()
             .once()
-            .return_once(|_| { Some(SceneChange::Push(new_scene)) });
+            .return_once_st(|_| { Some(SceneChange::Push(new_scene)) });
         first_scene.expect_background_update()
             .once()
             .return_const(());
         let first_scene = Scene::<()>::new_unloaded(Box::from(first_scene));
-        stage.push(&mut context, Box::from(first_scene));
+        stage.push(&mut context, first_scene);
 
         for _ in 0..2 {
             stage.update(&mut context);
@@ -304,12 +308,12 @@ mod stage_tests {
             .return_const(());
         scene.expect_update()
             .once()
-            .return_once(|_| { Some(SceneChange::Pop) });
+            .return_once_st(|_| { Some(SceneChange::Pop) });
         scene.expect_shutdown()
             .once()
             .return_const(());
         let scene = Scene::<()>::new_unloaded(Box::from(scene));
-        stage.push(&mut context, Box::from(scene));
+        stage.push(&mut context, scene);
 
         stage.update(&mut context);
     }
@@ -333,12 +337,12 @@ mod stage_tests {
             .return_const(());
         first_scene.expect_update()
             .once()
-            .return_once(|_| { Some(SceneChange::CleanPush(new_scene)) });
+            .return_once_st(|_| { Some(SceneChange::CleanPush(new_scene)) });
         first_scene.expect_shutdown()
             .once()
             .return_const(());
         let first_scene = Scene::<()>::new_unloaded(Box::from(first_scene));
-        stage.push(&mut context, Box::from(first_scene));
+        stage.push(&mut context, first_scene);
 
         for _ in 0..2 {
             stage.update(&mut context);
@@ -369,7 +373,7 @@ mod stage_tests {
             .return_const(());
         first_scene.expect_update()
             .once()
-            .return_once(|_| { Some(SceneChange::Push(second_scene)) });
+            .return_once_st(|_| { Some(SceneChange::Push(second_scene)) });
         first_scene.expect_background_update()
             .once()
             .return_const(());
@@ -377,7 +381,7 @@ mod stage_tests {
             .once()
             .return_const(());
         let first_scene = Scene::<()>::new_unloaded(Box::from(first_scene));
-        stage.push(&mut context, Box::from(first_scene));
+        stage.push(&mut context, first_scene);
 
         for _ in 0..2 {
             stage.update(&mut context);
