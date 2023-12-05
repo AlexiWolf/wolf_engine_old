@@ -241,9 +241,9 @@ mod stage_tests {
         let scene = Scene::<()>::new_unloaded(Box::from(scene));
 
         stage.push(&mut context, scene); 
-        let scene = stage.pop(&mut context);
+        tage.pop(&mut context);
 
-        assert!(scene.is_some(), "No scene was returned."); 
+        assert_eq!(stage.stack.len(), 0, "There should no scenes on the stack.")
     }
 
     #[test]
