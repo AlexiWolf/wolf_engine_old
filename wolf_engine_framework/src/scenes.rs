@@ -14,8 +14,8 @@ pub struct Scene<E: UserEvent, State = Unloaded> {
 }
 
 impl<E: UserEvent, State> Scene<E, State> {
-    pub fn new_unloaded(inner: SceneBox<E>) -> Self {
-        Self {
+    pub fn new_unloaded(inner: SceneBox<E>) -> Scene<E, Unloaded> {
+        Scene::<E, Unloaded> {
             inner,
             _state: PhantomData,
         }
