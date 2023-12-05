@@ -50,7 +50,7 @@ impl<E: UserEvent> Scene<E, Loaded> {
         self.inner.background_render(context)
     }
 
-    fn shutdown(&mut self, context: &mut Context<E>) {
+    fn shutdown(mut self, context: &mut Context<E>) {
         self.inner.shutdown(context)
     }
 }
