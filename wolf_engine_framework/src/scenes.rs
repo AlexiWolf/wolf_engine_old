@@ -41,7 +41,7 @@ impl<E: UserEvent> Scene<E, Loaded> {
             pub fn render(&mut self, context: &mut Context<E>);
             pub fn background_update(&mut self, context: &mut Context<E>);
             pub fn background_render(&mut self, context: &mut Context<E>);
-            pub fn shutdown(mut self, context: &mut Context<E>);
+            pub fn unload(mut self, context: &mut Context<E>);
         }
     }
 }
@@ -57,13 +57,13 @@ mod scene_tests {
         inner.expect_load()
             .once()
             .return_const(());
-        inner.expect_shutdown()
+        inner.expect_unload()
             .once()
             .return_const(());
         let scene = Scene::<()>::new_unloaded(Box::from(inner));
 
         let loaded_scene = scene.load(&mut context);
-        loaded_scene.shutdown(&mut context);
+        loaded_scene.unload(&mut context);
     }
 }
 
@@ -101,7 +101,7 @@ pub trait SceneTrait<E: UserEvent> {
     ///
     /// This method is called once, when the scene is unloaded by the engine.  It will always be
     /// called last, after this, no other methods are called.
-    fn shutdown(&mut self, context: &mut Context<E>) {}
+    fn unload(&mut self, context: &mut Context<E>) {}
 
     /// Updates the current state.
     ///
@@ -168,11 +168,11 @@ impl<E: UserEvent> Stage<E> {
         self.stack.push(scene); 
     }
 
-    /// Removes the [`Scene`] from the top of the stack, calls its [`Scene::shutdown()`] method,
+    /// Removes the [`Scene`] from the top of the stack, calls its [`Scene::unload()`] method,
     /// and returns the popped scene.
     pub fn pop(&mut self, context: &mut Context<E>) {
         if let Some(scene) = self.stack.pop() {
-            scene.shutdown(context);
+            scene.unload(context);
         }
     }
 
@@ -259,7 +259,7 @@ mod stage_tests {
         scene.expect_load()
             .once()
             .return_const(());
-        scene.expect_shutdown()
+        scene.expect_unload()
             .once()
             .return_const(());
         let scene = Scene::<()>::new_unloaded(Box::from(scene));
@@ -347,7 +347,7 @@ mod stage_tests {
         scene.expect_update()
             .once()
             .return_once_st(|_| { Some(SceneChange::Pop) });
-        scene.expect_shutdown()
+        scene.expect_unload()
             .once()
             .return_const(());
         let scene = Scene::<()>::new_unloaded(Box::from(scene));
@@ -376,7 +376,7 @@ mod stage_tests {
         first_scene.expect_update()
             .once()
             .return_once_st(|_| { Some(SceneChange::CleanPush(new_scene)) });
-        first_scene.expect_shutdown()
+        first_scene.expect_unload()
             .once()
             .return_const(());
         let first_scene = Scene::<()>::new_unloaded(Box::from(first_scene));
@@ -401,7 +401,7 @@ mod stage_tests {
         second_scene.expect_update()
             .once()
             .returning(|_| { Some(SceneChange::Clear) });
-        second_scene.expect_shutdown()
+        second_scene.expect_unload()
             .once()
             .return_const(());
         let second_scene = Scene::<()>::new_unloaded(Box::from(second_scene));
@@ -415,7 +415,7 @@ mod stage_tests {
         first_scene.expect_background_update()
             .once()
             .return_const(());
-        first_scene.expect_shutdown()
+        first_scene.expect_unload()
             .once()
             .return_const(());
         let first_scene = Scene::<()>::new_unloaded(Box::from(first_scene));
