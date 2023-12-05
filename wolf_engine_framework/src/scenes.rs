@@ -66,7 +66,7 @@ mod scene_tests {
         inner.expect_setup()
             .once()
             .return_const(());
-        let scene = Scene::new_unloaded(Box::from(inner));
+        let scene = Scene::<()>::new_unloaded(Box::from(inner));
     }
 }
 
