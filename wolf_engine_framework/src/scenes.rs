@@ -2,6 +2,7 @@
 
 use std::marker::PhantomData;
 
+use delegate::delegate;
 use wolf_engine_core::events::UserEvent;
 use wolf_engine_core::Context;
 
@@ -34,24 +35,14 @@ impl<E: UserEvent> Scene<E, Unloaded> {
 }
 
 impl<E: UserEvent> Scene<E, Loaded> {
-    fn update(&mut self, context: &mut Context<E>) -> Option<SceneChange<E>> {
-        self.inner.update(context)
-    }
-
-    fn render(&mut self, context: &mut Context<E>) {
-        self.inner.render(context)
-    }
-
-    fn background_update(&mut self, context: &mut Context<E>) {
-        self.inner.background_update(context)
-    }
-
-    fn background_render(&mut self, context: &mut Context<E>) {
-        self.inner.background_render(context)
-    }
-
-    fn shutdown(mut self, context: &mut Context<E>) {
-        self.inner.shutdown(context)
+    delegate! {
+        to self.inner {
+            fn update(&mut self, context: &mut Context<E>) -> Option<SceneChange<E>>;
+            fn render(&mut self, context: &mut Context<E>);
+            fn background_update(&mut self, context: &mut Context<E>);
+            fn background_render(&mut self, context: &mut Context<E>);
+            fn shutdown(mut self, context: &mut Context<E>);
+        }
     }
 }
 
@@ -97,7 +88,7 @@ pub trait SceneTrait<E: UserEvent> {
     ///
     /// This method is called once per frame.
     fn render(&mut self, context: &mut Context<E>);
-    
+
     /// Runs all preliminary setup required for the scene, such as initializing systems, spawning
     /// entities, loading assets, ext.
     ///
@@ -111,7 +102,7 @@ pub trait SceneTrait<E: UserEvent> {
     /// This method is called once, when the scene is unloaded by the engine.  It will always be
     /// called last, after this, no other methods are called.
     fn shutdown(&mut self, context: &mut Context<E>) {}
-    
+
     /// Updates the current state.
     ///
     /// Unlike [Scene::update()], this method **cannot** control the [`Stage`].
@@ -170,7 +161,7 @@ impl<E: UserEvent> Stage<E> {
             stack: Vec::new(),
         }
     }
-    
+
     /// Pushes a new [`Scene`] to the top of the stack, and calls its [`Scene::setup()`] method.
     pub fn push(&mut self, context: &mut Context<E>, scene: Scene<E, Unloaded>) {
         let scene = scene.setup(context);
@@ -184,7 +175,7 @@ impl<E: UserEvent> Stage<E> {
             scene.shutdown(context);
         }
     }
-    
+
     /// Pops all [`Scene`] objects from the stack.
     pub fn clear(&mut self, context: &mut Context<E>) {
         for _ in 0..self.stack.len() {
