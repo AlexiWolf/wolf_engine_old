@@ -180,7 +180,7 @@ impl<E: UserEvent> Stage<E> {
     /// Removes the [`Scene`] from the top of the stack, calls its [`Scene::shutdown()`] method,
     /// and returns the popped scene.
     pub fn pop(&mut self, context: &mut Context<E>) {
-        if let Some(mut scene) = self.stack.pop() {
+        if let Some(scene) = self.stack.pop() {
             scene.shutdown(context);
         }
     }
