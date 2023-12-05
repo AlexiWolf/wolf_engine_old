@@ -55,6 +55,21 @@ impl<E: UserEvent> Scene<E, Loaded> {
     }
 }
 
+#[cfg(test)]
+mod scene_tests {
+    use super::*;
+
+    #[test]
+    fn shutdown_should_consume_and_drop_scene() {
+        let (_event_loop, mut context) = crate::init::<()>().build().unwrap();
+        let mut inner = MockSceneTrait::<()>::new();
+        inner.expect_setup()
+            .once()
+            .return_const(());
+        let scene = Scene::new_unloaded(Box::from(inner));
+    }
+}
+
 /// An alias for a [Boxed](Box), [Scene].  To make for cleaner code.
 pub type SceneBox<E> = Box<dyn SceneTrait<E>>;
 
