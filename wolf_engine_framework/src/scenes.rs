@@ -21,6 +21,9 @@ impl<E: UserEvent, State> Scene<E, State> {
         }
     }
 
+}
+
+impl<E: UserEvent> Scene<E, Unloaded> {
     pub fn setup(self, context: &mut Context<E>) -> Self {
         todo!()
     }
