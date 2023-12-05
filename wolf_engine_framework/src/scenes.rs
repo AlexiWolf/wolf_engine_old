@@ -21,7 +21,6 @@ impl<E: UserEvent, State> Scene<E, State> {
             _state: PhantomData,
         }
     }
-
 }
 
 impl<E: UserEvent> Scene<E, Unloaded> {
@@ -54,12 +53,8 @@ mod scene_tests {
     fn shutdown_should_consume_and_drop_scene() {
         let (_event_loop, mut context) = crate::init::<()>().build().unwrap();
         let mut inner = MockSceneTrait::<()>::new();
-        inner.expect_load()
-            .once()
-            .return_const(());
-        inner.expect_unload()
-            .once()
-            .return_const(());
+        inner.expect_load().once().return_const(());
+        inner.expect_unload().once().return_const(());
         let scene = Scene::<()>::new_unloaded(Box::from(inner));
 
         let loaded_scene = scene.load(&mut context);
@@ -73,12 +68,11 @@ pub type SceneBox<E> = Box<dyn SceneTrait<E>>;
 /// Holds the main game logic, entities, loaded assets, ext. that make up a game scene.
 ///
 /// # Examples
-/// 
+///
 /// Detailed usage examples can be found in the examples folder.
 #[allow(unused)]
 #[cfg_attr(test, mockall::automock)]
 pub trait SceneTrait<E: UserEvent> {
-
     /// Updates game state, and can send messages the [`Stage`] to change scenes.
     ///
     /// This method may be called any number of times per frame, including not at all.
@@ -92,12 +86,12 @@ pub trait SceneTrait<E: UserEvent> {
     /// Runs all preliminary setup required for the scene, such as initializing systems, spawning
     /// entities, loading assets, ext.
     ///
-    /// This method is called once, when the scene is loaded by the engine.  It will always be 
+    /// This method is called once, when the scene is loaded by the engine.  It will always be
     /// called first, before any other methods are called.
     fn load(&mut self, context: &mut Context<E>) {}
 
     /// Runs all tear-down operations required by the scene, such as removing resources, despawning
-    /// entities, unloading assets, ext. 
+    /// entities, unloading assets, ext.
     ///
     /// This method is called once, when the scene is unloaded by the engine.  It will always be
     /// called last, after this, no other methods are called.
@@ -133,14 +127,14 @@ pub enum SceneChange<E: UserEvent> {
 /// "background scenes."  
 ///
 /// While background scenes can still run updates, render, and some other operations (through
-/// [`Scene::background_update()`], [`Scene::background_render`], ext. methods), the active scene 
+/// [`Scene::background_update()`], [`Scene::background_render`], ext. methods), the active scene
 /// is the only scene that receives input events, or that can trigger a [`SceneChange`].
 ///
-/// The main use-case for the stack-like structure, is to allow games to be composed of 1 or more 
+/// The main use-case for the stack-like structure, is to allow games to be composed of 1 or more
 /// Scenes, which can be layered.  For example:  
 ///
 /// 1. Main Gameplay Scene is loaded.  It is "active" and running the game.
-/// 2. User interacts with an NPC, and the Gameplay Scene pushes an NPC Dialog Scene to the top of 
+/// 2. User interacts with an NPC, and the Gameplay Scene pushes an NPC Dialog Scene to the top of
 ///    the stack.
 /// 4. The Dialog Scene becomes the "active" Scene, and begins receiving input.
 /// 5. The Dialog Scene runs until the conversation is complete, then it pops itself off the stack.
@@ -152,20 +146,18 @@ pub enum SceneChange<E: UserEvent> {
 ///
 /// Detailed usage examples can be found in the examples folder.
 pub struct Stage<E: UserEvent> {
-    stack: Vec<Scene<E, Loaded>>, 
+    stack: Vec<Scene<E, Loaded>>,
 }
 
 impl<E: UserEvent> Stage<E> {
     pub fn new() -> Self {
-        Self {
-            stack: Vec::new(),
-        }
+        Self { stack: Vec::new() }
     }
 
     /// Pushes a new [`Scene`] to the top of the stack, and calls its [`Scene::load()`] method.
     pub fn push(&mut self, context: &mut Context<E>, scene: Scene<E, Unloaded>) {
         let scene = scene.load(context);
-        self.stack.push(scene); 
+        self.stack.push(scene);
     }
 
     /// Removes the [`Scene`] from the top of the stack, calls its [`Scene::unload()`] method,
@@ -187,9 +179,7 @@ impl<E: UserEvent> Stage<E> {
         let stack_size = self.stack.len();
         if stack_size > 1 {
             for i in 0..stack_size - 1 {
-                self.stack.get_mut(i)
-                    .unwrap()
-                    .background_update(context);
+                self.stack.get_mut(i).unwrap().background_update(context);
             }
         }
     }
@@ -198,15 +188,13 @@ impl<E: UserEvent> Stage<E> {
         let stack_size = self.stack.len();
         if stack_size > 1 {
             for i in 0..stack_size - 1 {
-                self.stack.get_mut(i)
-                    .unwrap()
-                    .background_render(context);
+                self.stack.get_mut(i).unwrap().background_render(context);
             }
         }
     }
 
     fn run_active_update(&mut self, context: &mut Context<E>) {
-        if let Some(scene) = self.stack.last_mut() { 
+        if let Some(scene) = self.stack.last_mut() {
             if let Some(scene_change) = scene.update(context) {
                 match scene_change {
                     SceneChange::Push(new_scene) => self.push(context, new_scene),
@@ -214,7 +202,9 @@ impl<E: UserEvent> Stage<E> {
                         self.clear(context);
                         self.push(context, new_scene);
                     }
-                    SceneChange::Pop => { let _ = self.pop(context); },
+                    SceneChange::Pop => {
+                        let _ = self.pop(context);
+                    }
                     SceneChange::Clear => self.clear(context),
                 }
             }
@@ -239,7 +229,7 @@ impl<E: UserEvent> SceneTrait<E> for Stage<E> {
     ///
     /// Renders are run from bottom-to-top order.  Only the top scene has its [`Scene::render()`]
     /// method called, the rest get a [`Scene::background_render()`] instead.
-    fn render(&mut self,context: &mut Context<E>) {
+    fn render(&mut self, context: &mut Context<E>) {
         self.run_background_renders(context);
         if let Some(scene) = self.stack.last_mut() {
             scene.render(context);
@@ -249,22 +239,18 @@ impl<E: UserEvent> SceneTrait<E> for Stage<E> {
 
 #[cfg(test)]
 mod stage_tests {
-    use super::*; 
+    use super::*;
 
     #[test]
     fn should_push_and_pop_scenes() {
         let (_event_loop, mut context) = wolf_engine_core::init::<()>().build();
         let mut stage = Stage::<()>::new();
         let mut scene = MockSceneTrait::new();
-        scene.expect_load()
-            .once()
-            .return_const(());
-        scene.expect_unload()
-            .once()
-            .return_const(());
+        scene.expect_load().once().return_const(());
+        scene.expect_unload().once().return_const(());
         let scene = Scene::<()>::new_unloaded(Box::from(scene));
 
-        stage.push(&mut context, scene); 
+        stage.push(&mut context, scene);
         stage.pop(&mut context);
 
         assert_eq!(stage.stack.len(), 0, "There should no scenes on the stack.")
@@ -276,26 +262,20 @@ mod stage_tests {
         let mut stage = Stage::<()>::new();
 
         let mut background_scene = MockSceneTrait::<()>::new();
-        background_scene.expect_load()
+        background_scene.expect_load().once().return_const(());
+        background_scene
+            .expect_background_update()
             .once()
             .return_const(());
-        background_scene.expect_background_update()
-            .once()
-            .return_const(());
-        background_scene.expect_background_render()
+        background_scene
+            .expect_background_render()
             .once()
             .return_const(());
         let background_scene = Scene::<()>::new_unloaded(Box::from(background_scene));
         let mut active_scene = MockSceneTrait::<()>::new();
-        active_scene.expect_load()
-            .once()
-            .return_const(());
-        active_scene.expect_update()
-            .once()
-            .returning(|_| { None });
-        active_scene.expect_render()
-            .once()
-            .return_const(());
+        active_scene.expect_load().once().return_const(());
+        active_scene.expect_update().once().returning(|_| None);
+        active_scene.expect_render().once().return_const(());
         let active_scene = Scene::<()>::new_unloaded(Box::from(active_scene));
 
         stage.push(&mut context, background_scene);
@@ -310,21 +290,17 @@ mod stage_tests {
         let mut stage = Stage::<()>::new();
 
         let mut new_scene = MockSceneTrait::new();
-        new_scene.expect_load()
-            .once()
-            .return_const(());
-        new_scene.expect_update()
-            .once()
-            .returning(|_| { None });
+        new_scene.expect_load().once().return_const(());
+        new_scene.expect_update().once().returning(|_| None);
         let new_scene = Scene::<()>::new_unloaded(Box::from(new_scene));
         let mut first_scene = MockSceneTrait::<()>::new();
-        first_scene.expect_load()
+        first_scene.expect_load().once().return_const(());
+        first_scene
+            .expect_update()
             .once()
-            .return_const(());
-        first_scene.expect_update()
-            .once()
-            .return_once_st(|_| { Some(SceneChange::Push(new_scene)) });
-        first_scene.expect_background_update()
+            .return_once_st(|_| Some(SceneChange::Push(new_scene)));
+        first_scene
+            .expect_background_update()
             .once()
             .return_const(());
         let first_scene = Scene::<()>::new_unloaded(Box::from(first_scene));
@@ -341,15 +317,12 @@ mod stage_tests {
         let mut stage = Stage::<()>::new();
 
         let mut scene = MockSceneTrait::<()>::new();
-        scene.expect_load()
+        scene.expect_load().once().return_const(());
+        scene
+            .expect_update()
             .once()
-            .return_const(());
-        scene.expect_update()
-            .once()
-            .return_once_st(|_| { Some(SceneChange::Pop) });
-        scene.expect_unload()
-            .once()
-            .return_const(());
+            .return_once_st(|_| Some(SceneChange::Pop));
+        scene.expect_unload().once().return_const(());
         let scene = Scene::<()>::new_unloaded(Box::from(scene));
         stage.push(&mut context, scene);
 
@@ -362,23 +335,16 @@ mod stage_tests {
         let mut stage = Stage::<()>::new();
 
         let mut new_scene = MockSceneTrait::new();
-        new_scene.expect_load()
-            .once()
-            .return_const(());
-        new_scene.expect_update()
-            .once()
-            .returning(|_| { None });
+        new_scene.expect_load().once().return_const(());
+        new_scene.expect_update().once().returning(|_| None);
         let new_scene = Scene::<()>::new_unloaded(Box::from(new_scene));
         let mut first_scene = MockSceneTrait::<()>::new();
-        first_scene.expect_load()
+        first_scene.expect_load().once().return_const(());
+        first_scene
+            .expect_update()
             .once()
-            .return_const(());
-        first_scene.expect_update()
-            .once()
-            .return_once_st(|_| { Some(SceneChange::CleanPush(new_scene)) });
-        first_scene.expect_unload()
-            .once()
-            .return_const(());
+            .return_once_st(|_| Some(SceneChange::CleanPush(new_scene)));
+        first_scene.expect_unload().once().return_const(());
         let first_scene = Scene::<()>::new_unloaded(Box::from(first_scene));
         stage.push(&mut context, first_scene);
 
@@ -386,7 +352,11 @@ mod stage_tests {
             stage.update(&mut context);
         }
 
-        assert_eq!(stage.stack.len(), 1, "There should only be 1 scene on the stack.")
+        assert_eq!(
+            stage.stack.len(),
+            1,
+            "There should only be 1 scene on the stack."
+        )
     }
 
     #[test]
@@ -395,29 +365,24 @@ mod stage_tests {
         let mut stage = Stage::<()>::new();
 
         let mut second_scene = MockSceneTrait::new();
-        second_scene.expect_load()
+        second_scene.expect_load().once().return_const(());
+        second_scene
+            .expect_update()
             .once()
-            .return_const(());
-        second_scene.expect_update()
-            .once()
-            .returning(|_| { Some(SceneChange::Clear) });
-        second_scene.expect_unload()
-            .once()
-            .return_const(());
+            .returning(|_| Some(SceneChange::Clear));
+        second_scene.expect_unload().once().return_const(());
         let second_scene = Scene::<()>::new_unloaded(Box::from(second_scene));
         let mut first_scene = MockSceneTrait::<()>::new();
-        first_scene.expect_load()
+        first_scene.expect_load().once().return_const(());
+        first_scene
+            .expect_update()
+            .once()
+            .return_once_st(|_| Some(SceneChange::Push(second_scene)));
+        first_scene
+            .expect_background_update()
             .once()
             .return_const(());
-        first_scene.expect_update()
-            .once()
-            .return_once_st(|_| { Some(SceneChange::Push(second_scene)) });
-        first_scene.expect_background_update()
-            .once()
-            .return_const(());
-        first_scene.expect_unload()
-            .once()
-            .return_const(());
+        first_scene.expect_unload().once().return_const(());
         let first_scene = Scene::<()>::new_unloaded(Box::from(first_scene));
         stage.push(&mut context, first_scene);
 
@@ -425,7 +390,11 @@ mod stage_tests {
             stage.update(&mut context);
         }
 
-        assert_eq!(stage.stack.len(), 0, "There should be no scenes left on the stack.")
+        assert_eq!(
+            stage.stack.len(),
+            0,
+            "There should be no scenes left on the stack."
+        )
     }
 
     #[test]
@@ -436,5 +405,4 @@ mod stage_tests {
         stage.update(&mut context);
         stage.render(&mut context);
     }
-
 }
