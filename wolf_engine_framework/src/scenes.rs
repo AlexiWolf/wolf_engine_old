@@ -35,12 +35,20 @@ impl<E: UserEvent> Scene<E, Unloaded> {
 
 impl<E: UserEvent> Scene<E, Loaded> {
     fn update(&mut self, context: &mut Context<E>) -> Option<SceneChange<E>> {
-        None
+        self.inner.update(context)
     }
-    fn render(&mut self, context: &mut Context<E>) {}
-    fn background_update(&mut self, context: &mut Context<E>) {}
-    fn background_render(&mut self, context: &mut Context<E>) {}
-    fn shutdown(&mut self, context: &mut Context<E>) {}
+    fn render(&mut self, context: &mut Context<E>) {
+        self.inner.render(context)
+    }
+    fn background_update(&mut self, context: &mut Context<E>) {
+        self.inner.background_update(context)
+    }
+    fn background_render(&mut self, context: &mut Context<E>) {
+        self.inner.background_render(context)
+    }
+    fn shutdown(&mut self, context: &mut Context<E>) {
+        self.inner.shutdown(context)
+    }
 }
 
 /// An alias for a [Boxed](Box), [Scene].  To make for cleaner code.
