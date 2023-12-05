@@ -110,7 +110,7 @@ pub enum SceneChange<E: UserEvent> {
 ///
 /// Detailed usage examples can be found in the examples folder.
 pub struct Stage<E: UserEvent> {
-    stack: Vec<Box<dyn SceneTrait<E>>>, 
+    stack: Vec<Scene<E, Loaded>>, 
 }
 
 impl<E: UserEvent> Stage<E> {
