@@ -67,6 +67,8 @@ mod scene_tests {
             .once()
             .return_const(());
         let scene = Scene::<()>::new_unloaded(Box::from(inner));
+        let loaded_scene = scene.setup(&mut context);
+        loaded_scene.shutdown(&mut context);
     }
 }
 
