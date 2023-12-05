@@ -6,6 +6,7 @@ use wolf_engine_core::events::UserEvent;
 use wolf_engine_core::Context;
 
 pub struct Unloaded;
+pub struct Loaded;
 
 pub struct Scene<E: UserEvent, State = Unloaded> {
     inner: SceneBox<E>,
