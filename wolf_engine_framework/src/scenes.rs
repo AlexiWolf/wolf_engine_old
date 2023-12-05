@@ -66,7 +66,11 @@ mod scene_tests {
         inner.expect_setup()
             .once()
             .return_const(());
+        inner.expect_shutdown()
+            .once()
+            .return_const(());
         let scene = Scene::<()>::new_unloaded(Box::from(inner));
+
         let loaded_scene = scene.setup(&mut context);
         loaded_scene.shutdown(&mut context);
     }
