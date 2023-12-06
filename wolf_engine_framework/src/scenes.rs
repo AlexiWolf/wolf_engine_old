@@ -6,11 +6,15 @@ use delegate::delegate;
 use wolf_engine_core::events::UserEvent;
 use wolf_engine_core::Context;
 
-/// A [`Scene`] type-state indicating the scene has not yet been loaded.
-pub struct Unloaded;
+pub mod state {
+    /// A [`Scene`](super::Scene) type-state indicating the scene has not yet been loaded.
+    pub struct Unloaded;
 
-/// A [`Scene`] type-state indicating the scene has been loaded.
-pub struct Loaded;
+    /// A [`Scene`](super::Scene) type-state indicating the scene has been loaded.
+    pub struct Loaded;
+}
+
+use state::*;
 
 /// Provides a wrapper around a [`SceneTrait`], which can be either [`Unloaded`], or [`Loaded`],
 /// and granting access to certain methods only after the scene has been loaded.
