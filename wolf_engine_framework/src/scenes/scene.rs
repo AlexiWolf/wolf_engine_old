@@ -46,7 +46,12 @@ use state::*;
 
 use super::SceneChange;
 
-/// Provides a concrete wrapper around a [`SceneTrait`] object. 
+/// Provides the systems, and holds the assets, resources, ext. used by a game.
+/// 
+/// This type is a wrapper around a [`SceneTrait`] object, which uses a type-state pattern to
+/// ensure the bare [`SceneTrait`] object can't be misused, by calling its methods in the wrong
+/// order. It also provides a single, concrete  type for all scenes, which makes working with 
+/// scene objects a bit easier.
 ///
 /// A Scene can be either [`Unloaded`], or [`Loaded`].  A Scene always starts in the [`Unloaded`] 
 /// state.  While [`Unloaded`], only [`Scene::load()`] can be called.
@@ -55,8 +60,8 @@ use super::SceneChange;
 /// Once in the [`Loaded`] state, the rest of the Scene's methods, save for  [`Scene::load()`], are 
 /// made accessible.
 ///
-/// Running the [`Scene::unload()`] method will consume the Scene, running it's one-time shutdown
-/// code, and dropping the Scene.
+/// Running the [`Scene::unload()`] method will consume the Scene, running it's one-time shutdown, 
+/// and dropping the Scene.
 pub struct Scene<E: UserEvent, State = Unloaded> {
     inner: SceneBox<E>,
     _state: PhantomData<State>,
