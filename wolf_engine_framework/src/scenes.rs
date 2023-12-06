@@ -140,24 +140,15 @@ pub enum SceneChange<E: UserEvent> {
 /// Provides a stack-like structure managing a collection of [`Scene`] objects.
 ///
 /// The stage consists of a `stack`, on which the currently-loaded Scenes are stored.  Whatever
-/// Scene is on the top of the stack is considered the "active scene", and the rest are considered
-/// "background scenes."  
+/// Scene is on the top of the stack is considered the "active" scene, and the rest are considered
+/// "background" scenes.
 ///
-/// While background scenes can still run updates, render, and some other operations (through
-/// [`Scene::background_update()`], [`Scene::background_render`], ext. methods), the active scene
-/// is the only scene that receives input events, or that can trigger a [`SceneChange`].
+/// When a Scene is pushed to the stack, it is first [loaded](Scene::load()), and when a Scene is 
+/// popped off the stack, it is [unloaded](Scene::unload()).
 ///
-/// The main use-case for the stack-like structure, is to allow games to be composed of 1 or more
-/// Scenes, which can be layered.  For example:  
-///
-/// 1. Main Gameplay Scene is loaded.  It is "active" and running the game.
-/// 2. User interacts with an NPC, and the Gameplay Scene pushes an NPC Dialog Scene to the top of
-///    the stack.
-/// 4. The Dialog Scene becomes the "active" Scene, and begins receiving input.
-/// 5. The Dialog Scene runs until the conversation is complete, then it pops itself off the stack.
-/// 6. The Main Gameplay Scene is regains "active" status, and continues running the game.
-///
-/// This same idea could be carried to other Scenes, such as Inventory Screens, Pause Menus, ext.
+/// All Scenes run with the Stage, even the "background" Scenes, but only the "active" Scene is 
+/// able to return a [`SceneChange`] to control the Stage.  "Background" are only run through 
+/// their "background" methods, which do not return a [`SceneChange`].
 pub struct Stage<E: UserEvent> {
     stack: Vec<Scene<E, Loaded>>,
 }
