@@ -13,7 +13,7 @@ pub type SceneBox<E> = Box<dyn SceneTrait<E>>;
 pub trait SceneTrait<E: UserEvent> {
     /// Updates the game state when the scene is active.
     ///
-    /// Active updates can optionally return a [`SceneChange`](crate::scenes::SceneChange), to the 
+    /// Active updates can optionally return a [`SceneChange`](crate::scenes::SceneChange), to the
     /// [`Stage`](crate::scenes::Stage) to change scenes.
     fn update(&mut self, context: &mut Context<E>) -> Option<SceneChange<E>>;
 
@@ -22,7 +22,7 @@ pub trait SceneTrait<E: UserEvent> {
 
     /// Runs all setup operations for the scene.
     fn load(&mut self, context: &mut Context<E>) {}
-    
+
     /// Runs all shutdown operations for the scene.
     fn unload(&mut self, context: &mut Context<E>) {}
 
@@ -47,20 +47,20 @@ use state::*;
 use super::SceneChange;
 
 /// Provides the systems, and holds the assets, resources, ext. used by a game.
-/// 
+///
 /// This type is a wrapper around a [`SceneTrait`] object, which uses a type-state pattern to
 /// ensure the bare [`SceneTrait`] object can't be misused, by calling its methods in the wrong
-/// order. It also provides a single, concrete  type for all scenes, which makes working with 
+/// order. It also provides a single, concrete  type for all scenes, which makes working with
 /// scene objects a bit easier.
 ///
-/// A Scene can be either [`Unloaded`], or [`Loaded`].  A Scene always starts in the [`Unloaded`] 
+/// A Scene can be either [`Unloaded`], or [`Loaded`].  A Scene always starts in the [`Unloaded`]
 /// state.  While [`Unloaded`], only [`Scene::load()`] can be called.
 ///
 /// Calling [`Scene::load()`] runs one-time setup, and puts the Scene into the [`Loaded`] state.  
-/// Once in the [`Loaded`] state, the rest of the Scene's methods, save for  [`Scene::load()`], are 
+/// Once in the [`Loaded`] state, the rest of the Scene's methods, save for  [`Scene::load()`], are
 /// made accessible.
 ///
-/// Running the [`Scene::unload()`] method will consume the Scene, running it's one-time shutdown, 
+/// Running the [`Scene::unload()`] method will consume the Scene, running it's one-time shutdown,
 /// and dropping the Scene.
 pub struct Scene<E: UserEvent, State = Unloaded> {
     inner: SceneBox<E>,
@@ -93,7 +93,7 @@ impl<E: UserEvent> Scene<E, Loaded> {
         to self.inner {
             /// Updates the game state when the scene is active.
             ///
-            /// Active updates can optionally return a [`SceneChange`](crate::scenes::SceneChange), to the 
+            /// Active updates can optionally return a [`SceneChange`](crate::scenes::SceneChange), to the
             /// [`Stage`](crate::scenes::Stage) to change scenes.
             pub fn update(&mut self, context: &mut Context<E>) -> Option<SceneChange<E>>;
 
@@ -105,7 +105,7 @@ impl<E: UserEvent> Scene<E, Loaded> {
 
             /// Renders the current state when the scene is in the background.
             pub fn background_render(&mut self, context: &mut Context<E>);
-            
+
             /// Unloads the scene, consuming, and dropping it in the process.
             pub fn unload(mut self, context: &mut Context<E>);
         }
@@ -128,4 +128,3 @@ mod scene_tests {
         loaded_scene.unload(&mut context);
     }
 }
-

@@ -1,10 +1,10 @@
-use wolf_engine_core::Context;
 use wolf_engine_core::events::UserEvent;
+use wolf_engine_core::Context;
 
-use crate::scenes::Scene;
 use crate::scenes::state::*;
+use crate::scenes::Scene;
 
-/// Represents an action command for the [`Stage`]. 
+/// Represents an action command for the [`Stage`].
 pub enum SceneChange<E: UserEvent> {
     /// Push a [`Scene`] to the top of the stack.
     Push(Scene<E, Unloaded>),
@@ -25,11 +25,11 @@ pub enum SceneChange<E: UserEvent> {
 /// Scene is on the top of the stack is considered the "active" scene, and the rest are considered
 /// "background" scenes.
 ///
-/// When a Scene is pushed to the stack, it is first [loaded](Scene::load()), and when a Scene is 
+/// When a Scene is pushed to the stack, it is first [loaded](Scene::load()), and when a Scene is
 /// popped off the stack, it is [unloaded](Scene::unload()).
 ///
-/// All Scenes run with the Stage, even the "background" Scenes, but only the "active" Scene is 
-/// able to return a [`SceneChange`] to control the Stage.  "Background" are only run through 
+/// All Scenes run with the Stage, even the "background" Scenes, but only the "active" Scene is
+/// able to return a [`SceneChange`] to control the Stage.  "Background" are only run through
 /// their "background" methods, which do not return a [`SceneChange`].
 pub struct Stage<E: UserEvent> {
     stack: Vec<Scene<E, Loaded>>,
