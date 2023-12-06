@@ -84,7 +84,7 @@ mod scene_tests {
     }
 }
 
-/// An alias for a [Boxed](Box) [`SceneTrait`].  To make for cleaner code.
+/// An alias for a [Boxed](Box) [`SceneTrait`].
 pub type SceneBox<E> = Box<dyn SceneTrait<E>>;
 
 /// Holds the main game logic, entities, loaded assets, ext. that make up a game scene.
