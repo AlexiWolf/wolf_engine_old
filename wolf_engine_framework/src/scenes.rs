@@ -158,6 +158,29 @@ impl<E: UserEvent> Stage<E> {
         Self { stack: Vec::new() }
     }
 
+    /// Updates the whole [`Scene`] stack.
+    ///
+    /// Updates are run from bottom-to-top order.  Only the top scene has its [`Scene::update()`]
+    /// method called, the rest get a [`Scene::background_update()`] instead.
+    ///
+    /// Unlike a normal [`Scene`], this implementation will always return [`None`].
+    pub fn update(&mut self, context: &mut Context<E>) -> Option<SceneChange<E>> {
+        self.run_background_updates(context);
+        self.run_active_update(context);
+        None
+    }
+
+    /// Renders the whole [`Scene`] stack.
+    ///
+    /// Renders are run from bottom-to-top order.  Only the top scene has its [`Scene::render()`]
+    /// method called, the rest get a [`Scene::background_render()`] instead.
+    pub fn render(&mut self, context: &mut Context<E>) {
+        self.run_background_renders(context);
+        if let Some(scene) = self.stack.last_mut() {
+            scene.render(context);
+        }
+    }
+
     /// Pushes a [`Scene`] to the top of the stack, and [loads](Scene::load()) it.
     pub fn push(&mut self, context: &mut Context<E>, scene: Scene<E, Unloaded>) {
         let scene = scene.load(context);
@@ -211,31 +234,6 @@ impl<E: UserEvent> Stage<E> {
                     SceneChange::Clear => self.clear(context),
                 }
             }
-        }
-    }
-}
-
-impl<E: UserEvent> SceneTrait<E> for Stage<E> {
-    /// Updates the whole [`Scene`] stack.
-    ///
-    /// Updates are run from bottom-to-top order.  Only the top scene has its [`Scene::update()`]
-    /// method called, the rest get a [`Scene::background_update()`] instead.
-    ///
-    /// Unlike a normal [`Scene`], this implementation will always return [`None`].
-    fn update(&mut self, context: &mut Context<E>) -> Option<SceneChange<E>> {
-        self.run_background_updates(context);
-        self.run_active_update(context);
-        None
-    }
-
-    /// Renders the whole [`Scene`] stack.
-    ///
-    /// Renders are run from bottom-to-top order.  Only the top scene has its [`Scene::render()`]
-    /// method called, the rest get a [`Scene::background_render()`] instead.
-    fn render(&mut self, context: &mut Context<E>) {
-        self.run_background_renders(context);
-        if let Some(scene) = self.stack.last_mut() {
-            scene.render(context);
         }
     }
 }
