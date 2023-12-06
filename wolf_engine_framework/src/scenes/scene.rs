@@ -7,8 +7,7 @@ use wolf_engine_core::Context;
 /// An alias for a [Boxed](Box) [`SceneTrait`].
 pub type SceneBox<E> = Box<dyn SceneTrait<E>>;
 
-/// Provides the main game logic, and holds entities, loaded assets, ext. that make up a game 
-/// scene.
+/// The user-facing trait used to provide the behaviors of a [`Scene`].
 #[allow(unused)]
 #[cfg_attr(test, mockall::automock)]
 pub trait SceneTrait<E: UserEvent> {
