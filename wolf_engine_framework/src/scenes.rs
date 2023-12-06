@@ -137,7 +137,7 @@ pub enum SceneChange<E: UserEvent> {
     Clear,
 }
 
-/// Provides a stack-like structure for managing 1, or more [`Scene`] objects.
+/// Provides a stack-like structure managing a collection of [`Scene`] objects.
 ///
 /// The stage consists of a `stack`, on which the currently-loaded Scenes are stored.  Whatever
 /// Scene is on the top of the stack is considered the "active scene", and the rest are considered
