@@ -12,6 +12,18 @@ pub struct Unloaded;
 /// A [`Scene`] type-state indicating the scene has been loaded.
 pub struct Loaded;
 
+/// Provides a wrapper around a [`SceneTrait`], which can be either [`Unloaded`], or [`Loaded`],
+/// and granting access to certain methods only after the scene has been loaded.
+///
+/// A Scene always starts in the [`Unloaded`] state.  In this state, most methods are inaccessible,
+/// and only [`Scene::load()`] may be called.
+///
+/// Calling [`Scene::load()`] runs the Scene's one-time setup, then puts the Scene into the 
+/// [`Loaded`] state.  Once in the [`Loaded`] state, the rest of the Scene's methods, save for
+/// [`Scene::load()`] are made accessible.
+///
+/// Running the [`Scene::unload()`] method will consume the Scene, running it's one-time shutdown
+/// code, and dropping the Scene.
 pub struct Scene<E: UserEvent, State = Unloaded> {
     inner: SceneBox<E>,
     _state: PhantomData<State>,
