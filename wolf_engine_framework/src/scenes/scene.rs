@@ -47,15 +47,14 @@ use state::*;
 
 use super::SceneChange;
 
-/// Provides a wrapper around a [`SceneTrait`], which can be either [`Unloaded`], or [`Loaded`],
-/// and granting access to certain methods only after the scene has been loaded.
+/// Provides a concrete wrapper around a [`SceneTrait`] object. 
 ///
-/// A Scene always starts in the [`Unloaded`] state.  In this state, most methods are inaccessible,
-/// and only [`Scene::load()`] may be called.
+/// A Scene can be either [`Unloaded`], or [`Loaded`].  A Scene always starts in the [`Unloaded`] 
+/// state.  While [`Unloaded`], only [`Scene::load()`] can be called.
 ///
-/// Calling [`Scene::load()`] runs the Scene's one-time setup, then puts the Scene into the 
-/// [`Loaded`] state.  Once in the [`Loaded`] state, the rest of the Scene's methods, save for
-/// [`Scene::load()`] are made accessible.
+/// Calling [`Scene::load()`] runs one-time setup, and puts the Scene into the [`Loaded`] state.  
+/// Once in the [`Loaded`] state, the rest of the Scene's methods, save for  [`Scene::load()`], are 
+/// made accessible.
 ///
 /// Running the [`Scene::unload()`] method will consume the Scene, running it's one-time shutdown
 /// code, and dropping the Scene.
