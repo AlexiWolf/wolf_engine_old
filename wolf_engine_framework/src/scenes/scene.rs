@@ -7,38 +7,30 @@ use wolf_engine_core::Context;
 /// An alias for a [Boxed](Box) [`SceneTrait`].
 pub type SceneBox<E> = Box<dyn SceneTrait<E>>;
 
-/// Holds the main game logic, entities, loaded assets, ext. that make up a game scene.
-///
-/// # Examples
-///
-/// Detailed usage examples can be found in the examples folder.
+/// Provides the main game logic, and holds entities, loaded assets, ext. that make up a game 
+/// scene.
 #[allow(unused)]
 #[cfg_attr(test, mockall::automock)]
 pub trait SceneTrait<E: UserEvent> {
-    /// Updates game state, and can send messages the [`Stage`] to change scenes.
+    /// Updates the game state when the scene is active.
+    ///
+    /// Active updates can optionally return a [`SceneChange`](crate::scenes::SceneChange), to the 
+    /// [`Stage`](crate::scenes::Stage) to change scenes.
     fn update(&mut self, context: &mut Context<E>) -> Option<SceneChange<E>>;
 
-    /// Renders the current game state.
+    /// Renders the current game state when the scene is active.
     fn render(&mut self, context: &mut Context<E>);
 
-    /// Runs all preliminary setup required for the scene, such as initializing systems, spawning
-    /// entities, loading assets, ext.
+    /// Runs all setup operations for the scene.
     fn load(&mut self, context: &mut Context<E>) {}
-
-    /// Runs all tear-down operations required by the scene, such as removing resources, despawning
-    /// entities, unloading assets, ext.
+    
+    /// Runs all shutdown operations for the scene.
     fn unload(&mut self, context: &mut Context<E>) {}
 
-    /// Updates the current state.
-    ///
-    /// This method is called when the scene is running in the background, such as when it is not
-    /// the top scene on the [`Stage`].
+    /// Updates the current state when the scene is in the background.
     fn background_update(&mut self, context: &mut Context<E>) {}
 
-    /// Renders the current game state.
-    ///
-    /// This method is called when the scene is running in the background, such as when it is not
-    /// the top scene on the [`Stage`].
+    /// Renders the current game state when the scene is in the background.
     fn background_render(&mut self, context: &mut Context<E>) {}
 }
 
