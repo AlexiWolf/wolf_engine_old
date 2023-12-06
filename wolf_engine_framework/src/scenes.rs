@@ -30,6 +30,7 @@ pub struct Scene<E: UserEvent, State = Unloaded> {
 }
 
 impl<E: UserEvent, State> Scene<E, State> {
+    /// Creates a new Scene, in the [`Unloaded`] state, with the provided [`SceneTrait`].
     pub fn new_unloaded(inner: SceneBox<E>) -> Scene<E, Unloaded> {
         Scene::<E, Unloaded> {
             inner,
@@ -39,6 +40,7 @@ impl<E: UserEvent, State> Scene<E, State> {
 }
 
 impl<E: UserEvent> Scene<E, Unloaded> {
+    /// Loads the Scene, and puts it into the [`Loaded`] state.
     pub fn load(mut self, context: &mut Context<E>) -> Scene<E, Loaded> {
         self.inner.load(context);
         Scene::<E, Loaded> {
