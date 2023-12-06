@@ -6,6 +6,7 @@ use delegate::delegate;
 use wolf_engine_core::events::UserEvent;
 use wolf_engine_core::Context;
 
+/// Provides type-state structs used by the [`Scene`].
 pub mod state {
     /// A [`Scene`](super::Scene) type-state indicating the scene has not yet been loaded.
     pub struct Unloaded;
