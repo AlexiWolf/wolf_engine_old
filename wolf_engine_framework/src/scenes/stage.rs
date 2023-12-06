@@ -46,10 +46,9 @@ impl<E: UserEvent> Stage<E> {
     /// method called, the rest get a [`Scene::background_update()`] instead.
     ///
     /// Unlike a normal [`Scene`], this implementation will always return [`None`].
-    pub fn update(&mut self, context: &mut Context<E>) -> Option<SceneChange<E>> {
+    pub fn update(&mut self, context: &mut Context<E>) {
         self.run_background_updates(context);
         self.run_active_update(context);
-        None
     }
 
     /// Renders the whole [`Scene`] stack.
