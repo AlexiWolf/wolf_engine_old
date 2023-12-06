@@ -7,7 +7,7 @@ use wolf_engine_core::Context;
 /// An alias for a [Boxed](Box) [`SceneTrait`].
 pub type SceneBox<E> = Box<dyn SceneTrait<E>>;
 
-/// The user-facing trait used to provide the behaviors of a [`Scene`].
+/// The user-facing trait used to provide the functions of a [`Scene`].
 #[allow(unused)]
 #[cfg_attr(test, mockall::automock)]
 pub trait SceneTrait<E: UserEvent> {
@@ -91,10 +91,22 @@ impl<E: UserEvent> Scene<E, Unloaded> {
 impl<E: UserEvent> Scene<E, Loaded> {
     delegate! {
         to self.inner {
+            /// Updates the game state when the scene is active.
+            ///
+            /// Active updates can optionally return a [`SceneChange`](crate::scenes::SceneChange), to the 
+            /// [`Stage`](crate::scenes::Stage) to change scenes.
             pub fn update(&mut self, context: &mut Context<E>) -> Option<SceneChange<E>>;
+
+            /// Renders the current game state when the scene is active.
             pub fn render(&mut self, context: &mut Context<E>);
+
+            /// Updates the current state when the scene is in the background.
             pub fn background_update(&mut self, context: &mut Context<E>);
+
+            /// Renders the current state when the scene is in the background.
             pub fn background_render(&mut self, context: &mut Context<E>);
+            
+            /// Unloads the scene, consuming, and dropping it in the process.
             pub fn unload(mut self, context: &mut Context<E>);
         }
     }
