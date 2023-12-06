@@ -44,8 +44,6 @@ impl<E: UserEvent> Stage<E> {
     ///
     /// Updates are run from bottom-to-top order.  Only the top scene has its [`Scene::update()`]
     /// method called, the rest get a [`Scene::background_update()`] instead.
-    ///
-    /// Unlike a normal [`Scene`], this implementation will always return [`None`].
     pub fn update(&mut self, context: &mut Context<E>) {
         self.run_background_updates(context);
         self.run_active_update(context);
