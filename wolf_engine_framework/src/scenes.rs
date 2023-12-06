@@ -7,8 +7,6 @@ use wolf_engine_core::events::UserEvent;
 use wolf_engine_core::Context;
 
 /// A [`Scene`] type-state indicating the scene has not yet been loaded.
-///
-/// This is the default state for new [`Scene`] objects.
 pub struct Unloaded;
 
 /// A [`Scene`] type-state indicating the scene has been loaded.
