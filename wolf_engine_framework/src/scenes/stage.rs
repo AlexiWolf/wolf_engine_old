@@ -4,7 +4,7 @@ use wolf_engine_core::events::UserEvent;
 use crate::scenes::Scene;
 use crate::scenes::state::*;
 
-/// Represents all scene-change actions [`Stage`] can perform.
+/// Represents an action command for the [`Stage`]. 
 pub enum SceneChange<E: UserEvent> {
     /// Push a [`Scene`] to the top of the stack.
     Push(Scene<E, Unloaded>),
