@@ -158,21 +158,20 @@ impl<E: UserEvent> Stage<E> {
         Self { stack: Vec::new() }
     }
 
-    /// Pushes a new [`Scene`] to the top of the stack, and calls its [`Scene::load()`] method.
+    /// Pushes a [`Scene`] to the top of the stack, and [loads](Scene::load()) it.
     pub fn push(&mut self, context: &mut Context<E>, scene: Scene<E, Unloaded>) {
         let scene = scene.load(context);
         self.stack.push(scene);
     }
 
-    /// Removes the [`Scene`] from the top of the stack, calls its [`Scene::unload()`] method,
-    /// and returns the popped scene.
+    /// Pops a [`Scene`] off the top of the stack, and [unloads](Scene::unload()) it.
     pub fn pop(&mut self, context: &mut Context<E>) {
         if let Some(scene) = self.stack.pop() {
             scene.unload(context);
         }
     }
 
-    /// Pops all [`Scene`] objects from the stack.
+    /// Pops all [`Scene`] objects from the stack, and [unloads](Scene::unload()) them.
     pub fn clear(&mut self, context: &mut Context<E>) {
         for _ in 0..self.stack.len() {
             let _ = self.pop(context);
