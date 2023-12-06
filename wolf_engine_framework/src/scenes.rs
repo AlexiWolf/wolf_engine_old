@@ -119,9 +119,16 @@ pub trait SceneTrait<E: UserEvent> {
 
 /// Represents all scene-change actions [`Stage`] can perform.
 pub enum SceneChange<E: UserEvent> {
+    /// Push a [`Scene`] to the top of the stack.
     Push(Scene<E, Unloaded>),
+
+    /// Combines a [`SceneChange::Clear`], and a [`SceneChange::Push`] into a single operation.
     CleanPush(Scene<E, Unloaded>),
+
+    /// Pop a single [`Scene`] off the top of the stack.
     Pop,
+
+    /// Pop all [`Scenes`](Scene) off the stack.
     Clear,
 }
 
