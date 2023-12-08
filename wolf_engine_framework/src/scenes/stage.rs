@@ -76,7 +76,7 @@ impl<E: UserEvent> Stage<E> {
     /// Pops all [`Scene`] objects from the stack, and [unloads](Scene::unload()) them.
     pub fn clear(&mut self, context: &mut Context<E>) {
         for _ in 0..self.stack.len() {
-            let _ = self.pop(context);
+            self.pop(context);
         }
     }
 
@@ -108,7 +108,7 @@ impl<E: UserEvent> Stage<E> {
                         self.push(context, new_scene);
                     }
                     SceneChange::Pop => {
-                        let _ = self.pop(context);
+                        self.pop(context);
                     }
                     SceneChange::Clear => self.clear(context),
                 }
