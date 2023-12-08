@@ -31,6 +31,7 @@ pub enum SceneChange<E: UserEvent> {
 /// All Scenes run with the Stage, even the "background" Scenes, but only the "active" Scene is
 /// able to return a [`SceneChange`] to control the Stage.  "Background" are only run through
 /// their "background" methods, which do not return a [`SceneChange`].
+#[derive(Default)]
 pub struct Stage<E: UserEvent> {
     stack: Vec<Scene<E, Loaded>>,
 }
