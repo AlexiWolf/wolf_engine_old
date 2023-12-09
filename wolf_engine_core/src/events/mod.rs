@@ -5,5 +5,5 @@
 
 pub use generic_event_queue::*;
 
-mod events;
-pub use events::*;
+mod event;
+pub use event::*;
