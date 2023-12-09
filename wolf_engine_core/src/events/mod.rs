@@ -144,10 +144,7 @@
 //! # let event_queue = real_event_queue.event_sender(); // >;3
 //! #
 //! event_queue.send_event(EventType::Event);
+pub use generic_event_queue::*;
 
-mod event_queue;
-pub use event_queue::*;
-mod mpsc_event_queue;
-pub use mpsc_event_queue::*;
 mod engine_events;
 pub use engine_events::*;
