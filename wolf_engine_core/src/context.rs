@@ -1,7 +1,8 @@
 use std::sync::Arc;
 
-use crate::ecs::Resources;
 use crate::events::*;
+
+use resources::Resources;
 
 /// Provides a container for Wolf Engine's user-facing data.
 ///
