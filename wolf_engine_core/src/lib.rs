@@ -59,7 +59,6 @@ pub use event_loop::*;
 mod engine_builder;
 pub use engine_builder::*;
 
-pub mod ecs;
 pub mod events;
 
 pub mod resources {

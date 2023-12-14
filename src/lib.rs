@@ -39,6 +39,4 @@ pub mod window {
 #[doc(hidden)]
 pub mod prelude {
     pub use super::*;
-
-    pub use ecs::prelude::*;
 }
