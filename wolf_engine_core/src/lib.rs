@@ -69,6 +69,10 @@ pub use engine_builder::*;
 pub mod ecs;
 pub mod events;
 
+pub mod resources {
+    pub use resources::*;
+}
+
 #[cfg(feature = "logging")]
 pub mod logging;
 
