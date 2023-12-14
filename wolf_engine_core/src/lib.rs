@@ -45,9 +45,6 @@
 //!         Event::EventsCleared => {
 //!             // You should put most of your game logic here.
 //!
-//!             // You can run ECS schedules through the Context.
-//!             context.run_schedule(schedule);
-//!
 //!             // To close the game.
 //! #           context.quit();
 //!         }
