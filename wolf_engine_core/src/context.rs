@@ -17,10 +17,6 @@ pub struct Context<E: UserEvent> {
 }
 
 impl<E: UserEvent> Context<E> {
-    pub fn run_schedule(&mut self, schedule: &mut Schedule) {
-        schedule.execute(&mut self.world, &mut self.resources);
-    }
-
     /// Returns an immutable reference to the world.
     pub fn world(&self) -> &World {
         &self.world
