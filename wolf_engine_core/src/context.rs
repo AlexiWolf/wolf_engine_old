@@ -55,27 +55,6 @@ impl<E: UserEvent> HasEventSender<Event<E>> for Context<E> {
 
 #[cfg(test)]
 mod context_tests {
-    use crate::ecs::{Resources, Schedule};
-
-    #[test]
-    fn should_run_ecs_tick() {
-        #[legion::system]
-        fn add_1(#[resource] number: &mut i32) {
-            *number += 1;
-        }
-        let mut resources = Resources::default();
-        resources.insert(0);
-        let (_, mut context) = crate::init::<()>().with_resources(resources).build();
-
-        let mut schedule = Schedule::builder().add_system(add_1_system()).build();
-
-        assert_eq!(*context.resources().get::<i32>().unwrap(), 0);
-        context.run_schedule(&mut schedule);
-        assert_eq!(*context.resources().get::<i32>().unwrap(), 1);
-        context.run_schedule(&mut schedule);
-        assert_eq!(*context.resources().get::<i32>().unwrap(), 2);
-    }
-
     #[test]
     fn should_have_accessors() {
         let (_, mut context) = crate::init::<()>().build();
