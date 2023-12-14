@@ -103,7 +103,7 @@ mod plugin_loader_tests {
             .build()
             .unwrap();
         assert!(
-            context.resources().get::<TestResource>().is_some(),
+            context.resources().get::<TestResource>().is_ok(),
             "Resource insertion failed"
         );
     }

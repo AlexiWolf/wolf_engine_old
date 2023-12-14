@@ -98,7 +98,7 @@ mod init_tests {
         let (_event_loop, context) = crate::init::<()>().with_resources(resources).build();
 
         assert!(
-            context.resources().get::<i32>().is_some(),
+            context.resources().get::<i32>().is_ok(),
             "The resources were not used"
         );
     }
