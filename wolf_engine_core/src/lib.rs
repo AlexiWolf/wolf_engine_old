@@ -7,13 +7,10 @@
 //! ```
 //! # use wolf_engine_core as wolf_engine;
 //! # use wolf_engine::prelude::*;
-//! # use wolf_engine::ecs::{Schedule, Resources};
+//! # use wolf_engine::resources::Resources;
 //! #
 //! # struct SomeResource;
 //! #
-//! # #[legion::system]
-//! # fn example() {}
-//!
 //! pub fn main() {
 //!     // Start by setting up Resources, or custom data for the engine.
 //!     // These resources are available to systems, and from the Context at run-time.
@@ -27,18 +24,14 @@
 //!         .with_resources(resources)
 //!         .build();
 //!
-//!     let mut schedule = Schedule::builder()
-//!         .add_system(example_system())
-//!         .build();
-//!     
 //!     // The Event-Loop will continue to return events, every call, until a Quit event is sent,
 //!     // only then, will the Event-Loop will return None.
 //!     while let Some(event) = event_loop.next_event() {
-//!         process_event(event, &mut context, &mut schedule);
+//!         process_event(event, &mut context);
 //!     }
 //! }
 //!
-//! pub fn process_event(event: Event<()>, context: &mut Context<()>, schedule: &mut Schedule) {
+//! pub fn process_event(event: Event<()>, context: &mut Context<()>) {
 //!     match event {
 //!         // Indicates there are no more events on the queue, or, essentially, the end of the
 //!         // current frame.  
