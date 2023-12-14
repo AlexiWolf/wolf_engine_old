@@ -1,6 +1,7 @@
 use std::marker::PhantomData;
 
-use crate::ecs::Resources;
+use resources::Resources;
+
 use crate::prelude::*;
 
 /// Represents the [`EventLoop`]-[`Context`] pair that makes up "the engine."
