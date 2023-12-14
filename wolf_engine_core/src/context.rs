@@ -11,22 +11,11 @@ use crate::events::*;
 ///
 /// The Context owns all engine data, including resources, and the game world.
 pub struct Context<E: UserEvent> {
-    pub(crate) world: World,
     pub(crate) resources: Resources,
     pub(crate) event_sender: Arc<dyn EventSender<Event<E>>>,
 }
 
 impl<E: UserEvent> Context<E> {
-    /// Returns an immutable reference to the world.
-    pub fn world(&self) -> &World {
-        &self.world
-    }
-
-    /// Returns a mutable reference to the world.
-    pub fn world_mut(&mut self) -> &mut World {
-        &mut self.world
-    }
-
     /// Returns an immutable reference to engine resources.
     pub fn resources(&self) -> &Resources {
         &self.resources
@@ -55,11 +44,9 @@ mod context_tests {
     fn should_have_accessors() {
         let (_, mut context) = crate::init::<()>().build();
         {
-            let _world = context.world();
             let _resources = context.resources();
         }
         {
-            let _world_mut = context.world_mut();
             let _mut_resources = context.resources_mut();
         }
     }
