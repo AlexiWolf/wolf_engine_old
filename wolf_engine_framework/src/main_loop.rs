@@ -25,10 +25,6 @@ impl<E: UserEvent> MainLoopResource<E> {
     }
 }
 
-// **SAFETY**: Todo: add tests to ensure this is actually safe.
-unsafe impl<E: UserEvent> Send for MainLoopResource<E> {}
-unsafe impl<E: UserEvent> Sync for MainLoopResource<E> {}
-
 /// An implementation of the engine's main-loop.
 #[cfg_attr(test, mockall::automock)]
 pub trait MainLoop<E: UserEvent> {
