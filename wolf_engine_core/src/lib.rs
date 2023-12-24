@@ -62,7 +62,7 @@ pub use engine_builder::*;
 pub mod events;
 
 pub mod resources {
-    pub use resources::*;
+    pub use shared_resources::*;
 }
 
 #[cfg(feature = "logging")]
