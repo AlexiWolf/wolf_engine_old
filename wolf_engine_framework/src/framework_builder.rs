@@ -2,8 +2,8 @@ use crate::plugins::{Plugin, PluginLoader};
 use crate::{MainLoop, MainLoopResource};
 
 use wolf_engine_core::events::UserEvent;
+use wolf_engine_core::resources::{Resource, Resources};
 use wolf_engine_core::Engine;
-use wolf_engine_core::resources::{Resources, Resource};
 
 /// Provides a way to configure the [`Engine`] before startup.
 ///
