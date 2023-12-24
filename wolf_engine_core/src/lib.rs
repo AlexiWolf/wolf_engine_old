@@ -83,7 +83,7 @@ pub fn init<E: UserEvent>() -> EngineBuilder<E> {
 
 #[cfg(test)]
 mod init_tests {
-    use resources::Resources;
+    use crate::resources::Resources;
     use crate::events::MainEventSender;
 
     #[test]
