@@ -28,8 +28,5 @@ mockall = "0.11"
 ntest = "0.8"
 
 [features]
-default = ["parallel"]
+default = []
 logging = ["simple_logger"]
-serde = ["legion/serialize"]
-parallel = ["legion/parallel"]
-extended_tuple_impls = ["legion/extended-tuple-impls"]
