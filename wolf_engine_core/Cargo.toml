@@ -14,8 +14,8 @@ categories = ["game-development", "game-engines"]
 
 [dependencies]
 wolf_engine_codegen = {path = "../wolf_engine_codegen", version = "0.26.0"}
-resources = "1.1.0"
 log = "0.4"
+shared_resources = "0.1.0"
 
 # Optional Dependencies
 simple_logger = {version = "1.13", optional = true}
