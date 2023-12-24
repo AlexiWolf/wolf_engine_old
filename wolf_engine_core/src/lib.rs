@@ -61,6 +61,8 @@ pub use engine_builder::*;
 
 pub mod events;
 
+/// Provides a shared resource container which is thread-safe, and lock-free.  Based on the 
+/// [`shared_resources`] crate.
 pub mod resources {
     pub use shared_resources::*;
 }
