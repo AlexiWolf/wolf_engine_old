@@ -22,7 +22,6 @@ simple_logger = {version = "1.13", optional = true}
 generic_event_queue = "0.1.0"
 
 [dev-dependencies]
-legion = {version = "0.4.0", default-features = false, features = ["codegen"]}
 log = "0.4"
 test-case = "1.2"
 mockall = "0.11"
