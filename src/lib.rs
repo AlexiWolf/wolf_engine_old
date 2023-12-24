@@ -11,13 +11,9 @@
 //! ## Crate Features
 //!
 //! - `framework`: Enables the high-level framework. (Default)
-//! - `parallel`: Enables parallel iterators, and parallel schedule execution via the Rayon
-//!    library. (Default)
 //! - `logging`: Enables built-in logging implementation.
 //! - `serde`: Enables [Serde](https://crates.io.crates/serde) support for some types.
 //! - `window`: Enables Wolf Engine's high-level window API.
-//! - `extended_tuple_impls`: Extends the maximum size of Legion's view and component tuples from
-//!    8 to 24, at the cost of increased compile times.
 
 pub use wolf_engine_core::prelude::*;
 
