@@ -1,6 +1,5 @@
 use std::marker::PhantomData;
 
-use delegate::delegate;
 use wolf_engine_core::events::UserEvent;
 use wolf_engine_core::Context;
 
