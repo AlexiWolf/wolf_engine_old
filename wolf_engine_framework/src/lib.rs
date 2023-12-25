@@ -36,11 +36,11 @@ mod framework_init_tests {
             .build()
             .unwrap();
         assert!(
-            context.resources().get::<TestResourceA>().is_some(),
+            context.resources().get::<TestResourceA>().is_ok(),
             "Resource insertion failed"
         );
         assert!(
-            context.resources().get::<TestResourceB>().is_some(),
+            context.resources().get::<TestResourceB>().is_ok(),
             "Resource insertion failed"
         );
     }
@@ -78,7 +78,7 @@ mod framework_runner_test {
         let (_event_loop, context) = crate::init::<()>().build().unwrap();
 
         assert!(
-            context.resources().get::<MainLoopResource<()>>().is_some(),
+            context.resources().get::<MainLoopResource<()>>().is_ok(),
             "Main loop resource was not inserted"
         );
     }

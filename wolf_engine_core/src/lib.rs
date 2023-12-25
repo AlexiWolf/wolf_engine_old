@@ -7,13 +7,10 @@
 //! ```
 //! # use wolf_engine_core as wolf_engine;
 //! # use wolf_engine::prelude::*;
-//! # use wolf_engine::ecs::{Schedule, Resources};
+//! # use wolf_engine::resources::Resources;
 //! #
 //! # struct SomeResource;
 //! #
-//! # #[legion::system]
-//! # fn example() {}
-//!
 //! pub fn main() {
 //!     // Start by setting up Resources, or custom data for the engine.
 //!     // These resources are available to systems, and from the Context at run-time.
@@ -27,26 +24,19 @@
 //!         .with_resources(resources)
 //!         .build();
 //!
-//!     let mut schedule = Schedule::builder()
-//!         .add_system(example_system())
-//!         .build();
-//!     
 //!     // The Event-Loop will continue to return events, every call, until a Quit event is sent,
 //!     // only then, will the Event-Loop will return None.
 //!     while let Some(event) = event_loop.next_event() {
-//!         process_event(event, &mut context, &mut schedule);
+//!         process_event(event, &mut context);
 //!     }
 //! }
 //!
-//! pub fn process_event(event: Event<()>, context: &mut Context<()>, schedule: &mut Schedule) {
+//! pub fn process_event(event: Event<()>, context: &mut Context<()>) {
 //!     match event {
 //!         // Indicates there are no more events on the queue, or, essentially, the end of the
 //!         // current frame.  
 //!         Event::EventsCleared => {
 //!             // You should put most of your game logic here.
-//!
-//!             // You can run ECS schedules through the Context.
-//!             context.run_schedule(schedule);
 //!
 //!             // To close the game.
 //! #           context.quit();
@@ -69,8 +59,14 @@ pub use event_loop::*;
 mod engine_builder;
 pub use engine_builder::*;
 
-pub mod ecs;
 pub mod events;
+
+/// Provides a shared resource container which is thread-safe, and lock-free
+///
+/// Wolf Engine re-exports [`shared_resources`], see the original crate for details.
+pub mod resources {
+    pub use shared_resources::*;
+}
 
 #[cfg(feature = "logging")]
 pub mod logging;
@@ -90,8 +86,8 @@ pub fn init<E: UserEvent>() -> EngineBuilder<E> {
 
 #[cfg(test)]
 mod init_tests {
-    use crate::ecs::Resources;
     use crate::events::MainEventSender;
+    use crate::resources::Resources;
 
     #[test]
     fn should_add_resources() {
@@ -101,7 +97,7 @@ mod init_tests {
         let (_event_loop, context) = crate::init::<()>().with_resources(resources).build();
 
         assert!(
-            context.resources().get::<i32>().is_some(),
+            context.resources().get::<i32>().is_ok(),
             "The resources were not used"
         );
     }
