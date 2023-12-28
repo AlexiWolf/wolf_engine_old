@@ -1,10 +1,6 @@
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
-pub mod prelude {
-    pub use super::*;
-}
-
 /// Represents the size of a window, in pixels.
 #[derive(Debug, Eq, PartialEq, Copy, Clone)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
