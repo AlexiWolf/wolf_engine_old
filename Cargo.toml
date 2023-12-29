@@ -11,9 +11,9 @@ keywords = ["wolf-engine", "game", "gamedev"]
 categories = ["game-development", "game-engines"]
 
 [dependencies]
-wolf_engine_core = {path = "wolf_engine_core", version = "0.26.0"}
-wolf_engine_framework = {path = "wolf_engine_framework", version = "0.26.0", optional = true}
-wolf_engine_window = {path = "wolf_engine_window", version = "0.26.0", optional = true}
+wolf_engine_core = {path = "engine/wolf_engine_core", version = "0.26.0"}
+wolf_engine_framework = {path = "engine/wolf_engine_framework", version = "0.26.0", optional = true}
+wolf_engine_window = {path = "engine/wolf_engine_window", version = "0.26.0", optional = true}
 
 [dev-dependencies]
 log = "0.4"
@@ -26,7 +26,7 @@ window = ["wolf_engine_window"]
 serde = ["wolf_engine_window/serde"]
 
 [workspace]
-members = ["wolf_engine_*"]
+members = ["engine/*"]
 
 [[example]]
 name = "logging"
