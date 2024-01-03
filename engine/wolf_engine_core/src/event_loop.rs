@@ -94,7 +94,9 @@ mod event_loop_tests {
         let mut updates = 0;
 
         while let Some(event) = event_loop.next_event() {
-            process_event(event, &mut context, &mut updates);
+            if let Some(event) = event.downcast::<Event>() {
+                process_event(event, &mut context, &mut updates);
+            }
         }
 
         assert!(event_loop.has_quit);
@@ -118,8 +120,9 @@ mod event_loop_tests {
     #[test]
     fn should_emit_events_cleared_when_event_queue_is_empty() {
         let (mut event_loop, context) = crate::init::<()>().build();
+        
         assert_eq!(
-            event_loop.next_event().unwrap(),
+            event_loop.next_event().unwrap().downcast::<Event>().unwrap(),
             Event::EventsCleared,
             "The event-loop did not emit the expected EventsCleared event."
         );
