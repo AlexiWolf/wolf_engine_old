@@ -2,6 +2,8 @@ use std::{sync::Arc, marker::PhantomData};
 
 use crate::events::*;
 
+type EventBox = Box<dyn EventTrait>;
+
 /// Provides a way to retrieve events from the [`Context`](crate::Context).
 ///
 /// Under the hood, Wolf Engine consists of two main parts: The `EventLoop` (You are here!), and the
@@ -35,7 +37,7 @@ use crate::events::*;
 /// }
 /// ```
 pub struct EventLoop<E: UserEvent> {
-    event_queue: MpscEventQueue<Event>,
+    event_queue: MpscEventQueue<EventBox>,
     has_quit: bool,
     _user_event: PhantomData<E>,
 }
@@ -50,33 +52,37 @@ impl<E: UserEvent> EventLoop<E> {
         }
     }
 
-    fn handle_event(&mut self, event: Event) -> Event {
-        if event == Event::Quit {
+    fn handle_event(&mut self, event: &Event) {
+        if *event == Event::Quit {
             self.has_quit = true;
         }
-        event
     }
 
-    fn handle_empty_event(&self) -> Option<Event> {
+    fn handle_empty_event(&self) -> Option<EventBox> {
         if self.has_quit {
             None
         } else {
-            Some(Event::EventsCleared)
+            Some(Box::from(Event::EventsCleared))
         }
     }
 }
 
-impl<E: UserEvent> EventQueue<Event> for EventLoop<E> {
-    fn next_event(&mut self) -> Option<Event> {
+impl<E: UserEvent> EventQueue<EventBox> for EventLoop<E> {
+    fn next_event(&mut self) -> Option<EventBox> {
         match self.event_queue.next_event() {
-            Some(event) => Some(self.handle_event(event)),
+            Some(event) => if let Ok(downcast) = event.downcast::<Event>() {
+                self.handle_event(&downcast);
+                Some(event)
+            } else {
+                Some(event)
+            },
             None => self.handle_empty_event(),
         }
     }
 }
 
-impl<E: UserEvent> HasEventSender<Event> for EventLoop<E> {
-    fn event_sender(&self) -> Arc<dyn EventSender<Event>> {
+impl<E: UserEvent> HasEventSender<EventBox> for EventLoop<E> {
+    fn event_sender(&self) -> Arc<dyn EventSender<EventBox>> {
         self.event_queue.event_sender()
     }
 }
