@@ -9,10 +9,10 @@ pub use generic_event_queue::*;
 mod event;
 pub use event::*;
 
-pub trait EventTrait: Downcast + 'static {}
+pub trait EventTrait: Downcast + core::fmt::Debug + 'static {}
 impl_downcast!(EventTrait);
 
-impl<T> EventTrait for T where T: 'static {}
+impl<T> EventTrait for T where T: core::fmt::Debug + 'static {}
 
 #[cfg(test)]
 mod event_tests {
@@ -20,6 +20,7 @@ mod event_tests {
 
     use super::*;
 
+    #[derive(Debug)]
     struct TestEvent(&'static str);
     
     #[test_case(&TestEvent("Hello, World!"))]
