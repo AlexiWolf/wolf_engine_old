@@ -126,7 +126,7 @@ mod event_loop_tests {
         let (mut event_loop, context) = crate::init::<()>().build();
         
         assert_eq!(
-            event_loop.next_event().unwrap().downcast::<Event>().unwrap(),
+            *event_loop.next_event().unwrap().downcast::<Event>().unwrap(),
             Event::EventsCleared,
             "The event-loop did not emit the expected EventsCleared event."
         );
