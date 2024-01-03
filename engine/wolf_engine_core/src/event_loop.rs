@@ -68,8 +68,8 @@ impl EventLoop {
 impl EventQueue<EventBox> for EventLoop {
     fn next_event(&mut self) -> Option<EventBox> {
         match self.event_queue.next_event() {
-            Some(event) => if let Ok(downcast) = event.downcast::<Event>() {
-                self.handle_event(&downcast);
+            Some(event) => if let Some(downcast) = event.downcast_ref::<Event>() {
+                self.handle_event(downcast);
                 Some(event)
             } else {
                 Some(event)
