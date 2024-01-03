@@ -98,8 +98,8 @@ mod event_loop_tests {
         let mut updates = 0;
 
         while let Some(event) = event_loop.next_event() {
-            if let Some(event) = event.downcast::<Event>() {
-                process_event(event, &mut context, &mut updates);
+            if let Ok(event) = event.downcast::<Event>() {
+                process_event(*event, &mut context, &mut updates);
             }
         }
 
