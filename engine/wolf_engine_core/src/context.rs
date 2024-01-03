@@ -13,7 +13,7 @@ use crate::resources::Resources;
 /// The Context owns all engine data, including resources, and the game world.
 pub struct Context<E: UserEvent> {
     pub(crate) resources: Resources,
-    pub(crate) event_sender: Arc<dyn EventSender<Event>>,
+    pub(crate) event_sender: Arc<dyn EventSender<Box<dyn EventTrait>>>,
     pub(crate) _user_event: PhantomData<E>,
 }
 
@@ -30,12 +30,12 @@ impl<E: UserEvent> Context<E> {
 
     /// Sends a [Quit Event](Event::Quit) to trigger an engine shutdown.
     pub fn quit(&self) {
-        self.event_sender.send_event(Event::Quit).ok();
+        self.event_sender.send_event(Box::from(Event::Quit)).ok();
     }
 }
 
-impl<E: UserEvent> HasEventSender<Event> for Context<E> {
-    fn event_sender(&self) -> Arc<dyn EventSender<Event>> {
+impl<E: UserEvent> HasEventSender<Box<dyn EventTrait>> for Context<E> {
+    fn event_sender(&self) -> Arc<dyn EventSender<Box<dyn EventTrait>>> {
         self.event_sender.clone()
     }
 }
