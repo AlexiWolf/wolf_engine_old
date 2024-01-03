@@ -1,3 +1,4 @@
+use std::marker::PhantomData;
 use std::sync::Arc;
 
 use crate::events::*;
@@ -12,7 +13,8 @@ use crate::resources::Resources;
 /// The Context owns all engine data, including resources, and the game world.
 pub struct Context<E: UserEvent> {
     pub(crate) resources: Resources,
-    pub(crate) event_sender: Arc<dyn EventSender<Event<E>>>,
+    pub(crate) event_sender: Arc<dyn EventSender<Event>>,
+    pub(crate) _user_event: PhantomData<E>,
 }
 
 impl<E: UserEvent> Context<E> {
@@ -32,8 +34,8 @@ impl<E: UserEvent> Context<E> {
     }
 }
 
-impl<E: UserEvent> HasEventSender<Event<E>> for Context<E> {
-    fn event_sender(&self) -> Arc<dyn EventSender<Event<E>>> {
+impl<E: UserEvent> HasEventSender<Event> for Context<E> {
+    fn event_sender(&self) -> Arc<dyn EventSender<Event>> {
         self.event_sender.clone()
     }
 }

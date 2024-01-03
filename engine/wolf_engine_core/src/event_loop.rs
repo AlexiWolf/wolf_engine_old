@@ -1,4 +1,4 @@
-use std::sync::Arc;
+use std::{sync::Arc, marker::PhantomData};
 
 use crate::events::*;
 
@@ -35,8 +35,9 @@ use crate::events::*;
 /// }
 /// ```
 pub struct EventLoop<E: UserEvent> {
-    event_queue: MpscEventQueue<Event<E>>,
+    event_queue: MpscEventQueue<Event>,
     has_quit: bool,
+    _user_event: PhantomData<E>,
 }
 
 impl<E: UserEvent> EventLoop<E> {
@@ -45,17 +46,18 @@ impl<E: UserEvent> EventLoop<E> {
         Self {
             event_queue,
             has_quit: false,
+            _user_event: Default::default(),
         }
     }
 
-    fn handle_event(&mut self, event: Event<E>) -> Event<E> {
+    fn handle_event(&mut self, event: Event) -> Event {
         if event == Event::Quit {
             self.has_quit = true;
         }
         event
     }
 
-    fn handle_empty_event(&self) -> Option<Event<E>> {
+    fn handle_empty_event(&self) -> Option<Event> {
         if self.has_quit {
             None
         } else {
@@ -64,8 +66,8 @@ impl<E: UserEvent> EventLoop<E> {
     }
 }
 
-impl<E: UserEvent> EventQueue<Event<E>> for EventLoop<E> {
-    fn next_event(&mut self) -> Option<Event<E>> {
+impl<E: UserEvent> EventQueue<Event> for EventLoop<E> {
+    fn next_event(&mut self) -> Option<Event> {
         match self.event_queue.next_event() {
             Some(event) => Some(self.handle_event(event)),
             None => self.handle_empty_event(),
@@ -73,8 +75,8 @@ impl<E: UserEvent> EventQueue<Event<E>> for EventLoop<E> {
     }
 }
 
-impl<E: UserEvent> HasEventSender<Event<E>> for EventLoop<E> {
-    fn event_sender(&self) -> Arc<dyn EventSender<Event<E>>> {
+impl<E: UserEvent> HasEventSender<Event> for EventLoop<E> {
+    fn event_sender(&self) -> Arc<dyn EventSender<Event>> {
         self.event_queue.event_sender()
     }
 }
@@ -99,7 +101,7 @@ mod event_loop_tests {
         assert_eq!(updates, 3);
     }
 
-    fn process_event<E: UserEvent>(event: Event<E>, context: &mut Context<E>, updates: &mut i32) {
+    fn process_event<E: UserEvent>(event: Event, context: &mut Context<E>, updates: &mut i32) {
         match event {
             Event::Quit => (),
             Event::EventsCleared => {
@@ -117,16 +119,6 @@ mod event_loop_tests {
 #[test]
 fn should_emit_events_cleared_when_event_queue_is_empty() {
     let (mut event_loop, context) = crate::init::<()>().build();
-
-    context
-        .event_sender()
-        .send_event(Event::UserDefined(()))
-        .ok();
-    assert_eq!(
-        event_loop.next_event().unwrap(),
-        Event::UserDefined(()),
-        "The event-loop did not emit the expected Test event."
-    );
 
     assert_eq!(
         event_loop.next_event().unwrap(),

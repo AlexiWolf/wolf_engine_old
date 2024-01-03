@@ -31,7 +31,7 @@
 //!     }
 //! }
 //!
-//! pub fn process_event(event: Event<()>, context: &mut Context<()>) {
+//! pub fn process_event(event: Event, context: &mut Context<()>) {
 //!     match event {
 //!         // Indicates there are no more events on the queue, or, essentially, the end of the
 //!         // current frame.  
@@ -107,7 +107,7 @@ mod init_tests {
         let (_event_loop, context) = crate::init::<()>().build();
         let _event_sender = context
             .resources()
-            .get_mut::<MainEventSender<()>>()
+            .get_mut::<MainEventSender>()
             .expect("No event sender was added.");
     }
 }

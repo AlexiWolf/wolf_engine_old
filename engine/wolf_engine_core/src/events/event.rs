@@ -8,7 +8,7 @@ use super::EventSender;
 pub enum WindowEvent {}
 
 /// An alias to the main [`EventSender`] type associated with the [`EventLoop`](crate::EventLoop).
-pub type MainEventSender<E> = Arc<dyn EventSender<Event<E>>>;
+pub type MainEventSender = Arc<dyn EventSender<Event>>;
 
 /// A user-defined [`Event`] type.
 pub trait UserEvent: PartialEq + Clone + Copy + 'static {}
@@ -37,14 +37,14 @@ mod event_tests {
 
     #[test]
     fn should_implement_clone() {
-        let event: Event<()> = Event::EventsCleared;
+        let event: Event = Event::EventsCleared;
         let clone = event.clone();
         assert_eq!(event, clone);
     }
 
     #[test]
     fn should_implement_copy() {
-        let event: Event<()> = Event::EventsCleared;
+        let event: Event = Event::EventsCleared;
         let copy = copy_test(event);
         assert_eq!(event, copy);
     }

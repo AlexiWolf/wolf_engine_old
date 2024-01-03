@@ -33,6 +33,7 @@ impl<E: UserEvent> EngineBuilder<E> {
         let context = Context {
             resources: self.resources,
             event_sender: event_loop.event_sender(),
+            _user_event: Default::default(),
         };
         (event_loop, context)
     }
