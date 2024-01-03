@@ -4,7 +4,7 @@ use crate::prelude::*;
 use crate::resources::Resources;
 
 /// Represents the [`EventLoop`]-[`Context`] pair that makes up "the engine."
-pub type Engine<E> = (EventLoop<E>, Context<E>);
+pub type Engine<E> = (EventLoop, Context<E>);
 
 /// Provides a common interface for configuring the [`Engine`].
 pub struct EngineBuilder<E: UserEvent> {

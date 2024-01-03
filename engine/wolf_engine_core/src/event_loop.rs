@@ -36,19 +36,17 @@ type EventBox = Box<dyn EventTrait>;
 /// #   break;
 /// }
 /// ```
-pub struct EventLoop<E: UserEvent> {
+pub struct EventLoop {
     event_queue: MpscEventQueue<EventBox>,
     has_quit: bool,
-    _user_event: PhantomData<E>,
 }
 
-impl<E: UserEvent> EventLoop<E> {
+impl EventLoop {
     pub(crate) fn new() -> Self {
         let event_queue = MpscEventQueue::new();
         Self {
             event_queue,
             has_quit: false,
-            _user_event: Default::default(),
         }
     }
 
@@ -67,7 +65,7 @@ impl<E: UserEvent> EventLoop<E> {
     }
 }
 
-impl<E: UserEvent> EventQueue<EventBox> for EventLoop<E> {
+impl EventQueue<EventBox> for EventLoop {
     fn next_event(&mut self) -> Option<EventBox> {
         match self.event_queue.next_event() {
             Some(event) => if let Ok(downcast) = event.downcast::<Event>() {
@@ -81,7 +79,7 @@ impl<E: UserEvent> EventQueue<EventBox> for EventLoop<E> {
     }
 }
 
-impl<E: UserEvent> HasEventSender<EventBox> for EventLoop<E> {
+impl HasEventSender<EventBox> for EventLoop {
     fn event_sender(&self) -> Arc<dyn EventSender<EventBox>> {
         self.event_queue.event_sender()
     }
