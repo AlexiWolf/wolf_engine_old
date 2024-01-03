@@ -114,15 +114,14 @@ mod event_loop_tests {
             _ => (),
         }
     }
-}
 
-#[test]
-fn should_emit_events_cleared_when_event_queue_is_empty() {
-    let (mut event_loop, context) = crate::init::<()>().build();
-
-    assert_eq!(
-        event_loop.next_event().unwrap(),
-        Event::EventsCleared,
-        "The event-loop did not emit the expected EventsCleared event."
-    );
+    #[test]
+    fn should_emit_events_cleared_when_event_queue_is_empty() {
+        let (mut event_loop, context) = crate::init::<()>().build();
+        assert_eq!(
+            event_loop.next_event().unwrap(),
+            Event::EventsCleared,
+            "The event-loop did not emit the expected EventsCleared event."
+        );
+    }
 }
