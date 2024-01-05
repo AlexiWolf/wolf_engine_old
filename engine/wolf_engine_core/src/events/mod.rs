@@ -3,16 +3,18 @@
 //! Wolf Engine re-exports [Generic Event Queue](generic_event_queue), see the original crate for
 //! details.
 
+use core::fmt::Debug;
+
 use downcast_rs::*;
 pub use generic_event_queue::*;
 
 mod event;
 pub use event::*;
 
-pub trait EventTrait: Downcast + core::fmt::Debug + 'static {}
+pub trait EventTrait: Downcast + Debug + 'static {}
 impl_downcast!(EventTrait);
 
-impl<T> EventTrait for T where T: core::fmt::Debug + 'static {}
+impl<T> EventTrait for T where T: Debug + 'static {}
 
 #[cfg(test)]
 mod event_tests {
