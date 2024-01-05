@@ -123,7 +123,7 @@ mod event_loop_tests {
 
     #[test]
     fn should_emit_events_cleared_when_event_queue_is_empty() {
-        let (mut event_loop, context) = crate::init().build();
+        let (mut event_loop, _context) = crate::init().build();
         
         assert_eq!(
             *event_loop.next_event().unwrap().downcast::<EngineEvent>().unwrap(),
