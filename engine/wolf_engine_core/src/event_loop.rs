@@ -26,7 +26,7 @@ type EventBox = Box<dyn Event>;
 /// # use wolf_engine_core as wolf_engine;
 /// # use wolf_engine::prelude::*;
 /// #
-/// # let (mut event_loop, mut context) = wolf_engine::init::<()>().build();
+/// # let (mut event_loop, mut context) = wolf_engine::init().build();
 /// #
 /// while let Some(event) = event_loop.next_event() {
 ///     match event {
@@ -94,7 +94,7 @@ mod event_loop_tests {
     #[test]
     #[timeout(100)]
     fn should_run_and_quit() {
-        let (mut event_loop, mut context) = crate::init::<()>().build();
+        let (mut event_loop, mut context) = crate::init().build();
         let mut updates = 0;
 
         while let Some(event) = event_loop.next_event() {
@@ -107,7 +107,7 @@ mod event_loop_tests {
         assert_eq!(updates, 3);
     }
 
-    fn process_event<E: UserEvent>(event: EngineEvent, context: &mut Context<E>, updates: &mut i32) {
+    fn process_event(event: EngineEvent, context: &mut Context, updates: &mut i32) {
         match event {
             EngineEvent::Quit => (),
             EngineEvent::EventsCleared => {
@@ -123,7 +123,7 @@ mod event_loop_tests {
 
     #[test]
     fn should_emit_events_cleared_when_event_queue_is_empty() {
-        let (mut event_loop, context) = crate::init::<()>().build();
+        let (mut event_loop, context) = crate::init().build();
         
         assert_eq!(
             *event_loop.next_event().unwrap().downcast::<EngineEvent>().unwrap(),

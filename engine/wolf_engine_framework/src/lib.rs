@@ -13,13 +13,12 @@ pub mod scenes;
 
 pub mod plugins;
 
-use wolf_engine_core::events::UserEvent;
 use wolf_engine_core::Engine;
 
 /// Initializes Wolf Engine using the [`FrameworkBuilder`].
-pub fn init<E: UserEvent>() -> FrameworkBuilder<E> {
-    let mut builder = FrameworkBuilder::<E>::new();
-    builder.with_resource(MainLoopResource::<E>::new(main_loop));
+pub fn init() -> FrameworkBuilder {
+    let mut builder = FrameworkBuilder::new();
+    builder.with_resource(MainLoopResource::new(main_loop));
     builder
 }
 
@@ -30,7 +29,7 @@ mod framework_init_tests {
 
     #[test]
     fn should_add_resources() {
-        let (_event_loop, context) = crate::init::<()>()
+        let (_event_loop, context) = crate::init()
             .with_resource(TestResourceA)
             .with_resource(TestResourceB)
             .build()
@@ -52,11 +51,11 @@ mod framework_init_tests {
 ///
 /// This function expects you to use the Framework's [wolf_enigne::framework::init()](init)
 /// function to create the [`Engine`], otherwise, this function will panic.
-pub fn run<E: UserEvent>(engine: Engine<E>) {
+pub fn run(engine: Engine) {
     let (event_loop, mut context) = engine;
 
     let mut main_loop = context.resources_mut()
-        .remove::<MainLoopResource<E>>()
+        .remove::<MainLoopResource>()
         .expect(
             "No main loop.  Make sure you used `wolf_engine::framework::init()` to set up the Engine")
         .extract();
@@ -65,7 +64,7 @@ pub fn run<E: UserEvent>(engine: Engine<E>) {
 }
 
 /// The default [`MainLoop`] implementation.
-pub(crate) fn main_loop<E: UserEvent>(_engine: Engine<E>) {
+pub(crate) fn main_loop(_engine: Engine) {
     todo!("Will be implemented with the Scene system.")
 }
 
@@ -75,10 +74,10 @@ mod framework_runner_test {
 
     #[test]
     fn should_add_main_loop_resource() {
-        let (_event_loop, context) = crate::init::<()>().build().unwrap();
+        let (_event_loop, context) = crate::init().build().unwrap();
 
         assert!(
-            context.resources().get::<MainLoopResource<()>>().is_ok(),
+            context.resources().get::<MainLoopResource>().is_ok(),
             "Main loop resource was not inserted"
         );
     }
@@ -88,7 +87,7 @@ mod framework_runner_test {
         let mut mock_main_loop = MockMainLoop::new();
         mock_main_loop.expect_run().once().return_const(());
 
-        let engine = crate::init::<()>()
+        let engine = crate::init()
             .with_main_loop(mock_main_loop)
             .build()
             .unwrap();
@@ -99,7 +98,7 @@ mod framework_runner_test {
     #[test]
     #[should_panic]
     fn should_panic_without_main_loop() {
-        let engine = wolf_engine_core::init::<()>().build();
+        let engine = wolf_engine_core::init().build();
 
         crate::run(engine);
     }

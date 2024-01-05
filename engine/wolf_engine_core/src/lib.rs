@@ -20,7 +20,7 @@
 //!
 //!     // Then initalize the EventLoop, and Context.
 //!     // Resources, and other settings can also be set up from here.
-//!     let (mut event_loop, mut context) = wolf_engine::init::<()>()
+//!     let (mut event_loop, mut context) = wolf_engine::init()
 //!         .with_resources(resources)
 //!         .build();
 //!
@@ -33,7 +33,7 @@
 //!     }
 //! }
 //!
-//! pub fn process_event(event: EngineEvent, context: &mut Context<()>) {
+//! pub fn process_event(event: EngineEvent, context: &mut Context) {
 //!     match event {
 //!         // Indicates there are no more events on the queue, or, essentially, the end of the
 //!         // current frame.  
@@ -79,10 +79,8 @@ pub mod prelude {
     pub use events::*;
 }
 
-use crate::prelude::UserEvent;
-
 /// Initializes Wolf Engine using the [`EngineBuilder`].
-pub fn init<E: UserEvent>() -> EngineBuilder<E> {
+pub fn init() -> EngineBuilder {
     EngineBuilder::new()
 }
 
@@ -96,7 +94,7 @@ mod init_tests {
         let mut resources = Resources::default();
         resources.insert(0);
 
-        let (_event_loop, context) = crate::init::<()>().with_resources(resources).build();
+        let (_event_loop, context) = crate::init().with_resources(resources).build();
 
         assert!(
             context.resources().get::<i32>().is_ok(),
@@ -106,7 +104,7 @@ mod init_tests {
 
     #[test]
     fn should_add_event_sender_resource_by_default() {
-        let (_event_loop, context) = crate::init::<()>().build();
+        let (_event_loop, context) = crate::init().build();
         let _event_sender = context
             .resources()
             .get_mut::<MainEventSender>()

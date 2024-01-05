@@ -1,35 +1,34 @@
 use std::marker::PhantomData;
 
-use wolf_engine_core::events::UserEvent;
 use wolf_engine_core::Context;
 
 /// An alias for a [Boxed](Box) [`SceneTrait`].
-pub type SceneBox<E> = Box<dyn SceneTrait<E>>;
+pub type SceneBox = Box<dyn SceneTrait>;
 
 /// The user-facing trait used to provide the functions of a [`Scene`].
 #[allow(unused)]
 #[cfg_attr(test, mockall::automock)]
-pub trait SceneTrait<E: UserEvent> {
+pub trait SceneTrait {
     /// Updates the game state when the scene is active.
     ///
     /// Active updates can optionally return a [`SceneChange`](crate::scenes::SceneChange), to the
     /// [`Stage`](crate::scenes::Stage) to change scenes.
-    fn update(&mut self, context: &mut Context<E>) -> Option<SceneChange<E>>;
+    fn update(&mut self, context: &mut Context) -> Option<SceneChange>;
 
     /// Renders the current game state when the scene is active.
-    fn render(&mut self, context: &mut Context<E>);
+    fn render(&mut self, context: &mut Context);
 
     /// Runs all setup operations for the scene.
-    fn load(&mut self, context: &mut Context<E>) {}
+    fn load(&mut self, context: &mut Context) {}
 
     /// Runs all shutdown operations for the scene.
-    fn unload(&mut self, context: &mut Context<E>) {}
+    fn unload(&mut self, context: &mut Context) {}
 
     /// Updates the current state when the scene is in the background.
-    fn background_update(&mut self, context: &mut Context<E>) {}
+    fn background_update(&mut self, context: &mut Context) {}
 
     /// Renders the current game state when the scene is in the background.
-    fn background_render(&mut self, context: &mut Context<E>) {}
+    fn background_render(&mut self, context: &mut Context) {}
 }
 
 /// Provides type-state structs used by the [`Scene`].
@@ -61,57 +60,55 @@ use super::SceneChange;
 ///
 /// Running the [`Scene::unload()`] method will consume the Scene, running it's one-time shutdown,
 /// and dropping the Scene.
-pub struct Scene<E: UserEvent, State = Unloaded> {
-    inner: SceneBox<E>,
+pub struct Scene<State = Unloaded> {
+    inner: SceneBox,
     _state: PhantomData<State>,
 }
 
-impl<E: UserEvent, State> Scene<E, State> {
+impl Scene<Unloaded> {
     /// Creates a new Scene, in the [`Unloaded`] state, with the provided [`SceneTrait`].
-    pub fn new_unloaded(inner: SceneBox<E>) -> Scene<E, Unloaded> {
-        Scene::<E, Unloaded> {
+    pub fn new_unloaded(inner: SceneBox) -> Scene<Unloaded> {
+        Scene::<Unloaded> {
             inner,
             _state: PhantomData,
         }
     }
-}
 
-impl<E: UserEvent> Scene<E, Unloaded> {
     /// Loads the Scene, and puts it into the [`Loaded`] state.
-    pub fn load(mut self, context: &mut Context<E>) -> Scene<E, Loaded> {
+    pub fn load(mut self, context: &mut Context) -> Scene<Loaded> {
         self.inner.load(context);
-        Scene::<E, Loaded> {
+        Scene::<Loaded> {
             inner: self.inner,
             _state: PhantomData,
         }
     }
 }
 
-impl<E: UserEvent> Scene<E, Loaded> {
+impl Scene<Loaded> {
     /// Updates the game state when the scene is active.
     ///
     /// Active updates can optionally return a [`SceneChange`](crate::scenes::SceneChange), to the
     /// [`Stage`](crate::scenes::Stage) to change scenes.
-    pub fn update(&mut self, context: &mut Context<E>) -> Option<SceneChange<E>> {
+    pub fn update(&mut self, context: &mut Context) -> Option<SceneChange> {
         self.inner.update(context)
     }
     /// Renders the current game state when the scene is active.
-    pub fn render(&mut self, context: &mut Context<E>) {
+    pub fn render(&mut self, context: &mut Context) {
         self.inner.render(context)
     }
 
     /// Updates the current state when the scene is in the background.
-    pub fn background_update(&mut self, context: &mut Context<E>) {
+    pub fn background_update(&mut self, context: &mut Context) {
         self.inner.background_update(context)
     }
 
     /// Renders the current state when the scene is in the background.
-    pub fn background_render(&mut self, context: &mut Context<E>) {
+    pub fn background_render(&mut self, context: &mut Context) {
         self.inner.background_render(context)
     }
 
     /// Unloads the scene, consuming, and dropping it in the process.
-    pub fn unload(mut self, context: &mut Context<E>) {
+    pub fn unload(mut self, context: &mut Context) {
         self.inner.unload(context)
     }
 }
@@ -122,11 +119,11 @@ mod scene_tests {
 
     #[test]
     fn shutdown_should_consume_and_drop_scene() {
-        let (_event_loop, mut context) = crate::init::<()>().build().unwrap();
-        let mut inner = MockSceneTrait::<()>::new();
+        let (_event_loop, mut context) = crate::init().build().unwrap();
+        let mut inner = MockSceneTrait::new();
         inner.expect_load().once().return_const(());
         inner.expect_unload().once().return_const(());
-        let scene = Scene::<()>::new_unloaded(Box::from(inner));
+        let scene = Scene::new_unloaded(Box::from(inner));
 
         let loaded_scene = scene.load(&mut context);
         loaded_scene.unload(&mut context);
