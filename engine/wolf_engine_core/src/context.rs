@@ -30,7 +30,7 @@ impl<E: UserEvent> Context<E> {
 
     /// Sends a [Quit Event](Event::Quit) to trigger an engine shutdown.
     pub fn quit(&self) {
-        self.event_sender.send_event(Box::from(Event::Quit)).ok();
+        self.event_sender.send_event(Box::from(EngineEvent::Quit)).ok();
     }
 }
 

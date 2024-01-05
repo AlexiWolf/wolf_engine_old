@@ -27,24 +27,24 @@
 //!     // The Event-Loop will continue to return events, every call, until a Quit event is sent,
 //!     // only then, will the Event-Loop will return None.
 //!     while let Some(event) = event_loop.next_event() {
-//!         if let Ok(event) = event.downcast::<Event>() {
+//!         if let Ok(event) = event.downcast::<EngineEvent>() {
 //!             process_event(*event, &mut context);
 //!         }
 //!     }
 //! }
 //!
-//! pub fn process_event(event: Event, context: &mut Context<()>) {
+//! pub fn process_event(event: EngineEvent, context: &mut Context<()>) {
 //!     match event {
 //!         // Indicates there are no more events on the queue, or, essentially, the end of the
 //!         // current frame.  
-//!         Event::EventsCleared => {
+//!         EngineEvent::EventsCleared => {
 //!             // You should put most of your game logic here.
 //!
 //!             // To close the game.
 //! #           context.quit();
 //!         }
 //!         // Shut down the game.
-//!         Event::Quit => println!("Quit event received.  Goodbye!"),
+//!         EngineEvent::Quit => println!("Quit event received.  Goodbye!"),
 //!         _ => (),
 //!     }
 //! }

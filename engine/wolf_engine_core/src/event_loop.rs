@@ -50,8 +50,8 @@ impl EventLoop {
         }
     }
 
-    fn handle_event(&mut self, event: &Event) {
-        if *event == Event::Quit {
+    fn handle_event(&mut self, event: &EngineEvent) {
+        if *event == EngineEvent::Quit {
             self.has_quit = true;
         }
     }
@@ -60,7 +60,7 @@ impl EventLoop {
         if self.has_quit {
             None
         } else {
-            Some(Box::from(Event::EventsCleared))
+            Some(Box::from(EngineEvent::EventsCleared))
         }
     }
 }
@@ -68,7 +68,7 @@ impl EventLoop {
 impl EventQueue<EventBox> for EventLoop {
     fn next_event(&mut self) -> Option<EventBox> {
         match self.event_queue.next_event() {
-            Some(event) => if let Some(downcast) = event.downcast_ref::<Event>() {
+            Some(event) => if let Some(downcast) = event.downcast_ref::<EngineEvent>() {
                 self.handle_event(downcast);
                 Some(event)
             } else {
@@ -98,7 +98,7 @@ mod event_loop_tests {
         let mut updates = 0;
 
         while let Some(event) = event_loop.next_event() {
-            if let Ok(event) = event.downcast::<Event>() {
+            if let Ok(event) = event.downcast::<EngineEvent>() {
                 process_event(*event, &mut context, &mut updates);
             }
         }
@@ -107,10 +107,10 @@ mod event_loop_tests {
         assert_eq!(updates, 3);
     }
 
-    fn process_event<E: UserEvent>(event: Event, context: &mut Context<E>, updates: &mut i32) {
+    fn process_event<E: UserEvent>(event: EngineEvent, context: &mut Context<E>, updates: &mut i32) {
         match event {
-            Event::Quit => (),
-            Event::EventsCleared => {
+            EngineEvent::Quit => (),
+            EngineEvent::EventsCleared => {
                 if *updates == 3 {
                     context.quit();
                 } else {
@@ -126,8 +126,8 @@ mod event_loop_tests {
         let (mut event_loop, context) = crate::init::<()>().build();
         
         assert_eq!(
-            *event_loop.next_event().unwrap().downcast::<Event>().unwrap(),
-            Event::EventsCleared,
+            *event_loop.next_event().unwrap().downcast::<EngineEvent>().unwrap(),
+            EngineEvent::EventsCleared,
             "The event-loop did not emit the expected EventsCleared event."
         );
     }

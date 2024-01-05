@@ -18,7 +18,7 @@ impl<T> UserEvent for T where T: PartialEq + Clone + Copy + 'static {}
 /// Provides the main events used by Wolf Engine.
 #[non_exhaustive]
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
-pub enum Event {
+pub enum EngineEvent {
     /// Emitted when the engine should quit.
     Quit,
 
@@ -37,19 +37,19 @@ mod event_tests {
 
     #[test]
     fn should_implement_clone() {
-        let event: Event = Event::EventsCleared;
+        let event: EngineEvent = EngineEvent::EventsCleared;
         let clone = event.clone();
         assert_eq!(event, clone);
     }
 
     #[test]
     fn should_implement_copy() {
-        let event: Event = Event::EventsCleared;
+        let event: EngineEvent = EngineEvent::EventsCleared;
         let copy = copy_test(event);
         assert_eq!(event, copy);
     }
 
-    fn copy_test(event: Event) -> Event {
+    fn copy_test(event: EngineEvent) -> EngineEvent {
         event
     }
 }
