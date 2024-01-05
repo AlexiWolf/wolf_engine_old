@@ -13,7 +13,7 @@ use crate::resources::Resources;
 /// The Context owns all engine data, including resources, and the game world.
 pub struct Context<E: UserEvent> {
     pub(crate) resources: Resources,
-    pub(crate) event_sender: Arc<dyn EventSender<Box<dyn EventTrait>>>,
+    pub(crate) event_sender: Arc<dyn EventSender<Box<dyn Event>>>,
     pub(crate) _user_event: PhantomData<E>,
 }
 
@@ -34,8 +34,8 @@ impl<E: UserEvent> Context<E> {
     }
 }
 
-impl<E: UserEvent> HasEventSender<Box<dyn EventTrait>> for Context<E> {
-    fn event_sender(&self) -> Arc<dyn EventSender<Box<dyn EventTrait>>> {
+impl<E: UserEvent> HasEventSender<Box<dyn Event>> for Context<E> {
+    fn event_sender(&self) -> Arc<dyn EventSender<Box<dyn Event>>> {
         self.event_sender.clone()
     }
 }

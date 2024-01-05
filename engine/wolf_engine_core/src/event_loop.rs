@@ -2,7 +2,7 @@ use std::{sync::Arc, marker::PhantomData};
 
 use crate::events::*;
 
-type EventBox = Box<dyn EventTrait>;
+type EventBox = Box<dyn Event>;
 
 /// Provides a way to retrieve events from the [`Context`](crate::Context).
 ///

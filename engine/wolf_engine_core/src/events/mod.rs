@@ -11,10 +11,10 @@ pub use generic_event_queue::*;
 mod event;
 pub use event::*;
 
-pub trait EventTrait: Downcast + Debug + 'static {}
-impl_downcast!(EventTrait);
+pub trait Event: Downcast + Debug + 'static {}
+impl_downcast!(Event);
 
-impl<T> EventTrait for T where T: Debug + 'static {}
+impl<T> Event for T where T: Debug + 'static {}
 
 #[cfg(test)]
 mod event_tests {
@@ -26,7 +26,7 @@ mod event_tests {
     struct TestEvent(&'static str);
     
     #[test_case(&TestEvent("Hello, World!"))]
-    fn should_auto_impl_event(event: &dyn EventTrait) {
+    fn should_auto_impl_event(event: &dyn Event) {
         if let Some(event) = event.downcast_ref::<TestEvent>() {
             assert_eq!(event.0, "Hello, World!");
         }
