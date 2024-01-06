@@ -49,6 +49,10 @@ impl EventLoop {
             has_quit: false,
         }
     }
+    
+    pub fn event_sender(&self) -> &dyn EventSender<EventBox> {
+        &self.event_sender
+    }
 
     fn handle_event(&mut self, event: &EngineEvent) {
         if *event == EngineEvent::Quit {
@@ -79,11 +83,6 @@ impl EventQueue<EventBox> for EventLoop {
     }
 }
 
-impl HasEventSender<EventBox> for EventLoop {
-    fn event_sender(&self) -> Arc<dyn EventSender<EventBox>> {
-        self.event_queue.event_sender()
-    }
-}
 
 #[cfg(test)]
 mod event_loop_tests {
