@@ -15,6 +15,9 @@ pub use wolf_engine_codegen::Event;
 /// Represents a [`Boxed`](Box) dynamic [`Event`].
 pub type EventBox = Box<dyn Event>;
 
+/// A dynamically-typed event.
+///
+/// Events can be downcasted back to their original type using the [`Downcast`] trait.
 pub trait Event: Downcast + Debug + 'static {}
 impl_downcast!(Event);
 
