@@ -25,10 +25,10 @@ impl EngineBuilder {
     /// Consume the builder, and return the [`Engine`] created from it.
     pub fn build(mut self) -> Engine {
         let event_loop = EventLoop::new();
-        self.resources.insert(event_loop.event_sender());
+        self.resources.insert(event_loop.event_sender().clone());
         let context = Context {
             resources: self.resources,
-            event_sender: event_loop.event_sender(),
+            event_sender: event_loop.event_sender().clone(),
         };
         (event_loop, context)
     }
