@@ -17,8 +17,6 @@ pub type EventBox = Box<dyn Event>;
 pub trait Event: Downcast + Debug + 'static {}
 impl_downcast!(Event);
 
-impl<T> Event for T where T: Debug + 'static {}
-
 #[cfg(test)]
 mod event_tests {
     use test_case::test_case;
