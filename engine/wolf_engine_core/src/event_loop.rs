@@ -1,8 +1,5 @@
-use std::sync::Arc;
-
-use generic_event_queue::mpsc::{MpscEventReceiver, MpscEventSender};
-
 use crate::events::*;
+use crate::events::mpsc::{MpscEventReceiver, MpscEventSender};
 
 pub type EventBox = Box<dyn Event>;
 
