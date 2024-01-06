@@ -10,6 +10,7 @@ pub use generic_event_queue::*;
 
 mod event;
 pub use event::*;
+pub use wolf_engine_codegen::Event;
 
 /// Represents a [`Boxed`](Box) dynamic [`Event`].
 pub type EventBox = Box<dyn Event>;
@@ -23,7 +24,7 @@ mod event_tests {
 
     use super::*;
 
-    #[derive(Debug)]
+    #[derive(Event, Debug)]
     struct TestEvent(&'static str);
 
     #[test_case(&TestEvent("Hello, World!"))]

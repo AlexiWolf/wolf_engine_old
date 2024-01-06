@@ -16,7 +16,7 @@ impl<T> UserEvent for T where T: PartialEq + Clone + Copy + 'static {}
 
 /// Provides the main events used by Wolf Engine.
 #[non_exhaustive]
-#[derive(Debug, PartialEq, Eq, Clone, Copy)]
+#[derive(Event, Debug, PartialEq, Eq, Clone, Copy)]
 pub enum EngineEvent {
     /// Emitted when the engine should quit.
     Quit,
