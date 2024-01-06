@@ -15,7 +15,7 @@ categories = ["game-development", "game-engines"]
 [dependencies]
 log = "0.4"
 shared_resources = "0.1.0"
-generic_event_queue = "0.1.0"
+generic_event_queue = "0.2.0"
 downcast-rs = "1.2.0"
 
 # Optional Dependencies
