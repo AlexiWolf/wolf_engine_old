@@ -22,7 +22,6 @@ downcast-rs = "1.2.0"
 simple_logger = {version = "1.13", optional = true}
 
 [dev-dependencies]
-log = "0.4"
 test-case = "1.2"
 mockall = "0.11"
 ntest = "0.8"
