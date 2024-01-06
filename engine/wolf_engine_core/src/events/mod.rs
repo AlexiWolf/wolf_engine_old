@@ -11,6 +11,9 @@ pub use generic_event_queue::*;
 mod event;
 pub use event::*;
 
+/// Represents a [`Boxed`](Box) dynamic [`Event`].
+pub type EventBox = Box<dyn Event>;
+
 pub trait Event: Downcast + Debug + 'static {}
 impl_downcast!(Event);
 

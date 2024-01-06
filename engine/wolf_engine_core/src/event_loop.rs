@@ -1,9 +1,6 @@
 use crate::events::*;
 use crate::events::mpsc::{MpscEventReceiver, MpscEventSender};
 
-/// Represents a [`Boxed`](Box) dynamic [`Event`].
-pub type EventBox = Box<dyn Event>;
-
 /// Provides a way to retrieve events from the [`Context`](crate::Context).
 ///
 /// Under the hood, Wolf Engine consists of two main parts: The `EventLoop` (You are here!), and the
