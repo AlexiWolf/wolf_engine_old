@@ -1,5 +1,7 @@
 use std::sync::Arc;
 
+use generic_event_queue::mpsc::{MpscEventReceiver, MpscEventSender};
+
 use crate::events::*;
 
 type EventBox = Box<dyn Event>;
@@ -37,15 +39,17 @@ type EventBox = Box<dyn Event>;
 /// }
 /// ```
 pub struct EventLoop {
-    event_queue: MpscEventQueue<EventBox>,
+    event_receiver: MpscEventReceiver<EventBox>,
+    event_sender: MpscEventSender<EventBox>,
     has_quit: bool,
 }
 
 impl EventLoop {
     pub(crate) fn new() -> Self {
-        let event_queue = MpscEventQueue::new();
+        let (event_sender, event_receiver) = mpsc::event_queue();
         Self {
-            event_queue,
+            event_sender,
+            event_receiver,
             has_quit: false,
         }
     }
@@ -69,9 +73,9 @@ impl EventLoop {
     }
 }
 
-impl EventQueue<EventBox> for EventLoop {
+impl EventReceiver<EventBox> for EventLoop {
     fn next_event(&mut self) -> Option<EventBox> {
-        match self.event_queue.next_event() {
+        match self.event_receiver.next_event() {
             Some(event) => if let Some(downcast) = event.downcast_ref::<EngineEvent>() {
                 self.handle_event(downcast);
                 Some(event)
