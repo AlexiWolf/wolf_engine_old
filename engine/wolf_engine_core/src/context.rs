@@ -1,5 +1,5 @@
-use crate::events::*;
 use crate::events::mpsc::*;
+use crate::events::*;
 use crate::resources::Resources;
 
 /// Provides a container for Wolf Engine's user-facing data.
@@ -31,7 +31,9 @@ impl Context {
 
     /// Sends a [Quit Event](Event::Quit) to trigger an engine shutdown.
     pub fn quit(&self) {
-        self.event_sender.send_event(Box::from(EngineEvent::Quit)).ok();
+        self.event_sender
+            .send_event(Box::from(EngineEvent::Quit))
+            .ok();
     }
 }
 

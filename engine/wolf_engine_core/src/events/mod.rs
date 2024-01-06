@@ -27,7 +27,7 @@ mod event_tests {
 
     #[derive(Debug)]
     struct TestEvent(&'static str);
-    
+
     #[test_case(&TestEvent("Hello, World!"))]
     fn should_auto_impl_event(event: &dyn Event) {
         if let Some(event) = event.downcast_ref::<TestEvent>() {

@@ -1,5 +1,5 @@
-use crate::events::*;
 use crate::events::mpsc::{MpscEventReceiver, MpscEventSender};
+use crate::events::*;
 
 /// Provides a way to retrieve events from the [`Context`](crate::Context).
 ///
@@ -48,7 +48,7 @@ impl EventLoop {
             has_quit: false,
         }
     }
-    
+
     pub fn event_sender(&self) -> &MpscEventSender<EventBox> {
         &self.event_sender
     }
@@ -71,17 +71,18 @@ impl EventLoop {
 impl EventReceiver<EventBox> for EventLoop {
     fn next_event(&mut self) -> Option<EventBox> {
         match self.event_receiver.next_event() {
-            Some(event) => if let Some(downcast) = event.downcast_ref::<EngineEvent>() {
-                self.handle_event(downcast);
-                Some(event)
-            } else {
-                Some(event)
-            },
+            Some(event) => {
+                if let Some(downcast) = event.downcast_ref::<EngineEvent>() {
+                    self.handle_event(downcast);
+                    Some(event)
+                } else {
+                    Some(event)
+                }
+            }
             None => self.handle_empty_event(),
         }
     }
 }
-
 
 #[cfg(test)]
 mod event_loop_tests {
@@ -122,9 +123,13 @@ mod event_loop_tests {
     #[test]
     fn should_emit_events_cleared_when_event_queue_is_empty() {
         let (mut event_loop, _context) = crate::init().build();
-        
+
         assert_eq!(
-            *event_loop.next_event().unwrap().downcast::<EngineEvent>().unwrap(),
+            *event_loop
+                .next_event()
+                .unwrap()
+                .downcast::<EngineEvent>()
+                .unwrap(),
             EngineEvent::EventsCleared,
             "The event-loop did not emit the expected EventsCleared event."
         );

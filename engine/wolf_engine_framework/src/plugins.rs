@@ -67,9 +67,7 @@ mod plugin_loader_tests {
 
     impl TestPlugin {
         pub fn new(should_fail: bool) -> Self {
-            Self {
-                should_fail,
-            }
+            Self { should_fail }
         }
     }
 
@@ -102,9 +100,7 @@ mod plugin_loader_tests {
 
     #[test]
     fn should_handle_plugin_failures() {
-        let result = crate::init()
-            .with_plugin(TestPlugin::new(true))
-            .build();
+        let result = crate::init().with_plugin(TestPlugin::new(true)).build();
         assert!(result.is_err(), "The build should have failed");
     }
 }
