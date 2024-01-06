@@ -1,6 +1,7 @@
 use crate::events::*;
 use crate::events::mpsc::{MpscEventReceiver, MpscEventSender};
 
+/// Represents a [`Boxed`](Box) dynamic [`Event`].
 pub type EventBox = Box<dyn Event>;
 
 /// Provides a way to retrieve events from the [`Context`](crate::Context).
