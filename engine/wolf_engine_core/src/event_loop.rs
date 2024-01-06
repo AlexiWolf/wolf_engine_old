@@ -4,7 +4,7 @@ use generic_event_queue::mpsc::{MpscEventReceiver, MpscEventSender};
 
 use crate::events::*;
 
-type EventBox = Box<dyn Event>;
+pub type EventBox = Box<dyn Event>;
 
 /// Provides a way to retrieve events from the [`Context`](crate::Context).
 ///
