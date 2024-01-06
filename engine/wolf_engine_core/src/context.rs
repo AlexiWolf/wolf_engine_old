@@ -11,7 +11,7 @@ use crate::resources::Resources;
 /// The Context owns all engine data, including resources, and the game world.
 pub struct Context {
     pub(crate) resources: Resources,
-    pub(crate) event_sender: MpscEventSender<Box<dyn Event>>,
+    pub(crate) event_sender: MpscEventSender<EventBox>,
 }
 
 impl Context {
@@ -25,7 +25,7 @@ impl Context {
         &mut self.resources
     }
 
-    pub fn event_sender(&self) -> &MpscEventSender<Box<dyn Event>> {
+    pub fn event_sender(&self) -> &MpscEventSender<EventBox> {
         &self.event_sender
     }
 
