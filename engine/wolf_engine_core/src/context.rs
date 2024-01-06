@@ -1,5 +1,7 @@
 use std::sync::Arc;
 
+use generic_event_queue::mpsc::MpscEventSender;
+
 use crate::events::*;
 use crate::resources::Resources;
 
@@ -12,7 +14,7 @@ use crate::resources::Resources;
 /// The Context owns all engine data, including resources, and the game world.
 pub struct Context {
     pub(crate) resources: Resources,
-    pub(crate) event_sender: Arc<dyn EventSender<Box<dyn Event>>>,
+    pub(crate) event_sender: MpscEventSender<Box<dyn Event>>,
 }
 
 impl Context {
