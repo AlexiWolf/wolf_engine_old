@@ -15,11 +15,11 @@ categories = ["game-development", "game-engines"]
 [dependencies]
 log = "0.4"
 shared_resources = "0.1.0"
+generic_event_queue = "0.1.0"
+downcast-rs = "1.2.0"
 
 # Optional Dependencies
 simple_logger = {version = "1.13", optional = true}
-generic_event_queue = "0.1.0"
-downcast-rs = "1.2.0"
 
 [dev-dependencies]
 log = "0.4"
