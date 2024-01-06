@@ -1,6 +1,5 @@
-use std::sync::Arc;
-
-use super::{EventSender, Event};
+use crate::events::Event;
+use crate::events::mpsc::MpscEventSender;
 
 /// Provides the events used by the window API.
 #[non_exhaustive]
@@ -8,7 +7,7 @@ use super::{EventSender, Event};
 pub enum WindowEvent {}
 
 /// An alias to the main [`EventSender`] type associated with the [`EventLoop`](crate::EventLoop).
-pub type MainEventSender = Arc<dyn EventSender<Box<dyn Event>>>;
+pub type MainEventSender = MpscEventSender<Box<dyn Event>>; 
 
 /// A user-defined [`Event`] type.
 pub trait UserEvent: PartialEq + Clone + Copy + 'static {}
