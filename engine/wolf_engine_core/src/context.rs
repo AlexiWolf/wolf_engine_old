@@ -1,8 +1,5 @@
-use std::sync::Arc;
-
-use generic_event_queue::mpsc::MpscEventSender;
-
 use crate::events::*;
+use crate::events::mpsc::*;
 use crate::resources::Resources;
 
 /// Provides a container for Wolf Engine's user-facing data.
@@ -28,7 +25,7 @@ impl Context {
         &mut self.resources
     }
 
-    pub fn event_sender(&self) -> &dyn EventSender<Box<dyn Event>> {
+    pub fn event_sender(&self) -> &MpscEventSender<Box<dyn Event>> {
         &self.event_sender
     }
 

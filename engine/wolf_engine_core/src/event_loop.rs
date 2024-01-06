@@ -54,7 +54,7 @@ impl EventLoop {
         }
     }
     
-    pub fn event_sender(&self) -> &dyn EventSender<EventBox> {
+    pub fn event_sender(&self) -> &MpscEventSender<EventBox> {
         &self.event_sender
     }
 
