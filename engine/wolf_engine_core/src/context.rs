@@ -26,15 +26,13 @@ impl Context {
         &mut self.resources
     }
 
+    pub fn event_sender(&self) -> &dyn EventSender<Box<dyn Event>> {
+        &self.event_sender
+    }
+
     /// Sends a [Quit Event](Event::Quit) to trigger an engine shutdown.
     pub fn quit(&self) {
         self.event_sender.send_event(Box::from(EngineEvent::Quit)).ok();
-    }
-}
-
-impl HasEventSender<Box<dyn Event>> for Context {
-    fn event_sender(&self) -> Arc<dyn EventSender<Box<dyn Event>>> {
-        self.event_sender.clone()
     }
 }
 
