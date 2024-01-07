@@ -9,11 +9,6 @@ pub enum WindowEvent {}
 /// An alias to the main [`EventSender`] type associated with the [`EventLoop`](crate::EventLoop).
 pub type MainEventSender = MpscEventSender<Box<dyn Event>>;
 
-/// A user-defined [`Event`] type.
-pub trait UserEvent: PartialEq + Clone + Copy + 'static {}
-
-impl<T> UserEvent for T where T: PartialEq + Clone + Copy + 'static {}
-
 /// Provides the main events used by Wolf Engine.
 #[non_exhaustive]
 #[derive(Event, Debug, PartialEq, Eq, Clone, Copy)]
