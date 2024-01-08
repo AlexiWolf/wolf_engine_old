@@ -7,17 +7,17 @@ use crate::events::*;
 /// [`Context`](crate::Context`).  Together, these two parts make up what we refer to as
 /// "the engine."
 ///
-/// The Event-Loop is a specialized type of [`EventQueue`].  Unlike a typical Event-Queue, the
-/// Event-Loop will continually emit events for as long as the engine is running, even if there
+/// The Event-Loop is a specialized type of [`EventReceiver`].  Unlike a typical event receiver, 
+/// the Event-Loop will continually emit events for as long as the engine is running, even if there
 /// are no events currently in the queue.  
 ///
-/// When there are no queued events to emit, [`Event::EventsCleared`] is returned instead, so long
-/// as the engine is running.  When [`Event::Quit`] is received, the event loop will return `None`
-/// after the queue is cleared.
+/// When there are no queued events to emit, [`EngineEvent::EventsCleared`] is returned instead, so
+/// long as the engine is running.  When [`EngineEvent::Quit`] is received, the event loop will 
+/// return `None` after the queue is cleared.
 ///
 /// # Examples
 ///
-/// Events are queried using the [`EventQueue` API](crate::events::EventQueue) .
+/// Events are queried using the [`EventReceiver`] API.
 ///
 /// ```
 /// # use wolf_engine_core as wolf_engine;

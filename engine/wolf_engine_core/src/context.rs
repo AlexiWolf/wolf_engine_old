@@ -29,7 +29,7 @@ impl Context {
         &self.event_sender
     }
 
-    /// Sends a [Quit Event](Event::Quit) to trigger an engine shutdown.
+    /// Sends a [Quit Event](EngineEvent::Quit) to trigger an engine shutdown.
     pub fn quit(&self) {
         self.event_sender
             .send_event(Box::from(EngineEvent::Quit))

@@ -1,4 +1,3 @@
-use crate::events::mpsc::MpscEventSender;
 use crate::events::Event;
 
 /// Provides the events used by the window API.
