@@ -5,9 +5,6 @@ use crate::events::Event;
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum WindowEvent {}
 
-/// An alias to the main [`EventSender`] type associated with the [`EventLoop`](crate::EventLoop).
-pub type MainEventSender = MpscEventSender<Box<dyn Event>>;
-
 /// Provides the main events used by Wolf Engine.
 #[non_exhaustive]
 #[derive(Event, Debug, PartialEq, Eq, Clone, Copy)]

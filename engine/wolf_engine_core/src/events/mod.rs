@@ -12,6 +12,10 @@ mod event;
 pub use event::*;
 pub use wolf_engine_codegen::Event;
 
+/// An alias to the main [`EventSender`] type associated with the 
+/// [`EventLoop`](crate::EventLoop).
+pub type MainEventSender = mpsc::MpscEventSender<Box<dyn Event>>;
+
 /// Represents a [`Boxed`](Box) dynamic [`Event`].
 pub type EventBox = Box<dyn Event>;
 
