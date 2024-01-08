@@ -56,12 +56,10 @@
 
 mod context;
 pub use context::*;
-mod event_loop;
-pub use event_loop::*;
 mod engine_builder;
 pub use engine_builder::*;
-
 pub mod events;
+pub use events::EventLoop;
 
 /// Provides a shared resource container which is thread-safe, and lock-free
 ///

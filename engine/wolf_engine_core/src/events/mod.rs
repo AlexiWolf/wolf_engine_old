@@ -7,13 +7,15 @@ use core::fmt::Debug;
 
 use downcast_rs::*;
 pub use generic_event_queue::*;
+pub use wolf_engine_codegen::Event;
 
 mod event;
 pub use event::*;
-pub use wolf_engine_codegen::Event;
+mod event_loop;
+pub use event_loop::*;
 
 /// An alias to the main [`EventSender`] type associated with the 
-/// [`EventLoop`](crate::EventLoop).
+/// [`EventLoop`].
 pub type MainEventSender = mpsc::MpscEventSender<Box<dyn Event>>;
 
 /// Represents a [`Boxed`](Box) dynamic [`Event`].
