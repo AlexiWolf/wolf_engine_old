@@ -14,7 +14,7 @@ pub use event::*;
 mod event_loop;
 pub use event_loop::*;
 
-/// An alias to the main [`EventSender`] type associated with the 
+/// An alias to the main [`EventSender`] type associated with the
 /// [`EventLoop`].
 pub type MainEventSender = mpsc::MpscEventSender<Box<dyn Event>>;
 
