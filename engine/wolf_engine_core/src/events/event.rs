@@ -1,10 +1,5 @@
 use crate::events::Event;
 
-/// Provides the events used by the window API.
-#[non_exhaustive]
-#[derive(Debug, PartialEq, Eq, Clone, Copy)]
-pub enum WindowEvent {}
-
 /// Provides the main events used by Wolf Engine.
 #[non_exhaustive]
 #[derive(Event, Debug, PartialEq, Eq, Clone, Copy)]
@@ -16,9 +11,6 @@ pub enum EngineEvent {
     ///
     /// `EventsCleared` should be emitted only after all other events have been processed.
     EventsCleared,
-
-    /// A [`WindowEvent`] emitted by the window system.
-    WindowEvent(WindowEvent),
 }
 
 #[cfg(test)]
