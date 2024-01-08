@@ -116,7 +116,6 @@ mod event_loop_tests {
                     *updates += 1;
                 }
             }
-            _ => (),
         }
     }
 
