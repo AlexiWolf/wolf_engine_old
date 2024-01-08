@@ -5,10 +5,8 @@ use crate::resources::Resources;
 /// Provides a container for Wolf Engine's user-facing data.
 ///
 /// Wolf Engine consists of two main parts: The `Context` (You are here!), and the
-/// [`EventLoop`](crate::EventLoop`).  Together, these two parts make up what we refer to as
-/// ["the engine"](crate::Engine).
-///
-/// The Context owns all engine data, including resources, and the game world.
+/// [`EventLoop`](crate::EventLoop`).  The context owns the main [`EventSender`], as well as all
+/// [`Resources`] for the engine.
 pub struct Context {
     pub(crate) resources: Resources,
     pub(crate) event_sender: MpscEventSender<EventBox>,
