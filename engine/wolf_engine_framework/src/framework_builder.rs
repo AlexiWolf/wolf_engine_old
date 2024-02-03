@@ -1,7 +1,6 @@
 use crate::plugins::{Plugin, PluginLoader};
 use crate::{MainLoop, MainLoopResource};
 
-use wolf_engine_core::events::UserEvent;
 use wolf_engine_core::resources::{Resource, Resources};
 use wolf_engine_core::Engine;
 
@@ -9,12 +8,12 @@ use wolf_engine_core::Engine;
 ///
 /// This is similar to the [`EngineBuilder`](wolf_engine_core::EngineBuilder), except it handles
 /// all of the setup for you, and provides some additional features (like a plugin system.)
-pub struct FrameworkBuilder<E: UserEvent> {
+pub struct FrameworkBuilder {
     resources: Resources,
-    plugin_loader: PluginLoader<E>,
+    plugin_loader: PluginLoader,
 }
 
-impl<E: UserEvent> FrameworkBuilder<E> {
+impl FrameworkBuilder {
     pub(crate) fn new() -> Self {
         Self {
             resources: Resources::default(),
@@ -25,7 +24,7 @@ impl<E: UserEvent> FrameworkBuilder<E> {
     /// Adds a [`Plugin`] to the engine.
     ///
     /// **Note:** Plugins are loaded when [`FrameworkBuilder::build()`] is called.
-    pub fn with_plugin<P: Plugin<E> + 'static>(&mut self, plugin: P) -> &mut Self {
+    pub fn with_plugin<P: Plugin + 'static>(&mut self, plugin: P) -> &mut Self {
         self.plugin_loader.add_plugin(Box::from(plugin));
         self
     }
@@ -39,16 +38,16 @@ impl<E: UserEvent> FrameworkBuilder<E> {
         self
     }
 
-    pub fn with_main_loop<T: MainLoop<E> + 'static>(&mut self, main_loop: T) -> &mut Self {
+    pub fn with_main_loop<T: MainLoop + 'static>(&mut self, main_loop: T) -> &mut Self {
         self.resources
-            .get_mut::<MainLoopResource<E>>()
+            .get_mut::<MainLoopResource>()
             .expect("No MainLoop resource.  This is a bug.")
             .set_main_loop(Box::from(main_loop));
         self
     }
 
     /// Creates a new instance of [`Engine`] from the builder.
-    pub fn build(&mut self) -> Result<Engine<E>, String> {
+    pub fn build(&mut self) -> Result<Engine, String> {
         let mut plugin_loader = std::mem::replace(&mut self.plugin_loader, PluginLoader::new());
         match plugin_loader.load_plugins(self) {
             Ok(_) => (),

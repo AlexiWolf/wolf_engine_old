@@ -20,29 +20,31 @@
 //!
 //!     // Then initalize the EventLoop, and Context.
 //!     // Resources, and other settings can also be set up from here.
-//!     let (mut event_loop, mut context) = wolf_engine::init::<()>()
+//!     let (mut event_loop, mut context) = wolf_engine::init()
 //!         .with_resources(resources)
 //!         .build();
 //!
 //!     // The Event-Loop will continue to return events, every call, until a Quit event is sent,
 //!     // only then, will the Event-Loop will return None.
 //!     while let Some(event) = event_loop.next_event() {
-//!         process_event(event, &mut context);
+//!         if let Ok(event) = event.downcast::<EngineEvent>() {
+//!             process_event(*event, &mut context);
+//!         }
 //!     }
 //! }
 //!
-//! pub fn process_event(event: Event<()>, context: &mut Context<()>) {
+//! pub fn process_event(event: EngineEvent, context: &mut Context) {
 //!     match event {
 //!         // Indicates there are no more events on the queue, or, essentially, the end of the
 //!         // current frame.  
-//!         Event::EventsCleared => {
+//!         EngineEvent::EventsCleared => {
 //!             // You should put most of your game logic here.
 //!
 //!             // To close the game.
 //! #           context.quit();
 //!         }
 //!         // Shut down the game.
-//!         Event::Quit => println!("Quit event received.  Goodbye!"),
+//!         EngineEvent::Quit => println!("Quit event received.  Goodbye!"),
 //!         _ => (),
 //!     }
 //! }
@@ -54,12 +56,10 @@
 
 mod context;
 pub use context::*;
-mod event_loop;
-pub use event_loop::*;
 mod engine_builder;
 pub use engine_builder::*;
-
 pub mod events;
+pub use events::EventLoop;
 
 /// Provides a shared resource container which is thread-safe, and lock-free
 ///
@@ -77,10 +77,8 @@ pub mod prelude {
     pub use events::*;
 }
 
-use crate::prelude::UserEvent;
-
 /// Initializes Wolf Engine using the [`EngineBuilder`].
-pub fn init<E: UserEvent>() -> EngineBuilder<E> {
+pub fn init() -> EngineBuilder {
     EngineBuilder::new()
 }
 
@@ -94,7 +92,7 @@ mod init_tests {
         let mut resources = Resources::default();
         resources.insert(0);
 
-        let (_event_loop, context) = crate::init::<()>().with_resources(resources).build();
+        let (_event_loop, context) = crate::init().with_resources(resources).build();
 
         assert!(
             context.resources().get::<i32>().is_ok(),
@@ -104,10 +102,10 @@ mod init_tests {
 
     #[test]
     fn should_add_event_sender_resource_by_default() {
-        let (_event_loop, context) = crate::init::<()>().build();
+        let (_event_loop, context) = crate::init().build();
         let _event_sender = context
             .resources()
-            .get_mut::<MainEventSender<()>>()
+            .get_mut::<MainEventSender>()
             .expect("No event sender was added.");
     }
 }

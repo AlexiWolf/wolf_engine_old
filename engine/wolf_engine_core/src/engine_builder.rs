@@ -1,22 +1,18 @@
-use std::marker::PhantomData;
-
 use crate::prelude::*;
 use crate::resources::Resources;
 
 /// Represents the [`EventLoop`]-[`Context`] pair that makes up "the engine."
-pub type Engine<E> = (EventLoop<E>, Context<E>);
+pub type Engine = (EventLoop, Context);
 
 /// Provides a common interface for configuring the [`Engine`].
-pub struct EngineBuilder<E: UserEvent> {
+pub struct EngineBuilder {
     resources: Resources,
-    _event_type: PhantomData<E>,
 }
 
-impl<E: UserEvent> EngineBuilder<E> {
+impl EngineBuilder {
     pub(crate) fn new() -> Self {
         Self {
             resources: Resources::default(),
-            _event_type: PhantomData,
         }
     }
 
@@ -27,12 +23,12 @@ impl<E: UserEvent> EngineBuilder<E> {
     }
 
     /// Consume the builder, and return the [`Engine`] created from it.
-    pub fn build(mut self) -> Engine<E> {
+    pub fn build(mut self) -> Engine {
         let event_loop = EventLoop::new();
-        self.resources.insert(event_loop.event_sender());
+        self.resources.insert(event_loop.event_sender().clone());
         let context = Context {
             resources: self.resources,
-            event_sender: event_loop.event_sender(),
+            event_sender: event_loop.event_sender().clone(),
         };
         (event_loop, context)
     }

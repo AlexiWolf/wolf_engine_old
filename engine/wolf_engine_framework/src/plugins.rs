@@ -2,13 +2,11 @@
 
 use crate::FrameworkBuilder;
 
-use wolf_engine_core::events::UserEvent;
-
 /// A result type for the plugin system.
 pub type PluginResult = Result<(), String>;
 
 /// A module which adds new functionality to the engine.
-pub trait Plugin<E: UserEvent> {
+pub trait Plugin {
     /// Returns a people-friendly name for the plugin.
     ///
     /// This is mostly used to identify the plugin in logs.  There aren't any specific requirements
@@ -23,25 +21,25 @@ pub trait Plugin<E: UserEvent> {
     /// **Note:** Plugins shouldn't try to load other plugins using the builder.  At this point in
     /// the setup process, it's not possible to add additional plugins.  Nothing will happen if you
     /// try.
-    fn load(&mut self, builder: &mut FrameworkBuilder<E>) -> PluginResult;
+    fn load(&mut self, builder: &mut FrameworkBuilder) -> PluginResult;
 }
 
-pub(crate) struct PluginLoader<E: UserEvent> {
-    plugins: Vec<Box<dyn Plugin<E>>>,
+pub(crate) struct PluginLoader {
+    plugins: Vec<Box<dyn Plugin>>,
 }
 
-impl<E: UserEvent> PluginLoader<E> {
+impl PluginLoader {
     pub fn new() -> Self {
         Self {
             plugins: Vec::new(),
         }
     }
 
-    pub fn add_plugin(&mut self, plugin: Box<dyn Plugin<E> + 'static>) {
+    pub fn add_plugin(&mut self, plugin: Box<dyn Plugin + 'static>) {
         self.plugins.push(plugin);
     }
 
-    pub fn load_plugins(&mut self, builder: &mut FrameworkBuilder<E>) -> PluginResult {
+    pub fn load_plugins(&mut self, builder: &mut FrameworkBuilder) -> PluginResult {
         for plugin in &mut self.plugins {
             match plugin.load(builder) {
                 Ok(_) => (),
@@ -61,28 +59,20 @@ impl<E: UserEvent> PluginLoader<E> {
 mod plugin_loader_tests {
     use super::*;
 
-    use std::marker::PhantomData;
-
-    use wolf_engine_core::events::UserEvent;
-
     pub struct TestResource;
 
-    pub struct TestPlugin<E: UserEvent> {
+    pub struct TestPlugin {
         should_fail: bool,
-        _event_type: PhantomData<E>,
     }
 
-    impl<E: UserEvent> TestPlugin<E> {
+    impl TestPlugin {
         pub fn new(should_fail: bool) -> Self {
-            Self {
-                should_fail,
-                _event_type: PhantomData,
-            }
+            Self { should_fail }
         }
     }
 
-    impl<E: UserEvent> Plugin<E> for TestPlugin<E> {
-        fn load(&mut self, builder: &mut FrameworkBuilder<E>) -> PluginResult {
+    impl Plugin for TestPlugin {
+        fn load(&mut self, builder: &mut FrameworkBuilder) -> PluginResult {
             builder.with_resource(TestResource);
             if self.should_fail {
                 Err("Nah, I don't really feel like it.  Why don't you ask me later?".to_string())
@@ -98,7 +88,7 @@ mod plugin_loader_tests {
 
     #[test]
     fn should_load_plugins() {
-        let (_event_loop, context) = crate::init::<()>()
+        let (_event_loop, context) = crate::init()
             .with_plugin(TestPlugin::new(false))
             .build()
             .unwrap();
@@ -110,9 +100,7 @@ mod plugin_loader_tests {
 
     #[test]
     fn should_handle_plugin_failures() {
-        let result = crate::init::<()>()
-            .with_plugin(TestPlugin::new(true))
-            .build();
+        let result = crate::init().with_plugin(TestPlugin::new(true)).build();
         assert!(result.is_err(), "The build should have failed");
     }
 }

@@ -1,21 +1,18 @@
-use std::sync::Arc;
-
+use crate::events::mpsc::*;
 use crate::events::*;
 use crate::resources::Resources;
 
 /// Provides a container for Wolf Engine's user-facing data.
 ///
 /// Wolf Engine consists of two main parts: The `Context` (You are here!), and the
-/// [`EventLoop`](crate::EventLoop`).  Together, these two parts make up what we refer to as
-/// ["the engine"](crate::Engine).
-///
-/// The Context owns all engine data, including resources, and the game world.
-pub struct Context<E: UserEvent> {
+/// [`EventLoop`](crate::EventLoop`).  The context owns the main [`EventSender`], as well as all
+/// [`Resources`] for the engine.
+pub struct Context {
     pub(crate) resources: Resources,
-    pub(crate) event_sender: Arc<dyn EventSender<Event<E>>>,
+    pub(crate) event_sender: MpscEventSender<EventBox>,
 }
 
-impl<E: UserEvent> Context<E> {
+impl Context {
     /// Returns an immutable reference to engine resources.
     pub fn resources(&self) -> &Resources {
         &self.resources
@@ -26,15 +23,15 @@ impl<E: UserEvent> Context<E> {
         &mut self.resources
     }
 
-    /// Sends a [Quit Event](Event::Quit) to trigger an engine shutdown.
-    pub fn quit(&self) {
-        self.event_sender.send_event(Event::Quit).ok();
+    pub fn event_sender(&self) -> &MpscEventSender<EventBox> {
+        &self.event_sender
     }
-}
 
-impl<E: UserEvent> HasEventSender<Event<E>> for Context<E> {
-    fn event_sender(&self) -> Arc<dyn EventSender<Event<E>>> {
-        self.event_sender.clone()
+    /// Sends a [Quit Event](EngineEvent::Quit) to trigger an engine shutdown.
+    pub fn quit(&self) {
+        self.event_sender
+            .send_event(Box::from(EngineEvent::Quit))
+            .ok();
     }
 }
 
@@ -42,7 +39,7 @@ impl<E: UserEvent> HasEventSender<Event<E>> for Context<E> {
 mod context_tests {
     #[test]
     fn should_have_accessors() {
-        let (_, mut context) = crate::init::<()>().build();
+        let (_, mut context) = crate::init().build();
         {
             let _resources = context.resources();
         }

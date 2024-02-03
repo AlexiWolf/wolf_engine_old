@@ -1,16 +1,15 @@
-use wolf_engine_core::events::UserEvent;
 use wolf_engine_core::Context;
 
 use crate::scenes::state::*;
 use crate::scenes::Scene;
 
 /// Represents an action command for the [`Stage`].
-pub enum SceneChange<E: UserEvent> {
+pub enum SceneChange {
     /// Push a [`Scene`] to the top of the stack.
-    Push(Scene<E, Unloaded>),
+    Push(Scene<Unloaded>),
 
     /// Combines a [`SceneChange::Clear`], and a [`SceneChange::Push`] into a single operation.
-    CleanPush(Scene<E, Unloaded>),
+    CleanPush(Scene<Unloaded>),
 
     /// Pop a single [`Scene`] off the top of the stack.
     Pop,
@@ -32,11 +31,11 @@ pub enum SceneChange<E: UserEvent> {
 /// able to return a [`SceneChange`] to control the Stage.  "Background" are only run through
 /// their "background" methods, which do not return a [`SceneChange`].
 #[derive(Default)]
-pub struct Stage<E: UserEvent> {
-    stack: Vec<Scene<E, Loaded>>,
+pub struct Stage {
+    stack: Vec<Scene<Loaded>>,
 }
 
-impl<E: UserEvent> Stage<E> {
+impl Stage {
     pub fn new() -> Self {
         Self { stack: Vec::new() }
     }
@@ -45,7 +44,7 @@ impl<E: UserEvent> Stage<E> {
     ///
     /// Updates are run from bottom-to-top order.  Only the top scene has its [`Scene::update()`]
     /// method called, the rest get a [`Scene::background_update()`] instead.
-    pub fn update(&mut self, context: &mut Context<E>) {
+    pub fn update(&mut self, context: &mut Context) {
         self.run_background_updates(context);
         self.run_active_update(context);
     }
@@ -54,7 +53,7 @@ impl<E: UserEvent> Stage<E> {
     ///
     /// Renders are run from bottom-to-top order.  Only the top scene has its [`Scene::render()`]
     /// method called, the rest get a [`Scene::background_render()`] instead.
-    pub fn render(&mut self, context: &mut Context<E>) {
+    pub fn render(&mut self, context: &mut Context) {
         self.run_background_renders(context);
         if let Some(scene) = self.stack.last_mut() {
             scene.render(context);
@@ -62,26 +61,26 @@ impl<E: UserEvent> Stage<E> {
     }
 
     /// Pushes a [`Scene`] to the top of the stack, and [loads](Scene::load()) it.
-    pub fn push(&mut self, context: &mut Context<E>, scene: Scene<E, Unloaded>) {
+    pub fn push(&mut self, context: &mut Context, scene: Scene<Unloaded>) {
         let scene = scene.load(context);
         self.stack.push(scene);
     }
 
     /// Pops a [`Scene`] off the top of the stack, and [unloads](Scene::unload()) it.
-    pub fn pop(&mut self, context: &mut Context<E>) {
+    pub fn pop(&mut self, context: &mut Context) {
         if let Some(scene) = self.stack.pop() {
             scene.unload(context);
         }
     }
 
     /// Pops all [`Scene`] objects from the stack, and [unloads](Scene::unload()) them.
-    pub fn clear(&mut self, context: &mut Context<E>) {
+    pub fn clear(&mut self, context: &mut Context) {
         for _ in 0..self.stack.len() {
             self.pop(context);
         }
     }
 
-    fn run_background_updates(&mut self, context: &mut Context<E>) {
+    fn run_background_updates(&mut self, context: &mut Context) {
         let stack_size = self.stack.len();
         if stack_size > 1 {
             for i in 0..stack_size - 1 {
@@ -90,7 +89,7 @@ impl<E: UserEvent> Stage<E> {
         }
     }
 
-    fn run_background_renders(&mut self, context: &mut Context<E>) {
+    fn run_background_renders(&mut self, context: &mut Context) {
         let stack_size = self.stack.len();
         if stack_size > 1 {
             for i in 0..stack_size - 1 {
@@ -99,7 +98,7 @@ impl<E: UserEvent> Stage<E> {
         }
     }
 
-    fn run_active_update(&mut self, context: &mut Context<E>) {
+    fn run_active_update(&mut self, context: &mut Context) {
         if let Some(scene) = self.stack.last_mut() {
             if let Some(scene_change) = scene.update(context) {
                 match scene_change {
@@ -126,12 +125,12 @@ mod stage_tests {
 
     #[test]
     fn should_push_and_pop_scenes() {
-        let (_event_loop, mut context) = wolf_engine_core::init::<()>().build();
-        let mut stage = Stage::<()>::new();
+        let (_event_loop, mut context) = wolf_engine_core::init().build();
+        let mut stage = Stage::new();
         let mut scene = MockSceneTrait::new();
         scene.expect_load().once().return_const(());
         scene.expect_unload().once().return_const(());
-        let scene = Scene::<()>::new_unloaded(Box::from(scene));
+        let scene = Scene::new_unloaded(Box::from(scene));
 
         stage.push(&mut context, scene);
         stage.pop(&mut context);
@@ -141,10 +140,10 @@ mod stage_tests {
 
     #[test]
     fn should_delegate_to_scenes() {
-        let (_event_loop, mut context) = wolf_engine_core::init::<()>().build();
-        let mut stage = Stage::<()>::new();
+        let (_event_loop, mut context) = wolf_engine_core::init().build();
+        let mut stage = Stage::new();
 
-        let mut background_scene = MockSceneTrait::<()>::new();
+        let mut background_scene = MockSceneTrait::new();
         background_scene.expect_load().once().return_const(());
         background_scene
             .expect_background_update()
@@ -154,12 +153,12 @@ mod stage_tests {
             .expect_background_render()
             .once()
             .return_const(());
-        let background_scene = Scene::<()>::new_unloaded(Box::from(background_scene));
-        let mut active_scene = MockSceneTrait::<()>::new();
+        let background_scene = Scene::new_unloaded(Box::from(background_scene));
+        let mut active_scene = MockSceneTrait::new();
         active_scene.expect_load().once().return_const(());
         active_scene.expect_update().once().returning(|_| None);
         active_scene.expect_render().once().return_const(());
-        let active_scene = Scene::<()>::new_unloaded(Box::from(active_scene));
+        let active_scene = Scene::new_unloaded(Box::from(active_scene));
 
         stage.push(&mut context, background_scene);
         stage.push(&mut context, active_scene);
@@ -169,14 +168,14 @@ mod stage_tests {
 
     #[test]
     fn should_handle_push_scene_change() {
-        let (_event_loop, mut context) = wolf_engine_core::init::<()>().build();
-        let mut stage = Stage::<()>::new();
+        let (_event_loop, mut context) = wolf_engine_core::init().build();
+        let mut stage = Stage::new();
 
         let mut new_scene = MockSceneTrait::new();
         new_scene.expect_load().once().return_const(());
         new_scene.expect_update().once().returning(|_| None);
-        let new_scene = Scene::<()>::new_unloaded(Box::from(new_scene));
-        let mut first_scene = MockSceneTrait::<()>::new();
+        let new_scene = Scene::new_unloaded(Box::from(new_scene));
+        let mut first_scene = MockSceneTrait::new();
         first_scene.expect_load().once().return_const(());
         first_scene
             .expect_update()
@@ -186,7 +185,7 @@ mod stage_tests {
             .expect_background_update()
             .once()
             .return_const(());
-        let first_scene = Scene::<()>::new_unloaded(Box::from(first_scene));
+        let first_scene = Scene::new_unloaded(Box::from(first_scene));
         stage.push(&mut context, first_scene);
 
         for _ in 0..2 {
@@ -196,17 +195,17 @@ mod stage_tests {
 
     #[test]
     fn should_handle_pop_scene_change() {
-        let (_event_loop, mut context) = wolf_engine_core::init::<()>().build();
-        let mut stage = Stage::<()>::new();
+        let (_event_loop, mut context) = wolf_engine_core::init().build();
+        let mut stage = Stage::new();
 
-        let mut scene = MockSceneTrait::<()>::new();
+        let mut scene = MockSceneTrait::new();
         scene.expect_load().once().return_const(());
         scene
             .expect_update()
             .once()
             .return_once_st(|_| Some(SceneChange::Pop));
         scene.expect_unload().once().return_const(());
-        let scene = Scene::<()>::new_unloaded(Box::from(scene));
+        let scene = Scene::new_unloaded(Box::from(scene));
         stage.push(&mut context, scene);
 
         stage.update(&mut context);
@@ -214,21 +213,21 @@ mod stage_tests {
 
     #[test]
     fn should_handle_clean_pop_scene_chagne() {
-        let (_event_loop, mut context) = wolf_engine_core::init::<()>().build();
-        let mut stage = Stage::<()>::new();
+        let (_event_loop, mut context) = wolf_engine_core::init().build();
+        let mut stage = Stage::new();
 
         let mut new_scene = MockSceneTrait::new();
         new_scene.expect_load().once().return_const(());
         new_scene.expect_update().once().returning(|_| None);
-        let new_scene = Scene::<()>::new_unloaded(Box::from(new_scene));
-        let mut first_scene = MockSceneTrait::<()>::new();
+        let new_scene = Scene::new_unloaded(Box::from(new_scene));
+        let mut first_scene = MockSceneTrait::new();
         first_scene.expect_load().once().return_const(());
         first_scene
             .expect_update()
             .once()
             .return_once_st(|_| Some(SceneChange::CleanPush(new_scene)));
         first_scene.expect_unload().once().return_const(());
-        let first_scene = Scene::<()>::new_unloaded(Box::from(first_scene));
+        let first_scene = Scene::new_unloaded(Box::from(first_scene));
         stage.push(&mut context, first_scene);
 
         for _ in 0..2 {
@@ -244,8 +243,8 @@ mod stage_tests {
 
     #[test]
     fn should_handle_clear_scene_change() {
-        let (_event_loop, mut context) = wolf_engine_core::init::<()>().build();
-        let mut stage = Stage::<()>::new();
+        let (_event_loop, mut context) = wolf_engine_core::init().build();
+        let mut stage = Stage::new();
 
         let mut second_scene = MockSceneTrait::new();
         second_scene.expect_load().once().return_const(());
@@ -254,8 +253,8 @@ mod stage_tests {
             .once()
             .returning(|_| Some(SceneChange::Clear));
         second_scene.expect_unload().once().return_const(());
-        let second_scene = Scene::<()>::new_unloaded(Box::from(second_scene));
-        let mut first_scene = MockSceneTrait::<()>::new();
+        let second_scene = Scene::new_unloaded(Box::from(second_scene));
+        let mut first_scene = MockSceneTrait::new();
         first_scene.expect_load().once().return_const(());
         first_scene
             .expect_update()
@@ -266,7 +265,7 @@ mod stage_tests {
             .once()
             .return_const(());
         first_scene.expect_unload().once().return_const(());
-        let first_scene = Scene::<()>::new_unloaded(Box::from(first_scene));
+        let first_scene = Scene::new_unloaded(Box::from(first_scene));
         stage.push(&mut context, first_scene);
 
         for _ in 0..2 {
@@ -282,8 +281,8 @@ mod stage_tests {
 
     #[test]
     fn should_not_panic_on_empty_stack() {
-        let (_event_loop, mut context) = wolf_engine_core::init::<()>().build();
-        let mut stage = Stage::<()>::new();
+        let (_event_loop, mut context) = wolf_engine_core::init().build();
+        let mut stage = Stage::new();
 
         stage.update(&mut context);
         stage.render(&mut context);

@@ -1,33 +1,24 @@
-use std::marker::PhantomData;
-
 use wolf_engine::framework::plugins::*;
 use wolf_engine::framework::FrameworkBuilder;
-use wolf_engine::prelude::*;
 
 // Just a test resource used by our plugin.
 pub struct MyResource(String);
 
-pub struct MyPlugin<E: UserEvent> {
-    // Because plugins have a generic type, we need to include `PhantomData`, or the compiler will
-    // complain.
-    _event_type: PhantomData<E>,
-}
+pub struct MyPlugin {}
 
-impl<E: UserEvent> MyPlugin<E> {
+impl MyPlugin {
     pub fn new() -> Self {
-        Self {
-            _event_type: PhantomData,
-        }
+        Self {}
     }
 }
 
-impl<E: UserEvent> Plugin<E> for MyPlugin<E> {
+impl Plugin for MyPlugin {
     fn name(&self) -> &str {
         // Return a name to identify the plugin in logs.
         "Test Plugin"
     }
 
-    fn load(&mut self, builder: &mut FrameworkBuilder<E>) -> PluginResult {
+    fn load(&mut self, builder: &mut FrameworkBuilder) -> PluginResult {
         // Plugins can add resources to the engine.
         builder.with_resource(MyResource("Hello, world!".to_string()));
 
@@ -36,7 +27,7 @@ impl<E: UserEvent> Plugin<E> for MyPlugin<E> {
 }
 
 pub fn main() {
-    let (_event_loop, context) = wolf_engine::framework::init::<()>()
+    let (_event_loop, context) = wolf_engine::framework::init()
         .with_plugin(MyPlugin::new()) // Plugins are added at startup.
         .build()
         .unwrap();
