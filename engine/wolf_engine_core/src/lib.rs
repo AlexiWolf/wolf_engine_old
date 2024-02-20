@@ -68,9 +68,6 @@ pub mod resources {
     pub use shared_resources::*;
 }
 
-#[cfg(feature = "logging")]
-pub mod logging;
-
 #[doc(hidden)]
 pub mod prelude {
     pub use super::*;
