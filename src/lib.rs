@@ -21,7 +21,7 @@ pub use wolf_engine_core as core;
 pub use wolf_engine_framework as framework;
 
 #[cfg(feature = "logging")]
-pub use wolf_engine_core::logging as logging;
+pub use wolf_engine_core::logging;
 
 #[cfg(feature = "window")]
 pub use wolf_engine_window as window;
