@@ -21,16 +21,11 @@ log = "0.4"
 [features]
 default = ["framework"]
 framework = ["wolf_engine_framework"]
-logging = ["framework", "wolf_engine_core/logging"]
 window = ["wolf_engine_window"]
 serde = ["wolf_engine_window/serde"]
 
 [workspace]
 members = ["engine/*"]
-
-[[example]]
-name = "logging"
-required-features = ["logging"]
 
 [[example]]
 name = "plugins"
