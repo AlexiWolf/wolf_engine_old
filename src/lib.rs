@@ -15,24 +15,17 @@
 //! - `serde`: Enables [Serde](https://crates.io.crates/serde) support for some types.
 //! - `window`: Enables Wolf Engine's high-level window API.
 
-pub use wolf_engine_core::prelude::*;
+pub use wolf_engine_core as core;
 
 #[cfg(feature = "framework")]
-pub mod framework {
-    //! Provides a high-level, "batteries-included" framework.
-    pub use wolf_engine_framework::*;
-}
+pub use wolf_engine_framework as framework;
 
 #[cfg(feature = "logging")]
-pub use wolf_engine_core::logging;
+pub use wolf_engine_core::logging as logging;
 
 #[cfg(feature = "window")]
-pub mod window {
-    //! Provides a high-level, back-end agnostic window API.
-    pub use wolf_engine_window::*;
-}
+pub use wolf_engine_window as window;
 
-#[doc(hidden)]
 pub mod prelude {
-    pub use super::*;
+    pub use wolf_engine_core::*;
 }
