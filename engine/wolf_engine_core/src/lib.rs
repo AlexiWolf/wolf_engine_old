@@ -83,14 +83,10 @@ pub fn init() -> EngineBuilder {
 #[cfg(test)]
 mod init_tests {
     use crate::events::MainEventSender;
-    use crate::resources::Resources;
 
     #[test]
     fn should_add_resources() {
-        let mut resources = Resources::default();
-        resources.insert(0);
-
-        let (_event_loop, context) = crate::init().with_resources(resources).build();
+        let (_event_loop, context) = crate::init().with_resource(0).build().unwrap();
 
         assert!(
             context.resources().get::<i32>().is_ok(),
@@ -100,7 +96,7 @@ mod init_tests {
 
     #[test]
     fn should_add_event_sender_resource_by_default() {
-        let (_event_loop, context) = crate::init().build();
+        let (_event_loop, context) = crate::init().build().unwrap();
         let _event_sender = context
             .resources()
             .get_mut::<MainEventSender>()

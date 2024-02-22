@@ -39,7 +39,7 @@ impl Context {
 mod context_tests {
     #[test]
     fn should_have_accessors() {
-        let (_, mut context) = crate::init().build();
+        let (_, mut context) = crate::init().build().unwrap();
         {
             let _resources = context.resources();
         }

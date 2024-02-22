@@ -93,7 +93,7 @@ mod event_loop_tests {
     #[test]
     #[timeout(100)]
     fn should_run_and_quit() {
-        let (mut event_loop, mut context) = crate::init().build();
+        let (mut event_loop, mut context) = crate::init().build().unwrap();
         let mut updates = 0;
 
         while let Some(event) = event_loop.next_event() {
@@ -121,7 +121,7 @@ mod event_loop_tests {
 
     #[test]
     fn should_emit_events_cleared_when_event_queue_is_empty() {
-        let (mut event_loop, _context) = crate::init().build();
+        let (mut event_loop, _context) = crate::init().build().unwrap();
 
         assert_eq!(
             *event_loop

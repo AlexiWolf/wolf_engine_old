@@ -119,7 +119,7 @@ mod scene_tests {
 
     #[test]
     fn shutdown_should_consume_and_drop_scene() {
-        let (_event_loop, mut context) = crate::init().build().unwrap();
+        let (_event_loop, mut context) = wolf_engine_core::init().build().unwrap();
         let mut inner = MockSceneTrait::new();
         inner.expect_load().once().return_const(());
         inner.expect_unload().once().return_const(());
