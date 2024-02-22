@@ -43,7 +43,7 @@ impl EngineBuilder {
 
 #[cfg(test)]
 mod engin_builder_tests {
-    use crate::events::MainEventSender;
+    use crate::{events::MainEventSender, plugins::MockPlugin};
 
     #[test]
     fn should_add_resources() {
@@ -53,6 +53,11 @@ mod engin_builder_tests {
             context.resources().get::<i32>().is_ok(),
             "The resources were not used"
         );
+    }
+    
+    #[test]
+    fn should_add_plugins() {
+        let mut plugin = MockPlugin::new();
     }
 
     #[test]
