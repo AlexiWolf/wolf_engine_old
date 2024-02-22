@@ -12,16 +12,11 @@
 //! # struct SomeResource;
 //! #
 //! pub fn main() {
-//!     // Start by setting up Resources, or custom data for the engine.
-//!     // These resources are available to systems, and from the Context at run-time.
-//!     // This step is optional.
-//!     let mut resources = Resources::default();
-//!     resources.insert(SomeResource);
-//!
-//!     // Then initalize the EventLoop, and Context.
+//!     // First, initialize the EventLoop, and Context.
 //!     // Resources, and other settings can also be set up from here.
 //!     let (mut event_loop, mut context) = wolf_engine::init()
-//!         .with_resources(resources)
+//!         // You can insert Resources, load plugins, ext. here.
+//!         .with_resource(SomeResource)
 //!         .build()
 //!         .unwrap();
 //!
