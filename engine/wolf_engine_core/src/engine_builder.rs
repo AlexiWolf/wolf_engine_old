@@ -28,12 +28,6 @@ impl EngineBuilder {
         self
     }
 
-    /// Add resources to the [`Engine`].
-    pub fn with_resources(&mut self, resources: Resources) -> &mut Self {
-        self.resources = resources;
-        self
-    }
-
     /// Consume the builder, and return the [`Engine`] created from it.
     pub fn build(&mut self) -> Result<Engine, String> {
         let event_loop = EventLoop::new();
