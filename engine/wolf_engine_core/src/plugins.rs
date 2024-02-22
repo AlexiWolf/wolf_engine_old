@@ -2,10 +2,14 @@
 
 use crate::EngineBuilder;
 
+#[cfg(test)]
+use mockall::automock;
+
 /// A result type for the plugin system.
 pub type PluginResult = Result<(), String>;
 
 /// A module which adds new functionality to the engine.
+#[cfg_attr(test, automock)]
 pub trait Plugin {
     /// Returns a people-friendly name for the plugin.
     ///
