@@ -58,6 +58,11 @@ mod engin_builder_tests {
     #[test]
     fn should_add_plugins() {
         let mut plugin = MockPlugin::new();
+        plugin.expect_load().once().return_const(Ok(()));
+        let _engine = crate::init()
+            .with_plugin(plugin)
+            .build()
+            .unwrap();
     }
 
     #[test]
