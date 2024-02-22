@@ -23,4 +23,3 @@ pub trait Plugin {
     /// try.
     fn load(&mut self, builder: &mut EngineBuilder) -> PluginResult;
 }
-
