@@ -19,26 +19,27 @@ impl EngineBuilder {
         }
     }
 
-    pub fn with_plugin<T: Plugin>(mut self, plugin: T) -> Self {
+    pub fn with_plugin<T: Plugin>(&mut self, plugin: T) -> &mut Self {
         self
     }
 
-    pub fn with_resource<T: Resource>(mut self, resource: T) -> Self {
+    pub fn with_resource<T: Resource>(&mut self, resource: T) -> &mut Self {
         self
     }
 
     /// Add resources to the [`Engine`].
-    pub fn with_resources(mut self, resources: Resources) -> Self {
+    pub fn with_resources(&mut self, resources: Resources) -> &mut Self {
         self.resources = resources;
         self
     }
 
     /// Consume the builder, and return the [`Engine`] created from it.
-    pub fn build(mut self) -> Result<Engine, String> {
+    pub fn build(&mut self) -> Result<Engine, String> {
         let event_loop = EventLoop::new();
-        self.resources.insert(event_loop.event_sender().clone());
+        let mut resources = std::mem::take(&mut self.resources);
+        resources.insert(event_loop.event_sender().clone());
         let context = Context {
-            resources: self.resources,
+            resources,
             event_sender: event_loop.event_sender().clone(),
         };
         Ok((event_loop, context))
