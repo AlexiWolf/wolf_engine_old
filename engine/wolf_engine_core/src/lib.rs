@@ -60,6 +60,7 @@ mod engine_builder;
 pub use engine_builder::*;
 pub mod events;
 pub use events::EventLoop;
+pub mod plugins;
 
 /// Provides a shared resource container which is thread-safe, and lock-free
 ///
