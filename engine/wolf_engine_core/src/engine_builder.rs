@@ -16,6 +16,13 @@ impl EngineBuilder {
         }
     }
 
+    pub fn with_plugin<T: Plugin>(mut self, plugin: T) -> Self {
+        self
+    }
+
+    pub fn with_resource<T: Resource>(mut self, resource: T) -> Self {
+        self
+    }
     /// Add resources to the [`Engine`].
     pub fn with_resources(mut self, resources: Resources) -> Self {
         self.resources = resources;
