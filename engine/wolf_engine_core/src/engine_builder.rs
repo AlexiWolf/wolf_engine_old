@@ -24,6 +24,7 @@ impl EngineBuilder {
     }
 
     pub fn with_resource<T: Resource>(&mut self, resource: T) -> &mut Self {
+        self.resources.insert(resource);
         self
     }
 
