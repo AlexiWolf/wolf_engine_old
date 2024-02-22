@@ -1,5 +1,5 @@
-use wolf_engine::framework::plugins::*;
-use wolf_engine::framework::FrameworkBuilder;
+use wolf_engine::core::plugins::*;
+use wolf_engine::core::EngineBuilder;
 
 // Just a test resource used by our plugin.
 pub struct MyResource(String);
@@ -18,7 +18,7 @@ impl Plugin for MyPlugin {
         "Test Plugin"
     }
 
-    fn load(&mut self, builder: &mut FrameworkBuilder) -> PluginResult {
+    fn load(&mut self, builder: &mut EngineBuilder) -> PluginResult {
         // Plugins can add resources to the engine.
         builder.with_resource(MyResource("Hello, world!".to_string()));
 
@@ -27,7 +27,7 @@ impl Plugin for MyPlugin {
 }
 
 pub fn main() {
-    let (_event_loop, context) = wolf_engine::framework::init()
+    let (_event_loop, context) = wolf_engine::core::init()
         .with_plugin(MyPlugin::new()) // Plugins are added at startup.
         .build()
         .unwrap();
