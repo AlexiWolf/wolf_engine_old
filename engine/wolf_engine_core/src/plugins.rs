@@ -1,6 +1,6 @@
 //! Provides a plugin system for the engine.
 
-use crate::FrameworkBuilder;
+use crate::EngineBuilder;
 
 /// A result type for the plugin system.
 pub type PluginResult = Result<(), String>;
@@ -21,7 +21,7 @@ pub trait Plugin {
     /// **Note:** Plugins shouldn't try to load other plugins using the builder.  At this point in
     /// the setup process, it's not possible to add additional plugins.  Nothing will happen if you
     /// try.
-    fn load(&mut self, builder: &mut FrameworkBuilder) -> PluginResult;
+    fn load(&mut self, builder: &mut EngineBuilder) -> PluginResult;
 }
 
 pub(crate) struct PluginLoader {
