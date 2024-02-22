@@ -23,7 +23,7 @@ use crate::events::*;
 /// # use wolf_engine_core as wolf_engine;
 /// # use wolf_engine::prelude::*;
 /// #
-/// # let (mut event_loop, mut context) = wolf_engine::init().build();
+/// # let (mut event_loop, mut context) = wolf_engine::init().build().unwrap();
 /// #
 /// while let Some(event) = event_loop.next_event() {
 ///     match event {

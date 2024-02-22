@@ -22,7 +22,8 @@
 //!     // Resources, and other settings can also be set up from here.
 //!     let (mut event_loop, mut context) = wolf_engine::init()
 //!         .with_resources(resources)
-//!         .build();
+//!         .build()
+//!         .unwrap();
 //!
 //!     // The Event-Loop will continue to return events, every call, until a Quit event is sent,
 //!     // only then, will the Event-Loop will return None.
