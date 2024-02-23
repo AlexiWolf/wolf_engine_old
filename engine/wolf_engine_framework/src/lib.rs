@@ -5,6 +5,4 @@
 //! more on building your game.  The framework includes a plugin system, and game state /
 //! state-stack architecture.
 
-mod main_loop;
-pub use main_loop::*;
 pub mod scenes;
