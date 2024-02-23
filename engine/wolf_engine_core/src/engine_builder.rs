@@ -34,6 +34,8 @@ impl EngineBuilder {
     /// Consume the builder, and return the [`Engine`] created from it.
     pub fn build(&mut self) -> Result<Engine, String> {
         let event_loop = EventLoop::new();
+        let mut plugin_loader = std::mem::take(&mut self.plugin_loader);
+        plugin_loader.load_plugins(self)?;
         let mut resources = std::mem::take(&mut self.resources);
         resources.insert(event_loop.event_sender().clone());
         let context = Context {
