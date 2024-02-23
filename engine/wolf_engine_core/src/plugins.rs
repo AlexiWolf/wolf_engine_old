@@ -28,6 +28,7 @@ pub trait Plugin {
     fn load(&mut self, builder: &mut EngineBuilder) -> PluginResult;
 } 
 
+#[derive(Default)]
 pub(crate) struct PluginLoader {
     plugins: Vec<Box<dyn Plugin>>,
 }
