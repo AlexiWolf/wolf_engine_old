@@ -10,7 +10,7 @@ use crate::resources::Resources;
 pub type Engine = (EventLoop, Context);
 
 pub mod state {
-    pub struct PreBuild;
+    pub struct Setup;
     pub struct Building;
 }
 
@@ -21,7 +21,7 @@ pub struct EngineBuilder<State> {
     _state: PhantomData<State>,
 }
 
-impl EngineBuilder<state::PreBuild> {
+impl EngineBuilder<state::Setup> {
     pub fn with_plugin<T: Plugin + 'static>(&mut self, plugin: T) -> &mut Self {
         self.plugin_loader.add_plugin(Box::from(plugin));
         self
@@ -53,8 +53,8 @@ impl EngineBuilder<state::PreBuild> {
 }
 
 impl<State> EngineBuilder<State> {
-    pub(crate) fn new() -> EngineBuilder<state::PreBuild> {
-        EngineBuilder::<state::PreBuild> {
+    pub(crate) fn new() -> EngineBuilder<state::Setup> {
+        EngineBuilder::<state::Setup> {
             resources: Resources::default(),
             plugin_loader: PluginLoader::new(),
             _state: PhantomData::default(),
