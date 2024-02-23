@@ -18,7 +18,7 @@ pub trait Plugin {
     /// uniquely identify plugins.
     fn name(&self) -> &str;
 
-    /// Loads the plugin using the provided [`FrameworkBuilder`].
+    /// Loads the plugin using the provided [`EngineBuilder`].
     ///
     /// The plugin does all setup here.
     ///
