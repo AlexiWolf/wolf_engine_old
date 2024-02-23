@@ -1,7 +1,7 @@
 use shared_resources::Resource;
 
-use crate::plugins::Plugin;
 use crate::prelude::*;
+use crate::plugins::*;
 use crate::resources::Resources;
 
 /// Represents the [`EventLoop`]-[`Context`] pair that makes up "the engine."
@@ -10,16 +10,19 @@ pub type Engine = (EventLoop, Context);
 /// Provides a common interface for configuring the [`Engine`].
 pub struct EngineBuilder {
     resources: Resources,
+    plugin_loader: PluginLoader,
 }
 
 impl EngineBuilder {
     pub(crate) fn new() -> Self {
         Self {
             resources: Resources::default(),
+            plugin_loader: PluginLoader::new(),
         }
     }
 
-    pub fn with_plugin<T: Plugin>(&mut self, plugin: T) -> &mut Self {
+    pub fn with_plugin<T: Plugin + 'static>(&mut self, plugin: T) -> &mut Self {
+        self.plugin_loader.add_plugin(Box::from(plugin));
         self
     }
 
