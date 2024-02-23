@@ -26,7 +26,7 @@ pub trait Plugin {
     /// the setup process, it's not possible to add additional plugins.  Nothing will happen if you
     /// try.
     fn load(&mut self, builder: &mut EngineBuilder) -> PluginResult;
-} 
+}
 
 #[derive(Default)]
 pub(crate) struct PluginLoader {

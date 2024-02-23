@@ -1,7 +1,7 @@
 use shared_resources::Resource;
 
-use crate::prelude::*;
 use crate::plugins::*;
+use crate::prelude::*;
 use crate::resources::Resources;
 
 /// Represents the [`EventLoop`]-[`Context`] pair that makes up "the engine."
@@ -59,15 +59,12 @@ mod engin_builder_tests {
             "The resources were not used"
         );
     }
-    
+
     #[test]
     fn should_add_plugins() {
         let mut plugin = MockPlugin::new();
         plugin.expect_load().once().return_const(Ok(()));
-        let _engine = crate::init()
-            .with_plugin(plugin)
-            .build()
-            .unwrap();
+        let _engine = crate::init().with_plugin(plugin).build().unwrap();
     }
 
     #[test]
