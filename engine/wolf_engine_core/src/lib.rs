@@ -58,6 +58,8 @@ pub mod events;
 pub use events::EventLoop;
 pub mod plugins;
 
+use engine_builder::state::PreBuild;
+
 /// Provides a shared resource container which is thread-safe, and lock-free
 ///
 /// Wolf Engine re-exports [`shared_resources`], see the original crate for details.
@@ -72,6 +74,6 @@ pub mod prelude {
 }
 
 /// Initializes Wolf Engine using the [`EngineBuilder`].
-pub fn init() -> EngineBuilder {
-    EngineBuilder::new()
+pub fn init() -> EngineBuilder<PreBuild> {
+    EngineBuilder::<PreBuild>::new()
 }

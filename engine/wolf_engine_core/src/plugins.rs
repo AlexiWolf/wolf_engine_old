@@ -1,6 +1,6 @@
 //! Provides a plugin system for the engine.
 
-use crate::EngineBuilder;
+use crate::{EngineBuilder, state::Building};
 
 #[cfg(test)]
 use mockall::automock;
@@ -25,7 +25,7 @@ pub trait Plugin {
     /// **Note:** Plugins shouldn't try to load other plugins using the builder.  At this point in
     /// the setup process, it's not possible to add additional plugins.  Nothing will happen if you
     /// try.
-    fn load(&mut self, builder: &mut EngineBuilder) -> PluginResult;
+    fn load(&mut self, builder: &mut EngineBuilder<Building>) -> PluginResult;
 }
 
 #[derive(Default)]
@@ -44,7 +44,7 @@ impl PluginLoader {
         self.plugins.push(plugin);
     }
 
-    pub fn load_plugins(&mut self, builder: &mut EngineBuilder) -> PluginResult {
+    pub fn load_plugins(&mut self, builder: &mut EngineBuilder<Building>) -> PluginResult {
         for plugin in &mut self.plugins {
             match plugin.load(builder) {
                 Ok(_) => (),
@@ -77,7 +77,7 @@ mod plugin_loader_tests {
     }
 
     impl Plugin for TestPlugin {
-        fn load(&mut self, builder: &mut EngineBuilder) -> PluginResult {
+        fn load(&mut self, builder: &mut EngineBuilder<Building>) -> PluginResult {
             builder.with_resource(TestResource);
             if self.should_fail {
                 Err("Nah, I don't really feel like it.  Why don't you ask me later?".to_string())
