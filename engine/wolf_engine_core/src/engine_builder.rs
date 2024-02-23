@@ -9,8 +9,16 @@ use crate::resources::Resources;
 /// Represents the [`EventLoop`]-[`Context`] pair that makes up "the engine."
 pub type Engine = (EventLoop, Context);
 
+/// Provides the type-states used by the [`EngineBuilder`].
 pub mod state {
+    /// Indicates the initial "setup" state. 
+    ///
+    /// This state is used before [`EngineBuilder::build()`] is called.
     pub struct Setup;
+
+    /// Indicates the "plugin load" state.
+    ///
+    /// This state is used while plugins are being loaded.
     pub struct PluginLoad;
 }
 
