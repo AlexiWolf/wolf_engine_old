@@ -12,13 +12,9 @@ pub type Engine = (EventLoop, Context);
 /// Provides the type-states used by the [`EngineBuilder`].
 pub mod state {
     /// Indicates the initial "setup" state. 
-    ///
-    /// This state is used before [`EngineBuilder::build()`] is called.
     pub struct Setup;
 
     /// Indicates the "plugin load" state.
-    ///
-    /// This state is used while plugins are being loaded.
     pub struct PluginLoad;
 }
 
@@ -29,6 +25,7 @@ pub struct EngineBuilder<State> {
     _state: PhantomData<State>,
 }
 
+/// Provides methods only available during the [`Setup`] state.
 impl EngineBuilder<state::Setup> {
     pub fn with_plugin<T: Plugin + 'static>(&mut self, plugin: T) -> &mut Self {
         self.plugin_loader.add_plugin(Box::from(plugin));
@@ -60,6 +57,7 @@ impl EngineBuilder<state::Setup> {
     }
 }
 
+/// Provides methods available during any state.
 impl<State> EngineBuilder<State> {
     pub(crate) fn new() -> EngineBuilder<state::Setup> {
         EngineBuilder::<state::Setup> {
