@@ -1,6 +1,6 @@
 use wolf_engine::core::plugins::*;
 use wolf_engine::core::EngineBuilder;
-use wolf_engine_core::state::Building;
+use wolf_engine_core::state::PluginLoad;
 
 // Just a test resource used by our plugin.
 pub struct MyResource(String);
@@ -19,7 +19,7 @@ impl Plugin for MyPlugin {
         "Test Plugin"
     }
 
-    fn load(&mut self, builder: &mut EngineBuilder<Building>) -> PluginResult {
+    fn load(&mut self, builder: &mut EngineBuilder<PluginLoad>) -> PluginResult {
         // Plugins can add resources to the engine.
         builder.with_resource(MyResource("Hello, world!".to_string()));
 

@@ -11,7 +11,7 @@ pub type Engine = (EventLoop, Context);
 
 pub mod state {
     pub struct Setup;
-    pub struct Building;
+    pub struct PluginLoad;
 }
 
 /// Provides a common interface for configuring the [`Engine`].
@@ -40,10 +40,10 @@ impl EngineBuilder<state::Setup> {
         Ok((event_loop, context))
     }
 
-    fn start_build(&mut self) -> (EngineBuilder<state::Building>, PluginLoader) {
+    fn start_build(&mut self) -> (EngineBuilder<state::PluginLoad>, PluginLoader) {
         let plugin_loader = std::mem::take(&mut self.plugin_loader);
         let resources = std::mem::take(&mut self.resources);
-        let engine_builder = EngineBuilder::<state::Building> {
+        let engine_builder = EngineBuilder::<state::PluginLoad> {
             resources,
             plugin_loader: PluginLoader::default(),
             _state: PhantomData::default(),
