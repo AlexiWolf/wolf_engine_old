@@ -10,6 +10,8 @@ pub mod main_loop;
 
 #[cfg(test)]
 mod framework_runner_tests {
+    use crate::main_loop::MockMainLoop;
+
     use super::*;
     use wolf_engine_core::prelude::*;
 
