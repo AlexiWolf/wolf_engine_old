@@ -1,3 +1,5 @@
+//! Provides a way to setup, and configure the engine.
+
 use std::marker::PhantomData;
 
 use shared_resources::Resource;
