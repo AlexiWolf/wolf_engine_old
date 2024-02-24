@@ -8,6 +8,19 @@
 pub mod scenes;
 pub mod main_loop;
 
+use main_loop::MainLoop;
+use wolf_engine_core::engine_builder::EngineBuilder;
+
+pub trait FrameworkBuilder {
+    fn with_main_loop<T: MainLoop>(&mut self, main_loop: T) -> &mut Self;
+}
+
+impl<State> FrameworkBuilder for EngineBuilder<State> {
+    fn with_main_loop<T: MainLoop>(&mut self, main_loop: T) -> &mut Self {
+        self 
+    }
+}
+
 #[cfg(test)]
 mod framework_runner_tests {
     use crate::main_loop::MockMainLoop;
