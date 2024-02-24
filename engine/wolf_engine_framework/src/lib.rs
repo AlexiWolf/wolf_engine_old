@@ -8,16 +8,16 @@
 pub mod scenes;
 pub mod main_loop;
 
-use main_loop::MainLoop;
+use main_loop::{MainLoop, MainLoopResource};
 use wolf_engine_core::engine_builder::EngineBuilder;
 
 pub trait FrameworkBuilder {
-    fn with_main_loop<T: MainLoop>(&mut self, main_loop: T) -> &mut Self;
+    fn with_main_loop<T: MainLoop + 'static>(&mut self, main_loop: T) -> &mut Self;
 }
 
 impl<State> FrameworkBuilder for EngineBuilder<State> {
-    fn with_main_loop<T: MainLoop>(&mut self, main_loop: T) -> &mut Self {
-        self 
+    fn with_main_loop<T: MainLoop + 'static>(&mut self, main_loop: T) -> &mut Self {
+        self.with_resource(MainLoopResource::new(main_loop))
     }
 }
 
