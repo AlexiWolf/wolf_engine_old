@@ -1,6 +1,6 @@
 //! Provides a plugin system for the engine.
 
-use crate::{EngineBuilder, state::PluginLoad};
+use crate::engine_builder::{EngineBuilder, state::PluginLoad};
 
 #[cfg(test)]
 use mockall::automock;

@@ -52,12 +52,12 @@
 
 mod context;
 pub use context::*;
-mod engine_builder;
-pub use engine_builder::*;
+pub mod engine_builder;
 pub mod events;
 pub use events::EventLoop;
 pub mod plugins;
 
+use engine_builder::EngineBuilder;
 use engine_builder::state::Setup;
 
 /// Provides a shared resource container which is thread-safe, and lock-free
