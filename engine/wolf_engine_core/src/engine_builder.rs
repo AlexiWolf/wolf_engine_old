@@ -10,7 +10,7 @@ use crate::resources::Resources;
 
 /// Provides the type-states used by the [`EngineBuilder`].
 pub mod state {
-    /// Indicates the initial "setup" state. 
+    /// Indicates the initial "setup" state.
     pub struct Setup;
 
     /// Indicates the "plugin load" state.

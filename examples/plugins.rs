@@ -1,5 +1,5 @@
-use wolf_engine::core::plugins::*;
 use wolf_engine::core::engine_builder::EngineBuilder;
+use wolf_engine::core::plugins::*;
 use wolf_engine_core::engine_builder::state::PluginLoad;
 
 // Just a test resource used by our plugin.

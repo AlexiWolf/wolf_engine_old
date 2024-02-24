@@ -56,8 +56,8 @@ pub mod engine_builder;
 pub mod events;
 pub mod plugins;
 
-use engine_builder::EngineBuilder;
 use engine_builder::state::Setup;
+use engine_builder::EngineBuilder;
 use events::EventLoop;
 
 /// Represents the [`EventLoop`]-[`Context`] pair that makes up "the engine."
