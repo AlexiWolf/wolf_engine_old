@@ -23,7 +23,7 @@ impl<State> FrameworkBuilder for EngineBuilder<State> {
 
 #[cfg(test)]
 mod framework_runner_tests {
-    use crate::main_loop::MockMainLoop;
+    use crate::main_loop::{MockMainLoop, MainLoopResource};
 
     use super::*;
     use wolf_engine_core::prelude::*;
