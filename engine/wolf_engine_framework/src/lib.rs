@@ -15,8 +15,8 @@ mod framework_runner_tests {
 
     #[test]
     fn should_insert_main_loop_resource() {
-        let engine = init()
-            .with_main_loop(default_main_loop)
+        let (_event_loop, context) = init()
+            .with_main_loop(MockMainLoop::new())
             .build()
             .unwrap();
     }
