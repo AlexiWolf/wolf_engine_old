@@ -6,9 +6,6 @@ use crate::plugins::*;
 use crate::prelude::*;
 use crate::resources::Resources;
 
-/// Represents the [`EventLoop`]-[`Context`] pair that makes up "the engine."
-pub type Engine = (EventLoop, Context);
-
 /// Provides the type-states used by the [`EngineBuilder`].
 pub mod state {
     /// Indicates the initial "setup" state. 

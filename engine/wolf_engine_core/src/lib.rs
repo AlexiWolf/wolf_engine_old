@@ -60,6 +60,9 @@ use engine_builder::EngineBuilder;
 use engine_builder::state::Setup;
 use events::EventLoop;
 
+/// Represents the [`EventLoop`]-[`Context`] pair that makes up "the engine."
+pub type Engine = (EventLoop, Context);
+
 /// Provides a shared resource container which is thread-safe, and lock-free
 ///
 /// Wolf Engine re-exports [`shared_resources`], see the original crate for details.
