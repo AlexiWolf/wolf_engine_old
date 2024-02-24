@@ -34,5 +34,7 @@ mod framework_runner_tests {
             .with_main_loop(MockMainLoop::new())
             .build()
             .unwrap();
+
+        assert!(context.resources().get::<MainLoopResource>().is_ok());
     }
 }
