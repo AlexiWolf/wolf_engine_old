@@ -6,3 +6,17 @@
 //! state-stack architecture.
 
 pub mod scenes;
+
+#[cfg(test)]
+mod framework_runner_tests {
+    use super::*;
+    use wolf_engine_core::prelude::*;
+
+    #[test]
+    fn should_insert_main_loop_resource() {
+        let engine = init()
+            .with_main_loop(default_main_loop)
+            .build()
+            .unwrap();
+    }
+}
