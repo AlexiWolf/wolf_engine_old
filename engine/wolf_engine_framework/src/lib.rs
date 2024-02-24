@@ -9,7 +9,7 @@ pub mod scenes;
 pub mod main_loop;
 
 use main_loop::{MainLoop, MainLoopResource};
-use wolf_engine_core::engine_builder::EngineBuilder;
+use wolf_engine_core::{engine_builder::EngineBuilder, Engine};
 
 pub trait FrameworkBuilder {
     fn with_main_loop<T: MainLoop + 'static>(&mut self, main_loop: T) -> &mut Self;
@@ -19,6 +19,16 @@ impl<State> FrameworkBuilder for EngineBuilder<State> {
     fn with_main_loop<T: MainLoop + 'static>(&mut self, main_loop: T) -> &mut Self {
         self.with_resource(MainLoopResource::new(main_loop))
     }
+}
+
+/// Runs the [`Engine`].
+pub fn run(engine: Engine) {
+    let (event_loop, mut context) = engine;
+    let mut main_loop = context.resources_mut()
+        .remove::<MainLoopResource>()
+        .unwrap()
+        .extract();
+    main_loop.run((event_loop, context));
 }
 
 #[cfg(test)]
@@ -36,5 +46,18 @@ mod framework_runner_tests {
             .unwrap();
 
         assert!(context.resources().get::<MainLoopResource>().is_ok());
+    }
+
+    #[test]
+    fn should_use_main_loop() {
+        let mut main_loop = MockMainLoop::new();
+        main_loop.expect_run().once().return_const(());
+
+        let engine = init()
+            .with_main_loop(main_loop)
+            .build()
+            .unwrap();
+
+        run(engine);
     }
 }
