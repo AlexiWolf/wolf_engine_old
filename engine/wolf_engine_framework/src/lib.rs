@@ -6,6 +6,7 @@
 //! state-stack architecture.
 
 pub mod scenes;
+pub mod main_loop;
 
 #[cfg(test)]
 mod framework_runner_tests {
