@@ -31,8 +31,6 @@ pub fn run(engine: Engine) {
     main_loop.run((event_loop, context));
 }
 
-pub(crate) fn default_main_loop(engine: Engine) {}
-
 #[cfg(test)]
 mod framework_runner_tests {
     use crate::main_loop::{MockMainLoop, MainLoopResource};
@@ -71,3 +69,11 @@ mod framework_runner_tests {
         run(engine);
     }
 }
+
+pub(crate) fn default_main_loop(engine: Engine) {}
+
+#[cfg(test)]
+mod default_main_loop_tests {
+
+}
+
