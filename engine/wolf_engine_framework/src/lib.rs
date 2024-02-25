@@ -60,4 +60,12 @@ mod framework_runner_tests {
 
         run(engine);
     }
+
+    #[test]
+    fn should_use_default_main_loop() {
+        let engine = init()
+            .build()
+            .unwrap();
+        run(engine);
+    }
 }
