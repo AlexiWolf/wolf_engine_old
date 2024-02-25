@@ -31,7 +31,7 @@ pub fn run(engine: Engine) {
     main_loop.run((event_loop, context));
 }
 
-pub(crate) fn default_main_loop(engine: Engine) {}
+pub(crate) fn default_main_loop(_engine: Engine) {}
 
 #[cfg(test)]
 mod framework_runner_tests {
