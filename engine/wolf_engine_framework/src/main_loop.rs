@@ -30,11 +30,6 @@ impl MainLoopResource {
         }
     }
 
-    /// Sets the inner [`MainLoop`].
-    pub fn set_main_loop(&mut self, main_loop: Box<dyn MainLoop>) {
-        self.inner = main_loop;
-    }
-
     /// Consumes the resource, and returns a pointer to underlying [`MainLoop`].
     pub fn extract(self) -> Box<dyn MainLoop> {
         self.inner
