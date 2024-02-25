@@ -74,6 +74,15 @@ pub(crate) fn default_main_loop(engine: Engine) {}
 
 #[cfg(test)]
 mod default_main_loop_tests {
+    use super::*;
+    use wolf_engine_core::prelude::*;
+    use ntest::timeout;
 
+    #[test]
+    #[timeout(100)]
+    fn should_exit_on_quit() {
+        let engine = init().build().unwrap();
+        run(engine);
+    }
 }
 
