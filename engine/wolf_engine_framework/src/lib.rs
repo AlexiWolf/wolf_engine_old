@@ -42,6 +42,7 @@ mod framework_runner_tests {
     use ntest::timeout;
 
     #[test]
+    #[timeout(100)]
     fn should_insert_main_loop_resource() {
         let (_event_loop, context) = init()
             .with_main_loop(MockMainLoop::new())
