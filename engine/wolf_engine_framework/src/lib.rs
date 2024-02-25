@@ -26,7 +26,7 @@ pub fn run(engine: Engine) {
     let (event_loop, mut context) = engine;
     let mut main_loop = context.resources_mut()
         .remove::<MainLoopResource>()
-        .unwrap()
+        .unwrap_or(MainLoopResource::new(default_main_loop))
         .extract();
     main_loop.run((event_loop, context));
 }
