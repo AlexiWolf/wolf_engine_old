@@ -37,6 +37,7 @@ mod framework_runner_tests {
 
     use super::*;
     use wolf_engine_core::prelude::*;
+    use ntest::timeout;
 
     #[test]
     fn should_insert_main_loop_resource() {
@@ -62,6 +63,7 @@ mod framework_runner_tests {
     }
 
     #[test]
+    #[timeout(100)]
     fn should_use_default_main_loop() {
         let engine = init()
             .build()
