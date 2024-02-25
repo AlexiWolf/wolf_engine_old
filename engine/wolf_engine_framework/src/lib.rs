@@ -31,6 +31,8 @@ pub fn run(engine: Engine) {
     main_loop.run((event_loop, context));
 }
 
+pub(crate) fn default_main_loop(engine: Engine) {}
+
 #[cfg(test)]
 mod framework_runner_tests {
     use crate::main_loop::{MockMainLoop, MainLoopResource};
@@ -68,22 +70,6 @@ mod framework_runner_tests {
         let engine = init()
             .build()
             .unwrap();
-        run(engine);
-    }
-}
-
-pub(crate) fn default_main_loop(engine: Engine) {}
-
-#[cfg(test)]
-mod default_main_loop_tests {
-    use super::*;
-    use wolf_engine_core::prelude::*;
-    use ntest::timeout;
-
-    #[test]
-    #[timeout(100)]
-    fn should_exit_on_quit() {
-        let engine = init().build().unwrap();
         run(engine);
     }
 }
