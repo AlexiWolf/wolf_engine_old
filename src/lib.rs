@@ -10,7 +10,6 @@
 //!
 //! ## Crate Features
 //!
-//! - `framework`: Enables the high-level framework. (Default)
 //! - `serde`: Enables [Serde](https://crates.io.crates/serde) support for some types.
 //! - `window`: Enables Wolf Engine's high-level window API.
 

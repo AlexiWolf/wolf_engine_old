@@ -12,15 +12,13 @@ categories = ["game-development", "game-engines"]
 
 [dependencies]
 wolf_engine_core = {path = "engine/wolf_engine_core", version = "0.26.0"}
-wolf_engine_framework = {path = "engine/wolf_engine_framework", version = "0.26.0", optional = true}
 wolf_engine_window = {path = "engine/wolf_engine_window", version = "0.26.0", optional = true}
 
 [dev-dependencies]
 log = "0.4"
 
 [features]
-default = ["framework"]
-framework = ["wolf_engine_framework"]
+default = []
 window = ["wolf_engine_window"]
 serde = ["wolf_engine_window/serde"]
 
