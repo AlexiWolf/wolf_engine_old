@@ -5,8 +5,8 @@
 //! more on building your game.  The framework includes a plugin system, and game state /
 //! state-stack architecture.
 
-pub mod scenes;
 pub mod main_loop;
+pub mod scenes;
 
 use main_loop::{MainLoop, MainLoopResource};
 use wolf_engine_core::{engine_builder::EngineBuilder, Engine};
@@ -24,7 +24,8 @@ impl<State> FrameworkBuilder for EngineBuilder<State> {
 /// Runs the [`Engine`].
 pub fn run(engine: Engine) {
     let (event_loop, mut context) = engine;
-    let mut main_loop = context.resources_mut()
+    let mut main_loop = context
+        .resources_mut()
         .remove::<MainLoopResource>()
         .unwrap_or(MainLoopResource::new(default_main_loop))
         .extract();
@@ -35,19 +36,16 @@ pub(crate) fn default_main_loop(_engine: Engine) {}
 
 #[cfg(test)]
 mod framework_runner_tests {
-    use crate::main_loop::{MockMainLoop, MainLoopResource};
+    use crate::main_loop::{MainLoopResource, MockMainLoop};
 
     use super::*;
-    use wolf_engine_core::prelude::*;
     use ntest::timeout;
+    use wolf_engine_core::prelude::*;
 
     #[test]
     #[timeout(100)]
     fn should_insert_main_loop_resource() {
-        let (_event_loop, context) = init()
-            .with_main_loop(MockMainLoop::new())
-            .build()
-            .unwrap();
+        let (_event_loop, context) = init().with_main_loop(MockMainLoop::new()).build().unwrap();
 
         assert!(context.resources().get::<MainLoopResource>().is_ok());
     }
@@ -57,10 +55,7 @@ mod framework_runner_tests {
         let mut main_loop = MockMainLoop::new();
         main_loop.expect_run().once().return_const(());
 
-        let engine = init()
-            .with_main_loop(main_loop)
-            .build()
-            .unwrap();
+        let engine = init().with_main_loop(main_loop).build().unwrap();
 
         run(engine);
     }
@@ -68,10 +63,7 @@ mod framework_runner_tests {
     #[test]
     #[timeout(100)]
     fn should_use_default_main_loop() {
-        let engine = init()
-            .build()
-            .unwrap();
+        let engine = init().build().unwrap();
         run(engine);
     }
 }
-

@@ -35,4 +35,3 @@ impl MainLoopResource {
         self.inner
     }
 }
-
