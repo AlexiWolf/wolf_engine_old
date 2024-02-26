@@ -7,6 +7,12 @@ pub struct MyResource(String);
 
 pub struct MyPlugin {}
 
+impl Default for MyPlugin {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl MyPlugin {
     pub fn new() -> Self {
         Self {}
