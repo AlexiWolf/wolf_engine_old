@@ -15,9 +15,6 @@
 
 pub use wolf_engine_core as core;
 
-#[cfg(feature = "framework")]
-pub use wolf_engine_framework as framework;
-
 #[cfg(feature = "window")]
 pub use wolf_engine_window as window;
 
