@@ -50,7 +50,7 @@ impl EngineBuilder<state::Setup> {
         let engine_builder = EngineBuilder::<state::PluginLoad> {
             resources,
             plugin_loader: PluginLoader::default(),
-            _state: PhantomData::default(),
+            _state: PhantomData,
         };
         (engine_builder, plugin_loader)
     }
@@ -62,7 +62,7 @@ impl<State> EngineBuilder<State> {
         EngineBuilder::<state::Setup> {
             resources: Resources::default(),
             plugin_loader: PluginLoader::new(),
-            _state: PhantomData::default(),
+            _state: PhantomData,
         }
     }
 
