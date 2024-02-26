@@ -5,101 +5,65 @@
 //! more on building your game.  The framework includes a plugin system, and game state /
 //! state-stack architecture.
 
-mod framework_builder;
-pub use framework_builder::*;
-mod main_loop;
-pub use main_loop::*;
+pub mod main_loop;
 pub mod scenes;
 
-pub mod plugins;
+use main_loop::{MainLoop, MainLoopResource};
+use wolf_engine_core::{engine_builder::EngineBuilder, Engine};
 
-use wolf_engine_core::Engine;
-
-/// Initializes Wolf Engine using the [`FrameworkBuilder`].
-pub fn init() -> FrameworkBuilder {
-    let mut builder = FrameworkBuilder::new();
-    builder.with_resource(MainLoopResource::new(main_loop));
-    builder
+pub trait FrameworkBuilder {
+    fn with_main_loop<T: MainLoop + 'static>(&mut self, main_loop: T) -> &mut Self;
 }
 
-#[cfg(test)]
-mod framework_init_tests {
-    pub struct TestResourceA;
-    pub struct TestResourceB;
-
-    #[test]
-    fn should_add_resources() {
-        let (_event_loop, context) = crate::init()
-            .with_resource(TestResourceA)
-            .with_resource(TestResourceB)
-            .build()
-            .unwrap();
-        assert!(
-            context.resources().get::<TestResourceA>().is_ok(),
-            "Resource insertion failed"
-        );
-        assert!(
-            context.resources().get::<TestResourceB>().is_ok(),
-            "Resource insertion failed"
-        );
+impl<State> FrameworkBuilder for EngineBuilder<State> {
+    fn with_main_loop<T: MainLoop + 'static>(&mut self, main_loop: T) -> &mut Self {
+        self.with_resource(MainLoopResource::new(main_loop))
     }
 }
 
 /// Runs the [`Engine`].
-///
-/// # Panics
-///
-/// This function expects you to use the Framework's [wolf_enigne::framework::init()](init)
-/// function to create the [`Engine`], otherwise, this function will panic.
 pub fn run(engine: Engine) {
     let (event_loop, mut context) = engine;
-
-    let mut main_loop = context.resources_mut()
+    let mut main_loop = context
+        .resources_mut()
         .remove::<MainLoopResource>()
-        .expect(
-            "No main loop.  Make sure you used `wolf_engine::framework::init()` to set up the Engine")
+        .unwrap_or(MainLoopResource::new(default_main_loop))
         .extract();
-
     main_loop.run((event_loop, context));
 }
 
-/// The default [`MainLoop`] implementation.
-pub(crate) fn main_loop(_engine: Engine) {
-    todo!("Will be implemented with the Scene system.")
-}
+pub(crate) fn default_main_loop(_engine: Engine) {}
 
 #[cfg(test)]
-mod framework_runner_test {
+mod framework_runner_tests {
+    use crate::main_loop::{MainLoopResource, MockMainLoop};
+
     use super::*;
+    use ntest::timeout;
+    use wolf_engine_core::prelude::*;
 
     #[test]
-    fn should_add_main_loop_resource() {
-        let (_event_loop, context) = crate::init().build().unwrap();
+    #[timeout(100)]
+    fn should_insert_main_loop_resource() {
+        let (_event_loop, context) = init().with_main_loop(MockMainLoop::new()).build().unwrap();
 
-        assert!(
-            context.resources().get::<MainLoopResource>().is_ok(),
-            "Main loop resource was not inserted"
-        );
+        assert!(context.resources().get::<MainLoopResource>().is_ok());
     }
 
     #[test]
-    fn should_add_custom_main_loop() {
-        let mut mock_main_loop = MockMainLoop::new();
-        mock_main_loop.expect_run().once().return_const(());
+    fn should_use_main_loop() {
+        let mut main_loop = MockMainLoop::new();
+        main_loop.expect_run().once().return_const(());
 
-        let engine = crate::init()
-            .with_main_loop(mock_main_loop)
-            .build()
-            .unwrap();
+        let engine = init().with_main_loop(main_loop).build().unwrap();
 
-        crate::run(engine);
+        run(engine);
     }
 
     #[test]
-    #[should_panic]
-    fn should_panic_without_main_loop() {
-        let engine = wolf_engine_core::init().build();
-
-        crate::run(engine);
+    #[timeout(100)]
+    fn should_use_default_main_loop() {
+        let engine = init().build().unwrap();
+        run(engine);
     }
 }

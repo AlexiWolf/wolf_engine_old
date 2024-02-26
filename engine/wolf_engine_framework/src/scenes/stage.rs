@@ -125,7 +125,7 @@ mod stage_tests {
 
     #[test]
     fn should_push_and_pop_scenes() {
-        let (_event_loop, mut context) = wolf_engine_core::init().build();
+        let (_event_loop, mut context) = wolf_engine_core::init().build().unwrap();
         let mut stage = Stage::new();
         let mut scene = MockSceneTrait::new();
         scene.expect_load().once().return_const(());
@@ -140,7 +140,7 @@ mod stage_tests {
 
     #[test]
     fn should_delegate_to_scenes() {
-        let (_event_loop, mut context) = wolf_engine_core::init().build();
+        let (_event_loop, mut context) = wolf_engine_core::init().build().unwrap();
         let mut stage = Stage::new();
 
         let mut background_scene = MockSceneTrait::new();
@@ -168,7 +168,7 @@ mod stage_tests {
 
     #[test]
     fn should_handle_push_scene_change() {
-        let (_event_loop, mut context) = wolf_engine_core::init().build();
+        let (_event_loop, mut context) = wolf_engine_core::init().build().unwrap();
         let mut stage = Stage::new();
 
         let mut new_scene = MockSceneTrait::new();
@@ -195,7 +195,7 @@ mod stage_tests {
 
     #[test]
     fn should_handle_pop_scene_change() {
-        let (_event_loop, mut context) = wolf_engine_core::init().build();
+        let (_event_loop, mut context) = wolf_engine_core::init().build().unwrap();
         let mut stage = Stage::new();
 
         let mut scene = MockSceneTrait::new();
@@ -213,7 +213,7 @@ mod stage_tests {
 
     #[test]
     fn should_handle_clean_pop_scene_chagne() {
-        let (_event_loop, mut context) = wolf_engine_core::init().build();
+        let (_event_loop, mut context) = wolf_engine_core::init().build().unwrap();
         let mut stage = Stage::new();
 
         let mut new_scene = MockSceneTrait::new();
@@ -243,7 +243,7 @@ mod stage_tests {
 
     #[test]
     fn should_handle_clear_scene_change() {
-        let (_event_loop, mut context) = wolf_engine_core::init().build();
+        let (_event_loop, mut context) = wolf_engine_core::init().build().unwrap();
         let mut stage = Stage::new();
 
         let mut second_scene = MockSceneTrait::new();
@@ -281,7 +281,7 @@ mod stage_tests {
 
     #[test]
     fn should_not_panic_on_empty_stack() {
-        let (_event_loop, mut context) = wolf_engine_core::init().build();
+        let (_event_loop, mut context) = wolf_engine_core::init().build().unwrap();
         let mut stage = Stage::new();
 
         stage.update(&mut context);

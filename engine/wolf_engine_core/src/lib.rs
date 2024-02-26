@@ -12,17 +12,13 @@
 //! # struct SomeResource;
 //! #
 //! pub fn main() {
-//!     // Start by setting up Resources, or custom data for the engine.
-//!     // These resources are available to systems, and from the Context at run-time.
-//!     // This step is optional.
-//!     let mut resources = Resources::default();
-//!     resources.insert(SomeResource);
-//!
-//!     // Then initalize the EventLoop, and Context.
+//!     // First, initialize the EventLoop, and Context.
 //!     // Resources, and other settings can also be set up from here.
 //!     let (mut event_loop, mut context) = wolf_engine::init()
-//!         .with_resources(resources)
-//!         .build();
+//!         // You can insert Resources, load plugins, ext. here.
+//!         .with_resource(SomeResource)
+//!         .build()
+//!         .unwrap();
 //!
 //!     // The Event-Loop will continue to return events, every call, until a Quit event is sent,
 //!     // only then, will the Event-Loop will return None.
@@ -56,10 +52,16 @@
 
 mod context;
 pub use context::*;
-mod engine_builder;
-pub use engine_builder::*;
+pub mod engine_builder;
 pub mod events;
-pub use events::EventLoop;
+pub mod plugins;
+
+use engine_builder::state::Setup;
+use engine_builder::EngineBuilder;
+use events::EventLoop;
+
+/// Represents the [`EventLoop`]-[`Context`] pair that makes up "the engine."
+pub type Engine = (EventLoop, Context);
 
 /// Provides a shared resource container which is thread-safe, and lock-free
 ///
@@ -75,34 +77,6 @@ pub mod prelude {
 }
 
 /// Initializes Wolf Engine using the [`EngineBuilder`].
-pub fn init() -> EngineBuilder {
-    EngineBuilder::new()
-}
-
-#[cfg(test)]
-mod init_tests {
-    use crate::events::MainEventSender;
-    use crate::resources::Resources;
-
-    #[test]
-    fn should_add_resources() {
-        let mut resources = Resources::default();
-        resources.insert(0);
-
-        let (_event_loop, context) = crate::init().with_resources(resources).build();
-
-        assert!(
-            context.resources().get::<i32>().is_ok(),
-            "The resources were not used"
-        );
-    }
-
-    #[test]
-    fn should_add_event_sender_resource_by_default() {
-        let (_event_loop, context) = crate::init().build();
-        let _event_sender = context
-            .resources()
-            .get_mut::<MainEventSender>()
-            .expect("No event sender was added.");
-    }
+pub fn init() -> EngineBuilder<Setup> {
+    EngineBuilder::<Setup>::new()
 }

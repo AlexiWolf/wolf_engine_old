@@ -1,11 +1,15 @@
 //! Provides a plugin system for the engine.
 
-use crate::FrameworkBuilder;
+use crate::engine_builder::{state::PluginLoad, EngineBuilder};
+
+#[cfg(test)]
+use mockall::automock;
 
 /// A result type for the plugin system.
 pub type PluginResult = Result<(), String>;
 
 /// A module which adds new functionality to the engine.
+#[cfg_attr(test, automock)]
 pub trait Plugin {
     /// Returns a people-friendly name for the plugin.
     ///
@@ -14,16 +18,17 @@ pub trait Plugin {
     /// uniquely identify plugins.
     fn name(&self) -> &str;
 
-    /// Loads the plugin using the provided [`FrameworkBuilder`].
+    /// Loads the plugin using the provided [`EngineBuilder`].
     ///
     /// The plugin does all setup here.
     ///
     /// **Note:** Plugins shouldn't try to load other plugins using the builder.  At this point in
     /// the setup process, it's not possible to add additional plugins.  Nothing will happen if you
     /// try.
-    fn load(&mut self, builder: &mut FrameworkBuilder) -> PluginResult;
+    fn load(&mut self, builder: &mut EngineBuilder<PluginLoad>) -> PluginResult;
 }
 
+#[derive(Default)]
 pub(crate) struct PluginLoader {
     plugins: Vec<Box<dyn Plugin>>,
 }
@@ -39,7 +44,7 @@ impl PluginLoader {
         self.plugins.push(plugin);
     }
 
-    pub fn load_plugins(&mut self, builder: &mut FrameworkBuilder) -> PluginResult {
+    pub fn load_plugins(&mut self, builder: &mut EngineBuilder<PluginLoad>) -> PluginResult {
         for plugin in &mut self.plugins {
             match plugin.load(builder) {
                 Ok(_) => (),
@@ -72,7 +77,7 @@ mod plugin_loader_tests {
     }
 
     impl Plugin for TestPlugin {
-        fn load(&mut self, builder: &mut FrameworkBuilder) -> PluginResult {
+        fn load(&mut self, builder: &mut EngineBuilder<PluginLoad>) -> PluginResult {
             builder.with_resource(TestResource);
             if self.should_fail {
                 Err("Nah, I don't really feel like it.  Why don't you ask me later?".to_string())
