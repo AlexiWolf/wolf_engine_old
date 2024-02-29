@@ -142,7 +142,7 @@ mod event_loop_tests {
             if let Some(engine_event) = event.downcast_ref::<EngineEvent>() {
                 match engine_event {
                     EngineEvent::Quit => context.quit(),
-                    _ => (),
+                    EngineEvent::EventsCleared => context.quit(),
                 }
             }
         }
