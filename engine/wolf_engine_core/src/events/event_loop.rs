@@ -133,4 +133,18 @@ mod event_loop_tests {
             "The event-loop did not emit the expected EventsCleared event."
         );
     }
+
+    #[test]
+    #[timeout(100)]
+    fn should_not_infinite_loop_when_quit_is_emitted_while_handing_a_quit_event() {
+        let (mut event_loop, context) = crate::init().build().unwrap();
+        while let Some(event) = event_loop.next_event() {
+            if let Some(engine_event) = event.downcast_ref::<EngineEvent>() {
+                match engine_event {
+                    EngineEvent::Quit => context.quit(),
+                    _ => (),
+                }
+            }
+        }
+    }
 }
