@@ -58,28 +58,22 @@ impl EventLoop {
             self.has_quit = true;
         }
     }
-
-    fn handle_empty_event(&self) -> Option<EventBox> {
-        if self.has_quit {
-            None
-        } else {
-            Some(Box::from(EngineEvent::EventsCleared))
-        }
-    }
 }
 
 impl EventReceiver<EventBox> for EventLoop {
     fn next_event(&mut self) -> Option<EventBox> {
-        match self.event_receiver.next_event() {
-            Some(event) => {
-                if let Some(downcast) = event.downcast_ref::<EngineEvent>() {
-                    self.handle_event(downcast);
-                    Some(event)
-                } else {
+        if self.has_quit {
+            None
+        } else {
+            match self.event_receiver.next_event() {
+                Some(event) => {
+                    if let Some(downcast) = event.downcast_ref::<EngineEvent>() {
+                        self.handle_event(downcast);
+                    }
                     Some(event)
                 }
+                None => Some(Box::from(EngineEvent::EventsCleared)),
             }
-            None => self.handle_empty_event(),
         }
     }
 }
