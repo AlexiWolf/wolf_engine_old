@@ -17,6 +17,7 @@ wolf_engine_window = {path = "engine/wolf_engine_window", version = "0.26.0", op
 wolf_engine_graphics = {path = "engine/wolf_engine_graphics", version = "0.26.0", optional = true}
 
 [dev-dependencies]
+env_logger = "0.11.2"
 log = "0.4"
 
 [features]
