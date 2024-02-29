@@ -58,28 +58,22 @@ impl EventLoop {
             self.has_quit = true;
         }
     }
-
-    fn handle_empty_event(&self) -> Option<EventBox> {
-        if self.has_quit {
-            None
-        } else {
-            Some(Box::from(EngineEvent::EventsCleared))
-        }
-    }
 }
 
 impl EventReceiver<EventBox> for EventLoop {
     fn next_event(&mut self) -> Option<EventBox> {
-        match self.event_receiver.next_event() {
-            Some(event) => {
-                if let Some(downcast) = event.downcast_ref::<EngineEvent>() {
-                    self.handle_event(downcast);
-                    Some(event)
-                } else {
+        if self.has_quit {
+            None
+        } else {
+            match self.event_receiver.next_event() {
+                Some(event) => {
+                    if let Some(downcast) = event.downcast_ref::<EngineEvent>() {
+                        self.handle_event(downcast);
+                    }
                     Some(event)
                 }
+                None => Some(Box::from(EngineEvent::EventsCleared)),
             }
-            None => self.handle_empty_event(),
         }
     }
 }
@@ -132,5 +126,19 @@ mod event_loop_tests {
             EngineEvent::EventsCleared,
             "The event-loop did not emit the expected EventsCleared event."
         );
+    }
+
+    #[test]
+    #[timeout(100)]
+    fn should_not_infinite_loop_when_quit_is_emitted_while_handing_a_quit_event() {
+        let (mut event_loop, context) = crate::init().build().unwrap();
+        while let Some(event) = event_loop.next_event() {
+            if let Some(engine_event) = event.downcast_ref::<EngineEvent>() {
+                match engine_event {
+                    EngineEvent::Quit => context.quit(),
+                    EngineEvent::EventsCleared => context.quit(),
+                }
+            }
+        }
     }
 }
