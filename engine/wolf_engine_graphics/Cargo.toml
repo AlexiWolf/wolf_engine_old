@@ -13,4 +13,8 @@ categories = ["game-development", "game-engines"]
 [dependencies]
 wolf_engine_core = {path = "../wolf_engine_core", version = "0.26.0"}
 log = "0.4"
+wgpu = "0.19.1"
+raw-window-handle = "0.6.0"
+bytemuck = "1.14.3"
+cgmath = { version = "0.18.0", features = ["mint"] }
 
