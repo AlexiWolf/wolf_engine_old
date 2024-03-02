@@ -9,7 +9,13 @@ pub async fn init(
     }
 }
 
-pub struct GraphicsContext {}
+pub struct GraphicsContext<'a> {
+    pub device: wgpu::Device,
+    pub queue: wgpu::Queue,
+    pub surface: Option<wgpu::Surface<'a>>,
+    pub config: Option<wgpu::SurfaceConfiguration>,
+    surface_size: Option<(u32, u32)>,
+}
 
 #[derive(Default)]
 pub struct GraphicsSettings {}
