@@ -19,6 +19,8 @@ wolf_engine_graphics = {path = "engine/wolf_engine_graphics", version = "0.26.0"
 [dev-dependencies]
 env_logger = "0.11.2"
 log = "0.4"
+pollster = "0.3.0"
+winit = "0.29.13"
 
 [features]
 default = ["framework"]
