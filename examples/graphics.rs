@@ -4,5 +4,5 @@ pub fn main() {
     env_logger::init();
     let graphics_settings = GraphicsSettings::default();
     let window = None;
-    let graphics = wolf_engine::graphics::init(graphics_settings, window);
+    let graphics = pollster::block_on(wolf_engine::graphics::init(graphics_settings, window));
 }
