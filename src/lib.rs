@@ -27,9 +27,7 @@ pub use wolf_engine_graphics as graphics;
 
 pub mod prelude {
     pub use wolf_engine_core::prelude::*;
-    
+
     #[cfg(feature = "graphics")]
     pub use wolf_engine_graphics::prelude::*;
 }
-
-

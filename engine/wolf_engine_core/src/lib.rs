@@ -74,8 +74,8 @@ pub mod resources {
 pub mod prelude {
     use super::*;
 
-    pub use events::*;
     pub use super::{Context, Engine};
+    pub use events::*;
 }
 
 /// Initializes Wolf Engine using the [`EngineBuilder`].

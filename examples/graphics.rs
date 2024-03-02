@@ -1,4 +1,4 @@
-use winit::{window::WindowBuilder, event_loop::EventLoop, dpi::PhysicalSize};
+use winit::{dpi::PhysicalSize, event_loop::EventLoop, window::WindowBuilder};
 use wolf_engine::prelude::*;
 
 pub fn main() {
@@ -9,6 +9,8 @@ pub fn main() {
         .with_inner_size(PhysicalSize::new(800, 600))
         .build(&winit_event_loop)
         .unwrap();
-    let graphics_settings = GraphicsSettings::default();
-    let graphics = pollster::block_on(wolf_engine::graphics::init(graphics_settings, Some(&window)));
+    let graphics = pollster::block_on(wolf_engine::graphics::init(
+        GraphicsSettings::default(),
+        Some(&window),
+    ));
 }
