@@ -1,4 +1,4 @@
-pub fn init() -> GraphicsContext {
+pub fn init(settings: GraphicsSettings) -> GraphicsContext {
     todo!()
 }
 
