@@ -1,4 +1,6 @@
-pub fn init(settings: GraphicsSettings) -> GraphicsContext {
+use raw_window_handle::HasWindowHandle;
+
+pub fn init(settings: GraphicsSettings, window_handle: Option<&dyn HasWindowHandle>) -> GraphicsContext {
     todo!()
 }
 
