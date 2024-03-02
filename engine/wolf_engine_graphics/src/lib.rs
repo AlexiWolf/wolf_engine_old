@@ -5,3 +5,7 @@ pub fn init() -> GraphicsContext {
 pub struct GraphicsContext { 
 
 }
+
+pub mod prelude {
+
+}
