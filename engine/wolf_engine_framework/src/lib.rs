@@ -40,7 +40,7 @@ mod framework_runner_tests {
 
     use super::*;
     use ntest::timeout;
-    use wolf_engine_core::prelude::*;
+    use wolf_engine_core::init;
 
     #[test]
     #[timeout(100)]
