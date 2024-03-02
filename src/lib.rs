@@ -22,6 +22,11 @@ pub use wolf_engine_framework as framework;
 #[cfg(feature = "window")]
 pub use wolf_engine_window as window;
 
+#[cfg(feature = "graphics")]
+pub use wolf_engine_graphics as graphics;
+
 pub mod prelude {
     pub use wolf_engine_core::prelude::*;
 }
+
+
