@@ -33,3 +33,7 @@ members = ["engine/*"]
 [[example]]
 name = "plugins"
 required-features = ["framework"]
+
+[[example]]
+name = "graphics"
+required-features = ["graphics"]
