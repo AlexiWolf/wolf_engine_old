@@ -4,7 +4,9 @@ pub async fn init(
     settings: GraphicsSettings,
     window_handle: Option<&dyn HasWindowHandle>,
 ) -> GraphicsContext {
-    todo!()
+    GraphicsContext {
+
+    }
 }
 
 pub struct GraphicsContext {}
