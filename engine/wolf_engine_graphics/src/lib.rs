@@ -1,6 +1,6 @@
 use raw_window_handle::HasWindowHandle;
 
-pub fn init(settings: GraphicsSettings, window_handle: Option<&dyn HasWindowHandle>) -> GraphicsContext {
+pub async fn init(settings: GraphicsSettings, window_handle: Option<&dyn HasWindowHandle>) -> GraphicsContext {
     todo!()
 }
 
