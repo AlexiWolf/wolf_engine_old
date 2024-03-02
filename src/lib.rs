@@ -23,5 +23,5 @@ pub use wolf_engine_framework as framework;
 pub use wolf_engine_window as window;
 
 pub mod prelude {
-    pub use wolf_engine_core::*;
+    pub use wolf_engine_core::prelude::*;
 }
