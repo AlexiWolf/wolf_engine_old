@@ -1,4 +1,4 @@
-pub fn inti() -> GraphicsContext {
+pub fn init() -> GraphicsContext {
     todo!()
 }
 
