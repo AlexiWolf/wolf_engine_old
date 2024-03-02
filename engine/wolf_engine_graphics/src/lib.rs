@@ -6,6 +6,10 @@ pub struct GraphicsContext {
 
 }
 
-pub mod prelude {
+pub struct GraphicsSettings {
 
+}
+
+pub mod prelude {
+    pub use super::GraphicsSettings;
 }
