@@ -6,6 +6,7 @@ pub struct GraphicsContext {
 
 }
 
+#[derive(Default)]
 pub struct GraphicsSettings {
 
 }
