@@ -13,4 +13,11 @@ pub fn main() {
         GraphicsSettings::default(),
         Some(&window),
     ));
+
+    let _ = winit_event_loop.run(|event, window_target| {
+        match event {
+            Event::WindowEvent { event: WindowEvent::CloseRequested, .. } => window_target.exit(),
+            _ => (),
+        }
+    });
 }
