@@ -4,9 +4,9 @@
 [![Crates.io](https://img.shields.io/crates/l/wolf_engine)](https://github.com/AlexiWolf/wolf_engine#license)
 [![Crates.io](https://img.shields.io/crates/v/wolf_engine)](https://crates.io/crates/wolf_engine)
 
-**NOTE:**  This is the old, prototype versions of the engine.  They are here
+**NOTE:**  This is the old, prototype versions of the engine.  It is here
 only to preserve the history of the project.  You can find the new repo
-at [here](https://github.com/AlexiWolf/wolf_engine).
+[here](https://github.com/AlexiWolf/wolf_engine).
 
 A simple, and flexible game framework written in Rust.
 
